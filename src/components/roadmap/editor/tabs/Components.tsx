@@ -1,53 +1,43 @@
 import React, { useState } from 'react';
 import roadmapPlaceholder from '@store/roadmap-refactor/data/roadmap-placeholder';
 import { useStore } from '@nanostores/react';
-import {
-  injectNewTitle,
-  injectNewDescription,
-} from '@src/typescript/roadmap_ref/node/core/data-mutation/inject';
 import TitleComponent from '@src/typescript/roadmap_ref/node/components/TitleComponent';
 import DescriptionComponent from '@src/typescript/roadmap_ref/node/components/DescriptionComponent';
 import { deepCopy } from '@src/typescript/roadmap/utils';
+import DropDownSelect from '../DropDownSelect';
 
-const Components = () => {
+const titleForDropdown = () => {
   const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
-  const { nodes } = useStore(roadmapPlaceholder);
-
-  // const Title: TitleComponent = new TitleComponent(10, 20, 100, 50, title);
-  // const Description: DescriptionComponent = new DescriptionComponent(
-  //   10,
-  //   20,
-  //   100,
-  //   50,
-  //   description
-  // );
-
-  // const onSave = () => {
-  //   injectNewTitle(nodes[0], 'title', Title);
-  //   injectNewDescription(nodes[0], 'description', Description);
-  // };
-  console.log(deepCopy(roadmapPlaceholder.get().nodes));
 
   return (
     <div>
-      <h1>Title:</h1>
       <input
         type='text'
-        value={title}
         onChange={(e) => setTitle(e.target.value)}
-        id='title'
-        className='border border-black'
+        value={title}
+        className='w-full h-10 border border-black'
       />
-      <h1>Description:</h1>
-      <textarea
-        value={description}
-        onChange={(e) => setDescription(e.target.value)}
-        className='w-full h-96 border border-black'
-        id='description'
-      />
-      <button type='button'>Save</button>
     </div>
+  );
+};
+
+const descriptionForDropdown = () => {
+  const [description, setDescription] = useState('');
+
+  return (
+    <div>
+      <textarea
+        onChange={(e) => setDescription(e.target.value)}
+        value={description}
+        className='w-full h-96 border border-black'
+      />
+    </div>
+  );
+};
+
+const Components = () => {
+  return (
+    <DropDownSelect components={[titleForDropdown, descriptionForDropdown]} />
   );
 };
 
