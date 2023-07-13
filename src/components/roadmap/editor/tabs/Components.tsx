@@ -1,48 +1,64 @@
 import React, { useState } from 'react';
 import roadmapPlaceholder from '@store/roadmap-refactor/data/roadmap-placeholder';
 import { useStore } from '@nanostores/react';
-import { deepCopy } from '@src/typescript/roadmap/utils';
+import { appendComponentTitle } from '@src/typescript/roadmap_ref/node/core/data-mutation/append';
+import { factoryComponentTitle } from '@src/typescript/roadmap_ref/node/components/text/factories';
+import { getComponentTitleById } from '@src/typescript/roadmap_ref/node/core/data-get/components';
+import DropDownSelect from '../DropDownSelect';
 
-const Components = () => {
+const Title = () => {
   const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
+  const [x, setX] = useState(0);
+  const [y, setY] = useState(0);
+  const [width, setWidth] = useState(0);
+  const [height, setHeight] = useState(0);
+
   const { nodes } = useStore(roadmapPlaceholder);
+  const node = nodes[0];
+  const componentId = appendComponentTitle(node, factoryComponentTitle(title));
+  const component = getComponentTitleById(node, componentId);
 
-  // const Title: TitleComponent = new TitleComponent(10, 20, 100, 50, title);
-  // const Description: DescriptionComponent = new DescriptionComponent(
-  //   10,
-  //   20,
-  //   100,
-  //   50,
-  //   description
-  // );
-
-  // const onSave = () => {
-  //   injectNewTitle(nodes[0], 'title', Title);
-  //   injectNewDescription(nodes[0], 'description', Description);
-  // };
-  console.log(deepCopy(roadmapPlaceholder.get().nodes));
+  // Here implement the logic and where would you like the boxes to be placed for the states defined above
+  // (e) => setHeight(e.target.value) , mutateComponentTitleHeight(component, height)
 
   return (
     <div>
-      <h1>Title:</h1>
       <input
         type='text'
-        value={title}
         onChange={(e) => setTitle(e.target.value)}
-        id='title'
-        className='border border-black'
+        value={title}
+        className='w-full h-10 border border-black'
       />
-      <h1>Description:</h1>
-      <textarea
-        value={description}
-        onChange={(e) => setDescription(e.target.value)}
-        className='w-full h-96 border border-black'
-        id='description'
-      />
-      <button type='button'>Save</button>
     </div>
   );
+};
+
+const Description = () => {
+  const [description, setDescription] = useState('');
+  // const [x, setX] = useState(0);
+  // const [y, setY] = useState(0);
+  // const [width, setWidth] = useState(0);
+  // const [height, setHeight] = useState(0);
+
+  // const { nodes } = useStore(roadmapPlaceholder);
+  // const node = nodes[0];
+  // appendComponentTitle(node, factoryComponentDescription(description));
+  // const componentId = 0;
+  // const component = getComponentTitleById(node, componentId);
+
+  return (
+    <div>
+      <textarea
+        onChange={(e) => setDescription(e.target.value)}
+        value={description}
+        className='w-full h-96 border border-black'
+      />
+    </div>
+  );
+};
+
+const Components = () => {
+  return <DropDownSelect components={[Title, Description]} />;
 };
 
 export default Components;

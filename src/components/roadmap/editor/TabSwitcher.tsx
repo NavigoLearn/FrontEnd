@@ -17,7 +17,7 @@ import {
 // 1. First, to add a new button, add a new string to the array below
 const tabs = [
   'Add Attachements',
-  // 'Components',
+  'Components',
   'Functionalities',
   'Properties',
   'Nodes',
@@ -49,22 +49,22 @@ const TabSwitcher = () => {
     return <div>Nothing</div>;
   }
 
-  useEffect(() => {
-    // ADD NEW TITLE EXAMPLE
-    const title = 'New Title string';
-    const id = 0; // any valid id here
-    const node = nodes[id];
-    appendComponentTitle(node, factoryComponentTitle(title));
-    // MUTATE POSITION
-    const componentId = 0; // any valid id here
-    const component = getComponentTitleById(node, componentId);
-    const newPosition = { x: 100, y: 100 };
-    mutateComponentTitleHeight(component, 100);
-    mutateComponentTitleWidth(component, 100);
-  }, []);
+  // useEffect(() => {
+  //   // ADD NEW TITLE EXAMPLE
+  //   const title = 'New Title string';
+  //   const id = 0; // any valid id here
+  //   const node = nodes[id];
+  // appendComponentTitle(node, factoryComponentTitle(title));
+  //   MUTATE POSITION
+  //   const componentId = 0; // any valid id here
+  //   const component = getComponentTitleById(node, componentId);
+  //   const newPosition = { x: 100, y: 100 };
+  // mutateComponentTitleHeight(component, 100);
+  //   mutateComponentTitleWidth(component, 100);
+  // }, []);
 
   return (
-    <div className='h-[100%]'>
+    <div className='h-[100%] overflow-y-auto'>
       <div className='w-full grid grid-cols-4 mt-4'>
         {tabs.map((tab: string) => {
           return (
@@ -79,7 +79,7 @@ const TabSwitcher = () => {
           );
         })}
       </div>
-      <div className='mt-5'>{renderTab()}</div>
+      <div className='mt-5 bg-red-500 h-5/6'>{renderTab()}</div>
     </div>
   );
 };
