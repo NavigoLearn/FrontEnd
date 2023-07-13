@@ -1,4 +1,4 @@
-import { ITabComponentProperties } from '@type/roadmap/node/tab';
+import { ITabComponentProperties } from '@type/roadmap/node/tab-types';
 
 export class TabComponent {
   componentProperties: ITabComponentProperties;

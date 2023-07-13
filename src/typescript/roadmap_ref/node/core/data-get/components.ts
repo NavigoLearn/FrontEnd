@@ -1,5 +1,5 @@
 import { NodeClass } from '@typescript/roadmap_ref/node/core/core';
-import { IComponentsObject } from '@type/roadmap/node/components';
+import { IComponentsObject } from '@type/roadmap/node/components-types';
 import { TitleComponent } from '@typescript/roadmap_ref/node/components/text/core';
 
 export function getComponentById(
@@ -14,7 +14,7 @@ export function getComponentTitleById(
   node: NodeClass,
   id: string | number
 ): TitleComponent {
-  const component = getComponentById(node, id);
+  const { component } = getComponentById(node, id);
   if (component instanceof TitleComponent) {
     return component;
   }
@@ -25,7 +25,7 @@ export function getComponentDescriptionById(
   node: NodeClass,
   id: string | number
 ): TitleComponent {
-  const component = getComponentById(node, id);
+  const { component } = getComponentById(node, id);
   if (component instanceof TitleComponent) {
     return component;
   }

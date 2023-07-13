@@ -1,5 +1,5 @@
 import { NodeClass } from '@typescript/roadmap_ref/node/core/core';
-import { IAttachmentBuilder } from '@type/roadmap/node/attachments';
+import { IAttachmentBuilder } from '@type/roadmap/node/attachments-types';
 import { factoryAttachment } from '@typescript/roadmap_ref/node/attachments/factory';
 import { v4 as uuidv4 } from 'uuid';
 import {

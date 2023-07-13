@@ -1,6 +1,6 @@
 // file containing different injectors for some properties of the node
 
-import { IColorSchemaOptions } from '@type/roadmap/node/colors';
+import { IColorSchemaOptions } from '@type/roadmap/node/colors-types';
 import { colorSchemas } from '@typescript/roadmap_ref/node/core/factories/params/params';
 import { NodeClass } from '@typescript/roadmap_ref/node/core/core';
 

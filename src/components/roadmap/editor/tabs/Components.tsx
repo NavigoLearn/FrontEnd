@@ -1,12 +1,6 @@
 import React, { useState } from 'react';
 import roadmapPlaceholder from '@store/roadmap-refactor/data/roadmap-placeholder';
 import { useStore } from '@nanostores/react';
-import {
-  injectNewTitle,
-  injectNewDescription,
-} from '@src/typescript/roadmap_ref/node/core/data-mutation/inject';
-import TitleComponent from '@src/typescript/roadmap_ref/node/components/TitleComponent';
-import DescriptionComponent from '@src/typescript/roadmap_ref/node/components/DescriptionComponent';
 import { deepCopy } from '@src/typescript/roadmap/utils';
 
 const Components = () => {

@@ -1,11 +1,11 @@
-import { IDataKeys, IDataKeysFields } from '@type/roadmap/node/core';
+import { IDataKeys, IDataKeysFields } from '@type/roadmap/node/core-types';
 import { Flags } from '@typescript/roadmap_ref/node/core/flags';
 
 import { Actions } from '@typescript/roadmap_ref/node/core/actions';
 import { DraggingBehavior } from '@typescript/roadmap_ref/dragging/core';
 import { Properties } from '@typescript/roadmap_ref/node/core/properties';
-import { IAttachmentObject } from '@type/roadmap/node/attachments';
-import { IComponentsObject } from '@type/roadmap/node/components';
+import { IAttachmentObject } from '@type/roadmap/node/attachments-types';
+import { IComponentsObject } from '@type/roadmap/node/components-types';
 
 export class NodeClass {
   components: ({

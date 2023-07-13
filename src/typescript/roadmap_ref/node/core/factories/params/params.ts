@@ -1,4 +1,4 @@
-import { IColorSchemas } from '@type/roadmap/node/colors';
+import { IColorSchemas } from '@type/roadmap/node/colors-types';
 
 export const colorSchemas: IColorSchemas = {
   default: {

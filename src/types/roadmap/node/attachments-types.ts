@@ -1,4 +1,4 @@
-import { ITabComponentProperties } from '@type/roadmap/node/tab';
+import { ITabComponentProperties } from '@type/roadmap/node/tab-types';
 import { TabAttachment } from '@typescript/roadmap_ref/node/attachments/tab';
 
 export type IAttachmentOptions = 'Tab';

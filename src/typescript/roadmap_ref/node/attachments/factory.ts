@@ -1,4 +1,4 @@
-import { ITabComponentProperties } from '@type/roadmap/node/tab';
+import { ITabComponentProperties } from '@type/roadmap/node/tab-types';
 import {
   TabAttachment,
   TabComponent,
@@ -6,7 +6,7 @@ import {
 import {
   IAttachmentBuilder,
   IAttachmentObject,
-} from '@type/roadmap/node/attachments';
+} from '@type/roadmap/node/attachments-types';
 
 function factoryTabComponent(
   componentProperties: ITabComponentProperties

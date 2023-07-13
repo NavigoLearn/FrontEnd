@@ -1,5 +1,5 @@
 import { factoryTabAttachment } from '@typescript/roadmap_ref/node/attachments/factory';
-import { IAttachmentOptions } from '@type/roadmap/node/attachments';
+import { IAttachmentOptions } from '@type/roadmap/node/attachments-types';
 
 export class Attachment {
   type: IAttachmentOptions;

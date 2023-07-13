@@ -1,4 +1,4 @@
-import { IColorSchemaFields } from '@type/roadmap/node/colors';
+import { IColorSchemaFields } from '@type/roadmap/node/colors-types';
 
 import { selectNodeColorScheme } from '@typescript/roadmap_ref/node/core/factories/injectors/services';
 import {
