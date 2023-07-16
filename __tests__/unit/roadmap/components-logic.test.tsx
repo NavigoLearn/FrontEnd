@@ -27,7 +27,7 @@ describe('Components logic', () => {
     const title = 'New Title string';
     const id = 0; // any valid id here
     appendComponentJSON(node, factoryComponentJSONEmpty('Title'));
-    expect(node.components.length).toBe(2);
+    expect(node.componentsJSON.length).toBe(2);
   });
 
   it('should mutate component title position and string', () => {
