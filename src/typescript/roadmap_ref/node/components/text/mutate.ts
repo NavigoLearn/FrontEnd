@@ -1,81 +1,81 @@
 import {
-  DescriptionComponent,
-  TitleComponent,
+  ComponentDescription,
+  ComponentTitle,
 } from '@typescript/roadmap_ref/node/components/text/core';
 
 export function mutateComponentTitleWidth(
-  component: TitleComponent,
+  component: ComponentTitle,
   width: number
 ) {
   component.width = width;
 }
 
 export function mutateComponentTitleHeight(
-  component: TitleComponent,
+  component: ComponentTitle,
   height: number
 ) {
   component.height = height;
 }
 
-export function mutateComponentTitleX(component: TitleComponent, x: number) {
+export function mutateComponentTitleX(component: ComponentTitle, x: number) {
   component.x = x;
 }
 
-export function mutateComponentTitleY(component: TitleComponent, y: number) {
+export function mutateComponentTitleY(component: ComponentTitle, y: number) {
   component.y = y;
 }
 
 export function mutateComponentTitleText(
-  component: TitleComponent,
+  component: ComponentTitle,
   text: string
 ) {
   component.text = text;
 }
 
 export function mutateComponentTitleTextSize(
-  component: TitleComponent,
+  component: ComponentTitle,
   textSize: number
 ) {
   component.textSize = textSize;
 }
 
 export function mutateComponentDescriptionWidth(
-  component: DescriptionComponent,
+  component: ComponentDescription,
   width: number
 ) {
   component.width = width;
 }
 
 export function mutateComponentDescriptionHeight(
-  component: DescriptionComponent,
+  component: ComponentDescription,
   height: number
 ) {
   component.height = height;
 }
 
 export function mutateComponentDescriptionX(
-  component: DescriptionComponent,
+  component: ComponentDescription,
   x: number
 ) {
   component.x = x;
 }
 
 export function mutateComponentDescriptionY(
-  component: DescriptionComponent,
+  component: ComponentDescription,
   y: number
 ) {
   component.y = y;
 }
 
 export function mutateComponentDescriptionText(
-  component: DescriptionComponent,
+  component: ComponentDescription,
   text: string
 ) {
   component.text = text;
 }
 
 export function mutateComponentDescriptionTextSize(
-  component: DescriptionComponent,
+  component: ComponentDescription,
   textSize: number
 ) {
   component.textSize = textSize;

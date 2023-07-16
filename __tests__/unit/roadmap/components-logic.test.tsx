@@ -4,11 +4,11 @@ import {
   mutateComponentTitleText,
   mutateComponentTitleWidth,
 } from '@typescript/roadmap_ref/node/components/text/mutate';
-import { factoryComponentTitle } from '@typescript/roadmap_ref/node/components/text/factories';
-import { TitleComponent } from '@typescript/roadmap_ref/node/components/text/core';
+import { factoryComponentJSONEmpty } from '@typescript/roadmap_ref/node/components/text/factories';
+import { ComponentTitle } from '@typescript/roadmap_ref/node/components/text/core';
 import { classicNodeFactoryBoilerplate } from '@typescript/roadmap_ref/node/core/factories/templates/classic';
-import { appendComponentTitle } from '@typescript/roadmap_ref/node/core/data-mutation/append';
 import { getComponentTitleById } from '@typescript/roadmap_ref/node/core/data-get/components';
+import { appendComponentJSON } from '@typescript/roadmap_ref/node/core/data-mutation/append';
 
 describe('Components logic', () => {
   let node;
@@ -19,20 +19,20 @@ describe('Components logic', () => {
   it('should create a new component title', () => {
     const title = 'New Title string';
     const id = 0; // any valid id here
-    const component = factoryComponentTitle(title);
-    expect(component instanceof TitleComponent).toBe(true);
+    const json = factoryComponentJSONEmpty('Title');
+    expect(json.component instanceof ComponentTitle).toBe(true);
   });
 
   it('add new title to node', () => {
     const title = 'New Title string';
     const id = 0; // any valid id here
-    appendComponentTitle(node, factoryComponentTitle(title));
+    appendComponentJSON(node, factoryComponentJSONEmpty('Title'));
     expect(node.components.length).toBe(2);
   });
 
   it('should mutate component title position and string', () => {
-    const componentId = 0; // any valid id here
-    const component = node.components[componentId];
+    const componentIndex = 0;
+    const { component } = node.componentsJSON[componentIndex];
     const newPosition = { x: 100, y: 100 };
     mutateComponentTitleHeight(component, 100);
     mutateComponentTitleWidth(component, 100);
@@ -42,12 +42,11 @@ describe('Components logic', () => {
 
   it('append a new title, find it and mutate text', () => {
     const title = 'New Title string';
-    const componentId = appendComponentTitle(
-      node,
-      factoryComponentTitle(title)
-    );
+    const componentJSON = factoryComponentJSONEmpty('Title');
+    const componentId = componentJSON.id;
+    appendComponentJSON(node, componentJSON);
     const component = getComponentTitleById(node, componentId);
-    expect(component instanceof TitleComponent).toBe(true);
+    expect(component instanceof ComponentTitle).toBe(true);
     mutateComponentTitleText(component, 'New Text2');
     expect(component.text).toBe('New Text2');
   });

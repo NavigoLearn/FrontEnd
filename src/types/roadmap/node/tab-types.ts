@@ -5,6 +5,29 @@ export type ITabComponentType =
   | 'BulletList'
   | 'LinkBulletList';
 
+interface TitleProperties {
+  titleText: string;
+}
+
+interface DescriptionProperties {
+  descriptionText: string;
+}
+
+interface LinkProperties {
+  linkURL: string;
+}
+
+interface BulletListProperties {
+  bulletListItems: string[];
+}
+export interface LinkBulletListItem {
+  linkURL: string;
+  text: string;
+}
+interface LinkBulletListProperties {
+  linkBulletListItems: LinkBulletListItem[];
+}
+
 export type ITabComponentProperties =
   | ({
       type: 'Title';
@@ -21,26 +44,3 @@ export type ITabComponentProperties =
   | ({
       type: 'LinkBulletList';
     } & LinkBulletListProperties);
-
-interface TitleProperties {
-  titleText: string;
-}
-
-interface DescriptionProperties {
-  descriptionText: string;
-}
-
-interface LinkProperties {
-  linkURL: string;
-}
-
-interface BulletListProperties {
-  bulletListItems: string[];
-}
-interface LinkBulletListProperties {
-  linkBulletListItems: LinkBulletListItem[];
-}
-export interface LinkBulletListItem {
-  linkURL: string;
-  text: string;
-}

@@ -1,13 +1,15 @@
 import { NodeClass } from '@typescript/roadmap_ref/node/core/core';
-import { factoryComponentTitle } from '@typescript/roadmap_ref/node/components/text/factories';
-import {
-  appendAttachment,
-  appendComponentTitle,
-} from '@typescript/roadmap_ref/node/core/data-mutation/append';
+// import { appendComponentTitle } from '@typescript/roadmap_ref/node/core/data-mutation/append';
 import {
   injectClassicData,
   injectClassicFlags,
 } from '@typescript/roadmap_ref/node/core/factories/injectors/inject';
+import {
+  appendAttachmentJSON,
+  appendComponentJSON,
+} from '@typescript/roadmap_ref/node/core/data-mutation/append';
+import { factoryComponentJSONEmpty } from '@typescript/roadmap_ref/node/components/text/factories';
+import { factoryEmptyAttachmentJSON } from '@typescript/roadmap_ref/node/attachments/tab/factory';
 
 export function classicNodeFactoryBoilerplate(): NodeClass {
   // return boilerplate class for classic nodes and the most common
@@ -15,34 +17,8 @@ export function classicNodeFactoryBoilerplate(): NodeClass {
   // classic nodes has a tab attachment and the default color scheme
   injectClassicFlags(node);
   injectClassicData(node, 'someparent', []);
-
-  appendComponentTitle(node, factoryComponentTitle('Boilerplate title'));
-  appendAttachment(node, {
-    type: 'Tab',
-    components: [
-      {
-        type: 'Title',
-        titleText: 'Boilerplate title',
-      },
-      {
-        type: 'Description',
-        descriptionText: 'Boilerplate description',
-      },
-      {
-        type: 'LinkBulletList',
-        linkBulletListItems: [
-          {
-            linkURL: 'https://www.google.com',
-            text: 'Google',
-          },
-          {
-            linkURL: 'https://www.google.com',
-            text: 'Google2',
-          },
-        ],
-      },
-    ],
-  });
+  appendComponentJSON(node, factoryComponentJSONEmpty('Title'));
+  appendAttachmentJSON(node, factoryEmptyAttachmentJSON('Tab'));
 
   return node;
 }

@@ -1,9 +1,6 @@
 import React, { useState } from 'react';
 import roadmapPlaceholder from '@store/roadmap-refactor/data/roadmap-placeholder';
 import { useStore } from '@nanostores/react';
-import { appendComponentTitle } from '@src/typescript/roadmap_ref/node/core/data-mutation/append';
-import { factoryComponentTitle } from '@src/typescript/roadmap_ref/node/components/text/factories';
-import { getComponentTitleById } from '@src/typescript/roadmap_ref/node/core/data-get/components';
 import DropDownSelect from '../DropDownSelect';
 
 const Title = () => {
@@ -15,9 +12,6 @@ const Title = () => {
 
   const { nodes } = useStore(roadmapPlaceholder);
   const node = nodes[0];
-  const componentId = appendComponentTitle(node, factoryComponentTitle(title));
-  const component = getComponentTitleById(node, componentId);
-
   // Here implement the logic and where would you like the boxes to be placed for the states defined above
   // (e) => setHeight(e.target.value) , mutateComponentTitleHeight(component, height)
 

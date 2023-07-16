@@ -5,21 +5,16 @@ import { Actions } from '@typescript/roadmap_ref/node/core/actions';
 import { DraggingBehavior } from '@typescript/roadmap_ref/dragging/core';
 import { Properties } from '@typescript/roadmap_ref/node/core/properties';
 import { IAttachmentObject } from '@type/roadmap/node/attachments-types';
-import { IComponentsObject } from '@type/roadmap/node/components-types';
+import { IComponentObject } from '@type/roadmap/node/components-types';
 
 export class NodeClass {
-  components: ({
-    id: string;
-  } & IComponentsObject)[] = []; // title, description, button and anything inside the node
+  componentsJSON: IComponentObject[] = []; // title, description, button and anything inside the node
 
   properties: Properties = new Properties(); // properties of the node itself
 
   nestedNodesIds: string[] = []; // reference to other NodeClasses from the roadmap
 
-  attachments: {
-    id: string;
-    attachment: IAttachmentObject;
-  }[] = []; // special components that are much more customizable and special, meant for any kind of interraction
+  attachmentsJSON: IAttachmentObject[] = []; // special components that are much more customizable and special, meant for any kind of interraction
 
   actions: Actions; // the actions that are set on the node
 

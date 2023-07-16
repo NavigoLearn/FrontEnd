@@ -14,7 +14,7 @@ export class ComponentNode {
     this.height = height;
   }
 }
-class TextComponent extends ComponentNode {
+class ComponentText extends ComponentNode {
   text: string;
 
   textSize: number;
@@ -41,7 +41,7 @@ class TextComponent extends ComponentNode {
   }
 }
 
-export class TitleComponent extends TextComponent {
+export class ComponentTitle extends ComponentText {
   constructor(
     x: number,
     y: number,
@@ -53,7 +53,7 @@ export class TitleComponent extends TextComponent {
   }
 }
 
-export class DescriptionComponent extends TextComponent {
+export class ComponentDescription extends ComponentText {
   constructor(
     x: number,
     y: number,

@@ -1,22 +1,25 @@
 import {
-  DescriptionComponent,
-  TitleComponent,
+  ComponentDescription,
+  ComponentTitle,
 } from '@typescript/roadmap_ref/node/components/text/core';
+import { IIdentifiers } from '@type/roadmap/node/core-types';
 
-export type IComponentsOptions = 'Title' | 'Description';
+export type IComponentOptions = 'Title' | 'Description';
 
-export type IComponentsObject =
-  | {
-      type: 'Title';
-      component: TitleComponent;
-    }
-  | {
-      type: 'Description';
-      component: DescriptionComponent;
-    }
-  | {
-      type: 'ultra mega fine component';
-      component: {
-        cevaaa: number;
-      };
-    };
+export type IComponentObject = IIdentifiers &
+  (
+    | {
+        type: 'Title';
+        component: ComponentTitle;
+      }
+    | {
+        type: 'Description';
+        component: ComponentDescription;
+      }
+    | {
+        type: 'ultra mega fine component';
+        component: {
+          cevaaa: number;
+        };
+      }
+  );

@@ -5,3 +5,8 @@ export interface IDataKeysFields {
   children: string[];
   nestedWithin: string;
 }
+
+export interface IIdentifiers {
+  id: string; // unique
+  name: string; // not unique, editable by user
+}

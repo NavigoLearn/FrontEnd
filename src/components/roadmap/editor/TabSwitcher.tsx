@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import AddAttachements from '@components/roadmap/editor/tabs/AddAttachements';
 import Components from '@components/roadmap/editor/tabs/Components';
 import Functionalities from '@components/roadmap/editor/tabs/Functionalities';
@@ -6,13 +6,6 @@ import Properties from '@components/roadmap/editor/tabs/Properties';
 import Nodes from '@components/roadmap/editor/tabs/Nodes';
 import roadmapPlaceholder from '@store/roadmap-refactor/data/roadmap-placeholder';
 import { useStore } from '@nanostores/react';
-import { appendComponentTitle } from '@typescript/roadmap_ref/node/core/data-mutation/append';
-import { factoryComponentTitle } from '@typescript/roadmap_ref/node/components/text/factories';
-import { getComponentTitleById } from '@typescript/roadmap_ref/node/core/data-get/components';
-import {
-  mutateComponentTitleHeight,
-  mutateComponentTitleWidth,
-} from '@typescript/roadmap_ref/node/components/text/mutate';
 
 // 1. First, to add a new button, add a new string to the array below
 const tabs = [
