@@ -52,12 +52,12 @@ const NodeManager = ({ data, editing, triggerCb }: NodeManagerProps) => {
   }, [render]);
 
   useEffect(() => {
-    // locks the nodes that are currently in text editing or view mode
+    // locks the nodes that are currently in text elements-editing or view mode
     addDraggabilityFlow(data.id, editing);
   }, [editing]);
 
   const renderNode = () => {
-    // we fetch the roadmap-data from the nanostores here in order to get rerendering on roadmap-data change
+    // we fetch the roadmap-roadmap-data from the nanostores here in order to get rerendering on roadmap-roadmap-data change
     const { id } = data as NodeInfoProps;
     let node;
     if (editing) {

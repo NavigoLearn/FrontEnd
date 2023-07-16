@@ -6,7 +6,6 @@ import { setTabAboutFlow } from '@typescript/roadmap/tab-logic-flows';
 import roadmapEdit from '@store/roadmap/data/roadmap_edit';
 import { createNewTabs } from '@store/roadmap/cache/diff-tabs';
 import book from '@assets/book.svg';
-import { setBook } from '@store/roadmap-refactor/display/tab-manager';
 import { dispatchAnalyticsEvent } from '@store/misc/analytics';
 import { postRoadmapData } from '../../../api-wrapper/roadmap/roadmaps';
 
@@ -46,7 +45,7 @@ const buttonsCreate = [
     cIcon: book,
     title: 'Guide',
     clickHandler: () => {
-      setBook();
+      // setBook();
     },
   },
 

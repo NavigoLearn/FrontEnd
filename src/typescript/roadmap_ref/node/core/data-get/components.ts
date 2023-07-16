@@ -1,6 +1,9 @@
 import { NodeClass } from '@typescript/roadmap_ref/node/core/core';
 import { IComponentObject } from '@type/roadmap/node/components-types';
-import { ComponentTitle } from '@typescript/roadmap_ref/node/components/text/core';
+import {
+  ComponentDescription,
+  ComponentTitle,
+} from '@typescript/roadmap_ref/node/components/text/core';
 
 export function getComponentJSONById(
   node: NodeClass,
@@ -28,7 +31,7 @@ export function getComponentDescriptionById(
   id: string
 ): ComponentTitle {
   const { component } = getComponentJSONById(node, id);
-  if (component instanceof ComponentTitle) {
+  if (component instanceof ComponentDescription) {
     return component;
   }
   throw new Error('Component is not a Description component');

@@ -53,8 +53,8 @@ const HeroRotate = ({ scale, animSpeed }: HeroRotateProps) => {
     rootRef.current.style.width = `${params.width}px`;
     rootRef.current.style.height = `${params.height}px`;
     rootRef.current.style.left = `calc(50% - ${params.width / 2}px)`;
-    setSet(true); // the animation will start at the second render-roadmap-data not the first
-    // the first render-roadmap-data will only create the scafolding for the animation
+    setSet(true); // the animation will start at the second render-roadmap-roadmap-data not the first
+    // the first render-roadmap-roadmap-data will only create the scafolding for the animation
   }, []);
 
   useEffect(() => {

@@ -5,7 +5,7 @@ import { classicNodeFactoryBoilerplate } from '@typescript/roadmap_ref/node/core
 const roadmapPlaceholder = atom({
   nodes: {
     '0': classicNodeFactoryBoilerplate(),
-  }, // the nodes json will contain only the nodes currently in editing mode
+  }, // the nodes json will contain only the nodes currently in elements-editing mode
   // if you want to get the node just search it by id
   connections: {},
   chunks: {},

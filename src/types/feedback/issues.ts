@@ -8,16 +8,16 @@ const issues = [
   },
   {
     id: 2,
-    title: 'User permissions for roadmap editing',
+    title: 'User permissions for roadmap elements-editing',
     description:
-      'Apart from the contribution system, we also want to allow the owner of the roadmaps to give editing permissions to other users so they will not have to make a contribution request every time ',
+      'Apart from the contribution system, we also want to allow the owner of the roadmaps to give elements-editing permissions to other users so they will not have to make a contribution request every time ',
     link: 'https://github.com/orgs/NavigoLearn/discussions/17',
   },
   {
     id: 3,
-    title: 'AI autocompletion for roadmap editing',
+    title: 'AI autocompletion for roadmap elements-editing',
     description:
-      'Yeah we know, AI this AI that, but it sounds cool. We want to use AI to help with the editing and creation process of the roadmaps',
+      'Yeah we know, AI this AI that, but it sounds cool. We want to use AI to help with the elements-editing and creation process of the roadmaps',
     link: 'https://github.com/orgs/NavigoLearn/discussions/15',
   },
   {

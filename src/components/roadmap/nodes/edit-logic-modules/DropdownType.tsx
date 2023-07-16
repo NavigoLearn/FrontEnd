@@ -7,7 +7,7 @@ import {
 } from '@type/roadmap/old/nodes';
 import { isValidNodeType } from '@type/roadmap/old/typecheckers';
 
-// handles all the node type change roadmap-data for every node
+// handles all the node type change roadmap-roadmap-data for every node
 const DropdownType = ({
   id,
   type,

@@ -11,5 +11,5 @@ export const divWrapper = (children: React.ReactNode) => {
 };
 
 export const addIssue = () => {
-  // add issue roadmap-data
+  // add issue roadmap-roadmap-data
 };

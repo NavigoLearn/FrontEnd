@@ -1,15 +1,14 @@
 import React from 'react';
 import MainTitle from '@components/roadmap/tabs/book/parts/MainTitle';
 import ChapterTitle from '@components/roadmap/tabs/book/parts/ChapterTitle';
-import Text from '@components/roadmap/tabs/book/parts/Text';
 import TLDR from '@components/roadmap/tabs/book/parts/TLDR';
 import BulletList from '@components/roadmap/tabs/book/parts/BulletList';
 
 const chapters = [
   {
     title: 'What is a roadmap?',
-    text: 'A roadmap is supposed to be a way to structure information at a high level and offer an overview of a field that you want to learn as a whole and all the possibilities you have in that field. A roadmap uses node ( that can be of multiple types ) and tabs to hold information. They are highly customizable and are an effective tool for learning and helping others to learn',
-    TLDR: 'A page with nodes you can edit to organize information better',
+    text: 'A roadmap is supposed to be a way to structure information at a high level and offer an overview of a field that you want to learn as a whole and all the possibilities you have in that field. A roadmap uses node ( that can be of multiple types ) and pages to hold information. They are highly customizable and are an effective tool for learning and helping others to learn',
+    TLDR: 'A page with nodes you can elements-editing to organize information better',
   },
 ];
 

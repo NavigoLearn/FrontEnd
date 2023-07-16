@@ -89,7 +89,7 @@ export function triggerRerenderAllDecorator<T extends any[]>(
     func(...args);
     const nodesId = getNodes();
     const triggers = getTriggersRenderAll();
-    // empties the node cache for all nodes since editing switched
+    // empties the node cache for all nodes since elements-editing switched
     emptyCachedNodeCoordAll();
     // reRenders all nodes
     nodesId.forEach((nodeId) => {

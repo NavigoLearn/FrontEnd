@@ -41,7 +41,5 @@ export class NodeClass {
       x: 0,
       y: 0,
     },
-  }; // data related to parents, connection stuff in general
+  }; // roadmap-data related to parents, connection stuff and misc things I couldn't find a place general
 }
-
-// Represents the Component class

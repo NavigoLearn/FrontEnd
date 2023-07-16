@@ -7,7 +7,7 @@ import TLDR from '@components/roadmap/tabs/book/parts/TLDR';
 const chapters = [
   {
     title: 'Info',
-    text: 'The info node can be converted in a resource nodes. Has a tab associated to it and a title. It is the backbone of the roadmap being the only node that can make up the main path. Used either for small amount of information or to give some overview of a chapter. Can be used in groups to describe a broader amount of information',
+    text: 'The info node can be converted in a resource nodes. Has a tab-attachment associated to it and a title. It is the backbone of the roadmap being the only node that can make up the main path. Used either for small amount of information or to give some overview of a chapter. Can be used in groups to describe a broader amount of information',
     TLDR: 'Basic node, used for anything',
   },
   {

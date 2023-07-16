@@ -2,25 +2,22 @@ import React from 'react';
 
 import Button from '@components/roadmap/tabs/utils/Button';
 import { divWrapper } from '@components/roadmap/tabs/utils/logic';
-import { useStore } from '@nanostores/react';
-import tabStore, {
-  flipOpen,
-} from '@store/roadmap-refactor/display/tab-manager';
 import cross from '@assets/cross.svg';
 
 const InfoView = () => {
-  const { info } = useStore(tabStore);
+  // const { info } = useStore(displayManagerStore);
   return (
     <div className=' w-full h-full relative border-t-2 border-t-black md:border-t-0'>
       {divWrapper(
         <div className='flex justify-between'>
           <button
+            type='button'
             className=' h-8 w-8'
             onClick={() => {
-              flipOpen();
+              // flipOpen();
             }}
           >
-            <img draggable='false' src={cross} className='w-6 h-6' />
+            <img alt='' draggable='false' src={cross} className='w-6 h-6' />
           </button>
           <div className='mt-2'>
             <Button
@@ -36,12 +33,10 @@ const InfoView = () => {
       )}
       <div className='w-5/6 flex justify-between items-center mx-8 mt-6 '>
         <div className=' font-kanit-text font-semibold text-2xl md:text-4xl  '>
-          {info.title}
+          {/* {info.title} */}
         </div>
       </div>
-      {divWrapper(
-        <div className=' text-sm  md:text-xl'>{info.description}</div>
-      )}
+      {divWrapper(<div className=' text-sm  md:text-xl'>description</div>)}
       {divWrapper(
         <div className='text-xs md:text-lg'>
           Visit the following resources to learn more

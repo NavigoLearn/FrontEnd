@@ -2,9 +2,9 @@ import React, { useEffect, useRef, useState } from 'react';
 import { divWrapper } from '@components/roadmap/tabs/utils/logic';
 import circledot from '@assets/circledot.svg';
 import { useStore } from '@nanostores/react';
-import tabManagerStore, {
+import displayManagerStore, {
   setIssues,
-} from '@store/roadmap-refactor/display/tab-manager';
+} from '@store/roadmap-refactor/display/display-manager';
 import cross from '@assets/cross.svg';
 import commentsDisplay, {
   getCommentsAndSetDisplay,
@@ -15,7 +15,7 @@ import { getDisplayIssue } from '@store/roadmap-refactor/display/issues-display'
 import roadmapState from '@store/roadmap/data/roadmap_state';
 
 const Thread = () => {
-  const { issueId } = useStore(tabManagerStore);
+  const { issueId } = useStore(displayManagerStore);
   const { comments } = useStore(commentsDisplay);
   const { id } = roadmapState.get();
   const [loaded, setLoaded] = useState(false);
@@ -75,7 +75,7 @@ const Thread = () => {
           type='button'
           className=' w-6 h-6 absolute left-10 top-2 '
           onClick={() => {
-            // close tab
+            // close tab-attachment
             setIssues();
           }}
         >

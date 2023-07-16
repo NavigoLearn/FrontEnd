@@ -1,5 +1,5 @@
 import { NodeClass } from '@typescript/roadmap_ref/node/core/core';
-// import { appendComponentTitle } from '@typescript/roadmap_ref/node/core/data-mutation/append';
+// import { appendComponentTitle } from '@typescript/roadmap_ref/node/core/roadmap-data-mutation/append';
 import {
   injectClassicData,
   injectClassicFlags,
@@ -14,7 +14,7 @@ import { factoryEmptyAttachmentJSON } from '@typescript/roadmap_ref/node/attachm
 export function classicNodeFactoryBoilerplate(): NodeClass {
   // return boilerplate class for classic nodes and the most common
   const node = new NodeClass();
-  // classic nodes has a tab attachment and the default color scheme
+  // classic nodes has a tab-attachment attachment and the default color scheme
   injectClassicFlags(node);
   injectClassicData(node, 'someparent', []);
   appendComponentJSON(node, factoryComponentJSONEmpty('Title'));

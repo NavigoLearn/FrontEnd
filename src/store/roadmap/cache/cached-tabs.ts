@@ -14,7 +14,7 @@ const cachedTabs = atom({
 
 export const cacheTabInfo = (id: string, tab: TabInfo) => {
   const original = cachedTabs.get();
-  console.log('cached tab', tab);
+  console.log('cached tab-attachment', tab);
   cachedTabs.set({ ...original, info: { ...original.info, [id]: tab } });
 };
 
@@ -108,7 +108,7 @@ export const changeCachedTabInfoProp = <T extends keyof TabInfo>(
 };
 
 export const updateTabsToServer = async (idArray: string[]) => {
-  // iterates over all keys in the diffTabsStore and creates new tabs
+  // iterates over all keys in the diffTabsStore and creates new pages
   console.log('before all posts', idArray);
   const original = cachedTabs.get();
   // waits for all promises to resolve
@@ -122,7 +122,7 @@ export const updateTabsToServer = async (idArray: string[]) => {
 };
 
 export const createTabsToServer = async (idArray: string[]) => {
-  // iterates over all keys in the diffTabsStore and creates new tabs
+  // iterates over all keys in the diffTabsStore and creates new pages
   console.log('before all posts', idArray);
   const original = cachedTabs.get();
   // waits for all promises to resolve

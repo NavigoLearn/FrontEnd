@@ -6,10 +6,10 @@ import Roadmap from '@components/roadmap/Roadmap';
 import SideBar from '@components/roadmap/sidebar/NewSidebarDesktop';
 import SideBarMobile from '@components/roadmap/sidebar/SideBarMobile';
 import RoadmapController from '@components/roadmap/roadmapcontroler/RoadmapController';
-import TabManager from '@components/roadmap/TabManager';
+import DisplayManager from '../../components/roadmap/displayers/DisplayManager';
 
 const { id } = Astro.params;
-// here we should get the roadmap-data for the actual roadmap_static
+// here we should get the roadmap-roadmap-data for the actual roadmap_static
 const isCreate = id === 'create';
 ---
 
@@ -34,7 +34,7 @@ const isCreate = id === 'create';
       <RoadmapController client:idle />
     </div>
     <div class=''>
-      <TabManager client:idle />
+      <DisplayManager client:idle />
     </div>
   </div>
 </Base>

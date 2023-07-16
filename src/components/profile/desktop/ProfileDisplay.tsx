@@ -21,23 +21,25 @@ import {
 type asyncCb = () => Promise<void>;
 const ProfileDisplay = ({ id }: { id: string }) => {
   const userData = useStore(userDisplay);
-  const [ _, setRender ] = useState(false);
-  const [ requestAgain, setRequestAgain ] = useState(false);
-  const [ loaded, setLoaded ] = useState(false);
-  const [ edit, setEdit ] = useState(false);
+  const [_, setRender] = useState(false);
+  const [requestAgain, setRequestAgain] = useState(false);
+  const [loaded, setLoaded] = useState(false);
+  const [edit, setEdit] = useState(false);
 
-  const [ asyncCallbackList, setAsyncCallbackList ] = useState<asyncCb[]>([]);
+  const [asyncCallbackList, setAsyncCallbackList] = useState<asyncCb[]>([]);
 
   useEffect(() => {
-    fetchUserAndSetStore(id).then(() => {
-      // sets userDisplay roadmap-data and loads it into profile
-      setRender((prev) => !prev);
-      setLoaded(true);
-    }).catch((err) => {
-      if (err.message === 'User not found') {
-        window.location.href = '/profile';
-      }
-    });
+    fetchUserAndSetStore(id)
+      .then(() => {
+        // sets userDisplay roadmap-roadmap-data and loads it into profile
+        setRender((prev) => !prev);
+        setLoaded(true);
+      })
+      .catch((err) => {
+        if (err.message === 'User not found') {
+          window.location.href = '/profile';
+        }
+      });
   }, []);
 
   useEffect(() => {
@@ -46,7 +48,7 @@ const ProfileDisplay = ({ id }: { id: string }) => {
       setRender((prev) => !prev);
       setEdit(false);
     });
-  }, [ requestAgain ]);
+  }, [requestAgain]);
 
   function setProfileUrl() {
     if (!loaded) return '';
@@ -57,15 +59,14 @@ const ProfileDisplay = ({ id }: { id: string }) => {
 
   return (
     <>
-      <div
-        className="flex justify-between w-10/12 mt-44 items-center text-center">
-        <div
-          className="flex flex-col justify-center items-center w-full transform my-12">
-          <div className="w-60 h-60 xl:w-72 xl:h-72 absolute -top-80">
-            <img draggable="false"
-                 className="rounded-full w-full h-full flex select-none"
-                 src={setProfileUrl()}
-                 alt="profile"
+      <div className='flex justify-between w-10/12 mt-44 items-center text-center'>
+        <div className='flex flex-col justify-center items-center w-full transform my-12'>
+          <div className='w-60 h-60 xl:w-72 xl:h-72 absolute -top-80'>
+            <img
+              draggable='false'
+              className='rounded-full w-full h-full flex select-none'
+              src={setProfileUrl()}
+              alt='profile'
             />
           </div>
           <Name
@@ -85,7 +86,7 @@ const ProfileDisplay = ({ id }: { id: string }) => {
             followerCount={userData.followerCount}
             followingCount={userData.followingCount}
           />
-          <Label label="no label yet"/>
+          <Label label='no label yet' />
           {loggedUser.get().userId === userDisplay.get().userId ? (
             <ButtonsEdit
               edit={edit}
@@ -97,7 +98,7 @@ const ProfileDisplay = ({ id }: { id: string }) => {
                 Promise.all(asyncCallbackList.map(async (cb) => cb())).then(
                   () => {
                     setRequestAgain((prev) => !prev);
-                  },
+                  }
                 );
               }}
               onCancel={() => {
@@ -108,11 +109,10 @@ const ProfileDisplay = ({ id }: { id: string }) => {
             <ButtonsFollow
               reqAgain={() => {
                 setRequestAgain((prev) => !prev);
-
               }}
             />
           )}
-          {edit || userData.quote ?
+          {edit || userData.quote ? (
             <Quote
               edit={edit}
               originalValue={userData.quote}
@@ -125,8 +125,11 @@ const ProfileDisplay = ({ id }: { id: string }) => {
                   },
                 ]);
               }}
-            /> : <></>}
-          {edit || userData.websiteUrl ?
+            />
+          ) : (
+            <></>
+          )}
+          {edit || userData.websiteUrl ? (
             <WebsiteUrl
               edit={edit}
               originalValue={userData.websiteUrl}
@@ -138,10 +141,10 @@ const ProfileDisplay = ({ id }: { id: string }) => {
 
                     // check if starts with http:// or https://
                     if (
-                        !valueRef.current.startsWith('http://') &&
-                        !valueRef.current.startsWith('https://')
+                      !valueRef.current.startsWith('http://') &&
+                      !valueRef.current.startsWith('https://')
                     ) {
-                        value = 'https://' + valueRef.current;
+                      value = `https://${valueRef.current}`;
                     }
 
                     if (value === 'https://') value = '';
@@ -151,8 +154,11 @@ const ProfileDisplay = ({ id }: { id: string }) => {
                   },
                 ]);
               }}
-            /> : <></>}
-          <div className="w-full flex justify-center">
+            />
+          ) : (
+            <></>
+          )}
+          <div className='w-full flex justify-center'>
             <Bio
               originalValue={userData.bio}
               edit={edit}
@@ -170,11 +176,10 @@ const ProfileDisplay = ({ id }: { id: string }) => {
           </div>
         </div>
       </div>
-      <div className="flex w-full flex-col justify-around my-24">
-        <Statistics roadmapsCount={userData.roadmapsCount}/>
-        <div className="flex justify-center  items-center">
-          <div
-            className="text-4xl text-main opacity-20 select-none text-center w-5/6 ">
+      <div className='flex w-full flex-col justify-around my-24'>
+        <Statistics roadmapsCount={userData.roadmapsCount} />
+        <div className='flex justify-center  items-center'>
+          <div className='text-4xl text-main opacity-20 select-none text-center w-5/6 '>
             We will add here some achivements at a later time. If you are one of
             the first users to join, be sure you will get some special rewards.
           </div>

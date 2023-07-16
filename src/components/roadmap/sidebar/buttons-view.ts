@@ -3,11 +3,6 @@ import issues from '@assets/issues.svg';
 import about from '@assets/about.svg';
 import cross from '@assets/cross.svg';
 import book from '@assets/book.svg';
-import {
-  falseOpen,
-  setBook,
-  setIssues,
-} from '@store/roadmap-refactor/display/tab-manager';
 import roadmapState, { getRoadmapId } from '@store/roadmap/data/roadmap_state';
 import {
   saveEditingProtocol,
@@ -34,7 +29,7 @@ export const buttonsViewVisitor = [
     cIcon: issues,
     title: 'Issues',
     clickHandler: () => {
-      setIssues();
+      // setIssues();
       dispatchAnalyticsEvent('roadmapInteraction', {
         actionType: 'Open Issues',
       });
@@ -57,7 +52,7 @@ export const buttonsViewVisitor = [
     cIcon: book,
     title: 'Guide',
     clickHandler: () => {
-      setBook();
+      // setBook();
     },
   },
 ];
@@ -77,7 +72,7 @@ export const buttonsViewOwner = [
           actionType: 'Edit Roadmap',
         });
       }
-      falseOpen();
+      // falseOpen();
       toggleEditing();
     },
   },
@@ -87,7 +82,7 @@ export const buttonsViewOwner = [
     cIcon: issues,
     title: 'Issues',
     clickHandler: () => {
-      setIssues();
+      // setIssues();
       dispatchAnalyticsEvent('roadmapInteraction', {
         actionType: 'Open Issues',
       });
@@ -110,7 +105,7 @@ export const buttonsViewOwner = [
     cIcon: book,
     title: 'Guide',
     clickHandler: () => {
-      setBook();
+      // setBook();
     },
   },
   {

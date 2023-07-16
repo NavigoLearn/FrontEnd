@@ -25,7 +25,7 @@ const NodeEdit = ({ title, tabId, id, level }: NodeInfoProps) => {
         <InfoEditProps
           id={id}
           onSave={() => {
-            // transfers the roadmap-data from the placeholder to the node
+            // transfers the roadmap-roadmap-data from the placeholder to the node
             transferNodeInfoFromPlaceholderToEdit(id);
             removeNodeInfoFromPlaceholder(id);
             getTriggerEnable(id)();

@@ -2,8 +2,8 @@ import React, { useEffect, useState } from 'react';
 import GoogleLoginButton from '@components/auth/social-buttons/GoogleLoginButton';
 import GithubLoginButton from '@components/auth/social-buttons/GithubLoginButton';
 import {
-  handleGoogleLogin,
   handleGitHubLogin,
+  handleGoogleLogin,
 } from '@components/auth/socialAuth';
 import { handleLocalLogin } from '../../../api-wrapper/user/user';
 
@@ -61,7 +61,7 @@ const DesktopLogin = () => {
             type='email'
             placeholder='Email'
             value={email}
-            roadmap-data-testid='email'
+            roadmap-roadmap-data-testid='email'
             onChange={({ target }) => setEmail(target.value)}
             className='py-3 mt-3 rounded-xl ml-px w-96 pl-3 placeholder:font-kanit-text placeholder:text-placeholder h-12 select-none'
           />
@@ -75,7 +75,7 @@ const DesktopLogin = () => {
             type='password'
             placeholder='Password'
             value={password}
-            roadmap-data-testid='password'
+            roadmap-roadmap-data-testid='password'
             onChange={({ target }) => setPassword(target.value)}
             className='py-3 mt-3 rounded-xl ml-px w-96 pl-3 placeholder:font-kanit-text placeholder:text-placeholder h-12 select-none'
           />

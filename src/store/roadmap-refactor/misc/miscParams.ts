@@ -15,7 +15,7 @@ const miscParamsStore = atom({
   },
   editingCount: 0,
   chunkSize: 400,
-  toolTip: {}, // functions that render-roadmap-data react components with the desired functionality
+  toolTip: {}, // functions that render-roadmap-roadmap-data react components with the desired functionality
 } as {
   zoomAllowed: boolean;
   disableZoomTrigger: () => void;
@@ -89,7 +89,7 @@ export function useToolTip(nodeId: string) {
 export function setToolTip(nodeId: string, value: any) {
   const newStore = miscParamsStore.get();
   newStore.toolTip[nodeId] = value;
-  // setting a new tooltip should also trigger a render-roadmap-data
+  // setting a new tooltip should also trigger a render-roadmap-roadmap-data
   miscParamsStore.set({ ...newStore });
   getTriggerTooltip(nodeId)();
 }

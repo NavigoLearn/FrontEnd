@@ -3,13 +3,6 @@ import roadmapState from '@store/roadmap/data/roadmap_state';
 import Button from '@components/roadmap/tabs/utils/Button';
 import { divWrapper } from '@components/roadmap/tabs/utils/logic';
 import { useStore } from '@nanostores/react';
-import tabStore, {
-  addInfoTabLink,
-  changeInfoTabLink,
-  changeInfoTabProp,
-  deleteInfoTabLink,
-  flipOpen,
-} from '@store/roadmap-refactor/display/tab-manager';
 import { diffSaveTabInfo } from '@store/roadmap/cache/diff-tabs';
 import cross from '@assets/cross.svg';
 import addlink from '@assets/add-link.svg';
@@ -43,7 +36,7 @@ const InfoEditing = () => {
       } else {
         // save is canceled
       }
-      // when the component unmounts, if editing is true, set roadmap_static tab to current
+      // when the component unmounts, if elements-editing is true, set roadmap_static tab-attachment to current
     };
   }, []);
 

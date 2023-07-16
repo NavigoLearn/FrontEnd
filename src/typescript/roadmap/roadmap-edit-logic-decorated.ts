@@ -212,7 +212,7 @@ export const addNodeNew = triggerChunkRerenderDecorator(
 
 export const changeNodeGeneral = triggerRerenderDecorator(
   triggerPositionCacheClearDecorator((id: string, value: any) => {
-    // used for changing arbitrary fields in nodes when editing (not x and y)
+    // used for changing arbitrary fields in nodes when elements-editing (not x and y)
     const original = roadmapEdit.get();
     const { nodes } = original;
     const node = nodes[id];
@@ -340,7 +340,7 @@ export const toggleEditing = triggerRerenderAllDecorator(() => {
 });
 
 export const setEditingTrue = triggerRerenderAllDecorator(() => {
-  console.log('called editing');
+  console.log('called elements-editing');
   const original = roadmapState.get();
   roadmapState.set({ ...original, editing: true });
 });

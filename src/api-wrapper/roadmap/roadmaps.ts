@@ -8,7 +8,7 @@ export const fetchRoadmap = async (id: string) => {
     method: 'GET',
     credentials: 'include',
   }).then((res) => res.json());
-  // decodes the roadmap-data field from base64 to json
+  // decodes the roadmap-roadmap-data field from base64 to json
   response.data = JSON.parse(atob(response.data));
   return response;
 };
@@ -34,7 +34,7 @@ export const updateRoadmapData = async (roadmap: Roadmap) => {
       'Content-Type': 'application/json',
     },
   }).then((res) => res);
-  // posts all the tabs created in cache
+  // posts all the pages created in cache
   return response.json();
 };
 
@@ -59,7 +59,7 @@ export const postRoadmapData = async (roadmap: Roadmap) => {
       'Content-Type': 'application/json',
     },
   });
-  // posts all the tabs created in cache
+  // posts all the pages created in cache
   return response.json();
 };
 

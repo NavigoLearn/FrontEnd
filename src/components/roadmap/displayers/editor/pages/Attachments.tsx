@@ -1,7 +1,7 @@
 import React from 'react';
 
-const AddAttachements = () => {
+const Attachments = () => {
   return <div>AddAttachements</div>;
 };
 
-export default AddAttachements;
+export default Attachments;

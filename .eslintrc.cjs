@@ -68,6 +68,7 @@ module.exports = {
         'max-classes-per-file': 'off',
         'no-param-reassign': 'off',
         '@typescript-eslint/ban-ts-comment': 'off',
+        'react/jsx-props-no-spreading': 'off',
         'react/function-component-definition': [
           2,
           {

@@ -5,7 +5,7 @@ import { divWrapper } from '@components/roadmap/tabs/utils/logic';
 import { useStore } from '@nanostores/react';
 import tabStore, {
   flipOpen,
-} from '@store/roadmap-refactor/display/tab-manager';
+} from '@store/roadmap-refactor/display/display-manager';
 import cross from '@assets/cross.svg';
 
 const InfoView = () => {

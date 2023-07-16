@@ -22,29 +22,31 @@ import {
 
 type asyncCb = () => Promise<void>;
 const ProfileDisplay = ({ id }: { id: string }) => {
-  const [ click, setClick ] = useState(false);
+  const [click, setClick] = useState(false);
   const handleClick = () => {
     setClick((prev) => !prev);
   };
 
   const userData = useStore(userDisplay);
-  const [ _, setRender ] = useState(false);
-  const [ requestAgain, setRequestAgain ] = useState(false);
-  const [ loaded, setLoaded ] = useState(false);
-  const [ edit, setEdit ] = useState(false);
+  const [_, setRender] = useState(false);
+  const [requestAgain, setRequestAgain] = useState(false);
+  const [loaded, setLoaded] = useState(false);
+  const [edit, setEdit] = useState(false);
 
-  const [ asyncCallbackList, setAsyncCallbackList ] = useState<asyncCb[]>([]);
+  const [asyncCallbackList, setAsyncCallbackList] = useState<asyncCb[]>([]);
 
   useEffect(() => {
-    fetchUserAndSetStore(id).then(() => {
-      // sets userDisplay roadmap-data and loads it into profile
-      setRender((prev) => !prev);
-      setLoaded(true);
-    }).catch((err) => {
-      if (err.message === 'User not found') {
-        window.location.href = '/profile';
-      }
-    });
+    fetchUserAndSetStore(id)
+      .then(() => {
+        // sets userDisplay roadmap-roadmap-data and loads it into profile
+        setRender((prev) => !prev);
+        setLoaded(true);
+      })
+      .catch((err) => {
+        if (err.message === 'User not found') {
+          window.location.href = '/profile';
+        }
+      });
   }, []);
 
   useEffect(() => {
@@ -53,7 +55,7 @@ const ProfileDisplay = ({ id }: { id: string }) => {
       setRender((prev) => !prev);
       setEdit(false);
     });
-  }, [ requestAgain ]);
+  }, [requestAgain]);
 
   function setProfileUrl() {
     if (!loaded) return '';
@@ -64,10 +66,11 @@ const ProfileDisplay = ({ id }: { id: string }) => {
 
   return (
     <>
-      <img draggable="false"
-           src={setProfileUrl()}
-           alt="avatar"
-           className="rounded-full flex w-6/12 "
+      <img
+        draggable='false'
+        src={setProfileUrl()}
+        alt='avatar'
+        className='rounded-full flex w-6/12 '
       />
       <Name
         edit={edit}
@@ -82,7 +85,7 @@ const ProfileDisplay = ({ id }: { id: string }) => {
           ]);
         }}
       />
-      <Label label="label not available"/>
+      <Label label='label not available' />
       {loggedUser.get().userId === userDisplay.get().userId ? (
         <ButtonsEdit
           edit={edit}
@@ -106,7 +109,7 @@ const ProfileDisplay = ({ id }: { id: string }) => {
           }}
         />
       )}
-      {edit || userData.quote ?
+      {edit || userData.quote ? (
         <Quote
           edit={edit}
           originalValue={userData.quote}
@@ -119,13 +122,16 @@ const ProfileDisplay = ({ id }: { id: string }) => {
               },
             ]);
           }}
-        /> : <></>}
+        />
+      ) : (
+        <></>
+      )}
       <Follow
         followerCount={userData.followerCount}
         followingCount={userData.followingCount}
       />
 
-      {edit || userData.websiteUrl ?
+      {edit || userData.websiteUrl ? (
         <WebsiteUrl
           edit={edit}
           originalValue={userData.websiteUrl}
@@ -140,7 +146,7 @@ const ProfileDisplay = ({ id }: { id: string }) => {
                   !valueRef.current.startsWith('http://') &&
                   !valueRef.current.startsWith('https://')
                 ) {
-                  value = 'https://' + valueRef.current;
+                  value = `https://${valueRef.current}`;
                 }
 
                 if (value === 'https://') value = '';
@@ -150,26 +156,30 @@ const ProfileDisplay = ({ id }: { id: string }) => {
               },
             ]);
           }}
-        /> : <></>}
+        />
+      ) : (
+        <></>
+      )}
 
       {click ? (
-        <div className="text-center items-center w-full">
+        <div className='text-center items-center w-full'>
           <button
-            type="button"
-            className="flex mx-auto text-[16px] justify-center font-roboto-text text-secondary items-center text-center mt-4"
+            type='button'
+            className='flex mx-auto text-[16px] justify-center font-roboto-text text-secondary items-center text-center mt-4'
             onClick={handleClick}
             onKeyDown={handleClick}
           >
-            <h3 className="inline-block text-center">See less</h3>
-            <img draggable="false"
-                 src={arrowup}
-                 alt="arrowupicon"
-                 className="inline-block ml-4 w-4"
+            <h3 className='inline-block text-center'>See less</h3>
+            <img
+              draggable='false'
+              src={arrowup}
+              alt='arrowupicon'
+              className='inline-block ml-4 w-4'
             />
           </button>
-          <div className="flex flex-col justify-center items-center">
-            <Statistics roadmapsCount={userData.roadmapsCount}/>
-            <div className="w-5/6">
+          <div className='flex flex-col justify-center items-center'>
+            <Statistics roadmapsCount={userData.roadmapsCount} />
+            <div className='w-5/6'>
               <Bio
                 originalValue={userData.bio}
                 edit={edit}
@@ -188,16 +198,17 @@ const ProfileDisplay = ({ id }: { id: string }) => {
         </div>
       ) : (
         <button
-          type="button"
-          className="flex text-[16px] font-roboto-text text-secondary items-center text-center mt-4"
+          type='button'
+          className='flex text-[16px] font-roboto-text text-secondary items-center text-center mt-4'
           onClick={handleClick}
           onKeyDown={handleClick}
         >
-          <h3 className="inline-block">See more</h3>
-          <img draggable="false"
-               src={arrowdwn}
-               alt="arrowdownicon"
-               className="inline-block ml-4 w-4"
+          <h3 className='inline-block'>See more</h3>
+          <img
+            draggable='false'
+            src={arrowdwn}
+            alt='arrowdownicon'
+            className='inline-block ml-4 w-4'
           />
         </button>
       )}

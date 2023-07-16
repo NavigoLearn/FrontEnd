@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { setIssues } from '@store/roadmap-refactor/display/tab-manager';
 import cross from '@assets/cross.svg';
 import { divWrapper } from '@components/roadmap/tabs/utils/logic';
 import Button from '@components/roadmap/tabs/utils/Button';
@@ -21,8 +20,8 @@ const AddIssue = () => {
           type='button'
           className=' w-6 h-6 absolute left-10 top-2 '
           onClick={() => {
-            // close tab
-            setIssues();
+            // close tab-attachment
+            // setIssues();
           }}
         >
           <img
@@ -73,7 +72,7 @@ const AddIssue = () => {
                 updatedAt: new Date(),
               };
               fetchPostNewIssue(roadmapState.get().id, issue).then(() => {
-                setIssues();
+                // setIssues();
               });
             }}
             color='primary'

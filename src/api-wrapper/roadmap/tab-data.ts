@@ -7,7 +7,7 @@ import roadmapState from '@store/roadmap/data/roadmap_state';
 import { errorHandlerDecorator } from '@typescript/error-handler';
 
 export const fetchTabInfoData = errorHandlerDecorator(async (id: string) => {
-  // uses fetch to get roadmap-data from the server
+  // uses fetch to get roadmap-roadmap-data from the server
   const roadmapId = roadmapState.get().id;
   const response = await fetch(`/api/roadmaps/${roadmapId}/tabsInfo/${id}`, {
     method: 'GET',
@@ -19,17 +19,17 @@ export const fetchTabInfoData = errorHandlerDecorator(async (id: string) => {
   }).then((res) => res.json());
   const { tabInfo } = response;
   const decoded = JSON.parse(atob(tabInfo.content));
-  console.log('got decoded tab');
+  console.log('got decoded tab-attachment');
   return decoded;
 });
 
 export const updateTabInfoData = errorHandlerDecorator(
   async (id: string, tabData: TabInfo) => {
-    // uses fetch to post roadmap-data on the server
+    // uses fetch to post roadmap-roadmap-data on the server
     const roadmapId = roadmapState.get().id;
     // creates the API object
     const apiTabData: TabInfoApi = {
-      stringId: tabData.id, // the id of the tab that is shared with the node
+      stringId: tabData.id, // the id of the tab-attachment that is shared with the node
       roadmapId, // the id of the roadmap that is shared with the node
       // encoded json base64
       content: btoa(JSON.stringify(tabData)),
@@ -51,11 +51,11 @@ export const updateTabInfoData = errorHandlerDecorator(
 
 export const createTabInfoData = errorHandlerDecorator(
   async (id: string, tabData: TabInfo) => {
-    // uses fetch to post roadmap-data on the server
+    // uses fetch to post roadmap-roadmap-data on the server
     const roadmapId = roadmapState.get().id;
     // creates the API object
     const apiTabData: TabInfoApi = {
-      stringId: tabData.id, // the id of the tab that is shared with the node
+      stringId: tabData.id, // the id of the tab-attachment that is shared with the node
       roadmapId, // the id of the roadmap that is shared with the node
       // encoded json base64
       content: btoa(JSON.stringify(tabData)),

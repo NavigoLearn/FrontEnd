@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import circledot from '@assets/circledot.svg';
 import circle from '@assets/circle.svg';
-import { setThread } from '@store/roadmap-refactor/display/tab-manager';
+// import { setThread } from '@store/roadmap-refactor/display/display-manager';
 import loggedUser from '@store/user/logged-user';
 import {
   fetchCloseIssue,
@@ -28,8 +28,8 @@ const Issue = ({
   const [render, setRender] = useState(false);
   const [openIssue, setOpenIssue] = useState(open);
   const { visitorIsOwner, roadmapId } = useStore(roadmapVisitData);
-  const userId = loggedUser.get().userId;
-  const gotPermission = userId == authorId || visitorIsOwner;
+  const { userId } = loggedUser.get();
+  const gotPermission = userId === authorId || visitorIsOwner;
 
   return (
     <div className='w-full flex my-6 relative'>
@@ -45,7 +45,7 @@ const Issue = ({
           type='button'
           className='font-semibold flex justify-start font-roboto-text text-main text-sm md:text-base w-full'
           onClick={() => {
-            setThread(id);
+            // setThread(id);
           }}
         >
           {title}

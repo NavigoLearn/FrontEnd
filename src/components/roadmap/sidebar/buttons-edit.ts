@@ -5,7 +5,6 @@ import {
   setConfirmSave,
 } from '@store/roadmap-refactor/popups/popup';
 import book from '@assets/book.svg';
-import { setBook } from '@store/roadmap-refactor/display/tab-manager';
 import { dispatchAnalyticsEvent } from '@store/misc/analytics';
 
 const buttonsEdit = [
@@ -37,7 +36,7 @@ const buttonsEdit = [
     cIcon: book,
     title: 'Guide',
     clickHandler: () => {
-      setBook();
+      // setBook();
     },
   },
 ];

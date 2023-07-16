@@ -32,7 +32,7 @@ const InfoEditProps = ({
       return renderButtons();
     });
   }, []);
-  // title component when editing
+  // title component when elements-editing
   return (
     <div
       className='h-full  w-56 py-2 px-2 '

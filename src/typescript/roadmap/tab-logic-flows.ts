@@ -11,11 +11,6 @@ import {
 } from '@store/roadmap/cache/cached-tabs';
 import { TabAbout, TabInfo, TabIssue } from '@type/roadmap/old/tab-manager';
 import {
-  setAbout,
-  setAboutTabData,
-  setInfo,
-} from '@store/roadmap-refactor/display/tab-manager';
-import {
   applyDiffInfoToTab,
   applyDiffIssueToTab,
 } from '@store/roadmap/cache/diff-tabs';
@@ -34,8 +29,8 @@ export const getTabInfoFlow = async (id: string) => {
       return tab;
     });
   }
-  tabInfo = applyDiffInfoToTab(tabInfo); // we apply the diff for editing purposes
-  // returns the value of the tab
+  tabInfo = applyDiffInfoToTab(tabInfo); // we apply the diff for elements-editing purposes
+  // returns the value of the tab-attachment
   return tabInfo;
 };
 
@@ -44,13 +39,13 @@ export const getTabIssueFlow = async (id: string) => {
   let tabIssue = checkCachedTabIssues(id);
   if (!tabIssue) {
     // if no it fetches the value from the server and saves it to the cache
-    // tabIssue = await fetchTabIssuePseudo(id).then((tab) => {
-    //   cacheTabIssues(id, tab);
-    //   return tab;
+    // tabIssue = await fetchTabIssuePseudo(id).then((tab-attachment) => {
+    //   cacheTabIssues(id, tab-attachment);
+    //   return tab-attachment;
     // });
   }
-  tabIssue = applyDiffIssueToTab(tabIssue); // we apply the diff for editing purposes
-  // returns the value of the tab
+  tabIssue = applyDiffIssueToTab(tabIssue); // we apply the diff for elements-editing purposes
+  // returns the value of the tab-attachment
   return tabIssue;
 };
 
@@ -74,7 +69,7 @@ export const changeTabIssuePropFlow = async <T extends keyof TabIssue>(
   prop: T,
   value: TabIssue[T]
 ) => {
-  // we assume that the tab is already in the cache since it must have been opened before
+  // we assume that the tab-attachment is already in the cache since it must have been opened before
   // change in cache
   changeCachedTabIssueProp(id, prop, value);
   // change in api-wrapper
@@ -86,7 +81,7 @@ export const changeTabInfoPropFlow = async <T extends keyof TabInfo>(
   prop: T,
   value: TabInfo[T]
 ) => {
-  // we assume that the tab is already in the cache since it must have been opened before
+  // we assume that the tab-attachment is already in the cache since it must have been opened before
   // change in cache
   changeCachedTabInfoProp(id, prop, value);
   // change in api-wrapper
@@ -95,7 +90,7 @@ export const changeTabInfoPropFlow = async <T extends keyof TabInfo>(
 
 export const setInfoFlow = async (id: string) => {
   getTabInfoFlow(id).then((tab) => {
-    setInfo(tab);
+    // setInfo(tab);
   });
 };
 
@@ -125,12 +120,12 @@ export const postTabAboutPropFlow = async <T extends keyof TabAbout>(
 
 export const postTabAboutFlow = async (roadmapId: string) => {
   getTabAboutFlow(roadmapId).then((tab) => {
-    setAboutTabData(tab);
+    // setAboutTabData(tab);
   });
 };
 
 export const setTabAboutFlow = async (roadmapId: string) => {
-  // getTabAboutFlow(roadmapId).then((tab) => {
+  // getTabAboutFlow(roadmapId).then((tab-attachment) => {
   // });
-  setAbout();
+  // setAbout();
 };

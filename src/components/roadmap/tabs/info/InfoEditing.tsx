@@ -9,7 +9,7 @@ import tabStore, {
   changeInfoTabProp,
   deleteInfoTabLink,
   flipOpen,
-} from '@store/roadmap-refactor/display/tab-manager';
+} from '@store/roadmap-refactor/display/display-manager';
 import { diffSaveTabInfo } from '@store/roadmap/cache/diff-tabs';
 import cross from '@assets/cross.svg';
 import { capStringLen } from '@typescript/roadmap/utils2';
@@ -41,7 +41,7 @@ const InfoEditing = () => {
       } else {
         // save is canceled
       }
-      // when the component unmounts, if editing is true, set roadmap_static tab to current
+      // when the component unmounts, if elements-editing is true, set roadmap_static tab-attachment to current
     };
   }, []);
 

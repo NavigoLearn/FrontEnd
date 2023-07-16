@@ -1,7 +1,7 @@
 import React from 'react';
 
-const Functionalities = () => {
+const Actions = () => {
   return <div>Functionalities</div>;
 };
 
-export default Functionalities;
+export default Actions;

@@ -12,7 +12,7 @@ const NodeView = ({ title, tabId, id, level }: NodeInfoProps) => {
         level === 'main' ? 'border-2 border-primary ' : ''
       } `}
       onClick={() => {
-        // tab changing roadmap-data
+        // tab-attachment changing roadmap-roadmap-data
         setInfoFlow(tabId);
       }}
     >

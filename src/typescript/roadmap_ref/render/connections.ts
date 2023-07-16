@@ -47,7 +47,7 @@ export function renderConnections() {
     .selectAll('line')
     .data(connectionArray, (d) => {
       return d.id;
-    }); // Use the roadmap-data value as the key function
+    }); // Use the roadmap-roadmap-data value as the key function
   // calculates the middle of the node for each node
   // we append line objects
   nodeSelection
@@ -61,7 +61,7 @@ export function renderConnections() {
     .attr('stroke', (d: ConnectionStore) => getConnColor(d))
     .attr('stroke-width', (d: ConnectionStore) => getConnWidth(d));
 
-  // this should happen only in editing mode when a node is moving
+  // this should happen only in elements-editing mode when a node is moving
   nodeSelection
     .attr('id', (d: ConnectionStore) => d.id)
     .attr('x1', (d: ConnectionStore) => getNodeMiddleCoordsFlow(d.parentId).x)
@@ -112,7 +112,7 @@ export function renderConnectionsSelected(connIds: string[]) {
     .selectAll('line')
     .data(connectionArray, (d) => {
       return d.id;
-    }); // Use the roadmap-data value as the key function
+    }); // Use the roadmap-roadmap-data value as the key function
   // calculates the middle of the node for each node
   // we append line objects
   nodeSelection
@@ -126,7 +126,7 @@ export function renderConnectionsSelected(connIds: string[]) {
     .attr('stroke', 'black')
     .attr('stroke-width', (d: ConnectionStore) => getConnWidth(d));
 
-  // this should happen only in editing mode when a node is moving
+  // this should happen only in elements-editing mode when a node is moving
   nodeSelection
     .attr('id', (d: ConnectionStore) => d.id)
     .attr('x1', (d: ConnectionStore) => getNodeMiddleCoordsFlow(d.parentId).x)
@@ -153,7 +153,7 @@ export function updateConnections() {
     .selectAll('line')
     .data(connectionArray, (d) => {
       return d.id;
-    }); // Use the roadmap-data value as the key function
+    }); // Use the roadmap-roadmap-data value as the key function
 
   // calculates the new positions based on the new node positions
   nodeSelection

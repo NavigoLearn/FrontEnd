@@ -1,19 +1,18 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import userDisplay from '@store/user/user-display';
+import loggedUser from '@store/user/logged-user';
 import {
   fetchFollowUser,
   fetchUnfollowUser,
 } from '../../../../api-wrapper/user/user';
-import loggedUser from "@store/user/logged-user";
 
-const ButtonsFollow = (
-  { reqAgain }: { reqAgain: () => void }) => {
+const ButtonsFollow = ({ reqAgain }: { reqAgain: () => void }) => {
   const [loaded, setLoaded] = useState(false);
   const [following, setFollowing] = useState(false);
   const { userId, isFollowing } = userDisplay.get();
 
   useEffect(() => {
-    // fetch roadmap-data
+    // fetch roadmap-roadmap-data
     if (userId === '') {
       return;
     }

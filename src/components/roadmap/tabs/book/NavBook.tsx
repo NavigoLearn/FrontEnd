@@ -1,7 +1,6 @@
 import React from 'react';
 import dropclose from '@assets/cross.svg';
 import Button from '@components/roadmap/tabs/utils/Button';
-import { flipOpen } from '@store/roadmap-refactor/display/tab-manager';
 
 type NavBookProps = {
   setSelect: (value: string) => void;
@@ -13,7 +12,7 @@ const NavBook = ({ setSelect }: NavBookProps) => {
       <button
         type='button'
         onClick={() => {
-          flipOpen();
+          // flipOpen();
         }}
         className='absolute h-6 w-6 left-2 flex justify-center items-center'
       >

@@ -3,7 +3,7 @@ import { WritableAtom } from 'nanostores';
 import { HashMap } from '@type/roadmap/stores/roadmap';
 
 interface HOCConfigProps<T> {
-  store_temporary: WritableAtom<HashMap<T>>;
+  storeTemporary: WritableAtom<HashMap<T>>;
   field: string;
 }
 
@@ -21,32 +21,32 @@ function typeGuard<R, T extends ProvidedProps<R>>(props: any): props is T {
   return 'onChange' in props && 'value' in props;
 }
 
-function HOC_on_change<R, T extends ProvidedProps<R>>(
+function HOCOnChange<R, T extends ProvidedProps<R>>(
   WrappedComponent: React.ComponentType<T>
 ) {
-  return function EnhancedComponent({
-    store_temporary,
+  const EnhancedComponent = ({
+    storeTemporary,
     field,
     ...props
-  }: HOCConfigProps<R> & ExcludeProvidedProps<R, T>) {
+  }: HOCConfigProps<R> & ExcludeProvidedProps<R, T>) => {
     function onChange(value: R) {
-      const modifiedStore = { ...store_temporary.get() };
+      const modifiedStore = { ...storeTemporary.get() };
       modifiedStore[field] = value;
-      store_temporary.set(modifiedStore);
+      storeTemporary.set(modifiedStore);
     }
 
     const newProps = {
       ...props,
       onChange,
-      value: store_temporary.get()[field],
+      value: storeTemporary.get()[field],
     }; // adds onChange to all the other props of the WrappedComponent
 
     if (typeGuard<R, T>(newProps)) {
       return <WrappedComponent {...newProps} />;
-    } else {
-      return <div>error occured in HOC on change in store</div>;
     }
+    return <div>error occured in HOC on change in store</div>;
   };
+  return EnhancedComponent;
 }
 
-export default HOC_on_change;
+export default HOCOnChange;

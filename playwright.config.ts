@@ -1,4 +1,4 @@
-import { defineConfig, devices } from '@playwright/test';
+import {defineConfig, devices} from '@playwright/test';
 
 /**
  * Read environment variables from file.
@@ -88,7 +88,7 @@ export default defineConfig({
   /* Folder for test artifacts such as screenshots, videos, traces, etc. */
   // outputDir: 'test-results/',
 
-  /* Run your local dummy-data-holder server before starting the tests */
+  /* Run your local dummy-roadmap-data-holder server before starting the tests */
   // webServer: {
   //   command: 'npm run start',
   //   port: 3000,

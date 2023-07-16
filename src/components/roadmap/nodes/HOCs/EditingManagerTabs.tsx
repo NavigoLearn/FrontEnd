@@ -20,7 +20,7 @@ function StateAugmentedComponent() {
     persistDataSave(newVal: string): void;
     capLen: number;
   }) => {
-    // does the editing state management
+    // does the elements-editing state management
     const [editing, setEditing] = useState(false);
     const [state, setState] = useState(data || '');
 

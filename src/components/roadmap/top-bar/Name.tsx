@@ -1,7 +1,7 @@
 import React from 'react';
 import { useStore } from '@nanostores/react';
 import aboutTabStore from '@store/roadmap/data/about';
-import { setAbout } from '@store/roadmap-refactor/display/tab-manager';
+// import { setAbout } from '@store/roadmap-refactor/display/display-manager';
 import edit from '@assets/edit.svg';
 
 const Name = () => {
@@ -10,7 +10,7 @@ const Name = () => {
     <button
       type='button'
       onClick={() => {
-        setAbout();
+        // setAbout();
       }}
       className='flex pointer-events-auto'
     >

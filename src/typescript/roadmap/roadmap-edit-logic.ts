@@ -59,13 +59,13 @@ export function getRoadmapEdit() {
 }
 
 export function addNewTab(newId: string, newTab: TabInfo) {
-  // adds the new TabManager to the diff and to the cache
+  // adds the new DisplayManager to the diff and to the cache
   diffTabInfoNew(newId, newTab);
   cacheTabInfo(newId, newTab);
 }
 
 export const getUnusedTabId = () => {
-  // generates a new unused tab id
+  // generates a new unused tab-attachment id
   return uuidv4();
 };
 

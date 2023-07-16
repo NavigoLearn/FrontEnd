@@ -42,7 +42,7 @@ export const generateInitialEditCreate = (): Roadmap => {
       []
     ).chunkNodes,
     info: {
-      // list of all tab info
+      // list of all tab-attachment info
       tab1: initialTab,
     },
   };

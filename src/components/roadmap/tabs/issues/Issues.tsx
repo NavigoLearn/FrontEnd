@@ -1,10 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import roadmapState from '@store/roadmap/data/roadmap_state';
 import { useStore } from '@nanostores/react';
-import {
-  flipOpen,
-  setAddIssue,
-} from '@store/roadmap-refactor/display/tab-manager';
 import Button from '@components/roadmap/tabs/utils/Button';
 import cross from '@assets/cross.svg';
 import issuesDisplay, {
@@ -48,7 +44,7 @@ const Issues = () => {
             <Button
               text='Add issue'
               callback={() => {
-                setAddIssue();
+                // setAddIssue();
               }}
               color='secondary'
               size='small'
@@ -60,8 +56,8 @@ const Issues = () => {
           type='button'
           className=' w-6 h-6 absolute left-2 sm:left-10 select-none'
           onClick={() => {
-            // close tab
-            flipOpen();
+            // close tab-attachment
+            // flipOpen();
           }}
         >
           <img

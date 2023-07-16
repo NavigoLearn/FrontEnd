@@ -23,21 +23,21 @@ export function transferEditToRoadmap() {
 }
 
 export function startEditingProtocol() {
-  // copies roadmap_static to editing roadmap_static and sets editing to true
+  // copies roadmap_static to elements-editing roadmap_static and sets elements-editing to true
   transferRoadmapToEdit();
   setEditingTrue();
 }
 
 export function cancelEditingProtocol() {
-  // does not transfer changes from edit roadmap to real roadmap
-  emptyAllDiffs(); // apply all difs to the modified tab
+  // does not transfer changes from elements-editing roadmap to real roadmap
+  emptyAllDiffs(); // apply all difs to the modified tab-attachment
   resetAllTooltips(); // resets tooltips at the top of the nodes to null (they are not needed anymore)
   toggleEditing();
   triggerChunkRerender(); // we call it in order to have the correct node ids in the renderStore for nodes
 }
 export function saveEditingProtocol() {
   transferEditToRoadmap(); //  transfers the changes to the static roadmap
-  applyAllDiffs(); // apply all difs to the modified tab
+  applyAllDiffs(); // apply all difs to the modified tab-attachment
   resetAllTooltips(); // resets tooltips at the top of the nodes to null (they are not needed anymore)
   toggleEditing();
   triggerChunkRerender();

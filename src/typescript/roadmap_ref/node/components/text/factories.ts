@@ -6,6 +6,7 @@ import {
   IComponentObject,
   IComponentOptions,
 } from '@type/roadmap/node/components-types';
+import { generateId } from '@typescript/roadmap_ref/node/core/misc';
 
 export type IComponentClasses = ComponentTitle | ComponentDescription;
 
@@ -28,7 +29,7 @@ export function factoryComponentJSONEmpty(
   };
   const factory = possibleFactories[type];
   return {
-    id: '',
+    id: generateId(),
     type,
     name: 'New Title',
     component: factory(),

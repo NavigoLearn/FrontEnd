@@ -16,10 +16,4 @@ export type IComponentObject = IIdentifiers &
         type: 'Description';
         component: ComponentDescription;
       }
-    | {
-        type: 'ultra mega fine component';
-        component: {
-          cevaaa: number;
-        };
-      }
   );

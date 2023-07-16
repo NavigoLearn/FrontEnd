@@ -1,6 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
 import cross from '@assets/cross.svg';
-import { flipOpen } from '@store/roadmap-refactor/display/tab-manager';
 import AboutNonEditField from '@components/roadmap/tabs/about/AboutNonEditField';
 import AboutEditingField from '@components/roadmap/tabs/about/AboutEditingField';
 import { useStore } from '@nanostores/react';
@@ -59,8 +58,8 @@ const About = () => {
           type='button'
           className=' w-6 h-6 absolute left-0 select-none'
           onClick={() => {
-            // close tab
-            flipOpen();
+            // close tab-attachment
+            // flipOpen();
           }}
         >
           <img

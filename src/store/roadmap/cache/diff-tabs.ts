@@ -10,7 +10,7 @@ import { TabAbout, TabInfo, TabIssue } from '@type/roadmap/old/tab-manager';
 import { createTabInfoData } from '../../../api-wrapper/roadmap/tab-data';
 
 const diffTabsStore = atom({
-  // this is a store keeping track of the changes made to the tabs while editing
+  // this is a store keeping track of the changes made to the pages while elements-editing
   // the roadmapDiff is made when the userDisplay transfers
   info: {},
   about: {},
@@ -34,7 +34,7 @@ export const diffTabInfoNew = (id: string, tab: TabInfo) => {
 };
 
 export const createNewTabs = async () => {
-  // iterates over all keys in the diffTabsStore and creates new tabs
+  // iterates over all keys in the diffTabsStore and creates new pages
   const original = diffTabsStore.get();
   // waits for all promises to resolve
   await Promise.all(
@@ -65,7 +65,7 @@ export const diffTabInfoProp = <T extends keyof TabInfo>(
 };
 
 export const applyDiffInfoToTab = (tab: TabInfo) => {
-  // applies the diffs to the tab and returns the new tab
+  // applies the diffs to the tab-attachment and returns the new tab-attachment
   const original = diffTabsStore.get();
   const diff = original.info[tab.id];
   let diffTab = tab;
@@ -76,7 +76,7 @@ export const applyDiffInfoToTab = (tab: TabInfo) => {
 };
 
 export const applyDiffIssueToTab = (tab: TabIssue) => {
-  // applies the diffs to the tab and returns the new tab
+  // applies the diffs to the tab-attachment and returns the new tab-attachment
   const original = diffTabsStore.get();
   const diff = original.issues[tab.id];
   let diffTab = tab;
@@ -87,7 +87,7 @@ export const applyDiffIssueToTab = (tab: TabIssue) => {
 };
 
 export const diffSaveTabInfo = (id: string, tab: TabInfo) => {
-  // compares the tab keys to the cached version and saves the diff
+  // compares the tab-attachment keys to the cached version and saves the diff
   const cachedTab = getCachedTabInfo(id);
   Object.keys(tab).forEach((key: keyof TabInfo) => {
     if (cachedTab[key] !== tab[key]) {
@@ -126,8 +126,8 @@ export const applyAllDiffs = () => {
   const { changedTabs } = original;
   updateTabsToServer(changedTabs);
   createTabsToServer(newTabs);
-  // handle changed and new tabs differences
-  // currently the cache holds the new tabs and changes tabs
+  // handle changed and new pages differences
+  // currently the cache holds the new pages and changes pages
   emptyAllDiffs();
   return Object.keys(diffInfo);
 };

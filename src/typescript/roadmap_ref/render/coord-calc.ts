@@ -28,7 +28,7 @@ export function calculateMiddleOfNodeOffsetStatic(node?: NodeTypesStore) {
   };
   if (isNodeInfoStore(node)) {
     offset.x = 220; // calculates the default values for each node type based on their properties
-    offset.y = 30; // this way we dont need to actually render-roadmap-data the nodes to get their sizes which would be an expensive opration
+    offset.y = 30; // this way we dont need to actually render-roadmap-roadmap-data the nodes to get their sizes which would be an expensive opration
     // although switching to actually rendering all needed nodes for connections might be necessary if the nodes grow in complexity
   }
 
