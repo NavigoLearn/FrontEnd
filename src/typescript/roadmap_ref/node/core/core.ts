@@ -1,4 +1,4 @@
-import { IDataKeys, IDataKeysFields } from '@type/roadmap/node/core-types';
+import { INodeData } from '@type/roadmap/node/core-types';
 import { Flags } from '@typescript/roadmap_ref/node/core/flags';
 
 import { Actions } from '@typescript/roadmap_ref/node/core/actions';
@@ -27,17 +27,13 @@ export class NodeClass {
   flags: Flags = new Flags(); // flags to indificate different behaviors of the node
 
   // @ts-ignore
-  data: {
-    id: string;
-    centerCoords: {
-      x: number;
-      y: number;
-    };
-  } & {
-    [key in IDataKeys]: IDataKeysFields[key];
-  } = {
+  data: INodeData = {
     id: '',
-    centerCoords: {
+    center: {
+      x: 0,
+      y: 0,
+    },
+    coords: {
       x: 0,
       y: 0,
     },
