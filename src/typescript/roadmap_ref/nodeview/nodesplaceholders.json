@@ -1,0 +1,13 @@
+{
+    "node": {
+      "components": [],
+      "properties": {
+        "id" : "node1",
+        "color" : "#800080",
+        "width" : 256,
+        "height" : 398,
+        "opacity" : 100
+      }
+    }
+  }
+  
