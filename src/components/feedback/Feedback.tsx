@@ -22,8 +22,8 @@ const Feedback = () => {
     <div>
       {typeof isDesktop === 'undefined' ? null : (
         <div>
-          {/* <DesktopFeedback /> */}
-          <ShowNodesInHTML />
+          <DesktopFeedback />
+          {/* <ShowNodesInHTML /> */}
         </div>
       )}
     </div>
