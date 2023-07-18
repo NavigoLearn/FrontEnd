@@ -1,14 +1,17 @@
 import { beforeAll, describe, expect, it } from 'vitest';
 import {
+  mutateComponentDescriptionText,
   mutateComponentTitleHeight,
-  mutateComponentTitleText,
   mutateComponentTitleWidth,
 } from '@typescript/roadmap_ref/node/components/text/mutate';
-import { factoryComponentJSONEmpty } from '@typescript/roadmap_ref/node/components/text/factories';
-import { ComponentTitle } from '@typescript/roadmap_ref/node/components/text/core';
+import {
+  ComponentDescription,
+  ComponentTitle,
+} from '@typescript/roadmap_ref/node/components/text/core';
 import { classicNodeFactoryBoilerplate } from '@typescript/roadmap_ref/node/core/factories/templates/classic';
-import { getComponentTitleById } from '@typescript/roadmap_ref/node/core/data-get/components';
-import { appendComponentJSON } from '@typescript/roadmap_ref/node/core/data-mutation/append';
+import { getComponentDescriptionById } from '@typescript/roadmap_ref/node/core/data-get/components';
+import { appendComponent } from '@typescript/roadmap_ref/node/core/data-mutation/append';
+import { factoryComponentEmpty } from '@typescript/roadmap_ref/node/components/text/factories';
 
 describe('Components logic', () => {
   let node;
@@ -17,22 +20,21 @@ describe('Components logic', () => {
   });
 
   it('should create a new component title', () => {
-    const title = 'New Title string';
     const id = 0; // any valid id here
-    const json = factoryComponentJSONEmpty('Title');
-    expect(json.component instanceof ComponentTitle).toBe(true);
+    const title = factoryComponentEmpty('Title');
+    expect(title instanceof ComponentTitle).toBe(true);
   });
 
   it('add new title to node', () => {
     const title = 'New Title string';
     const id = 0; // any valid id here
-    appendComponentJSON(node, factoryComponentJSONEmpty('Title'));
-    expect(node.componentsJSON.length).toBe(2);
+    appendComponent(node, factoryComponentEmpty('Title'));
+    expect(node.components.length).toBe(2);
   });
 
   it('should mutate component title position and string', () => {
     const componentIndex = 0;
-    const { component } = node.componentsJSON[componentIndex];
+    const component = node.components[componentIndex];
     const newPosition = { x: 100, y: 100 };
     mutateComponentTitleHeight(component, 100);
     mutateComponentTitleWidth(component, 100);
@@ -40,14 +42,14 @@ describe('Components logic', () => {
     expect(component.height).toBe(100);
   });
 
-  it('append a new title, find it and mutate text', () => {
+  it('append a new description, find it and mutate text', () => {
     const title = 'New Title string';
-    const componentJSON = factoryComponentJSONEmpty('Title');
-    const componentId = componentJSON.id;
-    appendComponentJSON(node, componentJSON);
-    const component = getComponentTitleById(node, componentId);
-    expect(component instanceof ComponentTitle).toBe(true);
-    mutateComponentTitleText(component, 'New Text2');
+    const component = factoryComponentEmpty('Description');
+    const componentId = component.id;
+    appendComponent(node, component);
+    const componentDescription = getComponentDescriptionById(node, componentId);
+    expect(componentDescription instanceof ComponentDescription).toBe(true);
+    mutateComponentDescriptionText(component, 'New Text2');
     expect(component.text).toBe('New Text2');
   });
 });

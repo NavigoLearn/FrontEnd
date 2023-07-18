@@ -2,11 +2,8 @@ import {
   ComponentDescription,
   ComponentTitle,
 } from '@typescript/roadmap_ref/node/components/text/core';
-import {
-  IComponentObject,
-  IComponentOptions,
-} from '@type/roadmap/node/components-types';
-import { generateId } from '@typescript/roadmap_ref/node/core/misc';
+import { IComponentObject } from '@type/roadmap/node/components-types';
+import { IComponentOptions } from '@type/roadmap/node/options-types';
 
 export type IComponentClasses = ComponentTitle | ComponentDescription;
 
@@ -18,20 +15,15 @@ export function factoryComponentDescriptionEmpty(): ComponentDescription {
   return new ComponentDescription(0, 0, 100, 100, 'NewDescription');
 }
 
-export function factoryComponentJSONEmpty(
-  type: IComponentOptions
+export function factoryComponentEmpty(
+  componentType: IComponentOptions
 ): IComponentObject {
-  const possibleFactories: {
-    [key in IComponentOptions]: () => IComponentClasses;
+  const factoriesMapper: {
+    [key in IComponentOptions]: () => IComponentObject;
   } = {
     Title: factoryComponentTitleEmpty,
     Description: factoryComponentDescriptionEmpty,
   };
-  const factory = possibleFactories[type];
-  return {
-    id: generateId(),
-    type,
-    name: 'New Title',
-    component: factory(),
-  };
+  const factory = factoriesMapper[componentType];
+  return factory();
 }

@@ -5,21 +5,19 @@ import {
   ComponentTitle,
 } from '@typescript/roadmap_ref/node/components/text/core';
 
-export function getComponentJSONById(
+export function getComponentById(
   node: NodeClass,
   id: string
 ): IComponentObject {
-  const index = node.componentsJSON.findIndex(
-    (component) => component.id === id
-  );
-  return node.componentsJSON[index];
+  const index = node.components.findIndex((component) => component.id === id);
+  return node.components[index];
 }
 
 export function getComponentTitleById(
   node: NodeClass,
   id: string
 ): ComponentTitle {
-  const { component } = getComponentJSONById(node, id);
+  const component = getComponentById(node, id);
   if (component instanceof ComponentTitle) {
     return component;
   }
@@ -29,8 +27,8 @@ export function getComponentTitleById(
 export function getComponentDescriptionById(
   node: NodeClass,
   id: string
-): ComponentTitle {
-  const { component } = getComponentJSONById(node, id);
+): ComponentDescription {
+  const component = getComponentById(node, id);
   if (component instanceof ComponentDescription) {
     return component;
   }

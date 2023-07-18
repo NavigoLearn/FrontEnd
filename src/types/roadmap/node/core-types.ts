@@ -13,6 +13,7 @@ export interface IIdentifiers {
 
 export type INodeData = {
   id: string;
+  name: string;
   coords: {
     x: number;
     y: number;

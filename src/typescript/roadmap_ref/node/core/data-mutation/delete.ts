@@ -1,12 +1,10 @@
 import { NodeClass } from '@typescript/roadmap_ref/node/core/core';
 
 export function deleteComponentWithId(node: NodeClass, id: string) {
-  node.componentsJSON = node.componentsJSON.filter(
-    (component) => component.id !== id
-  );
+  node.components = node.components.filter((component) => component.id !== id);
 }
 export function deleteAttachmentWithId(node: NodeClass, id: string) {
-  node.attachmentsJSON = node.attachmentsJSON.filter(
+  node.attachments = node.attachments.filter(
     (attachment) => attachment.id !== id
   );
 }
