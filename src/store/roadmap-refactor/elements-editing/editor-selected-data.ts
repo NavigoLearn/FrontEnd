@@ -13,7 +13,11 @@ const editorDisplayManager = atom({
 });
 
 export const setSelectedNode = (node: NodeClass) => {
-  editorDisplayManager.set({ ...editorDisplayManager.get(), node });
+  editorDisplayManager.set({
+    ...editorDisplayManager.get(),
+    selectedNodeId: node.data.id,
+    node,
+  });
 };
 
 export const setSelectedNodeId = (id: string) => {

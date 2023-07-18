@@ -1,27 +1,22 @@
 import { NodeClass } from '@typescript/roadmap_ref/node/core/core';
-import { factoryEmptyAttachmentJSON } from '@typescript/roadmap_ref/node/attachments/tab/factory';
 import { IAttachmentObject } from '@type/roadmap/node/attachments-types';
 import { IComponentObject } from '@type/roadmap/node/components-types';
 
-export function appendEmptyTabJSON(node: NodeClass): void {
-  const attachmentJSON = factoryEmptyAttachmentJSON('Tab');
-  node.attachmentsJSON.push(attachmentJSON);
-}
-
-export function appendAttachmentJSON(
+export function appendAttachment(
   node: NodeClass,
-  attachmentJSON: IAttachmentObject
+  attachment: IAttachmentObject
 ): void {
-  node.attachmentsJSON.push(attachmentJSON);
+  node.attachments.push(attachment);
+  // gets actions and appends them to the node
 }
 
-export function appendComponentJSON(
+export function appendComponent(
   node: NodeClass,
-  componentJSON: IComponentObject
+  component: IComponentObject
 ): void {
-  node.componentsJSON.push(componentJSON);
+  node.components.push(component);
 }
 
-export function appendSubnode(node: NodeClass, id: string) {
+export function appendNestedNode(node: NodeClass, id: string) {
   node.nestedNodesIds.push(id);
 }

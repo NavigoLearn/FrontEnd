@@ -8,19 +8,15 @@ import { IAttachmentObject } from '@type/roadmap/node/attachments-types';
 import { IComponentObject } from '@type/roadmap/node/components-types';
 
 export class NodeClass {
-  componentsJSON: IComponentObject[] = []; // title, description, button and anything inside the node
+  components: IComponentObject[] = []; // title, description, button and anything inside the node
 
   properties: Properties = new Properties(); // properties of the node itself
 
   nestedNodesIds: string[] = []; // reference to other NodeClasses from the roadmap
 
-  attachmentsJSON: IAttachmentObject[] = []; // special components that are much more customizable and special, meant for any kind of interraction
+  attachments: IAttachmentObject[] = []; // special components that are much more customizable and special, meant for any kind of interraction
 
   actions: Actions; // the actions that are set on the node
-
-  availableActions: {
-    [key: string]: () => void;
-  }; // the actions that can be set on the node
 
   draggingBehavior: DraggingBehavior; // the dragging behavior of the node
 
@@ -28,7 +24,8 @@ export class NodeClass {
 
   // @ts-ignore
   data: INodeData = {
-    id: '',
+    id: '0',
+    name: 'Node',
     center: {
       x: 0,
       y: 0,

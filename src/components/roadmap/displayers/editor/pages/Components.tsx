@@ -3,11 +3,11 @@ import { useStore } from '@nanostores/react';
 import editorSelectedData, {
   triggerRerenderEditor,
 } from '@store/roadmap-refactor/elements-editing/editor-selected-data';
-import { appendComponentJSON } from '@typescript/roadmap_ref/node/core/data-mutation/append';
-import { factoryComponentJSONEmpty } from '@typescript/roadmap_ref/node/components/text/factories';
-import { IComponentOptions } from '@type/roadmap/node/components-types';
+import { appendComponent } from '@typescript/roadmap_ref/node/core/data-mutation/append';
+import { IComponentOptions } from '@type/roadmap/node/options-types';
 import TitleComponent from '@components/roadmap/displayers/editor/components/TitleComponent';
 import DescriptionComponent from '@components/roadmap/displayers/editor/components/DescriptionComponent';
+import { factoryComponentEmpty } from '@typescript/roadmap_ref/node/components/text/factories';
 import DropdownSelect from '../components/DropdownSelect';
 
 const Components = () => {
@@ -25,18 +25,20 @@ const Components = () => {
     return JSONMapper[type];
   };
 
+  console.log(node, 'node');
+
   return (
     <div className='w-full h-full px-6'>
       <DropdownSelect
         text='Add a new component'
-        onSelect={(element: IComponentOptions) => {
-          appendComponentJSON(node, factoryComponentJSONEmpty(element));
+        onSelect={(componentType: IComponentOptions) => {
+          appendComponent(node, factoryComponentEmpty(componentType));
           triggerRerenderEditor();
         }}
         optionsList={['Title', 'Description']}
       />
       <div className='flex flex-col gap-4 mt-5'>
-        {node.componentsJSON.map((component) => {
+        {node.components.map((component) => {
           return selectComponentToRender(
             component.type,
             component.id,
