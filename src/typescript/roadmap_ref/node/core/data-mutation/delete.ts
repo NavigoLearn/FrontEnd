@@ -10,3 +10,7 @@ export function deleteAttachmentWithId(node: NodeClass, id: string) {
     (attachment) => attachment.id !== id
   );
 }
+
+export function deleteNestedNodeWithId(node: NodeClass, id: string) {
+  node.nestedNodesIds = node.nestedNodesIds.filter((child) => child !== id);
+}

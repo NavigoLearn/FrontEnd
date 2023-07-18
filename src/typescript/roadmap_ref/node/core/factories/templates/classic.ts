@@ -3,6 +3,7 @@ import { NodeClass } from '@typescript/roadmap_ref/node/core/core';
 import {
   injectClassicData,
   injectClassicFlags,
+  injectNewId,
 } from '@typescript/roadmap_ref/node/core/factories/injectors/inject';
 import {
   appendAttachmentJSON,
@@ -16,6 +17,7 @@ export function classicNodeFactoryBoilerplate(): NodeClass {
   const node = new NodeClass();
   // classic nodes has a tab-attachment attachment and the default color scheme
   injectClassicFlags(node);
+  injectNewId(node);
   injectClassicData(node, 'someparent', []);
   appendComponentJSON(node, factoryComponentJSONEmpty('Title'));
   appendAttachmentJSON(node, factoryEmptyAttachmentJSON('Tab'));

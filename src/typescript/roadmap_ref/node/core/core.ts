@@ -28,7 +28,7 @@ export class NodeClass {
 
   // @ts-ignore
   data: INodeData = {
-    id: '',
+    id: '0',
     center: {
       x: 0,
       y: 0,
