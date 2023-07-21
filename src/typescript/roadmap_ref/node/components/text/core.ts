@@ -1,3 +1,6 @@
+import { IComponentOptions } from '@type/roadmap/node/options-types';
+import { generateId } from '@typescript/roadmap_ref/node/core/misc';
+
 export class ComponentNode {
   x: number;
 
@@ -6,6 +9,12 @@ export class ComponentNode {
   width: number;
 
   height: number;
+
+  type: IComponentOptions;
+
+  name: string;
+
+  id: string;
 
   constructor(x: number, y: number, width: number, height: number) {
     this.x = x;
@@ -50,6 +59,8 @@ export class ComponentTitle extends ComponentText {
     title: string
   ) {
     super(x, y, width, height, title, 100, '', '');
+    this.id = generateId();
+    this.type = 'Title';
   }
 }
 
@@ -62,5 +73,7 @@ export class ComponentDescription extends ComponentText {
     description: string
   ) {
     super(x, y, width, height, description, 50, '', '');
+    this.id = generateId();
+    this.type = 'Description';
   }
 }

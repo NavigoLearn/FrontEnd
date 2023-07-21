@@ -3,6 +3,7 @@
 import { IColorSchemaOptions } from '@type/roadmap/node/colors-types';
 import { colorSchemas } from '@typescript/roadmap_ref/node/core/factories/params/params';
 import { NodeClass } from '@typescript/roadmap_ref/node/core/core';
+import { generateId } from '@typescript/roadmap_ref/node/core/misc';
 
 export function injectNodeColorScheme(
   node: NodeClass,
@@ -17,7 +18,7 @@ export function injectClassicFlags(node: NodeClass) {
   node.flags.connectionPivotFlag = true;
 }
 
-export function injectSubnodeFlags(node: NodeClass) {
+export function injectNestedFlag(node: NodeClass) {
   node.flags.nestedFlag = true;
 }
 
@@ -35,4 +36,17 @@ export function injectNestedWithinData(node: NodeClass, nestedWithin: string) {
 export function injectClassicData(node: NodeClass, parent, children) {
   injectParentData(node, parent);
   injectChildrenData(node, children);
+}
+
+export function injectNestedFlags(node: NodeClass) {
+  injectNestedFlag(node);
+}
+
+export function injectNestedNodeData(node: NodeClass, nestedWithin: string) {
+  injectNestedWithinData(node, nestedWithin);
+}
+
+export function injectNewId(node: NodeClass): string {
+  node.data.id = generateId();
+  return node.data.id;
 }
