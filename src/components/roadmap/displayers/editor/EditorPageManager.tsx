@@ -18,7 +18,6 @@ const EditorPageManager = () => {
   const { page } = useStore(editorDisplayManager);
 
   useEffect(() => {
-    console.log('EditorPageManager');
     // generates boilerplate for the placeholder to display in sleected page
     const node = classicNodeFactoryBoilerplate();
     appendNode(node);
@@ -49,7 +48,7 @@ const EditorPageManager = () => {
         field='page'
         storeTemporary={editorDisplayManager}
       />
-      {/* <div className='mt-5 flex-grow'>{selectedPage}</div> */}
+      <div className='mt-5 flex-grow px-7'>{selectedPage}</div>
     </div>
   );
 };

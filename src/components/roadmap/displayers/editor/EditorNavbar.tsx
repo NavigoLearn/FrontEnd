@@ -97,6 +97,7 @@ const EditorNavbarPagination = ({
           );
         })}
       </section>
+      <hr className='w-full bg-black h-[1px] mt-1' />
     </div>
   );
 };

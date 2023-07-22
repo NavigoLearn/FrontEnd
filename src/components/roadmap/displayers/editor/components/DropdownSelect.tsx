@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 
 type IDropdownSelectProps<T extends string> = {
   optionsList: T[];
@@ -32,20 +32,19 @@ const DropdownSelect = <T extends string>({
     setIsHovered(false);
   };
 
-  useEffect(() => {
-    setIsOpen(isHovered);
-  }, [isHovered]);
-
   return (
-    <div className=' relative group flex' onMouseEnter={handleMouseEnter}>
+    <div className='relative group mt-5 w-full h-16 rounded-lg bg-gray-200'>
       <button
         onClick={toggleDropdown}
-        onMouseEnter={handleMouseEnter}
         type='button'
-        className='text-lg text-black font-semibold text-center flex'
+        className='text-xl text-darkBlue font-medium font-roboto-text text-center flex justify-between items-center w-full h-full px-5'
       >
         {text}
-        <div className=' text-black ml-5 text-2xl'>+</div>
+        <img
+          className='w-9 h-9'
+          src='/editor/addCircle.svg'
+          alt='alt button for new components'
+        />
       </button>
 
       <div
@@ -53,10 +52,7 @@ const DropdownSelect = <T extends string>({
           isOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'
         }`}
       >
-        <div
-          className='absolute left-0 top-9 border-2 border-blue-500 bg-blue-200 w-40  flex flex-col gap-3'
-          onMouseLeave={handleMouseLeave}
-        >
+        <div className='absolute left-0 top-9  bg-blue-200 w-40  flex flex-col gap-3'>
           {optionsList.map((element, index) => {
             return (
               <button

@@ -1,8 +1,13 @@
 import { NodeClass } from '@typescript/roadmap_ref/node/core/core';
+import { decoratorTriggerRerenderEditor } from '@typescript/roadmap_ref/node/decorators/rerenders';
 
-export function deleteComponentWithId(node: NodeClass, id: string) {
-  node.components = node.components.filter((component) => component.id !== id);
-}
+export const deleteComponentWithId = decoratorTriggerRerenderEditor(
+  (node: NodeClass, id: string) => {
+    node.components = node.components.filter(
+      (component) => component.id !== id
+    );
+  }
+);
 export function deleteAttachmentWithId(node: NodeClass, id: string) {
   node.attachments = node.attachments.filter(
     (attachment) => attachment.id !== id

@@ -34,3 +34,26 @@ export function getComponentDescriptionById(
   }
   throw new Error('Component is not a Description component');
 }
+
+export function getComponentTitleTextById(node: NodeClass, id: string): string {
+  const component = getComponentTitleById(node, id);
+  return component.text;
+}
+
+export function getComponentDescriptionTextById(
+  node: NodeClass,
+  id: string
+): string {
+  const component = getComponentDescriptionById(node, id);
+  return component.text;
+}
+
+export function getComponentTitleText(componentTitle: ComponentTitle) {
+  return componentTitle.text;
+}
+
+export function getComponentDescriptionText(
+  componentDescription: ComponentDescription
+) {
+  return componentDescription.text;
+}

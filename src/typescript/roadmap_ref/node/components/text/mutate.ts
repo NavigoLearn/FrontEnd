@@ -2,6 +2,7 @@ import {
   ComponentDescription,
   ComponentTitle,
 } from '@typescript/roadmap_ref/node/components/text/core';
+import { decoratorTriggerRerenderEditor } from '@typescript/roadmap_ref/node/decorators/rerenders';
 
 export function mutateComponentTitleWidth(
   component: ComponentTitle,
@@ -25,12 +26,11 @@ export function mutateComponentTitleY(component: ComponentTitle, y: number) {
   component.y = y;
 }
 
-export function mutateComponentTitleText(
-  component: ComponentTitle,
-  text: string
-) {
-  component.text = text;
-}
+export const mutateComponentTitleText = decoratorTriggerRerenderEditor(
+  (component: ComponentTitle, text: string) => {
+    component.text = text;
+  }
+);
 
 export function mutateComponentTitleTextSize(
   component: ComponentTitle,
