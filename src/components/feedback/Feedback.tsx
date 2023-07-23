@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import DesktopFeedback from '@components/feedback/desktop/Desktop';
 import { dispatchAnalyticsEvent } from '@store/misc/analytics';
+import ShowNodesInHTML from '@src/typescript/roadmap_ref/nodeview/ShowNodesInHTML';
 
 const Feedback = () => {
   const [isDesktop, setIsDesktop] = useState(undefined);
@@ -21,7 +22,8 @@ const Feedback = () => {
     <div>
       {typeof isDesktop === 'undefined' ? null : (
         <div>
-          <DesktopFeedback />
+          {/* <DesktopFeedback /> */}
+          <ShowNodesInHTML />
         </div>
       )}
     </div>
