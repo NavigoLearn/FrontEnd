@@ -8,7 +8,7 @@ import { IComponentOptions } from '@type/roadmap/node/options-types';
 import TitleComponent from '@components/roadmap/displayers/editor/components/TitleComponent';
 import DescriptionComponent from '@components/roadmap/displayers/editor/components/DescriptionComponent';
 import { factoryComponentEmpty } from '@typescript/roadmap_ref/node/components/text/factories';
-import DropdownSelect from '../components/DropdownSelect';
+import DropdownComponent from '@components/roadmap/displayers/editor/components/DropdownComponent';
 
 const Components = () => {
   const { node, selectedNodeId } = useStore(editorSelectedData);
@@ -27,7 +27,7 @@ const Components = () => {
 
   return (
     <div className='w-full h-full max-h-full flex flex-col'>
-      <DropdownSelect
+      <DropdownComponent
         text='Add component'
         onSelect={(componentType: IComponentOptions) => {
           appendComponent(node, factoryComponentEmpty(componentType));

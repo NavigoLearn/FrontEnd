@@ -73,9 +73,9 @@ const EditorNavbarPagination = ({
   const pages: IEditorDisplayPageType[] = [
     'attachments',
     'components',
-    'actions',
-    'properties',
     'nodes',
+    'properties',
+    'actions',
   ];
 
   const { page: selectedPage } = useStore(editorDisplayManager);
