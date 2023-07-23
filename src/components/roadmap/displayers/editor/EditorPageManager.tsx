@@ -48,7 +48,9 @@ const EditorPageManager = () => {
         field='page'
         storeTemporary={editorDisplayManager}
       />
-      <div className='mt-5 flex-grow px-7'>{selectedPage}</div>
+      <div className='mt-5 flex-grow overflow-y-auto px-7'>
+        <div className='h-full '>{selectedPage}</div>
+      </div>
     </div>
   );
 };

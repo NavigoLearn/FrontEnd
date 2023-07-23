@@ -26,7 +26,7 @@ const Components = () => {
   };
 
   return (
-    <div className='w-full h-full flex flex-col'>
+    <div className='w-full h-full max-h-full flex flex-col'>
       <DropdownSelect
         text='Add component'
         onSelect={(componentType: IComponentOptions) => {
@@ -35,7 +35,7 @@ const Components = () => {
         }}
         optionsList={['Title', 'Description']}
       />
-      <div className='flex flex-col gap-4  border-2 border-black max-h-[80%] mt-10 mb-6 overflow-y-scroll'>
+      <div className='flex flex-col gap-4 h-5/6 mt-10 mb-6 overflow-y-auto border-b-2 border-gray-200'>
         {node.components.map((component) => {
           return selectComponentToRender(
             component.type,
