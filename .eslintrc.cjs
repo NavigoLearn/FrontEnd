@@ -69,6 +69,7 @@ module.exports = {
         'no-param-reassign': 'off',
         '@typescript-eslint/ban-ts-comment': 'off',
         'react/jsx-props-no-spreading': 'off',
+        '@typescript-eslint/no-empty-function': 'off',
         'react/function-component-definition': [
           2,
           {

@@ -1,10 +1,9 @@
 import React, { useEffect } from 'react';
-import { WritableAtom } from 'nanostores';
-import { HashMap } from '@type/roadmap/stores/roadmap';
+import { v4 as uuidv4 } from 'uuid';
+import { config } from '@src/HOC-library/config';
 
 interface HOCConfigProps<T> {
-  storeTemporary: WritableAtom<HashMap<T>>;
-  field: string;
+  callback: (value: T) => void;
   defaultValue: T;
 }
 
@@ -25,15 +24,17 @@ function typeGuard<R, T extends ProvidedProps<R>>(props: any): props is T {
 function HOCOnChange<R, T extends ProvidedProps<R>>(
   WrappedComponent: React.ComponentType<T>
 ) {
+  const field = uuidv4();
   const EnhancedComponent = ({
-    storeTemporary,
-    field,
     defaultValue,
+    callback,
     ...props
   }: HOCConfigProps<R> & ExcludeProvidedProps<R, T>) => {
+    const storeTemporary = config.defaultStore;
     function onChange(value: R) {
       const modifiedStore = { ...storeTemporary.get() };
       modifiedStore[field] = value;
+      callback(value);
       storeTemporary.set(modifiedStore);
     }
 

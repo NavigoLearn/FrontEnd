@@ -8,18 +8,20 @@ import Components from '@components/roadmap/displayers/editor/pages/Components';
 import Actions from '@components/roadmap/displayers/editor/pages/Actions';
 import Properties from '@components/roadmap/displayers/editor/pages/Properties';
 import Nodes from '@components/roadmap/displayers/editor/pages/Nodes';
-import { classicNodeFactoryBoilerplate } from '@typescript/roadmap_ref/node/core/factories/templates/classic';
+import { NodeFactoryClassicBoilerplate } from '@typescript/roadmap_ref/node/core/factories/templates/classic';
 import { appendNode } from '@store/roadmap-refactor/roadmap-data/roadmap-placeholder';
 import { nestedNodeFactory } from '@typescript/roadmap_ref/node/core/factories/templates/nested';
 import { setSelectedNode } from '@store/roadmap-refactor/elements-editing/editor-selected-data';
 import { appendNestedNode } from '@typescript/roadmap_ref/node/core/data-mutation/append';
+import { useTriggerRerender } from '@hooks/useTriggerRerender';
 
 const EditorPageManager = () => {
   const { page } = useStore(editorDisplayManager);
+  const rerender = useTriggerRerender();
 
   useEffect(() => {
     // generates boilerplate for the placeholder to display in sleected page
-    const node = classicNodeFactoryBoilerplate();
+    const node = NodeFactoryClassicBoilerplate();
     appendNode(node);
     const subNode1 = nestedNodeFactory(node.data.id);
     const subNode2 = nestedNodeFactory(node.data.id);
@@ -45,8 +47,9 @@ const EditorPageManager = () => {
   return (
     <div className='h-full w-full flex flex-col'>
       <EditorNavbarPagination
-        field='page'
         storeTemporary={editorDisplayManager}
+        field='page'
+        defaultValue='components'
       />
       <div className='mt-5 flex-grow overflow-y-auto px-7'>
         <div className='h-full '>{selectedPage}</div>

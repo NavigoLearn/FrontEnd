@@ -8,7 +8,7 @@ import {
   ComponentDescription,
   ComponentTitle,
 } from '@typescript/roadmap_ref/node/components/text/core';
-import { classicNodeFactoryBoilerplate } from '@typescript/roadmap_ref/node/core/factories/templates/classic';
+import { NodeFactoryClassicBoilerplate } from '@typescript/roadmap_ref/node/core/factories/templates/classic';
 import { getComponentDescriptionById } from '@typescript/roadmap_ref/node/core/data-get/components';
 import { appendComponent } from '@typescript/roadmap_ref/node/core/data-mutation/append';
 import { factoryComponentEmpty } from '@typescript/roadmap_ref/node/components/text/factories';
@@ -16,7 +16,7 @@ import { factoryComponentEmpty } from '@typescript/roadmap_ref/node/components/t
 describe('Components logic', () => {
   let node;
   beforeAll(() => {
-    node = classicNodeFactoryBoilerplate();
+    node = NodeFactoryClassicBoilerplate();
   });
 
   it('should create a new component title', () => {

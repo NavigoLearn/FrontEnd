@@ -1,10 +1,10 @@
 import { atom } from 'nanostores';
 import { NodeClass } from '@typescript/roadmap_ref/node/core/core';
-import { classicNodeFactoryBoilerplate } from '@typescript/roadmap_ref/node/core/factories/templates/classic';
+import { NodeFactoryClassicBoilerplate } from '@typescript/roadmap_ref/node/core/factories/templates/classic';
 
 const editorDisplayManager = atom({
   triggerRender: false,
-  node: classicNodeFactoryBoilerplate(),
+  node: NodeFactoryClassicBoilerplate(),
   selectedNodeId: null,
 } as {
   triggerRender: boolean;
