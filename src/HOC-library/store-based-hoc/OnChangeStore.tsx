@@ -1,10 +1,12 @@
 import React from 'react';
+import { v4 as uuidv4 } from 'uuid';
 import { WritableAtom } from 'nanostores';
 import { HashMap } from '@type/roadmap/stores/roadmap';
+import { config } from '@src/HOC-library/config';
 
 interface HOCConfigProps<T> {
-  storeTemporary: WritableAtom<HashMap<T>>;
-  field: string;
+  storeTemporary?: WritableAtom<HashMap<T>>;
+  field?: string;
 }
 
 interface ProvidedProps<T> {
@@ -45,6 +47,10 @@ function HOCOnChange<R, T extends ProvidedProps<R>>(
       return <WrappedComponent {...newProps} />;
     }
     return <div>error occured in HOC on change in store</div>;
+  };
+  EnhancedComponent.defaultProps = {
+    storeTemporary: config.defaultStore,
+    field: uuidv4(),
   };
   return EnhancedComponent;
 }
