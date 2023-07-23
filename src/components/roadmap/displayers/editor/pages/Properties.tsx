@@ -13,6 +13,8 @@ import {
 import VariantsComponent from '@components/roadmap/displayers/editor/components/VariantsComponent';
 import ButtonOutsideGray from '@components/roadmap/displayers/editor/components/builder/ButtonOutsideGray';
 import ButtonInsideGeneric from '@components/roadmap/displayers/editor/components/builder/ButtonInsideGeneric';
+import { NodeFactoryClassicBoilerplate } from '@typescript/roadmap_ref/node/core/factories/templates/classic';
+import { NodeFactoryResourceBoilerplate } from '@typescript/roadmap_ref/node/core/factories/templates/resource';
 
 const Properties = () => {
   const { node, selectedNodeId } = useStore(editorSelectedData);
@@ -89,12 +91,30 @@ const Properties = () => {
       <ButtonOutsideGray>
         <ButtonInsideGeneric
           name='Basic Template'
-          icon='/editor/addCircle'
+          icon='/editor/addCircle.svg'
           onClick={() => {
             console.log('add basic template');
+            Object.assign(node, NodeFactoryClassicBoilerplate());
           }}
         />
       </ButtonOutsideGray>
+      <div className='text-center opacity-70 '>
+        Basic template, contains only a title and a basic tab with preamde
+        classic size
+      </div>
+      <ButtonOutsideGray>
+        <ButtonInsideGeneric
+          name='Resource Template'
+          icon='/editor/addCircle.svg'
+          onClick={() => {
+            console.log('add resource template');
+            Object.assign(node, NodeFactoryResourceBoilerplate());
+          }}
+        />
+      </ButtonOutsideGray>
+      <div className='text-center opacity-70 '>
+        Resource template, contains only a title along with 2 basic nested nodes
+      </div>
     </div>
   );
 };

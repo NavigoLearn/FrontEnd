@@ -10,7 +10,7 @@ import Properties from '@components/roadmap/displayers/editor/pages/Properties';
 import Nodes from '@components/roadmap/displayers/editor/pages/Nodes';
 import { NodeFactoryClassicBoilerplate } from '@typescript/roadmap_ref/node/core/factories/templates/classic';
 import { appendNode } from '@store/roadmap-refactor/roadmap-data/roadmap-placeholder';
-import { nestedNodeFactory } from '@typescript/roadmap_ref/node/core/factories/templates/nested';
+import { NodeFactoryNested } from '@typescript/roadmap_ref/node/core/factories/templates/nested';
 import { setSelectedNode } from '@store/roadmap-refactor/elements-editing/editor-selected-data';
 import { appendNestedNode } from '@typescript/roadmap_ref/node/core/data-mutation/append';
 import { useTriggerRerender } from '@hooks/useTriggerRerender';
@@ -23,9 +23,9 @@ const EditorPageManager = () => {
     // generates boilerplate for the placeholder to display in sleected page
     const node = NodeFactoryClassicBoilerplate();
     appendNode(node);
-    const subNode1 = nestedNodeFactory(node.data.id);
-    const subNode2 = nestedNodeFactory(node.data.id);
-    const subNode3 = nestedNodeFactory(node.data.id);
+    const subNode1 = NodeFactoryNested(node.data.id);
+    const subNode2 = NodeFactoryNested(node.data.id);
+    const subNode3 = NodeFactoryNested(node.data.id);
     appendNestedNode(node, subNode1.data.id);
     appendNestedNode(node, subNode2.data.id);
     appendNestedNode(node, subNode3.data.id);

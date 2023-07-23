@@ -5,7 +5,7 @@ import {
   injectNewId,
 } from '@typescript/roadmap_ref/node/core/factories/injectors/inject';
 
-export function nestedNodeFactory(nestedWithinId: string): NodeClass {
+export function NodeFactoryNested(nestedWithinId: string): NodeClass {
   // return boilerplate class for nested node
   const node = new NodeClass();
   injectNestedFlags(node);

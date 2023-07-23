@@ -12,7 +12,7 @@ const ButtonInsideGeneric = ({
   onClick,
 }: IButtonInsideGenericProps) => {
   return (
-    <div>
+    <div className='w-full h-full'>
       <button
         onClick={onClick}
         type='button'
