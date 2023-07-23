@@ -21,13 +21,13 @@ const NodeView: React.FC<NodeViewProps> = ({ node }) => {
   };
 
   const renderComponents = () => {
-    const { componentsJSON } = node;
+    const { components } = node;
     let prevComponentCenter = { width: 0, height: 0, x: 0, y: 0 };
     let isFirstComponent = true;
 
-    const componentElements = componentsJSON.map((componenta, index) => {
-      const { id, type, component } = componenta;
-      const { width, height, text, textColor, textFont, textSize } = component;
+    const componentElements = components.map((component, index) => {
+      const { id, type, width, height, text, textColor, textFont, textSize } =
+        component;
       let { x, y } = component;
       if (isFirstComponent) {
         x = properties.width / 2;

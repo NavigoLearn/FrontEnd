@@ -2,7 +2,7 @@ import React from 'react';
 import { getNodeById } from '@store/roadmap/data/roadmap_static';
 import { get } from 'astro/dist/assets/image-endpoint';
 import { NodeClass } from '@typescript/roadmap_ref/node/core/core';
-import { factoryComponentJSONEmpty } from '@typescript/roadmap_ref/node/components/text/factories';
+import { factoryComponentEmpty } from '@typescript/roadmap_ref/node/components/text/factories';
 import { ComponentTitle } from '@typescript/roadmap_ref/node/components/text/core';
 import NodeView from './NodeView';
 
@@ -11,8 +11,8 @@ const ShowNodesInHTML = () => {
   node.data.id = 'node1';
   node.properties.width = 500;
   node.properties.height = 500;
-  node.componentsJSON[0] = factoryComponentJSONEmpty('Title');
-  node.componentsJSON[1] = factoryComponentJSONEmpty('Description');
+  node.components[0] = factoryComponentEmpty('Title');
+  node.components[1] = factoryComponentEmpty('Description');
   node.nestedNodesIds = [
     'node2',
     'node3',
