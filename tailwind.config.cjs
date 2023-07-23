@@ -18,11 +18,14 @@ module.exports = {
       },
       borderColor: {
         light: 'rgb(0,0,0,0.3)',
+        lightBlue: '#3361D8'
       },
       textColor: {
         main: 'rgb(0,0,0)',
         secondary: 'rgb(0,0,0,0.6)',
         placeholder: 'rgb(0,0,0,0.3)',
+        darkBlue: '#1A1B50',
+        lightBlue: '#3361D8'
       },
       fontFamily: {
         'kanit-text': ['"Kanit"'],
