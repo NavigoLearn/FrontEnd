@@ -18,11 +18,29 @@ export class Properties {
 
   opacity: number;
 
+  center: {
+    x: number;
+    y: number;
+  };
+
+  coords: {
+    x: number;
+    y: number;
+  };
+
   constructor() {
     this.color = selectNodeColorScheme(defaultColorSchemaOption);
     this.width = defaultNodeWidth;
     this.height = defaultNodeHeight;
     this.opacity = defaultNodeOpacity;
+    this.center = {
+      x: 0,
+      y: 0,
+    };
+    this.coords = {
+      x: 0,
+      y: 0,
+    };
   }
 }
 

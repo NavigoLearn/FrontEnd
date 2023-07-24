@@ -1,4 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
+import ButtonOutsideGray from '@components/roadmap/displayers/editor/components/builder/ButtonOutsideGray';
+import ButtonInsideGeneric from '@components/roadmap/displayers/editor/components/builder/ButtonInsideGeneric';
 import { useStore } from '@nanostores/react';
 import editorSelectedData, {
   triggerRerenderEditor,
@@ -11,29 +13,23 @@ import { appendNode } from '@store/roadmap-refactor/roadmap-data/roadmap-placeho
 const Nodes = () => {
   const { node, selectedNodeId } = useStore(editorSelectedData);
 
-  const [arr, setArr] = useState<any>([]);
-  useEffect(() => {
-    console.log('Nodes', node, selectedNodeId);
-  }, []);
-
   function addNestedNode() {
-    console.log('add nested node');
     const newNestedNode = NodeFactoryNested(node.data.id); // creates node
     appendNestedNode(node, newNestedNode.data.id); // appends to the parent of nesting
     appendNode(newNestedNode);
     triggerRerenderEditor(); // trigger rerender
   }
   return (
-    <div className='w-full h-full px-6'>
-      <button
-        type='button'
-        onClick={() => {
-          console.log('add subnode');
-          addNestedNode();
-        }}
-      >
-        Add a subnode
-      </button>
+    <div className='w-full h-full'>
+      <ButtonOutsideGray>
+        <ButtonInsideGeneric
+          name='Add a nested Node'
+          icon='/editor/addCircle.svg'
+          onClick={() => {
+            addNestedNode();
+          }}
+        />
+      </ButtonOutsideGray>
       <div className='flex flex-col gap-4 mt-5'>
         {node.nestedNodesIds.map((id) => {
           return (
