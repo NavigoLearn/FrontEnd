@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { WritableAtom } from 'nanostores';
 import { HashMap } from '@type/roadmap/stores/roadmap';
 
@@ -31,6 +31,8 @@ function HOCOnChange<R, T extends ProvidedProps<R>>(
     defaultValue,
     ...props
   }: HOCConfigProps<R> & ExcludeProvidedProps<R, T>) => {
+    const [initialized, setInitialized] = useState(false);
+
     function onChange(value: R) {
       const modifiedStore = { ...storeTemporary.get() };
       modifiedStore[field] = value;
@@ -38,14 +40,19 @@ function HOCOnChange<R, T extends ProvidedProps<R>>(
     }
 
     useEffect(() => {
-      onChange(defaultValue);
+      if (!initialized) {
+        onChange(defaultValue);
+      }
     }, []);
 
     const newProps = {
       ...props,
       onChange,
-      value: storeTemporary.get()[field],
+      value: initialized ? storeTemporary.get()[field] : defaultValue,
     }; // adds onChange to all the other props of the WrappedComponent
+
+    !initialized && onChange(defaultValue);
+    !initialized && setInitialized(true);
 
     if (typeGuard<R, T>(newProps)) {
       return <WrappedComponent {...newProps} />;

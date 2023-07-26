@@ -14,7 +14,6 @@ const cachedTabs = atom({
 
 export const cacheTabInfo = (id: string, tab: TabInfo) => {
   const original = cachedTabs.get();
-  console.log('cached tab-attachment', tab);
   cachedTabs.set({ ...original, info: { ...original.info, [id]: tab } });
 };
 

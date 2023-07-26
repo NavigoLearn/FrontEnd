@@ -1,6 +1,6 @@
 import React from 'react';
 import { divWrapper } from '@components/roadmap/tabs/utils/logic';
-import { saveEditingProtocol } from '@typescript/roadmap/utils2';
+import { saveEditingProtocol } from '@src/typescript/roadmap/utils2';
 import { setConfirmSave } from '@store/roadmap-refactor/popups/popup';
 
 const ConfirmSave = () => {

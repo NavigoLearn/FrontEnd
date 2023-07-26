@@ -4,7 +4,7 @@ import {
   initializeImgCenter,
   populateParams,
   switchPlaces,
-} from '@typescript/home/hero';
+} from '@src/typescript/home/hero';
 import {
   BaseParams,
   HeroRotateProps,

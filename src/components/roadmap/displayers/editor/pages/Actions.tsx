@@ -4,7 +4,7 @@ import editorSelectedData, {
   triggerRerenderEditor,
 } from '@store/roadmap-refactor/elements-editing/editor-selected-data';
 import { useStore } from '@nanostores/react';
-import { mutateNodeOnClickAction } from '@typescript/roadmap_ref/node/core/data-mutation/mutate';
+import { mutateNodeOnClickAction } from '@src/typescript/roadmap_ref/node/core/data-mutation/mutate';
 
 type IActionsDropdown = {
   action: string;

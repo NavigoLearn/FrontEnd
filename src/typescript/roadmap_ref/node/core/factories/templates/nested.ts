@@ -1,9 +1,9 @@
-import { NodeClass } from '@typescript/roadmap_ref/node/core/core';
+import { NodeClass } from '@src/typescript/roadmap_ref/node/core/core';
 import {
   injectNestedFlags,
   injectNestedNodeData,
   injectNewId,
-} from '@typescript/roadmap_ref/node/core/factories/injectors/inject';
+} from '@src/typescript/roadmap_ref/node/core/factories/injectors/inject';
 
 export function NodeFactoryNested(nestedWithinId: string): NodeClass {
   // return boilerplate class for nested node

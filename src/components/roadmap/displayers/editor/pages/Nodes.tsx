@@ -6,8 +6,8 @@ import editorSelectedData, {
   triggerRerenderEditor,
 } from '@store/roadmap-refactor/elements-editing/editor-selected-data';
 import NodeComponent from '@components/roadmap/displayers/editor/components/NodeComponent';
-import { NodeFactoryNested } from '@typescript/roadmap_ref/node/core/factories/templates/nested';
-import { appendNestedNode } from '@typescript/roadmap_ref/node/core/data-mutation/append';
+import { NodeFactoryNested } from '@src/typescript/roadmap_ref/node/core/factories/templates/nested';
+import { appendNestedNode } from '@src/typescript/roadmap_ref/node/core/data-mutation/append';
 import { appendNode } from '@store/roadmap-refactor/roadmap-data/roadmap-placeholder';
 
 const Nodes = () => {

@@ -8,7 +8,7 @@ import {
   triggerPositionCacheClearDecorator,
   triggerRerenderAllDecorator,
   triggerRerenderDecorator,
-} from '@typescript/roadmap/roadmap-edit-decorators';
+} from '@src/typescript/roadmap/roadmap-edit-decorators';
 import { NodeIdentifierTypes, NodeInfoStore } from '@type/roadmap/old/nodes';
 import { LevelTypes } from '@type/roadmap/old/level-types';
 import roadmapEdit from '@store/roadmap/data/roadmap_edit';
@@ -21,7 +21,7 @@ import {
 import {
   generateNodeInfoEmpty,
   generateNodeResourceEmpty,
-} from '@typescript/roadmap/generators';
+} from '@src/typescript/roadmap/generators';
 import {
   addNodeInfoEmpty,
   addNodeResourceEmpty,
@@ -29,11 +29,11 @@ import {
   generateResourceSubNodeNew,
   getUnusedNodeId,
   removeChunkNode,
-} from '@typescript/roadmap/roadmap-edit-logic';
+} from '@src/typescript/roadmap/roadmap-edit-logic';
 import { ResourceSubNodeStore } from '@type/roadmap/old/resources';
 import roadmapState from '@store/roadmap/data/roadmap_state';
-import ErrorHandler from '@typescript/error-handler';
-import { getNodeCoords } from '@typescript/roadmap_ref/render/coord-calc';
+import ErrorHandler from '@src/typescript/error-handler';
+import { getNodeCoords } from '@src/typescript/roadmap_ref/render/coord-calc';
 import { dispatchAnalyticsEvent } from '@store/misc/analytics';
 
 export const changeNodeCoords = triggerPositionCacheClearDecorator(

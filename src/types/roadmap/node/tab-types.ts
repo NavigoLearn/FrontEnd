@@ -1,46 +1,51 @@
-export type ITabComponentType =
+export type IAttachmentTabComponentTypes =
   | 'Title'
   | 'Description'
   | 'Link'
-  | 'BulletList'
-  | 'LinkBulletList';
+  | 'BulletList';
 
-interface TitleProperties {
+export interface IAttachmentTabTitleProperties {
+  type: 'Title';
   titleText: string;
 }
 
-interface DescriptionProperties {
+export interface IAttachmentTabDescriptionProperties {
+  type: 'Description';
   descriptionText: string;
 }
 
-interface LinkProperties {
+export interface IAttachmentTabLinkProperties {
+  type: 'Link';
   linkURL: string;
 }
 
-interface BulletListProperties {
+export interface IAttachmentTabBulletListProperties {
+  type: 'BulletList';
   bulletListItems: string[];
 }
-export interface LinkBulletListItem {
+export interface ITabLinkBulletListItem {
   linkURL: string;
   text: string;
 }
-interface LinkBulletListProperties {
-  linkBulletListItems: LinkBulletListItem[];
+
+export interface ITabLinkBulletListProperties {
+  linkBulletListItems: ITabLinkBulletListItem[];
 }
 
-export type ITabComponentProperties =
-  | ({
-      type: 'Title';
-    } & TitleProperties)
-  | ({
-      type: 'Description';
-    } & DescriptionProperties)
-  | ({
-      type: 'Link';
-    } & LinkProperties)
-  | ({
-      type: 'BulletList';
-    } & BulletListProperties)
-  | ({
-      type: 'LinkBulletList';
-    } & LinkBulletListProperties);
+export type IAttachmentTabComponentProperties =
+  | IAttachmentTabTitleProperties
+  | IAttachmentTabDescriptionProperties
+  | IAttachmentTabLinkProperties
+  | IAttachmentTabBulletListProperties;
+
+export function typeGuardTabTitleProperties(
+  component: IAttachmentTabComponentProperties
+): component is IAttachmentTabTitleProperties {
+  return component.type === 'Title';
+}
+
+export function typeGuardTabDescriptionProperties(
+  component: IAttachmentTabComponentProperties
+): component is IAttachmentTabDescriptionProperties {
+  return component.type === 'Description';
+}

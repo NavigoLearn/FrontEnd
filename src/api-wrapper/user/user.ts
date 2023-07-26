@@ -1,5 +1,5 @@
 import { UserResponse } from '@type/user/types';
-import { errorHandlerDecorator } from '@typescript/error-handler';
+import { errorHandlerDecorator } from '@src/typescript/error-handler';
 
 export const fetchUserData = errorHandlerDecorator(
   async (id: string): Promise<{ data: UserResponse, status: number }> => {

@@ -3,7 +3,7 @@ import {
   IssueApiGet,
   IssueCommentApiGet,
 } from '@type/roadmap/old/Issues';
-import { errorHandlerDecorator } from '@typescript/error-handler';
+import { errorHandlerDecorator } from '@src/typescript/error-handler';
 
 export const fetchPostNewIssue = errorHandlerDecorator(
   async (roadmapId: string, issue: IssueApi) => {

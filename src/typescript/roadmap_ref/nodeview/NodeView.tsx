@@ -1,7 +1,7 @@
 /* eslint-disable no-shadow */
 /* eslint-disable react/prop-types */
 import React from 'react';
-import { NodeClass } from '@typescript/roadmap_ref/node/core/core';
+import { NodeClass } from '@src/typescript/roadmap_ref/node/core/core';
 import renderSubnodes from './SubNodesRender';
 
 interface NodeViewProps {

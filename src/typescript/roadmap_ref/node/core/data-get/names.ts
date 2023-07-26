@@ -1,7 +1,7 @@
 import {
   ComponentDescription,
   ComponentTitle,
-} from '@typescript/roadmap_ref/node/components/text/core';
+} from '@src/typescript/roadmap_ref/node/components/text/core';
 
 export function trimText(text: string, length: number): string {
   if (text.length > length) {

@@ -9,12 +9,12 @@ import {
   mutateNodeHeight,
   mutateNodeOpacity,
   mutateNodeWidth,
-} from '@typescript/roadmap_ref/node/core/data-mutation/mutate';
+} from '@src/typescript/roadmap_ref/node/core/data-mutation/mutate';
 import VariantsComponent from '@components/roadmap/displayers/editor/components/VariantsComponent';
 import ButtonOutsideGray from '@components/roadmap/displayers/editor/components/builder/ButtonOutsideGray';
 import ButtonInsideGeneric from '@components/roadmap/displayers/editor/components/builder/ButtonInsideGeneric';
-import { NodeFactoryClassicBoilerplate } from '@typescript/roadmap_ref/node/core/factories/templates/classic';
-import { NodeFactoryResourceBoilerplate } from '@typescript/roadmap_ref/node/core/factories/templates/resource';
+import { NodeFactoryClassicBoilerplate } from '@src/typescript/roadmap_ref/node/core/factories/templates/classic';
+import { NodeFactoryResourceBoilerplate } from '@src/typescript/roadmap_ref/node/core/factories/templates/resource';
 
 const Properties = () => {
   const { node, selectedNodeId } = useStore(editorSelectedData);

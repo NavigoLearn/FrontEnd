@@ -3,15 +3,15 @@ import {
   mutateComponentDescriptionText,
   mutateComponentTitleHeight,
   mutateComponentTitleWidth,
-} from '@typescript/roadmap_ref/node/components/text/mutate';
+} from '@src/typescript/roadmap_ref/node/components/text/mutate';
 import {
   ComponentDescription,
   ComponentTitle,
-} from '@typescript/roadmap_ref/node/components/text/core';
-import { NodeFactoryClassicBoilerplate } from '@typescript/roadmap_ref/node/core/factories/templates/classic';
-import { getComponentDescriptionById } from '@typescript/roadmap_ref/node/core/data-get/components';
-import { appendComponent } from '@typescript/roadmap_ref/node/core/data-mutation/append';
-import { factoryComponentEmpty } from '@typescript/roadmap_ref/node/components/text/factories';
+} from '@src/typescript/roadmap_ref/node/components/text/core';
+import { NodeFactoryClassicBoilerplate } from '@src/typescript/roadmap_ref/node/core/factories/templates/classic';
+import { getComponentDescriptionById } from '@src/typescript/roadmap_ref/node/core/data-get/components';
+import { appendComponent } from '@src/typescript/roadmap_ref/node/core/data-mutation/append';
+import { factoryComponentEmpty } from '@src/typescript/roadmap_ref/node/components/text/factories';
 
 describe('Components logic', () => {
   let node;

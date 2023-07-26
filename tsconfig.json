@@ -25,7 +25,7 @@
         "src/store/*"
       ],
       "@typescript/*": [
-        "src/typescript/*"
+        "src/typescript-infrastructure/*"
       ],
       "@type/*": [
         "src/types/*"

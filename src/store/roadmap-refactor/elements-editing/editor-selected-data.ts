@@ -1,6 +1,6 @@
 import { atom } from 'nanostores';
-import { NodeClass } from '@typescript/roadmap_ref/node/core/core';
-import { NodeFactoryClassicBoilerplate } from '@typescript/roadmap_ref/node/core/factories/templates/classic';
+import { NodeClass } from '@src/typescript/roadmap_ref/node/core/core';
+import { NodeFactoryClassicBoilerplate } from '@src/typescript/roadmap_ref/node/core/factories/templates/classic';
 
 const editorDisplayManager = atom({
   triggerRender: false,

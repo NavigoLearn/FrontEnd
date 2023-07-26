@@ -7,9 +7,9 @@ import roadmapState, { getRoadmapId } from '@store/roadmap/data/roadmap_state';
 import {
   saveEditingProtocol,
   transferRoadmapToEdit,
-} from '@typescript/roadmap/utils2';
-import { toggleEditing } from '@typescript/roadmap/roadmap-edit-logic-decorated';
-import { setTabAboutFlow } from '@typescript/roadmap/tab-logic-flows';
+} from '@src/typescript/roadmap/utils2';
+import { toggleEditing } from '@src/typescript/roadmap/roadmap-edit-logic-decorated';
+import { setTabAboutFlow } from '@src/typescript/roadmap/tab-logic-flows';
 import { dispatchAnalyticsEvent } from '@store/misc/analytics';
 import { setConfirmDelete } from '@store/roadmap-refactor/popups/popup';
 

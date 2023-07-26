@@ -8,7 +8,7 @@ import selection from '@store/roadmap-refactor/render/selection';
 import {
   calculateCoordOfNodeStatic,
   getNodeMiddleCoordsFlow,
-} from '@typescript/roadmap_ref/render/coord-calc';
+} from '@src/typescript/roadmap_ref/render/coord-calc';
 
 export function renderConnections() {
   const renderConns = renderConnectionsStore.get();

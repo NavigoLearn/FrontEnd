@@ -1,4 +1,4 @@
-import { DraggingBehavior } from '@typescript/roadmap_ref/dragging/core';
+import { DraggingBehavior } from '@src/typescript/roadmap_ref/dragging/core';
 
 function strategy1(
   draggingObject: DraggingBehavior,

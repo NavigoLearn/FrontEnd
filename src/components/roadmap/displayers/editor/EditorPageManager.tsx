@@ -3,16 +3,16 @@ import { useStore } from '@nanostores/react';
 import { rightWrapper } from '@components/roadmap/displayers/Wrappers';
 import editorDisplayManager from '@store/roadmap-refactor/display/editor/editor-display-manager';
 import EditorNavbarPagination from '@components/roadmap/displayers/editor/EditorNavbar';
-import Attachments from '@components/roadmap/displayers/editor/pages/Attachments';
+import TabAttachment from '@components/roadmap/displayers/editor/pages/TabAttachment';
 import Components from '@components/roadmap/displayers/editor/pages/Components';
 import Actions from '@components/roadmap/displayers/editor/pages/Actions';
 import Properties from '@components/roadmap/displayers/editor/pages/Properties';
 import Nodes from '@components/roadmap/displayers/editor/pages/Nodes';
-import { NodeFactoryClassicBoilerplate } from '@typescript/roadmap_ref/node/core/factories/templates/classic';
+import { NodeFactoryClassicBoilerplate } from '@src/typescript/roadmap_ref/node/core/factories/templates/classic';
 import { appendNode } from '@store/roadmap-refactor/roadmap-data/roadmap-placeholder';
-import { NodeFactoryNested } from '@typescript/roadmap_ref/node/core/factories/templates/nested';
+import { NodeFactoryNested } from '@src/typescript/roadmap_ref/node/core/factories/templates/nested';
 import { setSelectedNode } from '@store/roadmap-refactor/elements-editing/editor-selected-data';
-import { appendNestedNode } from '@typescript/roadmap_ref/node/core/data-mutation/append';
+import { appendNestedNode } from '@src/typescript/roadmap_ref/node/core/data-mutation/append';
 import { useTriggerRerender } from '@hooks/useTriggerRerender';
 
 const EditorPageManager = () => {
@@ -36,7 +36,7 @@ const EditorPageManager = () => {
   }, []);
 
   const pagesMapperJSON = {
-    attachments: <Attachments />,
+    attachments: <TabAttachment />,
     components: <Components />,
     actions: <Actions />,
     properties: <Properties />,
@@ -49,7 +49,7 @@ const EditorPageManager = () => {
       <EditorNavbarPagination
         storeTemporary={editorDisplayManager}
         field='page'
-        defaultValue='components'
+        defaultValue='attachments'
       />
       <div className='mt-5 flex-grow overflow-y-auto px-7'>
         <div className='h-full '>{selectedPage}</div>

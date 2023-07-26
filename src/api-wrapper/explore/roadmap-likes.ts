@@ -1,4 +1,4 @@
-import { errorHandlerDecorator } from '@typescript/error-handler';
+import { errorHandlerDecorator } from '@src/typescript/error-handler';
 
 export const likeCardFetch = errorHandlerDecorator(
   async (id: string): Promise<boolean> => {

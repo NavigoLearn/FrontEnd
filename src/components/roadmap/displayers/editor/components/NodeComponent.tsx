@@ -6,13 +6,13 @@ import {
   mutateNodeHeight,
   mutateNodeName,
   mutateNodeWidth,
-} from '@typescript/roadmap_ref/node/core/data-mutation/mutate';
+} from '@src/typescript/roadmap_ref/node/core/data-mutation/mutate';
 import { useStore } from '@nanostores/react';
 import roadmapPlaceholder from '@store/roadmap-refactor/roadmap-data/roadmap-placeholder';
-import { deleteNestedNodeWithId } from '@typescript/roadmap_ref/node/core/data-mutation/delete';
+import { deleteNestedNodeWithId } from '@src/typescript/roadmap_ref/node/core/data-mutation/delete';
 import { triggerRerenderEditor } from '@store/roadmap-refactor/elements-editing/editor-selected-data';
 import PropertyEditorNumber from '@components/roadmap/displayers/editor/components/PropertyEditorNumber';
-import { NodeClass } from '@typescript/roadmap_ref/node/core/core';
+import { NodeClass } from '@src/typescript/roadmap_ref/node/core/core';
 
 type INodeProperties = {
   node: NodeClass;

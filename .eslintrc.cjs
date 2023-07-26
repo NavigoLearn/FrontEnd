@@ -70,6 +70,7 @@ module.exports = {
         '@typescript-eslint/ban-ts-comment': 'off',
         'react/jsx-props-no-spreading': 'off',
         '@typescript-eslint/no-empty-function': 'off',
+        'no-unused-expressions': 'off',
         'react/function-component-definition': [
           2,
           {

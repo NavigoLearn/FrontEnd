@@ -1,9 +1,9 @@
 import { INodeData } from '@type/roadmap/node/core-types';
-import { Flags } from '@typescript/roadmap_ref/node/core/flags';
+import { Flags } from '@src/typescript/roadmap_ref/node/core/flags';
 
-import { Actions } from '@typescript/roadmap_ref/node/core/actions';
-import { DraggingBehavior } from '@typescript/roadmap_ref/dragging/core';
-import { Properties } from '@typescript/roadmap_ref/node/core/properties';
+import { Actions } from '@src/typescript/roadmap_ref/node/core/actions';
+import { DraggingBehavior } from '@src/typescript/roadmap_ref/dragging/core';
+import { Properties } from '@src/typescript/roadmap_ref/node/core/properties';
 import { IAttachmentObject } from '@type/roadmap/node/attachments-types';
 import { IComponentObject } from '@type/roadmap/node/components-types';
 

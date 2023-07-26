@@ -78,7 +78,9 @@ const EditorNavbarPagination = ({
     'actions',
   ];
 
-  const { page: selectedPage } = useStore(editorDisplayManager);
+  useStore(editorDisplayManager); // used for rerendering mostly
+
+  const selectedPage = value;
 
   return (
     <div className=''>

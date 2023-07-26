@@ -11,14 +11,14 @@ import {
   generateNodeInfoEmpty,
   generateNodeResourceEmpty,
   generateTabInfo,
-} from '@typescript/roadmap/generators';
-import { calculateChunkId } from '@typescript/roadmap/utils';
+} from '@src/typescript/roadmap/generators';
+import { calculateChunkId } from '@src/typescript/roadmap/utils';
 import { TabInfo, TabIssue } from '@type/roadmap/old/tab-manager';
 import { NodeResourceStore } from '@type/roadmap/old/nodes';
 import { ResourceSubNodeStore } from '@type/roadmap/old/resources';
 import { diffTabInfoNew } from '@store/roadmap/cache/diff-tabs';
 import { cacheTabInfo } from '@store/roadmap/cache/cached-tabs';
-import { changeTabIssuePropFlow } from '@typescript/roadmap/tab-logic-flows';
+import { changeTabIssuePropFlow } from '@src/typescript/roadmap/tab-logic-flows';
 
 /*
 The get function naming convention is:

@@ -1,8 +1,8 @@
 // eslint-disable-next-line import/no-cycle
-import NodeView from '@typescript/roadmap_ref/nodeview/NodeView';
-import { NodeClass } from '@typescript/roadmap_ref/node/core/core';
+import NodeView from '@src/typescript/roadmap_ref/nodeview/NodeView';
+import { NodeClass } from '@src/typescript/roadmap_ref/node/core/core';
 import React from 'react';
-import { factoryComponentEmpty } from '@typescript/roadmap_ref/node/components/text/factories';
+import { factoryComponentEmpty } from '@src/typescript/roadmap_ref/node/components/text/factories';
 
 // Function should work with node store
 

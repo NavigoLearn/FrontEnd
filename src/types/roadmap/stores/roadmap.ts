@@ -1,4 +1,4 @@
-import { NodeClass } from '@typescript/roadmap_ref/node/core/core';
+import { NodeClass } from '@src/typescript/roadmap_ref/node/core/core';
 
 export interface HashMap<T> {
   [key: string]: T;

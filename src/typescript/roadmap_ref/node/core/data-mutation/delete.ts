@@ -1,5 +1,5 @@
-import { NodeClass } from '@typescript/roadmap_ref/node/core/core';
-import { decoratorTriggerRerenderEditor } from '@typescript/roadmap_ref/node/decorators/rerenders';
+import { NodeClass } from '@src/typescript/roadmap_ref/node/core/core';
+import { decoratorTriggerRerenderEditor } from '@src/typescript/roadmap_ref/node/decorators/rerenders';
 
 export const deleteComponentWithId = decoratorTriggerRerenderEditor(
   (node: NodeClass, id: string) => {

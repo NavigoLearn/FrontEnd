@@ -1,5 +1,5 @@
 import React from 'react';
-import { AttachmentTab } from '@typescript/roadmap_ref/node/attachments/tab/core';
+import { AttachmentTab } from '@src/typescript/roadmap_ref/node/attachments/tab/core';
 
 type TabAttachmentViewProps = {
   tab: AttachmentTab;

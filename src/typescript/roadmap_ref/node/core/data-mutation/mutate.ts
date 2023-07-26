@@ -1,7 +1,7 @@
-import { NodeClass } from '@typescript/roadmap_ref/node/core/core';
+import { NodeClass } from '@src/typescript/roadmap_ref/node/core/core';
 import { IColorSchemaOptions } from '@type/roadmap/node/colors-types';
-import { colorSchemas } from '@typescript/roadmap_ref/node/core/factories/params/params';
-import { IAction } from '@typescript/roadmap_ref/node/core/actions';
+import { colorSchemas } from '@src/typescript/roadmap_ref/node/core/factories/params/params';
+import { IAction } from '@src/typescript/roadmap_ref/node/core/actions';
 
 export function mutateNodeHeight(node: NodeClass, height: number) {
   node.properties.height = height;

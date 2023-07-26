@@ -2,7 +2,7 @@ import React from 'react';
 import {
   addNodeNew,
   removeNode,
-} from '@typescript/roadmap/roadmap-edit-logic-decorated';
+} from '@src/typescript/roadmap/roadmap-edit-logic-decorated';
 
 const RemoveNode = ({ id }: { id: string }) => {
   return (

@@ -1,6 +1,6 @@
 import { atom } from 'nanostores';
 import { IssueComment } from '@type/roadmap/old/Issues';
-import { processUserUrlPic } from '@typescript/user/misc';
+import { processUserUrlPic } from '@src/typescript/user/misc';
 import { fetchIssueComments } from '@src/api-wrapper/roadmap/issues';
 import { fetchGetMiniProfileDataById } from '@src/api-wrapper/user/user';
 
