@@ -1,12 +1,12 @@
 import React from 'react';
-import onChangeStore from '@src/HOC-library/store-based-hoc/OnChangeStore';
+import onChangeStoreAutomatic from '@src/HOC-library/store-based-hoc/OnChangeStoreAutomatic';
 
 type ProvidedProps = {
   onChange: (value: string) => void;
   value: string;
 };
-const Title = ({ onChange, value }: ProvidedProps) => {
+const Smol = ({ onChange, value }: ProvidedProps) => {
   return <div />;
 };
 
-export default onChangeStore(Title);
+export default onChangeStoreAutomatic(Smol);

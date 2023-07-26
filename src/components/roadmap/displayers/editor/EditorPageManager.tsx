@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import attachmentPageStatus from '@store/roadmap-refactor/display/editor/attachment-page-status';
 import { useStore } from '@nanostores/react';
 import { rightWrapper } from '@components/roadmap/displayers/Wrappers';
 import editorDisplayManager from '@store/roadmap-refactor/display/editor/editor-display-manager';
@@ -36,7 +37,13 @@ const EditorPageManager = () => {
   }, []);
 
   const pagesMapperJSON = {
-    attachments: <TabAttachment />,
+    attachments: (
+      <TabAttachment
+        defaultValue={{ isEditing: false }}
+        field='status'
+        storeTemporary={attachmentPageStatus}
+      />
+    ),
     components: <Components />,
     actions: <Actions />,
     properties: <Properties />,
