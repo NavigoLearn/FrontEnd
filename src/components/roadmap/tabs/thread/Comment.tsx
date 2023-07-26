@@ -3,7 +3,7 @@ import { useStore } from '@nanostores/react';
 import roadmapVisitData from '@store/roadmap/data/roadmap-visit-data';
 import loggedUser from '@store/user/logged-user';
 import { fetchDeleteComment } from '@src/api-wrapper/roadmap/issues';
-import { TimeProcess } from '@typescript/utils/TimeProcess';
+import { TimeProcess } from '@src/typescript/utils/TimeProcess';
 
 type CommentProps = {
   id: string;

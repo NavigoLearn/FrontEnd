@@ -1,7 +1,7 @@
 import {
   ComponentDescription,
   ComponentTitle,
-} from '@typescript/roadmap_ref/node/components/text/core';
+} from '@src/typescript/roadmap_ref/node/components/text/core';
 import { IComponentObject } from '@type/roadmap/node/components-types';
 import { IComponentOptions } from '@type/roadmap/node/options-types';
 

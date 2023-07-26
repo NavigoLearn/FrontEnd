@@ -1,6 +1,6 @@
 import React from 'react';
 import { divWrapper } from '@components/roadmap/tabs/utils/logic';
-import { cancelEditingProtocol } from '@typescript/roadmap/utils2';
+import { cancelEditingProtocol } from '@src/typescript/roadmap/utils2';
 import { setConfirmCancel } from '@store/roadmap-refactor/popups/popup';
 
 const ConfirmCancel = () => {

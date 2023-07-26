@@ -3,9 +3,9 @@ import roadmapStatic from '@store/roadmap/data/roadmap_static';
 import {
   setEditingTrue,
   toggleEditing,
-} from '@typescript/roadmap/roadmap-edit-logic-decorated';
+} from '@src/typescript/roadmap/roadmap-edit-logic-decorated';
 import { applyAllDiffs, emptyAllDiffs } from '@store/roadmap/cache/diff-tabs';
-import { deepCopy } from '@typescript/roadmap/utils';
+import { deepCopy } from '@src/typescript/roadmap/utils';
 import { resetAllTooltips } from '@store/roadmap-refactor/misc/miscParams';
 import { triggerChunkRerender } from '@store/roadmap-refactor/render/renderedChunks';
 import { updateRoadmapData } from '../../api-wrapper/roadmap/roadmaps';

@@ -2,7 +2,7 @@ import { TabAbout, TabInfo, TabIssue } from '@type/roadmap/old/tab-manager';
 import { NodeInfoStore, NodeResourceStore } from '@type/roadmap/old/nodes';
 import { ResourceSubNodeStore } from '@type/roadmap/old/resources';
 import { LevelTypes } from '@type/roadmap/old/level-types';
-import { calculateChunkId } from '@typescript/roadmap/utils';
+import { calculateChunkId } from '@src/typescript/roadmap/utils';
 
 export function generateTabAbout(
   name: string,

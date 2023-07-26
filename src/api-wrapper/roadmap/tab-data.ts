@@ -4,7 +4,7 @@ import {
   TabInfoApiSendFormat,
 } from '@type/roadmap/old/tab-manager';
 import roadmapState from '@store/roadmap/data/roadmap_state';
-import { errorHandlerDecorator } from '@typescript/error-handler';
+import { errorHandlerDecorator } from '@src/typescript/error-handler';
 
 export const fetchTabInfoData = errorHandlerDecorator(async (id: string) => {
   // uses fetch to get roadmap-roadmap-data from the server

@@ -11,9 +11,9 @@ import {
   isNodeResourceProps,
 } from '@type/roadmap/old/typecheckers';
 import { getNodeById } from '@store/roadmap/data/roadmap_static';
-import { addDraggabilityFlow } from '@typescript/roadmap_ref/render/dragging';
+import { addDraggabilityFlow } from '@src/typescript/roadmap_ref/render/dragging';
 import levels from '@styles/levelStyles';
-import { getNodeByIdEdit } from '@typescript/roadmap/roadmap-edit-logic';
+import { getNodeByIdEdit } from '@src/typescript/roadmap/roadmap-edit-logic';
 import Tooltip from '@components/roadmap/nodes/misc/Tooltip';
 import Node from './nodes/node-info/Node';
 import Resource from './nodes/node-resource/Resource';

@@ -15,12 +15,12 @@ import {
   setTriggerEnable,
   setTriggerRender,
 } from '@store/roadmap-refactor/render/rerenderTriggers';
-import { addZoom, disableZoom } from '@typescript/roadmap/d3utils';
-import { RoadmapChunkingManager } from '@typescript/roadmap_ref/render/chunks';
+import { addZoom, disableZoom } from '@src/typescript/roadmap/d3utils';
+import { RoadmapChunkingManager } from '@src/typescript/roadmap_ref/render/chunks';
 import renderNodesStore from '@store/roadmap-refactor/render/renderedNodes';
 import { setChunkRerenderTrigger } from '@store/roadmap-refactor/render/renderedChunks';
 import renderConnectionsStore from '@store/roadmap-refactor/render/renderedConnections';
-import { renderConnections } from '@typescript/roadmap_ref/render/connections';
+import { renderConnections } from '@src/typescript/roadmap_ref/render/connections';
 import roadmapEdit from '@store/roadmap/data/roadmap_edit';
 import {
   setDisableZoomTrigger,

@@ -1,9 +1,9 @@
-import { NodeClass } from '@typescript/roadmap_ref/node/core/core';
+import { NodeClass } from '@src/typescript/roadmap_ref/node/core/core';
 import { IComponentObject } from '@type/roadmap/node/components-types';
 import {
   ComponentDescription,
   ComponentTitle,
-} from '@typescript/roadmap_ref/node/components/text/core';
+} from '@src/typescript/roadmap_ref/node/components/text/core';
 
 export function getComponentById(
   node: NodeClass,

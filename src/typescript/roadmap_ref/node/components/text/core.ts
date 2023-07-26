@@ -1,5 +1,5 @@
 import { IComponentOptions } from '@type/roadmap/node/options-types';
-import { generateId } from '@typescript/roadmap_ref/node/core/misc';
+import { generateId } from '@src/typescript/roadmap_ref/node/core/misc';
 
 export class ComponentNode {
   x: number;

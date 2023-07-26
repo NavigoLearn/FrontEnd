@@ -2,10 +2,10 @@ import { atom } from 'nanostores';
 import {
   generateNewTab,
   generateResourceSubNodeEmpty,
-} from '@typescript/roadmap/roadmap-edit-logic';
+} from '@src/typescript/roadmap/roadmap-edit-logic';
 import { Roadmap } from '@type/roadmap/old/roadmap';
 import roadmapEdit from '@store/roadmap/data/roadmap_edit';
-import { deepCopy } from '@typescript/roadmap/utils';
+import { deepCopy } from '@src/typescript/roadmap/utils';
 import {
   isNodeInfoStore,
   isNodeResourceStore,
@@ -13,7 +13,7 @@ import {
 import {
   triggerRerenderDecorator,
   triggerTabTitleChangeSideEffectDecorator,
-} from '@typescript/roadmap/roadmap-edit-decorators';
+} from '@src/typescript/roadmap/roadmap-edit-decorators';
 import { NodeInfoStore, NodeResourceStore } from '@type/roadmap/old/nodes';
 import { ResourcesStoreTypes } from '@type/roadmap/old/resources';
 

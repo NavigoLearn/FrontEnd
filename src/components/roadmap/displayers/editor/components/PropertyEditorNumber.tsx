@@ -8,13 +8,12 @@ type IDisplayProperty = {
 
 const PropertyEditorNumber = ({ name, value, onChange }: IDisplayProperty) => {
   return (
-    <div className='flex gap-5'>
-      <div>{name}</div>
+    <div className='flex gap-3 items-center'>
+      <div className='text-secondary'>{name}</div>
       <div>
         <input
-          type='range'
-          min={-100}
-          max={100}
+          type='text'
+          className='text-darkBlue outline-gray-500 p-1 pl-2 w-16'
           value={value}
           onChange={(e) => onChange(e.target.value)}
         />

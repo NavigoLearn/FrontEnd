@@ -4,7 +4,7 @@ import {
   HeroRotateProps,
   PopulatedParams,
 } from '@type/home/hero-rotate';
-import { setLoadedTrue } from '@typescript/roadmap/utils';
+import { setLoadedTrue } from '@src/typescript/roadmap/utils';
 
 export function transferTransforms(element1, element2) {
   // get the left and top style properties from each element

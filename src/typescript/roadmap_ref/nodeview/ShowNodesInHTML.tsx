@@ -1,9 +1,9 @@
 import React from 'react';
 import { getNodeById } from '@store/roadmap/data/roadmap_static';
 import { get } from 'astro/dist/assets/image-endpoint';
-import { NodeClass } from '@typescript/roadmap_ref/node/core/core';
-import { factoryComponentEmpty } from '@typescript/roadmap_ref/node/components/text/factories';
-import { ComponentTitle } from '@typescript/roadmap_ref/node/components/text/core';
+import { NodeClass } from '@src/typescript/roadmap_ref/node/core/core';
+import { factoryComponentEmpty } from '@src/typescript/roadmap_ref/node/components/text/factories';
+import { ComponentTitle } from '@src/typescript/roadmap_ref/node/components/text/core';
 import NodeView from './NodeView';
 
 const ShowNodesInHTML = () => {

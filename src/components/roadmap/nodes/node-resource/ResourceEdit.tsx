@@ -7,7 +7,7 @@ import {
   getTriggerEnable,
 } from '@store/roadmap-refactor/render/rerenderTriggers';
 import { setToolTip } from '@store/roadmap-refactor/misc/miscParams';
-import { manualTrigger } from '@typescript/roadmap/roadmap-edit-decorators';
+import { manualTrigger } from '@src/typescript/roadmap/roadmap-edit-decorators';
 import {
   removeNodeInfoFromPlaceholder,
   removeNodeResourceFromPlaceholder,

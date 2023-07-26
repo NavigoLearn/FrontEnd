@@ -5,8 +5,8 @@ import {
   generateNodeInfo,
   generateStarterNode,
   generateTabInfo,
-} from '@typescript/roadmap/generators';
-import { calculateChunkId } from '@typescript/roadmap/utils';
+} from '@src/typescript/roadmap/generators';
+import { calculateChunkId } from '@src/typescript/roadmap/utils';
 import { cacheTabInfo } from '@store/roadmap/cache/cached-tabs';
 import { diffTabInfoNew } from '@store/roadmap/cache/diff-tabs';
 

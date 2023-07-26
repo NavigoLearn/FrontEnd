@@ -3,7 +3,7 @@ import {
   EditingComponentBasicProps,
   NonEditingComponentBasicProps,
 } from '@type/roadmap/old/components';
-import { capStringLen } from '@typescript/roadmap/utils2';
+import { capStringLen } from '@src/typescript/roadmap/utils2';
 
 // this is the component that manages the state of a specific part of a node
 function StateAugmentedComponent() {

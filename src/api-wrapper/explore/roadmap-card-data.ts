@@ -3,7 +3,7 @@ import {
   CardTypeApiResponseExplore,
   RoadmapTypeApiExplore,
 } from '@type/explore/card';
-import { errorHandlerDecorator } from '@typescript/error-handler';
+import { errorHandlerDecorator } from '@src/typescript/error-handler';
 
 export const fetchDefaultCardsExplore = errorHandlerDecorator(
   async (query: string, page: number): Promise<CardTypeApiResponseExplore> => {

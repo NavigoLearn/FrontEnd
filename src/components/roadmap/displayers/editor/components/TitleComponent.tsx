@@ -1,13 +1,13 @@
 import React, { useMemo } from 'react';
-import { deleteComponentWithId } from '@typescript/roadmap_ref/node/core/data-mutation/delete';
+import { deleteComponentWithId } from '@src/typescript/roadmap_ref/node/core/data-mutation/delete';
 import { tailwindTransitionClass } from '@src/UI-library/tailwind-utils';
 import { useStore } from '@nanostores/react';
 import editorSelectedData from '@store/roadmap-refactor/elements-editing/editor-selected-data';
 import {
   getComponentTitleById,
   getComponentTitleText,
-} from '@typescript/roadmap_ref/node/core/data-get/components';
-import { mutateComponentTitleText } from '@typescript/roadmap_ref/node/components/text/mutate';
+} from '@src/typescript/roadmap_ref/node/core/data-get/components';
+import { mutateComponentTitleText } from '@src/typescript/roadmap_ref/node/components/text/mutate';
 import { useTriggerRerender } from '@hooks/useTriggerRerender';
 
 type TitleComponentProps = {

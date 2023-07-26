@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import arrow from '@assets/arrow-up.svg';
-import { changeNodeLevel } from '@typescript/roadmap/roadmap-edit-logic-decorated';
+import { changeNodeLevel } from '@src/typescript/roadmap/roadmap-edit-logic-decorated';
 import { LevelTypes, levelTypesArray } from '@type/roadmap/old/level-types';
 import { isLevelType } from '@type/roadmap/old/typecheckers';
 

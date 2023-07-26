@@ -1,8 +1,8 @@
 import {
   ComponentDescription,
   ComponentTitle,
-} from '@typescript/roadmap_ref/node/components/text/core';
-import { decoratorTriggerRerenderEditor } from '@typescript/roadmap_ref/node/decorators/rerenders';
+} from '@src/typescript/roadmap_ref/node/components/text/core';
+import { decoratorTriggerRerenderEditor } from '@src/typescript/roadmap_ref/node/decorators/rerenders';
 
 export function mutateComponentTitleWidth(
   component: ComponentTitle,

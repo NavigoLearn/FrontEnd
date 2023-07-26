@@ -3,7 +3,7 @@ import DropdownType from '@components/roadmap/nodes/edit-logic-modules/DropdownT
 import React from 'react';
 import LevelConvertor from '@components/roadmap/nodes/edit-logic-modules/LevelConvertor';
 import { LevelTypes } from '@type/roadmap/old/level-types';
-import { removeNode } from '@typescript/roadmap/roadmap-edit-logic-decorated';
+import { removeNode } from '@src/typescript/roadmap/roadmap-edit-logic-decorated';
 
 const Buttons = ({
   id,

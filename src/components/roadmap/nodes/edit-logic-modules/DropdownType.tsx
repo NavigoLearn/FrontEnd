@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import arrow from '@assets/arrow-up.svg';
-import { changeNodeType } from '@typescript/roadmap/roadmap-edit-logic-decorated';
+import { changeNodeType } from '@src/typescript/roadmap/roadmap-edit-logic-decorated';
 import {
   NodeIdentifierTypes,
   nodeIdentifierTypesArray,

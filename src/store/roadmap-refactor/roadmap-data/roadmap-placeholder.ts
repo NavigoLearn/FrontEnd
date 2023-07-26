@@ -1,6 +1,6 @@
 import { atom } from 'nanostores';
 import { Roadmap } from '@type/roadmap/stores/roadmap';
-import { NodeClass } from '@typescript/roadmap_ref/node/core/core';
+import { NodeClass } from '@src/typescript/roadmap_ref/node/core/core';
 
 const roadmapPlaceholder = atom({
   nodes: {

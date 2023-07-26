@@ -7,7 +7,7 @@ import { diffSaveTabInfo } from '@store/roadmap/cache/diff-tabs';
 import cross from '@assets/cross.svg';
 import addlink from '@assets/add-link.svg';
 import trash from '@assets/trash.svg';
-import { capStringLen } from '@typescript/roadmap/utils2';
+import { capStringLen } from '@src/typescript/roadmap/utils2';
 
 type link = {
   title: string;

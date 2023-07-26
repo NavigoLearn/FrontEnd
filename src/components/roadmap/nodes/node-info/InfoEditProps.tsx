@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { getNodeByIdEdit } from '@typescript/roadmap/roadmap-edit-logic';
+import { getNodeByIdEdit } from '@src/typescript/roadmap/roadmap-edit-logic';
 import { EditingComponentNodesProps } from '@type/roadmap/old/components';
 import {
   setToolTip,

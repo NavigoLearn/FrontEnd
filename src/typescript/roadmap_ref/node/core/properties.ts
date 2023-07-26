@@ -1,12 +1,12 @@
 import { IColorSchemaFields } from '@type/roadmap/node/colors-types';
 
-import { selectNodeColorScheme } from '@typescript/roadmap_ref/node/core/factories/injectors/services';
+import { selectNodeColorScheme } from '@src/typescript/roadmap_ref/node/core/factories/injectors/services';
 import {
   defaultColorSchemaOption,
   defaultNodeHeight,
   defaultNodeOpacity,
   defaultNodeWidth,
-} from '@typescript/roadmap_ref/node/core/factories/params/default-params';
+} from '@src/typescript/roadmap_ref/node/core/factories/params/default-params';
 
 export class Properties {
   /* Used to manage all the possible properties of a node */
@@ -18,11 +18,29 @@ export class Properties {
 
   opacity: number;
 
+  center: {
+    x: number;
+    y: number;
+  };
+
+  coords: {
+    x: number;
+    y: number;
+  };
+
   constructor() {
     this.color = selectNodeColorScheme(defaultColorSchemaOption);
     this.width = defaultNodeWidth;
     this.height = defaultNodeHeight;
     this.opacity = defaultNodeOpacity;
+    this.center = {
+      x: 0,
+      y: 0,
+    };
+    this.coords = {
+      x: 0,
+      y: 0,
+    };
   }
 }
 

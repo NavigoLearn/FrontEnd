@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react';
 import { renderNodeNormal } from '@components/roadmap/nodes/node-resource/utils';
-import { addNodeNew } from '@typescript/roadmap/roadmap-edit-logic-decorated';
+import { addNodeNew } from '@src/typescript/roadmap/roadmap-edit-logic-decorated';
 import { NonEditingComponentProps } from '@type/roadmap/old/components';
-import { getNodeByIdEdit } from '@typescript/roadmap/roadmap-edit-logic';
+import { getNodeByIdEdit } from '@src/typescript/roadmap/roadmap-edit-logic';
 import { isNodeResourceStore } from '@type/roadmap/old/typecheckers';
 import { setToolTip } from '@store/roadmap-refactor/misc/miscParams';
 import ButtonsView from '@components/roadmap/nodes/misc/ButtonsView';

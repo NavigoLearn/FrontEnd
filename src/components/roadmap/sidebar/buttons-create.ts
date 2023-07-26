@@ -2,7 +2,7 @@ import notick from '@assets/notick.svg';
 import yestick from '@assets/yestick.svg';
 import { getRoadmapId, setRoadmapId } from '@store/roadmap/data/roadmap_state';
 import about from '@assets/about.svg';
-import { setTabAboutFlow } from '@typescript/roadmap/tab-logic-flows';
+import { setTabAboutFlow } from '@src/typescript/roadmap/tab-logic-flows';
 import roadmapEdit from '@store/roadmap/data/roadmap_edit';
 import { createNewTabs } from '@store/roadmap/cache/diff-tabs';
 import book from '@assets/book.svg';
