@@ -5,7 +5,7 @@ import { tailwindTransitionClass } from '@src/UI-library/tailwind-utils';
 import { IAttachmentTabDescriptionProperties } from '@type/roadmap/node/tab-types';
 import { useStore } from '@nanostores/react';
 
-type ITitleComponentProps = {
+type IDescriptionComponentProps = {
   value: string;
   onChange: <T extends keyof IAttachmentTabDescriptionProperties>(
     field: T,
@@ -13,7 +13,10 @@ type ITitleComponentProps = {
   ) => void;
 };
 
-const DescriptionAttachment = ({ value, onChange }: ITitleComponentProps) => {
+const DescriptionAttachmentEdit = ({
+  value,
+  onChange,
+}: IDescriptionComponentProps) => {
   const { status } = useStore(attachmentPageStatus);
   const { isEditing } = status;
 
@@ -27,6 +30,35 @@ const DescriptionAttachment = ({ value, onChange }: ITitleComponentProps) => {
           triggerRerenderEditor();
         }}
       />
+    </div>
+  );
+};
+const DescriptionAttachmentView = ({
+  value,
+  onChange,
+}: IDescriptionComponentProps) => {
+  const { status } = useStore(attachmentPageStatus);
+  const { isEditing } = status;
+
+  return (
+    <div className='flex gap-2 w-full border-2 border-red-500'>{value}</div>
+  );
+};
+const DescriptionAttachment = ({
+  value,
+  onChange,
+}: IDescriptionComponentProps) => {
+  const { status } = useStore(attachmentPageStatus);
+  const { isEditing } = status;
+
+  return (
+    <div className='flex gap-2 w-full '>
+      {isEditing && (
+        <DescriptionAttachmentEdit value={value} onChange={onChange} />
+      )}
+      {!isEditing && (
+        <DescriptionAttachmentView value={value} onChange={onChange} />
+      )}
     </div>
   );
 };
