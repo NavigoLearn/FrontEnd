@@ -13,9 +13,10 @@ const ShowNodesInHTML = () => {
   node.properties.height = 500;
   node.components[0] = factoryComponentEmpty('Title');
   node.components[1] = factoryComponentEmpty('Description');
+  node.components[2] = factoryComponentEmpty('Description');
   node.nestedNodesIds = [
     'node2',
-    'node3',
+    // 'node3',
     'node4',
     'node5',
     'node6',
