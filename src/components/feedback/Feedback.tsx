@@ -1,7 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import DesktopFeedback from '@components/feedback/desktop/Desktop';
-import { dispatchAnalyticsEvent } from '@store/misc/analytics';
-import ShowNodesInHTML from '@src/typescript/roadmap_ref/nodeview/ShowNodesInHTML';
+import React, { useEffect, useState } from 'react';
+import ShowNodesInHTML from '@src/to-be-organized/nodeview/ShowNodesInHTML';
 
 const Feedback = () => {
   const [isDesktop, setIsDesktop] = useState(undefined);

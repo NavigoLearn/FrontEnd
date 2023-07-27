@@ -15,5 +15,5 @@ export function deleteAttachmentWithId(node: NodeClass, id: string) {
 }
 
 export function deleteNestedNodeWithId(node: NodeClass, id: string) {
-  node.nestedNodesIds = node.nestedNodesIds.filter((child) => child !== id);
+  node.subNodeIds = node.subNodeIds.filter((child) => child !== id);
 }

@@ -12,7 +12,7 @@ export class NodeClass {
 
   properties: Properties = new Properties(); // properties of the node itself
 
-  nestedNodesIds: string[] = []; // reference to other NodeClasses from the roadmap
+  subNodeIds: string[] = []; // reference to other NodeClasses from the roadmap
 
   attachments: IAttachmentObject[] = []; // special components that are much more customizable and special, meant for any kind of interraction
 

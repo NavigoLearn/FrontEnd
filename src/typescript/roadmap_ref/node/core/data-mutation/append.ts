@@ -18,5 +18,5 @@ export function appendComponent(
 }
 
 export function appendNestedNode(node: NodeClass, id: string) {
-  node.nestedNodesIds.push(id);
+  node.subNodeIds.push(id);
 }
