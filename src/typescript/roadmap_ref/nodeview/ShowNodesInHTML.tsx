@@ -16,7 +16,7 @@ const ShowNodesInHTML = () => {
   node.components[2] = factoryComponentEmpty('Description');
   node.nestedNodesIds = [
     'node2',
-    'node3',
+    // 'node3',
     'node4',
     'node5',
     'node6',

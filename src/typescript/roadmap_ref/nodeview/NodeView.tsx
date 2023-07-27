@@ -9,9 +9,8 @@ interface NodeViewProps {
 }
 
 let prevComponentCenter = { width: 0, height: 0, x: 0, y: 0 };
-let subnodeHeightOffset = 0;
-let prevSubnodeDimensions = { width: 0, height: 0 };
 const NodeView: React.FC<NodeViewProps> = ({ node }) => {
+  let subnodeHeightOffset = 0;
   const { properties } = node;
   const { nestedNodesIds } = node;
   console.log('nestedNodesIds', nestedNodesIds);
@@ -34,10 +33,9 @@ const NodeView: React.FC<NodeViewProps> = ({ node }) => {
       let { x, y } = component;
       if (isFirstComponent) {
         x = properties.width / 2;
-        y = properties.height / 8;
+        y = properties.height / 8; // you don't want it to be EXACTLY at the center in terms of y-axis
         isFirstComponent = false;
       } else {
-        // Calculate center based on the previous component's width and height
         ({ x, y } = calcCenter(prevComponentCenter));
         // Adjust y coordinate to prevent overlapping
         y += height / 4;
@@ -77,7 +75,7 @@ const NodeView: React.FC<NodeViewProps> = ({ node }) => {
     return <div className='components-container'>{componentElements}</div>;
   };
 
-  const renderSubnodes = (nodeID: string, positionx, positiony) => {
+  const renderSubnodes = (nodeID: string, positionx) => {
     const getNodeByID = (nodeID: string): NodeClass | undefined => {
       // placeholder for when nodes store is implemented
       if (nodeID === 'node2') {
@@ -88,6 +86,7 @@ const NodeView: React.FC<NodeViewProps> = ({ node }) => {
         node2.components[0] = factoryComponentEmpty('Title');
         node2.components[1] = factoryComponentEmpty('Description');
         node2.properties.color.primary = '#FF0000';
+        node2.nestedNodesIds = ['node3'];
         return node2;
       }
       if (nodeID === 'node3') {
@@ -162,14 +161,8 @@ const NodeView: React.FC<NodeViewProps> = ({ node }) => {
     // TODO fix colors not changing with node properties
     const subnode = getNodeByID(nodeID);
     if (subnode) {
-      prevSubnodeDimensions = {
-        width: subnode.properties.width,
-        height: subnode.properties.height,
-      };
-    }
-    if (subnode) {
       console.log('subnodeHeightOffset', subnodeHeightOffset);
-      console.log('prevSubnodeDimensions', prevSubnodeDimensions);
+      console.log('prevComponentCenter', prevComponentCenter);
       return (
         <div
           style={{
@@ -187,20 +180,13 @@ const NodeView: React.FC<NodeViewProps> = ({ node }) => {
   };
 
   const renderCurrentNode = () => {
-    // rendering logic for the current node
-    const { data } = node;
-    const { id } = data;
+    const { id } = node;
     const { color, width, height, opacity } = properties;
-    node.data.center.x = width / 2;
-    node.data.center.y = height / 2;
+    node.properties.center.x = width / 2;
 
     // Function to render each subnode
     const renderSubnode = (subnodeId: string) => {
-      return renderSubnodes(
-        subnodeId,
-        node.data.center.x,
-        prevComponentCenter.y
-      );
+      return renderSubnodes(subnodeId, node.properties.center.x);
     };
 
     return (
