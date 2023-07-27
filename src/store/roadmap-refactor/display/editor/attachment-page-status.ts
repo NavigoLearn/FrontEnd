@@ -14,4 +14,8 @@ const attachmentPageStatus = atom({
   },
 } as IAttachmentPageStatusAtom);
 
+export function getAttachmentPageStatus() {
+  return attachmentPageStatus.get().status;
+}
+
 export default attachmentPageStatus;

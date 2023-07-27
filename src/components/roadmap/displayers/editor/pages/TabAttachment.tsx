@@ -6,6 +6,7 @@ import editorSelectedData from '@store/roadmap-refactor/elements-editing/editor-
 import { getAttachmentByIndex } from '@src/typescript/roadmap_ref/node/core/data-get/attachments';
 import { IAttachmentTabComponentTypes } from '@type/roadmap/node/tab-types';
 import { IAttachmentPageStatus } from '@store/roadmap-refactor/display/editor/attachment-page-status';
+import button from '@components/roadmap/tabs/utils/Button';
 
 type IMapper = {
   [key in IAttachmentTabComponentTypes]: React.ReactNode;
@@ -14,6 +15,42 @@ type IMapper = {
 type ITabAttachmentProps = {
   onChange: (value: IAttachmentPageStatus) => void;
   value: IAttachmentPageStatus;
+};
+
+type IEditButtonProps = {
+  onChange: () => void;
+};
+
+const EditButton = ({ onChange }: IEditButtonProps) => {
+  return (
+    <button
+      type='button'
+      className='px-10 py-2 bg-blue-600 text-white rounded-lg text-lg font-medium'
+      onClick={() => {
+        onChange();
+      }}
+    >
+      Edit
+    </button>
+  );
+};
+
+type IPreviewButtonProps = {
+  onChange: () => void;
+};
+
+const PreviewButton = ({ onChange }: IPreviewButtonProps) => {
+  return (
+    <button
+      type='button'
+      className='px-10 py-2 bg-blue-600 text-white rounded-lg text-lg font-medium'
+      onClick={() => {
+        onChange();
+      }}
+    >
+      Preview
+    </button>
+  );
 };
 
 const TabAttachment = ({ onChange, value }: ITabAttachmentProps) => {
@@ -31,7 +68,18 @@ const TabAttachment = ({ onChange, value }: ITabAttachmentProps) => {
           </div>
         );
       })}
-      <div />
+      <div className='absolute bottom-8 w-full border-2 border-black'>
+        {!isEditing && (
+          <EditButton onChange={() => onChange({ isEditing: true })} />
+        )}
+        {isEditing && (
+          <PreviewButton
+            onChange={() => {
+              onChange({ isEditing: false });
+            }}
+          />
+        )}
+      </div>
     </div>
   );
 };

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { WritableAtom } from 'nanostores';
 import { HashMap } from '@type/roadmap/stores/roadmap';
+import { useTriggerRerender } from '@hooks/useTriggerRerender';
 
 interface HOCConfigProps<T> {
   storeTemporary: WritableAtom<HashMap<T>>;
@@ -32,11 +33,13 @@ function HOCOnChange<R, T extends ProvidedProps<R>>(
     ...props
   }: HOCConfigProps<R> & ExcludeProvidedProps<R, T>) => {
     const [initialized, setInitialized] = useState(false);
+    const rerender = useTriggerRerender();
 
     function onChange(value: R) {
       const modifiedStore = { ...storeTemporary.get() };
       modifiedStore[field] = value;
       storeTemporary.set(modifiedStore);
+      rerender();
     }
 
     useEffect(() => {
