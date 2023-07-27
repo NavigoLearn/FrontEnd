@@ -1,8 +1,8 @@
 /* eslint-disable no-shadow */
 /* eslint-disable react/prop-types */
 import React from 'react';
-import { NodeClass } from '@typescript/roadmap_ref/node/core/core';
-import { factoryComponentEmpty } from '@typescript/roadmap_ref/node/components/text/factories';
+import { NodeClass } from '@src/typescript/roadmap_ref/node/core/core';
+import { factoryComponentEmpty } from '@src/typescript/roadmap_ref/node/components/text/factories';
 
 interface NodeViewProps {
   node: NodeClass;
