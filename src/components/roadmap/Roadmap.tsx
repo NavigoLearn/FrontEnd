@@ -102,15 +102,9 @@ const Roadmap = ({ pageId }: { pageId: string }) => {
                     key={id}
                     node={nodes[id]}
                     editing={editing}
-                    triggerCb={async (
-                      cbTrigger,
-                      cbDisableDrag,
-                      cbEnableDrag
-                    ) => {
-                      setTriggerRender(id, cbTrigger);
-                      console.log('setter', id, cbTrigger);
-                      // setTriggerDisable(id, cbDisableDrag);
-                      // setTriggerEnable(id, cbEnableDrag);
+                    triggerCb={async (nodeId, cbTrigger) => {
+                      setTriggerRender(nodeId, cbTrigger);
+                      console.log('setter', nodeId, cbTrigger);
                     }}
                   />
                 );

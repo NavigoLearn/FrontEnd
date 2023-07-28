@@ -30,4 +30,8 @@ export class NodeClass {
   properties: INodeProperties = {
     // used if there is dynamically injected data
   }; // roadmap-data related to parents, connection stuff and misc things I couldn't find a place general
+
+  constructor(id?) {
+    if (id) this.id = id;
+  }
 }

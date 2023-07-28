@@ -27,6 +27,11 @@ export function mutateNodeCoordY(node: NodeClass, y: number) {
   node.data.coords.y = y;
 }
 
+export function mutateNodeCoords(node: NodeClass, x: number, y: number) {
+  node.data.coords.x = x;
+  node.data.coords.y = y;
+}
+
 export function mutateNodeName(node: NodeClass, name: string) {
   node.name = name;
 }

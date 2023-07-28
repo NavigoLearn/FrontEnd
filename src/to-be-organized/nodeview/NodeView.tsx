@@ -1,22 +1,27 @@
 /* eslint-disable no-shadow */
 /* eslint-disable react/prop-types */
-import React, { useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { possibleIds } from '@src/to-be-organized/nodeview/node-get';
 import { getNodeByIdRoadmapEdit } from '@store/roadmap-refactor/roadmap-data/roadmap-edit';
 import renderComponents from '@src/to-be-organized/nodeview/CompRender';
+import { addDragabilityProtocol } from '@src/typescript/roadmap_ref/render/dragging';
+import { useTriggerRerender } from '@hooks/useTriggerRerender';
 
 interface NodeViewProps {
   nodeId: string;
   centerOffset: { x: number; y: number };
+  triggerCb: any;
   divSizeCallback?: (divRef: React.MutableRefObject<HTMLDivElement>) => void; //
 }
 
 const NodeView: React.FC<NodeViewProps> = ({
   nodeId,
   centerOffset,
+  triggerCb,
   divSizeCallback,
 }) => {
   const nodeDivRef = useRef<HTMLDivElement>(null);
+  const rerender = useTriggerRerender();
 
   const renderNode = (nodeId: possibleIds) => {
     const node = getNodeByIdRoadmapEdit(nodeId);
@@ -52,6 +57,17 @@ const NodeView: React.FC<NodeViewProps> = ({
         divSizeCallback(nodeDivRef);
       }, 0);
 
+    useEffect(() => {
+      // locks the nodes that are currently in text elements-editing or view mode
+      addDragabilityProtocol(node.draggingBehavior, true);
+    }, []);
+
+    useEffect(() => {
+      if (node.flags.renderedOnRoadmapFlag) return;
+      // rerenders needs to be done in nodeManager in group and foreign object
+      triggerCb(node.id, rerender);
+    }, []);
+
     return (
       <div
         className='drop-shadow-md  rounded-xl absolute border-2 border-black'
@@ -74,6 +90,7 @@ const NodeView: React.FC<NodeViewProps> = ({
               <NodeView
                 key={subNodeId}
                 nodeId={subNodeId}
+                triggerCb={triggerCb}
                 centerOffset={{
                   x: node.data.width / 2,
                   y: node.data.height / 2,

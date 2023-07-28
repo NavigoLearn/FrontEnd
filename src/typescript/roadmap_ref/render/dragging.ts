@@ -5,18 +5,12 @@ import { setSelection } from '@store/roadmap-refactor/render/selection';
 import { getTransformXY } from '@src/typescript/roadmap_ref/render/coord-calc';
 import { updateConnections } from '@src/typescript/roadmap_ref/render/connections';
 import { setDisplayTitlesFalse } from '@store/roadmap/sidebar/displayTitle';
+import { DraggingBehavior } from '@src/typescript/roadmap_ref/dragging/core';
 
 export function moveOnDrag(id: string, newPos: { x: number; y: number }) {
   const sel = document.getElementById(`group${id}`);
   const obj = d3.select(sel);
   obj.attr('transform', `translate(${newPos.x}, ${newPos.y})`);
-  // syncs the tooltip movement with the node movement
-  const tooltip = document.getElementById(`tooltip${id}`);
-  const tooltipObj = d3.select(tooltip);
-  tooltipObj.attr(
-    'transform',
-    `translate(${newPos.x - 20}, ${newPos.y - 128})`
-  );
 }
 
 export const addDraggabilityFlow = (id: string, allowed: boolean) => {
@@ -62,6 +56,86 @@ export const addDraggabilityFlow = (id: string, allowed: boolean) => {
       )
         return;
       changeNodeCoords(id, newPos.x, newPos.y);
+    });
+
+  if (allowed) {
+    nodeSelection.call(drag);
+  } else {
+    nodeSelection.on('.drag', null);
+  }
+};
+
+export const addDragabilityProtocol = (
+  draggingBehavior: DraggingBehavior,
+  allowed: boolean
+) => {
+  // refactored dragability with dragging behavior and generalized
+  const id = draggingBehavior.draggingElementId;
+  const elementIdentifier = draggingBehavior.draggingElementIdentifier;
+
+  const nodeSelection = d3
+    .selectAll(draggingBehavior.draggingElementIdentifier)
+    .select(`#${elementIdentifier}${id}`);
+
+  const offset = { x: 0, y: 0 };
+  const newPos = { x: 0, y: 0 };
+  const initialPos = { x: 0, y: 0 };
+
+  const drag = d3
+    .drag()
+    // eslint-disable-next-line func-names
+    .on('start', function (event) {
+      const { x, y } = event;
+      // coordinates of the node in the original reference system
+      const currentCoords = draggingBehavior.getCurrentCoords();
+      const { x: elementX, y: elementY } = draggingBehavior.coordinatesAdapter(
+        currentCoords.x,
+        currentCoords.y
+      );
+
+      const offsetX = x - elementX;
+      const offsetY = y - elementY;
+
+      offset.x = offsetX;
+      offset.y = offsetY;
+
+      initialPos.x = currentCoords.x;
+      initialPos.y = currentCoords.y;
+      console.log('dragging started', currentCoords, offset, id);
+    })
+    // eslint-disable-next-line func-names
+    .on('drag', function (event) {
+      // use adapter for coordinates to sync with the dragging space (eg nodes/nested components behave differently)
+      const { x: adaptedX, y: adaptedY } = draggingBehavior.coordinatesAdapter(
+        event.x,
+        event.y
+      );
+      // we apply the strategy to the new coordinates ( for gridding, snapping, etc)
+      const { x, y } = draggingBehavior.draggingStrategy(adaptedX, adaptedY);
+      // we set the new coordinates to the element
+      newPos.x = x - offset.x;
+      newPos.y = y - offset.y; // offsets are used to sync the mouse position with the dragging position
+      // at the end we simply do not substract the offset and the element will be placed properly
+
+      // we temporarily update the position to emulate the dragging, which will then be applied to the actual element
+      // after its finished
+      const sel = document.getElementById(`${elementIdentifier}${id}`);
+      const obj = d3.select(sel);
+      obj.style(
+        'transform',
+        `translate(${newPos.x - initialPos.x}px, ${newPos.y - initialPos.y}px)`
+      );
+      // we apply the translate relative to initial position because you can imagine dragging like an arrow
+      // from initial position to final position and after we are done the arrow is translated in actual
+      // coordinates changes
+
+      // update connections here
+      // ...
+    })
+    // eslint-disable-next-line func-names
+    .on('end', function () {
+      console.log('dragging ended');
+      draggingBehavior.coordinatesSetter(newPos.x, newPos.y);
     });
 
   if (allowed) {

@@ -1,36 +1,64 @@
-import { DraggingBehavior } from '@src/typescript/roadmap_ref/dragging/core';
+import {
+  DraggingBehavior,
+  draggingStrategies,
+  ICoords,
+} from '@src/typescript/roadmap_ref/dragging/core';
 
-function strategy1(
+function freeDraggingStrategy(
   draggingObject: DraggingBehavior,
   newX: number,
   newY: number
 ) {
-  // something
-  console.log('strateg1');
-  // set the X and Y in draggingObject
-}
-
-function strategy2(
-  draggingObject: DraggingBehavior,
-  newX: number,
-  newY: number
-) {
-  // something
-  console.log('strateg2');
-  // set the X and Y in draggingObject
-}
-
-function strategyFactory(
-  strategyOption: 'strategy1' | 'strategy2',
-  draggingObject: DraggingBehavior
-) {
-  const strategies = {
-    strategy1,
-    strategy2,
+  return {
+    x: newX,
+    y: newY,
   };
-  return function (newX: number, newY: number) {
+}
+
+function gridDraggingStrategy(
+  draggingObject: DraggingBehavior,
+  newX: number,
+  newY: number
+) {
+  // needs to be implemented
+  console.log('grid');
+  return {
+    x: newX,
+    y: newY,
+  };
+}
+
+function snapDraggingStrategy(
+  draggingObject: DraggingBehavior,
+  newX: number,
+  newY: number
+) {
+  // needs to be implemented
+  console.log('snap');
+  return {
+    x: newX,
+    y: newY,
+  };
+}
+
+export function draggingStrategyFactory(
+  draggingBehavior: DraggingBehavior,
+  strategyOption: draggingStrategies
+) {
+  const strategies: {
+    [key in draggingStrategies]: (
+      draggingObject: DraggingBehavior,
+      newX: number,
+      newY: number
+    ) => ICoords;
+  } = {
+    free: freeDraggingStrategy,
+    grid: gridDraggingStrategy,
+    snap: snapDraggingStrategy,
+  };
+  return function (newX: number, newY: number): ICoords {
     console.log('strategyFactory');
-    strategies[strategyOption](draggingObject, newX, newY);
+    return strategies[strategyOption](draggingBehavior, newX, newY);
     console.log('finished strategy');
   };
 }

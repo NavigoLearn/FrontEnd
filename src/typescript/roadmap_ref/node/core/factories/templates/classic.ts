@@ -1,8 +1,9 @@
 import { NodeClass } from '@src/typescript/roadmap_ref/node/core/core';
-// import { appendComponentTitle } from '@typescript/roadmap_ref/node/core/roadmap-data-mutation/append';
+import { draggingBehaviorFactoryRoadmapNode } from '@src/typescript/roadmap_ref/dragging/factories';
 import {
   injectClassicData,
   injectClassicFlags,
+  injectDraggingBehavior,
 } from '@src/typescript/roadmap_ref/node/core/factories/injectors/inject';
 import {
   appendAttachment,
@@ -29,6 +30,9 @@ export function nodeFactoryClassicBoilerplate(): NodeClass {
   const descriptionComponent = factoryAttachmentComponent('Description');
   appendAttachmentTabComponent(tab, titleComponent);
   appendAttachmentTabComponent(tab, descriptionComponent);
+
+  const draggingBehavior = draggingBehaviorFactoryRoadmapNode(node.id);
+  injectDraggingBehavior(node, draggingBehavior);
 
   return node;
 }

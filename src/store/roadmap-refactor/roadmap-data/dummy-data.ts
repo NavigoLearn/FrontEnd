@@ -28,10 +28,10 @@ function nodeBuilder(
 }
 
 export const roadmap1: Roadmap = {
-  rootNodesIds: ['0'],
+  rootNodesIds: ['0', '1'],
   nodes: {
     '0': nodeBuilder('0', 500, 200, 500, 500),
-    '1': nodeBuilder('1', 100, 100, 500, 100),
+    '1': nodeBuilder('1', 100, 100, 200, 100),
     '2': nodeBuilder('2', 300, 100, 100, 200),
     '3': nodeBuilder('3', 500, 700, 500, 500),
     '4': nodeBuilder('4', 100, 300),

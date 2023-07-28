@@ -4,6 +4,7 @@ import { IColorSchemaOptions } from '@type/roadmap/node/colors-types';
 import { colorSchemas } from '@src/typescript/roadmap_ref/node/core/factories/params/params';
 import { NodeClass } from '@src/typescript/roadmap_ref/node/core/core';
 import { generateId } from '@src/typescript/roadmap_ref/node/core/misc';
+import { DraggingBehavior } from '@src/typescript/roadmap_ref/dragging/core';
 
 export function injectNodeColorScheme(
   node: NodeClass,
@@ -64,4 +65,11 @@ export function injectNewId(node: NodeClass, newId: string): string {
 export function injectNewRandomId(node: NodeClass): string {
   node.id = generateId();
   return node.id;
+}
+
+export function injectDraggingBehavior(
+  node: NodeClass,
+  draggingBehavior: DraggingBehavior
+) {
+  node.draggingBehavior = draggingBehavior;
 }

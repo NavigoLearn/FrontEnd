@@ -43,7 +43,6 @@ const Properties = () => {
             // adjust for old value to keep the same center in the same place even after resizing
             const oldWidth = data.width;
             mutateNodeCoordX(node, data.coords.x + (oldWidth - newValue) / 2);
-
             mutateNodeWidth(node, newValue);
             triggerRerenderEditor();
             triggerNodeRerender(node.id);

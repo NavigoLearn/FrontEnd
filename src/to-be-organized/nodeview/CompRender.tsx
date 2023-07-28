@@ -1,15 +1,17 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { calculateComponentsPositions } from '@src/to-be-organized/nodeview/logic';
 import { NodeClass } from '@src/typescript/roadmap_ref/node/core/core';
 
 const createComponentElement = (component, index, position) => {
   const { id, type, width, height, text, textColor, textFont, textSize } =
     component;
+  const objRef = useRef(null);
 
   return (
     <div
+      ref={objRef}
       key={index}
-      id={id}
+      id={`div${id}`}
       className='rounded-xl items-center absolute overflow-hidden'
       style={{
         textDecorationColor: textColor,
@@ -32,7 +34,6 @@ const createComponentElement = (component, index, position) => {
 const CompRender = (node: NodeClass) => {
   const { components, data } = node;
   const positions = calculateComponentsPositions(node);
-  console.log('positions', positions);
 
   const componentElements = components.map((component, index) => {
     const position = positions[index];
