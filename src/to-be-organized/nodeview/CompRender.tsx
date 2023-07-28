@@ -1,14 +1,16 @@
 import React from 'react';
-import { calculateComponentPositions } from '@src/to-be-organized/nodeview/logic';
+import { calculateComponentsPositions } from '@src/to-be-organized/nodeview/logic';
+import { NodeClass } from '@src/typescript/roadmap_ref/node/core/core';
 
 const createComponentElement = (component, index, position) => {
   const { id, type, width, height, text, textColor, textFont, textSize } =
     component;
+
   return (
     <div
       key={index}
       id={id}
-      className='rounded-xl items-center relative overflow-hidden'
+      className='rounded-xl items-center absolute overflow-hidden'
       style={{
         textDecorationColor: textColor,
         textSizeAdjust: `${textSize}%`,
@@ -16,19 +18,21 @@ const createComponentElement = (component, index, position) => {
         fontFamily: textFont,
         width: `${width}px`,
         height: `${height}px`,
-        left: `${position.x - width / 2}px`,
-        top: `${position.y - height / 2}px`,
+        top: `${position.y}px`,
+        left: `${position.x}px`,
       }}
     >
-      {type === 'Title' && <h1>{text}</h1>}
-      {type === 'Description' && <p>{text}</p>}
+      {type === 'Title' && <h1 className='text-center'>{text}</h1>}
+      {type === 'Description' && <p className='text-center'>{text}</p>}
       {/* Add more conditions for other component types */}
     </div>
   );
 };
 
-const CompRender = (components, nodeProperties) => {
-  const positions = calculateComponentPositions(components, nodeProperties);
+const CompRender = (node: NodeClass) => {
+  const { components, data } = node;
+  const positions = calculateComponentsPositions(node);
+  console.log('positions', positions);
 
   const componentElements = components.map((component, index) => {
     const position = positions[index];

@@ -30,7 +30,7 @@ const NodeView: React.FC<NodeViewProps> = ({
 
     // the offset for the nodes rendered directly on the roadmap is calculated directly
     // on its group and foreign object in NodeManager. This is why you need to treat the coords
-    // from subnodes which don't have their own foreign object and are divs relative to the parent node
+    // from subNodes which don't have their own foreign object and are divs relative to the parent node
 
     const coords = {
       x: nestedFlag ? node.data.coords.x : 0,
@@ -66,7 +66,7 @@ const NodeView: React.FC<NodeViewProps> = ({
           opacity,
         }}
       >
-        {renderComponents(node.components, node.properties)};
+        {renderComponents(node)}
         {subNodeIds &&
           subNodeIds.map((subNodeId) => {
             // the div is used to position the subNode in the center of the current node
