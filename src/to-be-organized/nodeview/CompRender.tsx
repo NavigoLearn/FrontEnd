@@ -1,4 +1,5 @@
-import React, { useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
+import { addDragabilityProtocol } from '@src/typescript/roadmap_ref/render/dragging';
 import { calculateComponentsPositions } from '@src/to-be-organized/nodeview/logic';
 import { NodeClass } from '@src/typescript/roadmap_ref/node/core/core';
 
@@ -7,12 +8,19 @@ const createComponentElement = (component, index, position) => {
     component;
   const objRef = useRef(null);
 
+  useEffect(() => {
+    // locks the nodes that are currently in text elements-editing or view mode
+    console.log('addDragabilityProtocol componentyess');
+    console.log(component.draggingBehavior);
+    addDragabilityProtocol(component.draggingBehavior, true);
+  }, []);
+
   return (
     <div
       ref={objRef}
       key={index}
       id={`div${id}`}
-      className='rounded-xl items-center absolute overflow-hidden'
+      className='rounded-xl items-center absolute overflow-hidden border-2 border-black'
       style={{
         textDecorationColor: textColor,
         textSizeAdjust: `${textSize}%`,

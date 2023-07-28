@@ -8,6 +8,8 @@ import {
 import { mutateNodeCoords } from '@src/typescript/roadmap_ref/node/core/data-mutation/mutate';
 import { triggerNodeRerender } from '@store/roadmap-refactor/render/rerender-triggers';
 import { getNodeByIdRoadmapEdit } from '@store/roadmap-refactor/roadmap-data/roadmap-edit';
+import { getComponentById } from '@src/typescript/roadmap_ref/node/core/data-get/components';
+import { mutateComponentCoords } from '@src/typescript/roadmap_ref/node/components/mutate';
 
 export function draggingBehaviorFactoryRoadmapNode(
   nodeId: string
@@ -25,13 +27,6 @@ export function draggingBehaviorFactoryRoadmapNode(
     };
   };
   draggingBehavior.coordinatesAdapter = (x: number, y: number) => {
-    // const transform = d3
-    //   .select(
-    //     `${draggingBehavior.draggingElementIdentifier}${draggingBehavior.draggingElementId}`
-    //   )
-    //   .attr('transform');
-    // const { x: nodeX, y: nodeY } = getTransformXY(transform);
-
     return {
       x,
       y,
@@ -73,9 +68,6 @@ export function draggingBehaviorFactorySubNode(
     };
   };
   draggingBehavior.coordinatesAdapter = (x: number, y: number) => {
-    // console.log('xy', x, y);
-    // search recursively for the parent node
-
     return {
       x,
       y,
@@ -108,13 +100,15 @@ export function draggingBehaviorFactoryComponents(
   // might need refactor to get the data from the store and not keep a reference directly
   const draggingBehavior = new DraggingBehavior();
   injectDraggingElementIdentifier(draggingBehavior, 'div');
-  injectDraggingElementId(draggingBehavior, nodeId);
+  injectDraggingElementId(draggingBehavior, componentId);
   injectDraggingStrategy(draggingBehavior, 'snap');
+
   draggingBehavior.getCurrentCoords = () => {
     const node = getNodeByIdRoadmapEdit(nodeId);
+    const component = getComponentById(node, componentId);
     return {
-      x: node.data.coords.x,
-      y: node.data.coords.y,
+      x: component.x,
+      y: component.y,
     };
   };
   draggingBehavior.coordinatesAdapter = (x: number, y: number) => {
@@ -129,9 +123,11 @@ export function draggingBehaviorFactoryComponents(
 
   draggingBehavior.coordinatesSetter = (x: number, y: number) => {
     const node = getNodeByIdRoadmapEdit(nodeId);
-    mutateNodeCoords(node, x, y);
+    const component = getComponentById(node, componentId);
+    console.log('coords', x, y);
+    mutateComponentCoords(component, x, y);
     // resets the div transforms because mutating coords already rerenders and updates the location
-    const sel = document.getElementById(`div${node.id}`);
+    const sel = document.getElementById(`div${component.id}`);
     const obj = d3.select(sel);
     obj.style('transform', `translate(${0}px, ${0}px)`);
     triggerNodeRerender(node.id);

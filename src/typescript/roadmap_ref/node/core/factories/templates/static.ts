@@ -4,11 +4,7 @@ import {
   injectClassicFlags,
   injectNewRandomId,
 } from '@src/typescript/roadmap_ref/node/core/factories/injectors/inject';
-import {
-  appendAttachment,
-  appendComponent,
-} from '@src/typescript/roadmap_ref/node/core/data-mutation/append';
-import { factoryComponentTitleEmpty } from '@src/typescript/roadmap_ref/node/components/text/factories';
+import { appendAttachment } from '@src/typescript/roadmap_ref/node/core/data-mutation/append';
 import { factoryAttachmentTabEmpty } from '@src/typescript/roadmap_ref/node/attachments/tab/factory';
 
 export function NodeFactoryStaticBoilerplate(): NodeClass {
@@ -18,7 +14,7 @@ export function NodeFactoryStaticBoilerplate(): NodeClass {
   injectClassicFlags(node);
   injectNewRandomId(node);
   injectClassicData(node, 'someparent', []);
-  appendComponent(node, factoryComponentTitleEmpty());
+  // appendComponent(node, factoryComponentTitleEmpty());
   appendAttachment(node, factoryAttachmentTabEmpty());
 
   return node;

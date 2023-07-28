@@ -87,7 +87,8 @@ export const addDragabilityProtocol = (
     .on('start', function (event) {
       const { x, y } = event;
       // coordinates of the node in the original reference system
-      const currentCoords = draggingBehavior.getCurrentCoords();
+      const currentCoords = draggingBehavior.getCurrentCoords(); //  offset calculated from this
+      // also account for the difference between rendering relative to center and relative to top left corner
       const { x: elementX, y: elementY } = draggingBehavior.coordinatesAdapter(
         currentCoords.x,
         currentCoords.y
@@ -101,7 +102,9 @@ export const addDragabilityProtocol = (
 
       initialPos.x = currentCoords.x;
       initialPos.y = currentCoords.y;
-      console.log('dragging started', currentCoords, offset, id);
+
+      newPos.x = x - offset.x;
+      newPos.y = y - offset.y; // offsets are used to sync the mouse position with the dragging position
     })
     // eslint-disable-next-line func-names
     .on('drag', function (event) {
@@ -112,6 +115,7 @@ export const addDragabilityProtocol = (
       );
       // we apply the strategy to the new coordinates ( for gridding, snapping, etc)
       const { x, y } = draggingBehavior.draggingStrategy(adaptedX, adaptedY);
+
       // we set the new coordinates to the element
       newPos.x = x - offset.x;
       newPos.y = y - offset.y; // offsets are used to sync the mouse position with the dragging position
@@ -134,7 +138,7 @@ export const addDragabilityProtocol = (
     })
     // eslint-disable-next-line func-names
     .on('end', function () {
-      console.log('dragging ended');
+      console.log('end', newPos.x, newPos.y);
       draggingBehavior.coordinatesSetter(newPos.x, newPos.y);
     });
 

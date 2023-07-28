@@ -21,12 +21,6 @@ export class DraggingBehavior {
   draggingStrategy: (newX, newY) => ICoords; // the function that is called when the element is dragged
 
   getCurrentCoords: () => ICoords; // the function that returns the current coordinates of the element node that is dragged
-
-  draggingProtocol(x: number, y: number) {
-    const { x: adaptedX, y: adaptedY } = this.coordinatesAdapter(x, y);
-    const { x: newX, y: newY } = this.draggingStrategy(adaptedX, adaptedY);
-    this.coordinatesSetter(newX, newY);
-  }
 }
 
 export const a = 2;

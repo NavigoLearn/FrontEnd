@@ -5,20 +5,6 @@ import {
 } from '@src/typescript/roadmap_ref/dragging/core';
 import { draggingStrategyFactory } from '@src/typescript/roadmap_ref/dragging/strategies';
 
-export function injectDraggingSpace(
-  draggingBehavior: DraggingBehavior,
-  draggingSpace: string | null
-) {
-  draggingBehavior.draggingSpaceId = draggingSpace;
-}
-
-export function injectRootDraggingSpace(
-  draggingBehavior: DraggingBehavior,
-  rootDraggingSpace: string | null
-) {
-  draggingBehavior.rootDraggingSpaceId = rootDraggingSpace;
-}
-
 export function injectDraggingElementIdentifier(
   draggingBehavior: DraggingBehavior,
   draggingElementIdentifier: draggingElementIdentifiers

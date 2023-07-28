@@ -17,7 +17,7 @@ function nodeBuilder(
   width?: number,
   height?: number
 ) {
-  const node = nodeFactoryClassicBoilerplate();
+  const node = nodeFactoryClassicBoilerplate(id);
   mutateNodeWidth(node, width || 100);
   mutateNodeHeight(node, height || 100);
 
@@ -26,21 +26,15 @@ function nodeBuilder(
   injectNewId(node, id);
   return node;
 }
-
 export const roadmap1: Roadmap = {
   rootNodesIds: ['0', '1'],
   nodes: {
     '0': nodeBuilder('0', 500, 200, 500, 500),
     '1': nodeBuilder('1', 100, 100, 200, 100),
-    '2': nodeBuilder('2', 300, 100, 100, 200),
-    '3': nodeBuilder('3', 500, 700, 500, 500),
-    '4': nodeBuilder('4', 100, 300),
-    '5': nodeBuilder('5', 400, 400),
   },
   connections: {},
   chunks: {},
 };
-
 function subNodeAppender(
   parentId: string,
   width: number,

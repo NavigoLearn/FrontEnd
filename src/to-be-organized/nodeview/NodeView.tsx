@@ -1,7 +1,6 @@
 /* eslint-disable no-shadow */
 /* eslint-disable react/prop-types */
 import React, { useEffect, useRef } from 'react';
-import { possibleIds } from '@src/to-be-organized/nodeview/node-get';
 import { getNodeByIdRoadmapEdit } from '@store/roadmap-refactor/roadmap-data/roadmap-edit';
 import renderComponents from '@src/to-be-organized/nodeview/CompRender';
 import { addDragabilityProtocol } from '@src/typescript/roadmap_ref/render/dragging';
@@ -23,7 +22,7 @@ const NodeView: React.FC<NodeViewProps> = ({
   const nodeDivRef = useRef<HTMLDivElement>(null);
   const rerender = useTriggerRerender();
 
-  const renderNode = (nodeId: possibleIds) => {
+  const renderNode = (nodeId: string) => {
     const node = getNodeByIdRoadmapEdit(nodeId);
     const { color, width, height, opacity } = node.data;
     node.data.center.x = width / 2;
@@ -59,6 +58,7 @@ const NodeView: React.FC<NodeViewProps> = ({
 
     useEffect(() => {
       // locks the nodes that are currently in text elements-editing or view mode
+      if (node.flags.renderedOnRoadmapFlag) return;
       addDragabilityProtocol(node.draggingBehavior, true);
     }, []);
 

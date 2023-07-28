@@ -16,7 +16,7 @@ import VariantsComponent from '@components/roadmap/displayers/editor/components/
 import ButtonOutsideGray from '@components/roadmap/displayers/editor/components/builder/ButtonOutsideGray';
 import ButtonInsideGeneric from '@components/roadmap/displayers/editor/components/builder/ButtonInsideGeneric';
 import { nodeFactoryClassicBoilerplate } from '@src/typescript/roadmap_ref/node/core/factories/templates/classic';
-import { NodeFactoryResourceBoilerplate } from '@src/typescript/roadmap_ref/node/core/factories/templates/resource';
+import { nodeFactoryResourceBoilerplate } from '@src/typescript/roadmap_ref/node/core/factories/templates/resource';
 import { getNodeByIdRoadmapEdit } from '@store/roadmap-refactor/roadmap-data/roadmap-edit';
 import { triggerNodeRerender } from '@store/roadmap-refactor/render/rerender-triggers';
 
@@ -119,7 +119,7 @@ const Properties = () => {
           name='Resource Template'
           icon='/editor/addCircle.svg'
           onClick={() => {
-            Object.assign(node, NodeFactoryResourceBoilerplate());
+            Object.assign(node, nodeFactoryResourceBoilerplate());
           }}
         />
       </ButtonOutsideGray>

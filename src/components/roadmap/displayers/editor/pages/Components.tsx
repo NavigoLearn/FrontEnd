@@ -3,11 +3,9 @@ import { useStore } from '@nanostores/react';
 import editorSelectedData, {
   triggerRerenderEditor,
 } from '@store/roadmap-refactor/elements-editing/editor-selected-data';
-import { appendComponent } from '@src/typescript/roadmap_ref/node/core/data-mutation/append';
 import { IComponentOptions } from '@type/roadmap/node/options-types';
 import TitleComponent from '@components/roadmap/displayers/editor/components/TitleComponent';
 import DescriptionComponent from '@components/roadmap/displayers/editor/components/DescriptionComponent';
-import { factoryComponentEmpty } from '@src/typescript/roadmap_ref/node/components/text/factories';
 import DropdownComponent from '@components/roadmap/displayers/editor/components/DropdownComponent';
 import { getNodeByIdRoadmapEdit } from '@store/roadmap-refactor/roadmap-data/roadmap-edit';
 
@@ -32,7 +30,7 @@ const Components = () => {
       <DropdownComponent
         text='Add component'
         onSelect={(componentType: IComponentOptions) => {
-          appendComponent(node, factoryComponentEmpty(componentType));
+          // appendComponent(node, factoryComponentEmpty(componentType)); // needs parentNodeId injected
           triggerRerenderEditor();
         }}
         optionsList={['Title', 'Description']}

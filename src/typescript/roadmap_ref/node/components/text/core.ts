@@ -1,28 +1,6 @@
-import { IComponentOptions } from '@type/roadmap/node/options-types';
 import { generateId } from '@src/typescript/roadmap_ref/node/core/misc';
+import { ComponentNode } from '@src/typescript/roadmap_ref/node/components/core';
 
-export class ComponentNode {
-  x: number;
-
-  y: number;
-
-  width: number;
-
-  height: number;
-
-  type: IComponentOptions;
-
-  name: string;
-
-  id: string;
-
-  constructor(x: number, y: number, width: number, height: number) {
-    this.x = x;
-    this.y = y;
-    this.width = width;
-    this.height = height;
-  }
-}
 class ComponentText extends ComponentNode {
   text: string;
 
