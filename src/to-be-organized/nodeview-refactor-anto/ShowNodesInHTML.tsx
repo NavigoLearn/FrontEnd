@@ -1,5 +1,5 @@
 import React from 'react';
-import NodeView from '@src/to-be-organized/nodeview/NodeView';
+import NodeView from '@src/to-be-organized/nodeview-refactor-anto/NodeView';
 
 const ShowNodesInHTML = () => {
   return (

@@ -4,15 +4,15 @@ import React from 'react';
 import {
   getNodeByID,
   possibleIds,
-} from '@src/to-be-organized/nodeview/node-get';
-import { NodeClass } from '@src/typescript/roadmap_ref/node/core/core';
+} from '@src/to-be-organized/nodeview-refactor-anto/node-get';
+import renderComponents from '@src/to-be-organized/nodeview-refactor-anto/CompRender';
 
 interface NodeViewProps {
   nodeId: string;
   centerOffset: { x: number; y: number };
 }
 
-let prevComponentCenter = { width: 0, height: 0, x: 0, y: 0 };
+const prevComponentCenter = { width: 0, height: 0, x: 0, y: 0 };
 const NodeView: React.FC<NodeViewProps> = ({ nodeId, centerOffset }) => {
   // from the center offset of the previous component, calculate the center of the current component
 
@@ -41,58 +41,6 @@ const NodeView: React.FC<NodeViewProps> = ({ nodeId, centerOffset }) => {
   //   // If the node is not found
   //   return null;
   // };
-
-  const renderComponents = (node: NodeClass) => {
-    const { components } = node;
-    let isFirstComponent = true;
-
-    const componentElements = components.map((component, index) => {
-      const { id, type, width, height, text, textColor, textFont, textSize } =
-        component;
-      let { x, y } = component;
-      if (isFirstComponent) {
-        x = properties.width / 2;
-        y = properties.height / 8; // you don't want it to be EXACTLY at the center in terms of y-axis
-        isFirstComponent = false;
-      } else {
-        ({ x, y } = calcCenter(prevComponentCenter));
-        // Adjust y coordinate to prevent overlapping
-        y += height / 4;
-      }
-
-      prevComponentCenter = {
-        width,
-        height,
-        x: x - width / 2,
-        y: y - height / 2,
-      };
-      subnodeHeightOffset += height;
-      console.log('subnodeHeightOffset in func', subnodeHeightOffset);
-      return (
-        <div
-          // eslint-disable-next-line react/no-array-index-key
-          key={index}
-          id={id}
-          className='rounded-xl items-center relative overflow-hidden'
-          style={{
-            textDecorationColor: textColor,
-            textSizeAdjust: `${textSize}%`,
-            textAlign: 'center',
-            fontFamily: textFont,
-            width: `${width}px`,
-            height: `${height}px`,
-            left: `${x - width / 2}px`,
-            top: `${y - height / 2}px`,
-          }}
-        >
-          {type === 'Title' && <h1>{text}</h1>}
-          {type === 'Description' && <p>{text}</p>}
-          {/* Add more conditions for other component types */}
-        </div>
-      );
-    });
-    return <div className='components-container'>{componentElements}</div>;
-  };
 
   const renderNode = (nodeId: possibleIds) => {
     const node = getNodeByID(nodeId);
@@ -123,7 +71,7 @@ const NodeView: React.FC<NodeViewProps> = ({ nodeId, centerOffset }) => {
           opacity,
         }}
       >
-        {/* {renderComponents()} */}
+        {renderComponents(node.components, node.properties)};
         {subNodeIds &&
           subNodeIds.map((subNodeId) => {
             // the div is used to position the subNode in the center of the current node
