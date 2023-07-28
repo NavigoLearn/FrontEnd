@@ -3,6 +3,7 @@
 import React, { useRef } from 'react';
 import { possibleIds } from '@src/to-be-organized/nodeview/node-get';
 import { getNodeByIdRoadmapEdit } from '@store/roadmap-refactor/roadmap-data/roadmap-edit';
+import renderComponents from '@src/to-be-organized/nodeview/CompRender';
 
 interface NodeViewProps {
   nodeId: string;
@@ -65,7 +66,7 @@ const NodeView: React.FC<NodeViewProps> = ({
           opacity,
         }}
       >
-        {/* {renderComponents()} */}
+        {renderComponents(node.components, node.properties)};
         {subNodeIds &&
           subNodeIds.map((subNodeId) => {
             // the div is used to position the subNode in the center of the current node

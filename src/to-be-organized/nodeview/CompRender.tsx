@@ -1,9 +1,5 @@
 import React from 'react';
-import {
-  getNodeByID,
-  possibleIds,
-} from '@src/to-be-organized/nodeview-refactor-anto/node-get';
-import { calculateComponentPositions } from '@src/to-be-organized/nodeview-refactor-anto/logic';
+import { calculateComponentPositions } from '@src/to-be-organized/nodeview/logic';
 
 const createComponentElement = (component, index, position) => {
   const { id, type, width, height, text, textColor, textFont, textSize } =
