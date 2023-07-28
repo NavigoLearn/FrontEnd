@@ -1,16 +1,16 @@
-import { INodeData } from '@type/roadmap/node/core-types';
+import { INodeProperties } from '@type/roadmap/node/core-types';
 import { Flags } from '@src/typescript/roadmap_ref/node/core/flags';
 
 import { Actions } from '@src/typescript/roadmap_ref/node/core/actions';
 import { DraggingBehavior } from '@src/typescript/roadmap_ref/dragging/core';
-import { Properties } from '@src/typescript/roadmap_ref/node/core/properties';
+import { Data } from '@src/typescript/roadmap_ref/node/core/properties';
 import { IAttachmentObject } from '@type/roadmap/node/attachments-types';
 import { IComponentObject } from '@type/roadmap/node/components-types';
 
 export class NodeClass {
   components: IComponentObject[] = []; // title, description, button and anything inside the node
 
-  properties: Properties = new Properties(); // properties of the node itself
+  data: Data = new Data(); // properties of the node itself
 
   subNodeIds: string[] = []; // reference to other NodeClasses from the roadmap
 
@@ -27,7 +27,7 @@ export class NodeClass {
   name = 'Node';
 
   // @ts-ignore
-  data: INodeData = {
+  properties: INodeProperties = {
     // used if there is dynamically injected data
   }; // roadmap-data related to parents, connection stuff and misc things I couldn't find a place general
 }

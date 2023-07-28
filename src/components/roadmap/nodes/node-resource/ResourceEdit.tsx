@@ -5,7 +5,7 @@ import { NodeResourceProps } from '@type/roadmap/old/nodes';
 import {
   getTriggerDisable,
   getTriggerEnable,
-} from '@store/roadmap-refactor/render/rerenderTriggers';
+} from '@store/roadmap-refactor/render/rerender-triggers';
 import { setToolTip } from '@store/roadmap-refactor/misc/miscParams';
 import { manualTrigger } from '@src/typescript/roadmap/roadmap-edit-decorators';
 import {

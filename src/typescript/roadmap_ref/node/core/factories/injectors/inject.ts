@@ -9,13 +9,15 @@ export function injectNodeColorScheme(
   node: NodeClass,
   selector: IColorSchemaOptions = 'default'
 ) {
-  node.properties.color = colorSchemas[selector];
+  node.data.color = colorSchemas[selector];
 }
 
 export function injectClassicFlags(node: NodeClass) {
   node.flags.chunkFlag = true;
   node.flags.connFlag = true;
   node.flags.connectionPivotFlag = true;
+  node.flags.markAsDoneBehaviorFlag = true;
+  node.flags.renderedOnRoadmapFlag = true;
 }
 
 export function injectNestedFlag(node: NodeClass) {
@@ -23,19 +25,24 @@ export function injectNestedFlag(node: NodeClass) {
 }
 
 export function injectParentData(node: NodeClass, parent: string) {
-  node.data.parent = parent;
+  node.properties.parentId = parent;
 }
 
 export function injectChildrenData(node: NodeClass, children: string[]) {
-  node.data.children = children;
+  node.properties.childrenIds = children;
 }
 export function injectNestedWithinData(node: NodeClass, nestedWithin: string) {
-  node.data.nestedWithin = nestedWithin;
+  node.properties.nestedWithin = nestedWithin;
+}
+
+export function injectChunkData(node: NodeClass, chunk: string) {
+  node.properties.chunkId = chunk;
 }
 
 export function injectClassicData(node: NodeClass, parent, children) {
   injectParentData(node, parent);
   injectChildrenData(node, children);
+  injectChunkData(node, '0_0');
 }
 
 export function injectNestedFlags(node: NodeClass) {
@@ -46,7 +53,15 @@ export function injectNestedNodeData(node: NodeClass, nestedWithin: string) {
   injectNestedWithinData(node, nestedWithin);
 }
 
-export function injectNewId(node: NodeClass): string {
-  node.data.id = generateId();
-  return node.data.id;
+export function injectRenderedOnRoadmapFlag(node: NodeClass) {
+  node.flags.renderedOnRoadmapFlag = true;
+}
+
+export function injectNewId(node: NodeClass, newId: string): string {
+  node.id = newId;
+  return node.id;
+}
+export function injectNewRandomId(node: NodeClass): string {
+  node.id = generateId();
+  return node.id;
 }

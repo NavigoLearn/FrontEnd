@@ -1,5 +1,6 @@
 import { ResourceSubNodeProps } from '@type/roadmap/old/resources';
 import { LevelTypes } from '@type/roadmap/old/level-types';
+import { NodeClass } from '@src/typescript/roadmap_ref/node/core/core';
 
 export type NodeIdentifierTypes = 'Info' | 'Resource';
 export const nodeIdentifierTypesArray = ['Info', 'Resource'];
@@ -45,7 +46,7 @@ export type NodeTypesProps = NodeInfoProps | NodeResourceProps;
 export type NodeTypesStore = NodeInfoStore | NodeResourceStore;
 
 export type NodeManagerProps = {
-  data: NodeTypesStore;
+  node: NodeClass;
   editing: boolean;
   triggerCb: (cbRender: any, cbEnable: any, cbDisable: any) => void;
 };

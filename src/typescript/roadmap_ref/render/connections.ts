@@ -1,5 +1,5 @@
 import * as d3 from 'd3';
-import renderConnectionsStore from '@store/roadmap-refactor/render/renderedConnections';
+import renderConnectionsStore from '@store/roadmap-refactor/render/rendered-connections';
 import roadmapState from '@store/roadmap/data/roadmap_state';
 import roadmapEdit from '@store/roadmap/data/roadmap_edit';
 import roadmapStatic from '@store/roadmap/data/roadmap_static';

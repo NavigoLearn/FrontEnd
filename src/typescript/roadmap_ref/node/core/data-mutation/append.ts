@@ -17,6 +17,6 @@ export function appendComponent(
   node.components.push(component);
 }
 
-export function appendNestedNode(node: NodeClass, id: string) {
+export function appendSubNode(node: NodeClass, id: string) {
   node.subNodeIds.push(id);
 }

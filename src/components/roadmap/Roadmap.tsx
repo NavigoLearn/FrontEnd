@@ -1,4 +1,5 @@
 import React, { useEffect, useRef } from 'react';
+import { useScrollHidden } from '@hooks/useScrollHidden';
 import { v4 as uuid4 } from 'uuid';
 import NodeManager from '@components/roadmap/NodeManager';
 import { useStore } from '@nanostores/react';
@@ -6,26 +7,15 @@ import roadmapState, {
   setEditingTrueNoRerender,
   setRoadmapId,
 } from '@store/roadmap/data/roadmap_state';
-import roadmapStatic, {
-  initialRoadmapCreateRender,
-  setRoadmapFromAPI,
-} from '@store/roadmap/data/roadmap_static';
-import {
-  setTriggerDisable,
-  setTriggerEnable,
-  setTriggerRender,
-} from '@store/roadmap-refactor/render/rerenderTriggers';
+import { setTriggerRender } from '@store/roadmap-refactor/render/rerender-triggers';
 import { addZoom, disableZoom } from '@src/typescript/roadmap/d3utils';
 import { RoadmapChunkingManager } from '@src/typescript/roadmap_ref/render/chunks';
-import renderNodesStore from '@store/roadmap-refactor/render/renderedNodes';
-import { setChunkRerenderTrigger } from '@store/roadmap-refactor/render/renderedChunks';
-import renderConnectionsStore from '@store/roadmap-refactor/render/renderedConnections';
-import { renderConnections } from '@src/typescript/roadmap_ref/render/connections';
-import roadmapEdit from '@store/roadmap/data/roadmap_edit';
+import { roadmapEdit } from '@store/roadmap-refactor/roadmap-data/roadmap-edit';
 import {
   setDisableZoomTrigger,
   setEnableZoomTrigger,
 } from '@store/roadmap-refactor/misc/miscParams';
+import { useIsLoaded } from '@hooks/useIsLoaded';
 import Popup from './tabs/popups/Popup';
 
 const Roadmap = ({ pageId }: { pageId: string }) => {
@@ -34,30 +24,14 @@ const Roadmap = ({ pageId }: { pageId: string }) => {
     setEditingTrueNoRerender();
   }
   const { editing } = isCreate ? { editing: true } : useStore(roadmapState);
-  // the ids of the nodes that need to be rendered accorind to the current view and the chunks visible
-  const { nodes: nodesIds } = useStore(renderNodesStore); // used to trigger a rerender when the nodes change
-  const { nodes: nodesValues } =
-    editing || isCreate ? roadmapEdit.get() : roadmapStatic.get();
-
-  useEffect(() => {
-    // sets overflow hidden on body
-    const body = document.querySelector('body');
-    if (body) {
-      body.style.overflow = 'hidden';
-      window.scrollTo({
-        top: 0,
-      });
-    }
-
-    return () => {
-      // sets overflow auto on body
-      if (body) {
-        body.style.overflow = 'auto';
-      }
-    };
-  }, []);
+  // need to take the ids of the nodes included in the current chunks and render them
+  // const { nodesIds } = useStore(renderNodesStore);
+  const nodesIds = roadmapEdit.get().rootNodesIds;
+  const { nodes } = editing || isCreate ? roadmapEdit.get() : roadmapEdit.get();
 
   const renderer = useRef(null);
+  useScrollHidden();
+  const isLoaded = useIsLoaded();
 
   const enableZoomFn = () => {
     addZoom(
@@ -75,32 +49,27 @@ const Roadmap = ({ pageId }: { pageId: string }) => {
     // renderer object that handles chunking
     renderer.current = new RoadmapChunkingManager('rootSvg');
     // sets the trigger for chunk recalculations to a global state
-    setChunkRerenderTrigger(
-      // used for decorators
-      renderer.current.recalculateChunks.bind(renderer.current)
-    );
+
+    // setChunkRerenderTrigger(
+    //   // used for decorators
+    //   renderer.current.recalculateChunks.bind(renderer.current)
+    // );
     if (!isCreate) setRoadmapId(pageId);
     else setRoadmapId(uuid4());
     // fetches the roadmap-roadmap-data from the api-wrapper
-    if (!isCreate) {
-      setRoadmapFromAPI(pageId); // when request finishes it triggers chunk renderer which sets the nodes and connections to render-roadmap-roadmap-data
-      // to their respective stores. The node rendering is triggered by the rerender of the Roadmap component
-      // for the connections we need to subscribe to the store with a callback
-    } else {
-      initialRoadmapCreateRender();
-    }
+    // ...
 
-    renderConnectionsStore.subscribe(() => {
-      // calling the connection rendering function
-      setTimeout(() => {
-        // wait for event loop to finish rendering the nodes and then render-roadmap-roadmap-data the connections
-        renderConnections();
-      }, 0);
-    });
+    // renderConnectionsStore.subscribe(() => {
+    //   // calling the connection rendering function
+    //   setTimeout(() => {
+    //     // wait for event loop to finish rendering the nodes and then render-roadmap-roadmap-data the connections
+    //     renderConnections();
+    //   }, 0);
+    // });
+
     setEnableZoomTrigger(() => {
       enableZoomFn();
     });
-
     setDisableZoomTrigger(() => {
       disableZoomFn();
     });
@@ -125,22 +94,27 @@ const Roadmap = ({ pageId }: { pageId: string }) => {
             {/* placeholder for eslint to not scream at me */}
           </g>
           <g id='rootGroupNodes'>
-            {nodesIds.map((id) => {
-              // gets the roadmap-roadmap-data
-              const data = nodesValues[id];
-              return (
-                <NodeManager
-                  key={id}
-                  data={data}
-                  editing={editing}
-                  triggerCb={async (cbTrigger, cbDisableDrag, cbEnableDrag) => {
-                    setTriggerRender(id, cbTrigger);
-                    setTriggerDisable(id, cbDisableDrag);
-                    setTriggerEnable(id, cbEnableDrag);
-                  }}
-                />
-              );
-            })}
+            {isLoaded &&
+              nodesIds.map((id) => {
+                // gets the roadmap-roadmap-data
+                return (
+                  <NodeManager
+                    key={id}
+                    node={nodes[id]}
+                    editing={editing}
+                    triggerCb={async (
+                      cbTrigger,
+                      cbDisableDrag,
+                      cbEnableDrag
+                    ) => {
+                      setTriggerRender(id, cbTrigger);
+                      console.log('setter', id, cbTrigger);
+                      // setTriggerDisable(id, cbDisableDrag);
+                      // setTriggerEnable(id, cbEnableDrag);
+                    }}
+                  />
+                );
+              })}
           </g>
         </g>
       </svg>

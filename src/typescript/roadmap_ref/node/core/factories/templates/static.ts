@@ -2,7 +2,7 @@ import { NodeClass } from '@src/typescript/roadmap_ref/node/core/core';
 import {
   injectClassicData,
   injectClassicFlags,
-  injectNewId,
+  injectNewRandomId,
 } from '@src/typescript/roadmap_ref/node/core/factories/injectors/inject';
 import {
   appendAttachment,
@@ -16,7 +16,7 @@ export function NodeFactoryStaticBoilerplate(): NodeClass {
   const node = new NodeClass();
   // classic nodes has a tab-attachment attachment and the default color scheme
   injectClassicFlags(node);
-  injectNewId(node);
+  injectNewRandomId(node);
   injectClassicData(node, 'someparent', []);
   appendComponent(node, factoryComponentTitleEmpty());
   appendAttachment(node, factoryAttachmentTabEmpty());

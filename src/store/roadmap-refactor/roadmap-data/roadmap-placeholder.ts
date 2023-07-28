@@ -17,7 +17,7 @@ export const appendNode = (node: NodeClass) => {
     ...originalStore,
     nodes: {
       ...originalStore.nodes,
-      [node.data.id]: node,
+      [node.id]: node,
     },
   });
 };

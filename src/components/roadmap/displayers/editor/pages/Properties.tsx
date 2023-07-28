@@ -1,24 +1,29 @@
 import React from 'react';
+import {
+  mutateNodeColor,
+  mutateNodeCoordX,
+  mutateNodeCoordY,
+  mutateNodeHeight,
+  mutateNodeOpacity,
+  mutateNodeWidth,
+} from '@src/typescript/roadmap_ref/node/core/data-mutation/mutate';
 import PropertyEditorNumber from '@components/roadmap/displayers/editor/components/PropertyEditorNumber';
 import { useStore } from '@nanostores/react';
 import editorSelectedData, {
   triggerRerenderEditor,
 } from '@store/roadmap-refactor/elements-editing/editor-selected-data';
-import {
-  mutateNodeColor,
-  mutateNodeHeight,
-  mutateNodeOpacity,
-  mutateNodeWidth,
-} from '@src/typescript/roadmap_ref/node/core/data-mutation/mutate';
 import VariantsComponent from '@components/roadmap/displayers/editor/components/VariantsComponent';
 import ButtonOutsideGray from '@components/roadmap/displayers/editor/components/builder/ButtonOutsideGray';
 import ButtonInsideGeneric from '@components/roadmap/displayers/editor/components/builder/ButtonInsideGeneric';
-import { NodeFactoryClassicBoilerplate } from '@src/typescript/roadmap_ref/node/core/factories/templates/classic';
+import { nodeFactoryClassicBoilerplate } from '@src/typescript/roadmap_ref/node/core/factories/templates/classic';
 import { NodeFactoryResourceBoilerplate } from '@src/typescript/roadmap_ref/node/core/factories/templates/resource';
+import { getNodeByIdRoadmapEdit } from '@store/roadmap-refactor/roadmap-data/roadmap-edit';
+import { triggerNodeRerender } from '@store/roadmap-refactor/render/rerender-triggers';
 
 const Properties = () => {
-  const { node, selectedNodeId } = useStore(editorSelectedData);
-  const { properties } = node;
+  const { selectedNodeId } = useStore(editorSelectedData);
+  const node = getNodeByIdRoadmapEdit(selectedNodeId);
+  const { data } = node;
 
   function checkInvalidInput(value: string) {
     const newValue = parseInt(value, 10);
@@ -28,30 +33,39 @@ const Properties = () => {
 
   return (
     <div className='flex flex-col gap-4'>
-      <div className='flex flex-col gap-0'>
+      <div className='flex flex-col gap-2'>
         <PropertyEditorNumber
           name='Width'
-          value={properties.width}
+          value={data.width}
           onChange={(value) => {
             const newValue = parseInt(value, 10);
             if (checkInvalidInput(value)) return;
+            // adjust for old value to keep the same center in the same place even after resizing
+            const oldWidth = data.width;
+            mutateNodeCoordX(node, data.coords.x + (oldWidth - newValue) / 2);
+
             mutateNodeWidth(node, newValue);
             triggerRerenderEditor();
+            triggerNodeRerender(node.id);
           }}
         />
         <PropertyEditorNumber
           name='Height'
-          value={properties.height}
+          value={data.height}
           onChange={(value) => {
             const newValue = parseInt(value, 10);
             if (checkInvalidInput(value)) return;
+            const oldHeight = data.height;
+            mutateNodeCoordY(node, data.coords.y + (oldHeight - newValue) / 2);
+
             mutateNodeHeight(node, newValue);
             triggerRerenderEditor();
+            triggerNodeRerender(node.id);
           }}
         />
         <PropertyEditorNumber
           name='Opacity'
-          value={properties.opacity}
+          value={data.opacity}
           onChange={(value) => {
             const newValue = parseInt(value, 10);
             if (checkInvalidInput(value)) return;
@@ -93,8 +107,7 @@ const Properties = () => {
           name='Basic Template'
           icon='/editor/addCircle.svg'
           onClick={() => {
-            console.log('add basic template');
-            Object.assign(node, NodeFactoryClassicBoilerplate());
+            Object.assign(node, nodeFactoryClassicBoilerplate());
           }}
         />
       </ButtonOutsideGray>
@@ -107,7 +120,6 @@ const Properties = () => {
           name='Resource Template'
           icon='/editor/addCircle.svg'
           onClick={() => {
-            console.log('add resource template');
             Object.assign(node, NodeFactoryResourceBoilerplate());
           }}
         />

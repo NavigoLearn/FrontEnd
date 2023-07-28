@@ -19,7 +19,7 @@ type INodeProperties = {
 };
 
 const NodeProperties = ({ node }: INodeProperties) => {
-  const { properties } = node;
+  const { data } = node;
   function checkInvalidInput(value: string) {
     const newValue = parseInt(value, 10);
     if (typeof newValue !== 'number' || Number.isNaN(newValue)) return true;
@@ -30,7 +30,7 @@ const NodeProperties = ({ node }: INodeProperties) => {
       <div className='flex'>
         <PropertyEditorNumber
           name='H'
-          value={properties.height}
+          value={data.height}
           onChange={(value) => {
             const newValue = parseInt(value, 10);
             if (checkInvalidInput(value)) return;
@@ -40,7 +40,7 @@ const NodeProperties = ({ node }: INodeProperties) => {
         />
         <PropertyEditorNumber
           name='W'
-          value={properties.width}
+          value={data.width}
           onChange={(value) => {
             const newValue = parseInt(value, 10);
             if (checkInvalidInput(value)) return;
@@ -52,7 +52,7 @@ const NodeProperties = ({ node }: INodeProperties) => {
       <div className='flex'>
         <PropertyEditorNumber
           name='X'
-          value={properties.coords.x}
+          value={data.coords.x}
           onChange={(value) => {
             const newValue = parseInt(value, 10);
             if (checkInvalidInput(value)) return;
@@ -62,7 +62,7 @@ const NodeProperties = ({ node }: INodeProperties) => {
         />
         <PropertyEditorNumber
           name='Y'
-          value={properties.coords.y}
+          value={data.coords.y}
           onChange={(value) => {
             const newValue = parseInt(value, 10);
             if (checkInvalidInput(value)) return;

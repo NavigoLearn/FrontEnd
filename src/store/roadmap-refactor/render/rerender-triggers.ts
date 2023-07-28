@@ -25,6 +25,11 @@ export function getTriggerTooltip(id: string) {
   return original.tooltipTriggers[id];
 }
 
+export function triggerNodeRerender(id: string) {
+  const original = nodeTriggers.get();
+  original.triggers[id]();
+}
+
 export function setTriggerRender(id: string, cb: any) {
   const original = nodeTriggers.get();
   original.triggers[id] = cb;

@@ -14,10 +14,10 @@ export type possibleIds =
 
 const node1Builder = (): NodeClass => {
   const node = new NodeClass();
-  node.data.id = 'node1';
-  node.properties.width = 500;
-  node.properties.height = 500;
-  node.properties.color.primary = '#00FF00';
+  node.id = 'node1';
+  node.data.width = 500;
+  node.data.height = 500;
+  node.data.color.primary = '#00FF00';
   node.components[0] = factoryComponentEmpty('Title');
   node.components[1] = factoryComponentEmpty('Description');
   node.components[2] = factoryComponentEmpty('Description');
@@ -29,12 +29,12 @@ const node1Builder = (): NodeClass => {
 
 const node2Builder = (): NodeClass => {
   const node = new NodeClass();
-  node.data.id = 'node2';
-  node.properties.width = 300;
-  node.properties.height = 300;
+  node.id = 'node2';
+  node.data.width = 300;
+  node.data.height = 300;
   node.components[0] = factoryComponentEmpty('Title');
   node.components[1] = factoryComponentEmpty('Description');
-  node.properties.color.primary = '#FF0000';
+  node.data.color.primary = '#FF0000';
   node.subNodeIds = ['node3'];
   // node1 -> node2 -> node3
   // node1 -> node4
@@ -43,12 +43,12 @@ const node2Builder = (): NodeClass => {
 
 const node3Builder = (): NodeClass => {
   const node = new NodeClass();
-  node.data.id = 'node3';
-  node.properties.width = 35;
-  node.properties.height = 49;
+  node.id = 'node3';
+  node.data.width = 35;
+  node.data.height = 49;
   node.components[0] = factoryComponentEmpty('Title');
   node.components[1] = factoryComponentEmpty('Description');
-  node.properties.color.primary = '#0000FF';
+  node.data.color.primary = '#0000FF';
   // node1 -> node2 -> node3
   // node1 -> node4
   return node;
@@ -56,9 +56,9 @@ const node3Builder = (): NodeClass => {
 
 const node4Builder = (): NodeClass => {
   const node = new NodeClass();
-  node.data.id = 'node4';
-  node.properties.width = 123;
-  node.properties.height = 37;
+  node.id = 'node4';
+  node.data.width = 123;
+  node.data.height = 37;
   node.components[0] = factoryComponentEmpty('Title');
   node.components[1] = factoryComponentEmpty('Description');
   // node1 -> node2 -> node3

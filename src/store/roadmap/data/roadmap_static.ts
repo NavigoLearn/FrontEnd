@@ -1,6 +1,6 @@
 import { atom } from 'nanostores';
 import { Roadmap } from '@type/roadmap/old/roadmap';
-import { triggerChunkRerender } from '@store/roadmap-refactor/render/renderedChunks';
+import { triggerChunkRerender } from '@store/roadmap-refactor/render/rendered-chunks';
 import { setLoadedTrue } from '@src/typescript/roadmap/utils';
 import miscParams from '@store/roadmap-refactor/misc/miscParams';
 import { RoadmapTypeApi } from '@type/explore/card';

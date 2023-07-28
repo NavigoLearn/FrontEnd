@@ -1,9 +1,14 @@
-export type IDataKeys = 'parent' | 'children' | 'nestedWithin';
+export type IPropertiesKeys =
+  | 'parentId'
+  | 'childrenIds'
+  | 'nestedWithin'
+  | 'chunkId';
 
-export interface IDataKeysFields {
-  parent: string;
-  children: string[];
+export interface IPropertisKeyFields {
+  parentId: string;
+  childrenIds: string[];
   nestedWithin: string;
+  chunkId: string;
 }
 
 export interface IIdentifiers {
@@ -11,17 +16,6 @@ export interface IIdentifiers {
   name: string; // not unique, editable by user
 }
 
-export type INodeData = {
-  id: string;
-  name: string;
-  coords: {
-    x: number;
-    y: number;
-  };
-  center: {
-    x: number;
-    y: number;
-  };
-} & {
-  [key in IDataKeys]: IDataKeysFields[key];
+export type INodeProperties = {
+  [key in IPropertiesKeys]: IPropertisKeyFields[key];
 };

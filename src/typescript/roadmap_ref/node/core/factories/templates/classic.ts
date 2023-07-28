@@ -3,7 +3,6 @@ import { NodeClass } from '@src/typescript/roadmap_ref/node/core/core';
 import {
   injectClassicData,
   injectClassicFlags,
-  injectNewId,
 } from '@src/typescript/roadmap_ref/node/core/factories/injectors/inject';
 import {
   appendAttachment,
@@ -16,12 +15,12 @@ import {
 } from '@src/typescript/roadmap_ref/node/attachments/tab/factory';
 import { appendAttachmentTabComponent } from '@src/typescript/roadmap_ref/node/attachments/tab/append';
 
-export function NodeFactoryClassicBoilerplate(): NodeClass {
+export function nodeFactoryClassicBoilerplate(): NodeClass {
   // return boilerplate class for classic nodes and the most common
   const node = new NodeClass();
   // classic nodes has a tab-attachment attachment and the default color scheme
   injectClassicFlags(node);
-  injectNewId(node);
+  // injectNewId(node);
   injectClassicData(node, 'someparent', []);
   appendComponent(node, factoryComponentTitleEmpty());
   const tab = factoryAttachmentTabEmpty();

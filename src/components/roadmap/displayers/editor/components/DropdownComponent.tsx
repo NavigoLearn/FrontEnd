@@ -23,7 +23,7 @@ const DropdownOptions = <T extends string>({
       <div className='absolute w-full h-full border-2 border-gray-500 left-0 top-0 z-20 rounded-xl pointer-events-none' />
       {optionsList.map((element, index) => {
         return (
-          <>
+          <div key={element}>
             <button
               onClick={(e) => {
                 onSelect(element);
@@ -48,7 +48,7 @@ const DropdownOptions = <T extends string>({
             {index !== optionsList.length - 1 && (
               <hr className='bg-gray-200 h-[2px]' />
             )}
-          </>
+          </div>
         );
       })}
     </div>

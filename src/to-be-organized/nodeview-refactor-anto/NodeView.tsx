@@ -96,8 +96,8 @@ const NodeView: React.FC<NodeViewProps> = ({ nodeId, centerOffset }) => {
 
   const renderNode = (nodeId: possibleIds) => {
     const node = getNodeByID(nodeId);
-    const { color, width, height, opacity } = node.properties;
-    node.properties.center.x = width / 2;
+    const { color, width, height, opacity } = node.data;
+    node.data.center.x = width / 2;
     const { subNodeIds } = node;
     // Function to render each subnode
 
@@ -132,8 +132,8 @@ const NodeView: React.FC<NodeViewProps> = ({ nodeId, centerOffset }) => {
                 key={subNodeId}
                 nodeId={subNodeId}
                 centerOffset={{
-                  x: node.properties.width / 2,
-                  y: node.properties.height / 2,
+                  x: node.data.width / 2,
+                  y: node.data.height / 2,
                 }}
               />
             );

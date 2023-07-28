@@ -3,7 +3,7 @@ import { setToolTip } from '@store/roadmap-refactor/misc/miscParams';
 import {
   getTriggerDisable,
   getTriggerEnable,
-} from '@store/roadmap-refactor/render/rerenderTriggers';
+} from '@store/roadmap-refactor/render/rerender-triggers';
 import { NodeInfoProps } from '@type/roadmap/old/nodes';
 import InfoNonEditProps from '@components/roadmap/nodes/node-info/InfoNonEditProps';
 import InfoEditProps from '@components/roadmap/nodes/node-info/InfoEditProps';

@@ -7,7 +7,7 @@ import {
 import { applyAllDiffs, emptyAllDiffs } from '@store/roadmap/cache/diff-tabs';
 import { deepCopy } from '@src/typescript/roadmap/utils';
 import { resetAllTooltips } from '@store/roadmap-refactor/misc/miscParams';
-import { triggerChunkRerender } from '@store/roadmap-refactor/render/renderedChunks';
+import { triggerChunkRerender } from '@store/roadmap-refactor/render/rendered-chunks';
 import { updateRoadmapData } from '../../api-wrapper/roadmap/roadmaps';
 
 export function transferRoadmapToEdit() {

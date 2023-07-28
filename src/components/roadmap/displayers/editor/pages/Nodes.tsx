@@ -6,16 +6,18 @@ import editorSelectedData, {
   triggerRerenderEditor,
 } from '@store/roadmap-refactor/elements-editing/editor-selected-data';
 import NodeComponent from '@components/roadmap/displayers/editor/components/NodeComponent';
-import { NodeFactoryNested } from '@src/typescript/roadmap_ref/node/core/factories/templates/nested';
-import { appendNestedNode } from '@src/typescript/roadmap_ref/node/core/data-mutation/append';
+import { nodeFactorySubNode } from '@src/typescript/roadmap_ref/node/core/factories/templates/nested';
+import { appendSubNode } from '@src/typescript/roadmap_ref/node/core/data-mutation/append';
 import { appendNode } from '@store/roadmap-refactor/roadmap-data/roadmap-placeholder';
+import { getNodeByIdRoadmapEdit } from '@store/roadmap-refactor/roadmap-data/roadmap-edit';
 
 const Nodes = () => {
-  const { node, selectedNodeId } = useStore(editorSelectedData);
+  const { selectedNodeId } = useStore(editorSelectedData);
+  const node = getNodeByIdRoadmapEdit(selectedNodeId);
 
   function addNestedNode() {
-    const newNestedNode = NodeFactoryNested(node.data.id); // creates node
-    appendNestedNode(node, newNestedNode.data.id); // appends to the parent of nesting
+    const newNestedNode = nodeFactorySubNode(node.id); // creates node
+    appendSubNode(node, newNestedNode.id); // appends to the parent of nesting
     appendNode(newNestedNode);
     triggerRerenderEditor(); // trigger rerender
   }
@@ -31,7 +33,7 @@ const Nodes = () => {
         />
       </ButtonOutsideGray>
       <div className='flex flex-col gap-4 mt-5'>
-        {node.nestedNodesIds.map((id) => {
+        {node.subNodeIds.map((id) => {
           return (
             <NodeComponent parentNestId={selectedNodeId} id={id} key={id} />
           );

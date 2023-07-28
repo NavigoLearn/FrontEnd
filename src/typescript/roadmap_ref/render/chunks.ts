@@ -4,12 +4,12 @@ import roadmapStatic from '@store/roadmap/data/roadmap_static';
 import {
   getNodes,
   setNodes,
-} from '@store/roadmap-refactor/render/renderedNodes';
+} from '@store/roadmap-refactor/render/rendered-nodes';
 import chunksStore, {
   setChunks,
-} from '@store/roadmap-refactor/render/renderedChunks';
+} from '@store/roadmap-refactor/render/rendered-chunks';
 import * as d3 from 'd3';
-import { setConnections } from '@store/roadmap-refactor/render/renderedConnections';
+import { setConnections } from '@store/roadmap-refactor/render/rendered-connections';
 import { Roadmap } from '@type/roadmap/old/roadmap';
 import { setViewport } from '@store/roadmap-refactor/misc/viewport-coords';
 import { Viewport } from '@type/roadmap/old/misc';

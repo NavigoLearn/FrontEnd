@@ -8,8 +8,8 @@ import {
   defaultNodeWidth,
 } from '@src/typescript/roadmap_ref/node/core/factories/params/default-params';
 
-export class Properties {
-  /* Used to manage all the possible properties of a node */
+export class Data {
+  /* Used to manage all the possible data of a node */
   color: IColorSchemaFields;
 
   width: number;

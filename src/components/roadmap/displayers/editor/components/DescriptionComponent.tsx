@@ -1,22 +1,25 @@
 import React from 'react';
 import { tailwindTransitionClass } from '@src/UI-library/tailwind-utils';
 import { mutateComponentDescriptionText } from '@src/typescript/roadmap_ref/node/components/text/mutate';
-import { useStore } from '@nanostores/react';
-import editorSelectedData from '@store/roadmap-refactor/elements-editing/editor-selected-data';
 import {
   getComponentDescriptionById,
   getComponentDescriptionText,
 } from '@src/typescript/roadmap_ref/node/core/data-get/components';
 import { useTriggerRerender } from '@hooks/useTriggerRerender';
 import { deleteComponentWithId } from '@src/typescript/roadmap_ref/node/core/data-mutation/delete';
+import { NodeClass } from '@src/typescript/roadmap_ref/node/core/core';
 
 type DescriptionComponentProps = {
+  node: NodeClass;
   id: string;
   name: string;
 };
-const DescriptionComponent = ({ id, name }: DescriptionComponentProps) => {
+const DescriptionComponent = ({
+  node,
+  id,
+  name,
+}: DescriptionComponentProps) => {
   const rerender = useTriggerRerender();
-  const { node } = useStore(editorSelectedData); // since title component is used means editor
   // is opened and node is selected
   const descriptionComponent = getComponentDescriptionById(node, id);
   return (

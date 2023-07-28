@@ -9,9 +9,11 @@ import TitleComponent from '@components/roadmap/displayers/editor/components/Tit
 import DescriptionComponent from '@components/roadmap/displayers/editor/components/DescriptionComponent';
 import { factoryComponentEmpty } from '@src/typescript/roadmap_ref/node/components/text/factories';
 import DropdownComponent from '@components/roadmap/displayers/editor/components/DropdownComponent';
+import { getNodeByIdRoadmapEdit } from '@store/roadmap-refactor/roadmap-data/roadmap-edit';
 
 const Components = () => {
-  const { node, selectedNodeId } = useStore(editorSelectedData);
+  const { selectedNodeId } = useStore(editorSelectedData);
+  const node = getNodeByIdRoadmapEdit(selectedNodeId);
 
   const selectComponentToRender = (
     type: IComponentOptions,
@@ -19,8 +21,8 @@ const Components = () => {
     name: string
   ) => {
     const JSONMapper = {
-      Title: <TitleComponent key={id} id={id} name={name} />,
-      Description: <DescriptionComponent id={id} name={name} />,
+      Title: <TitleComponent node={node} key={id} id={id} name={name} />,
+      Description: <DescriptionComponent node={node} id={id} name={name} />,
     };
     return JSONMapper[type];
   };
