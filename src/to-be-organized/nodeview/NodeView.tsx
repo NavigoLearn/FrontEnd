@@ -7,7 +7,13 @@ import renderComponents from '@src/to-be-organized/nodeview/CompRender';
 import { addDragabilityProtocol } from '@src/typescript/roadmap_ref/render/dragging';
 import { useTriggerRerender } from '@hooks/useTriggerRerender';
 import { setTriggerRender } from '@store/roadmap-refactor/render/rerender-triggers';
-import { setElementDraggable } from '@store/roadmap-refactor/elements-editing/draggable-elements';
+import {
+  getElementDraggable,
+  setDraggableElementForNodeWithId,
+  setElementDraggable,
+} from '@store/roadmap-refactor/elements-editing/draggable-elements';
+import { setDisplayPageType } from '@store/roadmap-refactor/display/display-manager';
+import { setSelectedNodeId } from '@store/roadmap-refactor/elements-editing/editor-selected-data';
 
 interface NodeViewProps {
   nodeId: string;
@@ -84,10 +90,18 @@ const NodeView: React.FC<NodeViewProps> = ({
     }, []);
 
     return (
+      // eslint-disable-next-line jsx-a11y/click-events-have-key-events
       <div
         className='drop-shadow-md  rounded-xl absolute border-2 border-black'
         id={`div${nodeId}`}
         ref={nodeDivRef}
+        onClick={() => {
+          // draggable elements coincide with clickable elements on a roadmap
+          if (!getElementDraggable(nodeId)) return;
+          setDisplayPageType('editor');
+          setSelectedNodeId(nodeId);
+          setDraggableElementForNodeWithId(nodeId);
+        }}
         style={{
           backgroundColor: color.primary,
           width: `${width}px`,

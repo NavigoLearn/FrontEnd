@@ -147,6 +147,6 @@ export const addDragabilityProtocol = (draggingBehavior: DraggingBehavior) => {
       nodeSelection.on('.drag', null);
     }
   }
-  updateDraggabilityAllowed(true);
+  updateDraggabilityAllowed(false);
   setElementDraggableUpdateCallback(id, updateDraggabilityAllowed); //  callback to update draggability from the store directly
 };

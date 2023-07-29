@@ -1,7 +1,12 @@
 import { atom } from 'nanostores';
 import { Roadmap } from '@type/roadmap/stores/roadmap';
 
-export const roadmapEdit = atom({} as Roadmap);
+export const roadmapEdit = atom({
+  nodes: {},
+  connections: {},
+  chunks: {},
+  rootNodesIds: [],
+} as Roadmap);
 
 export const getNodeByIdRoadmapEdit = (id: string) => {
   return roadmapEdit.get().nodes[id];
@@ -9,4 +14,8 @@ export const getNodeByIdRoadmapEdit = (id: string) => {
 
 export const setRoadmapEdit = (roadmap: Roadmap) => {
   roadmapEdit.set({ ...roadmap });
+};
+
+export const getRootNodesIds = () => {
+  return roadmapEdit.get().rootNodesIds;
 };

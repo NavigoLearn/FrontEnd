@@ -1,4 +1,9 @@
 import { atom } from 'nanostores';
+import {
+  getNodeByIdRoadmapEdit,
+  getRootNodesIds,
+} from '@store/roadmap-refactor/roadmap-data/roadmap-edit';
+import { deepCopy } from '@src/typescript/roadmap/utils';
 
 const draggableElements = atom({
   canBeDragged: true,
@@ -14,6 +19,9 @@ const draggableElements = atom({
 });
 
 export function setElementDraggable(id: string, draggable: boolean) {
+  if (id === '0') {
+    console.log('set dragg', draggable);
+  }
   const originalDraggables = draggableElements.get();
   if (draggable !== originalDraggables.draggableElements[id]) {
     // if callback does not exist throws and error
@@ -54,6 +62,47 @@ export function setDraggability(allowed: boolean) {
 
 export function getElementDraggable(id: string) {
   return draggableElements.get().draggableElements[id];
+}
+
+export function setAllDraggableFalse() {
+  const originalDraggables = draggableElements.get();
+  const newDraggables = {
+    ...originalDraggables,
+    draggableElements: {},
+  };
+  Object.keys(originalDraggables.draggableElements).forEach((key) => {
+    setElementDraggable(key, false);
+  });
+  draggableElements.set(newDraggables);
+}
+
+export function setDraggableElementForNodeWithId(id: string) {
+  // iterates the components and subNodes Ids and makes them draggable
+  setAllDraggableFalse();
+  const originalDraggables = draggableElements.get();
+  console.log(deepCopy(draggableElements.get()));
+  const draggableIds = [];
+  const node = getNodeByIdRoadmapEdit(id);
+
+  node.components.forEach((component) => {
+    draggableIds.push(component.id);
+  });
+  node.subNodeIds.forEach((subNodeId) => {
+    draggableIds.push(subNodeId);
+  });
+
+  draggableIds.forEach((draggableId) => {
+    setElementDraggable(draggableId, true);
+  });
+  console.log(deepCopy(draggableElements.get()));
+}
+
+export function setRoadmapRootRenderDraggable() {
+  setAllDraggableFalse();
+  const rootNodesIds = getRootNodesIds();
+  rootNodesIds.forEach((rootNodeId) => {
+    setElementDraggable(rootNodeId, true);
+  });
 }
 
 export default draggableElements;

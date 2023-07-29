@@ -9,12 +9,16 @@ import roadmapState, {
 } from '@store/roadmap/data/roadmap_state';
 import { addZoom, disableZoom } from '@src/typescript/roadmap/d3utils';
 import { RoadmapChunkingManager } from '@src/typescript/roadmap_ref/render/chunks';
-import { roadmapEdit } from '@store/roadmap-refactor/roadmap-data/roadmap-edit';
+import {
+  roadmapEdit,
+  setRoadmapEdit,
+} from '@store/roadmap-refactor/roadmap-data/roadmap-edit';
 import {
   setDisableZoomTrigger,
   setEnableZoomTrigger,
 } from '@store/roadmap-refactor/misc/miscParams';
 import { useIsLoaded } from '@hooks/useIsLoaded';
+import { roadmap1 } from '@store/roadmap-refactor/roadmap-data/dummy-data';
 import Popup from './tabs/popups/Popup';
 
 const Roadmap = ({ pageId }: { pageId: string }) => {
@@ -39,6 +43,10 @@ const Roadmap = ({ pageId }: { pageId: string }) => {
       renderer.current.recalculateChunks.bind(renderer.current)
     );
   };
+
+  useEffect(() => {
+    setRoadmapEdit(roadmap1);
+  }, []);
 
   const disableZoomFn = () => {
     disableZoom('rootSvg');
