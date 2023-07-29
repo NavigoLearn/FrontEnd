@@ -1,11 +1,13 @@
 /* eslint-disable no-shadow */
 /* eslint-disable react/prop-types */
 import React, { useEffect, useRef } from 'react';
+import { afterEventLoop } from '@src/typescript/utils/misc';
 import { getNodeByIdRoadmapEdit } from '@store/roadmap-refactor/roadmap-data/roadmap-edit';
 import renderComponents from '@src/to-be-organized/nodeview/CompRender';
 import { addDragabilityProtocol } from '@src/typescript/roadmap_ref/render/dragging';
 import { useTriggerRerender } from '@hooks/useTriggerRerender';
 import { setTriggerRender } from '@store/roadmap-refactor/render/rerender-triggers';
+import { setElementDraggable } from '@store/roadmap-refactor/elements-editing/draggable-elements';
 
 interface NodeViewProps {
   nodeId: string;
@@ -58,13 +60,27 @@ const NodeView: React.FC<NodeViewProps> = ({
     useEffect(() => {
       // locks the nodes that are currently in text elements-editing or view mode
       if (node.flags.renderedOnRoadmapFlag) return;
-      addDragabilityProtocol(node.draggingBehavior, true);
+      console.log('run protocol', node.id);
+      addDragabilityProtocol(node.draggingBehavior);
     }, []);
 
     useEffect(() => {
       if (node.flags.renderedOnRoadmapFlag) return;
       // rerenders needs to be done in nodeManager in group and foreign object
-      setTriggerRender(node.id, rerender);
+      afterEventLoop(() => {
+        setTriggerRender(node.id, rerender);
+      });
+    }, []);
+
+    useEffect(() => {
+      afterEventLoop(() => {
+        console.log('run setElem');
+        if (node.flags.renderedOnRoadmapFlag) {
+          setElementDraggable(node.id, true);
+        } else {
+          setElementDraggable(node.id, false);
+        }
+      });
     }, []);
 
     return (

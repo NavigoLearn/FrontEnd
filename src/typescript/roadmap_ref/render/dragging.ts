@@ -6,6 +6,7 @@ import { getTransformXY } from '@src/typescript/roadmap_ref/render/coord-calc';
 import { updateConnections } from '@src/typescript/roadmap_ref/render/connections';
 import { setDisplayTitlesFalse } from '@store/roadmap/sidebar/displayTitle';
 import { DraggingBehavior } from '@src/typescript/roadmap_ref/dragging/core';
+import { setElementDraggableUpdateCallback } from '@store/roadmap-refactor/elements-editing/draggable-elements';
 
 export function moveOnDrag(id: string, newPos: { x: number; y: number }) {
   const sel = document.getElementById(`group${id}`);
@@ -65,10 +66,7 @@ export const addDraggabilityFlow = (id: string, allowed: boolean) => {
   }
 };
 
-export const addDragabilityProtocol = (
-  draggingBehavior: DraggingBehavior,
-  allowed: boolean
-) => {
+export const addDragabilityProtocol = (draggingBehavior: DraggingBehavior) => {
   // refactored dragability with dragging behavior and generalized
   const id = draggingBehavior.draggingElementId;
   const elementIdentifier = draggingBehavior.draggingElementIdentifier;
@@ -105,12 +103,10 @@ export const addDragabilityProtocol = (
 
       newPos.x = x - offset.x;
       newPos.y = y - offset.y; // offsets are used to sync the mouse position with the dragging position
-      console.log('start', newPos.x, newPos.y);
     })
     // eslint-disable-next-line func-names
     .on('drag', function (event) {
       // use adapter for coordinates to sync with the dragging space (eg nodes/nested components behave differently)
-      console.log('drag', event.x, event.y);
       const { x: adaptedX, y: adaptedY } = draggingBehavior.coordinatesAdapter(
         event.x,
         event.y
@@ -141,13 +137,16 @@ export const addDragabilityProtocol = (
     })
     // eslint-disable-next-line func-names
     .on('end', function () {
-      console.log('end', newPos.x, newPos.y);
       draggingBehavior.coordinatesSetter(newPos.x, newPos.y);
     });
 
-  if (allowed) {
-    nodeSelection.call(drag);
-  } else {
-    nodeSelection.on('.drag', null);
+  function updateDraggabilityAllowed(allowed: boolean) {
+    if (allowed) {
+      nodeSelection.call(drag);
+    } else {
+      nodeSelection.on('.drag', null);
+    }
   }
+  updateDraggabilityAllowed(true);
+  setElementDraggableUpdateCallback(id, updateDraggabilityAllowed); //  callback to update draggability from the store directly
 };

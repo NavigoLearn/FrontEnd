@@ -26,7 +26,7 @@ const NodeManager = ({ node, editing }: NodeManagerProps) => {
   }
   useEffect(() => {
     // locks the nodes that are currently in text elements-editing or view mode
-    addDragabilityProtocol(node.draggingBehavior, editing);
+    addDragabilityProtocol(node.draggingBehavior);
   }, [editing]);
 
   useEffect(() => {
