@@ -5,18 +5,17 @@ import { getNodeByIdRoadmapEdit } from '@store/roadmap-refactor/roadmap-data/roa
 import renderComponents from '@src/to-be-organized/nodeview/CompRender';
 import { addDragabilityProtocol } from '@src/typescript/roadmap_ref/render/dragging';
 import { useTriggerRerender } from '@hooks/useTriggerRerender';
+import { setTriggerRender } from '@store/roadmap-refactor/render/rerender-triggers';
 
 interface NodeViewProps {
   nodeId: string;
   centerOffset: { x: number; y: number };
-  triggerCb: any;
   divSizeCallback?: (divRef: React.MutableRefObject<HTMLDivElement>) => void; //
 }
 
 const NodeView: React.FC<NodeViewProps> = ({
   nodeId,
   centerOffset,
-  triggerCb,
   divSizeCallback,
 }) => {
   const nodeDivRef = useRef<HTMLDivElement>(null);
@@ -65,7 +64,7 @@ const NodeView: React.FC<NodeViewProps> = ({
     useEffect(() => {
       if (node.flags.renderedOnRoadmapFlag) return;
       // rerenders needs to be done in nodeManager in group and foreign object
-      triggerCb(node.id, rerender);
+      setTriggerRender(node.id, rerender);
     }, []);
 
     return (
@@ -90,7 +89,6 @@ const NodeView: React.FC<NodeViewProps> = ({
               <NodeView
                 key={subNodeId}
                 nodeId={subNodeId}
-                triggerCb={triggerCb}
                 centerOffset={{
                   x: node.data.width / 2,
                   y: node.data.height / 2,

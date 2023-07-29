@@ -10,6 +10,7 @@ import { triggerNodeRerender } from '@store/roadmap-refactor/render/rerender-tri
 import { getNodeByIdRoadmapEdit } from '@store/roadmap-refactor/roadmap-data/roadmap-edit';
 import { getComponentById } from '@src/typescript/roadmap_ref/node/core/data-get/components';
 import { mutateComponentCoords } from '@src/typescript/roadmap_ref/node/components/mutate';
+import { getScaleSafari } from '@store/roadmap-refactor/misc/scale-safari';
 
 export function draggingBehaviorFactoryRoadmapNode(
   nodeId: string
@@ -68,9 +69,15 @@ export function draggingBehaviorFactorySubNode(
     };
   };
   draggingBehavior.coordinatesAdapter = (x: number, y: number) => {
+    // adapting x and y to the scale of the editor
+    // since the positions are modified similar to a vector, we only need to normalize that vector to get the correct position
+    const scale = getScaleSafari();
+    const newX = x / scale;
+    const newY = y / scale;
+
     return {
-      x,
-      y,
+      x: newX,
+      y: newY,
     };
   };
 
@@ -112,12 +119,13 @@ export function draggingBehaviorFactoryComponents(
     };
   };
   draggingBehavior.coordinatesAdapter = (x: number, y: number) => {
-    // console.log('xy', x, y);
-    // search recursively for the parent node
+    const scale = getScaleSafari();
+    const newX = x / scale;
+    const newY = y / scale;
 
     return {
-      x,
-      y,
+      x: newX,
+      y: newY,
     };
   };
 

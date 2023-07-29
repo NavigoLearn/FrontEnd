@@ -3,14 +3,14 @@ import { addDragabilityProtocol } from '@src/typescript/roadmap_ref/render/dragg
 import { useTriggerRerender } from '@hooks/useTriggerRerender';
 import NodeView from '@src/to-be-organized/nodeview/NodeView';
 import { NodeClass } from '@src/typescript/roadmap_ref/node/core/core';
+import { setTriggerRender } from '@store/roadmap-refactor/render/rerender-triggers';
 
 export type NodeManagerProps = {
   node: NodeClass;
   editing: boolean;
-  triggerCb: (nodeId: string, cbRender: any) => void;
 };
 
-const NodeManager = ({ node, editing, triggerCb }: NodeManagerProps) => {
+const NodeManager = ({ node, editing }: NodeManagerProps) => {
   const objRef = useRef<SVGForeignObjectElement>(null);
   const rerender = useTriggerRerender();
 
@@ -30,7 +30,7 @@ const NodeManager = ({ node, editing, triggerCb }: NodeManagerProps) => {
   }, [editing]);
 
   useEffect(() => {
-    triggerCb(node.id, rerender);
+    setTriggerRender(node.id, rerender);
   }, []);
 
   const renderNode = () => {
@@ -41,7 +41,6 @@ const NodeManager = ({ node, editing, triggerCb }: NodeManagerProps) => {
         nodeId={id}
         centerOffset={centerOffset}
         divSizeCallback={(divRef) => setForeignObjectSize(divRef)}
-        triggerCb={triggerCb}
       />
     );
 

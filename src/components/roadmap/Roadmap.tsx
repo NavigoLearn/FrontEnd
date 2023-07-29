@@ -7,7 +7,6 @@ import roadmapState, {
   setEditingTrueNoRerender,
   setRoadmapId,
 } from '@store/roadmap/data/roadmap_state';
-import { setTriggerRender } from '@store/roadmap-refactor/render/rerender-triggers';
 import { addZoom, disableZoom } from '@src/typescript/roadmap/d3utils';
 import { RoadmapChunkingManager } from '@src/typescript/roadmap_ref/render/chunks';
 import { roadmapEdit } from '@store/roadmap-refactor/roadmap-data/roadmap-edit';
@@ -98,14 +97,7 @@ const Roadmap = ({ pageId }: { pageId: string }) => {
               nodesIds.map((id) => {
                 // gets the roadmap-roadmap-data
                 return (
-                  <NodeManager
-                    key={id}
-                    node={nodes[id]}
-                    editing={editing}
-                    triggerCb={async (nodeId, cbTrigger) => {
-                      setTriggerRender(nodeId, cbTrigger);
-                    }}
-                  />
+                  <NodeManager key={id} node={nodes[id]} editing={editing} />
                 );
               })}
           </g>

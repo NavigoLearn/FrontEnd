@@ -6,6 +6,7 @@ export type IEditorDisplayPageType =
   | 'actions'
   | 'properties'
   | 'nodes';
+
 const editorDisplayManager = atom({
   // holds roadmap-data about the currently displayed page inside the editor
   page: 'components',

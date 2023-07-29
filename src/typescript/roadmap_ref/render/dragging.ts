@@ -85,17 +85,17 @@ export const addDragabilityProtocol = (
     .drag()
     // eslint-disable-next-line func-names
     .on('start', function (event) {
-      const { x, y } = event;
+      const { x: originalX, y: originalY } = event;
       // coordinates of the node in the original reference system
       const currentCoords = draggingBehavior.getCurrentCoords(); //  offset calculated from this
       // also account for the difference between rendering relative to center and relative to top left corner
-      const { x: elementX, y: elementY } = draggingBehavior.coordinatesAdapter(
-        currentCoords.x,
-        currentCoords.y
+      const { x, y } = draggingBehavior.coordinatesAdapter(
+        originalX,
+        originalY
       );
 
-      const offsetX = x - elementX;
-      const offsetY = y - elementY;
+      const offsetX = x - currentCoords.x;
+      const offsetY = y - currentCoords.y;
 
       offset.x = offsetX;
       offset.y = offsetY;
@@ -105,10 +105,12 @@ export const addDragabilityProtocol = (
 
       newPos.x = x - offset.x;
       newPos.y = y - offset.y; // offsets are used to sync the mouse position with the dragging position
+      console.log('start', newPos.x, newPos.y);
     })
     // eslint-disable-next-line func-names
     .on('drag', function (event) {
       // use adapter for coordinates to sync with the dragging space (eg nodes/nested components behave differently)
+      console.log('drag', event.x, event.y);
       const { x: adaptedX, y: adaptedY } = draggingBehavior.coordinatesAdapter(
         event.x,
         event.y
@@ -119,6 +121,7 @@ export const addDragabilityProtocol = (
       // we set the new coordinates to the element
       newPos.x = x - offset.x;
       newPos.y = y - offset.y; // offsets are used to sync the mouse position with the dragging position
+
       // at the end we simply do not substract the offset and the element will be placed properly
 
       // we temporarily update the position to emulate the dragging, which will then be applied to the actual element
