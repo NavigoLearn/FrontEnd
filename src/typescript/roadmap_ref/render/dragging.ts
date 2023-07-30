@@ -138,6 +138,7 @@ export const addDragabilityProtocol = (draggingBehavior: DraggingBehavior) => {
     // eslint-disable-next-line func-names
     .on('end', function () {
       draggingBehavior.coordinatesSetter(newPos.x, newPos.y);
+      // chunk recalculations are integrated in the coordinates setter strategy
     });
 
   function updateDraggabilityAllowed(allowed: boolean) {
@@ -147,6 +148,6 @@ export const addDragabilityProtocol = (draggingBehavior: DraggingBehavior) => {
       nodeSelection.on('.drag', null);
     }
   }
-  updateDraggabilityAllowed(false);
+  updateDraggabilityAllowed(false); // draggability is disabled by default but set to true at rendering
   setElementDraggableUpdateCallback(id, updateDraggabilityAllowed); //  callback to update draggability from the store directly
 };

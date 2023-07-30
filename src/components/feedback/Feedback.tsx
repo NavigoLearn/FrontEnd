@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import ShowNodesInHTML from '@src/to-be-organized/nodeview/ShowNodesInHTML';
 
 const Feedback = () => {
   const [isDesktop, setIsDesktop] = useState(undefined);
@@ -19,10 +18,7 @@ const Feedback = () => {
   return (
     <div>
       {typeof isDesktop === 'undefined' ? null : (
-        <div>
-          {/* <DesktopFeedback /> */}
-          <ShowNodesInHTML />
-        </div>
+        <div>{/* <DesktopFeedback /> */}</div>
       )}
     </div>
   );

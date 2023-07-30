@@ -53,6 +53,7 @@ export const changeNodeCoords = triggerPositionCacheClearDecorator(
     })
   )
 );
+
 export const removeResourceSubNode = triggerRerenderDecorator(
   (id: string, subNodeId: string) => {
     const original = roadmapEdit.get();

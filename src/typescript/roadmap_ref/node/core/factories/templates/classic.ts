@@ -18,6 +18,17 @@ import {
   appendComponent,
 } from '@src/typescript/roadmap_ref/node/core/data-mutation/append';
 import { factoryComponentTitleEmpty } from '@src/typescript/roadmap_ref/node/components/text/factories';
+import {
+  recalculateNodeCenter,
+  recalculateNodeChunks,
+} from '@src/typescript/roadmap_ref/node/core/calculations/general';
+import {
+  mutateNodeCoordX,
+  mutateNodeCoordY,
+  mutateNodeHeight,
+  mutateNodeWidth,
+} from '@src/typescript/roadmap_ref/node/core/data-mutation/mutate';
+import { addNodeToChunks } from '@store/roadmap-refactor/roadmap-data/roadmap-selector';
 
 export function nodeFactoryClassicBoilerplate(id?: string): NodeClass {
   // return boilerplate class for classic nodes and the most common
@@ -40,6 +51,27 @@ export function nodeFactoryClassicBoilerplate(id?: string): NodeClass {
 
   const draggingBehavior = draggingBehaviorFactoryRoadmapNode(node.id);
   injectDraggingBehavior(node, draggingBehavior);
+  recalculateNodeChunks(node);
 
+  return node;
+}
+
+export function nodeFactoryClassic(
+  id: string,
+  x: number,
+  y: number,
+  width?: number,
+  height?: number
+) {
+  const node = nodeFactoryClassicBoilerplate(id);
+  mutateNodeWidth(node, width || 100);
+  mutateNodeHeight(node, height || 100);
+
+  mutateNodeCoordX(node, x);
+  mutateNodeCoordY(node, y);
+  injectNewId(node, id);
+  recalculateNodeChunks(node);
+  recalculateNodeCenter(node);
+  addNodeToChunks(node);
   return node;
 }

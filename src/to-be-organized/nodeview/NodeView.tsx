@@ -80,6 +80,7 @@ const NodeView: React.FC<NodeViewProps> = ({
     useEffect(() => {
       afterEventLoop(() => {
         if (node.flags.renderedOnRoadmapFlag) {
+          console.log('node id for nodeview for true drag', node.id);
           setElementDraggable(node.id, true);
         } else {
           setElementDraggable(node.id, false);

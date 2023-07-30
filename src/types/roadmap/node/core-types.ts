@@ -2,13 +2,13 @@ export type IPropertiesKeys =
   | 'parentId'
   | 'childrenIds'
   | 'nestedWithin'
-  | 'chunkId';
+  | 'chunksIds';
 
 export interface IPropertisKeyFields {
   parentId: string;
   childrenIds: string[];
   nestedWithin: string;
-  chunkId: string;
+  chunksIds: string[];
 }
 
 export interface IIdentifiers {

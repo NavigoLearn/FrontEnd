@@ -10,10 +10,11 @@ import chunksStore, {
 } from '@store/roadmap-refactor/render/rendered-chunks';
 import * as d3 from 'd3';
 import { setConnections } from '@store/roadmap-refactor/render/rendered-connections';
-import { Roadmap } from '@type/roadmap/old/roadmap';
+import { Roadmap } from '@type/roadmap/stores/roadmap';
 import { setViewport } from '@store/roadmap-refactor/misc/viewport-coords';
 import { Viewport } from '@type/roadmap/old/misc';
 import miscParams from '@store/roadmap-refactor/misc/miscParams';
+import { roadmapSelector } from '@store/roadmap-refactor/roadmap-data/roadmap-selector';
 
 export function getConnectionsToRender(currentNodes: string[]): string[] {
   const { editing, loaded } = roadmapState.get();
@@ -72,12 +73,7 @@ export function setNodesToRender() {
   const { editing, loaded } = roadmapState.get();
   if (!loaded) return;
 
-  let roadmapData: Roadmap;
-  if (editing) {
-    roadmapData = roadmapEdit.get();
-  } else {
-    roadmapData = roadmapStatic.get();
-  }
+  const roadmapData: Roadmap = roadmapSelector.get();
 
   const { chunks } = roadmapData;
 
@@ -168,15 +164,14 @@ export function renderChunksFlow(
   transform: { k: number; x: number; y: number },
   chunkSize: number
 ) {
-  console.log('calculates chunks');
   calculateRenderedChunks(transform, chunkSize); // calculates chunks from viewport and sets them in the store
   setNodesToRender(); // checks for nodes in the chunks and sets them into a store to be rendered
-  setConnectionsToRender(); // checks for connections in the chunks and sets them into a store to be rendered
+  // setConnectionsToRender(); // checks for connections in the chunks and sets them into a store to be rendered
 }
 
 export function recalculateChunks(svgRefId: string) {
   const svgRef = document.getElementById(svgRefId);
-  const throttledRendering = throttle(renderChunksFlow, 50);
+  const throttledRendering = throttle(renderChunksFlow, 75);
   const { chunkSize } = miscParams.get();
 
   return () => {

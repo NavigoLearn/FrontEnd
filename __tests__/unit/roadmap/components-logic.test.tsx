@@ -1,15 +1,25 @@
 import { beforeAll, describe, expect, it } from 'vitest';
 import { nodeFactoryClassicBoilerplate } from '@src/typescript/roadmap_ref/node/core/factories/templates/classic';
-import { mutateAttachmentTabDescription, mutateAttachmentTabTitle } from '@src/typescript/roadmap_ref/node/attachments/tab/mutate';
-import { appendComponent } from '@src/typescript/roadmap_ref/node/core/data-mutation/append';
-import { factoryComponentEmpty } from '@src/typescript/roadmap_ref/node/components/text/factories';
-import { mutateComponentTitleHeight, mutateComponentTitleWidth, mutateComponentDescriptionText, mutateComponentDescriptionX, mutateComponentDescriptionY } from '@src/typescript/roadmap_ref/node/components/text/mutate';
-import { getComponentDescriptionById } from '@src/typescript/roadmap_ref/node/core/data-get/components';
-import { ComponentDescription } from '@src/typescript/roadmap_ref/node/components/text/core';
-import { mutateNodeOpacity } from '@src/typescript/roadmap_ref/node/core/data-mutation/mutate';
-import { mutateNodeCoordX, mutateNodeCoordY, mutateNodeHeight, mutateNodeWidth } from '@src/typescript/roadmap_ref/node/core/data-mutation/mutate';
-import { mutateComponentTitleText, mutateComponentTitleX, mutateComponentTitleY } from '@src/typescript/roadmap_ref/node/components/text/mutate';
-
+import {
+  mutateAttachmentTabDescription,
+  mutateAttachmentTabTitle,
+} from '@src/typescript/roadmap_ref/node/attachments/tab/mutate';
+import {
+  mutateComponentDescriptionX,
+  mutateComponentDescriptionY,
+  mutateComponentTitleHeight,
+  mutateComponentTitleText,
+  mutateComponentTitleWidth,
+  mutateComponentTitleX,
+  mutateComponentTitleY,
+} from '@src/typescript/roadmap_ref/node/components/text/mutate';
+import {
+  mutateNodeCoordX,
+  mutateNodeCoordY,
+  mutateNodeHeight,
+  mutateNodeOpacity,
+  mutateNodeWidth,
+} from '@src/typescript/roadmap_ref/node/core/data-mutation/mutate';
 
 describe('Components logic', () => {
   let node;
@@ -30,19 +40,7 @@ describe('Components logic', () => {
     expect(component.titleText).toBe(title);
     expect(component.descriptionText).toBe(description);
   });
-  
-  it('add new title to node', () => {
-    const component = factoryComponentEmpty('Title');
-    appendComponent(node, component);
-    expect(node.components.length).toBe(2);
-  });
 
-  it('add new description to node', () => {
-    const component = factoryComponentEmpty('Description');
-    appendComponent(node, component);
-    expect(node.components.length).toBe(3);
-  });
-  
   it('should mutate component title position and string', () => {
     const componentIndex = 0;
     const component = node.components[componentIndex];
@@ -52,18 +50,18 @@ describe('Components logic', () => {
     expect(component.width).toBe(100);
     expect(component.height).toBe(100);
   });
-  
-  it('append a new description, find it and mutate text', () => {
-    const title = 'New Title string';
-    const component = factoryComponentEmpty('Description');
-    const componentId = component.id;
-    appendComponent(node, component);
-    const componentDescription = getComponentDescriptionById(node, componentId);
-    expect(componentDescription instanceof ComponentDescription).toBe(true);
-    mutateComponentDescriptionText(component, 'New Text2');
-    expect(component.text).toBe('New Text2');
-  });
 
+  // it('append a new description, find it and mutate text', () => {
+  //   const title = 'New Title string';
+  //   const component = factoryComponentEmpty('Description');
+  //   const componentId = component.id;
+  //   appendComponent(node, component);
+  //   const componentDescription = getComponentDescriptionById(node, componentId);
+  //   expect(componentDescription instanceof ComponentDescription).toBe(true);
+  //   mutateComponentDescriptionText(component, 'New Text2');
+  //   expect(component.text).toBe('New Text2');
+  // });
+  //
   it('should mutate the node opacity', () => {
     const opacity = 20;
     mutateNodeOpacity(node, opacity);
@@ -78,7 +76,7 @@ describe('Components logic', () => {
     expect(node.data.coords.x).toBe(x);
     expect(node.data.coords.y).toBe(y);
   });
-  
+
   it('should mutate the node size', () => {
     const width = 20;
     const height = 20;

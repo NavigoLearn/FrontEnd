@@ -2,10 +2,8 @@ import { NodeClass } from '@src/typescript/roadmap_ref/node/core/core';
 import { IColorSchemaOptions } from '@type/roadmap/node/colors-types';
 import { colorSchemas } from '@src/typescript/roadmap_ref/node/core/factories/params/params';
 import { IAction } from '@src/typescript/roadmap_ref/node/core/actions';
+import { trigggerCenterRecalculationDecorator } from '@src/typescript/roadmap_ref/node/core/data-mutation/mutate-decorators';
 
-export function mutateNodeHeight(node: NodeClass, height: number) {
-  node.data.height = height;
-}
 export function mutateNodeOpacity(node: NodeClass, opacity: number) {
   node.data.opacity = opacity;
 }
@@ -16,9 +14,17 @@ export function mutateNodeColor(
   node.data.color = colorSchemas[colorSchema];
 }
 
-export function mutateNodeWidth(node: NodeClass, width: number) {
-  node.data.width = width;
-}
+export const mutateNodeWidth = trigggerCenterRecalculationDecorator(
+  (node: NodeClass, width: number) => {
+    node.data.width = width;
+  }
+);
+
+export const mutateNodeHeight = trigggerCenterRecalculationDecorator(
+  (node: NodeClass, height: number) => {
+    node.data.height = height;
+  }
+);
 
 export function mutateNodeCoordX(node: NodeClass, x: number) {
   node.data.coords.x = x;

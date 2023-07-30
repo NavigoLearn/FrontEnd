@@ -20,6 +20,8 @@ export class NodeClass {
 
   draggingBehavior: DraggingBehavior; // the dragging behavior of the node
 
+  connections: string[] = []; // connections to other nodes
+
   flags: Flags = new Flags(); // flags to indificate different behaviors of the node
 
   id = '0';

@@ -7,7 +7,7 @@ import { getAttachmentByIndex } from '@src/typescript/roadmap_ref/node/core/data
 import { IAttachmentTabComponentTypes } from '@type/roadmap/node/tab-types';
 import { IAttachmentPageStatus } from '@store/roadmap-refactor/display/editor/attachment-page-status';
 import button from '@components/roadmap/tabs/utils/Button';
-import { getNodeByIdRoadmapEdit } from '@store/roadmap-refactor/roadmap-data/roadmap-edit';
+import { getNodeByIdRoadmapSelector } from '@store/roadmap-refactor/roadmap-data/roadmap-selector';
 
 type IMapper = {
   [key in IAttachmentTabComponentTypes]: React.ReactNode;
@@ -56,7 +56,7 @@ const PreviewButton = ({ onChange }: IPreviewButtonProps) => {
 
 const TabAttachment = ({ onChange, value }: ITabAttachmentProps) => {
   const { selectedNodeId } = useStore(editorSelectedData);
-  const node = getNodeByIdRoadmapEdit(selectedNodeId);
+  const node = getNodeByIdRoadmapSelector(selectedNodeId);
   const attachment = getAttachmentByIndex(node, 0);
   const { isEditing } = value;
 

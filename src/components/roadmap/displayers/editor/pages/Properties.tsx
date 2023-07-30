@@ -17,12 +17,12 @@ import ButtonOutsideGray from '@components/roadmap/displayers/editor/components/
 import ButtonInsideGeneric from '@components/roadmap/displayers/editor/components/builder/ButtonInsideGeneric';
 import { nodeFactoryClassicBoilerplate } from '@src/typescript/roadmap_ref/node/core/factories/templates/classic';
 import { nodeFactoryResourceBoilerplate } from '@src/typescript/roadmap_ref/node/core/factories/templates/resource';
-import { getNodeByIdRoadmapEdit } from '@store/roadmap-refactor/roadmap-data/roadmap-edit';
 import { triggerNodeRerender } from '@store/roadmap-refactor/render/rerender-triggers';
+import { getNodeByIdRoadmapSelector } from '@store/roadmap-refactor/roadmap-data/roadmap-selector';
 
 const Properties = () => {
   const { selectedNodeId } = useStore(editorSelectedData);
-  const node = getNodeByIdRoadmapEdit(selectedNodeId);
+  const node = getNodeByIdRoadmapSelector(selectedNodeId);
   const { data } = node;
 
   function checkInvalidInput(value: string) {

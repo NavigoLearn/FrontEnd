@@ -1,8 +1,8 @@
 import { atom } from 'nanostores';
 import {
-  getNodeByIdRoadmapEdit,
+  getNodeByIdRoadmapSelector,
   getRootNodesIds,
-} from '@store/roadmap-refactor/roadmap-data/roadmap-edit';
+} from '@store/roadmap-refactor/roadmap-data/roadmap-selector';
 
 const draggableElements = atom({
   canBeDragged: true,
@@ -18,24 +18,19 @@ const draggableElements = atom({
 });
 
 export function setElementDraggable(id: string, draggable: boolean) {
-  if (id === '0') {
-    console.log('set dragg', draggable);
-  }
   const originalDraggables = draggableElements.get();
-  if (draggable !== originalDraggables.draggableElements[id]) {
-    // if callback does not exist throws and error
-    if (!originalDraggables.draggableElementsUpdateCallbacks[id]) {
-      throw new Error(`Callback for draggable element ${id} does not exist.`);
-    }
-    originalDraggables.draggableElementsUpdateCallbacks[id](draggable);
-    draggableElements.set({
-      ...originalDraggables,
-      draggableElements: {
-        ...originalDraggables.draggableElements,
-        [id]: draggable,
-      },
-    });
+  // if callback does not exist throws and error
+  if (!originalDraggables.draggableElementsUpdateCallbacks[id]) {
+    throw new Error(`Callback for draggable element ${id} does not exist.`);
   }
+  originalDraggables.draggableElementsUpdateCallbacks[id](draggable);
+  draggableElements.set({
+    ...originalDraggables,
+    draggableElements: {
+      ...originalDraggables.draggableElements,
+      [id]: draggable,
+    },
+  });
 }
 
 export function setElementDraggableUpdateCallback(
@@ -80,7 +75,7 @@ export function setDraggableElementForNodeWithId(id: string) {
   setAllDraggableFalse();
   const originalDraggables = draggableElements.get();
   const draggableIds = [];
-  const node = getNodeByIdRoadmapEdit(id);
+  const node = getNodeByIdRoadmapSelector(id);
 
   node.components.forEach((component) => {
     draggableIds.push(component.id);

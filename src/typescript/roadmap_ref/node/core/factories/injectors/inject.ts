@@ -36,14 +36,14 @@ export function injectNestedWithinData(node: NodeClass, nestedWithin: string) {
   node.properties.nestedWithin = nestedWithin;
 }
 
-export function injectChunkData(node: NodeClass, chunk: string) {
-  node.properties.chunkId = chunk;
+export function injectChunkData(node: NodeClass, chunks: string[]) {
+  node.properties.chunksIds = chunks;
 }
 
 export function injectClassicData(node: NodeClass, parent, children) {
   injectParentData(node, parent);
   injectChildrenData(node, children);
-  injectChunkData(node, '0_0');
+  injectChunkData(node, ['0_0']);
 }
 
 export function injectNestedFlags(node: NodeClass) {

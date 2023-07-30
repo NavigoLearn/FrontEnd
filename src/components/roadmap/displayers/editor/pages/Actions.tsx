@@ -5,7 +5,7 @@ import editorSelectedData, {
 } from '@store/roadmap-refactor/elements-editing/editor-selected-data';
 import { useStore } from '@nanostores/react';
 import { mutateNodeOnClickAction } from '@src/typescript/roadmap_ref/node/core/data-mutation/mutate';
-import { getNodeByIdRoadmapEdit } from '@store/roadmap-refactor/roadmap-data/roadmap-edit';
+import { getNodeByIdRoadmapSelector } from '@store/roadmap-refactor/roadmap-data/roadmap-selector';
 
 type IActionsDropdown = {
   action: string;
@@ -68,7 +68,7 @@ const ActionsDropdown = ({
 
 const Actions = () => {
   const { selectedNodeId } = useStore(editorSelectedData);
-  const node = getNodeByIdRoadmapEdit(selectedNodeId);
+  const node = getNodeByIdRoadmapSelector(selectedNodeId);
   const { actions } = node;
   const { possibleActions } = actions;
   const possibleActionsArray = Object.keys(possibleActions);

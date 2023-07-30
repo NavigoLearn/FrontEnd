@@ -6,17 +6,17 @@ import editorSelectedData, {
   triggerRerenderEditor,
 } from '@store/roadmap-refactor/elements-editing/editor-selected-data';
 import NodeComponent from '@components/roadmap/displayers/editor/components/NodeComponent';
-import { nodeFactorySubNode } from '@src/typescript/roadmap_ref/node/core/factories/templates/nested';
+import { nodeFactorySubNodeBoilerplate } from '@src/typescript/roadmap_ref/node/core/factories/templates/sub-node';
 import { appendSubNode } from '@src/typescript/roadmap_ref/node/core/data-mutation/append';
 import { appendNode } from '@store/roadmap-refactor/roadmap-data/roadmap-placeholder';
-import { getNodeByIdRoadmapEdit } from '@store/roadmap-refactor/roadmap-data/roadmap-edit';
+import { getNodeByIdRoadmapSelector } from '@store/roadmap-refactor/roadmap-data/roadmap-selector';
 
 const Nodes = () => {
   const { selectedNodeId } = useStore(editorSelectedData);
-  const node = getNodeByIdRoadmapEdit(selectedNodeId);
+  const node = getNodeByIdRoadmapSelector(selectedNodeId);
 
   function addNestedNode() {
-    const newNestedNode = nodeFactorySubNode(node.id); // creates node
+    const newNestedNode = nodeFactorySubNodeBoilerplate(node.id); // creates node
     appendSubNode(node, newNestedNode.id); // appends to the parent of nesting
     appendNode(newNestedNode);
     triggerRerenderEditor(); // trigger rerender

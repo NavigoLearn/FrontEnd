@@ -1,6 +1,11 @@
 import React, { useEffect, useRef } from 'react';
+import renderNodesStore from '@store/roadmap-refactor/render/rendered-nodes';
 import { setChunkRerenderTrigger } from '@store/roadmap-refactor/render/rendered-chunks';
-import { roadmapSelector } from '@store/roadmap-refactor/roadmap-data/roadmap-selector';
+import {
+  addNode,
+  addRootNodeId,
+  roadmapSelector,
+} from '@store/roadmap-refactor/roadmap-data/roadmap-selector';
 import { useScrollHidden } from '@hooks/useScrollHidden';
 import { v4 as uuid4 } from 'uuid';
 import NodeManager from '@components/roadmap/NodeManager';
@@ -8,16 +13,18 @@ import { useStore } from '@nanostores/react';
 import roadmapState, {
   setEditingTrueNoRerender,
   setRoadmapId,
+  setRoadmapIsLoaded,
 } from '@store/roadmap/data/roadmap_state';
 import { addZoom, disableZoom } from '@src/typescript/roadmap/d3utils';
 import { recalculateChunks } from '@src/typescript/roadmap_ref/render/chunks';
-import { setRoadmapEdit } from '@store/roadmap-refactor/roadmap-data/roadmap-edit';
 import {
   setDisableZoomTrigger,
   setEnableZoomTrigger,
 } from '@store/roadmap-refactor/misc/miscParams';
 import { useIsLoaded } from '@hooks/useIsLoaded';
-import { roadmap1 } from '@store/roadmap-refactor/roadmap-data/dummy-data';
+import { nodeFactoryClassic } from '@src/typescript/roadmap_ref/node/core/factories/templates/classic';
+import { nodeFactorySubNode } from '@src/typescript/roadmap_ref/node/core/factories/templates/sub-node';
+import { appendSubNode } from '@src/typescript/roadmap_ref/node/core/data-mutation/append';
 import Popup from './tabs/popups/Popup';
 
 const Roadmap = ({ pageId }: { pageId: string }) => {
@@ -27,8 +34,9 @@ const Roadmap = ({ pageId }: { pageId: string }) => {
   }
   const { editing } = isCreate ? { editing: true } : useStore(roadmapState);
   // need to take the ids of the nodes included in the current chunks and render them
-  // const { nodesIds } = useStore(renderNodesStore);
-  const { nodes, rootNodesIds: nodesIds } = roadmapSelector.get();
+  const { nodes } = roadmapSelector.get();
+  const { nodesIds } = useStore(renderNodesStore);
+  console.log(nodesIds);
 
   const chunkRenderer = useRef(null);
   useScrollHidden();
@@ -39,7 +47,29 @@ const Roadmap = ({ pageId }: { pageId: string }) => {
   };
 
   useEffect(() => {
-    setRoadmapEdit(roadmap1);
+    // dummmy data
+    const node0 = nodeFactoryClassic('0', 500, 200, 500, 500);
+    const node1 = nodeFactoryClassic('1', 100, 100, 200, 100);
+    const subNode00 = nodeFactorySubNode('0', 100, 50, -75, -75);
+    const subNode01 = nodeFactorySubNode('0', 100, 50, 75, 75);
+    const subNode02 = nodeFactorySubNode('0', 100, 50, 75, -75);
+    const subNode03 = nodeFactorySubNode('0', 100, 50, -75, 75);
+    addNode(node0);
+    addNode(node1);
+
+    appendSubNode(node0, subNode00.id);
+    appendSubNode(node0, subNode01.id);
+    appendSubNode(node0, subNode02.id);
+    appendSubNode(node0, subNode03.id);
+
+    addNode(subNode00);
+    addNode(subNode01);
+    addNode(subNode02);
+    addNode(subNode03);
+
+    addRootNodeId(node0.id);
+    addRootNodeId(node1.id);
+    console.log(roadmapSelector.get());
   }, []);
 
   const disableZoomFn = () => {
@@ -68,13 +98,15 @@ const Roadmap = ({ pageId }: { pageId: string }) => {
     //     renderConnections();
     //   }, 0);
     // });
-
+    setRoadmapIsLoaded();
     setEnableZoomTrigger(() => {
       enableZoomFn();
     });
     setDisableZoomTrigger(() => {
       disableZoomFn();
     });
+
+    chunkRenderer.current(); // first chunk calculation
   }, []);
 
   useEffect(() => {

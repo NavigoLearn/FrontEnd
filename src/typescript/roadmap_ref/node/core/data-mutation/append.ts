@@ -20,3 +20,13 @@ export function appendComponent(
 export function appendSubNode(node: NodeClass, id: string) {
   node.subNodeIds.push(id);
 }
+
+export function appendChunk(node: NodeClass, id: string) {
+  node.properties.chunksIds.push(id);
+}
+
+export function removeChunk(node: NodeClass, id: string) {
+  node.properties.chunksIds = node.properties.chunksIds.filter(
+    (chunkId) => chunkId !== id
+  );
+}

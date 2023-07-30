@@ -49,6 +49,11 @@ export function toggleSave() {
   roadmapState.set({ ...original, save: !original.save });
 }
 
+export function setRoadmapIsLoaded() {
+  const original = roadmapState.get();
+  roadmapState.set({ ...original, loaded: true });
+}
+
 export function setIsCreateTrue() {
   const original = roadmapState.get();
   roadmapState.set({ ...original, isCreate: true });
