@@ -2,7 +2,6 @@
 /* eslint-disable react/prop-types */
 import React, { useEffect, useRef } from 'react';
 import { afterEventLoop } from '@src/typescript/utils/misc';
-import { getNodeByIdRoadmapEdit } from '@store/roadmap-refactor/roadmap-data/roadmap-edit';
 import renderComponents from '@src/to-be-organized/nodeview/CompRender';
 import { addDragabilityProtocol } from '@src/typescript/roadmap_ref/render/dragging';
 import { useTriggerRerender } from '@hooks/useTriggerRerender';
@@ -14,6 +13,7 @@ import {
 } from '@store/roadmap-refactor/elements-editing/draggable-elements';
 import { setDisplayPageType } from '@store/roadmap-refactor/display/display-manager';
 import { setSelectedNodeId } from '@store/roadmap-refactor/elements-editing/editor-selected-data';
+import { getNodeByIdRoadmapSelector } from '@store/roadmap-refactor/roadmap-data/roadmap-selector';
 
 interface NodeViewProps {
   nodeId: string;
@@ -30,7 +30,7 @@ const NodeView: React.FC<NodeViewProps> = ({
   const rerender = useTriggerRerender();
 
   const renderNode = (nodeId: string) => {
-    const node = getNodeByIdRoadmapEdit(nodeId);
+    const node = getNodeByIdRoadmapSelector(nodeId);
     const { color, width, height, opacity } = node.data;
     node.data.center.x = width / 2;
     const { subNodeIds } = node;
@@ -66,7 +66,6 @@ const NodeView: React.FC<NodeViewProps> = ({
     useEffect(() => {
       // locks the nodes that are currently in text elements-editing or view mode
       if (node.flags.renderedOnRoadmapFlag) return;
-      console.log('run protocol', node.id);
       addDragabilityProtocol(node.draggingBehavior);
     }, []);
 
@@ -80,7 +79,6 @@ const NodeView: React.FC<NodeViewProps> = ({
 
     useEffect(() => {
       afterEventLoop(() => {
-        console.log('run setElem');
         if (node.flags.renderedOnRoadmapFlag) {
           setElementDraggable(node.id, true);
         } else {
@@ -90,7 +88,7 @@ const NodeView: React.FC<NodeViewProps> = ({
     }, []);
 
     return (
-      // eslint-disable-next-line jsx-a11y/click-events-have-key-events
+      // eslint-disable-next-line jsx-a11y/click-events-have-key-events,jsx-a11y/no-static-element-interactions
       <div
         className='drop-shadow-md  rounded-xl absolute border-2 border-black'
         id={`div${nodeId}`}

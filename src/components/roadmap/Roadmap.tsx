@@ -1,4 +1,6 @@
 import React, { useEffect, useRef } from 'react';
+import { setChunkRerenderTrigger } from '@store/roadmap-refactor/render/rendered-chunks';
+import { roadmapSelector } from '@store/roadmap-refactor/roadmap-data/roadmap-selector';
 import { useScrollHidden } from '@hooks/useScrollHidden';
 import { v4 as uuid4 } from 'uuid';
 import NodeManager from '@components/roadmap/NodeManager';
@@ -8,11 +10,8 @@ import roadmapState, {
   setRoadmapId,
 } from '@store/roadmap/data/roadmap_state';
 import { addZoom, disableZoom } from '@src/typescript/roadmap/d3utils';
-import { RoadmapChunkingManager } from '@src/typescript/roadmap_ref/render/chunks';
-import {
-  roadmapEdit,
-  setRoadmapEdit,
-} from '@store/roadmap-refactor/roadmap-data/roadmap-edit';
+import { recalculateChunks } from '@src/typescript/roadmap_ref/render/chunks';
+import { setRoadmapEdit } from '@store/roadmap-refactor/roadmap-data/roadmap-edit';
 import {
   setDisableZoomTrigger,
   setEnableZoomTrigger,
@@ -29,19 +28,14 @@ const Roadmap = ({ pageId }: { pageId: string }) => {
   const { editing } = isCreate ? { editing: true } : useStore(roadmapState);
   // need to take the ids of the nodes included in the current chunks and render them
   // const { nodesIds } = useStore(renderNodesStore);
-  const nodesIds = roadmapEdit.get().rootNodesIds;
-  const { nodes } = editing || isCreate ? roadmapEdit.get() : roadmapEdit.get();
+  const { nodes, rootNodesIds: nodesIds } = roadmapSelector.get();
 
-  const renderer = useRef(null);
+  const chunkRenderer = useRef(null);
   useScrollHidden();
   const isLoaded = useIsLoaded();
 
   const enableZoomFn = () => {
-    addZoom(
-      'rootSvg',
-      'rootGroup',
-      renderer.current.recalculateChunks.bind(renderer.current)
-    );
+    addZoom('rootSvg', 'rootGroup', chunkRenderer.current);
   };
 
   useEffect(() => {
@@ -54,13 +48,14 @@ const Roadmap = ({ pageId }: { pageId: string }) => {
 
   useEffect(() => {
     // renderer object that handles chunking
-    renderer.current = new RoadmapChunkingManager('rootSvg');
+    chunkRenderer.current = recalculateChunks('rootSvg');
     // sets the trigger for chunk recalculations to a global state
 
-    // setChunkRerenderTrigger(
-    //   // used for decorators
-    //   renderer.current.recalculateChunks.bind(renderer.current)
-    // );
+    setChunkRerenderTrigger(
+      // used for decorators
+      chunkRenderer.current
+    );
+
     if (!isCreate) setRoadmapId(pageId);
     else setRoadmapId(uuid4());
     // fetches the roadmap-roadmap-data from the api-wrapper
@@ -104,9 +99,7 @@ const Roadmap = ({ pageId }: { pageId: string }) => {
             {isLoaded &&
               nodesIds.map((id) => {
                 // gets the roadmap-roadmap-data
-                return (
-                  <NodeManager key={id} node={nodes[id]} editing={editing} />
-                );
+                return <NodeManager key={id} node={nodes[id]} />;
               })}
           </g>
         </g>

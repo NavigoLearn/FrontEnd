@@ -1,5 +1,4 @@
 import { Roadmap } from '@type/roadmap/stores/roadmap';
-import { setRoadmapEdit } from '@src/store/roadmap-refactor/roadmap-data/roadmap-edit';
 
 import {
   mutateNodeCoordX,
@@ -11,6 +10,7 @@ import { nodeFactoryClassicBoilerplate } from '@src/typescript/roadmap_ref/node/
 import { injectNewId } from '@src/typescript/roadmap_ref/node/core/factories/injectors/inject';
 import { nodeFactorySubNode } from '@src/typescript/roadmap_ref/node/core/factories/templates/nested';
 import { appendSubNode } from '@src/typescript/roadmap_ref/node/core/data-mutation/append';
+import { setRoadmapSelector } from '@store/roadmap-refactor/roadmap-data/roadmap-selector';
 
 function nodeBuilder(
   id: string,
@@ -62,4 +62,4 @@ subNodeAppender('0', 100, 50, 75, 75);
 subNodeAppender('0', 100, 50, 75, -75);
 subNodeAppender('0', 100, 50, -75, 75);
 
-setRoadmapEdit(roadmap1);
+setRoadmapSelector(roadmap1);

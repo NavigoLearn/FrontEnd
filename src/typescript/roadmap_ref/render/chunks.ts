@@ -168,30 +168,18 @@ export function renderChunksFlow(
   transform: { k: number; x: number; y: number },
   chunkSize: number
 ) {
+  console.log('calculates chunks');
   calculateRenderedChunks(transform, chunkSize); // calculates chunks from viewport and sets them in the store
   setNodesToRender(); // checks for nodes in the chunks and sets them into a store to be rendered
   setConnectionsToRender(); // checks for connections in the chunks and sets them into a store to be rendered
 }
-export class RoadmapChunkingManager {
-  svgRef: any;
 
-  svgRefId: string;
+export function recalculateChunks(svgRefId: string) {
+  const svgRef = document.getElementById(svgRefId);
+  const throttledRendering = throttle(renderChunksFlow, 50);
+  const { chunkSize } = miscParams.get();
 
-  throttledRendering: any;
-
-  chunkSize: number;
-
-  constructor(svgRefId: string) {
-    // setup for the chunking manager
-    this.svgRefId = svgRefId;
-    this.svgRef = document.getElementById(svgRefId);
-    this.throttledRendering = throttle(renderChunksFlow, 50);
-    this.chunkSize = miscParams.get().chunkSize;
-  }
-
-  recalculateChunks() {
-    this.throttledRendering(d3.zoomTransform(this.svgRef), this.chunkSize);
-    // get the current transfprm to elements-editing scale
-    const transform = d3.zoomTransform(this.svgRef);
-  }
+  return () => {
+    throttledRendering(d3.zoomTransform(svgRef), chunkSize);
+  };
 }

@@ -7,10 +7,9 @@ import { setTriggerRender } from '@store/roadmap-refactor/render/rerender-trigge
 
 export type NodeManagerProps = {
   node: NodeClass;
-  editing: boolean;
 };
 
-const NodeManager = ({ node, editing }: NodeManagerProps) => {
+const NodeManager = ({ node }: NodeManagerProps) => {
   const objRef = useRef<SVGForeignObjectElement>(null);
   const rerender = useTriggerRerender();
 
@@ -27,7 +26,7 @@ const NodeManager = ({ node, editing }: NodeManagerProps) => {
   useEffect(() => {
     // locks the nodes that are currently in text elements-editing or view mode
     addDragabilityProtocol(node.draggingBehavior);
-  }, [editing]);
+  }, []);
 
   useEffect(() => {
     setTriggerRender(node.id, rerender);

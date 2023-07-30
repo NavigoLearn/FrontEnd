@@ -1,5 +1,6 @@
 import { atom } from 'nanostores';
 import { Roadmap } from '@type/roadmap/stores/roadmap';
+import { roadmapSelector } from '@store/roadmap-refactor/roadmap-data/roadmap-selector';
 
 export const roadmapEdit = atom({
   nodes: {},
@@ -14,6 +15,7 @@ export const getNodeByIdRoadmapEdit = (id: string) => {
 
 export const setRoadmapEdit = (roadmap: Roadmap) => {
   roadmapEdit.set({ ...roadmap });
+  roadmapSelector.set({ ...roadmap });
 };
 
 export const getRootNodesIds = () => {

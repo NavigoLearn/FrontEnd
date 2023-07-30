@@ -3,7 +3,6 @@ import {
   getNodeByIdRoadmapEdit,
   getRootNodesIds,
 } from '@store/roadmap-refactor/roadmap-data/roadmap-edit';
-import { deepCopy } from '@src/typescript/roadmap/utils';
 
 const draggableElements = atom({
   canBeDragged: true,
@@ -80,7 +79,6 @@ export function setDraggableElementForNodeWithId(id: string) {
   // iterates the components and subNodes Ids and makes them draggable
   setAllDraggableFalse();
   const originalDraggables = draggableElements.get();
-  console.log(deepCopy(draggableElements.get()));
   const draggableIds = [];
   const node = getNodeByIdRoadmapEdit(id);
 
@@ -94,7 +92,6 @@ export function setDraggableElementForNodeWithId(id: string) {
   draggableIds.forEach((draggableId) => {
     setElementDraggable(draggableId, true);
   });
-  console.log(deepCopy(draggableElements.get()));
 }
 
 export function setRoadmapRootRenderDraggable() {
