@@ -151,7 +151,6 @@ const NodeComponent = ({
             className='w-full h-full'
           />
         </button>
-
         <button
           type='button'
           className=' w-20 h-10 bg-blue-400 text-white rounded-lg'
