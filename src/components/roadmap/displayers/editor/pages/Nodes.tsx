@@ -35,7 +35,9 @@ const Nodes = () => {
       <div className='flex flex-col gap-4 mt-5'>
         {node.subNodeIds.map((id) => {
           return (
+            // at this component is the node tab problem
             <NodeComponent parentNestId={selectedNodeId} id={id} key={id} />
+            // <div key={id}>dawg</div>
           );
         })}
       </div>

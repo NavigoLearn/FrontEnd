@@ -15,6 +15,7 @@ const VariantsComponent = ({ variants }: IVariantsComponentProps) => {
       {variants.map((variant) => {
         return (
           <button
+            key={variant.name}
             type='button'
             className='flex flex-row gap-0 items-center justify-center'
             onClick={variant.callback}

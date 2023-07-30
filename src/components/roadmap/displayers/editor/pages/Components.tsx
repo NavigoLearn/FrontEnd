@@ -8,6 +8,8 @@ import TitleComponent from '@components/roadmap/displayers/editor/components/Tit
 import DescriptionComponent from '@components/roadmap/displayers/editor/components/DescriptionComponent';
 import DropdownComponent from '@components/roadmap/displayers/editor/components/DropdownComponent';
 import { getNodeByIdRoadmapEdit } from '@store/roadmap-refactor/roadmap-data/roadmap-edit';
+import { appendComponent } from '@src/typescript/roadmap_ref/node/core/data-mutation/append';
+import { factoryComponentEmpty } from '@src/typescript/roadmap_ref/node/components/text/factories';
 
 const Components = () => {
   const { selectedNodeId } = useStore(editorSelectedData);
@@ -30,7 +32,7 @@ const Components = () => {
       <DropdownComponent
         text='Add component'
         onSelect={(componentType: IComponentOptions) => {
-          // appendComponent(node, factoryComponentEmpty(componentType)); // needs parentNodeId injected
+          appendComponent(node, factoryComponentEmpty(componentType)); // needs parentNodeId injected
           triggerRerenderEditor();
         }}
         optionsList={['Title', 'Description']}
