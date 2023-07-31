@@ -10,6 +10,7 @@ import DropdownComponent from '@components/roadmap/displayers/editor/components/
 import { appendComponent } from '@src/typescript/roadmap_ref/node/core/data-mutation/append';
 import { factoryComponentEmpty } from '@src/typescript/roadmap_ref/node/components/text/factories';
 import { getNodeByIdRoadmapSelector } from '@store/roadmap-refactor/roadmap-data/roadmap-selector';
+import { IComponentObject } from '@type/roadmap/node/components-types';
 
 const Components = () => {
   const { selectedNodeId } = useStore(editorSelectedData);
@@ -38,7 +39,7 @@ const Components = () => {
         optionsList={['Title', 'Description']}
       />
       <div className='flex flex-col gap-4 h-5/6 mt-10 mb-6 overflow-y-auto border-b-2 border-gray-200'>
-        {node.components.map((component) => {
+        {node.components.map((component: IComponentObject) => {
           return selectComponentToRender(
             component.type,
             component.id,

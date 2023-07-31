@@ -8,11 +8,11 @@ import {
   mutateNodeWidth,
 } from '@src/typescript/roadmap_ref/node/core/data-mutation/mutate';
 import { useStore } from '@nanostores/react';
-import roadmapPlaceholder from '@store/roadmap-refactor/roadmap-data/roadmap-placeholder';
 import { deleteNestedNodeWithId } from '@src/typescript/roadmap_ref/node/core/data-mutation/delete';
 import { triggerRerenderEditor } from '@store/roadmap-refactor/elements-editing/editor-selected-data';
 import PropertyEditorNumber from '@components/roadmap/displayers/editor/components/PropertyEditorNumber';
 import { NodeClass } from '@src/typescript/roadmap_ref/node/core/core';
+import { roadmapSelector } from '@store/roadmap-refactor/roadmap-data/roadmap-selector';
 
 type INodeProperties = {
   node: NodeClass;
@@ -107,7 +107,7 @@ const NodeComponent = ({
   parentNestId: string;
   id: string;
 }) => {
-  const { nodes } = useStore(roadmapPlaceholder);
+  const { nodes } = useStore(roadmapSelector);
   const node = nodes[id];
   const parentNode = nodes[parentNestId];
   const [nameChange, setNameChange] = useState(false);

@@ -10,6 +10,7 @@ export function getComponentById(
   id: string
 ): IComponentObject {
   const index = node.components.findIndex((component) => component.id === id);
+  console.log('index', index);
   return node.components[index];
 }
 
@@ -18,10 +19,10 @@ export function getComponentTitleById(
   id: string
 ): ComponentTitle {
   const component = getComponentById(node, id);
-  if (component instanceof ComponentTitle) {
+  if (component.type === 'Title') {
     return component;
   }
-  throw new Error('Component is not a TitleComponent');
+  throw new Error(`Component is not a TitleComponent${id} `);
 }
 
 export function getComponentDescriptionById(
@@ -29,7 +30,7 @@ export function getComponentDescriptionById(
   id: string
 ): ComponentDescription {
   const component = getComponentById(node, id);
-  if (component instanceof ComponentDescription) {
+  if (component.type === 'Description') {
     return component;
   }
   throw new Error('Component is not a Description component');
