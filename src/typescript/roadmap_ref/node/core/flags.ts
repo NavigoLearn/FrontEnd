@@ -12,5 +12,3 @@ export class Flags {
 
   markAsDoneBehaviorFlag = false;
 }
-
-export const a = 1;

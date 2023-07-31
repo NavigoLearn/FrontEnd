@@ -143,7 +143,6 @@ export const addDragabilityProtocol = (draggingBehavior: DraggingBehavior) => {
       .select(`#${elementIdentifier}${id}`);
 
     if (allowed) {
-      console.log('dragging allowed', nodeSelection);
       nodeSelection.call(drag);
     } else {
       nodeSelection.on('.drag', null);

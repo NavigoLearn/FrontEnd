@@ -3,6 +3,11 @@ import { NodeClass } from '@src/typescript/roadmap_ref/node/core/core';
 export interface HashMap<T> {
   [key: string]: T;
 }
+
+export type HashMapWithKeys<R extends string, T> = {
+  [key in R]: T;
+};
+
 export type Roadmap = {
   rootNodesIds: string[]; // list of ids of the nodes in the roadmap at initial rendering (so not subNodes)
   nodes: HashMap<NodeClass>;

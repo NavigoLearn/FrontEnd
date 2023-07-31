@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import HOCOnChangeAutomatic from '@src/HOC-library/store-based-hoc/OnChangeStoreAutomatic';
 import {
   mutateNodeCoordX,
@@ -13,6 +13,9 @@ import { triggerRerenderEditor } from '@store/roadmap-refactor/elements-editing/
 import PropertyEditorNumber from '@components/roadmap/displayers/editor/components/PropertyEditorNumber';
 import { NodeClass } from '@src/typescript/roadmap_ref/node/core/core';
 import { roadmapSelector } from '@store/roadmap-refactor/roadmap-data/roadmap-selector';
+import { triggerNodeRerender } from '@store/roadmap-refactor/render/rerender-triggers';
+import { useTriggerRerender } from '@hooks/useTriggerRerender';
+import { subscribeToHub } from '@store/roadmap-refactor/subscribers/function-subscribers';
 
 type INodeProperties = {
   node: NodeClass;
@@ -20,11 +23,22 @@ type INodeProperties = {
 
 const NodeProperties = ({ node }: INodeProperties) => {
   const { data } = node;
+  const rerender = useTriggerRerender();
+  useEffect(() => {
+    subscribeToHub('mutateNodeCoordX', () => {
+      rerender();
+    });
+    subscribeToHub('mutateNodeCoordY', () => {
+      rerender();
+    });
+  }, []);
+
   function checkInvalidInput(value: string) {
     const newValue = parseInt(value, 10);
     if (typeof newValue !== 'number' || Number.isNaN(newValue)) return true;
     return false;
   }
+
   return (
     <div className=''>
       <div className='flex'>
@@ -35,6 +49,7 @@ const NodeProperties = ({ node }: INodeProperties) => {
             const newValue = parseInt(value, 10);
             if (checkInvalidInput(value)) return;
             mutateNodeHeight(node, newValue);
+            triggerNodeRerender(node.id);
             triggerRerenderEditor();
           }}
         />
@@ -45,6 +60,7 @@ const NodeProperties = ({ node }: INodeProperties) => {
             const newValue = parseInt(value, 10);
             if (checkInvalidInput(value)) return;
             mutateNodeWidth(node, newValue);
+            triggerNodeRerender(node.id);
             triggerRerenderEditor();
           }}
         />
@@ -57,6 +73,7 @@ const NodeProperties = ({ node }: INodeProperties) => {
             const newValue = parseInt(value, 10);
             if (checkInvalidInput(value)) return;
             mutateNodeCoordX(node, newValue);
+            triggerNodeRerender(node.id);
             triggerRerenderEditor();
           }}
         />
@@ -67,6 +84,7 @@ const NodeProperties = ({ node }: INodeProperties) => {
             const newValue = parseInt(value, 10);
             if (checkInvalidInput(value)) return;
             mutateNodeCoordY(node, newValue);
+            triggerNodeRerender(node.id);
             triggerRerenderEditor();
           }}
         />
@@ -119,7 +137,6 @@ const NodeComponent = ({
           {!nameChange ? (
             <span
               onDoubleClick={() => {
-                console.log('double click');
                 setNameChange(true);
               }}
               className=''
@@ -154,9 +171,7 @@ const NodeComponent = ({
         <button
           type='button'
           className=' w-20 h-10 bg-blue-400 text-white rounded-lg'
-          onClick={() => {
-            console.log('change editor to this node');
-          }}
+          onClick={() => {}}
         >
           Edit
         </button>

@@ -1,6 +1,5 @@
 import { atom } from 'nanostores';
 import { Roadmap } from '@type/roadmap/stores/roadmap';
-import { NodeClass } from '@src/typescript/roadmap_ref/node/core/core';
 
 const roadmapPlaceholder = atom({
   nodes: {
@@ -10,16 +9,5 @@ const roadmapPlaceholder = atom({
   connections: {},
   chunks: {},
 } as Roadmap);
-
-export const appendNode = (node: NodeClass) => {
-  const originalStore = roadmapPlaceholder.get();
-  roadmapPlaceholder.set({
-    ...originalStore,
-    nodes: {
-      ...originalStore.nodes,
-      [node.id]: node,
-    },
-  });
-};
 
 export default roadmapPlaceholder;

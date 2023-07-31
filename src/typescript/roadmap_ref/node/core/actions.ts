@@ -1,30 +1,13 @@
-export type IAction = {
-  name: string;
-  action: () => void;
-};
+export type IActionTypes = 'Do nothing' | 'Open link' | 'Open Tab';
+
 export class Actions {
-  possibleActions: {
-    // when adding new attachments that make actions available, they appear here
-    [key: string]: () => void;
-  } = {
-    'Open Tab': () => {},
-    'Open Link': () => {},
-    'Do nothing': () => {},
-  };
+  possibleActions: IActionTypes[] = ['Do nothing', 'Open link'];
 
-  onClick: IAction = {
-    name: 'Do nothing',
-    action: () => {},
-  };
+  onClick: IActionTypes = 'Do nothing';
 
-  onHover: IAction = {
-    name: 'Do nothing',
-    action: () => {},
-  };
+  onHover: IActionTypes = 'Do nothing';
 
   addAction(type: string, element: any, action: () => void): void {
     this.possibleActions[`${type} - ${element.name}`] = action;
   }
 }
-
-export const a = 1;

@@ -13,6 +13,12 @@ export const getNodeByIdRoadmapSelector = (id: string) => {
   return roadmapSelector.get().nodes[id];
 };
 
+export const appendNode = (node: NodeClass) => {
+  const roadmap = roadmapSelector.get();
+  roadmap.nodes[node.id] = node;
+  roadmapSelector.set({ ...roadmap });
+};
+
 export const setRoadmapSelector = (roadmap: Roadmap) => {
   roadmapSelector.set({ ...roadmap });
 };

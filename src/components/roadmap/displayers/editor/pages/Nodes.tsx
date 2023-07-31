@@ -2,24 +2,30 @@ import React from 'react';
 import ButtonOutsideGray from '@components/roadmap/displayers/editor/components/builder/ButtonOutsideGray';
 import ButtonInsideGeneric from '@components/roadmap/displayers/editor/components/builder/ButtonInsideGeneric';
 import { useStore } from '@nanostores/react';
-import editorSelectedData, {
-  triggerRerenderEditor,
-} from '@store/roadmap-refactor/elements-editing/editor-selected-data';
+import editorSelectedData from '@store/roadmap-refactor/elements-editing/editor-selected-data';
 import NodeComponent from '@components/roadmap/displayers/editor/components/NodeComponent';
-import { nodeFactorySubNodeBoilerplate } from '@src/typescript/roadmap_ref/node/core/factories/templates/sub-node';
+import { nodeFactorySubNode } from '@src/typescript/roadmap_ref/node/core/factories/templates/sub-node';
 import { appendSubNode } from '@src/typescript/roadmap_ref/node/core/data-mutation/append';
-import { appendNode } from '@store/roadmap-refactor/roadmap-data/roadmap-placeholder';
-import { getNodeByIdRoadmapSelector } from '@store/roadmap-refactor/roadmap-data/roadmap-selector';
+import {
+  appendNode,
+  getNodeByIdRoadmapSelector,
+} from '@store/roadmap-refactor/roadmap-data/roadmap-selector';
+import { triggerNodeRerender } from '@store/roadmap-refactor/render/rerender-triggers';
+import { addDraggableElementProtocol } from '@components/roadmap/displayers/editor/pages/utils';
 
 const Nodes = () => {
   const { selectedNodeId } = useStore(editorSelectedData);
   const node = getNodeByIdRoadmapSelector(selectedNodeId);
 
   function addNestedNode() {
-    const newNestedNode = nodeFactorySubNodeBoilerplate(node.id); // creates node
+    const newNestedNode = nodeFactorySubNode(node.id, 100, 100, 0, 0); // creates node
     appendSubNode(node, newNestedNode.id); // appends to the parent of nesting
     appendNode(newNestedNode);
-    triggerRerenderEditor(); // trigger rerender
+    addDraggableElementProtocol(
+      newNestedNode.draggingBehavior,
+      newNestedNode.id
+    );
+    triggerNodeRerender(node.id);
   }
   return (
     <div className='w-full h-full'>
@@ -37,7 +43,6 @@ const Nodes = () => {
           return (
             // at this component is the node tab problem
             <NodeComponent parentNestId={selectedNodeId} id={id} key={id} />
-            // <div key={id}>dawg</div>
           );
         })}
       </div>
