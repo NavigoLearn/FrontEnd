@@ -31,6 +31,8 @@ export function setChunkRerenderTrigger(newTrigger: () => void) {
 
 export function triggerChunkRerender() {
   const original = chunksStore.get();
+  if (!original.chunkRerenderTrigger)
+    throw new Error('Chunk rerender trigger is not set');
   original.chunkRerenderTrigger();
 }
 

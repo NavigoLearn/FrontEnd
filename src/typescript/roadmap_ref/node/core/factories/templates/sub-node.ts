@@ -12,6 +12,7 @@ import {
   mutateNodeHeight,
   mutateNodeWidth,
 } from '@src/typescript/roadmap_ref/node/core/data-mutation/mutate';
+import { recalculateNodeCenter } from '@src/typescript/roadmap_ref/node/core/calculations/general';
 
 export function nodeFactorySubNodeBoilerplate(
   nestedWithinId: string
@@ -40,6 +41,7 @@ export function nodeFactorySubNode(
   mutateNodeHeight(node, height);
   mutateNodeCoordX(node, x);
   mutateNodeCoordY(node, y);
+  recalculateNodeCenter(node);
   // gets roadmap and appends the subnode
   return node;
 }

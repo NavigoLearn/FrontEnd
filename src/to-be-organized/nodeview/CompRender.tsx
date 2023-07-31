@@ -1,9 +1,6 @@
 import React, { useEffect, useRef } from 'react';
-import { afterEventLoop } from '@src/typescript/utils/misc';
-import { addDragabilityProtocol } from '@src/typescript/roadmap_ref/render/dragging';
 import { calculateComponentsPositions } from '@src/to-be-organized/nodeview/logic';
 import { NodeClass } from '@src/typescript/roadmap_ref/node/core/core';
-import { setElementDraggable } from '@store/roadmap-refactor/elements-editing/draggable-elements';
 
 const createComponentElement = (component, index, position) => {
   const { id, type, width, height, text, textColor, textFont, textSize } =
@@ -12,10 +9,8 @@ const createComponentElement = (component, index, position) => {
 
   useEffect(() => {
     // locks the nodes that are currently in text elements-editing or view mode
-    addDragabilityProtocol(component.draggingBehavior);
-    afterEventLoop(() => {
-      setElementDraggable(id, false);
-    });
+    // addDragabilityProtocol(component.draggingBehavior);
+    // console.log('compoennt with id got add drag', id, roadmapSelector.get());
   }, []);
 
   return (

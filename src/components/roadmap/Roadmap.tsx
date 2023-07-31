@@ -1,6 +1,9 @@
 import React, { useEffect, useRef } from 'react';
 import renderNodesStore from '@store/roadmap-refactor/render/rendered-nodes';
-import { setChunkRerenderTrigger } from '@store/roadmap-refactor/render/rendered-chunks';
+import {
+  setChunkRerenderTrigger,
+  triggerChunkRerender,
+} from '@store/roadmap-refactor/render/rendered-chunks';
 import {
   addNode,
   addRootNodeId,
@@ -25,6 +28,10 @@ import { useIsLoaded } from '@hooks/useIsLoaded';
 import { nodeFactoryClassic } from '@src/typescript/roadmap_ref/node/core/factories/templates/classic';
 import { nodeFactorySubNode } from '@src/typescript/roadmap_ref/node/core/factories/templates/sub-node';
 import { appendSubNode } from '@src/typescript/roadmap_ref/node/core/data-mutation/append';
+import { setRoadmapFromAPI } from '@store/roadmap-refactor/roadmap-data/roadmap-view';
+import { applyRoadmapDraggability } from '@src/typescript/roadmap_ref/dragging/misc';
+import { useEffectAfterLoad } from '@hooks/useEffectAfterLoad';
+import { hydrateRoadmap } from '@src/typescript/roadmap_ref/hydration/roadmap-hydration';
 import Popup from './tabs/popups/Popup';
 
 const Roadmap = ({ pageId }: { pageId: string }) => {
@@ -36,7 +43,6 @@ const Roadmap = ({ pageId }: { pageId: string }) => {
   // need to take the ids of the nodes included in the current chunks and render them
   const { nodes } = roadmapSelector.get();
   const { nodesIds } = useStore(renderNodesStore);
-  console.log(nodesIds);
 
   const chunkRenderer = useRef(null);
   useScrollHidden();
@@ -48,6 +54,8 @@ const Roadmap = ({ pageId }: { pageId: string }) => {
 
   useEffect(() => {
     // dummmy data
+    if (!isCreate) return;
+    console.log('apending dummy data');
     const node0 = nodeFactoryClassic('0', 500, 200, 500, 500);
     const node1 = nodeFactoryClassic('1', 100, 100, 200, 100);
     const subNode00 = nodeFactorySubNode('0', 100, 50, -75, -75);
@@ -69,7 +77,6 @@ const Roadmap = ({ pageId }: { pageId: string }) => {
 
     addRootNodeId(node0.id);
     addRootNodeId(node1.id);
-    console.log(roadmapSelector.get());
   }, []);
 
   const disableZoomFn = () => {
@@ -83,13 +90,23 @@ const Roadmap = ({ pageId }: { pageId: string }) => {
 
     setChunkRerenderTrigger(
       // used for decorators
-      chunkRenderer.current
+      () => {
+        chunkRenderer.current();
+      }
     );
 
     if (!isCreate) setRoadmapId(pageId);
     else setRoadmapId(uuid4());
     // fetches the roadmap-roadmap-data from the api-wrapper
     // ...
+    !isCreate &&
+      setRoadmapFromAPI(pageId).then(() => {
+        hydrateRoadmap();
+        triggerChunkRerender();
+        applyRoadmapDraggability();
+      });
+    isCreate && setRoadmapIsLoaded();
+    isCreate && triggerChunkRerender();
 
     // renderConnectionsStore.subscribe(() => {
     //   // calling the connection rendering function
@@ -105,13 +122,16 @@ const Roadmap = ({ pageId }: { pageId: string }) => {
     setDisableZoomTrigger(() => {
       disableZoomFn();
     });
-
-    chunkRenderer.current(); // first chunk calculation
   }, []);
 
   useEffect(() => {
     enableZoomFn();
-    // adding zoom and a callback for chunk recalculations (the cb is throttled to 50ms, see class)
+  }, [editing, isCreate]);
+
+  useEffectAfterLoad(() => {
+    // the dynamically injected strategies need to be hydrated into the class to be used since they are lost on serialization
+    hydrateRoadmap();
+    applyRoadmapDraggability();
   }, [editing]);
 
   return (

@@ -1,5 +1,4 @@
 import React, { useEffect, useRef } from 'react';
-import { addDragabilityProtocol } from '@src/typescript/roadmap_ref/render/dragging';
 import { useTriggerRerender } from '@hooks/useTriggerRerender';
 import NodeView from '@src/to-be-organized/nodeview/NodeView';
 import { NodeClass } from '@src/typescript/roadmap_ref/node/core/core';
@@ -23,10 +22,11 @@ const NodeManager = ({ node }: NodeManagerProps) => {
     objRef.current.setAttribute('width', width);
     objRef.current.setAttribute('height', height);
   }
+
   useEffect(() => {
     // locks the nodes that are currently in text elements-editing or view mode
-    console.log('root node id here', node.id);
-    addDragabilityProtocol(node.draggingBehavior);
+    // addDragabilityProtocol(node.draggingBehavior);
+    // inferAndSetNodeDraggability(node);
   }, []);
 
   useEffect(() => {

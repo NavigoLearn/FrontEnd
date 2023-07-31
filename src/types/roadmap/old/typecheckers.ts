@@ -80,10 +80,5 @@ export function isValidNodeType(type: string): type is NodeIdentifierTypes {
 }
 
 export function isRoadmapType(props: any): props is Roadmap {
-  return (
-    'nodes' in props &&
-    'connections' in props &&
-    'resources' in props &&
-    'chunks' in props
-  );
+  return 'nodes' in props;
 }

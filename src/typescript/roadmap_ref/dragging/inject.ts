@@ -1,13 +1,14 @@
 import {
   DraggingBehavior,
-  draggingElementIdentifiers,
-  draggingStrategies,
+  IDraggingElementIdentifiers,
+  IDraggingElementType,
+  IDraggingStrategies,
 } from '@src/typescript/roadmap_ref/dragging/core';
 import { draggingStrategyFactory } from '@src/typescript/roadmap_ref/dragging/strategies';
 
 export function injectDraggingElementIdentifier(
   draggingBehavior: DraggingBehavior,
-  draggingElementIdentifier: draggingElementIdentifiers
+  draggingElementIdentifier: IDraggingElementIdentifiers
 ) {
   draggingBehavior.draggingElementIdentifier = draggingElementIdentifier;
 }
@@ -21,11 +22,18 @@ export function injectDraggingElementId(
 
 export function injectDraggingStrategy(
   draggingBehavior: DraggingBehavior,
-  draggingStrategyType: draggingStrategies
+  draggingStrategyType: IDraggingStrategies
 ) {
   draggingBehavior.draggingStrategyType = draggingStrategyType;
   draggingBehavior.draggingStrategy = draggingStrategyFactory(
     draggingBehavior,
     draggingStrategyType
   );
+}
+
+export function injectDraggingElementType(
+  draggingBehavior: DraggingBehavior,
+  draggingElementType: IDraggingElementType
+) {
+  draggingBehavior.draggingElementType = draggingElementType;
 }

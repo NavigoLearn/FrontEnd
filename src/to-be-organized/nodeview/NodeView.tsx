@@ -3,13 +3,11 @@
 import React, { useEffect, useRef } from 'react';
 import { afterEventLoop } from '@src/typescript/utils/misc';
 import renderComponents from '@src/to-be-organized/nodeview/CompRender';
-import { addDragabilityProtocol } from '@src/typescript/roadmap_ref/render/dragging';
 import { useTriggerRerender } from '@hooks/useTriggerRerender';
 import { setTriggerRender } from '@store/roadmap-refactor/render/rerender-triggers';
 import {
   getElementDraggable,
   setDraggableElementForNodeWithId,
-  setElementDraggable,
 } from '@store/roadmap-refactor/elements-editing/draggable-elements';
 import { setDisplayPageType } from '@store/roadmap-refactor/display/display-manager';
 import { setSelectedNodeId } from '@store/roadmap-refactor/elements-editing/editor-selected-data';
@@ -65,27 +63,25 @@ const NodeView: React.FC<NodeViewProps> = ({
 
     useEffect(() => {
       // locks the nodes that are currently in text elements-editing or view mode
-      if (node.flags.renderedOnRoadmapFlag) return;
-      addDragabilityProtocol(node.draggingBehavior);
+      // if (node.flags.renderedOnRoadmapFlag) return;
+      // addDragabilityProtocol(node.draggingBehavior);
     }, []);
 
     useEffect(() => {
       if (node.flags.renderedOnRoadmapFlag) return;
-      // rerenders needs to be done in nodeManager in group and foreign object
       afterEventLoop(() => {
         setTriggerRender(node.id, rerender);
       });
     }, []);
 
     useEffect(() => {
-      afterEventLoop(() => {
-        if (node.flags.renderedOnRoadmapFlag) {
-          console.log('node id for nodeview for true drag', node.id);
-          setElementDraggable(node.id, true);
-        } else {
-          setElementDraggable(node.id, false);
-        }
-      });
+      // afterEventLoop(() => {
+      //   if (node.flags.renderedOnRoadmapFlag) {
+      //     setElementDraggable(node.id, true);
+      //   } else {
+      //     setElementDraggable(node.id, false);
+      //   }
+      // });
     }, []);
 
     return (

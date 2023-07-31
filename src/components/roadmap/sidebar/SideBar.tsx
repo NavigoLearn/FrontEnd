@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useStore } from '@nanostores/react';
 import roadmapState from '@store/roadmap/data/roadmap_state';
 import buttonsEditOwner from '@components/roadmap/sidebar/buttons-edit';
@@ -9,9 +9,9 @@ import roadmapVisitData, {
 } from '@store/roadmap/data/roadmap-visit-data';
 import GenericButtonDesktop from '@components/roadmap/sidebar/GenericButtonDesktop';
 import {
-  buttonsViewVisitor,
-  buttonsViewOwner,
   buttonsTryTool,
+  buttonsViewOwner,
+  buttonsViewVisitor,
 } from './buttons-view';
 
 const SideBar = ({ isCreate }: { isCreate: string }) => {

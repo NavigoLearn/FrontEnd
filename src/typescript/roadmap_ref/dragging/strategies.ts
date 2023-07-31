@@ -1,7 +1,7 @@
 import {
   DraggingBehavior,
-  draggingStrategies,
   ICoords,
+  IDraggingStrategies,
 } from '@src/typescript/roadmap_ref/dragging/core';
 
 function freeDraggingStrategy(
@@ -43,10 +43,10 @@ function snapDraggingStrategy(
 
 export function draggingStrategyFactory(
   draggingBehavior: DraggingBehavior,
-  strategyOption: draggingStrategies
+  strategyOption: IDraggingStrategies
 ) {
   const strategies: {
-    [key in draggingStrategies]: (
+    [key in IDraggingStrategies]: (
       draggingObject: DraggingBehavior,
       newX: number,
       newY: number

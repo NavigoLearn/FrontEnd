@@ -3,6 +3,7 @@ import * as d3 from 'd3';
 import {
   injectDraggingElementId,
   injectDraggingElementIdentifier,
+  injectDraggingElementType,
   injectDraggingStrategy,
 } from '@src/typescript/roadmap_ref/dragging/inject';
 import { mutateNodeCoords } from '@src/typescript/roadmap_ref/node/core/data-mutation/mutate';
@@ -25,6 +26,8 @@ export function draggingBehaviorFactoryRoadmapNode(
   injectDraggingElementIdentifier(draggingBehavior, 'div');
   injectDraggingElementId(draggingBehavior, nodeId);
   injectDraggingStrategy(draggingBehavior, 'free');
+  injectDraggingElementType(draggingBehavior, 'node');
+
   draggingBehavior.getCurrentCoords = () => {
     const node = getNodeByIdRoadmapSelector(nodeId);
     return {
@@ -69,6 +72,8 @@ export function draggingBehaviorFactorySubNode(
   injectDraggingElementIdentifier(draggingBehavior, 'div');
   injectDraggingElementId(draggingBehavior, nodeId);
   injectDraggingStrategy(draggingBehavior, 'snap');
+  injectDraggingElementType(draggingBehavior, 'subNode');
+
   draggingBehavior.getCurrentCoords = () => {
     const node = getNodeByIdRoadmapSelector(nodeId);
     return {
@@ -117,6 +122,7 @@ export function draggingBehaviorFactoryComponents(
   injectDraggingElementIdentifier(draggingBehavior, 'div');
   injectDraggingElementId(draggingBehavior, componentId);
   injectDraggingStrategy(draggingBehavior, 'snap');
+  injectDraggingElementType(draggingBehavior, 'component');
 
   draggingBehavior.getCurrentCoords = () => {
     const node = getNodeByIdRoadmapSelector(nodeId);

@@ -3,8 +3,9 @@ export type ICoords = {
   y: number;
 };
 
-export type draggingStrategies = 'free' | 'snap' | 'grid';
-export type draggingElementIdentifiers = 'g' | 'div';
+export type IDraggingStrategies = 'free' | 'snap' | 'grid';
+export type IDraggingElementIdentifiers = 'g' | 'div';
+export type IDraggingElementType = 'node' | 'subNode' | 'component';
 export class DraggingBehavior {
   // how it works:
 
@@ -12,11 +13,13 @@ export class DraggingBehavior {
 
   coordinatesSetter: (x: number, y: number) => void; // the function that sets the coordinates of the element node that is dragged
 
-  draggingElementIdentifier: draggingElementIdentifiers; // the type of the element node that is dragged eg div, group, h1, svg, etc
+  draggingElementIdentifier: IDraggingElementIdentifiers; // the type of the element node that is dragged eg div, group, h1, svg, etc
 
   draggingElementId: string; // the id of the element node that is dragged
 
   draggingStrategyType = 'free'; // free, snap, grid, etc
+
+  draggingElementType: IDraggingElementType = 'node';
 
   draggingStrategy: (newX, newY) => ICoords; // the function that is called when the element is dragged
 

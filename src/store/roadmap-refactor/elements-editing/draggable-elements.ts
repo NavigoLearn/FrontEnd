@@ -72,6 +72,7 @@ export function setAllDraggableFalse() {
 
 export function setDraggableElementForNodeWithId(id: string) {
   // iterates the components and subNodes Ids and makes them draggable
+
   setAllDraggableFalse();
   const originalDraggables = draggableElements.get();
   const draggableIds = [];

@@ -1,25 +1,24 @@
 import * as d3 from 'd3';
-import roadmapStatic from '@store/roadmap/data/roadmap_static';
-import roadmapEdit from '@store/roadmap/data/roadmap_edit';
 import roadmapState from '@store/roadmap/data/roadmap_state';
-import { calculateMiddleOfNodeOffsetStatic } from '@src/typescript/roadmap_ref/render/coord-calc';
 import { setRecenterRoadmap } from '@store/roadmap-refactor/misc/miscParams';
 import { setScaleSafari } from '@store/roadmap-refactor/misc/scale-safari';
 import { setDisplayTitlesFalse } from '@store/roadmap/sidebar/displayTitle';
 import { throttle } from '@src/typescript/roadmap_ref/render/chunks';
+import { roadmapSelector } from '@store/roadmap-refactor/roadmap-data/roadmap-selector';
 
 export const calculateRootNodeTransform = () => {
   const { editing } = roadmapState.get();
 
   const a = 'sefarw';
-  const original = editing ? roadmapEdit.get() : roadmapStatic.get();
+  const original = roadmapSelector.get();
 
   const { nodes } = original;
-  const rootNode = nodes.rootNodeId;
-  const { x, y } = rootNode;
-  const { x: widthNode, y: heightNode } =
-    calculateMiddleOfNodeOffsetStatic(rootNode);
+  // needs refactor with actual center of the roadmap
+  const x = 0;
+  const y = 0;
 
+  const widthNode = 0;
+  const heightNode = 0;
   // gets the current screen size
   const { innerWidth, innerHeight } = window;
   // calculates a transform that centers the root node in the middle of the screen
@@ -61,7 +60,7 @@ export const addZoom = (rootSvgId, rootGroupId, rerender) => {
     const customTransform = d3.zoomIdentity
       .translate(-initialTransform.x, -initialTransform.y)
       .scale(initialTransform.k);
-    svg.transition().duration(750).call(zoom.transform, customTransform);
+    // svg.transition().duration(750).call(zoom.transform, customTransform);
   }
 
   setRecenterRoadmap(() => resetZoom());

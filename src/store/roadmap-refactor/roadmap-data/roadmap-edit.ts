@@ -10,6 +10,6 @@ export const roadmapEdit = atom({
 } as Roadmap);
 
 export const setRoadmapEdit = (roadmap: Roadmap) => {
-  roadmapEdit.set({ ...roadmap });
   roadmapSelector.set({ ...roadmap });
+  roadmapEdit.set({ ...roadmap });
 };

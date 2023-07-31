@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useStore } from '@nanostores/react';
 import roadmapState from '@store/roadmap/data/roadmap_state';
 import buttonsEditOwner from '@components/roadmap/sidebar/buttons-edit';
@@ -12,9 +12,9 @@ import NewButtonDesktop from '@components/roadmap/sidebar/NewButtonDesktop';
 import { setOffsetY } from '@store/roadmap/sidebar/clickSubject';
 import { setClickedIndex } from '@store/roadmap/sidebar/clickedState';
 import {
-  buttonsViewVisitor,
-  buttonsViewOwner,
   buttonsTryTool,
+  buttonsViewOwner,
+  buttonsViewVisitor,
 } from './buttons-view';
 
 const SideBar = ({ isCreate }: { isCreate: string }) => {
