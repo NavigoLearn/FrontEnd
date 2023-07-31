@@ -7,11 +7,11 @@ import NodeComponent from '@components/roadmap/displayers/editor/components/Node
 import { nodeFactorySubNode } from '@src/typescript/roadmap_ref/node/core/factories/templates/sub-node';
 import { appendSubNode } from '@src/typescript/roadmap_ref/node/core/data-mutation/append';
 import {
-  appendNode,
+  appendNodeRoadmapSelector,
   getNodeByIdRoadmapSelector,
 } from '@store/roadmap-refactor/roadmap-data/roadmap-selector';
 import { triggerNodeRerender } from '@store/roadmap-refactor/render/rerender-triggers';
-import { addDraggableElementProtocol } from '@components/roadmap/displayers/editor/pages/utils';
+import { draggableElementProtocol } from '@components/roadmap/displayers/editor/pages/utils';
 
 const Nodes = () => {
   const { selectedNodeId } = useStore(editorSelectedData);
@@ -20,11 +20,8 @@ const Nodes = () => {
   function addNestedNode() {
     const newNestedNode = nodeFactorySubNode(node.id, 100, 100, 0, 0); // creates node
     appendSubNode(node, newNestedNode.id); // appends to the parent of nesting
-    appendNode(newNestedNode);
-    addDraggableElementProtocol(
-      newNestedNode.draggingBehavior,
-      newNestedNode.id
-    );
+    appendNodeRoadmapSelector(newNestedNode);
+    draggableElementProtocol(newNestedNode.draggingBehavior, newNestedNode.id);
     triggerNodeRerender(node.id);
   }
   return (

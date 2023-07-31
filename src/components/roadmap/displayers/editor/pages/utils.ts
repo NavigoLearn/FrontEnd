@@ -4,7 +4,7 @@ import { afterEventLoop } from '@src/typescript/utils/misc';
 import { setElementDraggable } from '@store/roadmap-refactor/elements-editing/draggable-elements';
 import { triggerRerenderEditor } from '@store/roadmap-refactor/elements-editing/editor-selected-data';
 
-export function addDraggableElementProtocol(
+export function draggableElementProtocol(
   draggingBehavior: DraggingBehavior,
   id: string
 ) {

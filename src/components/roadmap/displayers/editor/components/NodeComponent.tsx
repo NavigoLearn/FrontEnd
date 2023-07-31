@@ -159,6 +159,7 @@ const NodeComponent = ({
           className=' w-8 h-8 mx-4 mb-2'
           onClick={() => {
             deleteNestedNodeWithId(parentNode, id);
+            triggerNodeRerender(parentNode.id);
             triggerRerenderEditor();
           }}
         >

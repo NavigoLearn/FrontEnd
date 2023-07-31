@@ -1,6 +1,7 @@
 import { atom } from 'nanostores';
 import { Roadmap } from '@type/roadmap/stores/roadmap';
 import { NodeClass } from '@src/typescript/roadmap_ref/node/core/core';
+import { Connection } from '@src/typescript/roadmap_ref/node/connections/core';
 
 export const roadmapSelector = atom({
   nodes: {},
@@ -13,7 +14,7 @@ export const getNodeByIdRoadmapSelector = (id: string) => {
   return roadmapSelector.get().nodes[id];
 };
 
-export const appendNode = (node: NodeClass) => {
+export const appendNodeRoadmapSelector = (node: NodeClass) => {
   const roadmap = roadmapSelector.get();
   roadmap.nodes[node.id] = node;
   roadmapSelector.set({ ...roadmap });
@@ -25,6 +26,12 @@ export const setRoadmapSelector = (roadmap: Roadmap) => {
 
 export const getRootNodesIds = () => {
   return roadmapSelector.get().rootNodesIds;
+};
+
+export const appendRootNodeId = (id: string) => {
+  const roadmap = roadmapSelector.get();
+  roadmap.rootNodesIds.push(id);
+  roadmapSelector.set({ ...roadmap });
 };
 
 export function removeNodeFromChunk(nodeId: string, chunkId: string) {
@@ -75,3 +82,9 @@ export function addRootNodeId(id: string) {
   roadmap.rootNodesIds.push(id);
   roadmapSelector.set({ ...roadmap });
 }
+
+export const appendConnectionRoadmapSelector = (connection: Connection) => {
+  const roadmap = roadmapSelector.get();
+  roadmap.connections[connection.id] = connection;
+  roadmapSelector.set({ ...roadmap });
+};

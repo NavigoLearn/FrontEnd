@@ -1,8 +1,8 @@
+import { Roadmap } from '@type/roadmap/stores/roadmap';
 import {
   ConnectionProps,
   ConnectionStore,
 } from '@type/roadmap/old/connections';
-import { Roadmap } from '@type/roadmap/old/roadmap';
 import { ResourceSubNodeProps } from '@type/roadmap/old/resources';
 import { LevelTypes, levelTypesArray } from '@type/roadmap/old/level-types';
 import {

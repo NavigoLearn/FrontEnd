@@ -5,6 +5,7 @@ const roadmapState = atom({
   save: true, // and if the elements-editing state should be saved or not
   loaded: false, // used to determine if the roadmap has been loaded
   isCreate: false, // used to determine if the roadmap is being created
+  rerender: false, // used to rerender roadmap
   id: '', // the id of the roadmap
   userId: '',
 } as {
@@ -12,6 +13,7 @@ const roadmapState = atom({
   save: boolean;
   loaded: boolean;
   isCreate: boolean;
+  rerender: boolean;
   id: string;
   userId: string;
 });
@@ -62,4 +64,9 @@ export function setIsCreateTrue() {
 export function getIsCreate() {
   const original = roadmapState.get();
   return original.isCreate;
+}
+
+export function rerenderRoadmap() {
+  const original = roadmapState.get();
+  roadmapState.set({ ...original, rerender: !original.rerender });
 }

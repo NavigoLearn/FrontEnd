@@ -30,3 +30,11 @@ export function removeChunk(node: NodeClass, id: string) {
     (chunkId) => chunkId !== id
   );
 }
+
+export function appendChildNodeId(node: NodeClass, id: string) {
+  node.properties.childrenIds.push(id);
+}
+
+export function appendConnectionNode(node: NodeClass, id: string) {
+  node.connections.push(id);
+}

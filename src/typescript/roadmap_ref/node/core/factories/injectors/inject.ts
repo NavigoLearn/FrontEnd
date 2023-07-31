@@ -43,7 +43,7 @@ export function injectChunkData(node: NodeClass, chunks: string[]) {
 export function injectClassicData(node: NodeClass, parent, children) {
   injectParentData(node, parent);
   injectChildrenData(node, children);
-  injectChunkData(node, ['0_0']);
+  injectChunkData(node, []);
 }
 
 export function injectNestedFlags(node: NodeClass) {

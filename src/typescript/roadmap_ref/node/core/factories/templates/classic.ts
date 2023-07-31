@@ -36,7 +36,7 @@ export function nodeFactoryClassicBoilerplate(id?: string): NodeClass {
   // classic nodes has a tab-attachment attachment and the default color scheme
   injectClassicFlags(node);
   id ? injectNewId(node, id) : injectNewRandomId(node);
-  injectClassicData(node, 'someparent', []);
+  injectClassicData(node, '', []);
 
   appendComponent(node, factoryComponentTitleEmpty(node.id));
   const tab = factoryAttachmentTabEmpty();
@@ -57,21 +57,21 @@ export function nodeFactoryClassicBoilerplate(id?: string): NodeClass {
 }
 
 export function nodeFactoryClassic(
-  id: string,
   x: number,
   y: number,
-  width?: number,
-  height?: number
+  width: number,
+  height: number
 ) {
-  const node = nodeFactoryClassicBoilerplate(id);
+  const node = nodeFactoryClassicBoilerplate();
   mutateNodeWidth(node, width || 100);
   mutateNodeHeight(node, height || 100);
 
   mutateNodeCoordX(node, x);
   mutateNodeCoordY(node, y);
-  injectNewId(node, id);
+
   recalculateNodeChunks(node);
   recalculateNodeCenter(node);
   addNodeToChunks(node);
+
   return node;
 }

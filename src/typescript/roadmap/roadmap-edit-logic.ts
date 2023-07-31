@@ -6,7 +6,6 @@ import {
 } from '@type/roadmap/old/typecheckers';
 
 import roadmapEdit from '@store/roadmap/data/roadmap_edit';
-import { Roadmap } from '@type/roadmap/old/roadmap';
 import {
   generateNodeInfoEmpty,
   generateNodeResourceEmpty,

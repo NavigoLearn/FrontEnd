@@ -79,7 +79,7 @@ export function setNodesToRender() {
 
   const chunksIds = chunksStore.get().chunks;
 
-  let nodesArray: string[] = [];
+  const nodesArray: string[] = [];
   chunksIds.forEach((chunkId) => {
     // gets the array of nodes for each chunk id
     const nodes = chunks[chunkId];
@@ -87,7 +87,7 @@ export function setNodesToRender() {
       nodesArray.push(...nodes);
     }
   });
-  nodesArray = extendNodeIdsForConnection(nodesArray, roadmapData);
+  // nodesArray = extendNodeIdsForConnection(nodesArray, roadmapData);
   // sets the nodes that should be rendered ( calculated from the chunks visible )
   setNodes(nodesArray);
 }

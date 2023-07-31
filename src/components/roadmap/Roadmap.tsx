@@ -55,13 +55,13 @@ const Roadmap = ({ pageId }: { pageId: string }) => {
   useEffect(() => {
     // dummmy data
     if (!isCreate) return;
-    console.log('apending dummy data');
-    const node0 = nodeFactoryClassic('0', 500, 200, 500, 500);
-    const node1 = nodeFactoryClassic('1', 100, 100, 200, 100);
-    const subNode00 = nodeFactorySubNode('0', 100, 50, -75, -75);
-    const subNode01 = nodeFactorySubNode('0', 100, 50, 75, 75);
-    const subNode02 = nodeFactorySubNode('0', 100, 50, 75, -75);
-    const subNode03 = nodeFactorySubNode('0', 100, 50, -75, 75);
+
+    const node0 = nodeFactoryClassic(500, 200, 500, 500);
+    const node1 = nodeFactoryClassic(100, 100, 200, 100);
+    const subNode00 = nodeFactorySubNode(node0.id, 100, 50, -75, -75);
+    const subNode01 = nodeFactorySubNode(node0.id, 100, 50, 75, 75);
+    const subNode02 = nodeFactorySubNode(node0.id, 100, 50, 75, -75);
+    const subNode03 = nodeFactorySubNode(node0.id, 100, 50, -75, 75);
     addNode(node0);
     addNode(node1);
 
