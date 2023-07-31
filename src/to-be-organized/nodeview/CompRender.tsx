@@ -1,31 +1,31 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useRef } from 'react';
 import { calculateComponentsPositions } from '@src/to-be-organized/nodeview/logic';
 import { NodeClass } from '@src/typescript/roadmap_ref/node/core/core';
+import { IComponentObject } from '@type/roadmap/node/components-types';
 
-const createComponentElement = (component, index, position) => {
+type IComponentElementProps = {
+  component: IComponentObject;
+  position: { x: number; y: number };
+};
+
+const ComponentElement = ({ component, position }: IComponentElementProps) => {
   const { id, type, width, height, text, textColor, textFont, textSize } =
     component;
   const objRef = useRef(null);
 
-  useEffect(() => {
-    // locks the nodes that are currently in text elements-editing or view mode
-    // addDragabilityProtocol(component.draggingBehavior);
-    // console.log('compoennt with id got add drag', id, roadmapSelector.get());
-  }, []);
-
   return (
     <div
       ref={objRef}
-      key={index}
+      key={component.id}
       id={`div${id}`}
-      className='rounded-xl items-center absolute overflow-hidden border-2 border-black'
+      className='rounded-xl items-center absolute overflow-hidden '
       style={{
         textDecorationColor: textColor,
         textSizeAdjust: `${textSize}%`,
         textAlign: 'center',
         fontFamily: textFont,
-        width: `${width}px`,
-        height: `${height}px`,
+        // width: `${width}px`,
+        // height: `${height}px`,
         top: `${position.y}px`,
         left: `${position.x}px`,
       }}
@@ -41,12 +41,19 @@ const CompRender = (node: NodeClass) => {
   const { components, data } = node;
   const positions = calculateComponentsPositions(node);
 
-  const componentElements = components.map((component, index) => {
-    const position = positions[index];
-    return createComponentElement(component, index, position);
-  });
-
-  return <div className='components-container'>{componentElements}</div>;
+  return (
+    <div className='components-container'>
+      {components.map((component, index) => {
+        return (
+          <ComponentElement
+            key={component.id}
+            component={component}
+            position={positions[index]}
+          />
+        );
+      })}
+    </div>
+  );
 };
 
 export default CompRender;

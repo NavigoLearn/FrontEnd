@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { tailwindTransitionClass } from '@src/UI-library/tailwind-utils';
+import { triggerNodeRerender } from '@store/roadmap-refactor/render/rerender-triggers';
+import editorSelectedData from '@store/roadmap-refactor/elements-editing/editor-selected-data';
 
 type IDropdownSelectProps<T extends string> = {
   optionsList: T[];
@@ -19,7 +21,7 @@ const DropdownOptions = <T extends string>({
   setIsOpen,
 }: IDropdownOptionsProps<T>) => {
   return (
-    <div className='absolute w-full left-0 top-20  bg-white w-40  flex flex-col  rounded-xl '>
+    <div className='absolute w-full left-0 top-20  bg-white flex flex-col  rounded-xl '>
       <div className='absolute w-full h-full border-2 border-gray-500 left-0 top-0 z-20 rounded-xl pointer-events-none' />
       {optionsList.map((element, index) => {
         return (
@@ -31,13 +33,14 @@ const DropdownOptions = <T extends string>({
                 if (e.button === 0) {
                   setIsOpen(false);
                 }
+                triggerNodeRerender(editorSelectedData.get().selectedNodeId);
               }}
               onAuxClick={() => {
                 onSelect(element);
               }}
               type='button'
               key={element}
-              className={`text-darkBlue font-medium text-xl  font-roboto-text flex justify-start items-center hover:text-white bg-white hover:bg-highlight pl-4 h-16 ${
+              className={`text-darkBlue font-medium text-xl  font-roboto-text flex justify-start items-center w-full hover:text-white bg-white hover:bg-highlight pl-4 h-16 ${
                 index === 0 && 'rounded-t-xl'
               } ${
                 index === optionsList.length - 1 && 'rounded-b-xl'
@@ -60,9 +63,7 @@ const DropdownComponent = <T extends string>({
   onSelect,
   text,
 }: IDropdownSelectProps<T>) => {
-  const [selectedItems, setSelectedItems] = useState([]);
   const [isOpen, setIsOpen] = useState(false);
-  const [isHovered, setIsHovered] = useState(false);
 
   const toggleDropdown = () => {
     setIsOpen(!isOpen);

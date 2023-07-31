@@ -26,7 +26,7 @@ export function hydrateDraggingBehaviorComponent(component: ComponentNode) {
 
   if (elementType === 'component')
     component.draggingBehavior = draggingBehaviorFactoryComponents(
-      component.id,
+      component.parentNodeId,
       unhydratedDraggingBehavior.draggingElementId
     );
 

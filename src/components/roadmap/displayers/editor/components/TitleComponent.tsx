@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React from 'react';
 import { deleteComponentWithId } from '@src/typescript/roadmap_ref/node/core/data-mutation/delete';
 import { tailwindTransitionClass } from '@src/UI-library/tailwind-utils';
 import {
@@ -8,6 +8,7 @@ import {
 import { mutateComponentTitleText } from '@src/typescript/roadmap_ref/node/components/text/mutate';
 import { useTriggerRerender } from '@hooks/useTriggerRerender';
 import { NodeClass } from '@src/typescript/roadmap_ref/node/core/core';
+import { triggerNodeRerender } from '@store/roadmap-refactor/render/rerender-triggers';
 
 type TitleComponentProps = {
   node: NodeClass;
@@ -17,7 +18,7 @@ type TitleComponentProps = {
 const TitleComponent = ({ node, id, name }: TitleComponentProps) => {
   const rerender = useTriggerRerender();
   // is opened and node is selected
-  const titleComponent = useMemo(() => getComponentTitleById(node, id), [id]);
+  const titleComponent = getComponentTitleById(node, id);
   // cache component
 
   return (
@@ -30,6 +31,7 @@ const TitleComponent = ({ node, id, name }: TitleComponentProps) => {
           const { value } = event.target;
           mutateComponentTitleText(titleComponent, value);
           rerender();
+          triggerNodeRerender(node.id);
         }}
       />
       <button
@@ -37,6 +39,7 @@ const TitleComponent = ({ node, id, name }: TitleComponentProps) => {
         className=' w-8 h-8 mx-4 mb-2'
         onClick={() => {
           deleteComponentWithId(node, id);
+          triggerNodeRerender(node.id);
         }}
       >
         <img

@@ -10,7 +10,6 @@ export function getComponentById(
   id: string
 ): IComponentObject {
   const index = node.components.findIndex((component) => component.id === id);
-  console.log('index', index);
   return node.components[index];
 }
 

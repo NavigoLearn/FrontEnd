@@ -71,10 +71,6 @@ export const addDragabilityProtocol = (draggingBehavior: DraggingBehavior) => {
   const id = draggingBehavior.draggingElementId;
   const elementIdentifier = draggingBehavior.draggingElementIdentifier;
 
-  const nodeSelection = d3
-    .selectAll(draggingBehavior.draggingElementIdentifier)
-    .select(`#${elementIdentifier}${id}`);
-
   const offset = { x: 0, y: 0 };
   const newPos = { x: 0, y: 0 };
   const initialPos = { x: 0, y: 0 };
@@ -142,7 +138,12 @@ export const addDragabilityProtocol = (draggingBehavior: DraggingBehavior) => {
     });
 
   function updateDraggabilityAllowed(allowed: boolean) {
+    const nodeSelection = d3
+      .selectAll(draggingBehavior.draggingElementIdentifier)
+      .select(`#${elementIdentifier}${id}`);
+
     if (allowed) {
+      console.log('dragging allowed', nodeSelection);
       nodeSelection.call(drag);
     } else {
       nodeSelection.on('.drag', null);

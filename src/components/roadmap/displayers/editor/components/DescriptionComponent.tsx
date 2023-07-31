@@ -8,6 +8,7 @@ import {
 import { useTriggerRerender } from '@hooks/useTriggerRerender';
 import { deleteComponentWithId } from '@src/typescript/roadmap_ref/node/core/data-mutation/delete';
 import { NodeClass } from '@src/typescript/roadmap_ref/node/core/core';
+import { triggerNodeRerender } from '@store/roadmap-refactor/render/rerender-triggers';
 
 type DescriptionComponentProps = {
   node: NodeClass;
@@ -32,6 +33,7 @@ const DescriptionComponent = ({
           const { value } = event.target;
           mutateComponentDescriptionText(descriptionComponent, value);
           rerender();
+          triggerNodeRerender(node.id);
         }}
       />
       <button
@@ -39,6 +41,7 @@ const DescriptionComponent = ({
         className=' w-8 h-8 mx-4 mb-2'
         onClick={() => {
           deleteComponentWithId(node, id);
+          triggerNodeRerender(node.id);
         }}
       >
         <img

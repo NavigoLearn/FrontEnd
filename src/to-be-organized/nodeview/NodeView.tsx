@@ -62,26 +62,10 @@ const NodeView: React.FC<NodeViewProps> = ({
       }, 0);
 
     useEffect(() => {
-      // locks the nodes that are currently in text elements-editing or view mode
-      // if (node.flags.renderedOnRoadmapFlag) return;
-      // addDragabilityProtocol(node.draggingBehavior);
-    }, []);
-
-    useEffect(() => {
       if (node.flags.renderedOnRoadmapFlag) return;
       afterEventLoop(() => {
         setTriggerRender(node.id, rerender);
       });
-    }, []);
-
-    useEffect(() => {
-      // afterEventLoop(() => {
-      //   if (node.flags.renderedOnRoadmapFlag) {
-      //     setElementDraggable(node.id, true);
-      //   } else {
-      //     setElementDraggable(node.id, false);
-      //   }
-      // });
     }, []);
 
     return (

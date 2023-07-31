@@ -1,4 +1,5 @@
 import React from 'react';
+import { triggerNodeRerender } from '@store/roadmap-refactor/render/rerender-triggers';
 import { useStore } from '@nanostores/react';
 import editorSelectedData, {
   triggerRerenderEditor,
@@ -11,6 +12,9 @@ import { appendComponent } from '@src/typescript/roadmap_ref/node/core/data-muta
 import { factoryComponentEmpty } from '@src/typescript/roadmap_ref/node/components/text/factories';
 import { getNodeByIdRoadmapSelector } from '@store/roadmap-refactor/roadmap-data/roadmap-selector';
 import { IComponentObject } from '@type/roadmap/node/components-types';
+import { setElementDraggable } from '@store/roadmap-refactor/elements-editing/draggable-elements';
+import { addDragabilityProtocol } from '@src/typescript/roadmap_ref/render/dragging';
+import { afterEventLoop } from '@src/typescript/utils/misc';
 
 const Components = () => {
   const { selectedNodeId } = useStore(editorSelectedData);
@@ -23,7 +27,9 @@ const Components = () => {
   ) => {
     const JSONMapper = {
       Title: <TitleComponent node={node} key={id} id={id} name={name} />,
-      Description: <DescriptionComponent node={node} id={id} name={name} />,
+      Description: (
+        <DescriptionComponent key={id} node={node} id={id} name={name} />
+      ),
     };
     return JSONMapper[type];
   };
@@ -33,7 +39,14 @@ const Components = () => {
       <DropdownComponent
         text='Add component'
         onSelect={(componentType: IComponentOptions) => {
-          appendComponent(node, factoryComponentEmpty(componentType, node.id)); // needs parentNodeId injected
+          const newComponent = factoryComponentEmpty(componentType, node.id);
+          appendComponent(node, newComponent); // needs parentNodeId injected
+          addDragabilityProtocol(newComponent.draggingBehavior);
+          triggerNodeRerender(node.id);
+          afterEventLoop(() => {
+            // delays until the next render cycle
+            setElementDraggable(newComponent.id, true);
+          });
           triggerRerenderEditor();
         }}
         optionsList={['Title', 'Description']}
