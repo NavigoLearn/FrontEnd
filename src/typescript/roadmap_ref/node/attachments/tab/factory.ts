@@ -18,7 +18,7 @@ export function factoryAttachmentComponent(
   if (type === 'Title') {
     const titleComponent: IAttachmentTabTitleProperties = {
       type: 'Title',
-      titleText: 'Title',
+      titleText: '',
     };
     return titleComponent;
   }
@@ -26,7 +26,7 @@ export function factoryAttachmentComponent(
   if (type === 'Description') {
     const descriptionComponent: IAttachmentTabDescriptionProperties = {
       type: 'Description',
-      descriptionText: 'Description',
+      descriptionText: '',
     };
     return descriptionComponent;
   }

@@ -46,8 +46,10 @@ export function nodeFactoryClassicBoilerplate(id?: string): NodeClass {
   const attachmentTitleComponent = factoryAttachmentComponent('Title');
   const attachmentDescriptionComponent =
     factoryAttachmentComponent('Description');
+  const attachmentLinkComponent = factoryAttachmentComponent('Link');
   appendAttachmentTabComponent(tab, attachmentTitleComponent);
   appendAttachmentTabComponent(tab, attachmentDescriptionComponent);
+  appendAttachmentTabComponent(tab, attachmentLinkComponent);
 
   const draggingBehavior = draggingBehaviorFactoryRoadmapNode(node.id);
   injectDraggingBehavior(node, draggingBehavior);

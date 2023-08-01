@@ -15,15 +15,23 @@ type ITitleComponentProps = {
 
 const TitleAttachmentView = ({ value, onChange }: ITitleComponentProps) => {
   return (
-    <div className='flex gap-2 w-full border-2 border-red-500'>{value}</div>
+    <div>
+      <h1 className='text-gray-400 font-roboto-text'>Title</h1>
+      <div className='flex gap-2 w-full font-roboto-text text-darkBlue text-lg'>
+        {value || 'No title yet'}
+      </div>
+    </div>
   );
 };
+
 const TitleAttachmentEdit = ({ value, onChange }: ITitleComponentProps) => {
   return (
-    <div className='flex gap-2 w-full outline-2 outline-black'>
+    <div className='flex flex-col gap-1 w-full outline-2 outline-black'>
+      <h1 className='font-roboto-text text-darkBlue'>Title</h1>
       <input
         className={`flex-grow h-14 resize-none outline-none border-2 border-gray-400 rounded-lg text-darkBlue text-lg pl-4 font-medium focus:border-black ${tailwindTransitionClass}`}
         value={value}
+        placeholder='Give an expressive title'
         onChange={(event) => {
           onChange('titleText', event.target.value);
           triggerRerenderEditor();

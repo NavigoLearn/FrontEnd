@@ -21,9 +21,11 @@ const DescriptionAttachmentEdit = ({
   const { isEditing } = status;
 
   return (
-    <div className='flex gap-2 w-full '>
+    <div className='flex gap-1 w-full flex-col'>
+      <h1 className='text-darkBlue font-roboto-text'>Description</h1>
       <textarea
         className={`flex-grow h-40 resize-none outline-none border-2 border-gray-400 rounded-lg text-darkBlue text-lg pl-4 font-medium focus:border-black ${tailwindTransitionClass}`}
+        placeholder='Give an expressive description'
         value={value}
         onChange={(event) => {
           onChange('descriptionText', event.target.value);
@@ -41,7 +43,12 @@ const DescriptionAttachmentView = ({
   const { isEditing } = status;
 
   return (
-    <div className='flex gap-2 w-full border-2 border-red-500'>{value}</div>
+    <div>
+      <h1 className='text-gray-400 font-roboto-text'>Description</h1>
+      <div className='flex gap-2 w-full font-roboto-text text-darkBlue text-lg'>
+        {value || 'No description yet'}
+      </div>
+    </div>
   );
 };
 const DescriptionAttachment = ({

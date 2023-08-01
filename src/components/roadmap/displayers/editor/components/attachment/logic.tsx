@@ -2,8 +2,10 @@ import {
   IAttachmentTabComponentProperties,
   IAttachmentTabDescriptionProperties,
   IAttachmentTabTitleProperties,
+  IAttachmentTabLinkProperties,
   typeGuardTabDescriptionProperties,
   typeGuardTabTitleProperties,
+  typeGuardTabLinkProperties,
 } from '@type/roadmap/node/tab-types';
 import DescriptionAttachment from '@components/roadmap/displayers/editor/components/attachment/DescriptionAttachment';
 import {
@@ -12,6 +14,7 @@ import {
 } from '@src/typescript/roadmap_ref/node/attachments/tab/mutate';
 import TitleAttachment from '@components/roadmap/displayers/editor/components/attachment/TitleAttachment';
 import React from 'react';
+import ResourceAttachment from './ResourceAttachment';
 
 export const descriptionBuilder = (
   component: IAttachmentTabDescriptionProperties
@@ -37,6 +40,10 @@ export const titleBuilder = (component: IAttachmentTabTitleProperties) => {
   );
 };
 
+export const resourceBuilder = (component: IAttachmentTabLinkProperties) => {
+  return <ResourceAttachment value={component.linkURL} onChange={() => {}} />;
+};
+
 export function componentMapper(component: IAttachmentTabComponentProperties) {
   if (component.type === 'Title') {
     if (!typeGuardTabTitleProperties(component)) {
@@ -49,6 +56,13 @@ export function componentMapper(component: IAttachmentTabComponentProperties) {
       throw new Error('Component type not found');
     }
     return descriptionBuilder(component);
+  }
+
+  if (component.type === 'Link') {
+    if (!typeGuardTabLinkProperties(component)) {
+      throw new Error('Component type not found');
+    }
+    return resourceBuilder(component);
   }
   throw new Error('Component type not found');
 }

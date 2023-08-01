@@ -23,6 +23,7 @@ export interface IAttachmentTabBulletListProperties {
   type: 'BulletList';
   bulletListItems: string[];
 }
+
 export interface ITabLinkBulletListItem {
   linkURL: string;
   text: string;
@@ -48,4 +49,10 @@ export function typeGuardTabDescriptionProperties(
   component: IAttachmentTabComponentProperties
 ): component is IAttachmentTabDescriptionProperties {
   return component.type === 'Description';
+}
+
+export function typeGuardTabLinkProperties(
+  component: IAttachmentTabComponentProperties
+): component is IAttachmentTabLinkProperties {
+  return component.type === 'Link';
 }

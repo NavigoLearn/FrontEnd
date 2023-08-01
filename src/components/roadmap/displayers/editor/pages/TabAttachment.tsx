@@ -26,7 +26,7 @@ const EditButton = ({ onChange }: IEditButtonProps) => {
   return (
     <button
       type='button'
-      className='px-10 py-2 bg-blue-600 text-white rounded-lg text-lg font-medium'
+      className='px-10 py-2 bg-blue-600 text-white rounded-lg text-lg font-medium flex'
       onClick={() => {
         onChange();
       }}
@@ -49,7 +49,7 @@ const PreviewButton = ({ onChange }: IPreviewButtonProps) => {
         onChange();
       }}
     >
-      Preview
+      Save
     </button>
   );
 };
@@ -65,12 +65,12 @@ const TabAttachment = ({ onChange, value }: ITabAttachmentProps) => {
       {attachment.components.map((component, index) => {
         return (
           // eslint-disable-next-line react/no-array-index-key
-          <div key={index} className='my-4'>
+          <div key={index} className='my-5'>
             {componentMapper(component)}
           </div>
         );
       })}
-      <div className='absolute bottom-8 w-full border-2 border-black'>
+      <div className='absolute bottom-8 w-full ml-80 pl-4'>
         {!isEditing && (
           <EditButton onChange={() => onChange({ isEditing: true })} />
         )}
