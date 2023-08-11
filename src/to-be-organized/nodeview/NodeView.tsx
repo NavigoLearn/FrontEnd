@@ -101,7 +101,7 @@ const NodeView: React.FC<NodeViewProps> = ({
     return (
       // eslint-disable-next-line jsx-a11y/click-events-have-key-events,jsx-a11y/no-static-element-interactions,jsx-a11y/mouse-events-have-key-events
       <div
-        className='drop-shadow-md rounded-xl absolute border-2 border-black transition-opacity transition-border duration-300'
+        className='drop-shadow-md rounded-xl absolute border-2 border-black transition-allNoTransform duration-300'
         id={`div${nodeId}`}
         ref={nodeDivRef}
         onClick={() => {

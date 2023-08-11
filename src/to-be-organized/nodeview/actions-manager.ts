@@ -6,7 +6,10 @@ import {
 import { setDisplayPageType } from '@store/roadmap-refactor/display/display-manager';
 import { setSelectedNodeId } from '@store/roadmap-refactor/elements-editing/editor-selected-data';
 import roadmapState from '@store/roadmap/data/roadmap_state';
-import { getNodeByIdRoadmapSelector } from '@store/roadmap-refactor/roadmap-data/roadmap-selector';
+import {
+  getNodeByIdRoadmapSelector,
+  tracebackNodeToRoot,
+} from '@store/roadmap-refactor/roadmap-data/roadmap-selector';
 import {
   setEditorClosedEffect,
   setEditorOpenEffect,
@@ -17,6 +20,7 @@ import {
   effectBorderBlack,
   effectBorderBlue,
 } from '@src/to-be-organized/nodeview/effects';
+import { triggerMoveRoadmapTo } from '@store/roadmap-refactor/misc/miscParams';
 
 export function getOnMouseOutActionEdit(nodeId): () => void {
   const div = getElementDiv(nodeId);
@@ -25,12 +29,45 @@ export function getOnMouseOutActionEdit(nodeId): () => void {
   };
 }
 
+export function moveRoadmapToNode(nodeId: string) {
+  const node = getNodeByIdRoadmapSelector(nodeId);
+  const { coords, width, height } = node.data;
+  const { nestedFlag } = node.flags;
+  const { x, y } = coords;
+
+  const wOffsetX = window.innerWidth / 2;
+  const wOffsetY = window.innerHeight / 2;
+
+  let tracebackOffsetX = 0;
+  let tracebackOffsetY = 0;
+
+  const traceback = tracebackNodeToRoot(nodeId);
+  traceback.push(nodeId);
+  // gets last element of traceback
+  traceback.forEach((traceNodeId) => {
+    const traceNode = getNodeByIdRoadmapSelector(traceNodeId);
+    const { coords: traceCoords } = traceNode.data;
+    const { x: traceX, y: traceY } = traceCoords;
+    const { width: traceWidth, height: traceHeight } = traceNode.data;
+    tracebackOffsetX += traceX + traceWidth / 2;
+    tracebackOffsetY += traceY + traceHeight / 2;
+  });
+
+  triggerMoveRoadmapTo(
+    // rootX - window.innerWidth / 2 + rootWidth / 2 + x + width / 2,
+    // rootY - window.innerHeight / 2 + rootHeight / 2 + y + height / 2,
+    tracebackOffsetX - wOffsetX,
+    tracebackOffsetY - wOffsetY,
+    1
+  );
+}
+
 export function openEditorProtocol(nodeId: string) {
   setDisplayPageType('editor');
   setSelectedNodeId(nodeId);
   setDraggableElementForNodeWithId(nodeId);
   setEditorOpenEffect(nodeId);
-  // remove any potential drag effects from the root
+  moveRoadmapToNode(nodeId);
   getOnMouseOutActionEdit(nodeId)();
   triggerAllNodesRerender();
 }
@@ -72,6 +109,7 @@ export function getOnMouseOverActionEdit(nodeId): () => void {
 export function getOnMouseOverActionView(nodeId): () => void {
   return () => {};
 }
+
 export function getOnMouseOverAction(nodeId: string): () => void {
   const state = roadmapState.get().editing;
   return state

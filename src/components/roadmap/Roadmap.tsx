@@ -23,6 +23,7 @@ import { recalculateChunks } from '@src/typescript/roadmap_ref/render/chunks';
 import {
   setDisableZoomTrigger,
   setEnableZoomTrigger,
+  triggerRecenterRoadmap,
 } from '@store/roadmap-refactor/misc/miscParams';
 import { useIsLoaded } from '@hooks/useIsLoaded';
 import { nodeFactoryClassic } from '@src/typescript/roadmap_ref/node/core/factories/templates/classic';
@@ -115,10 +116,13 @@ const Roadmap = ({ pageId }: { pageId: string }) => {
     //     renderConnections();
     //   }, 0);
     // });
+
     setRoadmapIsLoaded();
+
     setEnableZoomTrigger(() => {
       enableZoomFn();
     });
+
     setDisableZoomTrigger(() => {
       disableZoomFn();
     });
@@ -127,6 +131,10 @@ const Roadmap = ({ pageId }: { pageId: string }) => {
   useEffect(() => {
     enableZoomFn();
   }, [editing, isCreate]);
+
+  useEffectAfterLoad(() => {
+    triggerRecenterRoadmap();
+  }, []);
 
   useEffectAfterLoad(() => {
     // the dynamically injected strategies need to be hydrated into the class to be used since they are lost on serialization

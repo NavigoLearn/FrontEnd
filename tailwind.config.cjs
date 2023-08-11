@@ -42,10 +42,11 @@ module.exports = {
       },
       backgroundImage: {
         buttongradient: 'linear-gradient(90deg, #3361D8 0%, #262EE7 100%)',
-      }
-    },
-    transitionProperty: {
-      'border': 'border-color'
+      },
+      transitionProperty: {
+        'border': 'border-color',
+        'allNoTransform': 'background-color, border-color, color, fill, stroke, opacity, box-shadow',
+      },
     },
   },
   plugins: [
