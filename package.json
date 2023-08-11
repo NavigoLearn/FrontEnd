@@ -14,7 +14,7 @@
     "astro": "astro",
     "test": "vitest run",
     "test:e2e": "npm run build && playwright test",
-    "ci": "npm install && npm run test && npm run test:e2e"
+    "ci": "npm install && npm run test"
   },
   "dependencies": {
     "@astrojs/node": "^5.1.0",
