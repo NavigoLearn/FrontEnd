@@ -1,9 +1,12 @@
-import { IColorSchemaOptions } from '@type/roadmap/node/colors-types';
-import { colorSchemas } from '@src/typescript/roadmap_ref/node/core/factories/params/params';
+import {
+  IColorThemesColors,
+  IColorThemesOptions,
+} from '@type/roadmap/node/colors-types';
+import { colorThemes } from '@src/typescript/roadmap_ref/node/core/factories/params/params';
 
 export function selectNodeColorScheme(
-  selector: IColorSchemaOptions = 'default'
+  colorTheme: IColorThemesOptions,
+  colorType: IColorThemesColors
 ) {
-  const option: IColorSchemaOptions = selector;
-  return colorSchemas[option];
+  return colorThemes[colorTheme][colorType];
 }

@@ -82,7 +82,7 @@ const NodeView: React.FC<NodeViewProps> = ({
           setDraggableElementForNodeWithId(nodeId);
         }}
         style={{
-          backgroundColor: color.primary,
+          backgroundColor: color,
           width: `${width}px`,
           height: `${height}px`,
           top: `${calculatedOffsetCoords.y + coords.y}px`,
