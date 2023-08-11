@@ -30,6 +30,13 @@ export function triggerNodeRerender(id: string) {
   original.triggers[id]();
 }
 
+export function triggerAllNodesRerender() {
+  const original = nodeTriggers.get();
+  Object.keys(original.triggers).forEach((id) => {
+    original.triggers[id]();
+  });
+}
+
 export function setTriggerRender(id: string, cb: any) {
   const original = nodeTriggers.get();
   original.triggers[id] = cb;
