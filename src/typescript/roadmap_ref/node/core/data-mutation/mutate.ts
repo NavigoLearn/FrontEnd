@@ -1,6 +1,5 @@
 import { NodeClass } from '@src/typescript/roadmap_ref/node/core/core';
-import { IColorSchemaOptions } from '@type/roadmap/node/colors-types';
-import { colorSchemas } from '@src/typescript/roadmap_ref/node/core/factories/params/params';
+import { IColorThemesColors } from '@type/roadmap/node/colors-types';
 import { triggerCenterRecalculationDecorator } from '@src/typescript/roadmap_ref/node/core/data-mutation/mutate-decorators';
 import { triggerHubListeners } from '@store/roadmap-refactor/subscribers/function-subscribers';
 import { IActionTypes } from '@src/typescript/roadmap_ref/node/core/actions';
@@ -10,9 +9,9 @@ export function mutateNodeOpacity(node: NodeClass, opacity: number) {
 }
 export function mutateNodeColor(
   node: NodeClass,
-  colorSchema: IColorSchemaOptions
+  colorType: IColorThemesColors
 ) {
-  node.data.color = colorSchemas[colorSchema];
+  node.data.colorType = colorType;
 }
 
 export const mutateNodeWidth = triggerHubListeners(

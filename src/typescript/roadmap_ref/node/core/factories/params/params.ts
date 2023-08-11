@@ -1,12 +1,19 @@
-import { IColorSchemas } from '@type/roadmap/node/colors-types';
+import { IColorThemes } from '@type/roadmap/node/colors-types';
 
-export const colorSchemas: IColorSchemas = {
-  default: {
+export const colorThemes: IColorThemes = {
+  defaultTheme: {
     primary: 'white',
     secondary: 'black',
+    tertiary: 'grey',
   },
-  version2: {
+  whiteTheme: {
     primary: 'white',
-    secondary: 'black',
+    secondary: '#8f6363',
+    tertiary: '#b43d3d',
+  },
+  darkTheme: {
+    primary: 'black',
+    secondary: 'white',
+    tertiary: 'grey',
   },
 };

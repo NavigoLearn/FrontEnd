@@ -1,22 +1,33 @@
-import { IColorSchemaFields } from '@type/roadmap/node/colors-types';
+import {
+  IColorThemesColors,
+  IColorThemesOptions,
+} from '@type/roadmap/node/colors-types';
 
 import { selectNodeColorScheme } from '@src/typescript/roadmap_ref/node/core/factories/injectors/services';
 import {
-  defaultColorSchemaOption,
+  defaultColorThemeOption,
   defaultNodeHeight,
   defaultNodeOpacity,
   defaultNodeWidth,
 } from '@src/typescript/roadmap_ref/node/core/factories/params/default-params';
+import { IFontSizeType } from '@type/roadmap/node/components-types';
 
 export class Data {
   /* Used to manage all the possible data of a node */
-  color: IColorSchemaFields;
+
+  private colorTypePrivate: IColorThemesColors;
+
+  colorTheme: IColorThemesOptions;
+
+  color: string;
 
   width: number;
 
   height: number;
 
   opacity: number;
+
+  fontSizeType: IFontSizeType;
 
   center: {
     x: number;
@@ -28,8 +39,18 @@ export class Data {
     y: number;
   };
 
+  set colorType(colorType: IColorThemesColors) {
+    this.color = selectNodeColorScheme(this.colorTheme, colorType);
+    this.colorTypePrivate = colorType;
+  }
+
+  get colorType(): IColorThemesColors {
+    return this.colorTypePrivate;
+  }
+
   constructor() {
-    this.color = selectNodeColorScheme(defaultColorSchemaOption);
+    this.colorTheme = defaultColorThemeOption;
+    this.colorType = 'primary';
     this.width = defaultNodeWidth;
     this.height = defaultNodeHeight;
     this.opacity = defaultNodeOpacity;
@@ -43,5 +64,3 @@ export class Data {
     };
   }
 }
-
-export const a = 1;

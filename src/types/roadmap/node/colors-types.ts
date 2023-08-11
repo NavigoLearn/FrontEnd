@@ -1,11 +1,14 @@
-export type IColorSchemaFields = {
+export type IColorThemesFields = {
   primary: string;
   secondary: string;
+  tertiary: string;
 };
 
-export type IColorSchemas = {
-  default: IColorSchemaFields;
-  version2: IColorSchemaFields;
+export type IColorThemes = {
+  defaultTheme: IColorThemesFields;
+  whiteTheme: IColorThemesFields;
+  darkTheme: IColorThemesFields;
 };
 
-export type IColorSchemaOptions = 'default' | 'version2';
+export type IColorThemesOptions = 'defaultTheme' | 'whiteTheme' | 'darkTheme';
+export type IColorThemesColors = 'primary' | 'secondary' | 'tertiary';

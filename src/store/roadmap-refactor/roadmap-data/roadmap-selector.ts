@@ -8,6 +8,9 @@ export const roadmapSelector = atom({
   connections: {},
   chunks: {},
   rootNodesIds: [],
+  data: {
+    colorTheme: 'defaultTheme',
+  },
 } as Roadmap);
 
 export const getNodeByIdRoadmapSelector = (id: string) => {
