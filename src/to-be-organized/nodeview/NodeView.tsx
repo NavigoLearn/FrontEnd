@@ -6,12 +6,17 @@ import renderComponents from '@src/to-be-organized/nodeview/CompRender';
 import { useTriggerRerender } from '@hooks/useTriggerRerender';
 import { setTriggerRender } from '@store/roadmap-refactor/render/rerender-triggers';
 import { getNodeByIdRoadmapSelector } from '@store/roadmap-refactor/roadmap-data/roadmap-selector';
-import { getOnClickAction } from '@src/to-be-organized/nodeview/actions-manager';
+import {
+  getOnClickAction,
+  getOnMouseOutAction,
+  getOnMouseOverAction,
+} from '@src/to-be-organized/nodeview/actions-manager';
 import {
   applyElementEffects,
   setElementEffectsEmpty,
 } from '@store/roadmap-refactor/elements-editing/element-effects';
 import { useIsLoaded } from '@hooks/useIsLoaded';
+import { setElementDiv } from '@store/roadmap-refactor/elements-editing/elements-divs';
 
 interface NodeViewProps {
   nodeId: string;
@@ -64,6 +69,7 @@ const NodeView: React.FC<NodeViewProps> = ({
 
     useEffect(() => {
       setElementEffectsEmpty(nodeId);
+      setElementDiv(nodeId, nodeDivRef.current);
     }, []);
 
     useEffect(() => {
@@ -95,26 +101,19 @@ const NodeView: React.FC<NodeViewProps> = ({
     return (
       // eslint-disable-next-line jsx-a11y/click-events-have-key-events,jsx-a11y/no-static-element-interactions,jsx-a11y/mouse-events-have-key-events
       <div
-        className='drop-shadow-md  rounded-xl absolute border-2 border-black transition-opacity duration-300'
+        className='drop-shadow-md rounded-xl absolute border-2 border-black transition-opacity transition-border duration-300'
         id={`div${nodeId}`}
         ref={nodeDivRef}
         onClick={() => {
           // draggable elements coincide with clickable elements on a roadmap
-          const onClick = getOnClickAction(nodeId);
-          onClick();
+          getOnClickAction(nodeId)();
         }}
         onMouseOver={() => {
-          const onHover = () => {};
-          onHover();
+          getOnMouseOverAction(nodeId)();
         }}
-        // style={{
-        //   backgroundColor: color,
-        //   opacity,
-        //   width: `${width}px`,
-        //   height: `${height}px`,
-        //   top: `${calculatedOffsetCoords.y + coords.y}px`,
-        //   left: `${calculatedOffsetCoords.x + coords.x}px`,
-        // }}
+        onMouseOut={() => {
+          getOnMouseOutAction(nodeId)();
+        }}
       >
         {renderComponents(node)}
         {subNodeIds &&

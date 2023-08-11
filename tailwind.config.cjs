@@ -44,6 +44,9 @@ module.exports = {
         buttongradient: 'linear-gradient(90deg, #3361D8 0%, #262EE7 100%)',
       }
     },
+    transitionProperty: {
+      'border': 'border-color'
+    },
   },
   plugins: [
     require('@tailwindcss/line-clamp'),
