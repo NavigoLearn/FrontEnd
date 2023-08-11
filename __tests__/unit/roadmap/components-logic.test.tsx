@@ -20,6 +20,8 @@ import {
   mutateNodeOpacity,
   mutateNodeWidth,
 } from '@src/typescript/roadmap_ref/node/core/data-mutation/mutate';
+import { factoryComponentDescriptionEmpty } from '@src/typescript/roadmap_ref/node/components/text/factories';
+import { appendComponent } from '@src/typescript/roadmap_ref/node/core/data-mutation/append';
 
 describe('Components logic', () => {
   let node;
@@ -104,6 +106,8 @@ describe('Components logic', () => {
   });
 
   it('should mutate the component description position', () => {
+    const descriptionComponent = factoryComponentDescriptionEmpty(node.id);
+    appendComponent(node, descriptionComponent);
     const component = node.components[1];
     const x = 20;
     const y = 20;
