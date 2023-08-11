@@ -10,6 +10,7 @@ import {
   defaultNodeOpacity,
   defaultNodeWidth,
 } from '@src/typescript/roadmap_ref/node/core/factories/params/default-params';
+import { IFontSizeType } from '@type/roadmap/node/components-types';
 
 export class Data {
   /* Used to manage all the possible data of a node */
@@ -26,7 +27,7 @@ export class Data {
 
   opacity: number;
 
-  textType: string;
+  fontSizeType: IFontSizeType;
 
   center: {
     x: number;
@@ -48,8 +49,8 @@ export class Data {
   }
 
   constructor() {
-    this.colorType = 'primary';
     this.colorTheme = defaultColorThemeOption;
+    this.colorType = 'primary';
     this.width = defaultNodeWidth;
     this.height = defaultNodeHeight;
     this.opacity = defaultNodeOpacity;
