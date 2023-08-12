@@ -11,7 +11,7 @@ type IVariantsComponentProps = {
 
 const VariantsComponent = ({ variants }: IVariantsComponentProps) => {
   return (
-    <div className='flex gap-2 ml-5'>
+    <div className='flex gap-2'>
       {variants.map((variant) => {
         return (
           <button
@@ -21,9 +21,11 @@ const VariantsComponent = ({ variants }: IVariantsComponentProps) => {
             onClick={variant.callback}
           >
             <div
-              className='w-4 h-4 '
+              className='w-20 h-8 text-white font-medium font-roboto-text text-sm rounded-md text-left flex items-center'
               style={{ backgroundColor: variant.color }}
-            />
+            >
+              {variant.name}
+            </div>
           </button>
         );
       })}

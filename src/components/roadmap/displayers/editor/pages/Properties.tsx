@@ -93,67 +93,78 @@ const Properties = () => {
   const { possibleActions } = actions;
   const possibleActionsArray = possibleActions;
   return (
-    <div className='flex flex-col gap-4'>
-      <div className='flex flex-col gap-2'>
-        <PropertyEditorNumber
-          name='Width'
-          value={data.width}
-          onChange={(value) => {
-            const newValue = parseInt(value, 10);
-            if (checkInvalidInput(value)) return;
-            // adjust for old value to keep the same center in the same place even after resizing
-            const oldWidth = data.width;
-            mutateNodeCoordX(node, data.coords.x + (oldWidth - newValue) / 2);
-            mutateNodeWidth(node, newValue);
-            triggerRerenderEditor();
-            triggerNodeRerender(node.id);
-          }}
-        />
-        <PropertyEditorNumber
-          name='Height'
-          value={data.height}
-          onChange={(value) => {
-            const newValue = parseInt(value, 10);
-            if (checkInvalidInput(value)) return;
-            const oldHeight = data.height;
-            mutateNodeCoordY(node, data.coords.y + (oldHeight - newValue) / 2);
+    <div className='flex flex-col gap-24'>
+      <div className='flex flex-col'>
+        <div className='flex text-secondary font-roboto-text font-medium'>
+          Size
+        </div>
+        <div className='flex flex-row gap-2'>
+          <PropertyEditorNumber
+            name='W'
+            value={data.width}
+            onChange={(value) => {
+              const newValue = parseInt(value, 10);
+              if (checkInvalidInput(value)) return;
+              // adjust for old value to keep the same center in the same place even after resizing
+              const oldWidth = data.width;
+              mutateNodeCoordX(node, data.coords.x + (oldWidth - newValue) / 2);
+              mutateNodeWidth(node, newValue);
+              triggerRerenderEditor();
+              triggerNodeRerender(node.id);
+            }}
+          />
+          <PropertyEditorNumber
+            name='H'
+            value={data.height}
+            onChange={(value) => {
+              const newValue = parseInt(value, 10);
+              if (checkInvalidInput(value)) return;
+              const oldHeight = data.height;
+              mutateNodeCoordY(
+                node,
+                data.coords.y + (oldHeight - newValue) / 2
+              );
 
-            mutateNodeHeight(node, newValue);
-            triggerRerenderEditor();
-            triggerNodeRerender(node.id);
-          }}
-        />
-        <PropertyEditorNumber
-          name='Opacity'
-          value={data.opacity}
-          onChange={(value) => {
-            const newValue = parseInt(value, 10);
-            if (checkInvalidInput(value)) return;
-            mutateNodeOpacity(node, newValue);
-            triggerRerenderEditor();
-          }}
-        />
+              mutateNodeHeight(node, newValue);
+              triggerRerenderEditor();
+              triggerNodeRerender(node.id);
+            }}
+          />
+          <PropertyEditorNumber
+            name='Opacity'
+            value={data.opacity}
+            onChange={(value) => {
+              const newValue = parseInt(value, 10);
+              if (checkInvalidInput(value)) return;
+              mutateNodeOpacity(node, newValue);
+              triggerRerenderEditor();
+            }}
+          />
+        </div>
       </div>
-      <div className='flex'>
-        <h4 className='text-secondary text-base'>Color Variants</h4>
+      <div className='flex flex-col gap-1'>
+        <h4 className='text-secondary text-base'>Colour </h4>
+        <h5 className='text-darkBlue font-medium text-md'>
+          Select node colour
+        </h5>
         <VariantsComponent
           variants={[
             {
-              name: 'primary',
+              name: 'Primary',
               color: '#000000',
               callback: () => {
                 mutateNodeColor(node, 'default');
               },
             },
             {
-              name: 'tertiary',
+              name: 'Secondary',
               color: '#0051ff',
               callback: () => {
                 mutateNodeColor(node, 'version2');
               },
             },
             {
-              name: 'secondary',
+              name: 'Extra',
               color: '#ff0000',
               callback: () => {
                 mutateNodeColor(node, 'default');
