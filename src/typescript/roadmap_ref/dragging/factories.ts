@@ -7,7 +7,7 @@ import {
   injectDraggingStrategy,
 } from '@src/typescript/roadmap_ref/dragging/inject';
 import { mutateNodeCoords } from '@src/typescript/roadmap_ref/node/core/data-mutation/mutate';
-import { triggerNodeRerender } from '@store/roadmap-refactor/render/rerender-triggers';
+import { triggerNodeRerender } from '@store/roadmap-refactor/render/rerender-triggers-nodes';
 import { getComponentById } from '@src/typescript/roadmap_ref/node/core/data-get/components';
 import { mutateComponentCoords } from '@src/typescript/roadmap_ref/node/components/mutate';
 import { getScaleSafari } from '@store/roadmap-refactor/misc/scale-safari';
@@ -43,7 +43,7 @@ export function draggingBehaviorFactoryRoadmapNode(
     };
   };
 
-  draggingBehavior.coordinatesSetter = (x: number, y: number) => {
+  draggingBehavior.coordinatesSetterAndRerenders = (x: number, y: number) => {
     const node = getNodeByIdRoadmapSelector(nodeId);
     mutateNodeCoords(node, x, y);
     // resets the div transforms because mutating coords already rerenders and updates the location
@@ -95,7 +95,7 @@ export function draggingBehaviorFactorySubNode(
     };
   };
 
-  draggingBehavior.coordinatesSetter = (x: number, y: number) => {
+  draggingBehavior.coordinatesSetterAndRerenders = (x: number, y: number) => {
     const node = getNodeByIdRoadmapSelector(nodeId);
     mutateNodeCoords(node, x, y);
     // resets the div transforms because mutating coords already rerenders and updates the location
@@ -146,7 +146,7 @@ export function draggingBehaviorFactoryComponents(
     };
   };
 
-  draggingBehavior.coordinatesSetter = (x: number, y: number) => {
+  draggingBehavior.coordinatesSetterAndRerenders = (x: number, y: number) => {
     const node = getNodeByIdRoadmapSelector(nodeId);
     const component = getComponentById(node, componentId);
     mutateComponentCoords(component, x, y);

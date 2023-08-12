@@ -11,7 +11,7 @@ export class DraggingBehavior {
 
   coordinatesAdapter: (x: number, y: number) => ICoords; // the function that adapts the coordinates to the dragging space
 
-  coordinatesSetter: (x: number, y: number) => void; // the function that sets the coordinates of the element node that is dragged
+  coordinatesSetterAndRerenders: (x: number, y: number) => void; // the function that sets the coordinates of the element node that is dragged
 
   draggingElementIdentifier: IDraggingElementIdentifiers; // the type of the element node that is dragged eg div, group, h1, svg, etc
 

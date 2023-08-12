@@ -8,7 +8,7 @@ import {
 import { mutateComponentTitleText } from '@src/typescript/roadmap_ref/node/components/text/mutate';
 import { useTriggerRerender } from '@hooks/useTriggerRerender';
 import { NodeClass } from '@src/typescript/roadmap_ref/node/core/core';
-import { triggerNodeRerender } from '@store/roadmap-refactor/render/rerender-triggers';
+import { triggerNodeRerender } from '@store/roadmap-refactor/render/rerender-triggers-nodes';
 
 type TitleComponentProps = {
   node: NodeClass;

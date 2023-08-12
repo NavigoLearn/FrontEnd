@@ -4,26 +4,13 @@ import ButtonInsideGeneric from '@components/roadmap/displayers/editor/component
 import { useStore } from '@nanostores/react';
 import editorSelectedData from '@store/roadmap-refactor/elements-editing/editor-selected-data';
 import NodeComponent from '@components/roadmap/displayers/editor/components/NodeComponent';
-import { nodeFactorySubNode } from '@src/typescript/roadmap_ref/node/core/factories/templates/sub-node';
-import { appendSubNode } from '@src/typescript/roadmap_ref/node/core/data-mutation/append';
-import {
-  appendNodeRoadmapSelector,
-  getNodeByIdRoadmapSelector,
-} from '@store/roadmap-refactor/roadmap-data/roadmap-selector';
-import { triggerNodeRerender } from '@store/roadmap-refactor/render/rerender-triggers';
-import { draggableElementProtocol } from '@components/roadmap/displayers/editor/pages/utils';
+import { getNodeByIdRoadmapSelector } from '@store/roadmap-refactor/roadmap-data/roadmap-selector';
+import { appendNestedNode } from '@src/typescript/roadmap_ref/roadmap-data/protocols/append';
 
 const Nodes = () => {
   const { selectedNodeId } = useStore(editorSelectedData);
   const node = getNodeByIdRoadmapSelector(selectedNodeId);
 
-  function addNestedNode() {
-    const newNestedNode = nodeFactorySubNode(node.id, 100, 100, 0, 0); // creates node
-    appendSubNode(node, newNestedNode.id); // appends to the parent of nesting
-    appendNodeRoadmapSelector(newNestedNode);
-    draggableElementProtocol(newNestedNode.draggingBehavior, newNestedNode.id);
-    triggerNodeRerender(node.id);
-  }
   return (
     <div className='w-full h-full'>
       <ButtonOutsideGray>
@@ -31,7 +18,7 @@ const Nodes = () => {
           name='Add a nested Node'
           icon='/editor/addCircle.svg'
           onClick={() => {
-            addNestedNode();
+            appendNestedNode(node);
           }}
         />
       </ButtonOutsideGray>

@@ -8,7 +8,7 @@ import {
 import { useTriggerRerender } from '@hooks/useTriggerRerender';
 import { deleteComponentWithId } from '@src/typescript/roadmap_ref/node/core/data-mutation/delete';
 import { NodeClass } from '@src/typescript/roadmap_ref/node/core/core';
-import { triggerNodeRerender } from '@store/roadmap-refactor/render/rerender-triggers';
+import { triggerNodeRerender } from '@store/roadmap-refactor/render/rerender-triggers-nodes';
 
 type DescriptionComponentProps = {
   node: NodeClass;

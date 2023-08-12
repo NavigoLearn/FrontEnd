@@ -14,7 +14,7 @@ import {
   setEditorClosedEffect,
   setEditorOpenEffect,
 } from '@store/roadmap-refactor/elements-editing/element-effects';
-import { triggerAllNodesRerender } from '@store/roadmap-refactor/render/rerender-triggers';
+import { triggerAllNodesRerender } from '@store/roadmap-refactor/render/rerender-triggers-nodes';
 import { getElementDiv } from '@store/roadmap-refactor/elements-editing/elements-divs';
 import {
   effectBorderBlack,
