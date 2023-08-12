@@ -4,6 +4,10 @@ import { setElementDraggableUpdateCallback } from '@store/roadmap-refactor/eleme
 import { getNodeByIdRoadmapSelector } from '@store/roadmap-refactor/roadmap-data/roadmap-selector';
 import { triggerConnectionRerender } from '@store/roadmap-refactor/render/rerender-trigger-connections';
 import { setDraggingOffset } from '@store/roadmap-refactor/render/dragging-offset';
+import { getCurrentCoordsStrategyFactory } from '@src/typescript/roadmap_ref/dragging/strategies/get-current-coords';
+import { getCoordinatesAdapterStrategyFactory } from '@src/typescript/roadmap_ref/dragging/strategies/coordinates-adapters';
+import { getDraggingStrategyFactory } from '@src/typescript/roadmap_ref/dragging/strategies/dragging-strategies';
+import { getDraggingEndFactory } from '@src/typescript/roadmap_ref/dragging/strategies/dragging-end';
 
 export const triggerNodeConnectionsRerender = (nodeId: string) => {
   const node = getNodeByIdRoadmapSelector(nodeId);
@@ -27,9 +31,9 @@ export const addDragabilityProtocol = (draggingBehavior: DraggingBehavior) => {
     .on('start', function (event) {
       const { x: originalX, y: originalY } = event;
       // coordinates of the node in the original reference system
-      const currentCoords = draggingBehavior.getCurrentCoords(); //  offset calculated from this
+      const currentCoords = getCurrentCoordsStrategyFactory(draggingBehavior)();
       // also account for the difference between rendering relative to center and relative to top left corner
-      const { x, y } = draggingBehavior.coordinatesAdapter(
+      const { x, y } = getCoordinatesAdapterStrategyFactory(draggingBehavior)(
         originalX,
         originalY
       );
@@ -49,12 +53,14 @@ export const addDragabilityProtocol = (draggingBehavior: DraggingBehavior) => {
     // eslint-disable-next-line func-names
     .on('drag', function (event) {
       // use adapter for coordinates to sync with the dragging space (eg nodes/nested components behave differently)
-      const { x: adaptedX, y: adaptedY } = draggingBehavior.coordinatesAdapter(
-        event.x,
-        event.y
-      );
+      const { x: adaptedX, y: adaptedY } = getCoordinatesAdapterStrategyFactory(
+        draggingBehavior
+      )(event.x, event.y);
       // we apply the strategy to the new coordinates ( for gridding, snapping, etc)
-      const { x, y } = draggingBehavior.draggingStrategy(adaptedX, adaptedY);
+      const { x, y } = getDraggingStrategyFactory(draggingBehavior)(
+        adaptedX,
+        adaptedY
+      );
 
       // we set the new coordinates to the element
       newPos.x = x - offset.x;
@@ -79,11 +85,12 @@ export const addDragabilityProtocol = (draggingBehavior: DraggingBehavior) => {
       // coordinates changes
 
       // update connections here
-      triggerNodeConnectionsRerender(id);
+      draggingBehavior.draggingElementType === 'node' &&
+        triggerNodeConnectionsRerender(id);
     })
     // eslint-disable-next-line func-names
     .on('end', function () {
-      draggingBehavior.coordinatesSetterAndRerenders(newPos.x, newPos.y);
+      getDraggingEndFactory(draggingBehavior)(newPos.x, newPos.y);
       // chunk recalculations are integrated in the coordinates setter strategy
     });
 
