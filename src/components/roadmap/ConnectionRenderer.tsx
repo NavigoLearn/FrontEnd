@@ -6,7 +6,6 @@ const ConnectionRenderer = ({
 }: {
   connectionsIds: string[];
 }) => {
-  console.log('rerender connections');
   return (
     <>
       {connectionsIds.map((connectionId) => {
