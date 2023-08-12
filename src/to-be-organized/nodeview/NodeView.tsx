@@ -17,6 +17,7 @@ import {
 } from '@store/roadmap-refactor/elements-editing/element-effects';
 import { useIsLoaded } from '@hooks/useIsLoaded';
 import { setElementDiv } from '@store/roadmap-refactor/elements-editing/elements-divs';
+import { FontSizeValues } from '@src/types/roadmap/node/components-types';
 
 interface NodeViewProps {
   nodeId: string;
@@ -35,7 +36,7 @@ const NodeView: React.FC<NodeViewProps> = ({
   const renderNode = (nodeId: string) => {
     const loaded = useIsLoaded();
     const node = getNodeByIdRoadmapSelector(nodeId);
-    const { color, width, height, opacity } = node.data;
+    const { color, width, height, opacity, fontSizeType, colorTheme } = node.data;
     node.data.center.x = width / 2;
     const { subNodeIds } = node;
     // Function to render each subnode
@@ -113,6 +114,15 @@ const NodeView: React.FC<NodeViewProps> = ({
         }}
         onMouseOut={() => {
           getOnMouseOutAction(nodeId)();
+          
+        style={{
+          backgroundColor: color,
+          width: `${width}px`,
+          height: `${height}px`,
+          top: `${calculatedOffsetCoords.y + coords.y}px`,
+          left: `${calculatedOffsetCoords.x + coords.x}px`,
+          opacity,
+          fontSize: FontSizeValues[fontSizeType],
         }}
       >
         {renderComponents(node)}
