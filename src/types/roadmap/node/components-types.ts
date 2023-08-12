@@ -5,4 +5,10 @@ import {
 
 export type IComponentObject = ComponentTitle | ComponentDescription;
 
-export type IFontSizeType = 'normal' | 'large';
+export type IFontSizeType = 'normal' | 'large' | 'small';
+
+export const FontSizeValues: Record<IFontSizeType, string> = {
+  normal: '1.2rem',
+  large: '1.6rem',
+  small: '0.8rem',
+};
