@@ -36,7 +36,8 @@ const NodeView: React.FC<NodeViewProps> = ({
   const renderNode = (nodeId: string) => {
     const loaded = useIsLoaded();
     const node = getNodeByIdRoadmapSelector(nodeId);
-    const { color, width, height, opacity, fontSizeType, colorTheme } = node.data;
+    const { color, width, height, opacity, fontSizeType, colorTheme } =
+      node.data;
     node.data.center.x = width / 2;
     const { subNodeIds } = node;
     // Function to render each subnode
@@ -83,11 +84,12 @@ const NodeView: React.FC<NodeViewProps> = ({
     const applyStyle = () => {
       const style = {
         backgroundColor: color,
-        opacity,
         width: `${width}px`,
         height: `${height}px`,
         top: `${calculatedOffsetCoords.y + coords.y}px`,
         left: `${calculatedOffsetCoords.x + coords.x}px`,
+        opacity,
+        fontSize: FontSizeValues[fontSizeType],
       };
       const element = nodeDivRef.current;
       Object.assign(element.style, style);
@@ -114,15 +116,6 @@ const NodeView: React.FC<NodeViewProps> = ({
         }}
         onMouseOut={() => {
           getOnMouseOutAction(nodeId)();
-          
-        style={{
-          backgroundColor: color,
-          width: `${width}px`,
-          height: `${height}px`,
-          top: `${calculatedOffsetCoords.y + coords.y}px`,
-          left: `${calculatedOffsetCoords.x + coords.x}px`,
-          opacity,
-          fontSize: FontSizeValues[fontSizeType],
         }}
       >
         {renderComponents(node)}
