@@ -138,7 +138,7 @@ const Roadmap = ({ pageId }: { pageId: string }) => {
   useEffectAfterLoad(() => {
     // the dynamically injected strategies need to be hydrated into the class to be used since they are lost on serialization
     // the strategies need refactor into their own strategies libraries and not embedded into the node class so we avoid hydration completely
-    hydrateRoadmap();
+    // hydrateRoadmap();
   }, [editing]);
 
   useEffectAfterLoad(() => {

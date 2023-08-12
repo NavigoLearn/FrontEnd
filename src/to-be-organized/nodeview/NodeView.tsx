@@ -81,16 +81,16 @@ const NodeView: React.FC<NodeViewProps> = ({
       });
     }, []);
 
+    const style = {
+      backgroundColor: color,
+      width: `${width}px`,
+      height: `${height}px`,
+      top: `${calculatedOffsetCoords.y + coords.y}px`,
+      left: `${calculatedOffsetCoords.x + coords.x}px`,
+      opacity,
+      fontSize: FontSizeValues[fontSizeType],
+    };
     const applyStyle = () => {
-      const style = {
-        backgroundColor: color,
-        width: `${width}px`,
-        height: `${height}px`,
-        top: `${calculatedOffsetCoords.y + coords.y}px`,
-        left: `${calculatedOffsetCoords.x + coords.x}px`,
-        opacity,
-        fontSize: FontSizeValues[fontSizeType],
-      };
       const element = nodeDivRef.current;
       Object.assign(element.style, style);
     };
@@ -117,6 +117,7 @@ const NodeView: React.FC<NodeViewProps> = ({
         onMouseOut={() => {
           getOnMouseOutAction(nodeId)();
         }}
+        style={style}
       >
         {renderComponents(node)}
         {subNodeIds &&
