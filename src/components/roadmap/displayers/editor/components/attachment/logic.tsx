@@ -1,16 +1,16 @@
 import {
   IAttachmentTabComponentProperties,
   IAttachmentTabDescriptionProperties,
-  IAttachmentTabTitleProperties,
   IAttachmentTabLinkProperties,
+  IAttachmentTabTitleProperties,
   typeGuardTabDescriptionProperties,
-  typeGuardTabTitleProperties,
   typeGuardTabLinkProperties,
+  typeGuardTabTitleProperties,
 } from '@type/roadmap/node/tab-types';
 import DescriptionAttachment from '@components/roadmap/displayers/editor/components/attachment/DescriptionAttachment';
 import {
-  mutateAttachmentTabDescription,
-  mutateAttachmentTabTitle,
+  mutateAttachmentTabComponentDescription,
+  mutateAttachmentTabComponentTitle,
 } from '@src/typescript/roadmap_ref/node/attachments/tab/mutate';
 import TitleAttachment from '@components/roadmap/displayers/editor/components/attachment/TitleAttachment';
 import React from 'react';
@@ -23,7 +23,11 @@ export const descriptionBuilder = (
     <DescriptionAttachment
       value={component.descriptionText}
       onChange={(field: string, newValue: any) => {
-        mutateAttachmentTabDescription(component, 'descriptionText', newValue);
+        mutateAttachmentTabComponentDescription(
+          component,
+          'descriptionText',
+          newValue
+        );
       }}
     />
   );
@@ -34,7 +38,7 @@ export const titleBuilder = (component: IAttachmentTabTitleProperties) => {
     <TitleAttachment
       value={component.titleText}
       onChange={(field: string, newValue: any) => {
-        mutateAttachmentTabTitle(component, 'titleText', newValue);
+        mutateAttachmentTabComponentTitle(component, 'titleText', newValue);
       }}
     />
   );

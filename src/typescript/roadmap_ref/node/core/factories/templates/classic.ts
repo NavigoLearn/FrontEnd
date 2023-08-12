@@ -43,11 +43,9 @@ export function nodeFactoryClassicBoilerplate(id?: string): NodeClass {
   appendAttachment(node, tab);
 
   // appends component to attachment
-  const attachmentTitleComponent = factoryAttachmentComponent('Title');
   const attachmentDescriptionComponent =
     factoryAttachmentComponent('Description');
   const attachmentLinkComponent = factoryAttachmentComponent('Link');
-  appendAttachmentTabComponent(tab, attachmentTitleComponent);
   appendAttachmentTabComponent(tab, attachmentDescriptionComponent);
   appendAttachmentTabComponent(tab, attachmentLinkComponent);
 

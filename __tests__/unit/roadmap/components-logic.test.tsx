@@ -1,8 +1,8 @@
 import { beforeAll, describe, expect, it } from 'vitest';
 import { nodeFactoryClassicBoilerplate } from '@src/typescript/roadmap_ref/node/core/factories/templates/classic';
 import {
-  mutateAttachmentTabDescription,
-  mutateAttachmentTabTitle,
+  mutateAttachmentTabComponentDescription,
+  mutateAttachmentTabComponentTitle,
 } from '@src/typescript/roadmap_ref/node/attachments/tab/mutate';
 import {
   mutateComponentDescriptionX,
@@ -37,8 +37,12 @@ describe('Components logic', () => {
     const title = 'eugene';
     const description = 'another eugene';
     const component = node.components[0];
-    mutateAttachmentTabTitle(component, 'titleText', title);
-    mutateAttachmentTabDescription(component, 'descriptionText', description);
+    mutateAttachmentTabComponentTitle(component, 'titleText', title);
+    mutateAttachmentTabComponentDescription(
+      component,
+      'descriptionText',
+      description
+    );
     expect(component.titleText).toBe(title);
     expect(component.descriptionText).toBe(description);
   });

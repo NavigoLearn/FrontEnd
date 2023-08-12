@@ -1,4 +1,10 @@
 import {
+  actionStrategyDoNothing,
+  actionStrategyOpenLink,
+  actionStrategyOpenTab,
+  IActionStrategy,
+} from '@src/typescript/roadmap_ref/node/core/actions/strategies';
+import {
   getElementDraggable,
   setDraggableElementForNodeWithId,
   setRoadmapRootRenderDraggable,
@@ -21,6 +27,8 @@ import {
   effectBorderBlue,
 } from '@src/to-be-organized/nodeview/effects';
 import { triggerMoveRoadmapTo } from '@store/roadmap-refactor/misc/miscParams';
+import { HashMapWithKeys } from '@type/roadmap/stores/roadmap';
+import { IActionTypes } from '@src/typescript/roadmap_ref/node/core/actions/core';
 
 export function getOnMouseOutActionEdit(nodeId): () => void {
   const div = getElementDiv(nodeId);
@@ -87,7 +95,14 @@ export function getOnClickActionView(nodeId): () => void {
   // map the node action
   const node = getNodeByIdRoadmapSelector(nodeId);
   const action = node.actions.onClick;
-  return () => {};
+  const actionMap: HashMapWithKeys<IActionTypes, IActionStrategy> = {
+    'Do nothing': actionStrategyDoNothing,
+    'Open link': actionStrategyOpenLink,
+    'Open Tab': actionStrategyOpenTab,
+  };
+  return () => {
+    actionMap[action](nodeId);
+  };
 }
 export function getOnClickAction(nodeId: string): () => void {
   // could be replaced with a onClick store that holds onClick for all nodes but that would mean a ton of side effects

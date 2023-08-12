@@ -17,7 +17,7 @@ import VariantsComponent from '@components/roadmap/displayers/editor/components/
 import { triggerNodeRerender } from '@store/roadmap-refactor/render/rerender-triggers-nodes';
 import { getNodeByIdRoadmapSelector } from '@store/roadmap-refactor/roadmap-data/roadmap-selector';
 import { tailwindTransitionClass } from '@src/UI-library/tailwind-utils';
-import { IActionTypes } from '@src/typescript/roadmap_ref/node/core/actions';
+import { IActionTypes } from '@src/typescript/roadmap_ref/node/core/actions/core';
 
 type IActionsDropdown = {
   action: string;

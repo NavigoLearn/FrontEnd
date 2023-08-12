@@ -1,7 +1,6 @@
 import { IAttachmentTabComponentProperties } from '@type/roadmap/node/tab-types';
 import { IAttachmentOptions } from '@type/roadmap/node/options-types';
 import { generateId } from '@src/typescript/roadmap_ref/node/core/misc';
-import { IAction } from '@type/roadmap/node/actions-types';
 
 export class Attachment {
   name = '';
@@ -11,22 +10,23 @@ export class Attachment {
   type: IAttachmentOptions;
 }
 
+export type IAttachmentTabStatus =
+  | 'Completed'
+  | 'In Progress'
+  | 'Skip'
+  | 'None';
 export class AttachmentTab extends Attachment {
   // contains strictly the components specific to a tab-attachment
-  components: IAttachmentTabComponentProperties[] = [];
+  name = '';
 
-  availableActions: IAction[] = [
-    {
-      type: 'Open Tab',
-      action: () => {
-        // dispatching the current tab Id to a store to set
-      },
-    },
-  ];
+  status: IAttachmentTabStatus;
+
+  components: IAttachmentTabComponentProperties[] = [];
 
   constructor() {
     super();
     this.id = generateId();
     this.type = 'Tab';
+    this.status = 'None';
   }
 }
