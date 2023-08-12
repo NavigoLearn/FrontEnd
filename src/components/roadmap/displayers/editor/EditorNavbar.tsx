@@ -4,8 +4,7 @@ import editorDisplayManager, {
 import React from 'react';
 import onChangeStore from '@src/HOC-library/store-based-hoc/OnChangeStore';
 import { useStore } from '@nanostores/react';
-import { setDisplayPageType } from '@store/roadmap-refactor/display/display-manager';
-import { setRoadmapRootRenderDraggable } from '@store/roadmap-refactor/elements-editing/draggable-elements';
+import { closeEditorProtocol } from '@src/to-be-organized/nodeview/actions-manager';
 
 type IEditorPageButtonProps = {
   page: IEditorDisplayPageType;
@@ -52,8 +51,7 @@ const TitleAndExit = () => {
         <button
           type='button'
           onClick={() => {
-            setDisplayPageType('closed');
-            setRoadmapRootRenderDraggable();
+            closeEditorProtocol();
           }}
         >
           <img

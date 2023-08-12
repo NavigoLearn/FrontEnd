@@ -5,13 +5,18 @@ import { afterEventLoop } from '@src/typescript/utils/misc';
 import renderComponents from '@src/to-be-organized/nodeview/CompRender';
 import { useTriggerRerender } from '@hooks/useTriggerRerender';
 import { setTriggerRender } from '@store/roadmap-refactor/render/rerender-triggers';
-import {
-  getElementDraggable,
-  setDraggableElementForNodeWithId,
-} from '@store/roadmap-refactor/elements-editing/draggable-elements';
-import { setDisplayPageType } from '@store/roadmap-refactor/display/display-manager';
-import { setSelectedNodeId } from '@store/roadmap-refactor/elements-editing/editor-selected-data';
 import { getNodeByIdRoadmapSelector } from '@store/roadmap-refactor/roadmap-data/roadmap-selector';
+import {
+  getOnClickAction,
+  getOnMouseOutAction,
+  getOnMouseOverAction,
+} from '@src/to-be-organized/nodeview/actions-manager';
+import {
+  applyElementEffects,
+  setElementEffectsEmpty,
+} from '@store/roadmap-refactor/elements-editing/element-effects';
+import { useIsLoaded } from '@hooks/useIsLoaded';
+import { setElementDiv } from '@store/roadmap-refactor/elements-editing/elements-divs';
 import { FontSizeValues } from '@src/types/roadmap/node/components-types';
 
 interface NodeViewProps {
@@ -29,6 +34,7 @@ const NodeView: React.FC<NodeViewProps> = ({
   const rerender = useTriggerRerender();
 
   const renderNode = (nodeId: string) => {
+    const loaded = useIsLoaded();
     const node = getNodeByIdRoadmapSelector(nodeId);
     const { color, width, height, opacity, fontSizeType, colorTheme } = node.data;
     node.data.center.x = width / 2;
@@ -63,25 +69,52 @@ const NodeView: React.FC<NodeViewProps> = ({
       }, 0);
 
     useEffect(() => {
+      setElementEffectsEmpty(nodeId);
+      setElementDiv(nodeId, nodeDivRef.current);
+    }, []);
+
+    useEffect(() => {
       if (node.flags.renderedOnRoadmapFlag) return;
       afterEventLoop(() => {
         setTriggerRender(node.id, rerender);
       });
     }, []);
 
+    const applyStyle = () => {
+      const style = {
+        backgroundColor: color,
+        opacity,
+        width: `${width}px`,
+        height: `${height}px`,
+        top: `${calculatedOffsetCoords.y + coords.y}px`,
+        left: `${calculatedOffsetCoords.x + coords.x}px`,
+      };
+      const element = nodeDivRef.current;
+      Object.assign(element.style, style);
+    };
+
+    afterEventLoop(() => {
+      // runs all the effects after the node is rendered
+      applyStyle();
+      loaded && applyElementEffects(nodeId, nodeDivRef.current);
+    });
+
     return (
-      // eslint-disable-next-line jsx-a11y/click-events-have-key-events,jsx-a11y/no-static-element-interactions
+      // eslint-disable-next-line jsx-a11y/click-events-have-key-events,jsx-a11y/no-static-element-interactions,jsx-a11y/mouse-events-have-key-events
       <div
-        className='drop-shadow-md  rounded-xl absolute border-2 border-black'
+        className='drop-shadow-md rounded-xl absolute border-2 border-black transition-allNoTransform duration-300'
         id={`div${nodeId}`}
         ref={nodeDivRef}
         onClick={() => {
           // draggable elements coincide with clickable elements on a roadmap
-          if (!getElementDraggable(nodeId)) return;
-          setDisplayPageType('editor');
-          setSelectedNodeId(nodeId);
-          setDraggableElementForNodeWithId(nodeId);
+          getOnClickAction(nodeId)();
         }}
+        onMouseOver={() => {
+          getOnMouseOverAction(nodeId)();
+        }}
+        onMouseOut={() => {
+          getOnMouseOutAction(nodeId)();
+          
         style={{
           backgroundColor: color,
           width: `${width}px`,

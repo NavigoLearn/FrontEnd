@@ -24,12 +24,6 @@ const NodeManager = ({ node }: NodeManagerProps) => {
   }
 
   useEffect(() => {
-    // locks the nodes that are currently in text elements-editing or view mode
-    // addDragabilityProtocol(node.draggingBehavior);
-    // inferAndSetNodeDraggability(node);
-  }, []);
-
-  useEffect(() => {
     setTriggerRender(node.id, rerender);
   }, []);
 

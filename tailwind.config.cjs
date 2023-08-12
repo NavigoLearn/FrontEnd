@@ -42,10 +42,44 @@ module.exports = {
       },
       backgroundImage: {
         buttongradient: 'linear-gradient(90deg, #3361D8 0%, #262EE7 100%)',
-      }
+      },
+      transitionProperty: {
+        'border': 'border-color',
+        'allNoTransform': 'background-color, border-color, color, fill, stroke, opacity, box-shadow',
+      },
+    strokeWidth: {
+      '3': '3',
+    },
+    animation: {
+      'flowingDash': 'flowingDash 250ms linear infinite',
+      'flowingGradient': 'flowingGradient 100ms linear infinite',
+    },
+    keyframes: {
+      flowingDash: {
+        '0%': { strokeDashoffset: '16' },
+        '100%': { strokeDashoffset: '0' },
+      },
+      flowingGradient: {
+        '0%': { 'background-position': '0 0' },
+        '100%': { 'background-position': '100 0' },
+      },
+    },
     },
   },
   plugins: [
     require('@tailwindcss/line-clamp'),
+    function ({ addUtilities }) {
+      addUtilities({
+        '.dashed-line': {
+          strokeDasharray: '2, 6',
+          strokeLinecap : 'round',
+          strokeDashoffset: '8',
+        },
+        '.gradient-line': {
+          strokeDasharray: '8, 8',
+          strokeDashoffset: '8',
+        },
+      });
+    },
   ],
 };

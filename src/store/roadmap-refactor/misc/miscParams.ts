@@ -13,6 +13,9 @@ const miscParamsStore = atom({
   recenterRoadmap: () => {
     // recenter the roadmap
   },
+  moveRoadmapTo: (x: number, y: number, k: number) => {
+    // move the roadmap to a specific location
+  },
   editingCount: 0,
   chunkSize: 400,
   toolTip: {}, // functions that render-roadmap-roadmap-data react components with the desired functionality
@@ -21,6 +24,7 @@ const miscParamsStore = atom({
   disableZoomTrigger: () => void;
   enableZoomTrigger: () => void;
   recenterRoadmap: () => void;
+  moveRoadmapTo: (x: number, y: number, k: number) => void;
   editingCount: number;
   chunkSize: number;
   toolTip: { [key: string]: any };
@@ -30,6 +34,24 @@ export function setRecenterRoadmap(value: () => void) {
   const newStore = miscParamsStore.get();
   newStore.recenterRoadmap = value;
   miscParamsStore.set({ ...newStore });
+}
+
+export function triggerMoveRoadmapTo(x: number, y: number, k: number) {
+  miscParamsStore.get().moveRoadmapTo(x, y, k);
+}
+
+export function setMoveRoadmapTo(
+  value: (x: number, y: number, k: number) => void
+) {
+  const newStore = miscParamsStore.get();
+  newStore.moveRoadmapTo = value;
+  miscParamsStore.set({ ...newStore });
+}
+
+export function triggerRecenterRoadmap() {
+  console.log('triggering recenter', miscParamsStore.get());
+
+  miscParamsStore.get().recenterRoadmap();
 }
 
 export function getEnableZoomTrigger() {
