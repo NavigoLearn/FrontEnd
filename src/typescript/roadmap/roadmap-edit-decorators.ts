@@ -1,7 +1,7 @@
 import { getNodes } from '@store/roadmap-refactor/render/rendered-nodes';
 import { getNodeCoords } from '@src/typescript/roadmap_ref/render/coord-calc';
 import { renderConnections } from '@src/typescript/roadmap_ref/render/connections';
-import { getTriggersRenderAll } from '@store/roadmap-refactor/render/rerender-triggers';
+import { getTriggersRenderAll } from '@store/roadmap-refactor/render/rerender-triggers-nodes';
 import { calculateChunkId } from '@src/typescript/roadmap/utils';
 import {
   addChunkNode,

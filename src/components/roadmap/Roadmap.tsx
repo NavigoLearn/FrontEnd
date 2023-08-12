@@ -5,6 +5,7 @@ import {
   triggerChunkRerender,
 } from '@store/roadmap-refactor/render/rendered-chunks';
 import {
+  addConnectionRoadmapSelector,
   addNode,
   addRootNodeId,
   roadmapSelector,
@@ -26,13 +27,16 @@ import {
   triggerRecenterRoadmap,
 } from '@store/roadmap-refactor/misc/miscParams';
 import { useIsLoaded } from '@hooks/useIsLoaded';
-import { nodeFactoryClassic } from '@src/typescript/roadmap_ref/node/core/factories/templates/classic';
-import { nodeFactorySubNode } from '@src/typescript/roadmap_ref/node/core/factories/templates/sub-node';
+import { factoryNodeClassic } from '@src/typescript/roadmap_ref/node/core/factories/templates/classic';
+import { factorySubNode } from '@src/typescript/roadmap_ref/node/core/factories/templates/sub-node';
 import { appendSubNode } from '@src/typescript/roadmap_ref/node/core/data-mutation/append';
 import { setRoadmapFromAPI } from '@store/roadmap-refactor/roadmap-data/roadmap-view';
 import { applyRoadmapDraggability } from '@src/typescript/roadmap_ref/dragging/misc';
 import { useEffectAfterLoad } from '@hooks/useEffectAfterLoad';
 import { hydrateRoadmap } from '@src/typescript/roadmap_ref/hydration/roadmap-hydration';
+import ConnectionRenderer from '@components/roadmap/ConnectionRenderer';
+import renderConnectionsStore from '@store/roadmap-refactor/render/rendered-connections';
+import { factoryConnection } from '@src/typescript/roadmap_ref/node/connections/factories-protocols';
 import Popup from './tabs/popups/Popup';
 
 const Roadmap = ({ pageId }: { pageId: string }) => {
@@ -44,6 +48,7 @@ const Roadmap = ({ pageId }: { pageId: string }) => {
   // need to take the ids of the nodes included in the current chunks and render them
   const { nodes } = roadmapSelector.get();
   const { nodesIds } = useStore(renderNodesStore);
+  const { connections: connectionsIds } = useStore(renderConnectionsStore);
 
   const chunkRenderer = useRef(null);
   useScrollHidden();
@@ -57,14 +62,16 @@ const Roadmap = ({ pageId }: { pageId: string }) => {
     // dummmy data
     if (!isCreate) return;
 
-    const node0 = nodeFactoryClassic(500, 200, 500, 500);
-    const node1 = nodeFactoryClassic(100, 100, 200, 100);
-    const subNode00 = nodeFactorySubNode(node0.id, 100, 50, -75, -75);
-    const subNode01 = nodeFactorySubNode(node0.id, 100, 50, 75, 75);
-    const subNode02 = nodeFactorySubNode(node0.id, 100, 50, 75, -75);
-    const subNode03 = nodeFactorySubNode(node0.id, 100, 50, -75, 75);
+    const node0 = factoryNodeClassic(500, 200, 500, 500);
+    const node1 = factoryNodeClassic(100, 100, 200, 100);
+    const connection0 = factoryConnection(node0, node1);
+    const subNode00 = factorySubNode(node0.id, 100, 50, -75, -75);
+    const subNode01 = factorySubNode(node0.id, 100, 50, 75, 75);
+    const subNode02 = factorySubNode(node0.id, 100, 50, 75, -75);
+    const subNode03 = factorySubNode(node0.id, 100, 50, -75, 75);
     addNode(node0);
     addNode(node1);
+    addConnectionRoadmapSelector(connection0);
 
     appendSubNode(node0, subNode00.id);
     appendSubNode(node0, subNode01.id);
@@ -109,14 +116,6 @@ const Roadmap = ({ pageId }: { pageId: string }) => {
     isCreate && setRoadmapIsLoaded();
     isCreate && triggerChunkRerender();
 
-    // renderConnectionsStore.subscribe(() => {
-    //   // calling the connection rendering function
-    //   setTimeout(() => {
-    //     // wait for event loop to finish rendering the nodes and then render-roadmap-roadmap-data the connections
-    //     renderConnections();
-    //   }, 0);
-    // });
-
     setRoadmapIsLoaded();
 
     setEnableZoomTrigger(() => {
@@ -142,6 +141,7 @@ const Roadmap = ({ pageId }: { pageId: string }) => {
     hydrateRoadmap();
     applyRoadmapDraggability();
   }, [editing]);
+  console.log('rerender roadmap');
 
   return (
     <div className='w-full h-full '>
@@ -154,7 +154,7 @@ const Roadmap = ({ pageId }: { pageId: string }) => {
       >
         <g id='rootGroup'>
           <g id='rootGroupConnections'>
-            {/* placeholder for eslint to not scream at me */}
+            <ConnectionRenderer connectionsIds={connectionsIds} />
           </g>
           <g id='rootGroupNodes'>
             {isLoaded &&

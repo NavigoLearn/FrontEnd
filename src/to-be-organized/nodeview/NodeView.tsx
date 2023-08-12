@@ -4,7 +4,7 @@ import React, { useEffect, useRef } from 'react';
 import { afterEventLoop } from '@src/typescript/utils/misc';
 import renderComponents from '@src/to-be-organized/nodeview/CompRender';
 import { useTriggerRerender } from '@hooks/useTriggerRerender';
-import { setTriggerRender } from '@store/roadmap-refactor/render/rerender-triggers';
+import { setTriggerRender } from '@store/roadmap-refactor/render/rerender-triggers-nodes';
 import { getNodeByIdRoadmapSelector } from '@store/roadmap-refactor/roadmap-data/roadmap-selector';
 import {
   getOnClickAction,

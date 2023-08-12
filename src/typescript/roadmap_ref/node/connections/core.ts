@@ -1,7 +1,17 @@
 import { randomId } from '@src/typescript/roadmap_ref/node/core/calculations/general';
 
 export type IConnectionTypes = 'continuous' | 'dashed';
-export class Connection {
+export type IConnectionPositions =
+  | 'top-left'
+  | 'top-right'
+  | 'bottom-left'
+  | 'bottom-right'
+  | 'center'
+  | 'left'
+  | 'right'
+  | 'top'
+  | 'bottom';
+export class ConnectionClass {
   id: string;
 
   from: string;
@@ -10,11 +20,15 @@ export class Connection {
 
   type: IConnectionTypes = 'dashed';
 
-  speed = 1;
+  positionFrom: IConnectionPositions;
+
+  positionTo: IConnectionPositions;
 
   constructor(from: string, to: string) {
     this.id = randomId();
     this.from = from;
     this.to = to;
+    this.positionFrom = 'center';
+    this.positionTo = 'center';
   }
 }

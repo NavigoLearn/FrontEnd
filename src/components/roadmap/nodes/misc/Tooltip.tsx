@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useToolTip } from '@store/roadmap-refactor/misc/miscParams';
-import { setTriggerTooltip } from '@store/roadmap-refactor/render/rerender-triggers';
+import { setTriggerTooltip } from '@store/roadmap-refactor/render/rerender-triggers-nodes';
 import { useStore } from '@nanostores/react';
 import scaleSafari from '@store/roadmap-refactor/misc/scale-safari';
 

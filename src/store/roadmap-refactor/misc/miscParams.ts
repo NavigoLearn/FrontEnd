@@ -1,5 +1,5 @@
 import { atom } from 'nanostores';
-import { getTriggerTooltip } from '@store/roadmap-refactor/render/rerender-triggers';
+import { getTriggerTooltip } from '@store/roadmap-refactor/render/rerender-triggers-nodes';
 
 const miscParamsStore = atom({
   // holds misc params of the roadmap
@@ -49,8 +49,6 @@ export function setMoveRoadmapTo(
 }
 
 export function triggerRecenterRoadmap() {
-  console.log('triggering recenter', miscParamsStore.get());
-
   miscParamsStore.get().recenterRoadmap();
 }
 

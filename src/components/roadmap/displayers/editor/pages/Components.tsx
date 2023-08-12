@@ -1,5 +1,5 @@
 import React from 'react';
-import { triggerNodeRerender } from '@store/roadmap-refactor/render/rerender-triggers';
+import { triggerNodeRerender } from '@store/roadmap-refactor/render/rerender-triggers-nodes';
 import { useStore } from '@nanostores/react';
 import editorSelectedData, {
   triggerRerenderEditor,

@@ -58,7 +58,7 @@ export function nodeFactoryClassicBoilerplate(id?: string): NodeClass {
   return node;
 }
 
-export function nodeFactoryClassic(
+export function factoryNodeClassic(
   x: number,
   y: number,
   width: number,
