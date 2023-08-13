@@ -73,10 +73,11 @@ const SideBar = ({ isCreate }: { isCreate: string }) => {
             getButtonRoute().map((button, index) => {
               return (
                 <NewButtonDesktop
-                  key={button.id}
-                  id={button.id}
+                  key={button.title}
+                  id={button.title}
                   onClick={() => {
                     setClickedIndex(index);
+                    if (button.title === 'Edit') setClickedIndex(-1);
                     button.clickHandler();
                   }}
                   index={index}
