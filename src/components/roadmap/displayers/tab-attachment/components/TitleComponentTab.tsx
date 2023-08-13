@@ -6,8 +6,11 @@ type ITitleComponentProps = {
 };
 const TitleComponentTab = ({ component }: ITitleComponentProps) => {
   return (
-    <div>
-      <div>tittle here</div>
+    <div className='my-5'>
+      <div className='text-gray-400 font-roboto-text'>Title</div>
+      <div className='text-darkBlue text-lg font-roboto-text'>
+        {component.titleText || 'No title yet'}
+      </div>
     </div>
   );
 };

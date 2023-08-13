@@ -20,34 +20,28 @@ type IResourceAttachmentProps = {
   component: IAttachmentTabBulletListProperties;
 };
 
-type IResourceBulletListItemPropsView = {
-  item: IAttachmentTabBulletListItem;
-};
-
-const ResourceBulletListItemView = ({
-  item,
-}: IResourceBulletListItemPropsView) => {
+export const ResourceAttachmentView = ({
+  component,
+}: IResourceAttachmentProps) => {
   return (
-    <div
-      key={item.id}
-      className='w-full flex relative justify-between items-center px-3 mt-3'
-    >
-      <section>
-        <div className='text-darkBlue text-lg font-semibold'>{item.text}</div>
-        <div className='text-darkBlue text-sm font-medium'>{item.linkURL}</div>
-      </section>
-    </div>
-  );
-};
-
-const ResourceAttachmentView = ({ component }: IResourceAttachmentProps) => {
-  return (
-    <div className='flex gap-1 w-full relative flex-col border-2 border-gray-400 rounded-lg pb-4 '>
-      <div className='flex justify-between px-4  w-full mt-4'>
-        <h1 className='text-darkBlue font-roboto-text'>Resources</h1>
-      </div>
+    <div>
+      <div className='text-gray-400 font-roboto-text'>Resources</div>
       {component.bulletListItems.map((item, index) => {
-        return <ResourceBulletListItemView key={item.id} item={item} />;
+        return (
+          <div
+            key={item.id}
+            className='w-full flex justify-between items-center my-1'
+          >
+            <a href={item.linkURL}>
+              <div className='text-darkBlue text-lg font-semibold'>
+                {item.text}
+              </div>
+              <div className='text-darkBlue text-sm font-medium'>
+                {item.linkURL}
+              </div>
+            </a>
+          </div>
+        );
       })}
     </div>
   );
