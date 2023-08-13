@@ -56,7 +56,7 @@ const PreviewButton = ({ onChange }: IPreviewButtonProps) => {
   );
 };
 
-const TabAttachment = ({ onChange, value }: ITabAttachmentProps) => {
+const TabAttachmentEditor = ({ onChange, value }: ITabAttachmentProps) => {
   const { selectedNodeId } = useStore(editorSelectedData);
   const node = getNodeByIdRoadmapSelector(selectedNodeId);
   const attachment = getAttachmentByIndex(node, 0);
@@ -127,4 +127,4 @@ const TabAttachment = ({ onChange, value }: ITabAttachmentProps) => {
   );
 };
 
-export default HOCOnChange(TabAttachment);
+export default HOCOnChange(TabAttachmentEditor);

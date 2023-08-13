@@ -5,9 +5,7 @@ type IDescriptionComponentProps = {
   component: IAttachmentTabDescriptionProperties;
 };
 const DescriptionComponentTab = ({ component }: IDescriptionComponentProps) => {
-  return (
-    <div className='text-black text-secondary'>{component.descriptionText}</div>
-  );
+  return <div className='text-black text-secondary'>Description component</div>;
 };
 
 export default DescriptionComponentTab;

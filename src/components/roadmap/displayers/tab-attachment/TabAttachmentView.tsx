@@ -48,6 +48,7 @@ const TabAttachmentView = () => {
     throw new Error('Component type not found');
   }
 
+  console.log(components);
   return (
     <div className='w-full h-full flex-col px-9'>
       <div className='flex justify-between  mt-7'>

@@ -26,6 +26,7 @@ import {
   mutateNodeCoordX,
   mutateNodeCoordY,
   mutateNodeHeight,
+  mutateNodeOnClickAction,
   mutateNodeWidth,
 } from '@src/typescript/roadmap_ref/node/core/data-mutation/mutate';
 import { addNodeToChunks } from '@store/roadmap-refactor/roadmap-data/roadmap-selector';
@@ -71,6 +72,8 @@ export function factoryNodeClassic(
 
   mutateNodeCoordX(node, x);
   mutateNodeCoordY(node, y);
+
+  mutateNodeOnClickAction(node, 'Open Tab');
 
   recalculateNodeChunks(node);
   recalculateNodeCenter(node);

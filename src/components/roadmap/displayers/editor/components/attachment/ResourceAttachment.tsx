@@ -19,15 +19,35 @@ type IResourceAttachmentProps = {
   component: IAttachmentTabBulletListProperties;
 };
 
+type IResourceBulletListItemPropsView = {
+  item: IAttachmentTabBulletListItem;
+};
+
+const ResourceBulletListItemView = ({
+  item,
+}: IResourceBulletListItemPropsView) => {
+  return (
+    <div
+      key={item.id}
+      className='w-full flex relative justify-between items-center px-3 mt-3'
+    >
+      <section>
+        <div className='text-darkBlue text-lg font-semibold'>{item.text}</div>
+        <div className='text-darkBlue text-sm font-medium'>{item.linkURL}</div>
+      </section>
+    </div>
+  );
+};
+
 const ResourceAttachmentView = ({ component }: IResourceAttachmentProps) => {
   return (
     <div className='flex gap-1 w-full relative flex-col border-2 border-gray-400 rounded-lg pb-4 '>
       <div className='flex justify-between px-4  w-full mt-4'>
         <h1 className='text-darkBlue font-roboto-text'>Resources</h1>
-        <button type='button'>
-          <img src={addCircle} alt='addingResources' className='h-7 w-7' />
-        </button>
       </div>
+      {component.bulletListItems.map((item, index) => {
+        return <ResourceBulletListItemView key={item.id} item={item} />;
+      })}
     </div>
   );
 };
@@ -86,7 +106,6 @@ const ResourceBulletListItem = ({
   useEffect(() => {
     function handleClickOutside(event) {
       if (myDiv.current && !myDiv.current.contains(event.target)) {
-        console.log('clicked outside');
         setDropdown(false);
       }
     }

@@ -4,7 +4,7 @@ import { useStore } from '@nanostores/react';
 import { rightWrapper } from '@components/roadmap/displayers/Wrappers';
 import editorDisplayManager from '@store/roadmap-refactor/display/editor/editor-display-manager';
 import EditorNavbarPagination from '@components/roadmap/displayers/editor/EditorNavbar';
-import TabAttachment from '@components/roadmap/displayers/editor/pages/TabAttachment';
+import TabAttachment from '@components/roadmap/displayers/editor/pages/TabAttachmentEditor';
 import Components from '@components/roadmap/displayers/editor/pages/Components';
 import Actions from '@components/roadmap/displayers/editor/pages/Actions';
 import Properties from '@components/roadmap/displayers/editor/pages/Properties';
