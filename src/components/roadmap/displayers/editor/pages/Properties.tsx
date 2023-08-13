@@ -18,8 +18,7 @@ import { triggerNodeRerender } from '@store/roadmap-refactor/render/rerender-tri
 import { getNodeByIdRoadmapSelector } from '@store/roadmap-refactor/roadmap-data/roadmap-selector';
 import { tailwindTransitionClass } from '@src/UI-library/tailwind-utils';
 import { IActionTypes } from '@src/typescript/roadmap_ref/node/core/actions';
-import { selectNodeColorScheme } from '@src/typescript/roadmap_ref/node/core/factories/injectors/services';
-import { colorThemes } from '@src/typescript/roadmap_ref/node/core/factories/params/params';
+import { selectNodeColorScheme } from '@src/typescript/roadmap_ref/node/core/factories/data-mutation/services';
 
 type IActionsDropdown = {
   action: string;

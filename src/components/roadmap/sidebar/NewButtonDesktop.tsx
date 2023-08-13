@@ -9,7 +9,7 @@ import positionClickedIndex from '@store/roadmap/sidebar/clickedState';
 import displayTitle from '@store/roadmap/sidebar/displayTitle';
 
 type ButtonProps = {
-  id: number;
+  id: string;
   onClick: () => void;
   title: string;
   cIcon: any;

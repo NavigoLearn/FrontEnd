@@ -17,6 +17,7 @@ import {
 import TitleComponentTab from '@components/roadmap/displayers/tab-attachment/components/TitleComponentTab';
 import DescriptionComponentTab from '@components/roadmap/displayers/tab-attachment/components/DescriptionComponentTab';
 import LinkComponentTab from '@components/roadmap/displayers/tab-attachment/components/LinkComponentTab';
+import { usePressEsc } from '@hooks/usePressEsc';
 
 const TabAttachmentView = () => {
   const { nodeId } = useStore(selectedTabNode);
@@ -47,6 +48,10 @@ const TabAttachmentView = () => {
 
     throw new Error('Component type not found');
   }
+
+  usePressEsc(() => {
+    setDisplayPageType('closed');
+  });
 
   return (
     <div className='w-full h-full flex-col px-9'>

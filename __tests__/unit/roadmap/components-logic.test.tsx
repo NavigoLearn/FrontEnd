@@ -57,7 +57,7 @@ describe('Components logic', () => {
     expect(component.height).toBe(100);
   });
 
-  // it('append a new description, find it and mutate text', () => {
+  // it('append.ts a new description, find it and mutate text', () => {
   //   const title = 'New Title string';
   //   const component = factoryComponentEmpty('Description');
   //   const componentId = component.id;

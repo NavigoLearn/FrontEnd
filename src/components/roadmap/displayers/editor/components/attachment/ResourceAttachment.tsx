@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { deleteAttachmentBulletListNewItem } from '@src/typescript/roadmap_ref/node/attachments/tab/delete';
 import {
   IAttachmentTabBulletListItem,
@@ -14,6 +14,7 @@ import {
   mutateAttachmentTabBulletListItemText,
 } from '@src/typescript/roadmap_ref/node/attachments/tab/mutate';
 import { AnimatePresence, motion } from 'framer-motion';
+import { useClickOutside } from '@hooks/useClickOutside';
 
 type IResourceAttachmentProps = {
   component: IAttachmentTabBulletListProperties;
@@ -97,18 +98,9 @@ const ResourceBulletListItem = ({
   const [dropdown, setDropdown] = useState(false);
 
   const myDiv = useRef(null);
-  useEffect(() => {
-    function handleClickOutside(event) {
-      if (myDiv.current && !myDiv.current.contains(event.target)) {
-        console.log('clicked outside');
-        setDropdown(false);
-      }
-    }
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
-  }, []); // Empty dependency array means this useEffect runs once when the component mounts
+  useClickOutside(myDiv, () => {
+    setDropdown(false);
+  });
 
   return (
     <div

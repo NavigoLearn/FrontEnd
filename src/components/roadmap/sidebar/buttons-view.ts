@@ -5,9 +5,9 @@ import cross from '@assets/cross.svg';
 import book from '@assets/book.svg';
 import roadmapState, { getRoadmapId } from '@store/roadmap/data/roadmap_state';
 import {
+  enterEditingModeProtocol,
   saveEditingProtocol,
-  transferRoadmapToEdit,
-} from '@src/typescript/roadmap/utils2';
+} from '@src/typescript/roadmap/roadmap-state-protocols';
 import { toggleEditing } from '@src/typescript/roadmap/roadmap-edit-logic-decorated';
 import { setTabAboutFlow } from '@src/typescript/roadmap/tab-logic-flows';
 import { dispatchAnalyticsEvent } from '@store/misc/analytics';
@@ -67,7 +67,7 @@ export const buttonsViewOwner = [
       if (roadmapState.get().editing) {
         saveEditingProtocol();
       } else {
-        transferRoadmapToEdit();
+        enterEditingModeProtocol();
         dispatchAnalyticsEvent('roadmapInteraction', {
           actionType: 'Edit Roadmap',
         });

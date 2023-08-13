@@ -54,10 +54,10 @@ export function setEditorOpenEffect(nodeId: string) {
 
   nodes.forEach((id) => {
     // checks whether node is root
+    originalEffects[id] = originalEffects[id].filter((effect) => {
+      return effect !== 'opacity-30' && effect !== 'opacity-100';
+    });
     if (!blackListed.includes(id)) {
-      originalEffects[id] = originalEffects[id].filter((effect) => {
-        return effect !== 'opacity-30' && effect !== 'opacity-100';
-      });
       originalEffects[id].push('opacity-30');
     }
   });
@@ -76,6 +76,17 @@ export function setEditorClosedEffect() {
       (effect) => effect !== 'opacity-30'
     );
     originalEffects[id].push('opacity-100');
+  });
+  elementEffects.set({
+    ...originalEffects,
+  });
+}
+
+export function removeAllEffects() {
+  const originalEffects = elementEffects.get();
+  const nodes = Object.keys(originalEffects);
+  nodes.forEach((id) => {
+    originalEffects[id] = [];
   });
   elementEffects.set({
     ...originalEffects,
