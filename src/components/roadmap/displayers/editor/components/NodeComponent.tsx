@@ -8,7 +8,6 @@ import {
   mutateNodeWidth,
 } from '@src/typescript/roadmap_ref/node/core/data-mutation/mutate';
 import { useStore } from '@nanostores/react';
-import { deleteNestedNodeWithId } from '@src/typescript/roadmap_ref/node/core/data-mutation/delete';
 import { triggerRerenderEditor } from '@store/roadmap-refactor/elements-editing/editor-selected-data';
 import PropertyEditorNumber from '@components/roadmap/displayers/editor/components/PropertyEditorNumber';
 import { NodeClass } from '@src/typescript/roadmap_ref/node/core/core';
@@ -16,6 +15,7 @@ import { roadmapSelector } from '@store/roadmap-refactor/roadmap-data/roadmap-se
 import { triggerNodeRerender } from '@store/roadmap-refactor/render/rerender-triggers-nodes';
 import { useTriggerRerender } from '@hooks/useTriggerRerender';
 import { subscribeToHub } from '@store/roadmap-refactor/subscribers/function-subscribers';
+import { deleteProtocolNodeFromRoadmap } from '@src/typescript/roadmap_ref/roadmap-data/protocols/delete';
 
 type INodeProperties = {
   node: NodeClass;
@@ -158,7 +158,7 @@ const NodeComponent = ({
           type='button'
           className=' w-8 h-8 mx-4 mb-2'
           onClick={() => {
-            deleteNestedNodeWithId(parentNode, id);
+            deleteProtocolNodeFromRoadmap(node);
             triggerNodeRerender(parentNode.id);
             triggerRerenderEditor();
           }}

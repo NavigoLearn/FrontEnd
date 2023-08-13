@@ -2,7 +2,7 @@
 /* eslint-disable react/prop-types */
 import React, { useEffect, useRef } from 'react';
 import { afterEventLoop } from '@src/typescript/utils/misc';
-import renderComponents from '@src/to-be-organized/nodeview/CompRender';
+import { componentsRenderer } from '@src/to-be-organized/nodeview/ComponentsRenderer';
 import { useTriggerRerender } from '@hooks/useTriggerRerender';
 import { setTriggerRender } from '@store/roadmap-refactor/render/rerender-triggers-nodes';
 import { getNodeByIdRoadmapSelector } from '@src/typescript/roadmap_ref/roadmap-data/services/get';
@@ -25,7 +25,7 @@ interface NodeViewProps {
   divSizeCallback?: (divRef: React.MutableRefObject<HTMLDivElement>) => void; //
 }
 
-const NodeView: React.FC<NodeViewProps> = ({
+const NodeRenderer: React.FC<NodeViewProps> = ({
   nodeId,
   centerOffset,
   divSizeCallback,
@@ -43,15 +43,15 @@ const NodeView: React.FC<NodeViewProps> = ({
     // Function to render each subnode
 
     const { flags } = node;
-    const { nestedFlag } = flags;
+    const { subNodeFlag } = flags;
 
     // the offset for the nodes rendered directly on the roadmap is calculated directly
     // on its group and foreign object in NodeManager. This is why you need to treat the coords
     // from subNodes which don't have their own foreign object and are divs relative to the parent node
 
     const coords = {
-      x: nestedFlag ? node.data.coords.x : 0,
-      y: nestedFlag ? node.data.coords.y : 0,
+      x: subNodeFlag ? node.data.coords.x : 0,
+      y: subNodeFlag ? node.data.coords.y : 0,
     };
 
     const calculatedOffsetCoords = {
@@ -122,12 +122,12 @@ const NodeView: React.FC<NodeViewProps> = ({
         }}
         style={style}
       >
-        {renderComponents(node)}
+        {componentsRenderer(node)}
         {subNodeIds &&
           subNodeIds.map((subNodeId) => {
             // the div is used to position the subNode in the center of the current node
             return (
-              <NodeView
+              <NodeRenderer
                 key={subNodeId}
                 nodeId={subNodeId}
                 centerOffset={{
@@ -144,4 +144,4 @@ const NodeView: React.FC<NodeViewProps> = ({
   // @ts-ignore
   return renderNode(nodeId);
 };
-export default NodeView;
+export default NodeRenderer;

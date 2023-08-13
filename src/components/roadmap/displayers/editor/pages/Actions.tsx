@@ -3,6 +3,8 @@ import editorSelectedData from '@store/roadmap-refactor/elements-editing/editor-
 import { useStore } from '@nanostores/react';
 import { getNodeByIdRoadmapSelector } from '@src/typescript/roadmap_ref/roadmap-data/services/get';
 import { appendClassicNodeToRoadmap } from '@src/typescript/roadmap_ref/roadmap-data/protocols/append';
+import { deleteProtocolNodeFromRoadmap } from '@src/typescript/roadmap_ref/roadmap-data/protocols/delete';
+import { closeEditorProtocol } from '@src/to-be-organized/nodeview/actions-manager';
 
 const Actions = () => {
   const { selectedNodeId } = useStore(editorSelectedData);
@@ -21,7 +23,8 @@ const Actions = () => {
       <button
         type='button'
         onClick={() => {
-          console.log('delete node');
+          deleteProtocolNodeFromRoadmap(node);
+          closeEditorProtocol();
         }}
       >
         Delete this node

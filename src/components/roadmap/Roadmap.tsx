@@ -32,7 +32,7 @@ import { hydrateRoadmap } from '@src/typescript/roadmap_ref/hydration/roadmap-hy
 import ConnectionRenderer from '@components/roadmap/ConnectionRenderer';
 import renderConnectionsStore from '@store/roadmap-refactor/render/rendered-connections';
 import { closeEditorProtocol } from '@src/to-be-organized/nodeview/actions-manager';
-import { factoryRoadmapFirstAttempt } from '@src/typescript/roadmap_ref/roadmap-templates/classic';
+import { factoryRoadmapClassic } from '@src/typescript/roadmap_ref/roadmap-templates/classic';
 import Popup from './tabs/popups/Popup';
 
 const Roadmap = ({ pageId }: { pageId: string }) => {
@@ -57,7 +57,7 @@ const Roadmap = ({ pageId }: { pageId: string }) => {
   useEffect(() => {
     // dummmy data
     if (!isCreate) return;
-    factoryRoadmapFirstAttempt();
+    factoryRoadmapClassic();
   }, []);
 
   const disableZoomFn = () => {

@@ -67,6 +67,9 @@ export function setNodesToRender() {
       nodesArray.push(...nodes);
     }
   });
+  // eliminates duplicates
+  nodesArray = [...new Set(nodesArray)];
+
   nodesArray = extendNodeIdsForConnection(nodesArray, roadmapData);
   // sets the nodes that should be rendered ( calculated from the chunks visible )
   setNodes(nodesArray);
