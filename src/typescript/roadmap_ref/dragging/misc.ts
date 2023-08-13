@@ -1,5 +1,5 @@
 import { NodeClass } from '@src/typescript/roadmap_ref/node/core/core';
-import roadmapState from '@store/roadmap/data/roadmap_state';
+import roadmapState from '@store/roadmap-refactor/roadmap-data/roadmap_state';
 import { setElementDraggable } from '@store/roadmap-refactor/elements-editing/draggable-elements';
 import { roadmapSelector } from '@store/roadmap-refactor/roadmap-data/roadmap-selector';
 import { addDragabilityProtocol } from '@src/typescript/roadmap_ref/render/dragging';

@@ -4,7 +4,7 @@ import {
   injectNestedFlags,
   injectNestedNodeData,
   injectNewRandomId,
-} from '@src/typescript/roadmap_ref/node/core/factories/injectors/inject';
+} from '@src/typescript/roadmap_ref/node/core/factories/data-mutation/inject';
 import { draggingBehaviorFactorySubNode } from '@src/typescript/roadmap_ref/dragging/factories';
 import {
   mutateNodeCoordX,
@@ -13,6 +13,7 @@ import {
   mutateNodeWidth,
 } from '@src/typescript/roadmap_ref/node/core/data-mutation/mutate';
 import { recalculateNodeCenter } from '@src/typescript/roadmap_ref/node/core/calculations/general';
+import { appendAttachmentTabStandard } from '@src/typescript/roadmap_ref/node/core/factories/data-mutation/append';
 
 export function nodeFactorySubNodeBoilerplate(
   nestedWithinId: string
@@ -22,13 +23,13 @@ export function nodeFactorySubNodeBoilerplate(
   injectNestedFlags(node);
   injectNewRandomId(node);
   injectNestedNodeData(node, nestedWithinId);
-
+  appendAttachmentTabStandard(node);
   const draggingBehavior = draggingBehaviorFactorySubNode(node.id);
   injectDraggingBehavior(node, draggingBehavior);
 
   return node;
 }
-export function nodeFactorySubNode(
+export function factorySubNode(
   parentId: string,
   width: number,
   height: number,

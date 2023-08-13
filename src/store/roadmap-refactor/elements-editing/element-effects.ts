@@ -1,8 +1,6 @@
 import { atom } from 'nanostores';
-import {
-  roadmapSelector,
-  tracebackNodeToRoot,
-} from '@store/roadmap-refactor/roadmap-data/roadmap-selector';
+import { roadmapSelector } from '@store/roadmap-refactor/roadmap-data/roadmap-selector';
+import { getTracebackNodeToRoot } from '@src/typescript/roadmap_ref/roadmap-data/services/get';
 import { HashMap, HashMapWithKeys } from '@type/roadmap/stores/roadmap';
 import {
   effectOpacity100,
@@ -45,7 +43,7 @@ export function setEditorOpenEffect(nodeId: string) {
   const originalEffects = elementEffects.get();
   const nodes = Object.keys(originalEffects);
   // getting the line of parent nodes from the node to the root
-  const blackListed = tracebackNodeToRoot(nodeId);
+  const blackListed = getTracebackNodeToRoot(nodeId);
   // add parent nodes to blacklisted
   const currentNode = roadmapSelector.get().nodes[nodeId];
   currentNode.subNodeIds.forEach((id) => {
@@ -54,7 +52,12 @@ export function setEditorOpenEffect(nodeId: string) {
 
   nodes.forEach((id) => {
     // checks whether node is root
-    if (!blackListed.includes(id)) originalEffects[id].push('opacity-30');
+    originalEffects[id] = originalEffects[id].filter((effect) => {
+      return effect !== 'opacity-30' && effect !== 'opacity-100';
+    });
+    if (!blackListed.includes(id)) {
+      originalEffects[id].push('opacity-30');
+    }
   });
   originalEffects[nodeId] = [];
   elementEffects.set({
@@ -71,6 +74,17 @@ export function setEditorClosedEffect() {
       (effect) => effect !== 'opacity-30'
     );
     originalEffects[id].push('opacity-100');
+  });
+  elementEffects.set({
+    ...originalEffects,
+  });
+}
+
+export function removeAllEffects() {
+  const originalEffects = elementEffects.get();
+  const nodes = Object.keys(originalEffects);
+  nodes.forEach((id) => {
+    originalEffects[id] = [];
   });
   elementEffects.set({
     ...originalEffects,

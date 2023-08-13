@@ -4,12 +4,12 @@ import {
   dispatchNewHoverValue,
   dispatchNewPositionValue,
 } from '@store/roadmap/sidebar/clickSubject';
-import BallStatic from '@components/roadmap/sidebar/BallStatic';
+import BallStatic from '@components/roadmap/sidebar/BallEffect';
 import positionClickedIndex from '@store/roadmap/sidebar/clickedState';
 import displayTitle from '@store/roadmap/sidebar/displayTitle';
 
 type ButtonProps = {
-  id: number;
+  id: string;
   onClick: () => void;
   title: string;
   cIcon: any;

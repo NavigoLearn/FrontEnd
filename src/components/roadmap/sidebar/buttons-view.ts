@@ -3,13 +3,11 @@ import issues from '@assets/issues.svg';
 import about from '@assets/about.svg';
 import cross from '@assets/cross.svg';
 import book from '@assets/book.svg';
-import roadmapState, { getRoadmapId } from '@store/roadmap/data/roadmap_state';
+import roadmapState from '@store/roadmap-refactor/roadmap-data/roadmap_state';
 import {
+  enterEditingModeProtocol,
   saveEditingProtocol,
-  transferRoadmapToEdit,
-} from '@src/typescript/roadmap/utils2';
-import { toggleEditing } from '@src/typescript/roadmap/roadmap-edit-logic-decorated';
-import { setTabAboutFlow } from '@src/typescript/roadmap/tab-logic-flows';
+} from '@src/typescript/roadmap_ref/roadmap-data/protocols/roadmap-state-protocols';
 import { dispatchAnalyticsEvent } from '@store/misc/analytics';
 import { setConfirmDelete } from '@store/roadmap-refactor/popups/popup';
 
@@ -41,7 +39,6 @@ export const buttonsViewVisitor = [
     cIcon: about,
     title: 'About',
     clickHandler: () => {
-      setTabAboutFlow(getRoadmapId());
       dispatchAnalyticsEvent('roadmapInteraction', {
         actionType: 'Open About',
       });
@@ -62,18 +59,15 @@ export const buttonsViewOwner = [
     cIcon: edit,
     title: 'Edit',
     clickHandler: () => {
-      // startEditingProtocol();
       // persist the changes to the original roadmap_static
       if (roadmapState.get().editing) {
         saveEditingProtocol();
       } else {
-        transferRoadmapToEdit();
+        enterEditingModeProtocol();
         dispatchAnalyticsEvent('roadmapInteraction', {
           actionType: 'Edit Roadmap',
         });
       }
-      // falseOpen();
-      toggleEditing();
     },
   },
 
@@ -94,7 +88,6 @@ export const buttonsViewOwner = [
     cIcon: about,
     title: 'About',
     clickHandler: () => {
-      setTabAboutFlow(getRoadmapId());
       dispatchAnalyticsEvent('roadmapInteraction', {
         actionType: 'Open About',
       });

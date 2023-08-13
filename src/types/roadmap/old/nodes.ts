@@ -43,8 +43,3 @@ export interface NodeResourceStore extends NodeStore {
 
 export type NodeTypesProps = NodeInfoProps | NodeResourceProps;
 export type NodeTypesStore = NodeInfoStore | NodeResourceStore;
-
-export type Coord = {
-  x: number;
-  y: number;
-};

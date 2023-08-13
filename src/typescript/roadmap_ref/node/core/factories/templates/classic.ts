@@ -1,9 +1,4 @@
 import { NodeClass } from '@src/typescript/roadmap_ref/node/core/core';
-import { appendAttachmentTabComponent } from '@src/typescript/roadmap_ref/node/attachments/tab/append';
-import {
-  factoryAttachmentComponent,
-  factoryAttachmentTabEmpty,
-} from '@src/typescript/roadmap_ref/node/attachments/tab/factory';
 
 import {
   injectClassicData,
@@ -11,12 +6,9 @@ import {
   injectDraggingBehavior,
   injectNewId,
   injectNewRandomId,
-} from '@src/typescript/roadmap_ref/node/core/factories/injectors/inject';
+} from '@src/typescript/roadmap_ref/node/core/factories/data-mutation/inject';
 import { draggingBehaviorFactoryRoadmapNode } from '@src/typescript/roadmap_ref/dragging/factories';
-import {
-  appendAttachment,
-  appendComponent,
-} from '@src/typescript/roadmap_ref/node/core/data-mutation/append';
+import { appendComponent } from '@src/typescript/roadmap_ref/node/core/data-mutation/append';
 import { factoryComponentTitleEmpty } from '@src/typescript/roadmap_ref/node/components/text/factories';
 import {
   recalculateNodeCenter,
@@ -26,31 +18,22 @@ import {
   mutateNodeCoordX,
   mutateNodeCoordY,
   mutateNodeHeight,
+  mutateNodeOnClickAction,
   mutateNodeWidth,
 } from '@src/typescript/roadmap_ref/node/core/data-mutation/mutate';
-import { addNodeToChunks } from '@store/roadmap-refactor/roadmap-data/roadmap-selector';
+import { appendNodeToChunks } from '@src/typescript/roadmap_ref/roadmap-data/services/append';
+import { appendAttachmentTabStandard } from '@src/typescript/roadmap_ref/node/core/factories/data-mutation/append';
 
 export function nodeFactoryClassicBoilerplate(id?: string): NodeClass {
   // return boilerplate class for classic nodes and the most common
   const node = new NodeClass();
   // classic nodes has a tab-attachment attachment and the default color scheme
   injectClassicFlags(node);
-  id ? injectNewId(node, id) : injectNewRandomId(node);
+  injectNewRandomId(node);
   injectClassicData(node, '', []);
 
   appendComponent(node, factoryComponentTitleEmpty(node.id));
-  const tab = factoryAttachmentTabEmpty();
-  appendAttachment(node, tab);
-
-  // appends component to attachment
-  const attachmentTitleComponent = factoryAttachmentComponent('Title');
-  const attachmentDescriptionComponent =
-    factoryAttachmentComponent('Description');
-  const attachmentLinkComponent = factoryAttachmentComponent('Link');
-  appendAttachmentTabComponent(tab, attachmentTitleComponent);
-  appendAttachmentTabComponent(tab, attachmentDescriptionComponent);
-  appendAttachmentTabComponent(tab, attachmentLinkComponent);
-
+  appendAttachmentTabStandard(node);
   const draggingBehavior = draggingBehaviorFactoryRoadmapNode(node.id);
   injectDraggingBehavior(node, draggingBehavior);
   recalculateNodeChunks(node);
@@ -58,22 +41,26 @@ export function nodeFactoryClassicBoilerplate(id?: string): NodeClass {
   return node;
 }
 
-export function nodeFactoryClassic(
+export function factoryNodeClassic(
   x: number,
   y: number,
   width: number,
-  height: number
+  height: number,
+  id?: string
 ) {
   const node = nodeFactoryClassicBoilerplate();
+  id && injectNewId(node, id);
   mutateNodeWidth(node, width || 100);
   mutateNodeHeight(node, height || 100);
 
   mutateNodeCoordX(node, x);
   mutateNodeCoordY(node, y);
 
+  mutateNodeOnClickAction(node, 'Open Tab');
+
   recalculateNodeChunks(node);
   recalculateNodeCenter(node);
-  addNodeToChunks(node);
+  appendNodeToChunks(node);
 
   return node;
 }

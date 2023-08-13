@@ -1,6 +1,4 @@
-import roadmapState from '@store/roadmap/data/roadmap_state';
-import roadmapEdit from '@store/roadmap/data/roadmap_edit';
-import roadmapStatic from '@store/roadmap/data/roadmap_static';
+import roadmapState from '@store/roadmap-refactor/roadmap-data/roadmap_state';
 import {
   getNodes,
   setNodes,
@@ -16,27 +14,9 @@ import { Viewport } from '@type/roadmap/old/misc';
 import miscParams from '@store/roadmap-refactor/misc/miscParams';
 import { roadmapSelector } from '@store/roadmap-refactor/roadmap-data/roadmap-selector';
 
-export function getConnectionsToRender(currentNodes: string[]): string[] {
-  const { editing, loaded } = roadmapState.get();
-  const roadmap = editing ? roadmapEdit.get() : roadmapStatic.get();
-  if (!loaded) return;
-  const connectionsIds = []; // array of all the connections that should be rendered
-  const nodes = currentNodes;
-  // gets the connections for each node
-  nodes.forEach((nodeId) => {
-    const node = roadmap.nodes[nodeId];
-    if (node.connections !== undefined) {
-      connectionsIds.push(...node.connections);
-    } else {
-      throw new Error('node.connections is undefined');
-    }
-  });
-  // eslint-disable-next-line consistent-return
-  return connectionsIds;
-}
 export function setConnectionsToRender() {
-  const { editing, loaded } = roadmapState.get();
-  const roadmap = editing ? roadmapEdit.get() : roadmapStatic.get();
+  const { loaded } = roadmapState.get();
+  const roadmap = roadmapSelector.get();
   if (!loaded) return;
   const connectionsIds = []; // array of all the connections that should be rendered
   const nodes = getNodes();
@@ -60,9 +40,9 @@ export function extendNodeIdsForConnection(nodeIds, roadmap: Roadmap) {
     if (node.connections !== undefined) {
       node.connections.forEach((connectionId) => {
         const connection = roadmap.connections[connectionId];
-        const { parentId, childId } = connection;
-        if (!extendedNodeIds.includes(parentId)) extendedNodeIds.push(parentId);
-        if (!extendedNodeIds.includes(childId)) extendedNodeIds.push(childId);
+        const { from, to } = connection;
+        if (!extendedNodeIds.includes(from)) extendedNodeIds.push(from);
+        if (!extendedNodeIds.includes(to)) extendedNodeIds.push(to);
       });
     }
   });
@@ -79,7 +59,7 @@ export function setNodesToRender() {
 
   const chunksIds = chunksStore.get().chunks;
 
-  const nodesArray: string[] = [];
+  let nodesArray: string[] = [];
   chunksIds.forEach((chunkId) => {
     // gets the array of nodes for each chunk id
     const nodes = chunks[chunkId];
@@ -87,7 +67,7 @@ export function setNodesToRender() {
       nodesArray.push(...nodes);
     }
   });
-  // nodesArray = extendNodeIdsForConnection(nodesArray, roadmapData);
+  nodesArray = extendNodeIdsForConnection(nodesArray, roadmapData);
   // sets the nodes that should be rendered ( calculated from the chunks visible )
   setNodes(nodesArray);
 }
@@ -166,7 +146,7 @@ export function renderChunksFlow(
 ) {
   calculateRenderedChunks(transform, chunkSize); // calculates chunks from viewport and sets them in the store
   setNodesToRender(); // checks for nodes in the chunks and sets them into a store to be rendered
-  // setConnectionsToRender(); // checks for connections in the chunks and sets them into a store to be rendered
+  setConnectionsToRender(); // checks for connections in the chunks and sets them into a store to be rendered
 }
 
 export function recalculateChunks(svgRefId: string) {

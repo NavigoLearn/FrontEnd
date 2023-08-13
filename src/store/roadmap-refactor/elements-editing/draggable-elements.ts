@@ -2,7 +2,7 @@ import { atom } from 'nanostores';
 import {
   getNodeByIdRoadmapSelector,
   getRootNodesIds,
-} from '@store/roadmap-refactor/roadmap-data/roadmap-selector';
+} from '@src/typescript/roadmap_ref/roadmap-data/services/get';
 
 const draggableElements = atom({
   canBeDragged: true,

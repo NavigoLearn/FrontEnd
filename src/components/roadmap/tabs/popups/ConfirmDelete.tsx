@@ -2,7 +2,7 @@ import React from 'react';
 import { divWrapper } from '@components/roadmap/tabs/utils/logic';
 import { setConfirmDelete } from '@store/roadmap-refactor/popups/popup';
 import { deleteRoadmap } from '@src/api-wrapper/roadmap/roadmaps';
-import { getRoadmapId } from '@store/roadmap/data/roadmap_state';
+import { getRoadmapId } from '@store/roadmap-refactor/roadmap-data/roadmap_state';
 import { dispatchAnalyticsEvent } from '@store/misc/analytics';
 
 const ConfirmDelete = () => {

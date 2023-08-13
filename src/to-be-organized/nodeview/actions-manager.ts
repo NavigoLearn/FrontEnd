@@ -1,26 +1,33 @@
 import {
-  getElementDraggable,
+  actionStrategyDoNothing,
+  actionStrategyOpenLink,
+  actionStrategyOpenTab,
+  IActionStrategy,
+} from '@src/typescript/roadmap_ref/node/core/actions/strategies';
+import {
   setDraggableElementForNodeWithId,
   setRoadmapRootRenderDraggable,
 } from '@store/roadmap-refactor/elements-editing/draggable-elements';
 import { setDisplayPageType } from '@store/roadmap-refactor/display/display-manager';
 import { setSelectedNodeId } from '@store/roadmap-refactor/elements-editing/editor-selected-data';
-import roadmapState from '@store/roadmap/data/roadmap_state';
+import roadmapState from '@store/roadmap-refactor/roadmap-data/roadmap_state';
 import {
   getNodeByIdRoadmapSelector,
-  tracebackNodeToRoot,
-} from '@store/roadmap-refactor/roadmap-data/roadmap-selector';
+  getTracebackNodeToRoot,
+} from '@src/typescript/roadmap_ref/roadmap-data/services/get';
 import {
   setEditorClosedEffect,
   setEditorOpenEffect,
 } from '@store/roadmap-refactor/elements-editing/element-effects';
-import { triggerAllNodesRerender } from '@store/roadmap-refactor/render/rerender-triggers';
+import { triggerAllNodesRerender } from '@store/roadmap-refactor/render/rerender-triggers-nodes';
 import { getElementDiv } from '@store/roadmap-refactor/elements-editing/elements-divs';
 import {
   effectBorderBlack,
   effectBorderBlue,
 } from '@src/to-be-organized/nodeview/effects';
 import { triggerMoveRoadmapTo } from '@store/roadmap-refactor/misc/miscParams';
+import { HashMapWithKeys } from '@type/roadmap/stores/roadmap';
+import { IActionTypes } from '@src/typescript/roadmap_ref/node/core/actions/core';
 
 export function getOnMouseOutActionEdit(nodeId): () => void {
   const div = getElementDiv(nodeId);
@@ -41,7 +48,7 @@ export function moveRoadmapToNode(nodeId: string) {
   let tracebackOffsetX = 0;
   let tracebackOffsetY = 0;
 
-  const traceback = tracebackNodeToRoot(nodeId);
+  const traceback = getTracebackNodeToRoot(nodeId);
   traceback.push(nodeId);
   // gets last element of traceback
   traceback.forEach((traceNodeId) => {
@@ -80,14 +87,21 @@ export function closeEditorProtocol() {
 }
 
 export function getOnClickActionEdit(nodeId): () => void {
-  const draggable = getElementDraggable(nodeId);
-  return draggable ? () => openEditorProtocol(nodeId) : () => {};
+  return () => openEditorProtocol(nodeId);
 }
+
 export function getOnClickActionView(nodeId): () => void {
   // map the node action
   const node = getNodeByIdRoadmapSelector(nodeId);
   const action = node.actions.onClick;
-  return () => {};
+  const actionMap: HashMapWithKeys<IActionTypes, IActionStrategy> = {
+    'Do nothing': actionStrategyDoNothing,
+    'Open link': actionStrategyOpenLink,
+    'Open Tab': actionStrategyOpenTab,
+  };
+  return () => {
+    actionMap[action](nodeId);
+  };
 }
 export function getOnClickAction(nodeId: string): () => void {
   // could be replaced with a onClick store that holds onClick for all nodes but that would mean a ton of side effects
@@ -97,17 +111,17 @@ export function getOnClickAction(nodeId: string): () => void {
 }
 
 export function getOnMouseOverActionEdit(nodeId): () => void {
-  const draggable = getElementDraggable(nodeId);
   const div = getElementDiv(nodeId);
-  return draggable
-    ? () => {
-        effectBorderBlue(div);
-      }
-    : () => {};
+  return () => {
+    effectBorderBlue(div);
+  };
 }
 
 export function getOnMouseOverActionView(nodeId): () => void {
-  return () => {};
+  return () => {
+    const div = getElementDiv(nodeId);
+    effectBorderBlue(div);
+  };
 }
 
 export function getOnMouseOverAction(nodeId: string): () => void {
@@ -118,7 +132,10 @@ export function getOnMouseOverAction(nodeId: string): () => void {
 }
 
 export function getOnMouseOutActionView(nodeId): () => void {
-  return () => {};
+  return () => {
+    const div = getElementDiv(nodeId);
+    effectBorderBlack(div);
+  };
 }
 
 export function getOnMouseOutAction(nodeId: string): () => void {

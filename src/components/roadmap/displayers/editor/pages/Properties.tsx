@@ -14,10 +14,11 @@ import editorSelectedData, {
   triggerRerenderEditor,
 } from '@store/roadmap-refactor/elements-editing/editor-selected-data';
 import VariantsComponent from '@components/roadmap/displayers/editor/components/VariantsComponent';
-import { triggerNodeRerender } from '@store/roadmap-refactor/render/rerender-triggers';
-import { getNodeByIdRoadmapSelector } from '@store/roadmap-refactor/roadmap-data/roadmap-selector';
+import { triggerNodeRerender } from '@store/roadmap-refactor/render/rerender-triggers-nodes';
+import { getNodeByIdRoadmapSelector } from '@src/typescript/roadmap_ref/roadmap-data/services/get';
 import { tailwindTransitionClass } from '@src/UI-library/tailwind-utils';
-import { IActionTypes } from '@src/typescript/roadmap_ref/node/core/actions';
+import { IActionTypes } from '@src/typescript/roadmap_ref/node/core/actions/core';
+import { selectNodeColorScheme } from '@src/typescript/roadmap_ref/node/core/factories/data-mutation/services';
 
 type IActionsDropdown = {
   action: string;
@@ -150,24 +151,24 @@ const Properties = () => {
         <VariantsComponent
           variants={[
             {
-              name: 'Primary',
-              color: '#000000',
+              color: selectNodeColorScheme(node.data.colorTheme, 'primary'),
               callback: () => {
-                mutateNodeColor(node, 'default');
+                mutateNodeColor(node, 'primary');
+                triggerNodeRerender(node.id);
               },
             },
             {
-              name: 'Secondary',
-              color: '#0051ff',
+              color: selectNodeColorScheme(node.data.colorTheme, 'secondary'),
               callback: () => {
-                mutateNodeColor(node, 'version2');
+                mutateNodeColor(node, 'secondary');
+                triggerNodeRerender(node.id);
               },
             },
             {
-              name: 'Extra',
-              color: '#ff0000',
+              color: selectNodeColorScheme(node.data.colorTheme, 'tertiary'),
               callback: () => {
-                mutateNodeColor(node, 'default');
+                mutateNodeColor(node, 'tertiary');
+                triggerNodeRerender(node.id);
               },
             },
           ]}

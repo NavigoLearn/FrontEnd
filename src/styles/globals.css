@@ -28,3 +28,51 @@
         opacity: 0;
     }
 }
+
+.animate-down {
+    animation: animateDown 0.5s ease;
+}
+
+@keyframes animateDown {
+    0% {
+        transform: translateY(0);
+    }
+    100% {
+        transform: translateY(100%);
+
+    }
+}
+
+.animate-left-to-right {
+    animation: animate-left-to-right 0.5s ease-in-out;
+}
+
+@keyframes animate-left-to-right {
+    0% {
+        transform: translateX(100%);
+    }
+    100% {
+        transform: translateX(0%);
+    }
+}
+
+
+/* Hide default scrollbar for Webkit browsers */
+.invisible-scroll::-webkit-scrollbar {
+    width: 0;
+    background: transparent;
+}
+
+.invisible-scroll::-webkit-scrollbar-thumb {
+    background: transparent;
+}
+
+/* Hide scrollbar for Firefox */
+.invisible-scroll {
+    scrollbar-width: none;
+}
+
+/* Hide scrollbar for IE */
+.invisible-scroll {
+    -ms-overflow-style: none;
+}

@@ -1,10 +1,15 @@
 import editorDisplayManager, {
   IEditorDisplayPageType,
 } from '@store/roadmap-refactor/display/editor/editor-display-manager';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import onChangeStore from '@src/HOC-library/store-based-hoc/OnChangeStore';
 import { useStore } from '@nanostores/react';
 import { closeEditorProtocol } from '@src/to-be-organized/nodeview/actions-manager';
+import editorSelectedData, {
+  triggerRerenderEditor,
+} from '@store/roadmap-refactor/elements-editing/editor-selected-data';
+import { getNodeByIdRoadmapSelector } from '@src/typescript/roadmap_ref/roadmap-data/services/get';
+import { mutateNodeName } from '@src/typescript/roadmap_ref/node/core/data-mutation/mutate';
 
 type IEditorPageButtonProps = {
   page: IEditorDisplayPageType;
@@ -42,17 +47,60 @@ const EditorPageButton = ({
 };
 
 const TitleAndExit = () => {
+  const { selectedNodeId } = useStore(editorSelectedData);
+  const node = getNodeByIdRoadmapSelector(selectedNodeId);
+  const { name } = node;
+  const [edit, setEdit] = useState(false);
+
+  useEffect(() => {
+    // event listenr for enter keypress to save the name
+    const handleEnter = (e: KeyboardEvent) => {
+      if (e.key === 'Enter') {
+        setEdit(false);
+      }
+    };
+    window.addEventListener('keydown', handleEnter);
+  }, []);
+
   return (
     <>
-      <div className='flex justify-between px-9 mt-7'>
-        <h2 className='text-3xl text-black font-medium font-kanit-text'>
-          Node Title
-        </h2>
+      <div className='flex justify-between px-9 mt-7 relative'>
+        <div className='flex w-5/6 gap-6 '>
+          {!edit && (
+            <h2 className='text-3xl w-5/6 text-black font-medium font-kanit-text'>
+              {name}
+            </h2>
+          )}
+          {edit && (
+            <input
+              className='text-3xl text-black font-medium font-kanit-text outline-none border-2 border-gray-300'
+              value={name}
+              onChange={(e) => {
+                mutateNodeName(node, e.target.value);
+                triggerRerenderEditor();
+              }}
+            />
+          )}
+          <button
+            onClick={() => {
+              setEdit((prev) => !prev);
+            }}
+            type='button'
+            className='w-6 h-6'
+          >
+            <img
+              className='w-6 h-6'
+              alt='edit button for node name'
+              src='/editor/edit.svg'
+            />
+          </button>
+        </div>
         <button
           type='button'
           onClick={() => {
             closeEditorProtocol();
           }}
+          className='absolute top-0 right-8'
         >
           <img
             src='/editor/close.svg'

@@ -3,7 +3,7 @@ import {
   IColorThemesOptions,
 } from '@type/roadmap/node/colors-types';
 
-import { selectNodeColorScheme } from '@src/typescript/roadmap_ref/node/core/factories/injectors/services';
+import { selectNodeColorScheme } from '@src/typescript/roadmap_ref/node/core/factories/data-mutation/services';
 import {
   defaultColorThemeOption,
   defaultNodeHeight,

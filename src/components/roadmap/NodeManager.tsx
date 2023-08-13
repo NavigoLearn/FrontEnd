@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from 'react';
 import { useTriggerRerender } from '@hooks/useTriggerRerender';
 import NodeView from '@src/to-be-organized/nodeview/NodeView';
 import { NodeClass } from '@src/typescript/roadmap_ref/node/core/core';
-import { setTriggerRender } from '@store/roadmap-refactor/render/rerender-triggers';
+import { setTriggerRender } from '@store/roadmap-refactor/render/rerender-triggers-nodes';
 
 export type NodeManagerProps = {
   node: NodeClass;

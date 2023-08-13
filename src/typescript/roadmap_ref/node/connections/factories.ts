@@ -1,6 +1,6 @@
-import { Connection } from '@src/typescript/roadmap_ref/node/connections/core';
+import { ConnectionClass } from '@src/typescript/roadmap_ref/node/connections/core';
 
-export const factoryConnectionBasic = (from: string, to: string) => {
-  const connection = new Connection(from, to);
+export const factoryConnectionBoilerplate = (from: string, to: string) => {
+  const connection = new ConnectionClass(from, to);
   return connection;
 };

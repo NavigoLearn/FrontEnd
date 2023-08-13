@@ -1,16 +1,18 @@
 import {
+  IAttachmentTabBulletListProperties,
   IAttachmentTabComponentProperties,
   IAttachmentTabDescriptionProperties,
-  IAttachmentTabTitleProperties,
   IAttachmentTabLinkProperties,
+  IAttachmentTabTitleProperties,
+  typeGuardTabBulletListProperties,
   typeGuardTabDescriptionProperties,
-  typeGuardTabTitleProperties,
   typeGuardTabLinkProperties,
+  typeGuardTabTitleProperties,
 } from '@type/roadmap/node/tab-types';
 import DescriptionAttachment from '@components/roadmap/displayers/editor/components/attachment/DescriptionAttachment';
 import {
-  mutateAttachmentTabDescription,
-  mutateAttachmentTabTitle,
+  mutateAttachmentTabComponentDescription,
+  mutateAttachmentTabComponentTitle,
 } from '@src/typescript/roadmap_ref/node/attachments/tab/mutate';
 import TitleAttachment from '@components/roadmap/displayers/editor/components/attachment/TitleAttachment';
 import React from 'react';
@@ -23,7 +25,11 @@ export const descriptionBuilder = (
     <DescriptionAttachment
       value={component.descriptionText}
       onChange={(field: string, newValue: any) => {
-        mutateAttachmentTabDescription(component, 'descriptionText', newValue);
+        mutateAttachmentTabComponentDescription(
+          component,
+          'descriptionText',
+          newValue
+        );
       }}
     />
   );
@@ -34,35 +40,48 @@ export const titleBuilder = (component: IAttachmentTabTitleProperties) => {
     <TitleAttachment
       value={component.titleText}
       onChange={(field: string, newValue: any) => {
-        mutateAttachmentTabTitle(component, 'titleText', newValue);
+        mutateAttachmentTabComponentTitle(component, 'titleText', newValue);
       }}
     />
   );
 };
 
-export const resourceBuilder = (component: IAttachmentTabLinkProperties) => {
-  return <ResourceAttachment value={component.linkURL} onChange={() => {}} />;
+export const resourceBuilder = (
+  component: IAttachmentTabBulletListProperties
+) => {
+  return <ResourceAttachment component={component} />;
+};
+
+export const linkBuilder = (component: IAttachmentTabLinkProperties) => {
+  return <div>Link not implemented yet</div>;
 };
 
 export function componentMapper(component: IAttachmentTabComponentProperties) {
   if (component.type === 'Title') {
     if (!typeGuardTabTitleProperties(component)) {
-      throw new Error('Component type not found');
+      throw new Error('Component typeguard is wrong somewhere');
     }
     return titleBuilder(component);
   }
   if (component.type === 'Description') {
     if (!typeGuardTabDescriptionProperties(component)) {
-      throw new Error('Component type not found');
+      throw new Error('Component typeguard is wrong somewhere');
     }
     return descriptionBuilder(component);
   }
 
-  if (component.type === 'Link') {
-    if (!typeGuardTabLinkProperties(component)) {
-      throw new Error('Component type not found');
+  if (component.type === 'BulletList') {
+    if (!typeGuardTabBulletListProperties(component)) {
+      throw new Error('Component typeguard is wrong somewhere');
     }
     return resourceBuilder(component);
+  }
+
+  if (component.type === 'Link') {
+    if (!typeGuardTabLinkProperties(component)) {
+      throw new Error('Component typeguard is wrong somewhere');
+    }
+    return <div>Fucking rus didnt finish the task and I didnt check it</div>;
   }
   throw new Error('Component type not found');
 }

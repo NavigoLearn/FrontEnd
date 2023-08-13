@@ -13,7 +13,7 @@ import { triggerRerenderEditor } from '@store/roadmap-refactor/elements-editing/
 import PropertyEditorNumber from '@components/roadmap/displayers/editor/components/PropertyEditorNumber';
 import { NodeClass } from '@src/typescript/roadmap_ref/node/core/core';
 import { roadmapSelector } from '@store/roadmap-refactor/roadmap-data/roadmap-selector';
-import { triggerNodeRerender } from '@store/roadmap-refactor/render/rerender-triggers';
+import { triggerNodeRerender } from '@store/roadmap-refactor/render/rerender-triggers-nodes';
 import { useTriggerRerender } from '@hooks/useTriggerRerender';
 import { subscribeToHub } from '@store/roadmap-refactor/subscribers/function-subscribers';
 

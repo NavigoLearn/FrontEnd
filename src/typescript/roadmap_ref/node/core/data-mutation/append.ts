@@ -1,6 +1,7 @@
 import { NodeClass } from '@src/typescript/roadmap_ref/node/core/core';
 import { IAttachmentObject } from '@type/roadmap/node/attachments-types';
 import { IComponentObject } from '@type/roadmap/node/components-types';
+import { appendAction } from '@src/typescript/roadmap_ref/node/core/actions/append';
 
 export function appendAttachment(
   node: NodeClass,
@@ -8,6 +9,7 @@ export function appendAttachment(
 ): void {
   node.attachments.push(attachment);
   // gets actions and appends them to the node
+  appendAction(node, 'Open Tab');
 }
 
 export function appendComponent(

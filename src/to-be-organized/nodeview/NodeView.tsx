@@ -4,8 +4,8 @@ import React, { useEffect, useRef } from 'react';
 import { afterEventLoop } from '@src/typescript/utils/misc';
 import renderComponents from '@src/to-be-organized/nodeview/CompRender';
 import { useTriggerRerender } from '@hooks/useTriggerRerender';
-import { setTriggerRender } from '@store/roadmap-refactor/render/rerender-triggers';
-import { getNodeByIdRoadmapSelector } from '@store/roadmap-refactor/roadmap-data/roadmap-selector';
+import { setTriggerRender } from '@store/roadmap-refactor/render/rerender-triggers-nodes';
+import { getNodeByIdRoadmapSelector } from '@src/typescript/roadmap_ref/roadmap-data/services/get';
 import {
   getOnClickAction,
   getOnMouseOutAction,
@@ -81,16 +81,16 @@ const NodeView: React.FC<NodeViewProps> = ({
       });
     }, []);
 
+    const style = {
+      backgroundColor: color,
+      width: `${width}px`,
+      height: `${height}px`,
+      top: `${calculatedOffsetCoords.y + coords.y}px`,
+      left: `${calculatedOffsetCoords.x + coords.x}px`,
+      opacity,
+      fontSize: FontSizeValues[fontSizeType],
+    };
     const applyStyle = () => {
-      const style = {
-        backgroundColor: color,
-        width: `${width}px`,
-        height: `${height}px`,
-        top: `${calculatedOffsetCoords.y + coords.y}px`,
-        left: `${calculatedOffsetCoords.x + coords.x}px`,
-        opacity,
-        fontSize: FontSizeValues[fontSizeType],
-      };
       const element = nodeDivRef.current;
       Object.assign(element.style, style);
     };
@@ -107,16 +107,20 @@ const NodeView: React.FC<NodeViewProps> = ({
         className='drop-shadow-md rounded-xl absolute border-2 border-black transition-allNoTransform duration-300'
         id={`div${nodeId}`}
         ref={nodeDivRef}
-        onClick={() => {
+        onClick={(event) => {
           // draggable elements coincide with clickable elements on a roadmap
+          event.stopPropagation(); // to avoid clicking a subnode and its parent at the same time
           getOnClickAction(nodeId)();
         }}
-        onMouseOver={() => {
+        onMouseOver={(event) => {
+          event.stopPropagation();
           getOnMouseOverAction(nodeId)();
         }}
-        onMouseOut={() => {
+        onMouseOut={(event) => {
+          event.stopPropagation();
           getOnMouseOutAction(nodeId)();
         }}
+        style={style}
       >
         {renderComponents(node)}
         {subNodeIds &&
