@@ -5,7 +5,6 @@ import {
   IActionStrategy,
 } from '@src/typescript/roadmap_ref/node/core/actions/strategies';
 import {
-  getElementDraggable,
   setDraggableElementForNodeWithId,
   setRoadmapRootRenderDraggable,
 } from '@store/roadmap-refactor/elements-editing/draggable-elements';
@@ -88,9 +87,9 @@ export function closeEditorProtocol() {
 }
 
 export function getOnClickActionEdit(nodeId): () => void {
-  const draggable = getElementDraggable(nodeId);
-  return draggable ? () => openEditorProtocol(nodeId) : () => {};
+  return () => openEditorProtocol(nodeId);
 }
+
 export function getOnClickActionView(nodeId): () => void {
   // map the node action
   const node = getNodeByIdRoadmapSelector(nodeId);
@@ -112,17 +111,17 @@ export function getOnClickAction(nodeId: string): () => void {
 }
 
 export function getOnMouseOverActionEdit(nodeId): () => void {
-  const draggable = getElementDraggable(nodeId);
   const div = getElementDiv(nodeId);
-  return draggable
-    ? () => {
-        effectBorderBlue(div);
-      }
-    : () => {};
+  return () => {
+    effectBorderBlue(div);
+  };
 }
 
 export function getOnMouseOverActionView(nodeId): () => void {
-  return () => {};
+  return () => {
+    const div = getElementDiv(nodeId);
+    effectBorderBlue(div);
+  };
 }
 
 export function getOnMouseOverAction(nodeId: string): () => void {
@@ -133,7 +132,10 @@ export function getOnMouseOverAction(nodeId: string): () => void {
 }
 
 export function getOnMouseOutActionView(nodeId): () => void {
-  return () => {};
+  return () => {
+    const div = getElementDiv(nodeId);
+    effectBorderBlack(div);
+  };
 }
 
 export function getOnMouseOutAction(nodeId: string): () => void {

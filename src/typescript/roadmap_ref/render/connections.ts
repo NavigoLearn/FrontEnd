@@ -49,7 +49,7 @@ export function renderConnections() {
       return d.id;
     }); // Use the roadmap-roadmap-data value as the key function
   // calculates the middle of the node for each node
-  // we append line objects
+  // we append.ts line objects
   nodeSelection
     .enter()
     .append('line')
@@ -114,7 +114,7 @@ export function renderConnectionsSelected(connIds: string[]) {
       return d.id;
     }); // Use the roadmap-roadmap-data value as the key function
   // calculates the middle of the node for each node
-  // we append line objects
+  // we append.ts line objects
   nodeSelection
     .enter()
     .append('line')

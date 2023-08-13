@@ -8,7 +8,7 @@ import {
   getNodeByIdRoadmapSelector,
 } from '@store/roadmap-refactor/roadmap-data/roadmap-selector';
 import { factoryNodeClassic } from '@src/typescript/roadmap_ref/node/core/factories/templates/classic';
-import { injectParentData } from '@src/typescript/roadmap_ref/node/core/factories/injectors/inject';
+import { injectParentData } from '@src/typescript/roadmap_ref/node/core/factories/data-mutation/inject';
 import {
   appendChildNodeId,
   appendConnectionNode,

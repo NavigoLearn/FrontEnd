@@ -7,7 +7,7 @@ export interface IAdditionalDataFields {
 export type IAdditionalData = {
   [key in IAdditionalDataKeys]: IAdditionalDataFields[key];
 };
-export class Core {
+export class ActionsClass {
   possibleActions: IActionTypes[] = ['Do nothing', 'Open link'];
 
   onClick: IActionTypes = 'Do nothing';

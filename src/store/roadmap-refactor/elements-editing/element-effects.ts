@@ -54,10 +54,10 @@ export function setEditorOpenEffect(nodeId: string) {
 
   nodes.forEach((id) => {
     // checks whether node is root
+    originalEffects[id] = originalEffects[id].filter((effect) => {
+      return effect !== 'opacity-30' && effect !== 'opacity-100';
+    });
     if (!blackListed.includes(id)) {
-      originalEffects[id] = originalEffects[id].filter((effect) => {
-        return effect !== 'opacity-30' && effect !== 'opacity-100';
-      });
       originalEffects[id].push('opacity-30');
     }
   });

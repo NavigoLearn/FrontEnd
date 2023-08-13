@@ -3,7 +3,7 @@ import {
   injectClassicData,
   injectClassicFlags,
   injectNewRandomId,
-} from '@src/typescript/roadmap_ref/node/core/factories/injectors/inject';
+} from '@src/typescript/roadmap_ref/node/core/factories/data-mutation/inject';
 import {
   appendAttachment,
   appendComponent,

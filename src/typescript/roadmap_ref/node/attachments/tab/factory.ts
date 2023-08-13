@@ -67,3 +67,19 @@ export function factoryAttachmentComponent(
 
   throw new Error('Invalid component type');
 }
+
+export function factoryAttachmentTabStandard(): AttachmentTab {
+  const tab = factoryAttachmentTabEmpty();
+
+  // appends component to attachment
+  const attachmentTitleComponent = factoryAttachmentComponent('Title');
+  const attachmentDescriptionComponent =
+    factoryAttachmentComponent('Description');
+  const attachmentLinkComponent = factoryAttachmentComponent('BulletList');
+
+  tab.components.push(attachmentTitleComponent);
+  tab.components.push(attachmentDescriptionComponent);
+  tab.components.push(attachmentLinkComponent);
+
+  return tab;
+}

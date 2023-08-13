@@ -18,8 +18,6 @@ import {
 import { useIsLoaded } from '@hooks/useIsLoaded';
 import { setElementDiv } from '@store/roadmap-refactor/elements-editing/elements-divs';
 import { FontSizeValues } from '@src/types/roadmap/node/components-types';
-import { selectNodeColorScheme } from '@src/typescript/roadmap_ref/node/core/factories/injectors/services';
-import { mutateNodeColor } from '@src/typescript/roadmap_ref/node/core/data-mutation/mutate';
 
 interface NodeViewProps {
   nodeId: string;
@@ -109,14 +107,17 @@ const NodeView: React.FC<NodeViewProps> = ({
         className='drop-shadow-md rounded-xl absolute border-2 border-black transition-allNoTransform duration-300'
         id={`div${nodeId}`}
         ref={nodeDivRef}
-        onClick={() => {
+        onClick={(event) => {
           // draggable elements coincide with clickable elements on a roadmap
+          event.stopPropagation(); // to avoid clicking a subnode and its parent at the same time
           getOnClickAction(nodeId)();
         }}
-        onMouseOver={() => {
+        onMouseOver={(event) => {
+          event.stopPropagation();
           getOnMouseOverAction(nodeId)();
         }}
-        onMouseOut={() => {
+        onMouseOut={(event) => {
+          event.stopPropagation();
           getOnMouseOutAction(nodeId)();
         }}
         style={style}
