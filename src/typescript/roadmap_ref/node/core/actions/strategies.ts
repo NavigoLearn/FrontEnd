@@ -1,4 +1,4 @@
-import { getNodeByIdRoadmapSelector } from '@store/roadmap-refactor/roadmap-data/roadmap-selector';
+import { getNodeByIdRoadmapSelector } from '@src/typescript/roadmap_ref/roadmap-data/services/get';
 import { setDisplayPageType } from '@store/roadmap-refactor/display/display-manager';
 import { setTabNode } from '@store/roadmap-refactor/display/tab-attachment/selected-tab';
 

@@ -8,8 +8,8 @@ import {
   addConnectionRoadmapSelector,
   addNode,
   addRootNodeId,
-  roadmapSelector,
-} from '@store/roadmap-refactor/roadmap-data/roadmap-selector';
+} from '@src/typescript/roadmap_ref/roadmap-data/services/append';
+import { roadmapSelector } from '@store/roadmap-refactor/roadmap-data/roadmap-selector';
 import { useScrollHidden } from '@hooks/useScrollHidden';
 import { v4 as uuid4 } from 'uuid';
 import NodeManager from '@components/roadmap/NodeManager';
@@ -18,8 +18,11 @@ import roadmapState, {
   setEditingTrueNoRerender,
   setRoadmapId,
   setRoadmapIsLoaded,
-} from '@store/roadmap/data/roadmap_state';
-import { addZoom, disableZoom } from '@src/typescript/roadmap/d3utils';
+} from '@store/roadmap-refactor/roadmap-data/roadmap_state';
+import {
+  addZoom,
+  disableZoom,
+} from '@src/typescript/roadmap_ref/render/zoom-d3';
 import { recalculateChunks } from '@src/typescript/roadmap_ref/render/chunks';
 import {
   setDisableZoomTrigger,

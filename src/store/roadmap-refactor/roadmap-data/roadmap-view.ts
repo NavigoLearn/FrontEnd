@@ -7,14 +7,10 @@ import { isRoadmapType } from '@type/roadmap/old/typecheckers';
 import {
   setOwnerId,
   setRoadmapId,
-} from '@store/roadmap/data/roadmap-visit-data';
-import { setTabAboutFromApi } from '@store/roadmap/data/about';
+} from '@store/roadmap-refactor/roadmap-data/roadmap-visit-data';
+import { setTabAboutFromApi } from '@store/roadmap-refactor/roadmap-data/about';
 import { setLoadedTrue } from '@src/typescript/roadmap/utils';
-import { triggerChunkRerender } from '@store/roadmap-refactor/render/rendered-chunks';
 import miscParams from '@store/roadmap-refactor/misc/miscParams';
-import { setRoadmap } from '@src/typescript/roadmap/roadmap-edit-logic';
-import { generateInitialEditCreate } from '@store/roadmap/data/roadmap_edit';
-import { setIsCreateTrue } from '@store/roadmap/data/roadmap_state';
 
 export const roadmapView = atom({
   rootNodesIds: [],
@@ -45,15 +41,4 @@ export async function setRoadmapFromAPI(pageId: string) {
       throw new Error('Roadmap roadmap-roadmap-data is not of type Roadmap');
     }
   });
-}
-
-export function initialRoadmapCreateRender() {
-  setTimeout(() => {
-    // allows js to run all the code on the stack before running this
-    setRoadmap(generateInitialEditCreate());
-    setIsCreateTrue();
-    setLoadedTrue();
-    triggerChunkRerender();
-    miscParams.get().recenterRoadmap();
-  }, 0);
 }

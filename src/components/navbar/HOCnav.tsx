@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { setProfileMini, setProfilePictureUrl } from '@store/user/logged-user';
-import { setVisitorId } from '@store/roadmap/data/roadmap-visit-data';
+import { setVisitorId } from '@store/roadmap-refactor/roadmap-data/roadmap-visit-data';
 import { fetchGetMiniProfileData } from '../../api-wrapper/user/user';
 
 export default (WrappedComponent) => {

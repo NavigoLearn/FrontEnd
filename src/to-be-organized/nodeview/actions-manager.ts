@@ -10,11 +10,11 @@ import {
 } from '@store/roadmap-refactor/elements-editing/draggable-elements';
 import { setDisplayPageType } from '@store/roadmap-refactor/display/display-manager';
 import { setSelectedNodeId } from '@store/roadmap-refactor/elements-editing/editor-selected-data';
-import roadmapState from '@store/roadmap/data/roadmap_state';
+import roadmapState from '@store/roadmap-refactor/roadmap-data/roadmap_state';
 import {
   getNodeByIdRoadmapSelector,
   tracebackNodeToRoot,
-} from '@store/roadmap-refactor/roadmap-data/roadmap-selector';
+} from '@src/typescript/roadmap_ref/roadmap-data/services/get';
 import {
   setEditorClosedEffect,
   setEditorOpenEffect,

@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import {
   getConnectionByIdRoadmapSelector,
   getNodeByIdRoadmapSelector,
-} from '@store/roadmap-refactor/roadmap-data/roadmap-selector';
+} from '@src/typescript/roadmap_ref/roadmap-data/services/get';
 import { getConnectionPositionCoords } from '@src/typescript/roadmap_ref/node/connections/services';
 import { useTriggerRerender } from '@hooks/useTriggerRerender';
 import { addConnectionTrigger } from '@store/roadmap-refactor/render/rerender-trigger-connections';

@@ -15,9 +15,9 @@ import editorSelectedData, {
 } from '@store/roadmap-refactor/elements-editing/editor-selected-data';
 import VariantsComponent from '@components/roadmap/displayers/editor/components/VariantsComponent';
 import { triggerNodeRerender } from '@store/roadmap-refactor/render/rerender-triggers-nodes';
-import { getNodeByIdRoadmapSelector } from '@store/roadmap-refactor/roadmap-data/roadmap-selector';
+import { getNodeByIdRoadmapSelector } from '@src/typescript/roadmap_ref/roadmap-data/services/get';
 import { tailwindTransitionClass } from '@src/UI-library/tailwind-utils';
-import { IActionTypes } from '@src/typescript/roadmap_ref/node/core/actions';
+import { IActionTypes } from '@src/typescript/roadmap_ref/node/core/actions/core';
 import { selectNodeColorScheme } from '@src/typescript/roadmap_ref/node/core/factories/data-mutation/services';
 
 type IActionsDropdown = {

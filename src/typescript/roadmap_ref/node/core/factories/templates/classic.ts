@@ -21,7 +21,7 @@ import {
   mutateNodeOnClickAction,
   mutateNodeWidth,
 } from '@src/typescript/roadmap_ref/node/core/data-mutation/mutate';
-import { addNodeToChunks } from '@store/roadmap-refactor/roadmap-data/roadmap-selector';
+import { addNodeToChunks } from '@src/typescript/roadmap_ref/roadmap-data/services/append';
 import { appendAttachmentTabStandard } from '@src/typescript/roadmap_ref/node/core/factories/data-mutation/append';
 
 export function nodeFactoryClassicBoilerplate(id?: string): NodeClass {

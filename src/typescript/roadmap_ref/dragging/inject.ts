@@ -4,7 +4,6 @@ import {
   IDraggingElementType,
   IDraggingStrategies,
 } from '@src/typescript/roadmap_ref/dragging/core';
-import { draggingStrategyFactory } from '@src/typescript/roadmap_ref/dragging/strategies';
 
 export function injectDraggingElementIdentifier(
   draggingBehavior: DraggingBehavior,
@@ -25,10 +24,6 @@ export function injectDraggingStrategy(
   draggingStrategyType: IDraggingStrategies
 ) {
   draggingBehavior.draggingStrategyType = draggingStrategyType;
-  draggingBehavior.draggingStrategy = draggingStrategyFactory(
-    draggingBehavior,
-    draggingStrategyType
-  );
 }
 
 export function injectDraggingElementType(

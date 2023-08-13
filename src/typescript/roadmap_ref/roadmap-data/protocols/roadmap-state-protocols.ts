@@ -1,4 +1,3 @@
-import { toggleEditing } from '@src/typescript/roadmap/roadmap-edit-logic-decorated';
 import { deepCopy } from '@src/typescript/roadmap/utils';
 import { triggerChunkRerender } from '@store/roadmap-refactor/render/rendered-chunks';
 import { setRoadmapEdit } from '@store/roadmap-refactor/roadmap-data/roadmap-edit';
@@ -13,7 +12,8 @@ import {
 import { setAllDraggableFalse } from '@store/roadmap-refactor/elements-editing/draggable-elements';
 import { setDisplayPageType } from '@store/roadmap-refactor/display/display-manager';
 import { removeAllEffects } from '@store/roadmap-refactor/elements-editing/element-effects';
-import { updateRoadmapData } from '../../api-wrapper/roadmap/roadmaps';
+import { toggleRoadmapEditing } from '@store/roadmap-refactor/roadmap-data/roadmap_state';
+import { updateRoadmapData } from '../../../../api-wrapper/roadmap/roadmaps';
 
 export function enterEditingModeProtocol() {
   const deepCopyRoadmap = deepCopy(roadmapSelector.get());
@@ -30,17 +30,17 @@ export function transferEditToRoadmap() {
 export function cancelEditingProtocol() {
   // does not transfer changes from elements-editing roadmap to real roadmap
   setRoadmapSelector(roadmapView.get());
+  toggleRoadmapEditing();
   setAllDraggableFalse();
-  toggleEditing();
   triggerChunkRerender(); // we call it in order to have the correct node ids in the renderStore for nodes
   setDisplayPageType('closed');
   removeAllEffects();
 }
 export function saveEditingProtocol() {
   transferEditToRoadmap(); //  transfers the changes to the static roadmap
+  toggleRoadmapEditing();
   updateRoadmapData(roadmapSelector.get()); // sends the roadmap as update to the server
   setAllDraggableFalse();
-  toggleEditing();
   triggerChunkRerender();
   setDisplayPageType('closed');
   removeAllEffects();

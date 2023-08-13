@@ -31,6 +31,11 @@ export function setEditingTrueNoRerender() {
   roadmapState.set(original);
 }
 
+export function toggleRoadmapEditing() {
+  const original = roadmapState.get();
+  roadmapState.set({ ...original, editing: !original.editing });
+}
+
 export function setRoadmapId(id: string) {
   const original = roadmapState.get();
   roadmapState.set({ ...original, id });

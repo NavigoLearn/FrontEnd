@@ -1,6 +1,6 @@
 import React from 'react';
 import { useStore } from '@nanostores/react';
-import aboutTabStore from '@store/roadmap/data/about';
+import aboutTabStore from '@store/roadmap-refactor/roadmap-data/about';
 // import { setAbout } from '@store/roadmap-refactor/display/display-manager';
 import edit from '@assets/edit.svg';
 

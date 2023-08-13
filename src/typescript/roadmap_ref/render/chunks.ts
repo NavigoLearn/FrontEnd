@@ -1,6 +1,4 @@
-import roadmapState from '@store/roadmap/data/roadmap_state';
-import roadmapEdit from '@store/roadmap/data/roadmap_edit';
-import roadmapStatic from '@store/roadmap/data/roadmap_static';
+import roadmapState from '@store/roadmap-refactor/roadmap-data/roadmap_state';
 import {
   getNodes,
   setNodes,
@@ -16,24 +14,6 @@ import { Viewport } from '@type/roadmap/old/misc';
 import miscParams from '@store/roadmap-refactor/misc/miscParams';
 import { roadmapSelector } from '@store/roadmap-refactor/roadmap-data/roadmap-selector';
 
-export function getConnectionsToRender(currentNodes: string[]): string[] {
-  const { editing, loaded } = roadmapState.get();
-  const roadmap = editing ? roadmapEdit.get() : roadmapStatic.get();
-  if (!loaded) return;
-  const connectionsIds = []; // array of all the connections that should be rendered
-  const nodes = currentNodes;
-  // gets the connections for each node
-  nodes.forEach((nodeId) => {
-    const node = roadmap.nodes[nodeId];
-    if (node.connections !== undefined) {
-      connectionsIds.push(...node.connections);
-    } else {
-      throw new Error('node.connections is undefined');
-    }
-  });
-  // eslint-disable-next-line consistent-return
-  return connectionsIds;
-}
 export function setConnectionsToRender() {
   const { loaded } = roadmapState.get();
   const roadmap = roadmapSelector.get();

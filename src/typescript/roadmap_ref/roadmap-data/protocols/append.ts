@@ -4,11 +4,6 @@ import {
   appendConnectionNode,
   appendSubNode,
 } from '@src/typescript/roadmap_ref/node/core/data-mutation/append';
-import {
-  addConnectionRoadmapSelector,
-  appendNodeRoadmapSelector,
-  appendRootNodeId,
-} from '@store/roadmap-refactor/roadmap-data/roadmap-selector';
 import { draggableElementProtocol } from '@components/roadmap/displayers/editor/pages/utils';
 import { triggerNodeRerender } from '@store/roadmap-refactor/render/rerender-triggers-nodes';
 import { NodeClass } from '@src/typescript/roadmap_ref/node/core/core';
@@ -19,6 +14,11 @@ import { triggerChunkRerender } from '@store/roadmap-refactor/render/rendered-ch
 import { applyRoadmapDraggability } from '@src/typescript/roadmap_ref/dragging/misc';
 import { setDisplayPageType } from '@store/roadmap-refactor/display/display-manager';
 import { removeAllEffects } from '@store/roadmap-refactor/elements-editing/element-effects';
+import {
+  addConnectionRoadmapSelector,
+  appendNodeRoadmapSelector,
+  appendRootNodeId,
+} from '@src/typescript/roadmap_ref/roadmap-data/services/append';
 
 export function appendNestedNode(node: NodeClass) {
   const newNestedNode = factorySubNode(node.id, 100, 100, 0, 0); // creates node

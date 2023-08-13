@@ -1,8 +1,6 @@
-import {
-  addNodeToChunks,
-  getNodeByIdRoadmapSelector,
-  removeNodeFromChunks,
-} from '@store/roadmap-refactor/roadmap-data/roadmap-selector';
+import { addNodeToChunks } from '@src/typescript/roadmap_ref/roadmap-data/services/append';
+import { getNodeByIdRoadmapSelector } from '@src/typescript/roadmap_ref/roadmap-data/services/get';
+import { removeNodeFromChunks } from '@src/typescript/roadmap_ref/roadmap-data/services/delete';
 import { mutateNodeCoords } from '@src/typescript/roadmap_ref/node/core/data-mutation/mutate';
 import { recalculateNodeChunks } from '@src/typescript/roadmap_ref/node/core/calculations/general';
 import { triggerNodeRerender } from '@store/roadmap-refactor/render/rerender-triggers-nodes';

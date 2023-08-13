@@ -1,7 +1,7 @@
 import * as d3 from 'd3';
 import { DraggingBehavior } from '@src/typescript/roadmap_ref/dragging/core';
 import { setElementDraggableUpdateCallback } from '@store/roadmap-refactor/elements-editing/draggable-elements';
-import { getNodeByIdRoadmapSelector } from '@store/roadmap-refactor/roadmap-data/roadmap-selector';
+import { getNodeByIdRoadmapSelector } from '@src/typescript/roadmap_ref/roadmap-data/services/get';
 import { triggerConnectionRerender } from '@store/roadmap-refactor/render/rerender-trigger-connections';
 import { setDraggingOffset } from '@store/roadmap-refactor/render/dragging-offset';
 import { getCurrentCoordsStrategyFactory } from '@src/typescript/roadmap_ref/dragging/strategies/get-current-coords';
