@@ -19,6 +19,7 @@ export function enterEditingModeProtocol() {
   const deepCopyRoadmap = deepCopy(roadmapSelector.get());
   setRoadmapEdit(deepCopyRoadmap);
   setDisplayPageType('closed');
+  toggleRoadmapEditing();
 }
 
 export function transferEditToRoadmap() {
