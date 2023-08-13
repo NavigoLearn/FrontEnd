@@ -81,3 +81,14 @@ export function setEditorClosedEffect() {
     ...originalEffects,
   });
 }
+
+export function removeAllEffects() {
+  const originalEffects = elementEffects.get();
+  const nodes = Object.keys(originalEffects);
+  nodes.forEach((id) => {
+    originalEffects[id] = [];
+  });
+  elementEffects.set({
+    ...originalEffects,
+  });
+}

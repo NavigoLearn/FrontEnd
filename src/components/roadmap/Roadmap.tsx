@@ -37,6 +37,7 @@ import { hydrateRoadmap } from '@src/typescript/roadmap_ref/hydration/roadmap-hy
 import ConnectionRenderer from '@components/roadmap/ConnectionRenderer';
 import renderConnectionsStore from '@store/roadmap-refactor/render/rendered-connections';
 import { factoryConnection } from '@src/typescript/roadmap_ref/node/connections/factories-protocols';
+import { closeEditorProtocol } from '@src/to-be-organized/nodeview/actions-manager';
 import Popup from './tabs/popups/Popup';
 
 const Roadmap = ({ pageId }: { pageId: string }) => {
@@ -140,7 +141,14 @@ const Roadmap = ({ pageId }: { pageId: string }) => {
   }, [nodesIds, editing]);
 
   return (
-    <div className='w-full h-full '>
+    // eslint-disable-next-line jsx-a11y/click-events-have-key-events,jsx-a11y/no-static-element-interactions
+    <div
+      className='w-full h-full pointer-events-auto'
+      onClick={() => {
+        // stupid workaround for clicking editor when clicking somewhere else
+        closeEditorProtocol();
+      }}
+    >
       <Popup />
       <svg
         id='rootSvg'
