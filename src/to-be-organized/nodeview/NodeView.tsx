@@ -18,6 +18,8 @@ import {
 import { useIsLoaded } from '@hooks/useIsLoaded';
 import { setElementDiv } from '@store/roadmap-refactor/elements-editing/elements-divs';
 import { FontSizeValues } from '@src/types/roadmap/node/components-types';
+import { selectNodeColorScheme } from '@src/typescript/roadmap_ref/node/core/factories/injectors/services';
+import { mutateNodeColor } from '@src/typescript/roadmap_ref/node/core/data-mutation/mutate';
 
 interface NodeViewProps {
   nodeId: string;
