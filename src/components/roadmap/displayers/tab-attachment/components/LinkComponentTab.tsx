@@ -6,7 +6,7 @@ type ILinkComponentProps = {
 };
 
 const LinkComponentTab = ({ component }: ILinkComponentProps) => {
-  return <div>to be done link componetn</div>;
+  return <div>link not implemented yet</div>;
 };
 
 export default LinkComponentTab;
