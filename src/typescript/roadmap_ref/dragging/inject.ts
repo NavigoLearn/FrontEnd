@@ -37,3 +37,12 @@ export function injectDraggingElementType(
 ) {
   draggingBehavior.draggingElementType = draggingElementType;
 }
+
+export function injectDraggingParentNodeId(
+  draggingBehavior: DraggingBehavior,
+  parentNodeId: string
+) {
+  draggingBehavior.additionalData = {
+    parentNodeId,
+  };
+}

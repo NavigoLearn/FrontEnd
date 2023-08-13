@@ -57,8 +57,6 @@ export function draggingStrategyFactory(
     snap: snapDraggingStrategy,
   };
   return function (newX: number, newY: number): ICoords {
-    console.log('strategyFactory');
     return strategies[strategyOption](draggingBehavior, newX, newY);
-    console.log('finished strategy');
   };
 }

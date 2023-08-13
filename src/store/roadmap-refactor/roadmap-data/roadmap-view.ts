@@ -39,6 +39,7 @@ export async function setRoadmapFromAPI(pageId: string) {
       setRoadmapId(roadmapData.id);
       setTabAboutFromApi(roadmapData);
       setLoadedTrue();
+
       miscParams.get().recenterRoadmap();
     } else {
       throw new Error('Roadmap roadmap-roadmap-data is not of type Roadmap');

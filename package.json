@@ -31,6 +31,7 @@
     "animejs": "^3.2.1",
     "astro": "^2.1.5",
     "d3": "^7.8.2",
+    "framer-motion": "^10.15.1",
     "nanostores": "^0.7.4",
     "react": "^18.2.0",
     "react-dnd-touch-backend": "^16.0.1",

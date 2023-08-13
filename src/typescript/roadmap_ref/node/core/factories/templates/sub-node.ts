@@ -28,7 +28,7 @@ export function nodeFactorySubNodeBoilerplate(
 
   return node;
 }
-export function nodeFactorySubNode(
+export function factorySubNode(
   parentId: string,
   width: number,
   height: number,

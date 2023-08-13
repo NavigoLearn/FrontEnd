@@ -1,7 +1,7 @@
 import { INodeProperties } from '@type/roadmap/node/core-types';
 import { Flags } from '@src/typescript/roadmap_ref/node/core/flags';
 
-import { Actions } from '@src/typescript/roadmap_ref/node/core/actions';
+import { Core } from '@src/typescript/roadmap_ref/node/core/actions/core';
 import { DraggingBehavior } from '@src/typescript/roadmap_ref/dragging/core';
 import { Data } from '@src/typescript/roadmap_ref/node/core/properties';
 import { IAttachmentObject } from '@type/roadmap/node/attachments-types';
@@ -16,7 +16,7 @@ export class NodeClass {
 
   attachments: IAttachmentObject[] = []; // special components that are much more customizable and special, meant for any kind of interraction
 
-  actions: Actions = new Actions(); // the actions that are set on the node
+  actions: Core = new Core(); // the actions that are set on the node
 
   draggingBehavior: DraggingBehavior; // the dragging behavior of the node
 

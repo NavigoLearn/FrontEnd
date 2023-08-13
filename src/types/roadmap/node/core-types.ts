@@ -11,11 +11,6 @@ export interface IPropertisKeyFields {
   chunksIds: string[];
 }
 
-export interface IIdentifiers {
-  id: string; // unique
-  name: string; // not unique, editable by user
-}
-
 export type INodeProperties = {
   [key in IPropertiesKeys]: IPropertisKeyFields[key];
 };

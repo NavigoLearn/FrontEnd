@@ -1,5 +1,6 @@
 import { AttachmentTab } from '@src/typescript/roadmap_ref/node/attachments/tab/core';
 import {
+  IAttachmentTabBulletListItem,
   IAttachmentTabBulletListProperties,
   IAttachmentTabComponentProperties,
   IAttachmentTabComponentTypes,
@@ -7,9 +8,18 @@ import {
   IAttachmentTabLinkProperties,
   IAttachmentTabTitleProperties,
 } from '@type/roadmap/node/tab-types';
+import { v4 as uuidv4 } from 'uuid';
 
 export function factoryAttachmentTabEmpty(): AttachmentTab {
   return new AttachmentTab();
+}
+
+export function factoryAttachmentTabBulletListElementEmpty(): IAttachmentTabBulletListItem {
+  return {
+    text: 'Here is a link title',
+    linkURL: 'https://www.google.com',
+    id: uuidv4(),
+  };
 }
 
 export function factoryAttachmentComponent(
@@ -19,6 +29,7 @@ export function factoryAttachmentComponent(
     const titleComponent: IAttachmentTabTitleProperties = {
       type: 'Title',
       titleText: '',
+      id: uuidv4(),
     };
     return titleComponent;
   }
@@ -27,6 +38,7 @@ export function factoryAttachmentComponent(
     const descriptionComponent: IAttachmentTabDescriptionProperties = {
       type: 'Description',
       descriptionText: '',
+      id: uuidv4(),
     };
     return descriptionComponent;
   }
@@ -35,6 +47,7 @@ export function factoryAttachmentComponent(
     const linkComponent: IAttachmentTabLinkProperties = {
       type: 'Link',
       linkURL: 'https://www.google.com',
+      id: uuidv4(),
     };
     return linkComponent;
   }
@@ -42,7 +55,12 @@ export function factoryAttachmentComponent(
   if (type === 'BulletList') {
     const bulletListComponent: IAttachmentTabBulletListProperties = {
       type: 'BulletList',
-      bulletListItems: ['Item 1', 'Item 2', 'Item 3'],
+      bulletListItems: [
+        factoryAttachmentTabBulletListElementEmpty(),
+        factoryAttachmentTabBulletListElementEmpty(),
+        factoryAttachmentTabBulletListElementEmpty(),
+      ],
+      id: uuidv4(),
     };
     return bulletListComponent;
   }

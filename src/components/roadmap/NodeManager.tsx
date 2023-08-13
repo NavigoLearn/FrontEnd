@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from 'react';
 import { useTriggerRerender } from '@hooks/useTriggerRerender';
 import NodeView from '@src/to-be-organized/nodeview/NodeView';
 import { NodeClass } from '@src/typescript/roadmap_ref/node/core/core';
-import { setTriggerRender } from '@store/roadmap-refactor/render/rerender-triggers';
+import { setTriggerRender } from '@store/roadmap-refactor/render/rerender-triggers-nodes';
 
 export type NodeManagerProps = {
   node: NodeClass;
@@ -22,12 +22,6 @@ const NodeManager = ({ node }: NodeManagerProps) => {
     objRef.current.setAttribute('width', width);
     objRef.current.setAttribute('height', height);
   }
-
-  useEffect(() => {
-    // locks the nodes that are currently in text elements-editing or view mode
-    // addDragabilityProtocol(node.draggingBehavior);
-    // inferAndSetNodeDraggability(node);
-  }, []);
 
   useEffect(() => {
     setTriggerRender(node.id, rerender);

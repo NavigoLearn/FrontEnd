@@ -46,7 +46,8 @@ export function nodeFactoryClassicBoilerplate(id?: string): NodeClass {
   const attachmentTitleComponent = factoryAttachmentComponent('Title');
   const attachmentDescriptionComponent =
     factoryAttachmentComponent('Description');
-  const attachmentLinkComponent = factoryAttachmentComponent('Link');
+  const attachmentLinkComponent = factoryAttachmentComponent('BulletList');
+
   appendAttachmentTabComponent(tab, attachmentTitleComponent);
   appendAttachmentTabComponent(tab, attachmentDescriptionComponent);
   appendAttachmentTabComponent(tab, attachmentLinkComponent);
@@ -58,7 +59,7 @@ export function nodeFactoryClassicBoilerplate(id?: string): NodeClass {
   return node;
 }
 
-export function nodeFactoryClassic(
+export function factoryNodeClassic(
   x: number,
   y: number,
   width: number,

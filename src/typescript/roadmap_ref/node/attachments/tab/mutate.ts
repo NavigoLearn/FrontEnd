@@ -1,9 +1,14 @@
 import {
+  IAttachmentTabBulletListProperties,
   IAttachmentTabDescriptionProperties,
   IAttachmentTabTitleProperties,
 } from '@type/roadmap/node/tab-types';
+import {
+  AttachmentTab,
+  IAttachmentTabStatus,
+} from '@src/typescript/roadmap_ref/node/attachments/tab/core';
 
-export function mutateAttachmentTabDescription<
+export function mutateAttachmentTabComponentDescription<
   T extends keyof IAttachmentTabDescriptionProperties
 >(
   titleComponent: IAttachmentTabDescriptionProperties,
@@ -13,7 +18,7 @@ export function mutateAttachmentTabDescription<
   titleComponent[field] = value;
 }
 
-export function mutateAttachmentTabTitle<
+export function mutateAttachmentTabComponentTitle<
   T extends keyof IAttachmentTabTitleProperties
 >(
   titleComponent: IAttachmentTabTitleProperties,
@@ -21,4 +26,36 @@ export function mutateAttachmentTabTitle<
   value: IAttachmentTabTitleProperties[T]
 ) {
   titleComponent[field] = value;
+}
+
+export function mutateAttachmentTabName(
+  attachment: AttachmentTab,
+  name: string
+) {
+  attachment.name = name;
+}
+
+export function mutateAttachmentTabStatus(
+  attachment: AttachmentTab,
+  status: IAttachmentTabStatus
+) {
+  attachment.status = status;
+}
+
+export function mutateAttachmentTabBulletListItemText(
+  bulletList: IAttachmentTabBulletListProperties,
+  id: string,
+  text: string
+) {
+  const index = bulletList.bulletListItems.findIndex((item) => item.id === id);
+  bulletList.bulletListItems[index].text = text;
+}
+
+export function mutateAttachmentTabBulletListItemLinkURL(
+  bulletList: IAttachmentTabBulletListProperties,
+  id: string,
+  linkURL: string
+) {
+  const index = bulletList.bulletListItems.findIndex((item) => item.id === id);
+  bulletList.bulletListItems[index].linkURL = linkURL;
 }

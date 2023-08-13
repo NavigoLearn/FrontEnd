@@ -1,30 +1,16 @@
 import * as d3 from 'd3';
-import roadmapState from '@store/roadmap/data/roadmap_state';
-import { setRecenterRoadmap } from '@store/roadmap-refactor/misc/miscParams';
+import {
+  setMoveRoadmapTo,
+  setRecenterRoadmap,
+} from '@store/roadmap-refactor/misc/miscParams';
 import { setScaleSafari } from '@store/roadmap-refactor/misc/scale-safari';
 import { setDisplayTitlesFalse } from '@store/roadmap/sidebar/displayTitle';
 import { throttle } from '@src/typescript/roadmap_ref/render/chunks';
-import { roadmapSelector } from '@store/roadmap-refactor/roadmap-data/roadmap-selector';
 
 export const calculateRootNodeTransform = () => {
-  const { editing } = roadmapState.get();
-
-  const a = 'sefarw';
-  const original = roadmapSelector.get();
-
-  const { nodes } = original;
-  // needs refactor with actual center of the roadmap
-  const x = 0;
-  const y = 0;
-
-  const widthNode = 0;
-  const heightNode = 0;
-  // gets the current screen size
-  const { innerWidth, innerHeight } = window;
-  // calculates a transform that centers the root node in the middle of the screen
   return {
-    x: x - innerWidth / 2 + widthNode / 2,
-    y: y - innerHeight / 2 + heightNode / 2 + 100,
+    x: 100,
+    y: 100,
     k: 1,
   };
 };
@@ -57,13 +43,21 @@ export const addZoom = (rootSvgId, rootGroupId, rerender) => {
 
   function resetZoom() {
     const initialTransform = calculateRootNodeTransform();
+
     const customTransform = d3.zoomIdentity
       .translate(-initialTransform.x, -initialTransform.y)
       .scale(initialTransform.k);
-    // svg.transition().duration(750).call(zoom.transform, customTransform);
+    svg.transition().duration(750).call(zoom.transform, customTransform);
+  }
+
+  function moveRoadmapTo(x: number, y: number, k: number) {
+    const customTransform = d3.zoomIdentity.translate(-x, -y).scale(k);
+    svg.transition().duration(750).call(zoom.transform, customTransform);
   }
 
   setRecenterRoadmap(() => resetZoom());
+  setMoveRoadmapTo(moveRoadmapTo);
+
   d3.select('#recenter-button').on('click', () => resetZoom());
   d3.select('#zoomin-button').on('click', () => {
     svg.transition().duration(250).call(zoom.scaleBy, 1.3);
