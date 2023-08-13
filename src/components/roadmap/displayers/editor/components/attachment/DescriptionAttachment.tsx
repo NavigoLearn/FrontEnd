@@ -35,9 +35,8 @@ const DescriptionAttachmentEdit = ({
     </div>
   );
 };
-const DescriptionAttachmentView = ({
+export const DescriptionAttachmentView = ({
   value,
-  onChange,
 }: IDescriptionComponentProps) => {
   const { status } = useStore(attachmentPageStatus);
   const { isEditing } = status;

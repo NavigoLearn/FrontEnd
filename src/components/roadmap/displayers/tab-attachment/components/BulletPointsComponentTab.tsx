@@ -1,15 +1,14 @@
 import React from 'react';
 import { IAttachmentTabBulletListProperties } from '@type/roadmap/node/tab-types';
+import { ResourceAttachmentView } from '../../editor/components/attachment/ResourceAttachment';
 
-type IBulletPointsComponentProps = {
+type IResourceAttachmentProps = {
   component: IAttachmentTabBulletListProperties;
 };
-const BulletPointsComponentTab = ({
-  component,
-}: IBulletPointsComponentProps) => {
+const BulletPointsComponentTab = ({ component }: IResourceAttachmentProps) => {
   return (
     <div>
-      <div>bullet points here</div>
+      <ResourceAttachmentView component={component} />
     </div>
   );
 };
