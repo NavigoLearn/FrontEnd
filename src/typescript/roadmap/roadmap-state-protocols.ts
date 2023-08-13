@@ -2,7 +2,10 @@ import { toggleEditing } from '@src/typescript/roadmap/roadmap-edit-logic-decora
 import { deepCopy } from '@src/typescript/roadmap/utils';
 import { triggerChunkRerender } from '@store/roadmap-refactor/render/rendered-chunks';
 import { setRoadmapEdit } from '@store/roadmap-refactor/roadmap-data/roadmap-edit';
-import { setRoadmapView } from '@store/roadmap-refactor/roadmap-data/roadmap-view';
+import {
+  roadmapView,
+  setRoadmapView,
+} from '@store/roadmap-refactor/roadmap-data/roadmap-view';
 import {
   roadmapSelector,
   setRoadmapSelector,
@@ -26,6 +29,7 @@ export function transferEditToRoadmap() {
 }
 export function cancelEditingProtocol() {
   // does not transfer changes from elements-editing roadmap to real roadmap
+  setRoadmapSelector(roadmapView.get());
   setAllDraggableFalse();
   toggleEditing();
   triggerChunkRerender(); // we call it in order to have the correct node ids in the renderStore for nodes
