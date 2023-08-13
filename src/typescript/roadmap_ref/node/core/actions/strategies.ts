@@ -16,7 +16,6 @@ export const actionStrategyOpenLink: IActionStrategy = (nodeId: string) => {
 };
 
 export const actionStrategyOpenTab: IActionStrategy = (nodeId: string) => {
-  console.log('actionStrategyOpenTab');
   setTabNode(nodeId);
   setDisplayPageType('tab');
 };

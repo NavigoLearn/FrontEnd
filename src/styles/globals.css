@@ -55,3 +55,24 @@
         transform: translateX(0%);
     }
 }
+
+
+/* Hide default scrollbar for Webkit browsers */
+.invisible-scroll::-webkit-scrollbar {
+    width: 0;
+    background: transparent;
+}
+
+.invisible-scroll::-webkit-scrollbar-thumb {
+    background: transparent;
+}
+
+/* Hide scrollbar for Firefox */
+.invisible-scroll {
+    scrollbar-width: none;
+}
+
+/* Hide scrollbar for IE */
+.invisible-scroll {
+    -ms-overflow-style: none;
+}

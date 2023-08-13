@@ -14,10 +14,17 @@ export type IAttachmentTabStatus =
   | 'Completed'
   | 'In Progress'
   | 'Skip'
-  | 'None';
+  | 'Status';
+
+export const attachmentTabStatusArray: IAttachmentTabStatus[] = [
+  'Completed',
+  'In Progress',
+  'Skip',
+  'Status',
+];
+
 export class AttachmentTab extends Attachment {
   // contains strictly the components specific to a tab-attachment
-  name = '';
 
   status: IAttachmentTabStatus;
 
@@ -27,6 +34,6 @@ export class AttachmentTab extends Attachment {
     super();
     this.id = generateId();
     this.type = 'Tab';
-    this.status = 'None';
+    this.status = 'Status';
   }
 }

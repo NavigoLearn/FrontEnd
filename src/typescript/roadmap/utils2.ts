@@ -5,10 +5,7 @@ import { setRoadmapEdit } from '@store/roadmap-refactor/roadmap-data/roadmap-edi
 import { setRoadmapView } from '@store/roadmap-refactor/roadmap-data/roadmap-view';
 import { roadmapSelector } from '@store/roadmap-refactor/roadmap-data/roadmap-selector';
 import { setAllDraggableFalse } from '@store/roadmap-refactor/elements-editing/draggable-elements';
-import {
-  postRoadmapData,
-  updateRoadmapData,
-} from '../../api-wrapper/roadmap/roadmaps';
+import { updateRoadmapData } from '../../api-wrapper/roadmap/roadmaps';
 
 export function transferRoadmapToEdit() {
   const deepCopyRoadmap = deepCopy(roadmapSelector.get());
@@ -29,7 +26,7 @@ export function cancelEditingProtocol() {
 }
 export function saveEditingProtocol() {
   transferEditToRoadmap(); //  transfers the changes to the static roadmap
-  postRoadmapData(roadmapSelector.get()); // sends the roadmap as update to the server
+  updateRoadmapData(roadmapSelector.get()); // sends the roadmap as update to the server
   setAllDraggableFalse();
   toggleEditing();
   triggerChunkRerender();

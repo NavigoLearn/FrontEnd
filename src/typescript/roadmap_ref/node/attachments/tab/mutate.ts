@@ -1,4 +1,5 @@
 import {
+  IAttachmentTabBulletListProperties,
   IAttachmentTabDescriptionProperties,
   IAttachmentTabTitleProperties,
 } from '@type/roadmap/node/tab-types';
@@ -39,4 +40,22 @@ export function mutateAttachmentTabStatus(
   status: IAttachmentTabStatus
 ) {
   attachment.status = status;
+}
+
+export function mutateAttachmentTabBulletListItemText(
+  bulletList: IAttachmentTabBulletListProperties,
+  id: string,
+  text: string
+) {
+  const index = bulletList.bulletListItems.findIndex((item) => item.id === id);
+  bulletList.bulletListItems[index].text = text;
+}
+
+export function mutateAttachmentTabBulletListItemLinkURL(
+  bulletList: IAttachmentTabBulletListProperties,
+  id: string,
+  linkURL: string
+) {
+  const index = bulletList.bulletListItems.findIndex((item) => item.id === id);
+  bulletList.bulletListItems[index].linkURL = linkURL;
 }

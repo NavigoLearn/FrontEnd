@@ -1,8 +1,10 @@
 import {
+  IAttachmentTabBulletListProperties,
   IAttachmentTabComponentProperties,
   IAttachmentTabDescriptionProperties,
   IAttachmentTabLinkProperties,
   IAttachmentTabTitleProperties,
+  typeGuardTabBulletListProperties,
   typeGuardTabDescriptionProperties,
   typeGuardTabLinkProperties,
   typeGuardTabTitleProperties,
@@ -44,29 +46,42 @@ export const titleBuilder = (component: IAttachmentTabTitleProperties) => {
   );
 };
 
-export const resourceBuilder = (component: IAttachmentTabLinkProperties) => {
-  return <ResourceAttachment value={component.linkURL} onChange={() => {}} />;
+export const resourceBuilder = (
+  component: IAttachmentTabBulletListProperties
+) => {
+  return <ResourceAttachment component={component} />;
+};
+
+export const linkBuilder = (component: IAttachmentTabLinkProperties) => {
+  return <div>Link not implemented yet</div>;
 };
 
 export function componentMapper(component: IAttachmentTabComponentProperties) {
   if (component.type === 'Title') {
     if (!typeGuardTabTitleProperties(component)) {
-      throw new Error('Component type not found');
+      throw new Error('Component typeguard is wrong somewhere');
     }
     return titleBuilder(component);
   }
   if (component.type === 'Description') {
     if (!typeGuardTabDescriptionProperties(component)) {
-      throw new Error('Component type not found');
+      throw new Error('Component typeguard is wrong somewhere');
     }
     return descriptionBuilder(component);
   }
 
-  if (component.type === 'Link') {
-    if (!typeGuardTabLinkProperties(component)) {
-      throw new Error('Component type not found');
+  if (component.type === 'BulletList') {
+    if (!typeGuardTabBulletListProperties(component)) {
+      throw new Error('Component typeguard is wrong somewhere');
     }
     return resourceBuilder(component);
+  }
+
+  if (component.type === 'Link') {
+    if (!typeGuardTabLinkProperties(component)) {
+      throw new Error('Component typeguard is wrong somewhere');
+    }
+    return <div>Fucking rus didnt finish the task and I didnt check it</div>;
   }
   throw new Error('Component type not found');
 }

@@ -24,7 +24,7 @@ const DescriptionAttachmentEdit = ({
     <div className='flex gap-1 w-full flex-col'>
       <h1 className='text-darkBlue font-roboto-text'>Description</h1>
       <textarea
-        className={`flex-grow h-40 resize-none outline-none border-2 border-gray-400 rounded-lg text-darkBlue text-lg pl-4 font-medium focus:border-black ${tailwindTransitionClass}`}
+        className={`flex-grow mt-2 pt-2 font-semibold h-40 resize-none outline-none border-2 border-gray-400 rounded-lg text-darkBlue text-lg pl-4 focus:border-black ${tailwindTransitionClass}`}
         placeholder='Give an expressive description'
         value={value}
         onChange={(event) => {
