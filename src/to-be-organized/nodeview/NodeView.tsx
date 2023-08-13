@@ -13,6 +13,8 @@ import { setDisplayPageType } from '@store/roadmap-refactor/display/display-mana
 import { setSelectedNodeId } from '@store/roadmap-refactor/elements-editing/editor-selected-data';
 import { getNodeByIdRoadmapSelector } from '@store/roadmap-refactor/roadmap-data/roadmap-selector';
 import { FontSizeValues } from '@src/types/roadmap/node/components-types';
+import { selectNodeColorScheme } from '@src/typescript/roadmap_ref/node/core/factories/injectors/services';
+import { mutateNodeColor } from '@src/typescript/roadmap_ref/node/core/data-mutation/mutate';
 
 interface NodeViewProps {
   nodeId: string;
@@ -30,7 +32,8 @@ const NodeView: React.FC<NodeViewProps> = ({
 
   const renderNode = (nodeId: string) => {
     const node = getNodeByIdRoadmapSelector(nodeId);
-    const { color, width, height, opacity, fontSizeType, colorTheme } = node.data;
+    const { color, width, height, opacity, fontSizeType } = node.data;
+
     node.data.center.x = width / 2;
     const { subNodeIds } = node;
     // Function to render each subnode

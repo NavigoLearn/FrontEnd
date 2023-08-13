@@ -3,6 +3,7 @@ import { IColorThemesColors } from '@type/roadmap/node/colors-types';
 import { triggerCenterRecalculationDecorator } from '@src/typescript/roadmap_ref/node/core/data-mutation/mutate-decorators';
 import { triggerHubListeners } from '@store/roadmap-refactor/subscribers/function-subscribers';
 import { IActionTypes } from '@src/typescript/roadmap_ref/node/core/actions';
+import { selectNodeColorScheme } from '@src/typescript/roadmap_ref/node/core/factories/injectors/services';
 
 export function mutateNodeOpacity(node: NodeClass, opacity: number) {
   node.data.opacity = opacity;

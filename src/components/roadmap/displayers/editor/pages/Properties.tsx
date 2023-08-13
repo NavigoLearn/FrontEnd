@@ -18,6 +18,8 @@ import { triggerNodeRerender } from '@store/roadmap-refactor/render/rerender-tri
 import { getNodeByIdRoadmapSelector } from '@store/roadmap-refactor/roadmap-data/roadmap-selector';
 import { tailwindTransitionClass } from '@src/UI-library/tailwind-utils';
 import { IActionTypes } from '@src/typescript/roadmap_ref/node/core/actions';
+import { selectNodeColorScheme } from '@src/typescript/roadmap_ref/node/core/factories/injectors/services';
+import { colorThemes } from '@src/typescript/roadmap_ref/node/core/factories/params/params';
 
 type IActionsDropdown = {
   action: string;
@@ -139,24 +141,24 @@ const Properties = () => {
         <VariantsComponent
           variants={[
             {
-              name: 'primary',
-              color: '#000000',
+              color: selectNodeColorScheme(node.data.colorTheme, 'primary'),
               callback: () => {
-                mutateNodeColor(node, 'default');
+                mutateNodeColor(node, 'primary');
+                triggerNodeRerender(node.id);
               },
             },
             {
-              name: 'tertiary',
-              color: '#0051ff',
+              color: selectNodeColorScheme(node.data.colorTheme, 'secondary'),
               callback: () => {
-                mutateNodeColor(node, 'version2');
+                mutateNodeColor(node, 'secondary');
+                triggerNodeRerender(node.id);
               },
             },
             {
-              name: 'secondary',
-              color: '#ff0000',
+              color: selectNodeColorScheme(node.data.colorTheme, 'tertiary'),
               callback: () => {
-                mutateNodeColor(node, 'default');
+                mutateNodeColor(node, 'tertiary');
+                triggerNodeRerender(node.id);
               },
             },
           ]}
