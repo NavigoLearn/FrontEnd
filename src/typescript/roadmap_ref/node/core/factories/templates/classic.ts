@@ -21,7 +21,7 @@ import {
   mutateNodeOnClickAction,
   mutateNodeWidth,
 } from '@src/typescript/roadmap_ref/node/core/data-mutation/mutate';
-import { addNodeToChunks } from '@src/typescript/roadmap_ref/roadmap-data/services/append';
+import { appendNodeToChunks } from '@src/typescript/roadmap_ref/roadmap-data/services/append';
 import { appendAttachmentTabStandard } from '@src/typescript/roadmap_ref/node/core/factories/data-mutation/append';
 
 export function nodeFactoryClassicBoilerplate(id?: string): NodeClass {
@@ -29,7 +29,7 @@ export function nodeFactoryClassicBoilerplate(id?: string): NodeClass {
   const node = new NodeClass();
   // classic nodes has a tab-attachment attachment and the default color scheme
   injectClassicFlags(node);
-  id ? injectNewId(node, id) : injectNewRandomId(node);
+  injectNewRandomId(node);
   injectClassicData(node, '', []);
 
   appendComponent(node, factoryComponentTitleEmpty(node.id));
@@ -45,9 +45,11 @@ export function factoryNodeClassic(
   x: number,
   y: number,
   width: number,
-  height: number
+  height: number,
+  id?: string
 ) {
   const node = nodeFactoryClassicBoilerplate();
+  id && injectNewId(node, id);
   mutateNodeWidth(node, width || 100);
   mutateNodeHeight(node, height || 100);
 
@@ -58,7 +60,7 @@ export function factoryNodeClassic(
 
   recalculateNodeChunks(node);
   recalculateNodeCenter(node);
-  addNodeToChunks(node);
+  appendNodeToChunks(node);
 
   return node;
 }

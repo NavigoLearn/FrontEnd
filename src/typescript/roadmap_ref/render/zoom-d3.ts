@@ -6,16 +6,27 @@ import {
 import { setScaleSafari } from '@store/roadmap-refactor/misc/scale-safari';
 import { setDisplayTitlesFalse } from '@store/roadmap/sidebar/displayTitle';
 import { throttle } from '@src/typescript/roadmap_ref/render/chunks';
+import {
+  getNodeByIdRoadmapSelector,
+  getRootGlobalId,
+} from '@src/typescript/roadmap_ref/roadmap-data/services/get';
 
 export const calculateRootNodeTransform = () => {
+  const rootNode = getNodeByIdRoadmapSelector(getRootGlobalId());
+  const windowWidth = window.innerWidth;
+  const windowHeight = window.innerHeight;
+  const x = windowWidth / 2 - rootNode.data.coords.x - rootNode.data.width / 2;
+  const y =
+    windowHeight / 2 - rootNode.data.coords.y - rootNode.data.height / 2;
+
   return {
-    x: 100,
-    y: 100,
+    x: -x,
+    y: -y,
     k: 1,
   };
 };
 
-export const addZoom = (rootSvgId, rootGroupId, rerender) => {
+export const addZoomAndRecenter = (rootSvgId, rootGroupId, rerender) => {
   const svg = d3.select(`#${rootSvgId}`);
   const rootGroup = d3.select(`#${rootGroupId}`);
 
@@ -71,5 +82,3 @@ export const disableZoom = (rootSvgId) => {
   const svg = d3.select(`#${rootSvgId}`);
   svg.on('.zoom', null);
 };
-
-export const a = 0;

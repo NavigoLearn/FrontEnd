@@ -1,4 +1,4 @@
-import { deepCopy } from '@src/typescript/roadmap/utils';
+import { deepCopy } from '@src/typescript/roadmap_ref/utils';
 import { triggerChunkRerender } from '@store/roadmap-refactor/render/rendered-chunks';
 import { setRoadmapEdit } from '@store/roadmap-refactor/roadmap-data/roadmap-edit';
 import {

@@ -13,7 +13,7 @@ import { setSelectedNodeId } from '@store/roadmap-refactor/elements-editing/edit
 import roadmapState from '@store/roadmap-refactor/roadmap-data/roadmap_state';
 import {
   getNodeByIdRoadmapSelector,
-  tracebackNodeToRoot,
+  getTracebackNodeToRoot,
 } from '@src/typescript/roadmap_ref/roadmap-data/services/get';
 import {
   setEditorClosedEffect,
@@ -48,7 +48,7 @@ export function moveRoadmapToNode(nodeId: string) {
   let tracebackOffsetX = 0;
   let tracebackOffsetY = 0;
 
-  const traceback = tracebackNodeToRoot(nodeId);
+  const traceback = getTracebackNodeToRoot(nodeId);
   traceback.push(nodeId);
   // gets last element of traceback
   traceback.forEach((traceNodeId) => {

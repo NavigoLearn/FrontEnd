@@ -4,7 +4,6 @@ import {
   HeroRotateProps,
   PopulatedParams,
 } from '@type/home/hero-rotate';
-import { setLoadedTrue } from '@src/typescript/roadmap/utils';
 
 export function transferTransforms(element1, element2) {
   // get the left and top style properties from each element
@@ -141,7 +140,7 @@ export function arrangeImagesAndSetOnclick(
     baseArr.length,
     params.widthRotatingImages,
     params.heightRotatingImages,
-    params.width*7 / 16
+    (params.width * 7) / 16
   );
   baseArr.forEach((el, idx) => {
     const elRef = document.getElementById(el);

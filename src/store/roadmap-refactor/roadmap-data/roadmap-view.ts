@@ -9,7 +9,7 @@ import {
   setRoadmapId,
 } from '@store/roadmap-refactor/roadmap-data/roadmap-visit-data';
 import { setTabAboutFromApi } from '@store/roadmap-refactor/roadmap-data/about';
-import { setLoadedTrue } from '@src/typescript/roadmap/utils';
+import { setLoadedTrue } from '@src/typescript/roadmap_ref/utils';
 import miscParams from '@store/roadmap-refactor/misc/miscParams';
 
 export const roadmapView = atom({

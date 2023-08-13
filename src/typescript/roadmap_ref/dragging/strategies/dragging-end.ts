@@ -1,6 +1,6 @@
-import { addNodeToChunks } from '@src/typescript/roadmap_ref/roadmap-data/services/append';
+import { appendNodeToChunks } from '@src/typescript/roadmap_ref/roadmap-data/services/append';
 import { getNodeByIdRoadmapSelector } from '@src/typescript/roadmap_ref/roadmap-data/services/get';
-import { removeNodeFromChunks } from '@src/typescript/roadmap_ref/roadmap-data/services/delete';
+import { deleteNodeFromChunks } from '@src/typescript/roadmap_ref/roadmap-data/services/delete';
 import { mutateNodeCoords } from '@src/typescript/roadmap_ref/node/core/data-mutation/mutate';
 import { recalculateNodeChunks } from '@src/typescript/roadmap_ref/node/core/calculations/general';
 import { triggerNodeRerender } from '@store/roadmap-refactor/render/rerender-triggers-nodes';
@@ -22,9 +22,9 @@ export const draggingEndNode = (
   const sel = document.getElementById(`div${node.id}`);
   const obj = d3.select(sel);
   obj.style('transform', `translate(${0}px, ${0}px)`);
-  removeNodeFromChunks(node);
+  deleteNodeFromChunks(node);
   recalculateNodeChunks(node);
-  addNodeToChunks(node);
+  appendNodeToChunks(node);
   triggerNodeRerender(node.id);
 };
 

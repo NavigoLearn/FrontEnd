@@ -14,16 +14,16 @@ import { triggerChunkRerender } from '@store/roadmap-refactor/render/rendered-ch
 import { applyRoadmapDraggability } from '@src/typescript/roadmap_ref/dragging/misc';
 import { setDisplayPageType } from '@store/roadmap-refactor/display/display-manager';
 import { removeAllEffects } from '@store/roadmap-refactor/elements-editing/element-effects';
+import { appendRootNodeId } from '@src/typescript/roadmap_ref/roadmap-data/services/append';
 import {
-  addConnectionRoadmapSelector,
-  appendNodeRoadmapSelector,
-  appendRootNodeId,
-} from '@src/typescript/roadmap_ref/roadmap-data/services/append';
+  injectRoadmapConnection,
+  injectRoadmapNode,
+} from '@src/typescript/roadmap_ref/roadmap-data/services/inject';
 
 export function appendNestedNode(node: NodeClass) {
   const newNestedNode = factorySubNode(node.id, 100, 100, 0, 0); // creates node
   appendSubNode(node, newNestedNode.id); // appends to the parent of nesting
-  appendNodeRoadmapSelector(newNestedNode);
+  injectRoadmapNode(newNestedNode);
   draggableElementProtocol(newNestedNode.draggingBehavior, newNestedNode.id);
   triggerNodeRerender(node.id);
 }
@@ -43,9 +43,9 @@ export function appendClassicNodeToRoadmap(parentNode: NodeClass) {
   appendConnectionNode(node, connection.id);
   appendConnectionNode(newNode, connection.id);
 
-  appendNodeRoadmapSelector(newNode);
+  injectRoadmapNode(newNode);
   appendRootNodeId(newNode.id);
-  addConnectionRoadmapSelector(connection);
+  injectRoadmapConnection(connection);
 
   triggerChunkRerender();
   applyRoadmapDraggability();
