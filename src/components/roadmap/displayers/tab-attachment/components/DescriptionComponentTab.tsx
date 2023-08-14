@@ -8,8 +8,7 @@ type IDescriptionComponentProps = {
 const DescriptionComponentTab = ({ component }: IDescriptionComponentProps) => {
   return (
     <div>
-      <h1 className='text-gray-400 font-roboto-text'>Description</h1>
-      <div className='flex gap-2 w-full font-roboto-text text-darkBlue text-lg'>
+      <div className='flex gap-2 w-full font-roboto-text text-secondary text-lg mt-3 mb-5 px-9'>
         {component.descriptionText || 'No description yet'}
       </div>
     </div>
