@@ -9,6 +9,7 @@ import { mutateComponentTitleText } from '@src/typescript/roadmap_ref/node/compo
 import { useTriggerRerender } from '@hooks/useTriggerRerender';
 import { NodeClass } from '@src/typescript/roadmap_ref/node/core/core';
 import { triggerNodeRerender } from '@store/roadmap-refactor/render/rerender-triggers-nodes';
+import TrashIcon from '@src/UI-library/svg-anims';
 
 type TitleComponentProps = {
   node: NodeClass;
@@ -22,7 +23,7 @@ const TitleComponent = ({ node, id, name }: TitleComponentProps) => {
   // cache component
 
   return (
-    <div className='flex gap-2 w-full outline-2 outline-black'>
+    <div className='flex w-full outline-black'>
       <input
         className={`flex-grow border-2 border-gray-400 h-16 rounded-lg text-darkBlue text-lg pl-4 font-medium focus:border-black ${tailwindTransitionClass}`}
         placeholder={name}
@@ -36,17 +37,13 @@ const TitleComponent = ({ node, id, name }: TitleComponentProps) => {
       />
       <button
         type='button'
-        className=' w-8 h-8 mx-4 mb-2'
+        className=' w-8 h-8 mr-6 mb-2'
         onClick={() => {
           deleteComponentWithId(node, id);
           triggerNodeRerender(node.id);
         }}
       >
-        <img
-          src='/editor/deleteBin.svg'
-          alt='Delete button for title component'
-          className='w-full h-full'
-        />
+        <TrashIcon />
       </button>
     </div>
   );

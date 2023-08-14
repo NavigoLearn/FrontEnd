@@ -1,7 +1,7 @@
 import editorDisplayManager, {
   IEditorDisplayPageType,
 } from '@store/roadmap-refactor/display/editor/editor-display-manager';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import onChangeStore from '@src/HOC-library/store-based-hoc/OnChangeStore';
 import { useStore } from '@nanostores/react';
 import { closeEditorProtocol } from '@src/to-be-organized/nodeview/actions-manager';
@@ -10,38 +10,48 @@ import editorSelectedData, {
 } from '@store/roadmap-refactor/elements-editing/editor-selected-data';
 import { getNodeByIdRoadmapSelector } from '@src/typescript/roadmap_ref/roadmap-data/services/get';
 import { mutateNodeName } from '@src/typescript/roadmap_ref/node/core/data-mutation/mutate';
+import { motion, AnimatePresence } from 'framer-motion';
+
+const getButtonWidth = (buttonRef: React.RefObject<HTMLButtonElement>) => {
+  if (buttonRef.current) {
+    const width = buttonRef.current.offsetWidth;
+    return width;
+  }
+  return 0;
+};
 
 type IEditorPageButtonProps = {
   page: IEditorDisplayPageType;
   callback: (page: IEditorDisplayPageType) => void;
   highlight: boolean;
+  buttonRef: React.RefObject<HTMLButtonElement>; // Add a ref prop
 };
 
 const EditorPageButton = ({
   page,
   callback,
   highlight,
+  buttonRef, // Receive the ref prop
 }: IEditorPageButtonProps) => {
   const pageUpperCase = page.charAt(0).toUpperCase() + page.slice(1);
   const transition = ' transition duration-400 ';
+
   return (
     <button
+      ref={buttonRef}
       type='button'
       key={page}
-      className={`text-base text-darkBlue font-medium relative   ${transition} ${
+      className={`text-base text-darkBlue font-medium relative ${transition} ${
         highlight && 'text-lightBlue'
       } `}
       onClick={() => {
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        const width = getButtonWidth(buttonRef); // React gets mad if I don't do this
         callback(page);
       }}
     >
       {pageUpperCase}
-
-      <div
-        className={`absolute w-full -bottom-1 left-0 border-b-0 ${
-          highlight && 'border-lightBlue border-b-2'
-        } ${transition}`}
-      />
+      {/* ... (rest of your code) */}
     </button>
   );
 };
@@ -120,6 +130,7 @@ type IEditorNavbarPaginationProps = {
   value: IEditorDisplayPageType;
   onChange: (value: IEditorDisplayPageType) => void;
 };
+
 const EditorNavbarPagination = ({
   value,
   onChange,
@@ -132,28 +143,70 @@ const EditorNavbarPagination = ({
     'actions',
   ];
 
-  useStore(editorDisplayManager); // used for rerendering mostly
-
   const selectedPage = value;
 
+  const buttonRefs: Record<
+    IEditorDisplayPageType,
+    React.RefObject<HTMLButtonElement>
+  > = {
+    attachments: useRef(null),
+    components: useRef(null),
+    nodes: useRef(null),
+    properties: useRef(null),
+    actions: useRef(null),
+  };
+
+  const [underlineStyle, setUnderlineStyle] = useState({
+    left: 0,
+    width: 0,
+  });
+
+  useEffect(() => {
+    const selectedButtonRef = buttonRefs[selectedPage].current;
+    if (selectedButtonRef) {
+      const rect = selectedButtonRef.getBoundingClientRect();
+      const parentRect =
+        selectedButtonRef.parentElement.getBoundingClientRect();
+      const leftOffset = rect.left - parentRect.left; // Adjust for parent's offset
+      setUnderlineStyle({
+        left: leftOffset,
+        width: getButtonWidth(buttonRefs[selectedPage]),
+      });
+    }
+  }, [selectedPage]);
+
   return (
-    <div className=''>
+    <div className='overflow-x-hidden'>
       <TitleAndExit />
       <section className='w-full flex justify-center px-4 gap-3 mt-6'>
-        {pages.map((page: IEditorDisplayPageType) => {
-          return (
-            <EditorPageButton
-              key={page}
-              page={page}
-              highlight={selectedPage === page}
-              callback={(newPage) => {
-                onChange(newPage);
-              }}
-            />
-          );
-        })}
+        {pages.map((page: IEditorDisplayPageType, index: number) => (
+          <EditorPageButton
+            buttonRef={buttonRefs[page]}
+            key={page}
+            page={page}
+            highlight={selectedPage === page}
+            callback={(newPage) => {
+              onChange(newPage);
+            }}
+          />
+        ))}
+        <AnimatePresence>
+          <motion.div
+            className='border-lightBlue border-b-2 top-[150px] absolute'
+            style={{
+              width: `${underlineStyle.width}px`,
+            }}
+            key='underline'
+            initial={{ width: 0 }}
+            animate={{
+              left: `${underlineStyle.left}px`,
+              width: `${underlineStyle.width}px`,
+            }}
+            transition={{ duration: 0.2 }}
+          />
+        </AnimatePresence>
       </section>
-      <hr className='w-full bg-black h-[1px] mt-1' />
+      <hr className='border-dotted border-t-2 bg-gray-400 mt-[2px]' />
     </div>
   );
 };

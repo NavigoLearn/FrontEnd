@@ -51,7 +51,7 @@ const Components = () => {
         }}
         optionsList={['Title', 'Description']}
       />
-      <div className='flex flex-col gap-4 h-5/6 mt-10 mb-6 overflow-y-auto border-b-2 border-gray-200'>
+      <div className='flex flex-col gap-4 h-5/6 mt-10 mb-6 overflow-y-auto border-b-2 border-gray-200 overflow-x-hidden'>
         {node.components.map((component: IComponentObject) => {
           return selectComponentToRender(
             component.type,

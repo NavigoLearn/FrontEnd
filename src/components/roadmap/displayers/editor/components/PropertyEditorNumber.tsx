@@ -13,7 +13,7 @@ const PropertyEditorNumber = ({ name, value, onChange }: IDisplayProperty) => {
       <div>
         <input
           type='text'
-          className='text-darkBlue outline-gray-500 p-1 pl-2 w-16'
+          className='text-darkBlue w-16 font-semibold'
           value={value}
           onChange={(e) => onChange(e.target.value)}
         />

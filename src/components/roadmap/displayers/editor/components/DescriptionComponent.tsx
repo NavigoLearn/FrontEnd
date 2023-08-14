@@ -9,6 +9,7 @@ import { useTriggerRerender } from '@hooks/useTriggerRerender';
 import { deleteComponentWithId } from '@src/typescript/roadmap_ref/node/core/data-mutation/delete';
 import { NodeClass } from '@src/typescript/roadmap_ref/node/core/core';
 import { triggerNodeRerender } from '@store/roadmap-refactor/render/rerender-triggers-nodes';
+import TrashIcon from '@src/UI-library/svg-anims';
 
 type DescriptionComponentProps = {
   node: NodeClass;
@@ -38,17 +39,13 @@ const DescriptionComponent = ({
       />
       <button
         type='button'
-        className=' w-8 h-8 mx-4 mb-2'
+        className=' w-8 h-8 mr-6 mb-2'
         onClick={() => {
           deleteComponentWithId(node, id);
           triggerNodeRerender(node.id);
         }}
       >
-        <img
-          src='/editor/deleteBin.svg'
-          alt='Delete button for title component'
-          className='w-full h-full'
-        />
+        <TrashIcon />
       </button>
     </div>
   );

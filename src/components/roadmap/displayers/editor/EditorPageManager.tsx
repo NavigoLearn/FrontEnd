@@ -48,6 +48,18 @@ const EditorPageManager = () => {
       >
         <div className='h-full'>{selectedPage}</div>
       </div>
+      <button
+        type='button'
+        className='w-3/4 h-12 flex justify-center bg-primary text-center text-white font-normal font-roboto-text text-lg items-center mx-auto rounded-md mb-2'
+      >
+        Save
+      </button>
+      <button
+        type='button'
+        className='flex justify-center mx-auto text-darkBlue font-semibold font-roboto-text text-lg items-center mb-5'
+      >
+        Cancel
+      </button>
     </div>
   );
 };
