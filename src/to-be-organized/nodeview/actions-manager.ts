@@ -10,11 +10,11 @@ import {
 } from '@store/roadmap-refactor/elements-editing/draggable-elements';
 import { setDisplayPageType } from '@store/roadmap-refactor/display/display-manager';
 import { setSelectedNodeId } from '@store/roadmap-refactor/elements-editing/editor-selected-data';
-import roadmapState from '@store/roadmap/data/roadmap_state';
+import roadmapState from '@store/roadmap-refactor/roadmap-data/roadmap_state';
 import {
   getNodeByIdRoadmapSelector,
-  tracebackNodeToRoot,
-} from '@store/roadmap-refactor/roadmap-data/roadmap-selector';
+  getTracebackNodeToRoot,
+} from '@src/typescript/roadmap_ref/roadmap-data/services/get';
 import {
   setEditorClosedEffect,
   setEditorOpenEffect,
@@ -39,8 +39,6 @@ export function getOnMouseOutActionEdit(nodeId): () => void {
 export function moveRoadmapToNode(nodeId: string) {
   const node = getNodeByIdRoadmapSelector(nodeId);
   const { coords, width, height } = node.data;
-  const { nestedFlag } = node.flags;
-  const { x, y } = coords;
 
   const wOffsetX = window.innerWidth / 2;
   const wOffsetY = window.innerHeight / 2;
@@ -48,7 +46,7 @@ export function moveRoadmapToNode(nodeId: string) {
   let tracebackOffsetX = 0;
   let tracebackOffsetY = 0;
 
-  const traceback = tracebackNodeToRoot(nodeId);
+  const traceback = getTracebackNodeToRoot(nodeId);
   traceback.push(nodeId);
   // gets last element of traceback
   traceback.forEach((traceNodeId) => {

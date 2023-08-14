@@ -12,6 +12,7 @@ export type HashMapWithKeys<R extends string, T> = {
 
 export type IRoadmapData = {
   colorTheme: IColorThemesOptions;
+  globalRootNodeId: string;
 };
 
 export type Roadmap = {

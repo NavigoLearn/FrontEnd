@@ -8,7 +8,7 @@ import {
   fetchOpenIssue,
 } from '@src/api-wrapper/roadmap/issues';
 import { useStore } from '@nanostores/react';
-import roadmapVisitData from '@store/roadmap/data/roadmap-visit-data';
+import roadmapVisitData from '@store/roadmap-refactor/roadmap-data/roadmap-visit-data';
 
 const Issue = ({
   id,

@@ -1,8 +1,6 @@
 import { atom } from 'nanostores';
-import {
-  roadmapSelector,
-  tracebackNodeToRoot,
-} from '@store/roadmap-refactor/roadmap-data/roadmap-selector';
+import { roadmapSelector } from '@store/roadmap-refactor/roadmap-data/roadmap-selector';
+import { getTracebackNodeToRoot } from '@src/typescript/roadmap_ref/roadmap-data/services/get';
 import { HashMap, HashMapWithKeys } from '@type/roadmap/stores/roadmap';
 import {
   effectOpacity100,
@@ -45,7 +43,7 @@ export function setEditorOpenEffect(nodeId: string) {
   const originalEffects = elementEffects.get();
   const nodes = Object.keys(originalEffects);
   // getting the line of parent nodes from the node to the root
-  const blackListed = tracebackNodeToRoot(nodeId);
+  const blackListed = getTracebackNodeToRoot(nodeId);
   // add parent nodes to blacklisted
   const currentNode = roadmapSelector.get().nodes[nodeId];
   currentNode.subNodeIds.forEach((id) => {

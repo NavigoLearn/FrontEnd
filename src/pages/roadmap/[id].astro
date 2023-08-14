@@ -27,9 +27,6 @@ const isCreate = id === 'create';
     <div class='hidden opacity-100 bg-white md:block'>
       <SideBar isCreate={isCreate} client:idle />
     </div>
-    <div class='block opacity-100 md:hidden'>
-      <SideBarMobile isCreate={isCreate} client:idle />
-    </div>
     <div class='absolute bottom-3 md:left-28 left-0'>
       <RoadmapController client:idle />
     </div>

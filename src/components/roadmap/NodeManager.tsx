@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import { useTriggerRerender } from '@hooks/useTriggerRerender';
-import NodeView from '@src/to-be-organized/nodeview/NodeView';
+import NodeRenderer from '@src/to-be-organized/nodeview/NodeRenderer';
 import { NodeClass } from '@src/typescript/roadmap_ref/node/core/core';
 import { setTriggerRender } from '@store/roadmap-refactor/render/rerender-triggers-nodes';
 
@@ -31,7 +31,7 @@ const NodeManager = ({ node }: NodeManagerProps) => {
     const { id } = node;
     const centerOffset = { x: 0, y: 0 };
     return (
-      <NodeView
+      <NodeRenderer
         nodeId={id}
         centerOffset={centerOffset}
         divSizeCallback={(divRef) => setForeignObjectSize(divRef)}

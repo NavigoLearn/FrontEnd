@@ -1,7 +1,7 @@
 import React from 'react';
 import HOCedit from '@components/profile/common/HOCedit';
 import { ProfileComponentProps } from '@type/profile/types';
-import { capStringLen } from '@src/typescript/roadmap/roadmap-state-protocols';
+import { capStringLen } from '@src/typescript/roadmap_ref/roadmap-data/protocols/roadmap-state-protocols';
 
 const Name = ({ value, edit, onEdit }: ProfileComponentProps) => {
   return (

@@ -3,7 +3,7 @@ import {
   TabInfoApi,
   TabInfoApiSendFormat,
 } from '@type/roadmap/old/tab-manager';
-import roadmapState from '@store/roadmap/data/roadmap_state';
+import roadmapState from '@store/roadmap-refactor/roadmap-data/roadmap_state';
 import { errorHandlerDecorator } from '@src/typescript/error-handler';
 
 export const fetchTabInfoData = errorHandlerDecorator(async (id: string) => {

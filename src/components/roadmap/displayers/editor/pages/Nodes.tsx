@@ -4,7 +4,7 @@ import ButtonInsideGeneric from '@components/roadmap/displayers/editor/component
 import { useStore } from '@nanostores/react';
 import editorSelectedData from '@store/roadmap-refactor/elements-editing/editor-selected-data';
 import NodeComponent from '@components/roadmap/displayers/editor/components/NodeComponent';
-import { getNodeByIdRoadmapSelector } from '@store/roadmap-refactor/roadmap-data/roadmap-selector';
+import { getNodeByIdRoadmapSelector } from '@src/typescript/roadmap_ref/roadmap-data/services/get';
 import { appendNestedNode } from '@src/typescript/roadmap_ref/roadmap-data/protocols/append';
 
 const Nodes = () => {

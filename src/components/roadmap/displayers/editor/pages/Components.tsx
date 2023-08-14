@@ -10,7 +10,7 @@ import DescriptionComponent from '@components/roadmap/displayers/editor/componen
 import DropdownComponent from '@components/roadmap/displayers/editor/components/DropdownComponent';
 import { appendComponent } from '@src/typescript/roadmap_ref/node/core/data-mutation/append';
 import { factoryComponentEmpty } from '@src/typescript/roadmap_ref/node/components/text/factories';
-import { getNodeByIdRoadmapSelector } from '@store/roadmap-refactor/roadmap-data/roadmap-selector';
+import { getNodeByIdRoadmapSelector } from '@src/typescript/roadmap_ref/roadmap-data/services/get';
 import { IComponentObject } from '@type/roadmap/node/components-types';
 import { setElementDraggable } from '@store/roadmap-refactor/elements-editing/draggable-elements';
 import { addDragabilityProtocol } from '@src/typescript/roadmap_ref/render/dragging';

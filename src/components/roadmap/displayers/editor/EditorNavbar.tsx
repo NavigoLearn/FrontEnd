@@ -8,7 +8,7 @@ import { closeEditorProtocol } from '@src/to-be-organized/nodeview/actions-manag
 import editorSelectedData, {
   triggerRerenderEditor,
 } from '@store/roadmap-refactor/elements-editing/editor-selected-data';
-import { getNodeByIdRoadmapSelector } from '@store/roadmap-refactor/roadmap-data/roadmap-selector';
+import { getNodeByIdRoadmapSelector } from '@src/typescript/roadmap_ref/roadmap-data/services/get';
 import { mutateNodeName } from '@src/typescript/roadmap_ref/node/core/data-mutation/mutate';
 
 type IEditorPageButtonProps = {

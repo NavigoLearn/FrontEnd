@@ -1,8 +1,10 @@
 import React from 'react';
 import editorSelectedData from '@store/roadmap-refactor/elements-editing/editor-selected-data';
 import { useStore } from '@nanostores/react';
-import { getNodeByIdRoadmapSelector } from '@store/roadmap-refactor/roadmap-data/roadmap-selector';
+import { getNodeByIdRoadmapSelector } from '@src/typescript/roadmap_ref/roadmap-data/services/get';
 import { appendClassicNodeToRoadmap } from '@src/typescript/roadmap_ref/roadmap-data/protocols/append';
+import { deleteProtocolNodeFromRoadmap } from '@src/typescript/roadmap_ref/roadmap-data/protocols/delete';
+import { closeEditorProtocol } from '@src/to-be-organized/nodeview/actions-manager';
 
 const Actions = () => {
   const { selectedNodeId } = useStore(editorSelectedData);
@@ -21,12 +23,8 @@ const Actions = () => {
       <button
         type='button'
         onClick={() => {
-          // classic delete
-          console.log('delete node');
-          // delete from other nodes
-          // delete from connections and take down connections
-          // delete all subchildren/ rereoute them to the other nodes
-          // delete from chunks
+          deleteProtocolNodeFromRoadmap(node);
+          closeEditorProtocol();
         }}
       >
         Delete this node

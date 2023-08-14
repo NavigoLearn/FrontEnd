@@ -4,7 +4,7 @@ export class Flags {
 
   connFlag = false;
 
-  nestedFlag = false;
+  subNodeFlag = false;
 
   chunkFlag = false;
 

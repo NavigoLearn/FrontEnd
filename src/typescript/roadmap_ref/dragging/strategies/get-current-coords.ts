@@ -1,4 +1,4 @@
-import { getNodeByIdRoadmapSelector } from '@store/roadmap-refactor/roadmap-data/roadmap-selector';
+import { getNodeByIdRoadmapSelector } from '@src/typescript/roadmap_ref/roadmap-data/services/get';
 import { getComponentById } from '@src/typescript/roadmap_ref/node/core/data-get/components';
 import {
   DraggingBehavior,

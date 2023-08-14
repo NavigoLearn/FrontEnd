@@ -3,7 +3,7 @@ import BulletPointsComponentTab from '@components/roadmap/displayers/tab-attachm
 import { rightWrapper } from '@components/roadmap/displayers/Wrappers';
 import { useStore } from '@nanostores/react';
 import { selectedTabNode } from '@store/roadmap-refactor/display/tab-attachment/selected-tab';
-import { getNodeByIdRoadmapSelector } from '@store/roadmap-refactor/roadmap-data/roadmap-selector';
+import { getNodeByIdRoadmapSelector } from '@src/typescript/roadmap_ref/roadmap-data/services/get';
 import { setDisplayPageType } from '@store/roadmap-refactor/display/display-manager';
 import { tailwindTransitionClass } from '@src/UI-library/tailwind-utils';
 import StatusDropdown from '@components/roadmap/displayers/tab-attachment/StatusDropdown';

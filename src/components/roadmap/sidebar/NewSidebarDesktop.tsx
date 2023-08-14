@@ -1,12 +1,12 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useStore } from '@nanostores/react';
-import roadmapState from '@store/roadmap/data/roadmap_state';
+import roadmapState from '@store/roadmap-refactor/roadmap-data/roadmap_state';
 import buttonsEditOwner from '@components/roadmap/sidebar/buttons-edit';
 import buttonsCreate from '@components/roadmap/sidebar/buttons-create';
 import userStatusStore from '@store/user/user-status';
 import roadmapVisitData, {
   validData,
-} from '@store/roadmap/data/roadmap-visit-data';
+} from '@store/roadmap-refactor/roadmap-data/roadmap-visit-data';
 import NewButtonDesktop from '@components/roadmap/sidebar/NewButtonDesktop';
 // import Ball from '@components/roadmap/sidebar/Ball';
 import { setOffsetY } from '@store/roadmap/sidebar/clickSubject';

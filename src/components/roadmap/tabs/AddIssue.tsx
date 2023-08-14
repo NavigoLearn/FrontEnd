@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import cross from '@assets/cross.svg';
 import { divWrapper } from '@components/roadmap/tabs/utils/logic';
 import Button from '@components/roadmap/tabs/utils/Button';
-import roadmapState from '@store/roadmap/data/roadmap_state';
+import roadmapState from '@store/roadmap-refactor/roadmap-data/roadmap_state';
 import { IssueApi } from '@type/roadmap/old/Issues';
 import { fetchPostNewIssue } from '../../../api-wrapper/roadmap/issues';
 

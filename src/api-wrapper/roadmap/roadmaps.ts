@@ -1,6 +1,6 @@
 import { Roadmap } from '@type/roadmap/stores/roadmap';
-import roadmapState from '@store/roadmap/data/roadmap_state';
-import aboutTabStore from '@store/roadmap/data/about';
+import roadmapState from '@store/roadmap-refactor/roadmap-data/roadmap_state';
+import aboutTabStore from '@store/roadmap-refactor/roadmap-data/about';
 
 export const fetchRoadmap = async (id: string) => {
   // fetches roadmapData from api

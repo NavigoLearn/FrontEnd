@@ -21,7 +21,7 @@ import {
   mutateNodeOnClickAction,
   mutateNodeWidth,
 } from '@src/typescript/roadmap_ref/node/core/data-mutation/mutate';
-import { addNodeToChunks } from '@store/roadmap-refactor/roadmap-data/roadmap-selector';
+import { appendNodeToChunks } from '@src/typescript/roadmap_ref/roadmap-data/services/append';
 import { appendAttachmentTabStandard } from '@src/typescript/roadmap_ref/node/core/factories/data-mutation/append';
 
 export function nodeFactoryClassicBoilerplate(id?: string): NodeClass {
@@ -45,9 +45,11 @@ export function factoryNodeClassic(
   x: number,
   y: number,
   width: number,
-  height: number
+  height: number,
+  id?: string | number
 ) {
-  const node = nodeFactoryClassicBoilerplate();
+  if (typeof id === 'number') id = id.toString();
+  const node = nodeFactoryClassicBoilerplate(id);
   mutateNodeWidth(node, width || 100);
   mutateNodeHeight(node, height || 100);
 
@@ -58,7 +60,7 @@ export function factoryNodeClassic(
 
   recalculateNodeChunks(node);
   recalculateNodeCenter(node);
-  addNodeToChunks(node);
+  appendNodeToChunks(node);
 
   return node;
 }
