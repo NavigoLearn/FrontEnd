@@ -17,10 +17,10 @@ export type IAttachmentTabStatus =
   | 'Status';
 
 export const attachmentTabStatusArray: IAttachmentTabStatus[] = [
-  'Completed',
-  'In Progress',
-  'Skip',
   'Status',
+  'In Progress',
+  'Completed',
+  'Skip',
 ];
 
 export class AttachmentTab extends Attachment {

@@ -81,12 +81,14 @@ const TabAttachmentEditor = ({ onChange, value }: ITabAttachmentProps) => {
     <div className='w-full h-full pb-10 relative '>
       <div
         ref={divRef}
-        className='h-[calc(100%-80px)] overflow-auto pr-3 invisible-scroll '
+        className={`h-[calc(100%-80px)] overflow-auto pr-3 ${
+          isEditing ? 'px-7' : 'none'
+        }`}
       >
         {attachment.components.map((component, index) => {
           return (
             // eslint-disable-next-line react/no-array-index-key
-            <div key={index} className='my-5'>
+            <div key={index} className={`${isEditing ? 'my-5' : 'none'}`}>
               {componentMapper(component)}
             </div>
           );

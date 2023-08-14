@@ -15,11 +15,8 @@ type ITitleComponentProps = {
 
 const TitleAttachmentView = ({ value, onChange }: ITitleComponentProps) => {
   return (
-    <div>
-      <h1 className='text-gray-400 font-roboto-text'>Title</h1>
-      <div className='flex gap-2 w-full font-roboto-text text-darkBlue text-lg'>
-        {value || 'No title yet'}
-      </div>
+    <div className='text-3xl text-black font-medium font-kanit-text px-9'>
+      {value || 'No title yet.'}
     </div>
   );
 };

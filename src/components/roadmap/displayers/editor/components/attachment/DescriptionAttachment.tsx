@@ -42,11 +42,8 @@ export const DescriptionAttachmentView = ({
   const { isEditing } = status;
 
   return (
-    <div>
-      <h1 className='text-gray-400 font-roboto-text'>Description</h1>
-      <div className='flex gap-2 w-full font-roboto-text text-darkBlue text-lg'>
-        {value || 'No description yet'}
-      </div>
+    <div className='flex gap-2 w-full font-roboto-text text-secondary text-lg mt-3 mb-5 px-9'>
+      {value || 'No description yet'}
     </div>
   );
 };

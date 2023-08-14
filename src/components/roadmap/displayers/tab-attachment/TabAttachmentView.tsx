@@ -54,27 +54,31 @@ const TabAttachmentView = () => {
   });
 
   return (
-    <div className='w-full h-full flex-col px-9'>
-      <div className='flex justify-between  mt-7'>
+    <div className='w-full h-full flex-col'>
+      <div className='flex justify-between mt-7'>
         <h2 className='text-3xl text-black font-medium font-kanit-text'>
-          Node Title
+          {componentMapper(components[0])}
         </h2>
-        <button
-          type='button'
-          onClick={() => {
-            setDisplayPageType('closed');
-          }}
-          className={`hover:bg-gray-200 ${tailwindTransitionClass}`}
-        >
-          <img
-            src='/editor/close.svg'
-            className='w-8 h-8'
-            alt='Close button for editor'
-          />
-        </button>
+        <div className='pr-9'>
+          <button
+            type='button'
+            onClick={() => {
+              setDisplayPageType('closed');
+            }}
+            className={`hover:bg-gray-200 ${tailwindTransitionClass}`}
+          >
+            <img
+              src='/editor/close.svg'
+              className='w-8 h-8'
+              alt='Close button for editor'
+            />
+          </button>
+        </div>
       </div>
-      <StatusDropdown attachment={attachment} />
-      {components.map((component) => {
+      <div className='px-9'>
+        <StatusDropdown attachment={attachment} />
+      </div>
+      {components.slice(1).map((component) => {
         return componentMapper(component);
       })}
     </div>
