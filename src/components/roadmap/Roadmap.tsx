@@ -64,6 +64,14 @@ const Roadmap = ({ pageId }: { pageId: string }) => {
     disableZoom('rootSvg');
   };
 
+  function initializeRoadmapAfterLoad() {
+    hydrateRoadmap();
+    triggerChunkRerender();
+    applyRoadmapDraggability();
+    setRoadmapIsLoaded();
+    triggerRecenterRoadmap();
+  }
+
   useEffect(() => {
     // renderer object that handles chunking
     chunkRenderer.current = recalculateChunks('rootSvg');
@@ -82,14 +90,13 @@ const Roadmap = ({ pageId }: { pageId: string }) => {
     // ...
     !isCreate &&
       setRoadmapFromAPI(pageId).then(() => {
-        hydrateRoadmap();
-        triggerChunkRerender();
-        applyRoadmapDraggability();
+        initializeRoadmapAfterLoad();
       });
-    isCreate && setRoadmapIsLoaded();
-    isCreate && triggerChunkRerender();
 
-    setRoadmapIsLoaded();
+    isCreate &&
+      (() => {
+        initializeRoadmapAfterLoad();
+      })();
 
     setEnableZoomTrigger(() => {
       enableZoomFn();
@@ -104,9 +111,7 @@ const Roadmap = ({ pageId }: { pageId: string }) => {
     enableZoomFn();
   }, [editing, isCreate]);
 
-  useEffectAfterLoad(() => {
-    triggerRecenterRoadmap();
-  }, []);
+  useEffectAfterLoad(() => {}, []);
 
   useEffectAfterLoad(() => {
     applyRoadmapDraggability();

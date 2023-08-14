@@ -8,7 +8,7 @@ type IComponentElementProps = {
   position: { x: number; y: number };
 };
 
-const ComponentElement = ({ component, position }: IComponentElementProps) => {
+const ComponentRenderer = ({ component, position }: IComponentElementProps) => {
   const { id, type, width, height, text, textColor, textFont, textSize } =
     component;
   const objRef = useRef(null);
@@ -18,14 +18,14 @@ const ComponentElement = ({ component, position }: IComponentElementProps) => {
       ref={objRef}
       key={component.id}
       id={`div${id}`}
-      className='rounded-xl items-center absolute overflow-hidden '
+      className=' items-center absolute overflow-hidden border-black border-2'
       style={{
         textDecorationColor: textColor,
         textSizeAdjust: `${textSize}%`,
         textAlign: 'center',
         fontFamily: textFont,
-        // width: `${width}px`,
-        // height: `${height}px`,
+        width: `${width}px`,
+        height: `${height}px`,
         top: `${position.y}px`,
         left: `${position.x}px`,
       }}
@@ -37,7 +37,7 @@ const ComponentElement = ({ component, position }: IComponentElementProps) => {
   );
 };
 
-const CompRender = (node: NodeClass) => {
+export const componentsRenderer = (node: NodeClass) => {
   const { components, data } = node;
   const positions = calculateComponentsPositions(node);
 
@@ -45,7 +45,7 @@ const CompRender = (node: NodeClass) => {
     <div className='components-container'>
       {components.map((component, index) => {
         return (
-          <ComponentElement
+          <ComponentRenderer
             key={component.id}
             component={component}
             position={positions[index]}
@@ -55,5 +55,3 @@ const CompRender = (node: NodeClass) => {
     </div>
   );
 };
-
-export default CompRender;

@@ -1,6 +1,7 @@
 import { Roadmap } from '@type/roadmap/stores/roadmap';
 import roadmapState from '@store/roadmap-refactor/roadmap-data/roadmap_state';
 import aboutTabStore from '@store/roadmap-refactor/roadmap-data/about';
+import { deepCopy } from '@src/typescript/roadmap_ref/utils';
 
 export const fetchRoadmap = async (id: string) => {
   // fetches roadmapData from api
@@ -48,6 +49,8 @@ export const postRoadmapData = async (roadmap: Roadmap) => {
     updatedAt: new Date().toISOString(),
     data: btoa(JSON.stringify(roadmap)),
   };
+  console.log(newRoadmap);
+  console.log(deepCopy(roadmap));
 
   const response = await fetch('/api/roadmaps/create', {
     method: 'POST',
@@ -59,7 +62,6 @@ export const postRoadmapData = async (roadmap: Roadmap) => {
       'Content-Type': 'application/json',
     },
   });
-  // posts all the pages created in cache
   return response.json();
 };
 

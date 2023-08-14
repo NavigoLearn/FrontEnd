@@ -13,7 +13,7 @@ export function injectClassicFlags(node: NodeClass) {
 }
 
 export function injectNestedFlag(node: NodeClass) {
-  node.flags.nestedFlag = true;
+  node.flags.subNodeFlag = true;
 }
 
 export function injectParentData(node: NodeClass, parent: string) {

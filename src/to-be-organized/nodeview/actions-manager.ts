@@ -39,8 +39,6 @@ export function getOnMouseOutActionEdit(nodeId): () => void {
 export function moveRoadmapToNode(nodeId: string) {
   const node = getNodeByIdRoadmapSelector(nodeId);
   const { coords, width, height } = node.data;
-  const { nestedFlag } = node.flags;
-  const { x, y } = coords;
 
   const wOffsetX = window.innerWidth / 2;
   const wOffsetY = window.innerHeight / 2;

@@ -30,14 +30,9 @@ const EditorPageManager = () => {
     properties: <Properties />,
     nodes: <Nodes />,
   };
-  const selectedPage = pagesMapperJSON[page];
 
-  useClickOutside(divRef, () => {
-    closeEditorProtocol();
-  });
-  usePressEsc(() => {
-    closeEditorProtocol();
-  });
+  const selectedPage = pagesMapperJSON[page];
+  const isAttachmentsPage = page === 'attachments'; // Check if selected page is "attachments"
 
   return (
     <div ref={divRef} className='h-full w-full flex flex-col '>
@@ -46,8 +41,12 @@ const EditorPageManager = () => {
         field='page'
         defaultValue='components'
       />
-      <div className='mt-5 flex-grow overflow-y-auto px-7'>
-        <div className='h-full '>{selectedPage}</div>
+      <div
+        className={`mt-5 flex-grow overflow-y-auto ${
+          isAttachmentsPage ? 'px-0' : 'px-7'
+        }`}
+      >
+        <div className='h-full'>{selectedPage}</div>
       </div>
       <button
         type='button'

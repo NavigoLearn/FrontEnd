@@ -15,6 +15,7 @@ import {
 } from '@src/typescript/roadmap_ref/node/attachments/tab/mutate';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useClickOutside } from '@hooks/useClickOutside';
+import linkpop from '@src/assets/linkpop.svg';
 import TrashIcon from '@src/UI-library/svg-anims';
 
 type IResourceAttachmentProps = {
@@ -24,22 +25,41 @@ type IResourceAttachmentProps = {
 export const ResourceAttachmentView = ({
   component,
 }: IResourceAttachmentProps) => {
+  if (!component.bulletListItems || component.bulletListItems.length === 0) {
+    return (
+      <div>
+        <div className='text-gray-400 font-roboto-text mb-2 px-9'>
+          Resources
+        </div>
+        <div className='text-darkBlue font-roboto-text px-9'>
+          No resources available yet.
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div>
-      <div className='text-gray-400 font-roboto-text'>Resources</div>
+      <div className='text-gray-400 font-roboto-text mb-2 px-9'>Resources</div>
       {component.bulletListItems.map((item, index) => {
+        const isLastItem = index === component.bulletListItems.length;
+
         return (
           <div
             key={item.id}
-            className='w-full flex justify-between items-center my-1'
+            className={`w-full flex justify-between items-center my-1 ${
+              isLastItem ? '' : 'border-t border-gray-300'
+            }`}
           >
-            <a href={item.linkURL}>
+            <a href={item.linkURL} className='px-9 my-2 flex flex-row gap-2'>
               <div className='text-darkBlue text-lg font-semibold'>
                 {item.text}
               </div>
-              <div className='text-darkBlue text-sm font-medium'>
-                {item.linkURL}
-              </div>
+              <img
+                src={linkpop}
+                alt='pressLinkButton'
+                className='w-5 h-5 mt-1'
+              />
             </a>
           </div>
         );
@@ -158,7 +178,7 @@ const ResourceBulletListItem = ({
 
 const ResourceAttachmentEdit = ({ component }: IResourceAttachmentProps) => {
   return (
-    <div className='flex gap-1 w-full relative flex-col border-2 border-gray-400 rounded-lg pb-4 '>
+    <div className='flex gap-1 w-full relative flex-col border-2 border-gray-400 rounded-lg pb-4'>
       <div className='flex justify-between px-4  w-full mt-4'>
         <h1 className='text-darkBlue font-roboto-text'>Resources</h1>
         <button

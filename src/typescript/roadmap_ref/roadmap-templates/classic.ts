@@ -8,34 +8,50 @@ import {
   injectRoadmapNode,
 } from '@src/typescript/roadmap_ref/roadmap-data/services/inject';
 
-import { appendSubNode } from '@src/typescript/roadmap_ref/node/core/data-mutation/append';
+import {
+  appendChildNodeId,
+  appendSubNode,
+} from '@src/typescript/roadmap_ref/node/core/data-mutation/append';
+import { injectParentData } from '@src/typescript/roadmap_ref/node/core/factories/data-mutation/inject';
 
 export function factoryRoadmapClassic() {
-  const node0 = factoryNodeClassic(0, 0, 200, 50);
+  const node0 = factoryNodeClassic(0, 0, 200, 50, 0);
   injectRoadmapGlobalRootNodeId(node0.id);
-  const node1 = factoryNodeClassic(0, 150, 200, 50);
+  const node1 = factoryNodeClassic(0, 150, 200, 50, 1);
+  const node2 = factoryNodeClassic(0, 300, 200, 50, 2);
+  const node3 = factoryNodeClassic(300, 300, 200, 50, 3);
+  const node4 = factoryNodeClassic(-300, 300, 200, 50, 4);
   const connection0 = factoryConnection(node0, node1);
+  const connection1 = factoryConnection(node1, node2);
+  const connection2 = factoryConnection(node2, node3);
+  const connection3 = factoryConnection(node2, node4);
 
-  const subNode00 = factorySubNode(node0.id, 100, 50, -75, -75);
-  const subNode01 = factorySubNode(node0.id, 100, 50, 75, 75);
-  const subNode02 = factorySubNode(node0.id, 100, 50, 75, -75);
-  const subNode03 = factorySubNode(node0.id, 100, 50, -75, 75);
+  injectParentData(node1, node0.id);
+  injectParentData(node2, node1.id);
+  injectParentData(node3, node2.id);
+  injectParentData(node4, node2.id);
+
+  appendChildNodeId(node0, node1.id);
+  appendChildNodeId(node1, node2.id);
+  appendChildNodeId(node2, node3.id);
+  appendChildNodeId(node2, node4.id);
+
   injectRoadmapNode(node0);
   injectRoadmapNode(node1);
+  injectRoadmapNode(node2);
+  injectRoadmapNode(node3);
+  injectRoadmapNode(node4);
+
   injectRoadmapConnection(connection0);
-
-  appendSubNode(node0, subNode00.id);
-  appendSubNode(node0, subNode01.id);
-  appendSubNode(node0, subNode02.id);
-  appendSubNode(node0, subNode03.id);
-
-  injectRoadmapNode(subNode00);
-  injectRoadmapNode(subNode01);
-  injectRoadmapNode(subNode02);
-  injectRoadmapNode(subNode03);
+  injectRoadmapConnection(connection1);
+  injectRoadmapConnection(connection2);
+  injectRoadmapConnection(connection3);
 
   appendRootNodeId(node0.id);
   appendRootNodeId(node1.id);
+  appendRootNodeId(node2.id);
+  appendRootNodeId(node3.id);
+  appendRootNodeId(node4.id);
 }
 
 export function factoryRoadmapFirstAttempt() {
