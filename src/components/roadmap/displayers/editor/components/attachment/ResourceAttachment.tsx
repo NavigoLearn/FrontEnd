@@ -15,6 +15,7 @@ import {
 } from '@src/typescript/roadmap_ref/node/attachments/tab/mutate';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useClickOutside } from '@hooks/useClickOutside';
+import TrashIcon from '@src/UI-library/svg-anims';
 
 type IResourceAttachmentProps = {
   component: IAttachmentTabBulletListProperties;
@@ -132,11 +133,7 @@ const ResourceBulletListItem = ({
           }}
           type='button'
         >
-          <img
-            src='/editor/deleteBin.svg'
-            className='w-7 h-7'
-            alt='Delete button for link'
-          />
+          <TrashIcon />
         </button>
       </div>
       <AnimatePresence>

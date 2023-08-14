@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { tailwindTransitionClass } from '@src/UI-library/tailwind-utils';
 import { triggerNodeRerender } from '@store/roadmap-refactor/render/rerender-triggers-nodes';
 import editorSelectedData from '@store/roadmap-refactor/elements-editing/editor-selected-data';
+import { motion } from 'framer-motion';
 
 type IDropdownSelectProps<T extends string> = {
   optionsList: T[];
@@ -21,7 +22,8 @@ const DropdownOptions = <T extends string>({
   setIsOpen,
 }: IDropdownOptionsProps<T>) => {
   return (
-    <div className='absolute w-full left-0 top-20  bg-white flex flex-col  rounded-xl '>
+    // TODO find a way to animate this dropdown
+    <motion.div className='absolute w-full left-0 top-20  bg-white flex flex-col  rounded-xl '>
       <div className='absolute w-full h-full border-2 border-gray-500 left-0 top-0 z-20 rounded-xl pointer-events-none' />
       {optionsList.map((element, index) => {
         return (
@@ -54,7 +56,7 @@ const DropdownOptions = <T extends string>({
           </div>
         );
       })}
-    </div>
+    </motion.div>
   );
 };
 
@@ -70,7 +72,7 @@ const DropdownComponent = <T extends string>({
   };
 
   return (
-    <div className='relative group mt-5 w-full h-16 rounded-lg bg-gray-200'>
+    <motion.div className='relative group mt-5 w-full h-16 rounded-lg bg-gray-200'>
       <button
         onClick={toggleDropdown}
         type='button'
@@ -97,7 +99,7 @@ const DropdownComponent = <T extends string>({
           onSelect={onSelect}
         />
       </div>
-    </div>
+    </motion.div>
   );
 };
 

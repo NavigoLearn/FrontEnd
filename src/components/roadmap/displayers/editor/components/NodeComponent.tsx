@@ -16,6 +16,7 @@ import { roadmapSelector } from '@store/roadmap-refactor/roadmap-data/roadmap-se
 import { triggerNodeRerender } from '@store/roadmap-refactor/render/rerender-triggers-nodes';
 import { useTriggerRerender } from '@hooks/useTriggerRerender';
 import { subscribeToHub } from '@store/roadmap-refactor/subscribers/function-subscribers';
+import TrashIcon from '@src/UI-library/svg-anims';
 
 type INodeProperties = {
   node: NodeClass;
@@ -163,15 +164,11 @@ const NodeComponent = ({
             triggerRerenderEditor();
           }}
         >
-          <img
-            src='/editor/deleteBin.svg'
-            alt='Delete button for title component'
-            className='w-full h-full'
-          />
+          <TrashIcon />
         </button>
         <button
           type='button'
-          className=' w-20 h-10 bg-blue-400 text-white rounded-lg'
+          className=' w-20 h-10 bg-blue-400 text-white rounded-lg mt-7'
           onClick={() => {}}
         >
           Edit
