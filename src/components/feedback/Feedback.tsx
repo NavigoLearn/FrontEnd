@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import DraggableInput from '@src/UI-library/DraggableInput';
 
 const Feedback = () => {
   const [isDesktop, setIsDesktop] = useState(undefined);
@@ -18,7 +19,10 @@ const Feedback = () => {
   return (
     <div>
       {typeof isDesktop === 'undefined' ? null : (
-        <div>{/* <DesktopFeedback /> */}</div>
+        <div>
+          {/* <DesktopFeedback /> */}
+          <DraggableInput />
+        </div>
       )}
     </div>
   );
