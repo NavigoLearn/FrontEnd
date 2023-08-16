@@ -19,11 +19,7 @@ import {
   disableZoom,
 } from '@src/typescript/roadmap_ref/render/zoom-d3';
 import { recalculateChunks } from '@src/typescript/roadmap_ref/render/chunks';
-import {
-  setDisableZoomTrigger,
-  setEnableZoomTrigger,
-  triggerRecenterRoadmap,
-} from '@store/roadmap-refactor/misc/miscParams';
+import { triggerRecenterRoadmap } from '@store/roadmap-refactor/misc/miscParams';
 import { useIsLoaded } from '@hooks/useIsLoaded';
 import { setRoadmapFromAPI } from '@store/roadmap-refactor/roadmap-data/roadmap-view';
 import { applyRoadmapDraggability } from '@src/typescript/roadmap_ref/dragging/misc';
@@ -32,7 +28,8 @@ import { hydrateRoadmap } from '@src/typescript/roadmap_ref/hydration/roadmap-hy
 import ConnectionRenderer from '@components/roadmap/ConnectionRenderer';
 import renderConnectionsStore from '@store/roadmap-refactor/render/rendered-connections';
 import { closeEditorProtocol } from '@src/to-be-organized/nodeview/actions-manager';
-import { factoryRoadmapFirstAttempt } from '@src/typescript/roadmap_ref/roadmap-templates/classic';
+import { factoryRoadmapClassic } from '@src/typescript/roadmap_ref/roadmap-templates/classic';
+import { afterEventLoop } from '@src/typescript/utils/misc';
 import Popup from './tabs/popups/Popup';
 
 const Roadmap = ({ pageId }: { pageId: string }) => {
@@ -50,14 +47,15 @@ const Roadmap = ({ pageId }: { pageId: string }) => {
   useScrollHidden();
   const isLoaded = useIsLoaded();
 
-  const enableZoomFn = () => {
+  const enableZoom = () => {
     addZoomAndRecenter('rootSvg', 'rootGroup', chunkRenderer.current);
   };
 
   useEffect(() => {
     // dummmy data
     if (!isCreate) return;
-    factoryRoadmapFirstAttempt();
+    // factoryRoadmapFirstAttempt();
+    factoryRoadmapClassic();
   }, []);
 
   const disableZoomFn = () => {
@@ -66,9 +64,9 @@ const Roadmap = ({ pageId }: { pageId: string }) => {
 
   function initializeRoadmapAfterLoad() {
     hydrateRoadmap();
-    triggerChunkRerender();
     applyRoadmapDraggability();
     setRoadmapIsLoaded();
+    triggerChunkRerender();
     triggerRecenterRoadmap();
   }
 
@@ -88,27 +86,22 @@ const Roadmap = ({ pageId }: { pageId: string }) => {
     else setRoadmapId(uuid4());
     // fetches the roadmap-roadmap-data from the api-wrapper
     // ...
+
     !isCreate &&
       setRoadmapFromAPI(pageId).then(() => {
         initializeRoadmapAfterLoad();
       });
 
-    isCreate &&
-      (() => {
-        initializeRoadmapAfterLoad();
-      })();
-
-    setEnableZoomTrigger(() => {
-      enableZoomFn();
-    });
-
-    setDisableZoomTrigger(() => {
-      disableZoomFn();
+    afterEventLoop(() => {
+      isCreate &&
+        (() => {
+          initializeRoadmapAfterLoad();
+        })();
     });
   }, []);
 
   useEffect(() => {
-    enableZoomFn();
+    addZoomAndRecenter('rootSvg', 'rootGroup', chunkRenderer.current);
   }, [editing, isCreate]);
 
   useEffectAfterLoad(() => {}, []);
