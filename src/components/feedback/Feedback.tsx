@@ -19,10 +19,7 @@ const Feedback = () => {
   return (
     <div>
       {typeof isDesktop === 'undefined' ? null : (
-        <div>
-          {/* <DesktopFeedback /> */}
-          <DraggableInput />
-        </div>
+        <div>{/* <DesktopFeedback /> */}</div>
       )}
     </div>
   );
