@@ -1,10 +1,12 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
+import { tailwindTransitionClass } from '@src/UI-library/tailwind-utils';
 
 type IDisplayProperty = {
   name: string;
   value: number;
   onChange: (value: string) => void;
   onDragChange: (value: number) => void;
+  sensitivity?: number;
 };
 
 const DraggableInput = ({
@@ -12,6 +14,7 @@ const DraggableInput = ({
   value,
   onChange,
   onDragChange,
+  sensitivity,
 }: IDisplayProperty) => {
   const [isDragging, setIsDragging] = useState(false);
   const [mouseDownAt, setMouseDownAt] = useState(0);
@@ -25,7 +28,7 @@ const DraggableInput = ({
     const handleMouseMove = (e) => {
       if (isDragging) {
         const deltaX = e.clientX - mouseDownAt;
-        const step = 1; // sensitivity
+        const step = sensitivity; // sensitivity
         if (deltaX !== prevDeltaX) {
           const newValue = inputValue + step * (deltaX > prevDeltaX ? 1 : -1);
           setInputValue(Math.max(0, newValue));
@@ -70,29 +73,31 @@ const DraggableInput = ({
   };
 
   return (
-    <div className='flex gap-3 items-center'>
-      <div className='text-secondary'>{name}</div>
+    <div
+      className={`flex items-center border-2 border-transparent hover:border-gray-500 ${tailwindTransitionClass}`}
+    >
       {/* eslint-disable-next-line jsx-a11y/no-static-element-interactions */}
       <div
         ref={divRef}
         id='draggable-input'
-        className='w-[68px]'
+        className='px-2 '
         onMouseDown={handleMouseDown}
         style={{
           cursor: 'ew-resize',
           userSelect: 'none',
         }}
       >
-        <input
-          ref={inputRef}
-          type='number'
-          step='1'
-          className='text-darkBlue w-16 font-semibold [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none'
-          value={inputValue}
-          onChange={handleInputChange}
-          onMouseDown={handleInputMouseDown}
-        />
+        <div className='text-secondary'>{name}</div>
       </div>
+      <input
+        ref={inputRef}
+        type='number'
+        step='1'
+        className='text-darkBlue w-12 outline-none font-semibold [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none'
+        value={inputValue}
+        onChange={handleInputChange}
+        onMouseDown={handleInputMouseDown}
+      />
     </div>
   );
 };

@@ -8,7 +8,6 @@ import {
   mutateNodeOpacity,
   mutateNodeWidth,
 } from '@src/typescript/roadmap_ref/node/core/data-mutation/mutate';
-import PropertyEditorNumber from '@components/roadmap/displayers/editor/components/PropertyEditorNumber';
 import { useStore } from '@nanostores/react';
 import editorSelectedData, {
   triggerRerenderEditor,
@@ -106,7 +105,6 @@ const Properties = () => {
             value={data.width}
             onChange={(value) => {
               const newValue = parseInt(value, 10);
-              console.log(newValue);
               if (checkInvalidInput(value)) return;
               // adjust for old value to keep the same center in the same place even after resizing
               const oldWidth = data.width;
@@ -123,6 +121,7 @@ const Properties = () => {
               triggerRerenderEditor();
               triggerNodeRerender(node.id);
             }}
+            sensitivity={2}
           />
           <DraggableInput
             name='H'
@@ -151,6 +150,7 @@ const Properties = () => {
               triggerRerenderEditor();
               triggerNodeRerender(node.id);
             }}
+            sensitivity={2}
           />
           <DraggableInput
             name='Opacity'
@@ -167,6 +167,7 @@ const Properties = () => {
               triggerRerenderEditor();
               triggerNodeRerender(node.id);
             }}
+            sensitivity={0.5}
           />
         </div>
       </div>
