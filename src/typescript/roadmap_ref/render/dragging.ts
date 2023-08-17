@@ -3,16 +3,47 @@ import { DraggingBehavior } from '@src/typescript/roadmap_ref/dragging/core';
 import { setElementDraggableUpdateCallback } from '@store/roadmap-refactor/elements-editing/draggable-elements';
 import { getNodeByIdRoadmapSelector } from '@src/typescript/roadmap_ref/roadmap-data/services/get';
 import { triggerConnectionRerender } from '@store/roadmap-refactor/render/rerender-trigger-connections';
-import { setDraggingOffset } from '@store/roadmap-refactor/render/dragging-offset';
 import { getCurrentCoordsStrategyFactory } from '@src/typescript/roadmap_ref/dragging/strategies/get-current-coords';
 import { getCoordinatesAdapterStrategyFactory } from '@src/typescript/roadmap_ref/dragging/strategies/coordinates-adapters';
 import { getDraggingStrategyFactory } from '@src/typescript/roadmap_ref/dragging/strategies/dragging-strategies';
-import { getDraggingEndFactory } from '@src/typescript/roadmap_ref/dragging/strategies/dragging-end';
+import {
+  draggingEndChildrenTraceback,
+  getDraggingEndFactory,
+} from '@src/typescript/roadmap_ref/dragging/strategies/dragging-end';
+import { getChildrenRenderedTraceback } from '@src/typescript/roadmap_ref/roadmap-data/protocols/get';
+import renderedConnections from '@store/roadmap-refactor/render/rendered-connections';
 
 export const triggerNodeConnectionsRerender = (nodeId: string) => {
   const node = getNodeByIdRoadmapSelector(nodeId);
   node.connections.forEach((connectionId) => {
     triggerConnectionRerender(connectionId);
+  });
+};
+
+export const triggerAllConnectionsRerender = () => {
+  const { connections } = renderedConnections.get();
+  connections.forEach((connId) => {
+    triggerConnectionRerender(connId);
+  });
+};
+
+export const propagateDraggingToChildrenNodes = (
+  draggingBehavior: DraggingBehavior,
+  transformX: number,
+  transformY: number
+) => {
+  const node = getNodeByIdRoadmapSelector(draggingBehavior.draggingElementId);
+  const childrenIds = getChildrenRenderedTraceback(node.id);
+
+  childrenIds.forEach((childId) => {
+    const child = getNodeByIdRoadmapSelector(childId);
+    const { id } = child;
+    const elementIdentifier = draggingBehavior.draggingElementIdentifier;
+
+    const sel = document.getElementById(`${elementIdentifier}${id}`);
+    const obj = d3.select(sel);
+
+    obj.style('transform', `translate(${transformX}px, ${transformY}px)`);
   });
 };
 
@@ -32,6 +63,7 @@ export const addDragabilityProtocol = (draggingBehavior: DraggingBehavior) => {
   const draggingStrategy = getDraggingStrategyFactory(draggingBehavior);
   const draggingEndStrategy = getDraggingEndFactory(draggingBehavior);
 
+  const isRecursive = false;
   const drag = d3
     .drag()
     // eslint-disable-next-line func-names
@@ -84,18 +116,25 @@ export const addDragabilityProtocol = (draggingBehavior: DraggingBehavior) => {
         'transform',
         `translate(${displacementVectorX}px, ${displacementVectorY}px)`
       );
-      setDraggingOffset(displacementVectorX, displacementVectorY);
+      isRecursive &&
+        propagateDraggingToChildrenNodes(
+          draggingBehavior,
+          displacementVectorX,
+          displacementVectorY
+        );
+
       // we apply the translate relative to initial position because you can imagine dragging like an arrow
       // from initial position to final position and after we are done the arrow is translated in actual
       // coordinates changes
 
       // update connections here
       draggingBehavior.draggingElementType === 'node' &&
-        triggerNodeConnectionsRerender(id);
+        triggerAllConnectionsRerender();
     })
     // eslint-disable-next-line func-names
     .on('end', function () {
       draggingEndStrategy(newPos.x, newPos.y);
+      isRecursive && draggingEndChildrenTraceback(draggingBehavior);
       // chunk recalculations are integrated in the coordinates setter strategy
     });
 
