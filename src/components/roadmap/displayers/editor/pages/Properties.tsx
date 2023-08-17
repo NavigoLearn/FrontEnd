@@ -19,6 +19,7 @@ import { getNodeByIdRoadmapSelector } from '@src/typescript/roadmap_ref/roadmap-
 import { tailwindTransitionClass } from '@src/UI-library/tailwind-utils';
 import { IActionTypes } from '@src/typescript/roadmap_ref/node/core/actions/core';
 import { selectNodeColorScheme } from '@src/typescript/roadmap_ref/node/core/factories/data-mutation/services';
+import DraggableInput from '@src/UI-library/DraggableInput';
 
 type IActionsDropdown = {
   action: string;
@@ -100,11 +101,12 @@ const Properties = () => {
           Size
         </div>
         <div className='flex flex-row gap-2'>
-          <PropertyEditorNumber
+          <DraggableInput
             name='W'
             value={data.width}
             onChange={(value) => {
               const newValue = parseInt(value, 10);
+              console.log(newValue);
               if (checkInvalidInput(value)) return;
               // adjust for old value to keep the same center in the same place even after resizing
               const oldWidth = data.width;
@@ -113,25 +115,44 @@ const Properties = () => {
               triggerRerenderEditor();
               triggerNodeRerender(node.id);
             }}
+            onDragChange={(newValue) => {
+              // adjust for old value to keep the same center in the same place even after resizing
+              const oldWidth = data.width;
+              mutateNodeCoordX(node, data.coords.x + (oldWidth - newValue) / 2);
+              mutateNodeWidth(node, newValue);
+              triggerRerenderEditor();
+              triggerNodeRerender(node.id);
+            }}
           />
-          <PropertyEditorNumber
+          <DraggableInput
             name='H'
             value={data.height}
             onChange={(value) => {
               const newValue = parseInt(value, 10);
               if (checkInvalidInput(value)) return;
+              // adjust for old value to keep the same center in the same place even after resizing
               const oldHeight = data.height;
               mutateNodeCoordY(
                 node,
                 data.coords.y + (oldHeight - newValue) / 2
               );
-
+              mutateNodeHeight(node, newValue);
+              triggerRerenderEditor();
+              triggerNodeRerender(node.id);
+            }}
+            onDragChange={(newValue) => {
+              // adjust for old value to keep the same center in the same place even after resizing
+              const oldHeight = data.height;
+              mutateNodeCoordY(
+                node,
+                data.coords.y + (oldHeight - newValue) / 2
+              );
               mutateNodeHeight(node, newValue);
               triggerRerenderEditor();
               triggerNodeRerender(node.id);
             }}
           />
-          <PropertyEditorNumber
+          <DraggableInput
             name='Opacity'
             value={data.opacity}
             onChange={(value) => {
@@ -139,6 +160,12 @@ const Properties = () => {
               if (checkInvalidInput(value)) return;
               mutateNodeOpacity(node, newValue);
               triggerRerenderEditor();
+              triggerNodeRerender(node.id);
+            }}
+            onDragChange={(newValue) => {
+              mutateNodeOpacity(node, newValue);
+              triggerRerenderEditor();
+              triggerNodeRerender(node.id);
             }}
           />
         </div>
