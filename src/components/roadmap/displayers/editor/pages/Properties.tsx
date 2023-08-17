@@ -14,7 +14,10 @@ import editorSelectedData, {
 } from '@store/roadmap-refactor/elements-editing/editor-selected-data';
 import VariantsComponent from '@components/roadmap/displayers/editor/components/VariantsComponent';
 import { triggerNodeRerender } from '@store/roadmap-refactor/render/rerender-triggers-nodes';
-import { getNodeByIdRoadmapSelector } from '@src/typescript/roadmap_ref/roadmap-data/services/get';
+import {
+  getIsRootNode,
+  getNodeByIdRoadmapSelector,
+} from '@src/typescript/roadmap_ref/roadmap-data/services/get';
 import { tailwindTransitionClass } from '@src/UI-library/tailwind-utils';
 import { IActionTypes } from '@src/typescript/roadmap_ref/node/core/actions/core';
 import { selectNodeColorScheme } from '@src/typescript/roadmap_ref/node/core/factories/data-mutation/services';
@@ -108,15 +111,11 @@ const Properties = () => {
               if (checkInvalidInput(value)) return;
               // adjust for old value to keep the same center in the same place even after resizing
               const oldWidth = data.width;
-              mutateNodeCoordX(node, data.coords.x + (oldWidth - newValue) / 2);
-              mutateNodeWidth(node, newValue);
-              triggerRerenderEditor();
-              triggerNodeRerender(node.id);
-            }}
-            onDragChange={(newValue) => {
-              // adjust for old value to keep the same center in the same place even after resizing
-              const oldWidth = data.width;
-              mutateNodeCoordX(node, data.coords.x + (oldWidth - newValue) / 2);
+              getIsRootNode(node.id) &&
+                mutateNodeCoordX(
+                  node,
+                  data.coords.x + (oldWidth - newValue) / 2
+                );
               mutateNodeWidth(node, newValue);
               triggerRerenderEditor();
               triggerNodeRerender(node.id);
@@ -131,21 +130,11 @@ const Properties = () => {
               if (checkInvalidInput(value)) return;
               // adjust for old value to keep the same center in the same place even after resizing
               const oldHeight = data.height;
-              mutateNodeCoordY(
-                node,
-                data.coords.y + (oldHeight - newValue) / 2
-              );
-              mutateNodeHeight(node, newValue);
-              triggerRerenderEditor();
-              triggerNodeRerender(node.id);
-            }}
-            onDragChange={(newValue) => {
-              // adjust for old value to keep the same center in the same place even after resizing
-              const oldHeight = data.height;
-              mutateNodeCoordY(
-                node,
-                data.coords.y + (oldHeight - newValue) / 2
-              );
+              getIsRootNode(node.id) &&
+                mutateNodeCoordY(
+                  node,
+                  data.coords.y + (oldHeight - newValue) / 2
+                );
               mutateNodeHeight(node, newValue);
               triggerRerenderEditor();
               triggerNodeRerender(node.id);
@@ -158,11 +147,6 @@ const Properties = () => {
             onChange={(value) => {
               const newValue = parseInt(value, 10);
               if (checkInvalidInput(value)) return;
-              mutateNodeOpacity(node, newValue);
-              triggerRerenderEditor();
-              triggerNodeRerender(node.id);
-            }}
-            onDragChange={(newValue) => {
               mutateNodeOpacity(node, newValue);
               triggerRerenderEditor();
               triggerNodeRerender(node.id);

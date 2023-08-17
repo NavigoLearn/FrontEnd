@@ -5,7 +5,6 @@ type IDisplayProperty = {
   name: string;
   value: number;
   onChange: (value: string) => void;
-  onDragChange: (value: number) => void;
   sensitivity?: number;
 };
 
@@ -13,7 +12,6 @@ const DraggableInput = ({
   name,
   value,
   onChange,
-  onDragChange,
   sensitivity,
 }: IDisplayProperty) => {
   const [isDragging, setIsDragging] = useState(false);
@@ -25,6 +23,10 @@ const DraggableInput = ({
   const inputRef = useRef(null);
 
   useEffect(() => {
+    setInputValue(value);
+  }, [value]);
+
+  useEffect(() => {
     const handleMouseMove = (e) => {
       if (isDragging) {
         const deltaX = e.clientX - mouseDownAt;
@@ -33,8 +35,8 @@ const DraggableInput = ({
           const newValue = inputValue + step * (deltaX > prevDeltaX ? 1 : -1);
           setInputValue(Math.max(0, newValue));
 
-          onDragChange(newValue); // Call the callback with the new value
-
+          // parse str to int
+          onChange(newValue.toString());
           setPrevDeltaX(deltaX);
         }
       }
@@ -102,4 +104,7 @@ const DraggableInput = ({
   );
 };
 
+DraggableInput.defaultProps = {
+  sensitivity: 1,
+};
 export default DraggableInput;

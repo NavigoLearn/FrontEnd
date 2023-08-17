@@ -3,11 +3,13 @@ import {
   ICoords,
   IDraggingElementType,
 } from '@src/typescript/roadmap_ref/dragging/core';
+import { NodeClass } from '@src/typescript/roadmap_ref/node/core/core';
 import {
   getNodeByIdRoadmapSelector,
   getRootNodesIds,
 } from '@src/typescript/roadmap_ref/roadmap-data/services/get';
 import renderNodesStore from '@store/roadmap-refactor/render/rendered-nodes';
+import { getComponentById } from '@src/typescript/roadmap_ref/node/core/data-get/components';
 
 export const draggingStrategyFree = (draggingBehavior, newX, newY) => {
   return {
@@ -191,6 +193,64 @@ export const thrrottledSnappingFactory = (
     return snapStrategy(draggingBehavior, newX, newY);
   };
 };
+export const boundCoordsToNode = (
+  node: NodeClass,
+  newX: number,
+  newY: number,
+  elementWidth = 0,
+  elementHeight = 0
+): ICoords => {
+  const halfWidth = node.data.width / 2;
+  const halfHeight = node.data.height / 2;
+
+  const x = Math.max(
+    -halfWidth + elementWidth / 2,
+    Math.min(newX, halfWidth - elementWidth / 2)
+  );
+  const y = Math.max(
+    -halfHeight + elementHeight / 2,
+    Math.min(newY, halfHeight - elementHeight / 2)
+  );
+
+  return { x, y };
+};
+
+export const draggingBoundStrategyNestedNodes = (
+  draggingBehavior: DraggingBehavior,
+  newX: number,
+  newY: number
+): ICoords => {
+  const node = getNodeByIdRoadmapSelector(draggingBehavior.draggingElementId);
+  const parentNode = getNodeByIdRoadmapSelector(node.properties.nestedWithin);
+
+  // bounds x and y to parent node
+  const { x, y } = boundCoordsToNode(parentNode, newX, newY);
+  return {
+    x,
+    y,
+  };
+};
+
+export const draggingBoundStrategyNestedComponents = (
+  draggingBehavior: DraggingBehavior,
+  newX: number,
+  newY: number
+): ICoords => {
+  const parentNode = getNodeByIdRoadmapSelector(
+    draggingBehavior.additionalData.parentNodeId
+  );
+  const component = getComponentById(
+    parentNode,
+    draggingBehavior.draggingElementId
+  );
+  const { width, height } = component;
+  // bounds x and y to parent node
+  const { x, y } = boundCoordsToNode(parentNode, newX, newY, width, height);
+  return {
+    x,
+    y,
+  };
+};
 
 export const draggingStrategySnap = (draggingBehavior, newX, newY): ICoords => {
   const elementType: IDraggingElementType =
@@ -200,14 +260,20 @@ export const draggingStrategySnap = (draggingBehavior, newX, newY): ICoords => {
     return draggingStrategySnapRoadmapRootNodes(draggingBehavior, newX, newY);
   }
   if (elementType === 'subNode') {
-    return draggingStrategySnapRoadmapNestedNodes(draggingBehavior, newX, newY);
-  }
-  if (elementType === 'component') {
-    return draggingStrategySnapRoadmapNestedComponents(
+    const { x, y } = draggingStrategySnapRoadmapNestedNodes(
       draggingBehavior,
       newX,
       newY
     );
+    return draggingBoundStrategyNestedNodes(draggingBehavior, x, y);
+  }
+  if (elementType === 'component') {
+    const { x, y } = draggingStrategySnapRoadmapNestedComponents(
+      draggingBehavior,
+      newX,
+      newY
+    );
+    return draggingBoundStrategyNestedComponents(draggingBehavior, x, y);
   }
   throw new Error('invalid dragging element type');
 };

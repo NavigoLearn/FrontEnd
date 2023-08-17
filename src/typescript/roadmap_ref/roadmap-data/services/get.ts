@@ -25,3 +25,11 @@ export const getConnectionByIdRoadmapSelector = (id: string) => {
 export const getRootGlobalId = () => {
   return roadmapSelector.get().data.globalRootNodeId;
 };
+
+export const getIsGlobalRootNode = (nodeId: string) => {
+  return nodeId === getRootGlobalId();
+};
+
+export const getIsRootNode = (nodeId: string) => {
+  return getRootNodesIds().includes(nodeId);
+};

@@ -9,9 +9,6 @@ import Components from '@components/roadmap/displayers/editor/pages/Components';
 import Actions from '@components/roadmap/displayers/editor/pages/Actions';
 import Properties from '@components/roadmap/displayers/editor/pages/Properties';
 import Nodes from '@components/roadmap/displayers/editor/pages/Nodes';
-import { useClickOutside } from '@hooks/useClickOutside';
-import { closeEditorProtocol } from '@src/to-be-organized/nodeview/actions-manager';
-import { usePressEsc } from '@hooks/usePressEsc';
 
 const EditorPageManager = () => {
   const { page } = useStore(editorDisplayManager);
