@@ -63,6 +63,7 @@ const TabAttachmentEditor = ({ onChange, value }: ITabAttachmentProps) => {
   const { isEditing } = value;
   const divRef = useRef(null);
   const [scrollable, setScrollable] = useState(false);
+
   const isScrollable = function () {
     if (!divRef.current) return false;
     const ele = divRef.current;

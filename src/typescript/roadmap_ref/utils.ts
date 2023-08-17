@@ -8,3 +8,8 @@ export function setLoadedTrue() {
 export function deepCopy(obj) {
   return JSON.parse(JSON.stringify(obj));
 }
+
+export function donsole(...args) {
+  // @ts-ignore
+  console.log(deepCopy(...args));
+}
