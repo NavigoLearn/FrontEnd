@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import {
-  mutateNodeColor,
   mutateNodeCoordX,
   mutateNodeCoordY,
   mutateNodeHeight,
@@ -12,7 +11,7 @@ import { useStore } from '@nanostores/react';
 import editorSelectedData, {
   triggerRerenderEditor,
 } from '@store/roadmap-refactor/elements-editing/editor-selected-data';
-import VariantsComponent from '@components/roadmap/displayers/editor/components/VariantsComponent';
+import VariantsComponent from '@components/roadmap/displayers/editor/editor-pages/properties-page/VariantsComponent';
 import { triggerNodeRerender } from '@store/roadmap-refactor/render/rerender-triggers-nodes';
 import {
   getIsRootNode,
@@ -20,7 +19,6 @@ import {
 } from '@src/typescript/roadmap_ref/roadmap-data/services/get';
 import { tailwindTransitionClass } from '@src/UI-library/tailwind-utils';
 import { IActionTypes } from '@src/typescript/roadmap_ref/node/core/actions/core';
-import { selectNodeColorScheme } from '@src/typescript/roadmap_ref/node/core/factories/data-mutation/services';
 import DraggableInput from '@src/UI-library/DraggableInput';
 
 type IActionsDropdown = {
@@ -161,29 +159,8 @@ const Properties = () => {
           Select node colour
         </h5>
         <VariantsComponent
-          variants={[
-            {
-              color: selectNodeColorScheme(node.data.colorTheme, 'primary'),
-              callback: () => {
-                mutateNodeColor(node, 'primary');
-                triggerNodeRerender(node.id);
-              },
-            },
-            {
-              color: selectNodeColorScheme(node.data.colorTheme, 'secondary'),
-              callback: () => {
-                mutateNodeColor(node, 'secondary');
-                triggerNodeRerender(node.id);
-              },
-            },
-            {
-              color: selectNodeColorScheme(node.data.colorTheme, 'tertiary'),
-              callback: () => {
-                mutateNodeColor(node, 'tertiary');
-                triggerNodeRerender(node.id);
-              },
-            },
-          ]}
+          selectedColor={node.data.colorType}
+          selectedTheme={node.data.colorTheme}
         />
       </div>
 
@@ -200,32 +177,6 @@ const Properties = () => {
           }}
         />
       </div>
-
-      {/* <ButtonOutsideGray> */}
-      {/*  <ButtonInsideGeneric */}
-      {/*    name='Basic Template' */}
-      {/*    icon='/editor/addCircle.svg' */}
-      {/*    onClick={() => { */}
-      {/*      Object.assign(node, nodeFactoryClassicBoilerplate()); */}
-      {/*    }} */}
-      {/*  /> */}
-      {/* </ButtonOutsideGray> */}
-      {/* <div className='text-center opacity-70 '> */}
-      {/*  Basic template, contains only a title and a basic tab with preamde */}
-      {/*  classic size */}
-      {/* </div> */}
-      {/* <ButtonOutsideGray> */}
-      {/*  <ButtonInsideGeneric */}
-      {/*    name='Resource Template' */}
-      {/*    icon='/editor/addCircle.svg' */}
-      {/*    onClick={() => { */}
-      {/*      Object.assign(node, nodeFactoryResourceBoilerplate()); */}
-      {/*    }} */}
-      {/*  /> */}
-      {/* </ButtonOutsideGray> */}
-      {/* <div className='text-center opacity-70 '> */}
-      {/*  Resource template, contains only a title along with 2 basic nested nodes */}
-      {/* </div> */}
     </div>
   );
 };

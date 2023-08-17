@@ -3,10 +3,10 @@ import { deleteAttachmentBulletListNewItem } from '@src/typescript/roadmap_ref/n
 import {
   IAttachmentTabBulletListItem,
   IAttachmentTabBulletListProperties,
-} from '@src/types/roadmap/node/tab-types';
-import attachmentPageStatus from '@src/store/roadmap-refactor/display/editor/attachment-page-status';
+} from '@type/roadmap/node/tab-types';
+import attachmentPageStatus from '@store/roadmap-refactor/display/editor/attachment-page-status';
 import { useStore } from '@nanostores/react';
-import addCircle from '@src/assets/add-circle.svg';
+import addCircle from '@assets/add-circle.svg';
 import { appendAttachmentBulletListNewItem } from '@src/typescript/roadmap_ref/node/attachments/tab/append';
 import { triggerRerenderEditor } from '@store/roadmap-refactor/elements-editing/editor-selected-data';
 import {
@@ -15,7 +15,7 @@ import {
 } from '@src/typescript/roadmap_ref/node/attachments/tab/mutate';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useClickOutside } from '@hooks/useClickOutside';
-import linkpop from '@src/assets/linkpop.svg';
+import linkpop from '@assets/linkpop.svg';
 import TrashIcon from '@src/UI-library/svg-anims';
 
 type IResourceAttachmentProps = {

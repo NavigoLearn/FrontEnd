@@ -4,7 +4,7 @@ import {
   appendConnectionNode,
   appendSubNode,
 } from '@src/typescript/roadmap_ref/node/core/data-mutation/append';
-import { draggableElementProtocol } from '@components/roadmap/displayers/editor/pages/utils';
+import { draggableElementProtocol } from '@components/roadmap/displayers/editor/editor-pages/utils';
 import { triggerNodeRerender } from '@store/roadmap-refactor/render/rerender-triggers-nodes';
 import { NodeClass } from '@src/typescript/roadmap_ref/node/core/core';
 import { factoryNodeClassic } from '@src/typescript/roadmap_ref/node/core/factories/templates/classic';

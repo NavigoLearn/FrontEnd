@@ -149,11 +149,11 @@ export const draggingStrategySnapRoadmapRootNodes = (
   newX,
   newY
 ) => {
-  // we snap root roadmap nodes
-  // get positions of all root nodes
+  // we snap root roadmap nodes-page
+  // get positions of all root nodes-page
   const rootNodes = getRootNodesIds();
   const renderedNodes = renderNodesStore.get().nodesIds;
-  // filter out nodes that are not rendered
+  // filter out nodes-page that are not rendered
   const filteredRootNodes = rootNodes.filter((nodeId) => {
     return (
       renderedNodes.includes(nodeId) &&

@@ -26,9 +26,9 @@ import { appendAttachmentTabStandard } from '@src/typescript/roadmap_ref/node/co
 import { injectDraggingStrategy } from '@src/typescript/roadmap_ref/dragging/inject';
 
 export function nodeFactoryClassicBoilerplate(id?: string): NodeClass {
-  // return boilerplate class for classic nodes and the most common
+  // return boilerplate class for classic nodes-page and the most common
   const node = new NodeClass();
-  // classic nodes has a tab-attachment attachment and the default color scheme
+  // classic nodes-page has a tab-attachment-page attachment-page and the default color scheme
   injectClassicFlags(node);
   id ? injectNewId(node, id) : injectNewRandomId(node);
   injectClassicData(node, '', []);

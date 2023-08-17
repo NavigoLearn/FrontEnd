@@ -6,11 +6,11 @@ import editorDisplayManager, {
   IEditorDisplayPageType,
 } from '@store/roadmap-refactor/display/editor/editor-display-manager';
 import EditorNavbarPagination from '@components/roadmap/displayers/editor/EditorNavbar';
-import TabAttachment from '@components/roadmap/displayers/editor/pages/TabAttachmentEditor';
-import Components from '@components/roadmap/displayers/editor/pages/Components';
-import Actions from '@components/roadmap/displayers/editor/pages/Actions';
-import Properties from '@components/roadmap/displayers/editor/pages/Properties';
-import Nodes from '@components/roadmap/displayers/editor/pages/Nodes';
+import TabAttachment from '@components/roadmap/displayers/editor/editor-pages/attachment-page/TabAttachmentEditor';
+import Components from '@components/roadmap/displayers/editor/editor-pages/components-page/Components';
+import Actions from '@components/roadmap/displayers/editor/editor-pages/actions-page/Actions';
+import Properties from '@components/roadmap/displayers/editor/editor-pages/properties-page/Properties';
+import Nodes from '@components/roadmap/displayers/editor/editor-pages/nodes-page/Nodes';
 import { AnimatePresence, motion } from 'framer-motion';
 
 const pagesMapperJSON = {

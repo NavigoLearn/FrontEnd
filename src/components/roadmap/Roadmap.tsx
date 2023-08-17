@@ -37,7 +37,7 @@ const Roadmap = ({ pageId }: { pageId: string }) => {
     setEditingTrueNoRerender();
   }
   const { editing } = isCreate ? { editing: true } : useStore(roadmapState);
-  // need to take the ids of the nodes included in the current chunks and render them
+  // need to take the ids of the nodes-page included in the current chunks and render them
   const { nodes } = roadmapSelector.get();
   const { nodesIds } = useStore(renderNodesStore);
   const { connections: connectionsIds } = useStore(renderConnectionsStore);

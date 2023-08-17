@@ -1,7 +1,7 @@
 import { atom } from 'nanostores';
 
 const connectionsTriggers = atom({
-  triggers: {}, // all the rerender triggers for the nodes
+  triggers: {}, // all the rerender triggers for the nodes-page
 } as {
   triggers: any;
 });

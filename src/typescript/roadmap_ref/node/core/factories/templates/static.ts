@@ -8,9 +8,9 @@ import { appendAttachment } from '@src/typescript/roadmap_ref/node/core/data-mut
 import { factoryAttachmentTabEmpty } from '@src/typescript/roadmap_ref/node/attachments/tab/factory';
 
 export function NodeFactoryStaticBoilerplate(): NodeClass {
-  // return boilerplate class for classic nodes and the most common
+  // return boilerplate class for classic nodes-page and the most common
   const node = new NodeClass();
-  // classic nodes has a tab-attachment attachment and the default color scheme
+  // classic nodes-page has a tab-attachment-page attachment-page and the default color scheme
   injectClassicFlags(node);
   injectNewRandomId(node);
   injectClassicData(node, 'someparent', []);

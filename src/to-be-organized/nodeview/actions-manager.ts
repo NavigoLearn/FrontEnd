@@ -102,7 +102,7 @@ export function getOnClickActionView(nodeId): () => void {
   };
 }
 export function getOnClickAction(nodeId: string): () => void {
-  // could be replaced with a onClick store that holds onClick for all nodes but that would mean a ton of side effects
+  // could be replaced with a onClick store that holds onClick for all nodes-page but that would mean a ton of side effects
   // when changing from view to edit or making a node draggable
   const state = roadmapState.get().editing;
   return state ? getOnClickActionEdit(nodeId) : getOnClickActionView(nodeId);

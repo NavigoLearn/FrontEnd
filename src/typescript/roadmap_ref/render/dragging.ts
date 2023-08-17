@@ -88,7 +88,7 @@ export const addDragabilityProtocol = (draggingBehavior: DraggingBehavior) => {
     })
     // eslint-disable-next-line func-names
     .on('drag', function (event) {
-      // use adapter for coordinates to sync with the dragging space (eg nodes/nested components behave differently)
+      // use adapter for coordinates to sync with the dragging space (eg nodes-page/nested reusable-components-page behave differently)
       const { x: adaptedX, y: adaptedY } = coordinatesAdapterStrategy(
         event.x,
         event.y

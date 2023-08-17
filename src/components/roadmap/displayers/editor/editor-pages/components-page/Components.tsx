@@ -5,9 +5,9 @@ import editorSelectedData, {
   triggerRerenderEditor,
 } from '@store/roadmap-refactor/elements-editing/editor-selected-data';
 import { IComponentOptions } from '@type/roadmap/node/options-types';
-import TitleComponent from '@components/roadmap/displayers/editor/components/TitleComponent';
-import DescriptionComponent from '@components/roadmap/displayers/editor/components/DescriptionComponent';
-import DropdownComponent from '@components/roadmap/displayers/editor/components/DropdownComponent';
+import TitleComponent from '@components/roadmap/displayers/editor/editor-pages/components-page/components/TitleComponent';
+import DescriptionComponent from '@components/roadmap/displayers/editor/editor-pages/components-page/components/DescriptionComponent';
+import DropdownComponent from '@components/roadmap/displayers/editor/reusable-components/DropdownComponent';
 import { appendComponent } from '@src/typescript/roadmap_ref/node/core/data-mutation/append';
 import { factoryComponentEmpty } from '@src/typescript/roadmap_ref/node/components/text/factories';
 import { getNodeByIdRoadmapSelector } from '@src/typescript/roadmap_ref/roadmap-data/services/get';

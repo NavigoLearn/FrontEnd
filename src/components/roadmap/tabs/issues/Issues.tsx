@@ -56,7 +56,7 @@ const Issues = () => {
           type='button'
           className=' w-6 h-6 absolute left-2 sm:left-10 select-none'
           onClick={() => {
-            // close tab-attachment
+            // close tab-attachment-page
             // flipOpen();
           }}
         >

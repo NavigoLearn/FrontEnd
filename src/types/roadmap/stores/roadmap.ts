@@ -16,9 +16,9 @@ export type IRoadmapData = {
 };
 
 export type Roadmap = {
-  rootNodesIds: string[]; // list of ids of the nodes in the roadmap at initial rendering (so not subNodes)
+  rootNodesIds: string[]; // list of ids of the nodes-page in the roadmap at initial rendering (so not subNodes)
   nodes: HashMap<NodeClass>;
   connections: HashMap<ConnectionClass>; // needs to be created
-  chunks: HashMap<string[]>; // ids of the nodes in each chunk
+  chunks: HashMap<string[]>; // ids of the nodes-page in each chunk
   data: IRoadmapData;
 };

@@ -22,7 +22,7 @@ const parseResponse = (response: UserResponse): User => {
   if (!checkIsTypeUser(response)) {
     throw new Error('Response is not of type User');
   }
-  // parses some of the response properties to the correct type
+  // parses some of the response properties-page to the correct type
   const parsedResponse: User = { ...response };
   parsedResponse.followerCount = parseInt(response.followerCount, 10);
   parsedResponse.followingCount = parseInt(response.followingCount, 10);

@@ -71,7 +71,7 @@ export function factoryAttachmentComponent(
 export function factoryAttachmentTabStandard(): AttachmentTab {
   const tab = factoryAttachmentTabEmpty();
 
-  // appends component to attachment
+  // appends component to attachment-page
   const attachmentTitleComponent = factoryAttachmentComponent('Title');
   const attachmentDescriptionComponent =
     factoryAttachmentComponent('Description');

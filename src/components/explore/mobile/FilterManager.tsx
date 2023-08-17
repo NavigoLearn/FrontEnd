@@ -1,9 +1,9 @@
 import React, { useEffect, useRef } from 'react';
 import dropclose from '@assets/cross.svg';
-import Filter1 from '@components/explorerefr/mobile/filter-components/Filter1';
-import Filter2 from '@components/explorerefr/mobile/filter-components/Filter2';
-import Filter3 from '@components/explorerefr/mobile/filter-components/Filter3';
-import AugmentFilter from '@components/explorerefr/mobile/filter-hoc/AugmentFilter';
+import Filter1 from '@components/explore/mobile/filter-components/Filter1';
+import Filter2 from '@components/explore/mobile/filter-components/Filter2';
+import Filter3 from '@components/explore/mobile/filter-components/Filter3';
+import AugmentFilter from '@components/explore/mobile/filter-hoc/AugmentFilter';
 import { FilterManagerProps } from '@type/explore/filterProps';
 
 export const opitonsFilter1 = [
@@ -60,7 +60,8 @@ const FilterManager = ({
       <div className='text-[18px] flex justify-center space-x-24 items-center mt-6 sm:space-x-72 sm:text-[28px]'>
         <h1 className='inline-block'>Filter roadmaps by</h1>
         <button type='button' onClick={() => handleClick('filter')}>
-          <img draggable="false"
+          <img
+            draggable='false'
             src={dropclose}
             alt='closeButton'
             className='h-7 w-7 sm:h-9 sm:w-9 inline-block'

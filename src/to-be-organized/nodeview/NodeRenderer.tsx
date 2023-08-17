@@ -45,7 +45,7 @@ const NodeRenderer: React.FC<NodeViewProps> = ({
     const { flags } = node;
     const { subNodeFlag } = flags;
 
-    // the offset for the nodes rendered directly on the roadmap is calculated directly
+    // the offset for the nodes-page rendered directly on the roadmap is calculated directly
     // on its group and foreign object in NodeManager. This is why you need to treat the coords
     // from subNodes which don't have their own foreign object and are divs relative to the parent node
 

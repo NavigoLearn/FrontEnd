@@ -8,7 +8,7 @@ import roadmapVisitData, {
   validData,
 } from '@store/roadmap-refactor/roadmap-data/roadmap-visit-data';
 import NewButtonDesktop from '@components/roadmap/sidebar/NewButtonDesktop';
-// import Ball from '@components/roadmap/sidebar/Ball';
+// import Ball from '@reusable-components-page/roadmap/sidebar/Ball';
 import { setOffsetY } from '@store/roadmap/sidebar/clickSubject';
 import { setClickedIndex } from '@store/roadmap/sidebar/clickedState';
 import {

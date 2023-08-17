@@ -22,7 +22,6 @@ const DropdownOptions = <T extends string>({
   setIsOpen,
 }: IDropdownOptionsProps<T>) => {
   return (
-    // TODO find a way to animate this dropdown
     <motion.div className='absolute w-full left-0 top-20  bg-white flex flex-col  rounded-xl '>
       <div className='absolute w-full h-full border-2 border-gray-500 left-0 top-0 z-20 rounded-xl pointer-events-none' />
       {optionsList.map((element, index) => {

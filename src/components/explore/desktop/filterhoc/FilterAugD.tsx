@@ -3,7 +3,7 @@ import {
   opitonsFilter1,
   opitonsFilter2,
   opitonsFilter3,
-} from '@components/explorerefr/mobile/FilterManager';
+} from '@components/explore/mobile/FilterManager';
 import AugmentFilterD from './augmentFilterD';
 import Filter1d from './individualfilters/Filter1d';
 import Filter2d from './individualfilters/Filter2d';

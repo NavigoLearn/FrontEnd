@@ -1,8 +1,8 @@
 import React from 'react';
-// import Coords from '@components/roadmap/top-bar/Coords';
+// import Coords from '@reusable-components-page/roadmap/top-bar/Coords';
 import Name from '@components/roadmap/top-bar/Name';
-// import Error from '@components/roadmap/top-bar/Error';
-// import Recenter from '@components/roadmap/top-bar/Recenter';
+// import Error from '@reusable-components-page/roadmap/top-bar/Error';
+// import Recenter from '@reusable-components-page/roadmap/top-bar/Recenter';
 
 const TopBarRoadmap = () => {
   // !!! DO NOT TOUCH THE 40PX HEIGHT !!!
@@ -13,7 +13,7 @@ const TopBarRoadmap = () => {
       </div>
       <div className=' w-72  flex justify-center '>
         <Name />
-        {/*<Recenter />*/}
+        {/* <Recenter /> */}
       </div>
     </div>
   );

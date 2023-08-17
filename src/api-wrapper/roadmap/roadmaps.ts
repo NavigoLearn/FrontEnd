@@ -35,7 +35,7 @@ export const updateRoadmapData = async (roadmap: Roadmap) => {
       'Content-Type': 'application/json',
     },
   }).then((res) => res);
-  // posts all the pages created in cache
+  // posts all the editor-pages created in cache
   return response.json();
 };
 

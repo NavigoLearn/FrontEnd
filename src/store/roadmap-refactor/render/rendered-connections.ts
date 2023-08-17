@@ -1,7 +1,7 @@
 import { atom } from 'nanostores';
 
 const renderConnectionsStore = atom({
-  connections: [], // ids of all the nodes currently rendered on the screen
+  connections: [], // ids of all the nodes-page currently rendered on the screen
 } as {
   connections: string[];
 });

@@ -13,7 +13,7 @@ export function hydrateRoadmap() {
     const node = nodes[nodeId];
     // hydrating dragging behavior
     hydrateDraggingBehaviorNode(node);
-    // hydrating components
+    // hydrating reusable-components-page
     node.components.forEach((component) => {
       hydrateDraggingBehaviorComponent(component);
     });

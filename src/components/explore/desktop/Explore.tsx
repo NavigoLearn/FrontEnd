@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from 'react';
-import { useStore } from '@nanostores/react';
+import React, { useEffect, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import loupe from '@assets/loupe.svg';
 // import warn from '@assets/warningErr.webp';
@@ -11,7 +10,7 @@ import cardsFromApi, {
   setRoadmapCardsFromApiExplore,
 } from '@store/explore/card_store_explore';
 // import FilterAugD from './filterhoc/FilterAugD';
-import EmptyCard from '@components/explorerefr/EmptyCard';
+import EmptyCard from '@components/explore/EmptyCard';
 import erase from '@assets/cross.svg';
 import Card from '../Card';
 
