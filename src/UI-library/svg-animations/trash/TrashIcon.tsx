@@ -16,7 +16,7 @@ const TrashIcon = () => {
       onMouseLeave={handleHover}
     >
       <path
-        className={`trash-icon fill-darkBlue w-16 h-16 hover:w-20 hover:h-20 duration-200 hover:ease-in ${
+        className={`trash-icon fill-darkBlue w-16 h-16 duration-200 hover:ease-in ${
           hovered ? 'translate-y-[-10px] translate-x-[12px] rotate-[30deg]' : ''
         }`}
         fillRule='evenodd'

@@ -43,7 +43,7 @@ export function nodeFactoryClassicBoilerplate(id?: string): NodeClass {
   return node;
 }
 
-export function factoryNodeClassic(
+export function factoryNodeClassicCustomizable(
   x: number,
   y: number,
   width: number,
@@ -64,5 +64,10 @@ export function factoryNodeClassic(
   recalculateNodeCenter(node);
   appendNodeToChunks(node);
 
+  return node;
+}
+
+export function factoryNodeClassic(id?: string) {
+  const node = factoryNodeClassicCustomizable(0, 0, 150, 50, id);
   return node;
 }

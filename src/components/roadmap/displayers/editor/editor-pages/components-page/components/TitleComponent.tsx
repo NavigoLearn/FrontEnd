@@ -9,7 +9,7 @@ import { mutateComponentTitleText } from '@src/typescript/roadmap_ref/node/compo
 import { useTriggerRerender } from '@hooks/useTriggerRerender';
 import { NodeClass } from '@src/typescript/roadmap_ref/node/core/core';
 import { triggerNodeRerender } from '@store/roadmap-refactor/render/rerender-triggers-nodes';
-import TrashIcon from '@src/UI-library/svg-anims';
+import TrashIcon from '@src/UI-library/svg-animations/trash/TrashIcon';
 
 type TitleComponentProps = {
   node: NodeClass;

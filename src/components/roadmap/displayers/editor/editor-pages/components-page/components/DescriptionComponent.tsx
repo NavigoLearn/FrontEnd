@@ -9,7 +9,7 @@ import { useTriggerRerender } from '@hooks/useTriggerRerender';
 import { deleteComponentWithId } from '@src/typescript/roadmap_ref/node/core/data-mutation/delete';
 import { NodeClass } from '@src/typescript/roadmap_ref/node/core/core';
 import { triggerNodeRerender } from '@store/roadmap-refactor/render/rerender-triggers-nodes';
-import TrashIcon from '@src/UI-library/svg-anims';
+import TrashIcon from '@src/UI-library/svg-animations/trash/TrashIcon';
 
 type DescriptionComponentProps = {
   node: NodeClass;

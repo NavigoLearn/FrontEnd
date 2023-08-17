@@ -3,9 +3,11 @@ import { Flags } from '@src/typescript/roadmap_ref/node/core/flags';
 
 import { ActionsClass } from '@src/typescript/roadmap_ref/node/core/actions/core';
 import { DraggingBehavior } from '@src/typescript/roadmap_ref/dragging/core';
-import { Data } from '@src/typescript/roadmap_ref/node/core/properties';
+import { Data } from '@src/typescript/roadmap_ref/node/core/data';
 import { IAttachmentObject } from '@type/roadmap/node/attachments-types';
 import { IComponentObject } from '@type/roadmap/node/components-types';
+
+export type INodeTemplates = 'classic' | 'link';
 
 export class NodeClass {
   components: IComponentObject[] = []; // title, description, button and anything inside the node

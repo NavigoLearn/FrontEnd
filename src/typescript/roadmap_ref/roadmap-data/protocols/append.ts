@@ -7,7 +7,7 @@ import {
 import { draggableElementProtocol } from '@components/roadmap/displayers/editor/editor-pages/utils';
 import { triggerNodeRerender } from '@store/roadmap-refactor/render/rerender-triggers-nodes';
 import { NodeClass } from '@src/typescript/roadmap_ref/node/core/core';
-import { factoryNodeClassic } from '@src/typescript/roadmap_ref/node/core/factories/templates/classic';
+import { factoryNodeClassicCustomizable } from '@src/typescript/roadmap_ref/node/core/factories/templates/classic';
 import { injectParentData } from '@src/typescript/roadmap_ref/node/core/factories/data-mutation/inject';
 import { factoryConnectionBoilerplate } from '@src/typescript/roadmap_ref/node/connections/factories';
 import { triggerChunkRerender } from '@store/roadmap-refactor/render/rendered-chunks';
@@ -30,11 +30,11 @@ export function appendNestedNode(node: NodeClass) {
 
 export function appendClassicNodeToRoadmap(parentNode: NodeClass) {
   const node = parentNode;
-  const newNode = factoryNodeClassic(
+  const newNode = factoryNodeClassicCustomizable(
     node.data.coords.x + node.data.width,
     node.data.coords.y + node.data.height,
-    200,
-    200
+    150,
+    50
   );
   injectParentData(newNode, node.id);
   appendChildNodeId(node, newNode.id);

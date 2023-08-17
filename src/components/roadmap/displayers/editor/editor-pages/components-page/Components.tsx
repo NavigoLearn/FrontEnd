@@ -7,7 +7,7 @@ import editorSelectedData, {
 import { IComponentOptions } from '@type/roadmap/node/options-types';
 import TitleComponent from '@components/roadmap/displayers/editor/editor-pages/components-page/components/TitleComponent';
 import DescriptionComponent from '@components/roadmap/displayers/editor/editor-pages/components-page/components/DescriptionComponent';
-import DropdownComponent from '@components/roadmap/displayers/editor/reusable-components/DropdownComponent';
+import DropdownGreyAdd from '@components/roadmap/displayers/editor/reusable-components/DropdownGreyAdd';
 import { appendComponent } from '@src/typescript/roadmap_ref/node/core/data-mutation/append';
 import { factoryComponentEmpty } from '@src/typescript/roadmap_ref/node/components/text/factories';
 import { getNodeByIdRoadmapSelector } from '@src/typescript/roadmap_ref/roadmap-data/services/get';
@@ -36,7 +36,7 @@ const Components = () => {
 
   return (
     <div className='w-full h-full max-h-full flex flex-col'>
-      <DropdownComponent
+      <DropdownGreyAdd
         text='Add component'
         onSelect={(componentType: IComponentOptions) => {
           const newComponent = factoryComponentEmpty(componentType, node.id);

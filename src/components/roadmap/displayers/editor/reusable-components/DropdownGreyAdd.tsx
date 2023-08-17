@@ -59,7 +59,7 @@ const DropdownOptions = <T extends string>({
   );
 };
 
-const DropdownComponent = <T extends string>({
+const DropdownGreyAdd = <T extends string>({
   optionsList,
   onSelect,
   text,
@@ -102,4 +102,4 @@ const DropdownComponent = <T extends string>({
   );
 };
 
-export default DropdownComponent;
+export default DropdownGreyAdd;

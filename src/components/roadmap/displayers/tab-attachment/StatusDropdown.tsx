@@ -24,7 +24,6 @@ const iconMap = {
 const StatusDropdown = ({ attachment }: IStatusDropdownProps) => {
   const [dropdown, setDropdown] = useState(false);
   const { status } = attachment;
-  console.log(status);
 
   return (
     <div

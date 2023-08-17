@@ -29,7 +29,6 @@ export function deleteNodeRecursive(node: NodeClass) {
     const child = getNodeByIdRoadmapSelector(childId);
     deleteNodeRecursive(child);
   });
-  console.log('deleted ', node.id);
   deleteNodeFromRoadmap(node);
 }
 
