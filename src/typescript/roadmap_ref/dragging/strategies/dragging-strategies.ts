@@ -84,6 +84,11 @@ export const draggingStrategySnapRoadmapNestedComponents = (
   });
   const positions = [];
 
+  positions.push({
+    x: 0,
+    y: 0,
+  }); // middle
+
   parentSubNodes.forEach((subNode) => {
     positions.push({
       x: subNode.data.coords.x,
@@ -115,6 +120,11 @@ export const draggingStrategySnapRoadmapNestedNodes = (
     return getNodeByIdRoadmapSelector(subNodeId);
   });
   const positions = [];
+
+  positions.push({
+    x: 0,
+    y: 0,
+  });
 
   parentSubNodes.forEach((subNode) => {
     if (subNode.id === draggingBehavior.draggingElementId) return;

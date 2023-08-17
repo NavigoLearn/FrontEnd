@@ -21,7 +21,7 @@ import {
 } from '@src/typescript/roadmap_ref/roadmap-data/services/inject';
 
 export function appendNestedNode(node: NodeClass) {
-  const newNestedNode = factorySubNode(node.id, 100, 100, 0, 0); // creates node
+  const newNestedNode = factorySubNode(node.id, 120, 40, 0, 0); // creates node
   appendSubNode(node, newNestedNode.id); // appends to the parent of nesting
   injectRoadmapNode(newNestedNode);
   draggableElementProtocol(newNestedNode.draggingBehavior, newNestedNode.id);

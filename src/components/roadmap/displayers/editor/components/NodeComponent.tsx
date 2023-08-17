@@ -9,13 +9,14 @@ import {
 } from '@src/typescript/roadmap_ref/node/core/data-mutation/mutate';
 import { useStore } from '@nanostores/react';
 import { triggerRerenderEditor } from '@store/roadmap-refactor/elements-editing/editor-selected-data';
-import PropertyEditorNumber from '@components/roadmap/displayers/editor/components/PropertyEditorNumber';
 import { NodeClass } from '@src/typescript/roadmap_ref/node/core/core';
 import { roadmapSelector } from '@store/roadmap-refactor/roadmap-data/roadmap-selector';
 import { triggerNodeRerender } from '@store/roadmap-refactor/render/rerender-triggers-nodes';
 import { useTriggerRerender } from '@hooks/useTriggerRerender';
 import { subscribeToHub } from '@store/roadmap-refactor/subscribers/function-subscribers';
 import TrashIcon from '@src/UI-library/svg-anims';
+import { deleteProtocolNodeFromRoadmap } from '@src/typescript/roadmap_ref/roadmap-data/protocols/delete';
+import DraggableInput from '@src/UI-library/DraggableInput';
 
 type INodeProperties = {
   node: NodeClass;
@@ -42,7 +43,7 @@ const NodeProperties = ({ node }: INodeProperties) => {
   return (
     <div className=''>
       <div className='flex'>
-        <PropertyEditorNumber
+        <DraggableInput
           name='H'
           value={data.height}
           onChange={(value) => {
@@ -52,8 +53,9 @@ const NodeProperties = ({ node }: INodeProperties) => {
             triggerNodeRerender(node.id);
             triggerRerenderEditor();
           }}
+          sensitivity={2}
         />
-        <PropertyEditorNumber
+        <DraggableInput
           name='W'
           value={data.width}
           onChange={(value) => {
@@ -63,10 +65,11 @@ const NodeProperties = ({ node }: INodeProperties) => {
             triggerNodeRerender(node.id);
             triggerRerenderEditor();
           }}
+          sensitivity={2}
         />
       </div>
       <div className='flex'>
-        <PropertyEditorNumber
+        <DraggableInput
           name='X'
           value={data.coords.x}
           onChange={(value) => {
@@ -76,8 +79,9 @@ const NodeProperties = ({ node }: INodeProperties) => {
             triggerNodeRerender(node.id);
             triggerRerenderEditor();
           }}
+          sensitivity={2}
         />
-        <PropertyEditorNumber
+        <DraggableInput
           name='Y'
           value={data.coords.y}
           onChange={(value) => {
@@ -87,6 +91,7 @@ const NodeProperties = ({ node }: INodeProperties) => {
             triggerNodeRerender(node.id);
             triggerRerenderEditor();
           }}
+          sensitivity={2}
         />
       </div>
     </div>
@@ -165,13 +170,13 @@ const NodeComponent = ({
         >
           <TrashIcon />
         </button>
-        <button
-          type='button'
-          className=' w-20 h-10 bg-blue-400 text-white rounded-lg mt-7'
-          onClick={() => {}}
-        >
-          Edit
-        </button>
+        {/* <button */}
+        {/*  type='button' */}
+        {/*  className=' w-20 h-10 bg-blue-400 text-white rounded-lg mt-7' */}
+        {/*  onClick={() => {}} */}
+        {/* > */}
+        {/*  Edit */}
+        {/* </button> */}
       </div>
     </div>
   );
