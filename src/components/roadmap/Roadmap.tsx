@@ -24,12 +24,11 @@ import { useIsLoaded } from '@hooks/useIsLoaded';
 import { setRoadmapFromAPI } from '@store/roadmap-refactor/roadmap-data/roadmap-view';
 import { applyRoadmapDraggability } from '@src/typescript/roadmap_ref/dragging/misc';
 import { useEffectAfterLoad } from '@hooks/useEffectAfterLoad';
-import { hydrateRoadmap } from '@src/typescript/roadmap_ref/hydration/roadmap-hydration';
 import ConnectionRenderer from '@components/roadmap/ConnectionRenderer';
 import renderConnectionsStore from '@store/roadmap-refactor/render/rendered-connections';
 import { closeEditorProtocol } from '@src/to-be-organized/nodeview/actions-manager';
-import { factoryRoadmapClassic } from '@src/typescript/roadmap_ref/roadmap-templates/classic';
 import { afterEventLoop } from '@src/typescript/utils/misc';
+import { factoryRoadmapFirstAttempt } from '@src/typescript/roadmap_ref/roadmap-templates/classic';
 import Popup from './tabs/popups/Popup';
 
 const Roadmap = ({ pageId }: { pageId: string }) => {
@@ -54,8 +53,8 @@ const Roadmap = ({ pageId }: { pageId: string }) => {
   useEffect(() => {
     // dummmy data
     if (!isCreate) return;
-    // factoryRoadmapFirstAttempt();
-    factoryRoadmapClassic();
+    factoryRoadmapFirstAttempt();
+    // factoryRoadmapClassic();
   }, []);
 
   const disableZoomFn = () => {
@@ -63,7 +62,6 @@ const Roadmap = ({ pageId }: { pageId: string }) => {
   };
 
   function initializeRoadmapAfterLoad() {
-    hydrateRoadmap();
     applyRoadmapDraggability();
     setRoadmapIsLoaded();
     triggerChunkRerender();

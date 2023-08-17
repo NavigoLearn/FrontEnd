@@ -44,7 +44,6 @@ export const setProfileMini = (
   userId: string,
   name: string
 ) => {
-  console.log('set profile mini');
   const originalUser = loggedUser.get();
   const newProfilePictureUrl =
     profilePictureUrl !== ''

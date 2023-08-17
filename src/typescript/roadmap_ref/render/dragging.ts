@@ -25,18 +25,22 @@ export const addDragabilityProtocol = (draggingBehavior: DraggingBehavior) => {
   const newPos = { x: 0, y: 0 };
   const initialPos = { x: 0, y: 0 };
 
+  const currentCoordsStrategy =
+    getCurrentCoordsStrategyFactory(draggingBehavior);
+  const coordinatesAdapterStrategy =
+    getCoordinatesAdapterStrategyFactory(draggingBehavior);
+  const draggingStrategy = getDraggingStrategyFactory(draggingBehavior);
+  const draggingEndStrategy = getDraggingEndFactory(draggingBehavior);
+
   const drag = d3
     .drag()
     // eslint-disable-next-line func-names
     .on('start', function (event) {
       const { x: originalX, y: originalY } = event;
       // coordinates of the node in the original reference system
-      const currentCoords = getCurrentCoordsStrategyFactory(draggingBehavior)();
+      const currentCoords = currentCoordsStrategy();
       // also account for the difference between rendering relative to center and relative to top left corner
-      const { x, y } = getCoordinatesAdapterStrategyFactory(draggingBehavior)(
-        originalX,
-        originalY
-      );
+      const { x, y } = coordinatesAdapterStrategy(originalX, originalY);
 
       const offsetX = x - currentCoords.x;
       const offsetY = y - currentCoords.y;
@@ -53,18 +57,19 @@ export const addDragabilityProtocol = (draggingBehavior: DraggingBehavior) => {
     // eslint-disable-next-line func-names
     .on('drag', function (event) {
       // use adapter for coordinates to sync with the dragging space (eg nodes/nested components behave differently)
-      const { x: adaptedX, y: adaptedY } = getCoordinatesAdapterStrategyFactory(
-        draggingBehavior
-      )(event.x, event.y);
-      // we apply the strategy to the new coordinates ( for gridding, snapping, etc)
-      const { x, y } = getDraggingStrategyFactory(draggingBehavior)(
-        adaptedX,
-        adaptedY
+      const { x: adaptedX, y: adaptedY } = coordinatesAdapterStrategy(
+        event.x,
+        event.y
       );
 
+      const offsetAdaptedX = adaptedX - offset.x;
+      const offsetAdaptedY = adaptedY - offset.y;
+
+      const { x, y } = draggingStrategy(offsetAdaptedX, offsetAdaptedY);
+
       // we set the new coordinates to the element
-      newPos.x = x - offset.x;
-      newPos.y = y - offset.y; // offsets are used to sync the mouse position with the dragging position
+      newPos.x = x;
+      newPos.y = y; // offsets are used to sync the mouse position with the dragging position
 
       // at the end we simply do not substract the offset and the element will be placed properly
 
@@ -90,7 +95,7 @@ export const addDragabilityProtocol = (draggingBehavior: DraggingBehavior) => {
     })
     // eslint-disable-next-line func-names
     .on('end', function () {
-      getDraggingEndFactory(draggingBehavior)(newPos.x, newPos.y);
+      draggingEndStrategy(newPos.x, newPos.y);
       // chunk recalculations are integrated in the coordinates setter strategy
     });
 

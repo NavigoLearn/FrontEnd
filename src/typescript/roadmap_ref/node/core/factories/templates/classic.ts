@@ -9,7 +9,7 @@ import {
 } from '@src/typescript/roadmap_ref/node/core/factories/data-mutation/inject';
 import { draggingBehaviorFactoryRoadmapNode } from '@src/typescript/roadmap_ref/dragging/factories';
 import { appendComponent } from '@src/typescript/roadmap_ref/node/core/data-mutation/append';
-import { factoryComponentTitleEmpty } from '@src/typescript/roadmap_ref/node/components/text/factories';
+import { factoryComponentEmpty } from '@src/typescript/roadmap_ref/node/components/text/factories';
 import {
   recalculateNodeCenter,
   recalculateNodeChunks,
@@ -23,6 +23,7 @@ import {
 } from '@src/typescript/roadmap_ref/node/core/data-mutation/mutate';
 import { appendNodeToChunks } from '@src/typescript/roadmap_ref/roadmap-data/services/append';
 import { appendAttachmentTabStandard } from '@src/typescript/roadmap_ref/node/core/factories/data-mutation/append';
+import { injectDraggingStrategy } from '@src/typescript/roadmap_ref/dragging/inject';
 
 export function nodeFactoryClassicBoilerplate(id?: string): NodeClass {
   // return boilerplate class for classic nodes and the most common
@@ -32,9 +33,10 @@ export function nodeFactoryClassicBoilerplate(id?: string): NodeClass {
   id ? injectNewId(node, id) : injectNewRandomId(node);
   injectClassicData(node, '', []);
 
-  appendComponent(node, factoryComponentTitleEmpty(node.id));
+  appendComponent(node, factoryComponentEmpty('Title', node.id));
   appendAttachmentTabStandard(node);
   const draggingBehavior = draggingBehaviorFactoryRoadmapNode(node.id);
+  injectDraggingStrategy(draggingBehavior, 'snap');
   injectDraggingBehavior(node, draggingBehavior);
   recalculateNodeChunks(node);
 
