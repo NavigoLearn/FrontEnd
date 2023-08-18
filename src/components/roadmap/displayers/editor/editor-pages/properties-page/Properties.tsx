@@ -161,6 +161,7 @@ const Properties = () => {
         <VariantsComponent
           selectedColor={node.data.colorType}
           selectedTheme={node.data.colorTheme}
+          node={node}
         />
       </div>
 
