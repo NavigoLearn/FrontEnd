@@ -48,9 +48,7 @@ export function moveRoadmapToNode(nodeId: string) {
   const tracebackOffsetY = y;
 
   triggerMoveRoadmapTo(
-    // rootX - window.innerWidth / 2 + rootWidth / 2 + x + width / 2,
-    // rootY - window.innerHeight / 2 + rootHeight / 2 + y + height / 2,
-    tracebackOffsetX - wOffsetX,
+    tracebackOffsetX - wOffsetX + 250, // account for editor width
     tracebackOffsetY - wOffsetY,
     1
   );

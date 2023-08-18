@@ -3,7 +3,7 @@ import {
   injectAttachments,
   injectFlags,
   injectNodeComponents,
-  injectNodeData,
+  injectNodeDataPreservingCoords,
   injectSubNodeIds,
 } from '@src/typescript/roadmap_ref/node/core/data-mutation/inject';
 import { NodeClass } from '@src/typescript/roadmap_ref/node/core/core';
@@ -13,7 +13,7 @@ export const transferNodeTemplateToNode = (
   template: NodeClass
 ) => {
   injectNodeComponents(node, template.components);
-  injectNodeData(node, template.data);
+  injectNodeDataPreservingCoords(node, template.data);
   injectSubNodeIds(node, template.subNodeIds);
   injectAttachments(node, template.attachments);
   injectActions(node, template.actions);

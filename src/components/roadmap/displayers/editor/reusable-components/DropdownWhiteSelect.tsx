@@ -67,7 +67,7 @@ const DropdownWhiteSelect = ({
 
   return (
     <div
-      className={` w-full bg-white rounded-lg h-10 mt-2 border-2 border-gray-300 ${tailwindTransitionClass} relative`}
+      className={` w-full bg-white rounded-lg h-10  border-2 border-gray-300 ${tailwindTransitionClass} relative`}
     >
       <button
         type='button'

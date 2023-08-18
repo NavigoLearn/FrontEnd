@@ -18,8 +18,9 @@ import {
   getNodeByIdRoadmapSelector,
 } from '@src/typescript/roadmap_ref/roadmap-data/services/get';
 import { tailwindTransitionClass } from '@src/UI-library/tailwind-utils';
-import { IActionTypes } from '@src/typescript/roadmap_ref/node/core/actions/core';
 import DraggableInput from '@src/UI-library/DraggableInput';
+import DropdownWhiteSelect from '@components/roadmap/displayers/editor/reusable-components/DropdownWhiteSelect';
+import { mutateActionLink } from '@src/typescript/roadmap_ref/node/core/actions/mutate';
 
 type IActionsDropdown = {
   action: string;
@@ -95,7 +96,7 @@ const Properties = () => {
   const { possibleActions } = actions;
   const possibleActionsArray = possibleActions;
   return (
-    <div className='flex flex-col gap-24'>
+    <div className='flex flex-col gap-6'>
       <div className='flex flex-col'>
         <div className='flex text-secondary font-roboto-text font-medium'>
           Size
@@ -165,19 +166,35 @@ const Properties = () => {
         />
       </div>
 
-      <div className='flex gap-3'>
+      <div className='flex gap-3 items-center'>
         <h4 className='text-darkBlue font-kanit-text font-medium flex items-center text-lg '>
           On Click Event
         </h4>
-        <ActionsDropdown
-          action={actions.onClick}
-          possibleActions={possibleActionsArray}
-          onSelect={(actionName: IActionTypes) => {
-            mutateNodeOnClickAction(node, actionName);
+        <div className='w-60'>
+          <DropdownWhiteSelect
+            dropdownName={actions.onClick}
+            options={possibleActions.map((value) => {
+              return {
+                name: value,
+                callback: () => {
+                  mutateNodeOnClickAction(node, value);
+                  triggerRerenderEditor();
+                },
+              };
+            })}
+          />
+        </div>
+      </div>
+      {actions.onClick === 'Open link' && (
+        <input
+          value={actions.additionalData.link}
+          onChange={(e) => {
+            mutateActionLink(actions, e.target.value);
             triggerRerenderEditor();
           }}
+          className='w-full h-10 border-2 border-gray-300 rounded-lg px-3'
         />
-      </div>
+      )}
     </div>
   );
 };

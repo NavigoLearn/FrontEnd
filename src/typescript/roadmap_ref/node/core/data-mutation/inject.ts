@@ -5,6 +5,12 @@ export function injectNodeData(node: NodeClass, data: Data) {
   node.data = data;
 }
 
+export function injectNodeDataPreservingCoords(node: NodeClass, data: Data) {
+  const oldData = node.data;
+  node.data = data;
+  node.data.coords = oldData.coords;
+}
+
 export function injectNodeComponents(node: NodeClass, components) {
   node.components = components;
 }

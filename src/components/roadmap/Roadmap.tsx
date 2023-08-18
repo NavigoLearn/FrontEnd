@@ -28,7 +28,7 @@ import ConnectionRenderer from '@components/roadmap/ConnectionRenderer';
 import renderConnectionsStore from '@store/roadmap-refactor/render/rendered-connections';
 import { closeEditorProtocol } from '@src/to-be-organized/nodeview/actions-manager';
 import { afterEventLoop } from '@src/typescript/utils/misc';
-import { factoryRoadmapFirstAttempt } from '@src/typescript/roadmap_ref/roadmap-templates/classic';
+import { factoryRoadmapClassic } from '@src/typescript/roadmap_ref/roadmap-templates/classic';
 import SnappingLinesRenderer from '@components/roadmap/SnappingLinesRenderer';
 import Popup from './tabs/popups/Popup';
 
@@ -54,8 +54,8 @@ const Roadmap = ({ pageId }: { pageId: string }) => {
   useEffect(() => {
     // dummmy data
     if (!isCreate) return;
-    factoryRoadmapFirstAttempt();
-    // factoryRoadmapClassic();
+    // factoryRoadmapFirstAttempt();
+    factoryRoadmapClassic();
   }, []);
 
   const disableZoomFn = () => {
