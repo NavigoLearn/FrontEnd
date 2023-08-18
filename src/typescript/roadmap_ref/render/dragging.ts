@@ -1,4 +1,5 @@
 import * as d3 from 'd3';
+import { deleteAllSnappings } from '@store/roadmap-refactor/render/snapping-lines';
 import { DraggingBehavior } from '@src/typescript/roadmap_ref/dragging/core';
 import { setElementDraggableUpdateCallback } from '@store/roadmap-refactor/elements-editing/draggable-elements';
 import { getNodeByIdRoadmapSelector } from '@src/typescript/roadmap_ref/roadmap-data/services/get';
@@ -135,6 +136,7 @@ export const addDragabilityProtocol = (draggingBehavior: DraggingBehavior) => {
     .on('end', function () {
       draggingEndStrategy(newPos.x, newPos.y);
       isRecursive && draggingEndChildrenTraceback(draggingBehavior);
+      deleteAllSnappings();
       // chunk recalculations are integrated in the coordinates setter strategy
     });
 

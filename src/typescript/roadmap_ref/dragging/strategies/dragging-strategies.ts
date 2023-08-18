@@ -6,6 +6,7 @@ import {
 import { NodeClass } from '@src/typescript/roadmap_ref/node/core/core';
 import {
   getNodeByIdRoadmapSelector,
+  getNodeCenterAbsoluteCoords,
   getRootNodesIds,
 } from '@src/typescript/roadmap_ref/roadmap-data/services/get';
 import renderNodesStore from '@store/roadmap-refactor/render/rendered-nodes';
@@ -72,6 +73,55 @@ export const snapCoordsToPositions = (
   };
 };
 
+export const dispatchSnappingLinesNestedElements = (
+  lastClosestIndexX: number,
+  lastClosestIndexY: number,
+  positions: ICoords[],
+  parentNode: NodeClass,
+  coords: ICoords
+) => {
+  const snappings = [];
+  if (lastClosestIndexX !== -1) {
+    const position = getNodeCenterAbsoluteCoords(parentNode.id);
+    const adjustedStart = {
+      x: position.x + coords.x,
+      y: position.y + coords.y,
+    };
+    const adjustedEnd = {
+      x: position.x + positions[lastClosestIndexX].x,
+      y: position.y + positions[lastClosestIndexX].y,
+    };
+
+    snappings.push({
+      startX: adjustedStart.x,
+      startY: adjustedStart.y,
+      endX: adjustedEnd.x,
+      endY: adjustedEnd.y,
+    });
+  }
+
+  if (lastClosestIndexY !== -1) {
+    const position = getNodeCenterAbsoluteCoords(parentNode.id);
+    const adjustedStart = {
+      x: position.x + coords.x,
+      y: position.y + coords.y,
+    };
+    const adjustedEnd = {
+      x: position.x + positions[lastClosestIndexY].x,
+      y: position.y + positions[lastClosestIndexY].y,
+    };
+
+    snappings.push({
+      startX: adjustedStart.x,
+      startY: adjustedStart.y,
+      endX: adjustedEnd.x,
+      endY: adjustedEnd.y,
+    });
+  }
+
+  setSnappings(snappings);
+};
+
 export const draggingStrategySnapRoadmapNestedComponents = (
   draggingBehavior: DraggingBehavior,
   newX: number,
@@ -107,7 +157,20 @@ export const draggingStrategySnapRoadmapNestedComponents = (
     });
   });
 
-  return snapCoordsToPositions(newX, newY, positions);
+  const coords = snapCoordsToPositions(newX, newY, positions);
+  const { lastClosestIndexX, lastClosestIndexY } = coords;
+
+  dispatchSnappingLinesNestedElements(
+    lastClosestIndexX,
+    lastClosestIndexY,
+    positions,
+    parentNode,
+    coords
+  );
+  return {
+    x: coords.x,
+    y: coords.y,
+  };
 };
 
 export const draggingStrategySnapRoadmapNestedNodes = (
@@ -134,6 +197,8 @@ export const draggingStrategySnapRoadmapNestedNodes = (
     positions.push({
       x: subNode.data.coords.x,
       y: subNode.data.coords.y,
+      width: subNode.data.width,
+      height: subNode.data.height,
     });
   });
 
@@ -141,10 +206,26 @@ export const draggingStrategySnapRoadmapNestedNodes = (
     positions.push({
       x: component.x,
       y: component.y,
+      width: component.width,
+      height: component.height,
     });
   });
 
-  return snapCoordsToPositions(newX, newY, positions);
+  const coords = snapCoordsToPositions(newX, newY, positions);
+  const { lastClosestIndexX, lastClosestIndexY } = coords;
+
+  dispatchSnappingLinesNestedElements(
+    lastClosestIndexX,
+    lastClosestIndexY,
+    positions,
+    parentNode,
+    coords
+  );
+
+  return {
+    x: coords.x,
+    y: coords.y,
+  };
 };
 
 export const draggingStrategySnapRoadmapRootNodes = (
@@ -217,27 +298,6 @@ type IDraggingStrategyInternal = (
   y: number;
 };
 
-export const thrrottledSnappingFactory = (
-  snapStrategy: IDraggingStrategyInternal,
-  freeStrategy: IDraggingStrategyInternal
-) => {
-  // used to snap at 50ms instead of every time since it is a more expensive operation
-  // update: didn't work, might come back later if this optimization is needed
-  const delay = 50;
-  let lastCall = 0;
-  return (
-    draggingBehavior: DraggingBehavior,
-    newX: number,
-    newY: number
-  ): ICoords => {
-    const now = new Date().getTime();
-    if (now - lastCall < delay) {
-      return freeStrategy(draggingBehavior, newX, newY);
-    }
-    lastCall = now;
-    return snapStrategy(draggingBehavior, newX, newY);
-  };
-};
 export const boundCoordsToNode = (
   node: NodeClass,
   newX: number,
