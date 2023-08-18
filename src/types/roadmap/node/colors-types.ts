@@ -1,7 +1,12 @@
+export type IColorTheme = {
+  nodeColor: string;
+  textColor: string;
+};
+
 export type IColorThemesFields = {
-  primary: string;
-  secondary: string;
-  tertiary: string;
+  primary: IColorTheme;
+  secondary: IColorTheme;
+  tertiary: IColorTheme;
 };
 
 export type IColorThemes = {

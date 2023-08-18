@@ -12,6 +12,7 @@ import {
 } from '@src/typescript/roadmap_ref/node/core/factories/params/default-params';
 import { IFontSizeType } from '@type/roadmap/node/components-types';
 import { deepCopy } from '../../utils';
+import { selectNodeColorText } from '@src/typescript/roadmap_ref/node/core/factories/data-mutation/services';
 
 export class Data {
   /* Used to manage all the possible data of a node */
@@ -19,6 +20,8 @@ export class Data {
   private colorTypePrivate: IColorThemesColors;
 
   colorTheme: IColorThemesOptions;
+
+  textColor: string;
 
   color: string;
 
@@ -40,16 +43,11 @@ export class Data {
     y: number;
   };
 
+  // setter does not work
   set colorType(colorType: IColorThemesColors) {
-    console.log(deepCopy(this.color));
     this.color = selectNodeColorScheme(this.colorTheme, colorType);
     this.colorTypePrivate = colorType;
   }
-
-  // set colorTypeDummy(color: string) {
-  //   this.color = color;
-  //   this.colorTypePrivate = 'secondary';
-  // }
 
   get colorType(): IColorThemesColors {
     return this.colorTypePrivate;
@@ -58,6 +56,8 @@ export class Data {
   constructor() {
     this.colorTheme = defaultColorThemeOption;
     this.colorType = 'primary';
+    this.textColor = selectNodeColorText(this.colorTheme, this.colorType);
+    this.color = selectNodeColorScheme(this.colorTheme, this.colorType);
     this.width = defaultNodeWidth;
     this.height = defaultNodeHeight;
     this.opacity = defaultNodeOpacity;
