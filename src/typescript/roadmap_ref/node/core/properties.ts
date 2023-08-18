@@ -11,6 +11,7 @@ import {
   defaultNodeWidth,
 } from '@src/typescript/roadmap_ref/node/core/factories/params/default-params';
 import { IFontSizeType } from '@type/roadmap/node/components-types';
+import { deepCopy } from '../../utils';
 
 export class Data {
   /* Used to manage all the possible data of a node */
@@ -40,9 +41,15 @@ export class Data {
   };
 
   set colorType(colorType: IColorThemesColors) {
+    console.log(deepCopy(this.color));
     this.color = selectNodeColorScheme(this.colorTheme, colorType);
     this.colorTypePrivate = colorType;
   }
+
+  // set colorTypeDummy(color: string) {
+  //   this.color = color;
+  //   this.colorTypePrivate = 'secondary';
+  // }
 
   get colorType(): IColorThemesColors {
     return this.colorTypePrivate;

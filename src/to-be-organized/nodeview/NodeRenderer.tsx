@@ -18,6 +18,7 @@ import {
 import { useIsLoaded } from '@hooks/useIsLoaded';
 import { setElementDiv } from '@store/roadmap-refactor/elements-editing/elements-divs';
 import { FontSizeValues } from '@src/types/roadmap/node/components-types';
+import { deepCopy } from '@src/typescript/roadmap_ref/utils';
 
 interface NodeViewProps {
   nodeId: string;
@@ -36,8 +37,8 @@ const NodeRenderer: React.FC<NodeViewProps> = ({
   const renderNode = (nodeId: string) => {
     const loaded = useIsLoaded();
     const node = getNodeByIdRoadmapSelector(nodeId);
-    const { color, width, height, opacity, fontSizeType, colorTheme } =
-      node.data;
+    const { color, width, height, opacity, fontSizeType } = node.data;
+    console.log(deepCopy(color));
     node.data.center.x = width / 2;
     const { subNodeIds } = node;
     // Function to render each subnode

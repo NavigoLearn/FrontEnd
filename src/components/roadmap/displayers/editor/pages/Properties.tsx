@@ -160,6 +160,9 @@ const Properties = () => {
             {
               color: selectNodeColorScheme(node.data.colorTheme, 'secondary'),
               callback: () => {
+                console.log(
+                  selectNodeColorScheme(node.data.colorTheme, 'secondary')
+                );
                 mutateNodeColor(node, 'secondary');
                 triggerNodeRerender(node.id);
               },

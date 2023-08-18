@@ -22,9 +22,7 @@ const VariantsComponent = ({ variants }: IVariantsComponentProps) => {
             <div
               className='w-20 h-8 text-white font-medium font-roboto-text text-sm rounded-md text-left flex items-center'
               style={{ backgroundColor: variant.color }}
-            >
-              {variant.name}
-            </div>
+            />
           </button>
         );
       })}
