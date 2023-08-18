@@ -29,6 +29,7 @@ import renderConnectionsStore from '@store/roadmap-refactor/render/rendered-conn
 import { closeEditorProtocol } from '@src/to-be-organized/nodeview/actions-manager';
 import { afterEventLoop } from '@src/typescript/utils/misc';
 import { factoryRoadmapClassic } from '@src/typescript/roadmap_ref/roadmap-templates/classic';
+import SnappingLinesRenderer from '@components/roadmap/SnappingLinesRenderer';
 import Popup from './tabs/popups/Popup';
 
 const Roadmap = ({ pageId }: { pageId: string }) => {
@@ -135,6 +136,11 @@ const Roadmap = ({ pageId }: { pageId: string }) => {
                 return <NodeManager key={id} node={nodes[id]} />;
               })}
           </g>
+          {editing && (
+            <g id='rootGroupSnappingLines'>
+              <SnappingLinesRenderer />
+            </g>
+          )}
         </g>
       </svg>
     </div>

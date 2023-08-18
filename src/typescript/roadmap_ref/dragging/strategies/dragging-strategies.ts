@@ -10,6 +10,7 @@ import {
 } from '@src/typescript/roadmap_ref/roadmap-data/services/get';
 import renderNodesStore from '@store/roadmap-refactor/render/rendered-nodes';
 import { getComponentById } from '@src/typescript/roadmap_ref/node/core/data-get/components';
+import { setSnappings } from '@store/roadmap-refactor/render/snapping-lines';
 
 export const draggingStrategyFree = (draggingBehavior, newX, newY) => {
   return {
@@ -22,7 +23,7 @@ export const snapCoordsToPositions = (
   newX: number,
   newY: number,
   positions: ICoords[]
-): ICoords => {
+) => {
   let lastClosestIndexX = -1;
   let lastClosestIndexY = -1;
   const snappingDistance = 15;
@@ -66,6 +67,8 @@ export const snapCoordsToPositions = (
   return {
     x: appliedX,
     y: appliedY,
+    lastClosestIndexX,
+    lastClosestIndexY,
   };
 };
 
@@ -178,6 +181,27 @@ export const draggingStrategySnapRoadmapRootNodes = (
     newY + height / 2,
     rootNodesPositions
   );
+  const { lastClosestIndexX, lastClosestIndexY } = coords;
+  // if snapped add lines
+  const snappings = [];
+  if (lastClosestIndexX !== -1) {
+    snappings.push({
+      startX: coords.x,
+      startY: coords.y,
+      endX: rootNodesPositions[lastClosestIndexX].x,
+      endY: rootNodesPositions[lastClosestIndexX].y,
+    });
+  }
+
+  if (lastClosestIndexY !== -1) {
+    snappings.push({
+      startX: coords.x,
+      startY: coords.y,
+      endX: rootNodesPositions[lastClosestIndexY].x,
+      endY: rootNodesPositions[lastClosestIndexY].y,
+    });
+  }
+  setSnappings(snappings);
 
   coords.x -= width / 2;
   coords.y -= height / 2;

@@ -12,8 +12,8 @@ import { setDisplayPageType } from '@store/roadmap-refactor/display/display-mana
 import { setSelectedNodeId } from '@store/roadmap-refactor/elements-editing/editor-selected-data';
 import roadmapState from '@store/roadmap-refactor/roadmap-data/roadmap_state';
 import {
+  getNodeAbsoluteCoords,
   getNodeByIdRoadmapSelector,
-  getTracebackNodeToRoot,
 } from '@src/typescript/roadmap_ref/roadmap-data/services/get';
 import {
   setEditorClosedEffect,
@@ -43,20 +43,9 @@ export function moveRoadmapToNode(nodeId: string) {
   const wOffsetX = window.innerWidth / 2;
   const wOffsetY = window.innerHeight / 2;
 
-  let tracebackOffsetX = 0;
-  let tracebackOffsetY = 0;
-
-  const traceback = getTracebackNodeToRoot(nodeId);
-  traceback.push(nodeId);
-  // gets last element of traceback
-  traceback.forEach((traceNodeId) => {
-    const traceNode = getNodeByIdRoadmapSelector(traceNodeId);
-    const { coords: traceCoords } = traceNode.data;
-    const { x: traceX, y: traceY } = traceCoords;
-    const { width: traceWidth, height: traceHeight } = traceNode.data;
-    tracebackOffsetX += traceX + traceWidth / 2;
-    tracebackOffsetY += traceY + traceHeight / 2;
-  });
+  const { x, y } = getNodeAbsoluteCoords(nodeId);
+  const tracebackOffsetX = x;
+  const tracebackOffsetY = y;
 
   triggerMoveRoadmapTo(
     // rootX - window.innerWidth / 2 + rootWidth / 2 + x + width / 2,
