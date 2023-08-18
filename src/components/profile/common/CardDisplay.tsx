@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import Card from '@components/explorerefr/Card';
+import Card from '@components/explore/Card';
 import { useStore } from '@nanostores/react';
 import cardsFromApi, {
   setRoadmapCardsFromApiProfile,

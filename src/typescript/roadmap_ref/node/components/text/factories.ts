@@ -9,6 +9,7 @@ import {
   injectComponentParentNodeId,
 } from '@src/typescript/roadmap_ref/node/components/text/inject';
 import { draggingBehaviorFactoryComponents } from '@src/typescript/roadmap_ref/dragging/factories';
+import { injectDraggingStrategy } from '@src/typescript/roadmap_ref/dragging/inject';
 
 export type IComponentClasses = ComponentTitle | ComponentDescription;
 
@@ -55,5 +56,7 @@ export function factoryComponentEmpty(
     Description: factoryComponentDescriptionEmpty,
   };
   const factory = factoriesMapper[componentType];
-  return factory(parentNodeId);
+  const component = factory(parentNodeId);
+  injectDraggingStrategy(component.draggingBehavior, 'snap');
+  return component;
 }

@@ -33,7 +33,7 @@ export function cancelEditingProtocol() {
   setRoadmapSelector(roadmapView.get());
   toggleRoadmapEditing();
   setAllDraggableFalse();
-  triggerChunkRerender(); // we call it in order to have the correct node ids in the renderStore for nodes
+  triggerChunkRerender(); // we call it in order to have the correct node ids in the renderStore for nodes-page
   setDisplayPageType('closed');
   removeAllEffects();
 }

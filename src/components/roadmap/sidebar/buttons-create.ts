@@ -18,7 +18,7 @@ const buttonsCreate = [
       dispatchAnalyticsEvent('roadmapInteraction', {
         actionType: 'Create Roadmap',
       });
-      // window.location.href = '/profile';
+      window.location.href = '/profile';
     },
   },
 

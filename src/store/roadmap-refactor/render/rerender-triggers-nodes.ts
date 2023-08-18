@@ -1,7 +1,7 @@
 import { atom } from 'nanostores';
 
 const nodeTriggers = atom({
-  triggers: {}, // all the rerender triggers for the nodes
+  triggers: {}, // all the rerender triggers for the nodes-page
   disableTriggers: {}, // triggers for disabling the dragging
   enableTriggers: {}, // triggers for enabling the dragging
   tooltipTriggers: {}, // triggers for showing the tooltip

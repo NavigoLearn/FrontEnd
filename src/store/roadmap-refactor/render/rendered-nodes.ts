@@ -1,7 +1,7 @@
 import { atom } from 'nanostores';
 
 const renderNodesStore = atom({
-  nodesIds: [], // ids of all the nodes currently rendered on the screen
+  nodesIds: [], // ids of all the nodes-page currently rendered on the screen
 } as {
   nodesIds: string[];
 });

@@ -27,14 +27,14 @@ const Component = () => {
   };
 
   const renderComponents = () => {
-    // render components
+    // render reusable-components-page
     const component = componentFactory();
     placeComponent();
     ref.current.appendChild(component);
   };
 
   const renderCurrentNode = () => {
-    // rendering the current node properties
+    // rendering the current node properties-page
   };
 
   useEffect(() => {

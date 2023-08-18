@@ -3,24 +3,26 @@ import { Flags } from '@src/typescript/roadmap_ref/node/core/flags';
 
 import { ActionsClass } from '@src/typescript/roadmap_ref/node/core/actions/core';
 import { DraggingBehavior } from '@src/typescript/roadmap_ref/dragging/core';
-import { Data } from '@src/typescript/roadmap_ref/node/core/properties';
+import { Data } from '@src/typescript/roadmap_ref/node/core/data';
 import { IAttachmentObject } from '@type/roadmap/node/attachments-types';
 import { IComponentObject } from '@type/roadmap/node/components-types';
+
+export type INodeTemplates = 'classic' | 'link';
 
 export class NodeClass {
   components: IComponentObject[] = []; // title, description, button and anything inside the node
 
-  data: Data = new Data(); // properties of the node itself
+  data: Data = new Data(); // properties-page of the node itself
 
   subNodeIds: string[] = []; // reference to other NodeClasses from the roadmap
 
-  attachments: IAttachmentObject[] = []; // special components that are much more customizable and special, meant for any kind of interraction
+  attachments: IAttachmentObject[] = []; // special reusable-components-page that are much more customizable and special, meant for any kind of interraction
 
-  actions: ActionsClass = new ActionsClass(); // the actions that are set on the node
+  actions: ActionsClass = new ActionsClass(); // the actions-page that are set on the node
 
   draggingBehavior: DraggingBehavior; // the dragging behavior of the node
 
-  connections: string[] = []; // connections to other nodes
+  connections: string[] = []; // connections to other nodes-page
 
   flags: Flags = new Flags(); // flags to indificate different behaviors of the node
 

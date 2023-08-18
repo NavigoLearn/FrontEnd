@@ -39,12 +39,12 @@ export function applyElementEffects(id: string, divElementRef: HTMLDivElement) {
 }
 
 export function setEditorOpenEffect(nodeId: string) {
-  // applies opacity 50 to all nodes except the one with the id
+  // applies opacity 50 to all nodes-page except the one with the id
   const originalEffects = elementEffects.get();
   const nodes = Object.keys(originalEffects);
-  // getting the line of parent nodes from the node to the root
+  // getting the line of parent nodes-page from the node to the root
   const blackListed = getTracebackNodeToRoot(nodeId);
-  // add parent nodes to blacklisted
+  // add parent nodes-page to blacklisted
   const currentNode = roadmapSelector.get().nodes[nodeId];
   currentNode.subNodeIds.forEach((id) => {
     blackListed.push(id);
@@ -66,7 +66,7 @@ export function setEditorOpenEffect(nodeId: string) {
 }
 
 export function setEditorClosedEffect() {
-  // removes opacity 50 from all nodes
+  // removes opacity 50 from all nodes-page
   const originalEffects = elementEffects.get();
   const nodes = Object.keys(originalEffects);
   nodes.forEach((id) => {

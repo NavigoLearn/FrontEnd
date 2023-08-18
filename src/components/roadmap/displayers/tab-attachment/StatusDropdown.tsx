@@ -9,7 +9,6 @@ import { mutateAttachmentTabStatus } from '@src/typescript/roadmap_ref/node/atta
 import complete from '@assets/completed-status.svg';
 import inProgress from '@assets/progress-status.svg';
 import skip from '@assets/skip-status.svg';
-import { action } from 'nanostores';
 
 type IStatusDropdownProps = {
   attachment: AttachmentTab;
@@ -19,13 +18,12 @@ const iconMap = {
   'In Progress': inProgress,
   Completed: complete,
   Skip: skip,
-  // Add other actions and corresponding SVG imports here
+  // Add other actions-page and corresponding SVG imports here
 };
 
 const StatusDropdown = ({ attachment }: IStatusDropdownProps) => {
   const [dropdown, setDropdown] = useState(false);
   const { status } = attachment;
-  console.log(status);
 
   return (
     <div

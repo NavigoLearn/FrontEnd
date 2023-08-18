@@ -10,11 +10,9 @@ import {
   getNodeByIdRoadmapSelector,
   getRootGlobalId,
 } from '@src/typescript/roadmap_ref/roadmap-data/services/get';
-import { roadmapSelector } from '@store/roadmap-refactor/roadmap-data/roadmap-selector';
 
 export const calculateRootNodeTransform = () => {
   const rootNode = getNodeByIdRoadmapSelector(getRootGlobalId());
-  console.log(roadmapSelector.get());
   const windowWidth = window.innerWidth;
   const windowHeight = window.innerHeight;
   const x = windowWidth / 2 - rootNode.data.coords.x - rootNode.data.width / 2;

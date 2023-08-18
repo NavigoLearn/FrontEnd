@@ -6,7 +6,7 @@ import {
 } from '@type/home/hero-rotate';
 
 export function transferTransforms(element1, element2) {
-  // get the left and top style properties from each element
+  // get the left and top style properties-page from each element
   const element1Position = {
     top: element1.style.top,
     left: element1.style.left,
