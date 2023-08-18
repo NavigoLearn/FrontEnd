@@ -25,7 +25,7 @@ export const snapCoordsToPositions = (
 ): ICoords => {
   let lastClosestIndexX = -1;
   let lastClosestIndexY = -1;
-  const snappingDistance = 10;
+  const snappingDistance = 15;
 
   for (let i = 0; i < positions.length; i += 1) {
     const { x: rootNodeX, y: rootNodeY } = positions[i];
@@ -163,13 +163,24 @@ export const draggingStrategySnapRoadmapRootNodes = (
 
   const rootNodesPositions = filteredRootNodes.map((nodeId) => {
     const node = getNodeByIdRoadmapSelector(nodeId);
+    // returns the centers of the nodes since the roots are positioned by top left corner
     return {
-      x: node.data.coords.x,
-      y: node.data.coords.y,
+      x: node.data.coords.x + node.data.width / 2,
+      y: node.data.coords.y + node.data.height / 2,
     };
   });
 
-  const coords = snapCoordsToPositions(newX, newY, rootNodesPositions);
+  const node = getNodeByIdRoadmapSelector(draggingBehavior.draggingElementId);
+  const { width, height } = node.data;
+  // adjusts coords to work with centers
+  const coords = snapCoordsToPositions(
+    newX + width / 2,
+    newY + height / 2,
+    rootNodesPositions
+  );
+
+  coords.x -= width / 2;
+  coords.y -= height / 2;
   return coords;
 };
 
