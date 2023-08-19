@@ -7,6 +7,7 @@ import { useTriggerRerender } from '@hooks/useTriggerRerender';
 import { setTriggerRender } from '@store/roadmap-refactor/render/rerender-triggers-nodes';
 import { getNodeByIdRoadmapSelector } from '@src/typescript/roadmap_ref/roadmap-data/services/get';
 import {
+  closeEditorProtocol,
   getOnClickAction,
   getOnMouseOutAction,
   getOnMouseOverAction,
@@ -18,6 +19,8 @@ import {
 import { useIsLoaded } from '@hooks/useIsLoaded';
 import { setElementDiv } from '@store/roadmap-refactor/elements-editing/elements-divs';
 import { FontSizeValues } from '@src/types/roadmap/node/components-types';
+import { deepCopy } from '@src/typescript/roadmap_ref/utils';
+import { text } from 'stream/consumers';
 
 interface NodeViewProps {
   nodeId: string;
@@ -36,7 +39,7 @@ const NodeRenderer: React.FC<NodeViewProps> = ({
   const renderNode = (nodeId: string) => {
     const loaded = useIsLoaded();
     const node = getNodeByIdRoadmapSelector(nodeId);
-    const { color, width, height, opacity, fontSizeType, colorTheme } =
+    const { color, width, height, opacity, fontSizeType, textColor } =
       node.data;
     node.data.center.x = width / 2;
     const { subNodeIds } = node;
@@ -45,7 +48,7 @@ const NodeRenderer: React.FC<NodeViewProps> = ({
     const { flags } = node;
     const { subNodeFlag } = flags;
 
-    // the offset for the nodes rendered directly on the roadmap is calculated directly
+    // the offset for the nodes-page rendered directly on the roadmap is calculated directly
     // on its group and foreign object in NodeManager. This is why you need to treat the coords
     // from subNodes which don't have their own foreign object and are divs relative to the parent node
 
@@ -82,6 +85,7 @@ const NodeRenderer: React.FC<NodeViewProps> = ({
     }, []);
 
     const style = {
+      color: textColor,
       backgroundColor: color,
       width: `${width}px`,
       height: `${height}px`,

@@ -8,11 +8,6 @@ import EditorPageManager from '@components/roadmap/displayers/editor/EditorPageM
 const DisplayManager = () => {
   const { type } = useStore(displayStore);
 
-  const transition = {
-    duration: 0.5,
-    ease: [0.43, 0.13, 0.23, 0.96], // Custom easing curve
-  };
-
   return (
     <AnimatePresence>
       {type === 'editor' && <EditorPageManager />}

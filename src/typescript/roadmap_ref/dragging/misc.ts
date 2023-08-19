@@ -19,7 +19,7 @@ export const applyRoadmapDraggability = () => {
 
   Object.values(roadmap.nodes).forEach((node) => {
     addDragabilityProtocol(node.draggingBehavior);
-    // for node iterate components and add dragability
+    // for node iterate reusable-components-page and add dragability
     node.components.forEach((component) => {
       addDragabilityProtocol(component.draggingBehavior);
     });

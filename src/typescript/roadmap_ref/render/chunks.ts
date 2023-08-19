@@ -33,7 +33,7 @@ export function setConnectionsToRender() {
 }
 
 export function extendNodeIdsForConnection(nodeIds, roadmap: Roadmap) {
-  // extends the node ids array to include the nodes that are connected to the nodes in the array
+  // extends the node ids array to include the nodes-page that are connected to the nodes-page in the array
   const extendedNodeIds = [...nodeIds];
   nodeIds.forEach((nodeId) => {
     const node = roadmap.nodes[nodeId];
@@ -61,7 +61,7 @@ export function setNodesToRender() {
 
   let nodesArray: string[] = [];
   chunksIds.forEach((chunkId) => {
-    // gets the array of nodes for each chunk id
+    // gets the array of nodes-page for each chunk id
     const nodes = chunks[chunkId];
     if (nodes !== undefined) {
       nodesArray.push(...nodes);
@@ -71,7 +71,7 @@ export function setNodesToRender() {
   nodesArray = [...new Set(nodesArray)];
 
   nodesArray = extendNodeIdsForConnection(nodesArray, roadmapData);
-  // sets the nodes that should be rendered ( calculated from the chunks visible )
+  // sets the nodes-page that should be rendered ( calculated from the chunks visible )
   setNodes(nodesArray);
 }
 
@@ -148,7 +148,7 @@ export function renderChunksFlow(
   chunkSize: number
 ) {
   calculateRenderedChunks(transform, chunkSize); // calculates chunks from viewport and sets them in the store
-  setNodesToRender(); // checks for nodes in the chunks and sets them into a store to be rendered
+  setNodesToRender(); // checks for nodes-page in the chunks and sets them into a store to be rendered
   setConnectionsToRender(); // checks for connections in the chunks and sets them into a store to be rendered
 }
 

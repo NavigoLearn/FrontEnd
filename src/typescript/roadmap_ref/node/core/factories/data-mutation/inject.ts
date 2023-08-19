@@ -1,4 +1,4 @@
-// file containing different data-mutation for some properties of the node
+// file containing different data-mutation for some properties-page of the node
 
 import { NodeClass } from '@src/typescript/roadmap_ref/node/core/core';
 import { generateId } from '@src/typescript/roadmap_ref/node/core/misc';

@@ -33,7 +33,7 @@ describe('Components logic', () => {
     expect(true).toBe(true);
   });
 
-  it('should check for the reutrned value for title and description in the attachment tab', () => {
+  it('should check for the reutrned value for title and description in the attachment-page tab', () => {
     const title = 'eugene';
     const description = 'another eugene';
     const component = node.components[0];

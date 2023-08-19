@@ -39,3 +39,25 @@ export function rightWrapper(Component) {
 
   return WrappedComponent;
 }
+
+export function animationWrapperEditorPages(Component) {
+  const transition = {
+    duration: 0.5,
+    ease: [0.43, 0.13, 0.23, 0.96], // Custom easing curve
+  };
+  const WrappedComponent = (props) => (
+    <motion.div
+      initial={{ opacity: 0, x: '-25%', y: 0 }}
+      animate={{ opacity: 1, x: 0, y: 0 }}
+      exit={{ opacity: 0, x: '25%' }}
+      transition={transition}
+      className=''
+    >
+      <div key=''>
+        <Component {...props} />
+      </div>
+    </motion.div>
+  );
+
+  return WrappedComponent;
+}

@@ -18,7 +18,7 @@ const miscParamsStore = atom({
   },
   editingCount: 0,
   chunkSize: 400,
-  toolTip: {}, // functions that render-roadmap-roadmap-data react components with the desired functionality
+  toolTip: {}, // functions that render-roadmap-roadmap-data react reusable-components-page with the desired functionality
 } as {
   zoomAllowed: boolean;
   disableZoomTrigger: () => void;

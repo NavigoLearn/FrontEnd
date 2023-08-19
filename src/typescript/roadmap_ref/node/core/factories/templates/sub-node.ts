@@ -14,6 +14,7 @@ import {
 } from '@src/typescript/roadmap_ref/node/core/data-mutation/mutate';
 import { recalculateNodeCenter } from '@src/typescript/roadmap_ref/node/core/calculations/general';
 import { appendAttachmentTabStandard } from '@src/typescript/roadmap_ref/node/core/factories/data-mutation/append';
+import { injectDraggingStrategy } from '@src/typescript/roadmap_ref/dragging/inject';
 
 export function nodeFactorySubNodeBoilerplate(
   nestedWithinId: string
@@ -26,6 +27,7 @@ export function nodeFactorySubNodeBoilerplate(
   appendAttachmentTabStandard(node);
   const draggingBehavior = draggingBehaviorFactorySubNode(node.id);
   injectDraggingBehavior(node, draggingBehavior);
+  injectDraggingStrategy(draggingBehavior, 'snap');
 
   return node;
 }

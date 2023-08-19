@@ -1,4 +1,4 @@
-import { factoryNodeClassic } from '@src/typescript/roadmap_ref/node/core/factories/templates/classic';
+import { factoryNodeClassicCustomizable } from '@src/typescript/roadmap_ref/node/core/factories/templates/classic';
 import { factoryConnection } from '@src/typescript/roadmap_ref/node/connections/factories-protocols';
 import { factorySubNode } from '@src/typescript/roadmap_ref/node/core/factories/templates/sub-node';
 import { appendRootNodeId } from '@src/typescript/roadmap_ref/roadmap-data/services/append';
@@ -15,12 +15,12 @@ import {
 import { injectParentData } from '@src/typescript/roadmap_ref/node/core/factories/data-mutation/inject';
 
 export function factoryRoadmapClassic() {
-  const node0 = factoryNodeClassic(0, 0, 200, 50, 0);
+  const node0 = factoryNodeClassicCustomizable(0, 0, 200, 50, 0);
   injectRoadmapGlobalRootNodeId(node0.id);
-  const node1 = factoryNodeClassic(0, 150, 200, 50, 1);
-  const node2 = factoryNodeClassic(0, 300, 200, 50, 2);
-  const node3 = factoryNodeClassic(300, 300, 200, 50, 3);
-  const node4 = factoryNodeClassic(-300, 300, 200, 50, 4);
+  const node1 = factoryNodeClassicCustomizable(0, 150, 200, 50, 1);
+  const node2 = factoryNodeClassicCustomizable(0, 300, 200, 50, 2);
+  const node3 = factoryNodeClassicCustomizable(300, 300, 200, 50, 3);
+  const node4 = factoryNodeClassicCustomizable(-300, 300, 200, 50, 4);
   const connection0 = factoryConnection(node0, node1);
   const connection1 = factoryConnection(node1, node2);
   const connection2 = factoryConnection(node2, node3);
@@ -55,9 +55,9 @@ export function factoryRoadmapClassic() {
 }
 
 export function factoryRoadmapFirstAttempt() {
-  const node0 = factoryNodeClassic(0, 0, 500, 500);
+  const node0 = factoryNodeClassicCustomizable(0, 0, 500, 500);
   injectRoadmapGlobalRootNodeId(node0.id);
-  const node1 = factoryNodeClassic(-200, -200, 200, 200);
+  const node1 = factoryNodeClassicCustomizable(-200, -200, 200, 200);
   const connection0 = factoryConnection(node0, node1);
 
   const subNode00 = factorySubNode(node0.id, 100, 50, -75, -75);

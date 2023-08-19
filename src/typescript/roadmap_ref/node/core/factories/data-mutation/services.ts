@@ -8,5 +8,12 @@ export function selectNodeColorScheme(
   colorTheme: IColorThemesOptions,
   colorType: IColorThemesColors
 ) {
-  return colorThemes[colorTheme][colorType];
+  return colorThemes[colorTheme][colorType].nodeColor;
+}
+
+export function selectNodeColorText(
+  colorTheme: IColorThemesOptions,
+  colorType: IColorThemesColors
+) {
+  return colorThemes[colorTheme][colorType].textColor;
 }
