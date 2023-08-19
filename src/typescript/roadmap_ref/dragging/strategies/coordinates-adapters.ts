@@ -1,4 +1,4 @@
-import { getScaleSafari } from '@store/roadmap-refactor/misc/scale-safari';
+import { getScaleSafari } from '@store/roadmap-refactor/misc/scale-safari-store';
 import { DraggingBehavior } from '@src/typescript/roadmap_ref/dragging/core';
 
 export const coordinatesAdapterStandardStrategy = (x: number, y: number) => {

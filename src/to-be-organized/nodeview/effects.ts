@@ -17,3 +17,7 @@ export const effectBorderTransparent = (divElementRef: HTMLDivElement) => {
 export const effectBorderBlue = (divElementRef: HTMLDivElement) => {
   divElementRef.style.border = '2px solid blue';
 };
+
+export const effectBorderRed = (divElementRef: HTMLDivElement) => {
+  divElementRef.style.border = '2px solid red';
+};

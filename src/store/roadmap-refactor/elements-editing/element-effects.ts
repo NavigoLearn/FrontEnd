@@ -3,15 +3,22 @@ import { roadmapSelector } from '@store/roadmap-refactor/roadmap-data/roadmap-se
 import { getTracebackNodeToRoot } from '@src/typescript/roadmap_ref/roadmap-data/services/get';
 import { HashMap, HashMapWithKeys } from '@type/roadmap/stores/roadmap';
 import {
+  effectBorderBlue,
+  effectBorderRed,
   effectOpacity100,
   effectOpacity30,
 } from '@src/to-be-organized/nodeview/effects';
+import { deepCopy } from '@src/typescript/roadmap_ref/utils';
 
-export type IEffectsNames = 'opacity-30' | 'opacity-100';
+export type IEffectsNames =
+  | 'editor-defocused-node'
+  | 'editor-focused-node'
+  | 'dragging-recursive';
 export type IEffectFunction = (divElementRef: HTMLDivElement) => void;
 export const effectMapper: HashMapWithKeys<IEffectsNames, IEffectFunction> = {
-  'opacity-30': effectOpacity30,
-  'opacity-100': effectOpacity100,
+  'editor-defocused-node': effectOpacity30,
+  'editor-focused-node': effectOpacity100,
+  'dragging-recursive': effectBorderRed,
 };
 
 export const elementEffects = atom({} as HashMap<IEffectsNames[]>);
@@ -38,6 +45,28 @@ export function applyElementEffects(id: string, divElementRef: HTMLDivElement) {
   });
 }
 
+export function deleteElementEffect(
+  originalEffects,
+  id,
+  effect: IEffectsNames
+) {
+  originalEffects[id] = originalEffects[id].filter(
+    (effectName) => effectName !== effect
+  );
+  elementEffects.set({
+    ...originalEffects,
+  });
+}
+
+export function appendElementEffect(id, effect: IEffectsNames) {
+  const originalEffects = elementEffects.get();
+  if (!originalEffects[id]) originalEffects[id] = [];
+  originalEffects[id].push(effect);
+  elementEffects.set({
+    ...originalEffects,
+  });
+}
+
 export function setEditorOpenEffect(nodeId: string) {
   // applies opacity 50 to all nodes-page except the one with the id
   const originalEffects = elementEffects.get();
@@ -51,14 +80,17 @@ export function setEditorOpenEffect(nodeId: string) {
   });
 
   nodes.forEach((id) => {
-    // checks whether node is root
-    originalEffects[id] = originalEffects[id].filter((effect) => {
-      return effect !== 'opacity-30' && effect !== 'opacity-100';
-    });
-    if (!blackListed.includes(id)) {
-      originalEffects[id].push('opacity-30');
+    if (blackListed.includes(id)) {
+      // blacklist means normal node
+      deleteElementEffect(originalEffects, id, 'editor-defocused-node');
+      originalEffects[id].push('editor-focused-node');
+    } else {
+      // not in blacklist means parent node
+      deleteElementEffect(originalEffects, id, 'editor-focused-node');
+      originalEffects[id].push('editor-defocused-node');
     }
   });
+
   originalEffects[nodeId] = [];
   elementEffects.set({
     ...originalEffects,
@@ -70,10 +102,8 @@ export function setEditorClosedEffect() {
   const originalEffects = elementEffects.get();
   const nodes = Object.keys(originalEffects);
   nodes.forEach((id) => {
-    originalEffects[id] = originalEffects[id].filter(
-      (effect) => effect !== 'opacity-30'
-    );
-    originalEffects[id].push('opacity-100');
+    // if node was defocused, remove defocused effect
+    deleteElementEffect(originalEffects, id, 'editor-defocused-node');
   });
   elementEffects.set({
     ...originalEffects,
@@ -89,4 +119,25 @@ export function removeAllEffects() {
   elementEffects.set({
     ...originalEffects,
   });
+}
+
+export function appendDraggingRecursiveEffect(nodeId: string) {
+  const originalEffects = elementEffects.get();
+  appendElementEffect(nodeId, 'dragging-recursive');
+  elementEffects.set({
+    ...originalEffects,
+  });
+}
+
+export function deleteDraggingRecursiveEffect(nodeId: string) {
+  const originalEffects = elementEffects.get();
+  deleteElementEffect(originalEffects, nodeId, 'dragging-recursive');
+  elementEffects.set({
+    ...originalEffects,
+  });
+}
+
+export function getElementHasEffect(id: string, effect: IEffectsNames) {
+  const originalEffects = elementEffects.get();
+  return originalEffects[id].includes(effect);
 }

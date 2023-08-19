@@ -7,7 +7,6 @@ import { useTriggerRerender } from '@hooks/useTriggerRerender';
 import { setTriggerRender } from '@store/roadmap-refactor/render/rerender-triggers-nodes';
 import { getNodeByIdRoadmapSelector } from '@src/typescript/roadmap_ref/roadmap-data/services/get';
 import {
-  closeEditorProtocol,
   getOnClickAction,
   getOnMouseOutAction,
   getOnMouseOverAction,
@@ -19,8 +18,6 @@ import {
 import { useIsLoaded } from '@hooks/useIsLoaded';
 import { setElementDiv } from '@store/roadmap-refactor/elements-editing/elements-divs';
 import { FontSizeValues } from '@src/types/roadmap/node/components-types';
-import { deepCopy } from '@src/typescript/roadmap_ref/utils';
-import { text } from 'stream/consumers';
 
 interface NodeViewProps {
   nodeId: string;
@@ -84,16 +81,23 @@ const NodeRenderer: React.FC<NodeViewProps> = ({
       });
     }, []);
 
+    const bgOpacity = opacity / 100;
+
     const style = {
-      color: textColor,
-      backgroundColor: color,
+      // color: textColor,
+      backgroundColor: `rgba(${parseInt(color.slice(1, 3), 16)}, ${parseInt(
+        color.slice(3, 5),
+        16
+      )}, ${parseInt(color.slice(5, 7), 16)}, ${bgOpacity})`, // assuming color is in #RRGGBB format
+      borderColor: `rgba(0,0,0, ${bgOpacity})`, // assuming borderColor is in #RRGGBB format
       width: `${width}px`,
       height: `${height}px`,
       top: `${calculatedOffsetCoords.y + coords.y}px`,
       left: `${calculatedOffsetCoords.x + coords.x}px`,
-      opacity,
       fontSize: FontSizeValues[fontSizeType],
+      opacity: `1`,
     };
+
     const applyStyle = () => {
       const element = nodeDivRef.current;
       Object.assign(element.style, style);

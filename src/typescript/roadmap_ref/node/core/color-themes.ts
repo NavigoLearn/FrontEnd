@@ -3,7 +3,7 @@ import { IColorThemes } from '@type/roadmap/node/colors-types';
 export const colorThemes: IColorThemes = {
   defaultTheme: {
     primary: {
-      nodeColor: 'white',
+      nodeColor: '#ffffff',
       textColor: '#00000099',
     },
     secondary: {

@@ -19,7 +19,7 @@ import {
   disableZoom,
 } from '@src/typescript/roadmap_ref/render/zoom-d3';
 import { recalculateChunks } from '@src/typescript/roadmap_ref/render/chunks';
-import { triggerRecenterRoadmap } from '@store/roadmap-refactor/misc/miscParams';
+import { triggerRecenterRoadmap } from '@store/roadmap-refactor/misc/misc-params-store';
 import { useIsLoaded } from '@hooks/useIsLoaded';
 import { setRoadmapFromAPI } from '@store/roadmap-refactor/roadmap-data/roadmap-view';
 import { applyRoadmapDraggability } from '@src/typescript/roadmap_ref/dragging/misc';
@@ -30,8 +30,9 @@ import { closeEditorProtocol } from '@src/to-be-organized/nodeview/actions-manag
 import { afterEventLoop } from '@src/typescript/utils/misc';
 import { factoryRoadmapClassic } from '@src/typescript/roadmap_ref/roadmap-templates/classic';
 import SnappingLinesRenderer from '@components/roadmap/SnappingLinesRenderer';
-import Popup from './tabs/popups/Popup';
 import { setMetaTags } from '@src/typescript/utils/metaTags';
+import { addKeyListeners } from '@src/typescript/roadmap_ref/key-shortcuts';
+import Popup from './tabs/popups/Popup';
 
 const Roadmap = ({ pageId }: { pageId: string }) => {
   const isCreate = pageId === 'create'; // parameter to determine if we are in the create mode
@@ -55,11 +56,12 @@ const Roadmap = ({ pageId }: { pageId: string }) => {
   useEffect(() => {
     // dummmy data
     if (!isCreate) return;
-    else setMetaTags({
-      'title': 'Roadmap Creator',
-      'url': 'https://navigolearn.com/roadmap/create',
-      'description': 'Start creating your own roadmap now! Pick a topic and start adding nodes to it.', // tbh just filler text
-      'author': 'You, the user',
+    setMetaTags({
+      title: 'Roadmap Creator',
+      url: 'https://navigolearn.com/roadmap/create',
+      description:
+        'Start creating your own roadmap now! Pick a topic and start adding nodes to it.', // tbh just filler text
+      author: 'You, the user',
     });
     // factoryRoadmapFirstAttempt();
     factoryRoadmapClassic();
@@ -110,7 +112,10 @@ const Roadmap = ({ pageId }: { pageId: string }) => {
     addZoomAndRecenter('rootSvg', 'rootGroup', chunkRenderer.current);
   }, [editing, isCreate]);
 
-  useEffectAfterLoad(() => {}, []);
+  useEffectAfterLoad(() => {
+    // adding event
+    addKeyListeners();
+  }, []);
 
   useEffectAfterLoad(() => {
     applyRoadmapDraggability();

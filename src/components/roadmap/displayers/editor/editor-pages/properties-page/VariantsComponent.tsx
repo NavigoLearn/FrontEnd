@@ -3,8 +3,7 @@ import {
   IColorThemesColors,
   IColorThemesOptions,
 } from '@type/roadmap/node/colors-types';
-import { selectNodeColorScheme } from '@src/typescript/roadmap_ref/node/core/factories/data-mutation/services';
-import { colorThemes } from '@src/typescript/roadmap_ref/node/core/factories/params/params';
+import { colorThemes } from '@src/typescript/roadmap_ref/node/core/color-themes';
 import { NodeClass } from '@src/typescript/roadmap_ref/node/core/core';
 import { mutateNodeColor } from '@src/typescript/roadmap_ref/node/core/data-mutation/mutate';
 import { triggerRerenderEditor } from '@src/store/roadmap-refactor/elements-editing/editor-selected-data';

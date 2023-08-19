@@ -108,6 +108,7 @@ const Properties = () => {
             onChange={(value) => {
               const newValue = parseInt(value, 10);
               if (checkInvalidInput(value)) return;
+              if (newValue < 0) return;
               // adjust for old value to keep the same center in the same place even after resizing
               const oldWidth = data.width;
               getIsRootNode(node.id) &&
@@ -127,6 +128,7 @@ const Properties = () => {
             onChange={(value) => {
               const newValue = parseInt(value, 10);
               if (checkInvalidInput(value)) return;
+              if (newValue < 0) return;
               // adjust for old value to keep the same center in the same place even after resizing
               const oldHeight = data.height;
               getIsRootNode(node.id) &&
@@ -146,11 +148,12 @@ const Properties = () => {
             onChange={(value) => {
               const newValue = parseInt(value, 10);
               if (checkInvalidInput(value)) return;
+              if (newValue < 0 || newValue > 100) return;
               mutateNodeOpacity(node, newValue);
               triggerRerenderEditor();
               triggerNodeRerender(node.id);
             }}
-            sensitivity={0.5}
+            sensitivity={1}
           />
         </div>
       </div>

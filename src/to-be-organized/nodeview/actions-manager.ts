@@ -16,6 +16,7 @@ import {
   getNodeByIdRoadmapSelector,
 } from '@src/typescript/roadmap_ref/roadmap-data/services/get';
 import {
+  getElementHasEffect,
   setEditorClosedEffect,
   setEditorOpenEffect,
 } from '@store/roadmap-refactor/elements-editing/element-effects';
@@ -25,14 +26,16 @@ import {
   effectBorderBlack,
   effectBorderBlue,
 } from '@src/to-be-organized/nodeview/effects';
-import { triggerMoveRoadmapTo } from '@store/roadmap-refactor/misc/miscParams';
+import { triggerMoveRoadmapTo } from '@store/roadmap-refactor/misc/misc-params-store';
 import { HashMapWithKeys } from '@type/roadmap/stores/roadmap';
 import { IActionTypes } from '@src/typescript/roadmap_ref/node/core/actions/core';
 
 export function getOnMouseOutActionEdit(nodeId): () => void {
   const div = getElementDiv(nodeId);
   return () => {
-    effectBorderBlack(div);
+    if (!getElementHasEffect(nodeId, 'dragging-recursive')) {
+      effectBorderBlack(div);
+    }
   };
 }
 
@@ -98,7 +101,9 @@ export function getOnClickAction(nodeId: string): () => void {
 export function getOnMouseOverActionEdit(nodeId): () => void {
   const div = getElementDiv(nodeId);
   return () => {
-    effectBorderBlue(div);
+    if (!getElementHasEffect(nodeId, 'dragging-recursive')) {
+      effectBorderBlue(div);
+    }
   };
 }
 
