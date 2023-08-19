@@ -81,6 +81,7 @@ export function componentMapper(component: IAttachmentTabComponentProperties) {
     if (!typeGuardTabLinkProperties(component)) {
       throw new Error('Component typeguard is wrong somewhere');
     }
+    // lol eugene e mad pe alexander
     return <div>Fucking rus didnt finish the task and I didnt check it</div>;
   }
   throw new Error('Component type not found');

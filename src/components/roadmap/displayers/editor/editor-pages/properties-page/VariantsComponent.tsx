@@ -22,9 +22,10 @@ const VariantsComponent = ({
   const themeDetails = colorThemes[selectedTheme];
 
   return (
-    <div className='flex flex-row'>
+    <div className='flex flex-row '>
       {Object.keys(themeDetails).map((colorKey: IColorThemesColors) => (
         <button
+          className={`${selectedColor === colorKey ? 'drop-shadow-lg' : ''}`}
           key={colorKey}
           type='button'
           style={{
