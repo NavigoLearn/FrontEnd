@@ -20,6 +20,7 @@ import {
 import { tailwindTransitionClass } from '@src/UI-library/tailwind-utils';
 import DraggableInput from '@src/UI-library/DraggableInput';
 import DropdownWhiteSelect from '@components/roadmap/displayers/editor/reusable-components/DropdownWhiteSelect';
+import DropdownGreyAdd from '@components/roadmap/displayers/editor/reusable-components/DropdownGreyAdd';
 import { mutateActionLink } from '@src/typescript/roadmap_ref/node/core/actions/mutate';
 
 type IActionsDropdown = {
@@ -204,20 +205,23 @@ const Properties = () => {
       <div className='flex text-secondary font-roboto-text font-medium mt-2'>
         Text
       </div>
-      <div
-        className={`flex-row gap-1 items-start ${
-          isClickedFirst ? 'bg-primary' : ''
-        }`}
-      >
+      <div className='flex-row gap-1 items-start w-full'>
         <div className='flex gap-2 items-center'>
           <input
             type='checkbox'
             className='flex border-1 border-gray-400 w-5 h-5'
             onClick={() => {
               setIsClickedFirst(!isClickedFirst);
+              if (isClickedSecond) setIsClickedSecond(false);
             }}
           />
-          <div className='flex-row gap-1 items-start'>
+          <div
+            className={`flex-row gap-1 items-start w-full p-3 ${
+              isClickedFirst
+                ? 'bg-primary bg-opacity-10 border-2 border-primary'
+                : ''
+            }`}
+          >
             <h2 className='flex text-darkBlue font-roboto-text font-extrabold text-lg'>
               Big headline style
             </h2>
@@ -237,11 +241,14 @@ const Properties = () => {
             className='flex border-1 border-gray-400 w-5 h-5'
             onClick={() => {
               setIsClickedSecond(!isClickedSecond);
+              if (isClickedFirst) setIsClickedFirst(false);
             }}
           />
           <div
-            className={`flex-row gap-1 items-start ${
-              isClickedSecond ? 'bg-primary' : ''
+            className={`flex-row gap-1 items-start w-full p-3 ${
+              isClickedSecond
+                ? 'bg-primary bg-opacity-10 border-2 border-primary'
+                : ''
             }`}
           >
             <h2 className='flex text-darkBlue font-roboto-text font-bold text-base'>
@@ -256,25 +263,18 @@ const Properties = () => {
           </div>
         </div>
       </div>
-      <div className='flex gap-3 items-center'>
-        <h4 className='text-darkBlue font-kanit-text font-medium flex items-center text-lg '>
-          On Click Event
-        </h4>
-        <div className='w-60'>
-          <DropdownWhiteSelect
-            dropdownName={actions.onClick}
-            options={possibleActions.map((value) => {
-              return {
-                name: value,
-                callback: () => {
-                  mutateNodeOnClickAction(node, value);
-                  triggerRerenderEditor();
-                },
-              };
-            })}
-          />
-        </div>
+      <div className='flex text-secondary font-roboto-text font-medium mt-2'>
+        Interactions
       </div>
+      <DropdownGreyAdd
+        text='Add action'
+        onSelect={(actionName: string) => {
+          mutateNodeOnClickAction(node, actionName);
+          triggerRerenderEditor();
+        }}
+        optionsList={possibleActionsArray}
+      />
+      <hr className='border-1 border-gray-200' />
       {actions.onClick === 'Open link' && (
         <input
           value={actions.additionalData.link}
