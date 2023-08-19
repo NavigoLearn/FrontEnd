@@ -21,7 +21,9 @@ import {
 import { recalculateChunks } from '@src/typescript/roadmap_ref/render/chunks';
 import { triggerRecenterRoadmap } from '@store/roadmap-refactor/misc/miscParams';
 import { useIsLoaded } from '@hooks/useIsLoaded';
-import { setRoadmapFromAPI } from '@store/roadmap-refactor/roadmap-data/roadmap-view';
+import {
+  setRoadmapFromData,
+} from '@store/roadmap-refactor/roadmap-data/roadmap-view';
 import { applyRoadmapDraggability } from '@src/typescript/roadmap_ref/dragging/misc';
 import { useEffectAfterLoad } from '@hooks/useEffectAfterLoad';
 import ConnectionRenderer from '@components/roadmap/ConnectionRenderer';
@@ -31,9 +33,9 @@ import { afterEventLoop } from '@src/typescript/utils/misc';
 import { factoryRoadmapClassic } from '@src/typescript/roadmap_ref/roadmap-templates/classic';
 import SnappingLinesRenderer from '@components/roadmap/SnappingLinesRenderer';
 import Popup from './tabs/popups/Popup';
-import { setMetaTags } from '@src/typescript/utils/metaTags';
+import { RoadmapTypeApi } from '@type/explore/card';
 
-const Roadmap = ({ pageId }: { pageId: string }) => {
+const Roadmap = ({ pageId, roadmap }: { pageId: string, roadmap: RoadmapTypeApi }) => {
   const isCreate = pageId === 'create'; // parameter to determine if we are in the create mode
   if (isCreate) {
     setEditingTrueNoRerender();
@@ -55,13 +57,7 @@ const Roadmap = ({ pageId }: { pageId: string }) => {
   useEffect(() => {
     // dummmy data
     if (!isCreate) return;
-    else setMetaTags({
-      'title': 'Roadmap Creator',
-      'url': 'https://navigolearn.com/roadmap/create',
-      'description': 'Start creating your own roadmap now! Pick a topic and start adding nodes to it.', // tbh just filler text
-      'author': 'You, the user',
-    });
-    // factoryRoadmapFirstAttempt();
+    // factoryRoadmapFirstAttempcleart();
     factoryRoadmapClassic();
   }, []);
 
@@ -94,16 +90,10 @@ const Roadmap = ({ pageId }: { pageId: string }) => {
     // ...
 
     !isCreate &&
-      setRoadmapFromAPI(pageId).then(() => {
-        initializeRoadmapAfterLoad();
-      });
+      setRoadmapFromData(roadmap)
+      initializeRoadmapAfterLoad();
 
-    afterEventLoop(() => {
-      isCreate &&
-        (() => {
-          initializeRoadmapAfterLoad();
-        })();
-    });
+    afterEventLoop(initializeRoadmapAfterLoad);
   }, []);
 
   useEffect(() => {

@@ -7,10 +7,49 @@ import SideBar from '@components/roadmap/sidebar/NewSidebarDesktop';
 // import SideBarMobile from '@components/roadmap/sidebar/SideBarMobile';
 import RoadmapController from '@components/roadmap/roadmapcontroler/RoadmapController';
 import DisplayManager from '../../components/roadmap/displayers/DisplayManager';
+import { RoadmapTypeApi } from '../../types/explore/card';
 
-const { id } = Astro.params;
+const { roadmapPath } = Astro.params;
 // here we should get the roadmap-roadmap-data for the actual roadmap_static
-const isCreate = id === 'create';
+const isCreate = roadmapPath === 'create';
+
+// parse number at the end of the id
+const id = roadmapPath.match(/\d+/g)[0];
+
+let roadmap: RoadmapTypeApi;
+
+// if id is not a number, redirect to explore
+if (!!id && !!isCreate) {
+  return Astro.redirect('/explore');
+}
+
+if (typeof id === 'string') {
+  try {
+    // fetches roadmapData from api
+    const response = await fetch(`${Astro.site}api/roadmaps/${id}`)
+
+    roadmap = await response.json();
+
+    // decodes the roadmap-roadmap-data field from base64 to json
+    roadmap.data = JSON.parse(atob(roadmap.data));
+
+    if (!roadmap) {
+      return Astro.redirect('/explore');
+    }
+
+    const formattedName = (roadmap?.name || 'untitled')
+      .replace(/\s+/g, '-')
+      .toLowerCase()
+      .slice(0, 32) + '-' + id;
+
+    if (formattedName !== roadmapPath) {
+      return Astro.redirect(`/roadmap/${formattedName}`, 301);
+    }
+  } catch (e) {
+    console.error(e);
+    return Astro.redirect('/explore');
+  }
+}
 ---
 
 <Base title='Roadmap' excludeFooter={true}>
@@ -21,7 +60,7 @@ const isCreate = id === 'create';
     <!-- offset from nav reduced from total screen size -->
     <div class='h-full relative'>
       <TopBarRoadmap client:idle />
-      <Roadmap pageId={id} client:load />
+      <Roadmap pageId={id} roadmap={roadmap} client:idle />
     </div>
 
     <div class='hidden opacity-100 bg-white md:block'>
