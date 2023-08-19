@@ -82,7 +82,7 @@ const TabAttachmentEditor = ({ onChange, value }: ITabAttachmentProps) => {
     <div className='w-full h-full pb-10 relative '>
       <div
         ref={divRef}
-        className={`h-[calc(100%-80px)] overflow-auto pr-3 ${
+        className={`h-[25rem] overflow-y-auto pr-3 ${
           isEditing ? 'px-7' : 'none'
         }`}
       >
