@@ -5,18 +5,24 @@ import TopBarRoadmap from '@components/roadmap/top-bar/TopBarRoadmap';
 import Roadmap from '@components/roadmap/Roadmap';
 import SideBar from '@components/roadmap/sidebar/NewSidebarDesktop';
 // import SideBarMobile from '@components/roadmap/sidebar/SideBarMobile';
-import RoadmapController from '@components/roadmap/roadmapcontroler/RoadmapController';
+import RoadmapController
+  from '@components/roadmap/roadmapcontroler/RoadmapController';
 import DisplayManager from '../../components/roadmap/displayers/DisplayManager';
 import { RoadmapTypeApi } from '../../types/explore/card';
+import { setMetaTags } from '../../typescript/utils/metaTags';
 
 const { roadmapPath } = Astro.params;
 // here we should get the roadmap-roadmap-data for the actual roadmap_static
 const isCreate = roadmapPath === 'create';
 
 // parse number at the end of the id
-const id = roadmapPath.match(/\d+/g)[0];
+const id = roadmapPath.match(/\d+/g)?.[0];
 
 let roadmap: RoadmapTypeApi;
+let title = 'Create a roadmap';
+let description = 'Create a roadmap to share your knowledge with the world!';
+let url = `https://navigolearn.com/roadmap/create`;
+let type = 'article';
 
 // if id is not a number, redirect to explore
 if (!!id && !!isCreate) {
@@ -26,7 +32,7 @@ if (!!id && !!isCreate) {
 if (typeof id === 'string') {
   try {
     // fetches roadmapData from api
-    const response = await fetch(`${Astro.site}api/roadmaps/${id}`)
+    const response = await fetch(`${Astro.site}api/roadmaps/${id}`);
 
     roadmap = await response.json();
 
@@ -45,6 +51,11 @@ if (typeof id === 'string') {
     if (formattedName !== roadmapPath) {
       return Astro.redirect(`/roadmap/${formattedName}`, 301);
     }
+
+    title = roadmap.name;
+    description = `${roadmap.description.slice(0, 100)}${roadmap.description.length > 100 ? '...' : ''} - ${roadmap.name} on NavigoLearn`;
+    url = `https://navigolearn.com/roadmap/${roadmapPath}`;
+    type = 'article';
   } catch (e) {
     console.error(e);
     return Astro.redirect('/explore');
@@ -52,25 +63,30 @@ if (typeof id === 'string') {
 }
 ---
 
-<Base title='Roadmap' excludeFooter={true}>
-  <PageViewCollection page='Roadmap' client:load />
-  <div class='absolute w-full top-0 h-16 bg-white z-[-10]'></div>
+<Base title="Roadmap" metadata={{
+  title,
+  description,
+  url,
+  type,
+}} excludeFooter={true}>
+<PageViewCollection page="Roadmap" client:load/>
+<div class="absolute w-full top-0 h-16 bg-white z-[-10]"></div>
 
-  <div class='h-[calc(100vh-64px)] md:mt-0 relative w-full'>
+<div class="h-[calc(100vh-64px)] md:mt-0 relative w-full">
     <!-- offset from nav reduced from total screen size -->
-    <div class='h-full relative'>
-      <TopBarRoadmap client:idle />
-      <Roadmap pageId={id} roadmap={roadmap} client:idle />
+    <div class="h-full relative">
+        <TopBarRoadmap client:idle/>
+        <Roadmap pageId={id} roadmap={roadmap} client:idle/>
     </div>
 
-    <div class='hidden opacity-100 bg-white md:block'>
-      <SideBar isCreate={isCreate} client:idle />
+    <div class="hidden opacity-100 bg-white md:block">
+        <SideBar isCreate={isCreate} client:idle/>
     </div>
-    <div class='absolute bottom-3 md:left-28 left-0'>
-      <RoadmapController client:idle />
+    <div class="absolute bottom-3 md:left-28 left-0">
+        <RoadmapController client:idle/>
     </div>
-    <div class='w-full h-full'>
-      <DisplayManager client:idle />
+    <div class="w-full h-full">
+        <DisplayManager client:idle/>
     </div>
-  </div>
+</div>
 </Base>
