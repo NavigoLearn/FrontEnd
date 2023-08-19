@@ -4,7 +4,7 @@ import PageViewCollection from '@components/home/PageViewCollection';
 import TopBarRoadmap from '@components/roadmap/top-bar/TopBarRoadmap';
 import Roadmap from '@components/roadmap/Roadmap';
 import SideBar from '@components/roadmap/sidebar/NewSidebarDesktop';
-import SideBarMobile from '@components/roadmap/sidebar/SideBarMobile';
+// import SideBarMobile from '@components/roadmap/sidebar/SideBarMobile';
 import RoadmapController from '@components/roadmap/roadmapcontroler/RoadmapController';
 import DisplayManager from '../../components/roadmap/displayers/DisplayManager';
 
@@ -21,7 +21,7 @@ const isCreate = id === 'create';
     <!-- offset from nav reduced from total screen size -->
     <div class='h-full relative'>
       <TopBarRoadmap client:idle />
-      <Roadmap pageId={id} client:idle />
+      <Roadmap pageId={id} client:load />
     </div>
 
     <div class='hidden opacity-100 bg-white md:block'>
