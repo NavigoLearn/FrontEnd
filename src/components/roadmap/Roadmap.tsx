@@ -1,4 +1,8 @@
 import React, { useEffect, useRef } from 'react';
+import {
+  factoryRoadmapFirstAttempt,
+  factoryRoadmapClassic,
+} from '@src/typescript/roadmap_ref/roadmap-templates/classic';
 import renderNodesStore from '@store/roadmap-refactor/render/rendered-nodes';
 import {
   setChunkRerenderTrigger,
@@ -28,7 +32,6 @@ import ConnectionRenderer from '@components/roadmap/ConnectionRenderer';
 import renderConnectionsStore from '@store/roadmap-refactor/render/rendered-connections';
 import { closeEditorProtocol } from '@src/to-be-organized/nodeview/actions-manager';
 import { afterEventLoop } from '@src/typescript/utils/misc';
-import { factoryRoadmapClassic } from '@src/typescript/roadmap_ref/roadmap-templates/classic';
 import SnappingLinesRenderer from '@components/roadmap/SnappingLinesRenderer';
 import { setMetaTags } from '@src/typescript/utils/metaTags';
 import { addKeyListeners } from '@src/typescript/roadmap_ref/key-shortcuts';
@@ -148,7 +151,7 @@ const Roadmap = ({ pageId }: { pageId: string }) => {
                 return <NodeManager key={id} node={nodes[id]} />;
               })}
           </g>
-          {editing && (
+          {isLoaded && editing && (
             <g id='rootGroupSnappingLines'>
               <SnappingLinesRenderer />
             </g>

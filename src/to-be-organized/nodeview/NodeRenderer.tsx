@@ -12,12 +12,16 @@ import {
   getOnMouseOverAction,
 } from '@src/to-be-organized/nodeview/actions-manager';
 import {
+  appendElementEffect,
+  appendStatusEffect,
   applyElementEffects,
   setElementEffectsEmpty,
 } from '@store/roadmap-refactor/elements-editing/element-effects';
 import { useIsLoaded } from '@hooks/useIsLoaded';
 import { setElementDiv } from '@store/roadmap-refactor/elements-editing/elements-divs';
 import { FontSizeValues } from '@src/types/roadmap/node/components-types';
+import { NodeClass } from '@src/typescript/roadmap_ref/node/core/core';
+import { getIsEditing } from '@store/roadmap-refactor/roadmap-data/roadmap_state';
 
 interface NodeViewProps {
   nodeId: string;
@@ -45,6 +49,7 @@ const NodeRenderer: React.FC<NodeViewProps> = ({
     const { flags } = node;
     const { subNodeFlag } = flags;
 
+    const editing = getIsEditing();
     // the offset for the nodes-page rendered directly on the roadmap is calculated directly
     // on its group and foreign object in NodeManager. This is why you need to treat the coords
     // from subNodes which don't have their own foreign object and are divs relative to the parent node
@@ -81,6 +86,45 @@ const NodeRenderer: React.FC<NodeViewProps> = ({
       });
     }, []);
 
+    function getNodeOpacity(node: NodeClass) {
+      const editing = getIsEditing();
+      if (editing) return 1;
+      return node.properties.markAsDone ? 0.35 : 1;
+    }
+
+    function appendNodeMarkAsDone(node: NodeClass) {
+      if (editing) return;
+      if (node.properties.markAsDone !== undefined) {
+        // adds proper effects
+        const attachment = node.attachments[0];
+        const { status } = attachment;
+        if (status === 'Completed') {
+          appendStatusEffect(nodeId, 'mark-as-completed');
+        }
+        if (status === 'In Progress') {
+          appendStatusEffect(nodeId, 'mark-as-progress');
+        }
+        if (status === 'Skip') {
+          appendStatusEffect(nodeId, 'mark-as-skipped');
+        }
+        if (status === 'Status') {
+          appendStatusEffect(nodeId, 'mark-as-status');
+        }
+      }
+    }
+
+    function getStatusCircleStyle(node: NodeClass) {
+      const statusCircleBgColor = {
+        Status: 'bg-transparent',
+        'In Progress': 'bg-yellow-400',
+        Completed: 'bg-green-400',
+        Skip: 'bg-gray-400',
+      };
+      const attachment = node.attachments[0];
+      const { status } = attachment;
+      return statusCircleBgColor[status];
+    }
+
     const bgOpacity = opacity / 100;
 
     const style = {
@@ -95,7 +139,7 @@ const NodeRenderer: React.FC<NodeViewProps> = ({
       top: `${calculatedOffsetCoords.y + coords.y}px`,
       left: `${calculatedOffsetCoords.x + coords.x}px`,
       fontSize: FontSizeValues[fontSizeType],
-      opacity: `1`,
+      opacity: `${getNodeOpacity(node)}`,
     };
 
     const applyStyle = () => {
@@ -106,6 +150,7 @@ const NodeRenderer: React.FC<NodeViewProps> = ({
     afterEventLoop(() => {
       // runs all the effects after the node is rendered
       applyStyle();
+      loaded && appendNodeMarkAsDone(node);
       loaded && applyElementEffects(nodeId, nodeDivRef.current);
     });
 
@@ -130,6 +175,14 @@ const NodeRenderer: React.FC<NodeViewProps> = ({
         }}
         style={style}
       >
+        {!editing && (
+          <div
+            className={`w-8 h-8 -left-4 -top-4 absolute rounded-full ${getStatusCircleStyle(
+              node
+            )}`}
+          />
+        )}
+
         {componentsRenderer(node)}
         {subNodeIds &&
           subNodeIds.map((subNodeId) => {
