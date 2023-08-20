@@ -76,7 +76,7 @@ if (typeof id === 'string') {
       <!-- offset from nav reduced from total screen size -->
       <div class='h-full relative'>
           <!--<TopBarRoadmap client:idle />-->
-          <Roadmap pageId={roadmapPath} client:load />
+          <Roadmap pageId={roadmapPath} roadmap={roadmap} client:load />
       </div>
 
       <div class='hidden opacity-100 bg-white md:block'>
