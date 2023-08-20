@@ -33,9 +33,6 @@ const DraggableInput = ({
         const step = sensitivity; // sensitivity
         if (deltaX !== prevDeltaX) {
           const newValue = inputValue + step * (deltaX > prevDeltaX ? 1 : -1);
-          setInputValue(Math.max(0, newValue));
-
-          // parse str to int
           onChange(newValue.toString());
           setPrevDeltaX(deltaX);
         }
@@ -70,7 +67,6 @@ const DraggableInput = ({
 
   const handleInputChange = (e) => {
     const newValue = parseInt(e.target.value, 10);
-    setInputValue(newValue);
     onChange(newValue.toString());
   };
 

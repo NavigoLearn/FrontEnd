@@ -9,9 +9,13 @@ import { mutateAttachmentTabStatus } from '@src/typescript/roadmap_ref/node/atta
 import complete from '@assets/completed-status.svg';
 import inProgress from '@assets/progress-status.svg';
 import skip from '@assets/skip-status.svg';
+import { injectMarkAsDone } from '@src/typescript/roadmap_ref/node/core/data-mutation/inject';
+import { getNodeByIdRoadmapSelector } from '@src/typescript/roadmap_ref/roadmap-data/services/get';
+import { triggerNodeRerender } from '@store/roadmap-refactor/render/rerender-triggers-nodes';
 
 type IStatusDropdownProps = {
   attachment: AttachmentTab;
+  nodeId: string;
 };
 
 const iconMap = {
@@ -21,7 +25,7 @@ const iconMap = {
   // Add other actions-page and corresponding SVG imports here
 };
 
-const StatusDropdown = ({ attachment }: IStatusDropdownProps) => {
+const StatusDropdown = ({ attachment, nodeId }: IStatusDropdownProps) => {
   const [dropdown, setDropdown] = useState(false);
   const { status } = attachment;
 
@@ -73,6 +77,19 @@ const StatusDropdown = ({ attachment }: IStatusDropdownProps) => {
                   type='button'
                   onClick={() => {
                     mutateAttachmentTabStatus(attachment, actionName);
+                    if (actionName === 'Completed' || actionName === 'Skip') {
+                      injectMarkAsDone(
+                        getNodeByIdRoadmapSelector(nodeId),
+                        true
+                      );
+                    } else {
+                      injectMarkAsDone(
+                        getNodeByIdRoadmapSelector(nodeId),
+                        false
+                      );
+                    }
+
+                    triggerNodeRerender(nodeId);
                     setDropdown(false);
                   }}
                   key={actionName}

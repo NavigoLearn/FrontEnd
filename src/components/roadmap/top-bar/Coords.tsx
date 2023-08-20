@@ -1,6 +1,6 @@
 import React from 'react';
 import { useStore } from '@nanostores/react';
-import viewportCoord from '@store/roadmap-refactor/misc/viewport-coords';
+import viewportCoord from '@store/roadmap-refactor/misc/viewport-coords-store';
 
 const Coords = () => {
   const { startX, startY, scale } = useStore(viewportCoord);

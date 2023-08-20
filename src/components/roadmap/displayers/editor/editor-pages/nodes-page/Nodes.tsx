@@ -3,6 +3,7 @@ import { useStore } from '@nanostores/react';
 import editorSelectedData from '@store/roadmap-refactor/elements-editing/editor-selected-data';
 import NodeComponent from '@components/roadmap/displayers/editor/editor-pages/nodes-page/NodeComponent';
 import { getNodeByIdRoadmapSelector } from '@src/typescript/roadmap_ref/roadmap-data/services/get';
+import DropdownPlus from '@src/UI-library/svg-animations/dropdownplus/DropdownPlus';
 
 const Nodes = () => {
   const { selectedNodeId } = useStore(editorSelectedData);
@@ -10,15 +11,15 @@ const Nodes = () => {
 
   return (
     <div className='w-full h-full'>
-      {/* <ButtonOutsideGray> */}
-      {/*  <ButtonInsideGeneric */}
-      {/*    name='Add a nested Node' */}
-      {/*    icon='/editor/addCircle.svg' */}
-      {/*    onClick={() => { */}
-      {/*      appendNestedNode(node); */}
-      {/*    }} */}
-      {/*  /> */}
-      {/* </ButtonOutsideGray> */}
+      <div className='relative group mt-5 w-full h-[58px] rounded-lg border-gray-200 border-2'>
+        <button
+          type='button'
+          className='text-xl text-darkBlue font-medium font-roboto-text text-center flex justify-between items-center w-full h-full px-5'
+        >
+          Add nested node
+          <DropdownPlus />
+        </button>
+      </div>
       <div className='flex flex-col gap-4 mt-5'>
         {node.subNodeIds.map((id) => {
           return (

@@ -9,9 +9,9 @@ import chunksStore, {
 import * as d3 from 'd3';
 import { setConnections } from '@store/roadmap-refactor/render/rendered-connections';
 import { Roadmap } from '@type/roadmap/stores/roadmap';
-import { setViewport } from '@store/roadmap-refactor/misc/viewport-coords';
+import { setViewport } from '@store/roadmap-refactor/misc/viewport-coords-store';
 import { Viewport } from '@type/roadmap/old/misc';
-import miscParams from '@store/roadmap-refactor/misc/miscParams';
+import miscParams from '@store/roadmap-refactor/misc/misc-params-store';
 import { roadmapSelector } from '@store/roadmap-refactor/roadmap-data/roadmap-selector';
 
 export function setConnectionsToRender() {
