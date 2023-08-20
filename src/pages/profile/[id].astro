@@ -6,7 +6,9 @@ import Profile from '@components/profile/Profile';
 const { id } = Astro.params;
 ---
 
-<Base title='Profile'>
+<Base metadata={{
+  title: 'Profile',
+}}>
   <PageViewCollection page='Profile' client:load />
   <Profile id={id} client:load />
 </Base>
