@@ -36,7 +36,7 @@ export async function setRoadmapFromData(roadmapData: RoadmapTypeApi) {
 
     setOwnerId(roadmapData.ownerId);
     setRoadmapId(roadmapData.id);
-    setTabAboutFromApi(roadmapData);
+    await setTabAboutFromApi(roadmapData);
     setLoadedTrue();
 
     miscParams.get().recenterRoadmap();

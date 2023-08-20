@@ -94,9 +94,16 @@ const Roadmap = ({ pageId, roadmap }: { pageId: string, roadmap: RoadmapTypeApi 
     // ...
 
     !isCreate &&
-      setRoadmapFromData(roadmap);
+      setRoadmapFromData(roadmap).then(() => {
+        initializeRoadmapAfterLoad()
+      });
 
-    afterEventLoop(initializeRoadmapAfterLoad);
+    afterEventLoop(() => {
+      isCreate &&
+        (() => {
+          initializeRoadmapAfterLoad();
+        })();
+    });
   }, []);
 
   useEffect(() => {
