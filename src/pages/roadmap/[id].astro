@@ -7,6 +7,7 @@ import SideBar from '@components/roadmap/sidebar/NewSidebarDesktop';
 import SideBarMobile from '@components/roadmap/sidebar/SideBarMobile';
 import RoadmapController from '@components/roadmap/roadmapcontroler/RoadmapController';
 import DisplayManager from '../../components/roadmap/displayers/DisplayManager';
+import SetupScreen from '@src/components/roadmap/displayers/setup-screen/SetupScreen';
 
 const { id } = Astro.params;
 // here we should get the roadmap-roadmap-data for the actual roadmap_static
@@ -14,6 +15,10 @@ const isCreate = id === 'create';
 ---
 
 <Base title='Roadmap' excludeFooter={true}>
+  <!-- <div class="h-[100%] w-[100%] bg-[#1A1B504D] absolute top-0 z-30 flex justify-center items-center">
+    <SetupScreen client:idle />
+  </div> -->
+
   <PageViewCollection page='Roadmap' client:load />
   <div class='absolute w-full top-0 h-16 bg-white z-[-10]'></div>
 
@@ -35,3 +40,4 @@ const isCreate = id === 'create';
     </div>
   </div>
 </Base>
+@src/components/roadmap/displayers/setup-screen/pages/ThemeSelector
