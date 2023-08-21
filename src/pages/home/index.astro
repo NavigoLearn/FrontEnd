@@ -9,7 +9,9 @@ import SecondSectionM from '@components/home/mobile/SecondSectionM.astro';
 import ThirdSectionM from '@components/home/mobile/ThirdSectionM.astro';
 ---
 
-<Base title='Home'>
+<Base metadata={{
+  title: 'Home',
+}}>
   <PageViewCollection page='Home' client:load />
   <div class='hidden mobile-landing:block'>
     <FirstSection />

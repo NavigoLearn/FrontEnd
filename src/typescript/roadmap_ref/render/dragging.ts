@@ -1,4 +1,10 @@
 import * as d3 from 'd3';
+import {
+  deleteDraggingRecursiveEffect,
+  appendDraggingRecursiveEffect,
+  elementEffects,
+} from '@store/roadmap-refactor/elements-editing/element-effects';
+import { deleteAllSnappings } from '@store/roadmap-refactor/render/snapping-lines';
 import { DraggingBehavior } from '@src/typescript/roadmap_ref/dragging/core';
 import { setElementDraggableUpdateCallback } from '@store/roadmap-refactor/elements-editing/draggable-elements';
 import { getNodeByIdRoadmapSelector } from '@src/typescript/roadmap_ref/roadmap-data/services/get';
@@ -12,6 +18,9 @@ import {
 } from '@src/typescript/roadmap_ref/dragging/strategies/dragging-end';
 import { getChildrenRenderedTraceback } from '@src/typescript/roadmap_ref/roadmap-data/protocols/get';
 import renderedConnections from '@store/roadmap-refactor/render/rendered-connections';
+import { getShift } from '@store/roadmap-refactor/misc/key-press-store';
+import { triggerNodeRerender } from '@store/roadmap-refactor/render/rerender-triggers-nodes';
+import { deepCopy } from '@src/typescript/roadmap_ref/utils';
 
 export const triggerNodeConnectionsRerender = (nodeId: string) => {
   const node = getNodeByIdRoadmapSelector(nodeId);
@@ -38,6 +47,7 @@ export const propagateDraggingToChildrenNodes = (
   childrenIds.forEach((childId) => {
     const child = getNodeByIdRoadmapSelector(childId);
     const { id } = child;
+
     const elementIdentifier = draggingBehavior.draggingElementIdentifier;
 
     const sel = document.getElementById(`${elementIdentifier}${id}`);
@@ -63,7 +73,8 @@ export const addDragabilityProtocol = (draggingBehavior: DraggingBehavior) => {
   const draggingStrategy = getDraggingStrategyFactory(draggingBehavior);
   const draggingEndStrategy = getDraggingEndFactory(draggingBehavior);
 
-  const isRecursive = false;
+  let isRecursive = false;
+
   const drag = d3
     .drag()
     // eslint-disable-next-line func-names
@@ -85,6 +96,22 @@ export const addDragabilityProtocol = (draggingBehavior: DraggingBehavior) => {
 
       newPos.x = x - offset.x;
       newPos.y = y - offset.y; // offsets are used to sync the mouse position with the dragging position
+
+      isRecursive =
+        getShift() && draggingBehavior.draggingElementType === 'node';
+
+      if (isRecursive) {
+        const children = getChildrenRenderedTraceback(id);
+        // add dragging Effect
+        children.forEach((childId) => {
+          const child = getNodeByIdRoadmapSelector(childId);
+          const { id: idChild } = child;
+          appendDraggingRecursiveEffect(idChild);
+          triggerNodeRerender(idChild);
+        });
+        appendDraggingRecursiveEffect(id);
+        triggerNodeRerender(id);
+      }
     })
     // eslint-disable-next-line func-names
     .on('drag', function (event) {
@@ -133,9 +160,16 @@ export const addDragabilityProtocol = (draggingBehavior: DraggingBehavior) => {
     })
     // eslint-disable-next-line func-names
     .on('end', function () {
-      draggingEndStrategy(newPos.x, newPos.y);
-      isRecursive && draggingEndChildrenTraceback(draggingBehavior);
       // chunk recalculations are integrated in the coordinates setter strategy
+      draggingEndStrategy(newPos.x, newPos.y);
+      deleteAllSnappings();
+      if (isRecursive) {
+        draggingEndChildrenTraceback(draggingBehavior);
+        const children = getChildrenRenderedTraceback(id);
+        children.forEach((childId) => {
+          deleteDraggingRecursiveEffect(childId);
+        });
+      }
     });
 
   function updateDraggabilityAllowed(allowed: boolean) {

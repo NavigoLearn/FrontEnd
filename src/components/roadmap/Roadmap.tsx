@@ -1,4 +1,8 @@
 import React, { useEffect, useRef } from 'react';
+import {
+  factoryRoadmapFirstAttempt,
+  factoryRoadmapClassic,
+} from '@src/typescript/roadmap_ref/roadmap-templates/classic';
 import renderNodesStore from '@store/roadmap-refactor/render/rendered-nodes';
 import {
   setChunkRerenderTrigger,
@@ -19,19 +23,23 @@ import {
   disableZoom,
 } from '@src/typescript/roadmap_ref/render/zoom-d3';
 import { recalculateChunks } from '@src/typescript/roadmap_ref/render/chunks';
-import { triggerRecenterRoadmap } from '@store/roadmap-refactor/misc/miscParams';
+import { triggerRecenterRoadmap } from '@store/roadmap-refactor/misc/misc-params-store';
 import { useIsLoaded } from '@hooks/useIsLoaded';
-import { setRoadmapFromAPI } from '@store/roadmap-refactor/roadmap-data/roadmap-view';
+import {
+  setRoadmapFromData,
+} from '@store/roadmap-refactor/roadmap-data/roadmap-view';
 import { applyRoadmapDraggability } from '@src/typescript/roadmap_ref/dragging/misc';
 import { useEffectAfterLoad } from '@hooks/useEffectAfterLoad';
 import ConnectionRenderer from '@components/roadmap/ConnectionRenderer';
 import renderConnectionsStore from '@store/roadmap-refactor/render/rendered-connections';
 import { closeEditorProtocol } from '@src/to-be-organized/nodeview/actions-manager';
 import { afterEventLoop } from '@src/typescript/utils/misc';
-import { factoryRoadmapClassic } from '@src/typescript/roadmap_ref/roadmap-templates/classic';
+import SnappingLinesRenderer from '@components/roadmap/SnappingLinesRenderer';
+import { addKeyListeners } from '@src/typescript/roadmap_ref/key-shortcuts';
 import Popup from './tabs/popups/Popup';
+import { RoadmapTypeApi } from '@type/explore/card';
 
-const Roadmap = ({ pageId }: { pageId: string }) => {
+const Roadmap = ({ pageId, roadmap }: { pageId: string, roadmap: RoadmapTypeApi }) => {
   const isCreate = pageId === 'create'; // parameter to determine if we are in the create mode
   if (isCreate) {
     setEditingTrueNoRerender();
@@ -53,7 +61,7 @@ const Roadmap = ({ pageId }: { pageId: string }) => {
   useEffect(() => {
     // dummmy data
     if (!isCreate) return;
-    // factoryRoadmapFirstAttempt();
+    // factoryRoadmapFirstAttempcleart();
     factoryRoadmapClassic();
   }, []);
 
@@ -86,8 +94,8 @@ const Roadmap = ({ pageId }: { pageId: string }) => {
     // ...
 
     !isCreate &&
-      setRoadmapFromAPI(pageId).then(() => {
-        initializeRoadmapAfterLoad();
+      setRoadmapFromData(roadmap).then(() => {
+        initializeRoadmapAfterLoad()
       });
 
     afterEventLoop(() => {
@@ -102,7 +110,10 @@ const Roadmap = ({ pageId }: { pageId: string }) => {
     addZoomAndRecenter('rootSvg', 'rootGroup', chunkRenderer.current);
   }, [editing, isCreate]);
 
-  useEffectAfterLoad(() => {}, []);
+  useEffectAfterLoad(() => {
+    // adding event
+    addKeyListeners();
+  }, []);
 
   useEffectAfterLoad(() => {
     applyRoadmapDraggability();
@@ -135,6 +146,11 @@ const Roadmap = ({ pageId }: { pageId: string }) => {
                 return <NodeManager key={id} node={nodes[id]} />;
               })}
           </g>
+          {isLoaded && editing && (
+            <g id='rootGroupSnappingLines'>
+              <SnappingLinesRenderer />
+            </g>
+          )}
         </g>
       </svg>
     </div>

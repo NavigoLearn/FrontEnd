@@ -76,7 +76,7 @@ const TabAttachmentView = () => {
         </div>
       </div>
       <div className='px-9'>
-        <StatusDropdown attachment={attachment} />
+        <StatusDropdown nodeId={nodeId} attachment={attachment} />
       </div>
       {components.slice(1).map((component) => {
         return componentMapper(component);

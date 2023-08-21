@@ -24,7 +24,7 @@ export class NodeClass {
 
   connections: string[] = []; // connections to other nodes-page
 
-  flags: Flags = new Flags(); // flags to indificate different behaviors of the node
+  flags: Flags = new Flags(); // flags to indicate different behaviors of the node
 
   id = '0';
 

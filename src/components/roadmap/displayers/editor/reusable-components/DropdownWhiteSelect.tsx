@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { tailwindTransitionClass } from '@src/UI-library/tailwind-utils';
+import { useClickOutside } from '@hooks/useClickOutside';
 
 type IOption = {
   name: string;
@@ -64,10 +65,16 @@ const DropdownWhiteSelect = ({
   options,
 }: IDropdownWhiteSelectProps) => {
   const [dropdown, setDropdown] = useState(false);
+  const divRef = useRef(null);
+
+  useClickOutside(divRef, () => {
+    setDropdown(false);
+  });
 
   return (
     <div
-      className={` w-full bg-white rounded-lg h-10 mt-2 border-2 border-gray-300 ${tailwindTransitionClass} relative`}
+      className={` w-full bg-white rounded-lg h-10  border-2 border-gray-300 ${tailwindTransitionClass} relative`}
+      ref={divRef}
     >
       <button
         type='button'

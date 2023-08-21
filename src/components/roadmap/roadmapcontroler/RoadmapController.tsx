@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import zoomIn from '@assets/zoomIn.svg';
 import zoomOut from '@assets/zoomOut.svg';
 import recenterCompass from '@assets/recenterCompass.svg';
-import viewportCoord from '@store/roadmap-refactor/misc/viewport-coords';
+import viewportCoord from '@store/roadmap-refactor/misc/viewport-coords-store';
 import { useStore } from '@nanostores/react';
 
 const RoadmapController = () => {

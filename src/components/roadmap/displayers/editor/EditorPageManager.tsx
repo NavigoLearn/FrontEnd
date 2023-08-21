@@ -58,7 +58,7 @@ const EditorPageManager = () => {
         defaultValue='components'
       />
       <div
-        className={`mt-5 flex-grow overflow-y-auto ${
+        className={`mt-5 flex-grow overflow-y-auto overflow-x-hidden ${
           isAttachmentsPage ? 'px-0' : 'px-7'
         }`}
       >

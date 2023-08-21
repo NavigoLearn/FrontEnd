@@ -2,8 +2,8 @@ import * as d3 from 'd3';
 import {
   setMoveRoadmapTo,
   setRecenterRoadmap,
-} from '@store/roadmap-refactor/misc/miscParams';
-import { setScaleSafari } from '@store/roadmap-refactor/misc/scale-safari';
+} from '@store/roadmap-refactor/misc/misc-params-store';
+import { setScaleSafari } from '@store/roadmap-refactor/misc/scale-safari-store';
 import { setDisplayTitlesFalse } from '@store/roadmap/sidebar/displayTitle';
 import { throttle } from '@src/typescript/roadmap_ref/render/chunks';
 import {

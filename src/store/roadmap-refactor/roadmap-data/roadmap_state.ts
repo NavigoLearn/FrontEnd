@@ -71,6 +71,11 @@ export function getIsCreate() {
   return original.isCreate;
 }
 
+export function getIsEditing() {
+  const original = roadmapState.get();
+  return original.editing;
+}
+
 export function rerenderRoadmap() {
   const original = roadmapState.get();
   roadmapState.set({ ...original, rerender: !original.rerender });

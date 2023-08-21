@@ -4,6 +4,11 @@
     "experimentalDecorators": true,
     "jsx": "react-jsx",
     "jsxImportSource": "react",
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "es6"
+    ],
     "baseUrl": ".",
     "paths": {
       "@src/*": [

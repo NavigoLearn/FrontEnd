@@ -13,6 +13,7 @@ import {
   appendSubNode,
 } from '@src/typescript/roadmap_ref/node/core/data-mutation/append';
 import { injectParentData } from '@src/typescript/roadmap_ref/node/core/factories/data-mutation/inject';
+import { deepCopy } from '@src/typescript/roadmap_ref/utils';
 
 export function factoryRoadmapClassic() {
   const node0 = factoryNodeClassicCustomizable(0, 0, 200, 50, 0);
@@ -58,6 +59,7 @@ export function factoryRoadmapFirstAttempt() {
   const node0 = factoryNodeClassicCustomizable(0, 0, 500, 500);
   injectRoadmapGlobalRootNodeId(node0.id);
   const node1 = factoryNodeClassicCustomizable(-200, -200, 200, 200);
+  appendChildNodeId(node0, node1.id);
   const connection0 = factoryConnection(node0, node1);
 
   const subNode00 = factorySubNode(node0.id, 100, 50, -75, -75);

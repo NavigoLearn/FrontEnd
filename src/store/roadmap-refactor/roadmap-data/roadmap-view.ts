@@ -10,7 +10,7 @@ import {
 } from '@store/roadmap-refactor/roadmap-data/roadmap-visit-data';
 import { setTabAboutFromApi } from '@store/roadmap-refactor/roadmap-data/about';
 import { setLoadedTrue } from '@src/typescript/roadmap_ref/utils';
-import miscParams from '@store/roadmap-refactor/misc/miscParams';
+import miscParams from '@store/roadmap-refactor/misc/misc-params-store';
 
 export const roadmapView = atom({
   rootNodesIds: [],
@@ -25,20 +25,22 @@ export function setRoadmapView(roadmap: Roadmap) {
 }
 
 export async function setRoadmapFromAPI(pageId: string) {
-  await fetchRoadmap(pageId).then((roadmapData: RoadmapTypeApi) => {
-    if (isRoadmapType(roadmapData.data)) {
-      // @ts-ignore
-      const roadmap: Roadmap = roadmapData.data;
-      setRoadmapView(roadmap);
+  await fetchRoadmap(pageId).then(setRoadmapFromData);
+}
 
-      setOwnerId(roadmapData.ownerId);
-      setRoadmapId(roadmapData.id);
-      setTabAboutFromApi(roadmapData);
-      setLoadedTrue();
+export async function setRoadmapFromData(roadmapData: RoadmapTypeApi) {
+  if (isRoadmapType(roadmapData.data)) {
+    // @ts-ignore
+    const roadmap: Roadmap = roadmapData.data;
+    setRoadmapView(roadmap);
 
-      miscParams.get().recenterRoadmap();
-    } else {
-      throw new Error('Roadmap roadmap-roadmap-data is not of type Roadmap');
-    }
-  });
+    setOwnerId(roadmapData.ownerId);
+    setRoadmapId(roadmapData.id);
+    await setTabAboutFromApi(roadmapData);
+    setLoadedTrue();
+
+    miscParams.get().recenterRoadmap();
+  } else {
+    throw new Error('Roadmap roadmap-roadmap-data is not of type Roadmap');
+  }
 }

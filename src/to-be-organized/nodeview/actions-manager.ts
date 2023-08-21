@@ -12,10 +12,11 @@ import { setDisplayPageType } from '@store/roadmap-refactor/display/display-mana
 import { setSelectedNodeId } from '@store/roadmap-refactor/elements-editing/editor-selected-data';
 import roadmapState from '@store/roadmap-refactor/roadmap-data/roadmap_state';
 import {
+  getNodeAbsoluteCoords,
   getNodeByIdRoadmapSelector,
-  getTracebackNodeToRoot,
 } from '@src/typescript/roadmap_ref/roadmap-data/services/get';
 import {
+  getElementHasEffect,
   setEditorClosedEffect,
   setEditorOpenEffect,
 } from '@store/roadmap-refactor/elements-editing/element-effects';
@@ -25,14 +26,16 @@ import {
   effectBorderBlack,
   effectBorderBlue,
 } from '@src/to-be-organized/nodeview/effects';
-import { triggerMoveRoadmapTo } from '@store/roadmap-refactor/misc/miscParams';
+import { triggerMoveRoadmapTo } from '@store/roadmap-refactor/misc/misc-params-store';
 import { HashMapWithKeys } from '@type/roadmap/stores/roadmap';
 import { IActionTypes } from '@src/typescript/roadmap_ref/node/core/actions/core';
 
 export function getOnMouseOutActionEdit(nodeId): () => void {
   const div = getElementDiv(nodeId);
   return () => {
-    effectBorderBlack(div);
+    if (!getElementHasEffect(nodeId, 'dragging-recursive')) {
+      effectBorderBlack(div);
+    }
   };
 }
 
@@ -43,25 +46,12 @@ export function moveRoadmapToNode(nodeId: string) {
   const wOffsetX = window.innerWidth / 2;
   const wOffsetY = window.innerHeight / 2;
 
-  let tracebackOffsetX = 0;
-  let tracebackOffsetY = 0;
-
-  const traceback = getTracebackNodeToRoot(nodeId);
-  traceback.push(nodeId);
-  // gets last element of traceback
-  traceback.forEach((traceNodeId) => {
-    const traceNode = getNodeByIdRoadmapSelector(traceNodeId);
-    const { coords: traceCoords } = traceNode.data;
-    const { x: traceX, y: traceY } = traceCoords;
-    const { width: traceWidth, height: traceHeight } = traceNode.data;
-    tracebackOffsetX += traceX + traceWidth / 2;
-    tracebackOffsetY += traceY + traceHeight / 2;
-  });
+  const { x, y } = getNodeAbsoluteCoords(nodeId);
+  const tracebackOffsetX = x;
+  const tracebackOffsetY = y;
 
   triggerMoveRoadmapTo(
-    // rootX - window.innerWidth / 2 + rootWidth / 2 + x + width / 2,
-    // rootY - window.innerHeight / 2 + rootHeight / 2 + y + height / 2,
-    tracebackOffsetX - wOffsetX,
+    tracebackOffsetX - wOffsetX + 250, // account for editor width
     tracebackOffsetY - wOffsetY,
     1
   );
@@ -111,7 +101,9 @@ export function getOnClickAction(nodeId: string): () => void {
 export function getOnMouseOverActionEdit(nodeId): () => void {
   const div = getElementDiv(nodeId);
   return () => {
-    effectBorderBlue(div);
+    if (!getElementHasEffect(nodeId, 'dragging-recursive')) {
+      effectBorderBlue(div);
+    }
   };
 }
 

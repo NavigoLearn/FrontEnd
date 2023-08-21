@@ -4,6 +4,8 @@ import {
   NodeClass,
 } from '@src/typescript/roadmap_ref/node/core/core';
 import { transferNodeTemplateToNode } from '@src/typescript/roadmap_ref/node/core/data-mutation/protocol';
+import { triggerNodeRerender } from '@store/roadmap-refactor/render/rerender-triggers-nodes';
+import { triggerAllConnectionsRerender } from '@src/typescript/roadmap_ref/render/dragging';
 
 export const applyNodeTemplate = (
   node: NodeClass,
@@ -13,6 +15,7 @@ export const applyNodeTemplate = (
   if (template === 'classic') {
     newNode = factoryNodeClassic(node.id);
   }
-  console.log('applied template');
   transferNodeTemplateToNode(node, newNode);
+  triggerNodeRerender(node.id);
+  triggerAllConnectionsRerender();
 };

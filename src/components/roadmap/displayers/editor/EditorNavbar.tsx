@@ -51,7 +51,6 @@ const EditorPageButton = ({
       }}
     >
       {pageUpperCase}
-      {/* ... (rest of your code) */}
     </button>
   );
 };
