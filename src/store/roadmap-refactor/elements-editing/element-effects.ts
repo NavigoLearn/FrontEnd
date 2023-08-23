@@ -19,37 +19,64 @@ export type IEffectsStatuses =
   | 'mark-as-skipped'
   | 'mark-as-status';
 
-export type IEffectsNames =
-  | 'editor-defocused-node'
-  | 'editor-focused-node'
-  | 'dragging-recursive'
-  | 'mark-as-progress'
-  | 'mark-as-completed'
-  | 'mark-as-skipped'
-  | 'mark-as-status';
+export type IEffectsEditor = 'editor-defocused-node' | 'editor-focused-node';
 
-export type IEffectFunction = (divElementRef: HTMLDivElement) => void;
-export const effectMapper: HashMapWithKeys<IEffectsNames, IEffectFunction> = {
-  'editor-defocused-node': effectOpacity30,
-  'editor-focused-node': effectOpacity100,
-  'dragging-recursive': effectBorderRed,
-  'mark-as-completed': (divRef) => {
-    effectOpacity30(divRef);
-  },
-  'mark-as-progress': (divRef) => {
-    effectOpacity100(divRef);
-  },
-  'mark-as-skipped': (divRef) => {
-    effectOpacity60(divRef);
-  },
-  'mark-as-status': (divRef) => {
-    effectOpacity100(divRef);
-  },
+export type IEffectsDragging = 'dragging-recursive';
+
+export type IEffectsPossible =
+  | IEffectsStatuses
+  | IEffectsDragging
+  | IEffectsEditor;
+
+export type IEffectProperties = {
+  effectName: IEffectsPossible;
+  effectApply: (divRef: HTMLDivElement) => void;
+  effectLayer: number;
 };
 
-export const elementEffects = atom({} as HashMap<IEffectsNames[]>);
+export const dynamicEffectsMapper: HashMapWithKeys<
+  IEffectsPossible,
+  IEffectProperties
+> = {
+  'editor-defocused-node': {
+    effectName: 'editor-defocused-node',
+    effectApply: (divRef) => effectOpacity30(divRef),
+    effectLayer: 1,
+  },
+  'editor-focused-node': {
+    effectName: 'editor-focused-node',
+    effectApply: effectOpacity100,
+    effectLayer: 1,
+  },
+  'dragging-recursive': {
+    effectName: 'dragging-recursive',
+    effectApply: effectBorderRed,
+    effectLayer: 1,
+  },
+  'mark-as-completed': {
+    effectName: 'mark-as-completed',
+    effectApply: (divRef) => effectOpacity30(divRef),
+    effectLayer: 10,
+  },
+  'mark-as-progress': {
+    effectName: 'mark-as-progress',
+    effectApply: (divRef) => effectOpacity100(divRef),
+    effectLayer: 10,
+  },
+  'mark-as-skipped': {
+    effectName: 'mark-as-skipped',
+    effectApply: (divRef) => effectOpacity60(divRef),
+    effectLayer: 10,
+  },
+  'mark-as-status': {
+    effectName: 'mark-as-status',
+    effectApply: (divRef) => effectOpacity100(divRef),
+    effectLayer: 10,
+  },
+};
+export const elementEffects = atom({} as HashMap<IEffectsPossible[]>);
 
-export function setElementEffects(id: string, effects: IEffectsNames[]) {
+export function setElementEffects(id: string, effects: IEffectsPossible[]) {
   const originalEffects = elementEffects.get();
   elementEffects.set({
     ...originalEffects,
@@ -66,15 +93,23 @@ export function setElementEffectsEmpty(id: string) {
 }
 export function applyElementEffects(id: string, divElementRef: HTMLDivElement) {
   const originalEffects = elementEffects.get();
-  originalEffects[id].forEach((effect) => {
-    effectMapper[effect](divElementRef);
+  const effectsArr = originalEffects[id].map(
+    (effectElement) => dynamicEffectsMapper[effectElement]
+  );
+
+  const sortedEffectsArr = effectsArr.sort((a, b) => {
+    return a.effectLayer - b.effectLayer;
+  });
+
+  sortedEffectsArr.forEach((effectElement) => {
+    effectElement.effectApply(divElementRef);
   });
 }
 
 export function deleteElementEffect(
   originalEffects,
   id,
-  effect: IEffectsNames
+  effect: IEffectsPossible
 ) {
   originalEffects[id] = originalEffects[id].filter(
     (effectName) => effectName !== effect
@@ -84,10 +119,26 @@ export function deleteElementEffect(
   });
 }
 
-export function appendElementEffect(id, effect: IEffectsNames) {
+export function appendElementEffect(id, effect: IEffectsPossible) {
   const originalEffects = elementEffects.get();
   if (!originalEffects[id]) originalEffects[id] = [];
   if (!originalEffects[id].includes(effect)) originalEffects[id].push(effect);
+  elementEffects.set({
+    ...originalEffects,
+  });
+}
+
+export function deleteStatusEffectAll(id: string) {
+  const originalEffects = elementEffects.get();
+  const statusEffects: IEffectsStatuses[] = [
+    'mark-as-progress',
+    'mark-as-completed',
+    'mark-as-skipped',
+    'mark-as-status',
+  ];
+  statusEffects.forEach((effect) => {
+    deleteElementEffect(originalEffects, id, effect);
+  });
   elementEffects.set({
     ...originalEffects,
   });
@@ -180,7 +231,7 @@ export function deleteDraggingRecursiveEffect(nodeId: string) {
   });
 }
 
-export function getElementHasEffect(id: string, effect: IEffectsNames) {
+export function getElementHasEffect(id: string, effect: IEffectsPossible) {
   const originalEffects = elementEffects.get();
   return originalEffects[id].includes(effect);
 }

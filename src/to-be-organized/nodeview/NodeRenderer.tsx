@@ -22,6 +22,7 @@ import { setElementDiv } from '@store/roadmap-refactor/elements-editing/elements
 import { FontSizeValues } from '@src/types/roadmap/node/components-types';
 import { NodeClass } from '@src/typescript/roadmap_ref/node/core/core';
 import { getIsEditing } from '@store/roadmap-refactor/roadmap-data/roadmap_state';
+import { deleteStatusEffectAll } from '@store/roadmap-refactor/elements-editing/element-effects';
 
 interface NodeViewProps {
   nodeId: string;
@@ -150,7 +151,8 @@ const NodeRenderer: React.FC<NodeViewProps> = ({
     afterEventLoop(() => {
       // runs all the effects after the node is rendered
       applyStyle();
-      loaded && appendNodeMarkAsDone(node);
+      loaded && !getIsEditing() && appendNodeMarkAsDone(node);
+      getIsEditing() && deleteStatusEffectAll(nodeId);
       loaded && applyElementEffects(nodeId, nodeDivRef.current);
     });
 
