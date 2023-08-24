@@ -58,6 +58,9 @@ export function getElementDraggable(id: string) {
   return draggableElements.get().draggableElements[id];
 }
 
+export function getElementIsDraggable(id: string) {
+  return draggableElements.get().draggableElements[id];
+}
 export function setAllDraggableFalse() {
   const originalDraggables = draggableElements.get();
   const newDraggables = {
