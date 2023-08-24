@@ -16,12 +16,19 @@ import {
   appendStatusEffect,
   applyElementEffects,
   setElementEffectsEmpty,
+  deleteStatusEffectAll,
 } from '@store/roadmap-refactor/elements-editing/element-effects';
 import { useIsLoaded } from '@hooks/useIsLoaded';
 import { setElementDiv } from '@store/roadmap-refactor/elements-editing/elements-divs';
 import { FontSizeValues } from '@src/types/roadmap/node/components-types';
 import { NodeClass } from '@src/typescript/roadmap_ref/node/core/core';
 import { getIsEditing } from '@store/roadmap-refactor/roadmap-data/roadmap_state';
+import DraggingResizeElement from '@src/to-be-organized/DraggingResizeElement';
+import {
+  mutateNodeHeight,
+  mutateNodeWidth,
+} from '@src/typescript/roadmap_ref/node/core/data-mutation/mutate';
+import { getElementIsDraggable } from '@store/roadmap-refactor/elements-editing/draggable-elements';
 
 interface NodeViewProps {
   nodeId: string;
@@ -150,14 +157,16 @@ const NodeRenderer: React.FC<NodeViewProps> = ({
     afterEventLoop(() => {
       // runs all the effects after the node is rendered
       applyStyle();
-      loaded && appendNodeMarkAsDone(node);
+      loaded && !getIsEditing() && appendNodeMarkAsDone(node);
+      getIsEditing() && deleteStatusEffectAll(nodeId);
       loaded && applyElementEffects(nodeId, nodeDivRef.current);
     });
 
+    const isRoot = node.flags.renderedOnRoadmapFlag;
     return (
-      // eslint-disable-next-line jsx-a11y/click-events-have-key-events,jsx-a11y/no-static-element-interactions,jsx-a11y/mouse-events-have-key-events
+      // eslint-disable-next-line jsx-a11y/click-events-have-key-events,jsx-a11y/mouse-events-have-key-events,jsx-a11y/no-static-element-interactions
       <div
-        className='drop-shadow-md rounded-xl absolute border-2 border-black transition-allNoTransform duration-300'
+        className={`drop-shadow-md rounded-lg border-2 border-black transition-allNoTransform duration-300 absolute `}
         id={`div${nodeId}`}
         ref={nodeDivRef}
         onClick={(event) => {
@@ -182,6 +191,18 @@ const NodeRenderer: React.FC<NodeViewProps> = ({
             )}`}
           />
         )}
+        <DraggingResizeElement
+          style={{
+            width,
+            height,
+          }}
+          heightCallback={(height) => {
+            mutateNodeHeight(node, height);
+          }}
+          widthCallback={() => {
+            mutateNodeWidth(node, width);
+          }}
+        />
 
         {componentsRenderer(node)}
         {subNodeIds &&

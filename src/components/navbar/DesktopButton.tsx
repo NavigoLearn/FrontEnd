@@ -1,5 +1,4 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { exitSetupScreen } from '../roadmap/displayers/setup-screen/roadmap-funtions';
 
 type Props = {
   id: number;
@@ -49,7 +48,7 @@ const DesktopButton = ({ id, cName, path, cIcon, title, hasUnder }: Props) => {
       )}
       {currentPath === '/roadmap/create' &&
       path === '/roadmap/create' ? null : (
-        <a className={cName} href={path} onClick={() => exitSetupScreen()}>
+        <a className={cName} href={path}>
           {cIcon && (
             <img
               draggable='false'

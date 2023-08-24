@@ -9,7 +9,7 @@ import RoadmapController
   from '@components/roadmap/roadmapcontroler/RoadmapController';
 import DisplayManager from '../../components/roadmap/displayers/DisplayManager';
 import { RoadmapTypeApi } from '../../types/explore/card';
-import { setMetaTags } from '../../typescript/utils/metaTags';
+import SetupScreen from '@src/components/roadmap/displayers/setup-screen/SetupScreen';
 
 const { roadmapPath } = Astro.params;
 // here we should get the roadmap-roadmap-data for the actual roadmap_static
@@ -63,12 +63,17 @@ if (typeof id === 'string') {
 }
 ---
 
-<Base title="Roadmap" metadata={{
+<Base metadata={{
   title,
   description,
   url,
   type,
 }} excludeFooter={true}>
+
+  {isCreate && (
+    <SetupScreen client:idle isCreate={isCreate}/>
+  )}
+
   <PageViewCollection page='Roadmap' client:load />
   <div class='absolute w-full top-0 h-16 bg-white z-[-10]'></div>
 
