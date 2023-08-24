@@ -15,11 +15,16 @@ type IDraggingSizeWrapperProps = {
   };
   widthCallback: (width: number) => void;
   heightCallback: (height: number) => void;
+  snappingCallback: (
+    width: number,
+    height: number
+  ) => { width: number; height: number };
 };
 const DraggingResizeElement = ({
   style,
   widthCallback,
   heightCallback,
+  snappingCallback,
 }: IDraggingSizeWrapperProps) => {
   const wrapperDiv = useRef(null);
   const startPos = useRef({ x: 0, y: 0 });
@@ -110,8 +115,13 @@ const DraggingResizeElement = ({
     if (newHeight < minimumNodeHeight) newHeight = minimumNodeHeight;
     if (newWidth < minimumNodeHeight) newWidth = minimumNodeHeight;
 
-    heightCallback(newHeight);
-    widthCallback(newWidth);
+    const { width: finalWidth, height: finalHeight } = snappingCallback(
+      newWidth,
+      newHeight
+    );
+
+    heightCallback(finalHeight);
+    widthCallback(finalWidth);
   }, 1000 / 60);
 
   const handleMouseUp = () => {

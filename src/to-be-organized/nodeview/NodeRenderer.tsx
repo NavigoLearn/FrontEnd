@@ -38,6 +38,7 @@ import {
   setDraggabilityAllElements,
   setDraggableElement,
 } from '@store/roadmap-refactor/elements-editing/draggable-elements';
+import { snapNodeWidthHeight } from '@src/typescript/roadmap_ref/snapping/core';
 
 interface NodeViewProps {
   nodeId: string;
@@ -211,6 +212,18 @@ const NodeRenderer: React.FC<NodeViewProps> = ({
           widthCallback={(width) => {
             mutateNodeWidthWhileKeepingCenter(node, width);
             triggerNodeRerender(nodeId);
+          }}
+          snappingCallback={(width, height) => {
+            // snapping node corners ( ͡° ͜ʖ ͡°) so width and height will also snap I hope
+            const { width: newWidth, height: newHeight } = snapNodeWidthHeight(
+              node.id,
+              width,
+              height
+            );
+            return {
+              width: newWidth,
+              height: newHeight,
+            };
           }}
         />
 

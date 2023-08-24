@@ -69,6 +69,7 @@ export const mutateNodeWidthWhileKeepingCenter = (
   node: NodeClass,
   newWidth: number
 ) => {
+  console.log('new widt', newWidth);
   const { data } = node;
   const oldWidth = node.data.width;
   getIsRootNode(node.id) &&

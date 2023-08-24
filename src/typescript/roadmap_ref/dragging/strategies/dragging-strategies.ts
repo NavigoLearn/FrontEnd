@@ -12,64 +12,12 @@ import {
 import renderNodesStore from '@store/roadmap-refactor/render/rendered-nodes';
 import { getComponentById } from '@src/typescript/roadmap_ref/node/core/data-get/components';
 import { setSnappings } from '@store/roadmap-refactor/render/snapping-lines';
+import { snapCoordsToPositions } from '@src/typescript/roadmap_ref/snapping/core';
 
 export const draggingStrategyFree = (draggingBehavior, newX, newY) => {
   return {
     x: newX,
     y: newY,
-  };
-};
-
-export const snapCoordsToPositions = (
-  newX: number,
-  newY: number,
-  positions: ICoords[]
-) => {
-  let lastClosestIndexX = -1;
-  let lastClosestIndexY = -1;
-  const snappingDistance = 15;
-
-  for (let i = 0; i < positions.length; i += 1) {
-    const { x: rootNodeX, y: rootNodeY } = positions[i];
-    // checks if snapping is valid for X
-    if (Math.abs(rootNodeX - newX) < snappingDistance) {
-      if (lastClosestIndexX === -1) {
-        lastClosestIndexX = i;
-      }
-      // take the closest node
-      if (
-        Math.abs(rootNodeX - newX) <
-        Math.abs(rootNodeX - positions[lastClosestIndexX].x)
-      ) {
-        lastClosestIndexX = i;
-      }
-    }
-
-    // checks if snapping is valid for Y
-    if (Math.abs(rootNodeY - newY) < snappingDistance) {
-      if (lastClosestIndexY === -1) {
-        lastClosestIndexY = i;
-      }
-      // take the closest node
-      if (
-        Math.abs(rootNodeY - newY) <
-        Math.abs(rootNodeY - positions[lastClosestIndexY].y)
-      ) {
-        lastClosestIndexY = i;
-      }
-    }
-  }
-  // applies snapping
-  const appliedX =
-    lastClosestIndexX !== -1 ? positions[lastClosestIndexX].x : newX;
-  const appliedY =
-    lastClosestIndexY !== -1 ? positions[lastClosestIndexY].y : newY;
-
-  return {
-    x: appliedX,
-    y: appliedY,
-    lastClosestIndexX,
-    lastClosestIndexY,
   };
 };
 
