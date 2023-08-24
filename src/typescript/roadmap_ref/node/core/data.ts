@@ -13,6 +13,8 @@ import {
 import { IFontSizeType } from '@type/roadmap/node/components-types';
 import { deepCopy } from '../../utils';
 import { selectNodeColorText } from '@src/typescript/roadmap_ref/node/core/factories/data-mutation/services';
+import { getColorThemeFromRoadmap } from '@src/components/roadmap/displayers/setup-screen/theme-controler';
+import { get } from 'http';
 
 export class Data {
   /* Used to manage all the possible data of a node */
@@ -54,7 +56,7 @@ export class Data {
   }
 
   constructor() {
-    this.colorTheme = defaultColorThemeOption;
+    this.colorTheme = getColorThemeFromRoadmap();
     this.colorType = 'primary';
     this.textColor = selectNodeColorText(this.colorTheme, this.colorType);
     this.color = selectNodeColorScheme(this.colorTheme, this.colorType);

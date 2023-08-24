@@ -1,11 +1,15 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
+import { exit } from 'process';
+import { setTitleToRoadmap, getTitleFromRoadmap } from '../name-controler';
+import { ISetupScreenControlers } from '../roadmap-funtions';
 
-interface ThemeSelectorProps {
-  onNext: () => void;
-}
+const TitleSelector = ({ handleExit }: ISetupScreenControlers) => {
+  const [value, setValue] = useState('');
 
-const TitleSelector = ({ onNext }: ThemeSelectorProps) => {
+  const saveTitle = () => {
+    setTitleToRoadmap(value);
+  };
   return (
     <AnimatePresence>
       <motion.div
@@ -21,10 +25,16 @@ const TitleSelector = ({ onNext }: ThemeSelectorProps) => {
         <input
           className='border-2 border-[#D9D9D9] rounded-lg w-80 placeholder:text-[#D9D9D9] placeholder:font-roboto-text px-3 py-2 mt-5 text-darkBlue outline-none'
           placeholder='Write here an awesome title'
+          value={value}
+          onChange={(e) => setValue(e.target.value)}
         />
       </motion.div>
       <div className='flex flex-col items-center mt-24 text-base font-roboto-text'>
         <motion.button
+          onClick={() => {
+            saveTitle();
+            handleExit();
+          }}
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ x: -100, opacity: 0 }}
@@ -35,6 +45,7 @@ const TitleSelector = ({ onNext }: ThemeSelectorProps) => {
           Finish
         </motion.button>
         <motion.button
+          onClick={() => handleExit()}
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ x: -100, opacity: 0 }}
