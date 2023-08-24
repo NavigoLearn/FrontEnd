@@ -12,7 +12,7 @@ import { appendComponent } from '@src/typescript/roadmap_ref/node/core/data-muta
 import { factoryComponentEmpty } from '@src/typescript/roadmap_ref/node/components/text/factories';
 import { getNodeByIdRoadmapSelector } from '@src/typescript/roadmap_ref/roadmap-data/services/get';
 import { IComponentObject } from '@type/roadmap/node/components-types';
-import { setElementDraggable } from '@store/roadmap-refactor/elements-editing/draggable-elements';
+import { setDraggableElement } from '@store/roadmap-refactor/elements-editing/draggable-elements';
 import { addDragabilityProtocol } from '@src/typescript/roadmap_ref/render/dragging';
 import { afterEventLoop } from '@src/typescript/utils/misc';
 
@@ -45,7 +45,7 @@ const Components = () => {
           triggerNodeRerender(node.id);
           afterEventLoop(() => {
             // delays until the next render cycle
-            setElementDraggable(newComponent.id, true);
+            setDraggableElement(newComponent.id, true);
           });
           triggerRerenderEditor();
         }}

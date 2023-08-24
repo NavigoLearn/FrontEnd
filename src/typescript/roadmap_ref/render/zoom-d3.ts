@@ -26,7 +26,11 @@ export const calculateRootNodeTransform = () => {
   };
 };
 
-export const addZoomAndRecenter = (rootSvgId, rootGroupId, rerender) => {
+export const enableRoadmapZoomDragAndRecenter = (
+  rootSvgId,
+  rootGroupId,
+  rerender
+) => {
   const svg = d3.select(`#${rootSvgId}`);
   const rootGroup = d3.select(`#${rootGroupId}`);
 
@@ -78,7 +82,7 @@ export const addZoomAndRecenter = (rootSvgId, rootGroupId, rerender) => {
   });
 };
 
-export const disableZoom = (rootSvgId) => {
+export const disableRoadmapDragZoom = (rootSvgId = 'rootSvg') => {
   const svg = d3.select(`#${rootSvgId}`);
   svg.on('.zoom', null);
 };

@@ -111,6 +111,7 @@ export function deleteElementEffect(
   id,
   effect: IEffectsPossible
 ) {
+  if (!originalEffects[id]) return;
   originalEffects[id] = originalEffects[id].filter(
     (effectName) => effectName !== effect
   );

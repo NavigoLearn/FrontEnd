@@ -1,5 +1,8 @@
 import React, { useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
+import { setDraggabilityAllElements } from '@store/roadmap-refactor/elements-editing/draggable-elements';
+import { disableRoadmapDragZoom } from '@src/typescript/roadmap_ref/render/zoom-d3';
+import { throttle } from '@src/typescript/roadmap_ref/render/chunks';
 
 type IDraggingSizeWrapperProps = {
   style: {
@@ -8,11 +11,13 @@ type IDraggingSizeWrapperProps = {
   };
   widthCallback: (width: number) => void;
   heightCallback: (height: number) => void;
+  elementId: string;
 };
 const DraggingResizeElement = ({
   style,
   widthCallback,
   heightCallback,
+  elementId,
 }: IDraggingSizeWrapperProps) => {
   const wrapperDiv = useRef(null);
   const startPos = useRef({ x: 0, y: 0 });
@@ -22,9 +27,22 @@ const DraggingResizeElement = ({
     wrapperDiv.current.style.height = `${style.height}px`;
   }, [style]);
 
+  function handleMouseMove(e) {
+    console.log('mousemove');
+    const { x, y } = startPos.current;
+    const deltaX = e.pageX - x;
+    const deltaY = e.pageY - y;
+    const newWidth = style.width + deltaX;
+    const newHeight = style.height + deltaY;
+    widthCallback(newWidth);
+    heightCallback(newHeight);
+  }
+
   const handleMouseDown = (e, direction: 'vertical' | 'horizontal') => {
-    startPos.current = { x: e.clientX, y: e.clientY };
+    startPos.current = { x: e.pageX, y: e.pageY };
     console.log('startPos', startPos.current);
+    const throttledMouseMove = throttle(handleMouseMove, 1000 / 60);
+    document.addEventListener('mousemove', throttledMouseMove);
   };
   // uses 8 invisible divs to allow user to resize in each direction
   // -1.5px accounts for the borders of the node and the resize div
@@ -34,28 +52,12 @@ const DraggingResizeElement = ({
       className='border-2 border-black top-[-1.5px] left-[-1.5px] absolute'
     >
       <div
-        onClick={(e) => {
+        onMouseDownCapture={(e) => {
+          console.log('mousedowncapture');
           handleMouseDown(e, 'vertical');
+          disableRoadmapDragZoom();
         }}
         className='absolute top-0 cursor-ns-resize w-full h-1 left-0 bg-red-200 '
-      />
-      <div
-        onClick={(e) => {
-          handleMouseDown(e, 'vertical');
-        }}
-        className='absolute bottom-0 cursor-ns-resize w-full h-1 left-0 bg-red-200'
-      />
-      <div
-        onClick={(e) => {
-          handleMouseDown(e, 'horizontal');
-        }}
-        className='absolute top-0 cursor-ew-resize h-full left-0 w-1 bg-red-200'
-      />
-      <div
-        onClick={(e) => {
-          handleMouseDown(e, 'horizontal');
-        }}
-        className='absolute top-0 cursor-ew-resize h-full right-0 w-1 bg-red-200'
       />
     </div>
   );

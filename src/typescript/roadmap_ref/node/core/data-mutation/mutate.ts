@@ -3,8 +3,15 @@ import { IColorThemesColors } from '@type/roadmap/node/colors-types';
 import { triggerCenterRecalculationDecorator } from '@src/typescript/roadmap_ref/node/core/data-mutation/mutate-decorators';
 import { triggerHubListeners } from '@store/roadmap-refactor/subscribers/function-subscribers';
 import { IActionTypes } from '@src/typescript/roadmap_ref/node/core/actions/core';
-import { selectNodeColorScheme, selectNodeColorText } from '@src/typescript/roadmap_ref/node/core/factories/data-mutation/services';
+import {
+  selectNodeColorScheme,
+  selectNodeColorText,
+} from '@src/typescript/roadmap_ref/node/core/factories/data-mutation/services';
 import { triggerNodeRerender } from '@src/store/roadmap-refactor/render/rerender-triggers-nodes';
+import {
+  getIsRootNode,
+  getNodeByIdRoadmapSelector,
+} from '@src/typescript/roadmap_ref/roadmap-data/services/get';
 
 export function mutateNodeOpacity(node: NodeClass, opacity: number) {
   node.data.opacity = opacity;
@@ -46,6 +53,18 @@ export const mutateNodeCoordY = triggerHubListeners(
     node.data.coords.y = y;
   }
 );
+
+export const mutateNodeHeightWhileKeepingCenter = (
+  newHeight: number,
+  nodeId: string
+) => {
+  const node = getNodeByIdRoadmapSelector(nodeId);
+  const { data } = node;
+  const oldWidth = node.data.width;
+  getIsRootNode(node.id) &&
+    mutateNodeCoordX(node, data.coords.x + (oldWidth - newHeight) / 2);
+  mutateNodeWidth(node, newHeight);
+};
 
 export function mutateNodeCoords(node: NodeClass, x: number, y: number) {
   mutateNodeCoordX(node, x);

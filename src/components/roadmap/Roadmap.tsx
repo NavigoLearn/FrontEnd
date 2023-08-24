@@ -19,16 +19,14 @@ import roadmapState, {
   setRoadmapIsLoaded,
 } from '@store/roadmap-refactor/roadmap-data/roadmap_state';
 import {
-  addZoomAndRecenter,
-  disableZoom,
+  enableRoadmapZoomDragAndRecenter,
+  disableRoadmapDragZoom,
 } from '@src/typescript/roadmap_ref/render/zoom-d3';
 import { recalculateChunks } from '@src/typescript/roadmap_ref/render/chunks';
 import { triggerRecenterRoadmap } from '@store/roadmap-refactor/misc/misc-params-store';
 import { useIsLoaded } from '@hooks/useIsLoaded';
-import {
-  setRoadmapFromData,
-} from '@store/roadmap-refactor/roadmap-data/roadmap-view';
-import { applyRoadmapDraggability } from '@src/typescript/roadmap_ref/dragging/misc';
+import { setRoadmapFromData } from '@store/roadmap-refactor/roadmap-data/roadmap-view';
+import { applyRoadmapElementsDraggability } from '@src/typescript/roadmap_ref/dragging/misc';
 import { useEffectAfterLoad } from '@hooks/useEffectAfterLoad';
 import ConnectionRenderer from '@components/roadmap/ConnectionRenderer';
 import renderConnectionsStore from '@store/roadmap-refactor/render/rendered-connections';
@@ -36,10 +34,16 @@ import { closeEditorProtocol } from '@src/to-be-organized/nodeview/actions-manag
 import { afterEventLoop } from '@src/typescript/utils/misc';
 import SnappingLinesRenderer from '@components/roadmap/SnappingLinesRenderer';
 import { addKeyListeners } from '@src/typescript/roadmap_ref/key-shortcuts';
-import Popup from './tabs/popups/Popup';
 import { RoadmapTypeApi } from '@type/explore/card';
+import Popup from './tabs/popups/Popup';
 
-const Roadmap = ({ pageId, roadmap }: { pageId: string, roadmap: RoadmapTypeApi }) => {
+const Roadmap = ({
+  pageId,
+  roadmap,
+}: {
+  pageId: string;
+  roadmap: RoadmapTypeApi;
+}) => {
   const isCreate = pageId === 'create'; // parameter to determine if we are in the create mode
   if (isCreate) {
     setEditingTrueNoRerender();
@@ -55,7 +59,11 @@ const Roadmap = ({ pageId, roadmap }: { pageId: string, roadmap: RoadmapTypeApi 
   const isLoaded = useIsLoaded();
 
   const enableZoom = () => {
-    addZoomAndRecenter('rootSvg', 'rootGroup', chunkRenderer.current);
+    enableRoadmapZoomDragAndRecenter(
+      'rootSvg',
+      'rootGroup',
+      chunkRenderer.current
+    );
   };
 
   useEffect(() => {
@@ -66,11 +74,11 @@ const Roadmap = ({ pageId, roadmap }: { pageId: string, roadmap: RoadmapTypeApi 
   }, []);
 
   const disableZoomFn = () => {
-    disableZoom('rootSvg');
+    disableRoadmapDragZoom('rootSvg');
   };
 
   function initializeRoadmapAfterLoad() {
-    applyRoadmapDraggability();
+    applyRoadmapElementsDraggability();
     setRoadmapIsLoaded();
     triggerChunkRerender();
     triggerRecenterRoadmap();
@@ -95,19 +103,20 @@ const Roadmap = ({ pageId, roadmap }: { pageId: string, roadmap: RoadmapTypeApi 
 
     !isCreate &&
       setRoadmapFromData(roadmap).then(() => {
-        initializeRoadmapAfterLoad()
+        initializeRoadmapAfterLoad();
       });
 
     afterEventLoop(() => {
-      isCreate &&
-        (() => {
-          initializeRoadmapAfterLoad();
-        })();
+      isCreate && initializeRoadmapAfterLoad();
     });
   }, []);
 
   useEffect(() => {
-    addZoomAndRecenter('rootSvg', 'rootGroup', chunkRenderer.current);
+    enableRoadmapZoomDragAndRecenter(
+      'rootSvg',
+      'rootGroup',
+      chunkRenderer.current
+    );
   }, [editing, isCreate]);
 
   useEffectAfterLoad(() => {
@@ -116,7 +125,7 @@ const Roadmap = ({ pageId, roadmap }: { pageId: string, roadmap: RoadmapTypeApi 
   }, []);
 
   useEffectAfterLoad(() => {
-    applyRoadmapDraggability();
+    applyRoadmapElementsDraggability();
   }, [nodesIds, editing]);
 
   return (

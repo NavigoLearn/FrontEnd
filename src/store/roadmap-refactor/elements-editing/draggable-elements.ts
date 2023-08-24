@@ -17,7 +17,7 @@ const draggableElements = atom({
   };
 });
 
-export function setElementDraggable(id: string, draggable: boolean) {
+export function setDraggableElement(id: string, draggable: boolean) {
   const originalDraggables = draggableElements.get();
   // if callback does not exist throws and error
   if (!originalDraggables.draggableElementsUpdateCallbacks[id]) {
@@ -44,7 +44,7 @@ export function setElementDraggableUpdateCallback(
   });
 }
 
-export function setDraggability(allowed: boolean) {
+export function setDraggabilityAllElements(allowed: boolean) {
   const originalDraggables = draggableElements.get();
   if (allowed !== originalDraggables.canBeDragged) {
     draggableElements.set({
@@ -68,7 +68,7 @@ export function setAllDraggableFalse() {
     draggableElements: {},
   };
   Object.keys(originalDraggables.draggableElements).forEach((key) => {
-    setElementDraggable(key, false);
+    setDraggableElement(key, false);
   });
   draggableElements.set(newDraggables);
 }
@@ -89,7 +89,7 @@ export function setDraggableElementForNodeWithId(id: string) {
   });
 
   draggableIds.forEach((draggableId) => {
-    setElementDraggable(draggableId, true);
+    setDraggableElement(draggableId, true);
   });
 }
 
@@ -97,7 +97,7 @@ export function setRoadmapRootRenderDraggable() {
   setAllDraggableFalse();
   const rootNodesIds = getRootNodesIds();
   rootNodesIds.forEach((rootNodeId) => {
-    setElementDraggable(rootNodeId, true);
+    setDraggableElement(rootNodeId, true);
   });
 }
 

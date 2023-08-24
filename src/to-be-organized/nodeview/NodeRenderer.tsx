@@ -4,7 +4,10 @@ import React, { useEffect, useRef } from 'react';
 import { afterEventLoop } from '@src/typescript/utils/misc';
 import { componentsRenderer } from '@src/to-be-organized/nodeview/ComponentsRenderer';
 import { useTriggerRerender } from '@hooks/useTriggerRerender';
-import { setTriggerRender } from '@store/roadmap-refactor/render/rerender-triggers-nodes';
+import {
+  setTriggerRender,
+  triggerNodeRerender,
+} from '@store/roadmap-refactor/render/rerender-triggers-nodes';
 import { getNodeByIdRoadmapSelector } from '@src/typescript/roadmap_ref/roadmap-data/services/get';
 import {
   getOnClickAction,
@@ -28,7 +31,11 @@ import {
   mutateNodeHeight,
   mutateNodeWidth,
 } from '@src/typescript/roadmap_ref/node/core/data-mutation/mutate';
-import { getElementIsDraggable } from '@store/roadmap-refactor/elements-editing/draggable-elements';
+import {
+  getElementIsDraggable,
+  setDraggabilityAllElements,
+  setDraggableElement,
+} from '@store/roadmap-refactor/elements-editing/draggable-elements';
 
 interface NodeViewProps {
   nodeId: string;
@@ -160,9 +167,10 @@ const NodeRenderer: React.FC<NodeViewProps> = ({
       loaded && !getIsEditing() && appendNodeMarkAsDone(node);
       getIsEditing() && deleteStatusEffectAll(nodeId);
       loaded && applyElementEffects(nodeId, nodeDivRef.current);
+
+      setDraggableElement(nodeId, false);
     });
 
-    const isRoot = node.flags.renderedOnRoadmapFlag;
     return (
       // eslint-disable-next-line jsx-a11y/click-events-have-key-events,jsx-a11y/mouse-events-have-key-events,jsx-a11y/no-static-element-interactions
       <div
@@ -198,10 +206,13 @@ const NodeRenderer: React.FC<NodeViewProps> = ({
           }}
           heightCallback={(height) => {
             mutateNodeHeight(node, height);
+            triggerNodeRerender(nodeId);
           }}
           widthCallback={() => {
             mutateNodeWidth(node, width);
+            triggerNodeRerender(nodeId);
           }}
+          elementId={nodeId}
         />
 
         {componentsRenderer(node)}
