@@ -93,32 +93,34 @@ export const snapCoordsMultipleToPositions = (
 
 export const snapNodeWidthHeight = (
   nodeId: string,
+  nodesToSnapTo: string[],
   width: number,
   height: number
 ): {
   width: number;
   height: number;
 } => {
-  const node = getNodeByIdRoadmapSelector(nodeId);
   // gets corners
   const corners: ICoords[] = getNodeCornerPositionsWithWH(
     nodeId,
     width,
     height
   );
-  const rootNodes = getRootNodesIds();
-  const rootNodesCornerPositions: ICoords[] = [];
-  rootNodes.forEach((rootNodeId) => {
+
+  const nodes = nodesToSnapTo;
+
+  const nodesCornerPositions: ICoords[] = [];
+  nodes.forEach((rootNodeId) => {
     if (rootNodeId === nodeId) return;
     const rootNodeCorners: ICoords[] = getNodeCornerPositions(rootNodeId);
     rootNodeCorners.forEach((corner) => {
-      rootNodesCornerPositions.push(corner);
+      nodesCornerPositions.push(corner);
     });
   });
 
   // snaps each corner to the other root nodes corners
   const { snappedCoords, lastClosestIndexesX, lastClosestIndexesY } =
-    snapCoordsMultipleToPositions(corners, rootNodesCornerPositions);
+    snapCoordsMultipleToPositions(corners, nodesCornerPositions);
 
   const widthsSnapDeltas = [];
   const heightsSnapDeltas = [];
@@ -126,7 +128,7 @@ export const snapNodeWidthHeight = (
     const indexX = lastClosestIndexesX[i];
     const indexY = lastClosestIndexesY[i];
     if (indexX !== -1) {
-      const { x: newX } = rootNodesCornerPositions[indexX];
+      const { x: newX } = nodesCornerPositions[indexX];
       // horrible approach, needs refactor,
       // we need to differentiate for the width delta between left and right corners
       if (i === 0 || i === 2) {
@@ -136,7 +138,7 @@ export const snapNodeWidthHeight = (
       }
     }
     if (indexY !== -1) {
-      const { y: newY } = rootNodesCornerPositions[indexY];
+      const { y: newY } = nodesCornerPositions[indexY];
       if (i < 2) {
         heightsSnapDeltas.push(newY - corners[i].y);
       } else {
@@ -174,6 +176,14 @@ export const snapNodeWidthHeight = (
   const minWidthSnapDelta = widthsSnapDeltas[minIndexWidth];
   const minHeightSnapDelta = heightsSnapDeltas[minIndexHeight];
 
+  const node = getNodeByIdRoadmapSelector(nodeId);
+  console.log(
+    'minWidthSnapDelta',
+    widthsSnapDeltas,
+    minWidthSnapDelta,
+    width,
+    node.data.width
+  );
   return {
     width: width - 2 * minWidthSnapDelta,
     height: height - 2 * minHeightSnapDelta,

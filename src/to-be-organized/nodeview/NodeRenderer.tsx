@@ -8,7 +8,11 @@ import {
   setTriggerRender,
   triggerNodeRerender,
 } from '@store/roadmap-refactor/render/rerender-triggers-nodes';
-import { getNodeByIdRoadmapSelector } from '@src/typescript/roadmap_ref/roadmap-data/services/get';
+import {
+  getNodeAdjacentNodesIds,
+  getNodeByIdRoadmapSelector,
+  getRootNodesIds,
+} from '@src/typescript/roadmap_ref/roadmap-data/services/get';
 import {
   getOnClickAction,
   getOnMouseOutAction,
@@ -214,9 +218,14 @@ const NodeRenderer: React.FC<NodeViewProps> = ({
             triggerNodeRerender(nodeId);
           }}
           snappingCallback={(width, height) => {
+            const rootNode = node.flags.renderedOnRoadmapFlag;
+            const nodesToSnapTo = rootNode
+              ? getRootNodesIds()
+              : getNodeAdjacentNodesIds(nodeId);
             // snapping node corners ( ͡° ͜ʖ ͡°) so width and height will also snap I hope
             const { width: newWidth, height: newHeight } = snapNodeWidthHeight(
               node.id,
+              nodesToSnapTo,
               width,
               height
             );
