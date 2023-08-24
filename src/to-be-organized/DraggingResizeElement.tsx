@@ -139,10 +139,7 @@ const DraggingResizeElement = ({
   // -1.5px accounts for the borders of the node and the resize div
 
   return (
-    <div
-      ref={wrapperDiv}
-      className='border-2 border-black top-[-1.5px] left-[-1.5px] absolute'
-    >
+    <div ref={wrapperDiv} className=' top-[-1.5px] left-[-1.5px] absolute'>
       <div
         onMouseOverCapture={(e) => {}}
         onMouseDownCapture={(e) => {
@@ -153,7 +150,7 @@ const DraggingResizeElement = ({
           e.stopPropagation();
           // prevents clicking from opening editor
         }}
-        className='absolute -top-2 cursor-ns-resize w-full h-2 left-0 bg-red-200 '
+        className='absolute -top-2 cursor-ns-resize w-full h-2 left-0 '
       />
       <div
         onMouseOverCapture={(e) => {}}
@@ -165,7 +162,7 @@ const DraggingResizeElement = ({
           e.stopPropagation();
           // prevents clicking from opening editor
         }}
-        className='absolute -bottom-2 left-0 cursor-ns-resize w-full h-2 bg-red-200'
+        className='absolute -bottom-2 left-0 cursor-ns-resize w-full h-2 '
       />
       <div
         onMouseOverCapture={(e) => {}}
@@ -177,7 +174,7 @@ const DraggingResizeElement = ({
           e.stopPropagation();
           // prevents clicking from opening editor
         }}
-        className='absolute top-0 -left-2 cursor-ew-resize w-2 h-full bg-red-200'
+        className='absolute top-0 -left-2 cursor-ew-resize w-2 h-full '
       />
       <div
         onMouseOverCapture={(e) => {}}
@@ -189,7 +186,7 @@ const DraggingResizeElement = ({
           e.stopPropagation();
           // prevents clicking from opening editor
         }}
-        className='absolute top-0 -right-2 cursor-ew-resize w-2 h-full bg-red-200'
+        className='absolute top-0 -right-2 cursor-ew-resize w-2 h-full '
       />
       <div
         onMouseOverCapture={(e) => {}}
@@ -201,7 +198,7 @@ const DraggingResizeElement = ({
           e.stopPropagation();
           // prevents clicking from opening editor
         }}
-        className='absolute -top-2 -left-2 cursor-nwse-resize w-4 h-4 bg-blue-200'
+        className='absolute -top-2 -left-2 cursor-nwse-resize w-4 h-4 '
       />
       <div
         onMouseOverCapture={(e) => {}}
@@ -213,7 +210,7 @@ const DraggingResizeElement = ({
           e.stopPropagation();
           // prevents clicking from opening editor
         }}
-        className='absolute -top-2 -right-2 cursor-nesw-resize w-4 h-4 bg-green-200'
+        className='absolute -top-2 -right-2 cursor-nesw-resize w-4 h-4 '
       />
       <div
         onMouseOverCapture={(e) => {}}
@@ -225,7 +222,7 @@ const DraggingResizeElement = ({
           e.stopPropagation();
           // prevents clicking from opening editor
         }}
-        className='absolute -bottom-2 -left-2 cursor-nesw-resize w-4 h-4 bg-yellow-200'
+        className='absolute -bottom-2 -left-2 cursor-nesw-resize w-4 h-4 '
       />
       <div
         onMouseOverCapture={(e) => {}}
@@ -237,7 +234,7 @@ const DraggingResizeElement = ({
           e.stopPropagation();
           // prevents clicking from opening editor
         }}
-        className='absolute -bottom-2 -right-2 cursor-nwse-resize w-4 h-4 bg-purple-200'
+        className='absolute -bottom-2 -right-2 cursor-nwse-resize w-4 h-4 '
       />
     </div>
   );

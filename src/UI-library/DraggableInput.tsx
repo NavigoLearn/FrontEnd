@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { tailwindTransitionClass } from '@src/UI-library/tailwind-utils';
+import { throttle } from '@src/typescript/roadmap_ref/render/chunks';
 
 type IDisplayProperty = {
   name: string;
@@ -17,42 +18,32 @@ const DraggableInput = ({
   const [isDragging, setIsDragging] = useState(false);
   const [mouseDownAt, setMouseDownAt] = useState(0);
   const [prevDeltaX, setPrevDeltaX] = useState(0);
-  const [inputValue, setInputValue] = useState(value);
+  const [initialValue, setInitialValue] = useState(value);
 
   const divRef = useRef(null);
   const inputRef = useRef(null);
-
-  useEffect(() => {
-    setInputValue(value);
-  }, [value]);
 
   useEffect(() => {
     const handleMouseMove = (e) => {
       if (isDragging) {
         const deltaX = e.clientX - mouseDownAt;
         const step = sensitivity; // sensitivity
-        if (deltaX !== prevDeltaX) {
-          const newValue = inputValue + step * (deltaX > prevDeltaX ? 1 : -1);
-          onChange(newValue.toString());
-          setPrevDeltaX(deltaX);
-        }
+        const newValue = initialValue + deltaX;
+        onChange(newValue.toString());
+        setPrevDeltaX(deltaX);
       }
     };
 
+    const throttledHandleMouseMove = throttle(handleMouseMove, 1000 / 60);
+    document.addEventListener('mousemove', throttledHandleMouseMove);
     const handleMouseUp = () => {
       setIsDragging(false);
-      setPrevDeltaX(0);
+      document.removeEventListener('mousemove', throttledHandleMouseMove);
       document.body.style.cursor = 'auto';
     };
 
-    document.addEventListener('mousemove', handleMouseMove);
     document.addEventListener('mouseup', handleMouseUp);
-
-    return () => {
-      document.removeEventListener('mousemove', handleMouseMove);
-      document.removeEventListener('mouseup', handleMouseUp);
-    };
-  }, [isDragging, mouseDownAt, inputValue, prevDeltaX]);
+  }, [isDragging, mouseDownAt]);
 
   const handleMouseDown = (e) => {
     setIsDragging(true);
@@ -92,7 +83,7 @@ const DraggableInput = ({
         type='number'
         step='1'
         className='text-darkBlue w-12 outline-none font-semibold [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none'
-        value={inputValue}
+        value={value}
         onChange={handleInputChange}
         onMouseDown={handleInputMouseDown}
       />
