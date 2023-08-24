@@ -3,14 +3,32 @@ import theme1 from '@assets/theme1.svg';
 import theme2 from '@assets/theme2.svg';
 import theme3 from '@assets/theme3.svg';
 import { AnimatePresence, motion } from 'framer-motion';
+import {
+  getColorThemeFromRoadmap,
+  setColorThemeToRoadmap,
+} from '../theme-controler';
+import {
+  saveRoadmapChanges,
+  ISetupScreenControlers,
+} from '../roadmap-funtions';
 
-interface ThemeSelectorProps {
-  onNext: () => void;
-}
-
-const ThemeSelector = ({ onNext }: ThemeSelectorProps) => {
+const ThemeSelector = ({ onNext }: ISetupScreenControlers) => {
   const themes = [theme1, theme2, theme3];
-  const [isSelected, setIsSelected] = useState(null);
+  const [isSelected, setIsSelected] = useState(0);
+
+  const colorThemeSelector = (index: number) => {
+    switch (index) {
+      case 0:
+        return setColorThemeToRoadmap('defaultTheme');
+      case 1:
+        return setColorThemeToRoadmap('whiteTheme');
+      case 2:
+        return setColorThemeToRoadmap('darkTheme');
+      default:
+        return setColorThemeToRoadmap('defaultTheme');
+    }
+  };
+
   const [fadeOut, setFadeOut] = useState(false);
 
   return (
@@ -44,7 +62,10 @@ const ThemeSelector = ({ onNext }: ThemeSelectorProps) => {
                       ? 'border-black border-2 shadow-xl'
                       : 'border-[#D9D9D9]'
                   }`}
-                  onClick={() => setIsSelected(index)}
+                  onClick={() => {
+                    setIsSelected(index);
+                    colorThemeSelector(index);
+                  }}
                 >
                   <img src={theme} alt={`theme${index + 1}`} className='ml-5' />
                   {isSelected === index && (
@@ -117,6 +138,7 @@ const ThemeSelector = ({ onNext }: ThemeSelectorProps) => {
               transition={{ duration: 0.5, delay: themes.length * 0.2 }}
               className='bg-[#3361D8] text-white px-4 py-1 rounded-md text-base w-72 font-roboto-text mt-3'
               onClick={() => {
+                saveRoadmapChanges();
                 setFadeOut(true); // Start fade out animation
                 setTimeout(() => {
                   onNext(); // Call onNext after animation

@@ -1,6 +1,6 @@
 import { Roadmap } from '@type/roadmap/stores/roadmap';
 import roadmapState from '@store/roadmap-refactor/roadmap-data/roadmap_state';
-import aboutTabStore from '@store/roadmap-refactor/roadmap-data/about';
+import aboutTabStore from '@store/roadmap-refactor/roadmap-data/roadmap-about';
 import { deepCopy } from '@src/typescript/roadmap_ref/utils';
 
 export const fetchRoadmap = async (id: string) => {

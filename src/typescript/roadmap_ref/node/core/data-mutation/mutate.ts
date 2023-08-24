@@ -55,15 +55,25 @@ export const mutateNodeCoordY = triggerHubListeners(
 );
 
 export const mutateNodeHeightWhileKeepingCenter = (
-  newHeight: number,
-  nodeId: string
+  node: NodeClass,
+  newHeight: number
 ) => {
-  const node = getNodeByIdRoadmapSelector(nodeId);
+  const { data } = node;
+  const oldHeight = node.data.height;
+  getIsRootNode(node.id) &&
+    mutateNodeCoordY(node, data.coords.y + (oldHeight - newHeight) / 2);
+  mutateNodeHeight(node, newHeight);
+};
+
+export const mutateNodeWidthWhileKeepingCenter = (
+  node: NodeClass,
+  newWidth: number
+) => {
   const { data } = node;
   const oldWidth = node.data.width;
   getIsRootNode(node.id) &&
-    mutateNodeCoordX(node, data.coords.x + (oldWidth - newHeight) / 2);
-  mutateNodeWidth(node, newHeight);
+    mutateNodeCoordX(node, data.coords.x + (oldWidth - newWidth) / 2);
+  mutateNodeWidth(node, newWidth);
 };
 
 export function mutateNodeCoords(node: NodeClass, x: number, y: number) {

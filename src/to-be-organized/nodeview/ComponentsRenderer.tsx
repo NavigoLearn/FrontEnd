@@ -18,7 +18,7 @@ const ComponentRenderer = ({ component, position }: IComponentElementProps) => {
       ref={objRef}
       key={component.id}
       id={`div${id}`}
-      className=' items-center absolute overflow-hidden border-black border-2'
+      className=' items-center absolute overflow-hidden border-black border-2 select-none'
       style={{
         textDecorationColor: textColor,
         textSizeAdjust: `${textSize}%`,
@@ -30,8 +30,10 @@ const ComponentRenderer = ({ component, position }: IComponentElementProps) => {
         left: `${position.x}px`,
       }}
     >
-      {type === 'Title' && <h1 className='text-center'>{text}</h1>}
-      {type === 'Description' && <p className='text-center'>{text}</p>}
+      {type === 'Title' && <h1 className='text-center select-none'>{text}</h1>}
+      {type === 'Description' && (
+        <p className='text-center select-none'>{text}</p>
+      )}
       {/* Add more conditions for other component types */}
     </div>
   );
@@ -42,7 +44,7 @@ export const componentsRenderer = (node: NodeClass) => {
   const positions = calculateComponentsPositions(node);
 
   return (
-    <div className='components-container'>
+    <div className='components-container select-none'>
       {components.map((component, index) => {
         return (
           <ComponentRenderer

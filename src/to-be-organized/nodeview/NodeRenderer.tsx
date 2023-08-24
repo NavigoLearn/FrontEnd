@@ -29,7 +29,9 @@ import { getIsEditing } from '@store/roadmap-refactor/roadmap-data/roadmap_state
 import DraggingResizeElement from '@src/to-be-organized/DraggingResizeElement';
 import {
   mutateNodeHeight,
+  mutateNodeHeightWhileKeepingCenter,
   mutateNodeWidth,
+  mutateNodeWidthWhileKeepingCenter,
 } from '@src/typescript/roadmap_ref/node/core/data-mutation/mutate';
 import {
   getElementIsDraggable,
@@ -167,8 +169,6 @@ const NodeRenderer: React.FC<NodeViewProps> = ({
       loaded && !getIsEditing() && appendNodeMarkAsDone(node);
       getIsEditing() && deleteStatusEffectAll(nodeId);
       loaded && applyElementEffects(nodeId, nodeDivRef.current);
-
-      setDraggableElement(nodeId, false);
     });
 
     return (
@@ -194,7 +194,7 @@ const NodeRenderer: React.FC<NodeViewProps> = ({
       >
         {!editing && (
           <div
-            className={`w-8 h-8 -left-4 -top-4 absolute rounded-full ${getStatusCircleStyle(
+            className={`w-8 h-8 -left-4 -top-4 absolute rounded-full select-none ${getStatusCircleStyle(
               node
             )}`}
           />
@@ -205,11 +205,11 @@ const NodeRenderer: React.FC<NodeViewProps> = ({
             height,
           }}
           heightCallback={(height) => {
-            mutateNodeHeight(node, height);
+            mutateNodeHeightWhileKeepingCenter(node, height);
             triggerNodeRerender(nodeId);
           }}
-          widthCallback={() => {
-            mutateNodeWidth(node, width);
+          widthCallback={(width) => {
+            mutateNodeWidthWhileKeepingCenter(node, width);
             triggerNodeRerender(nodeId);
           }}
           elementId={nodeId}

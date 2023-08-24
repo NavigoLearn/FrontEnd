@@ -35,6 +35,10 @@ import { afterEventLoop } from '@src/typescript/utils/misc';
 import SnappingLinesRenderer from '@components/roadmap/SnappingLinesRenderer';
 import { addKeyListeners } from '@src/typescript/roadmap_ref/key-shortcuts';
 import { RoadmapTypeApi } from '@type/explore/card';
+import {
+  setRoadmapDisableDrag,
+  setRoadmapEnableDrag,
+} from '@store/roadmap-refactor/roadmap-data/roadmap-functions-utils';
 import Popup from './tabs/popups/Popup';
 
 const Roadmap = ({
@@ -58,7 +62,7 @@ const Roadmap = ({
   useScrollHidden();
   const isLoaded = useIsLoaded();
 
-  const enableZoom = () => {
+  const enableRoadmapDrag = () => {
     enableRoadmapZoomDragAndRecenter(
       'rootSvg',
       'rootGroup',
@@ -73,7 +77,7 @@ const Roadmap = ({
     factoryRoadmapClassic();
   }, []);
 
-  const disableZoomFn = () => {
+  const disableRoadmapDrag = () => {
     disableRoadmapDragZoom('rootSvg');
   };
 
@@ -109,6 +113,9 @@ const Roadmap = ({
     afterEventLoop(() => {
       isCreate && initializeRoadmapAfterLoad();
     });
+
+    setRoadmapDisableDrag(disableRoadmapDrag);
+    setRoadmapEnableDrag(enableRoadmapDrag);
   }, []);
 
   useEffect(() => {
