@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
+import { exitSetupScreen } from '../roadmap/displayers/setup-screen/roadmap-funtions';
 
 type Props = {
   id: number;
@@ -14,8 +15,8 @@ const DesktopButton = ({ id, cName, path, cIcon, title, hasUnder }: Props) => {
   const [currentPath, setCurrentPath] = useState('');
 
   useEffect(() => {
-    setCurrentPath(window.location.pathname)
-  }, [])
+    setCurrentPath(window.location.pathname);
+  }, []);
 
   return (
     <li
@@ -46,9 +47,17 @@ const DesktopButton = ({ id, cName, path, cIcon, title, hasUnder }: Props) => {
           className='absolute -bottom-1 w-0 h-[2px] bg-black transition-all duration-300'
         />
       )}
-      {currentPath === '/roadmap/create' && path === '/roadmap/create' ? null : (
-        <a className={cName} href={path}>
-          {cIcon && <img draggable="false" src={cIcon} alt='icon' className='w-6 flex m-1' />}
+      {currentPath === '/roadmap/create' &&
+      path === '/roadmap/create' ? null : (
+        <a className={cName} href={path} onClick={() => exitSetupScreen()}>
+          {cIcon && (
+            <img
+              draggable='false'
+              src={cIcon}
+              alt='icon'
+              className='w-6 flex m-1'
+            />
+          )}
           {title}
         </a>
       )}
