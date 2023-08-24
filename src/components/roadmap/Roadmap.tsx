@@ -73,8 +73,8 @@ const Roadmap = ({
   useEffect(() => {
     // dummmy data
     if (!isCreate) return;
-    // factoryRoadmapFirstAttempcleart();
-    factoryRoadmapClassic();
+    factoryRoadmapFirstAttempt();
+    // factoryRoadmapClassic();
   }, []);
 
   const disableRoadmapDrag = () => {

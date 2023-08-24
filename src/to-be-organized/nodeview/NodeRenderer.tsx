@@ -212,7 +212,6 @@ const NodeRenderer: React.FC<NodeViewProps> = ({
             mutateNodeWidthWhileKeepingCenter(node, width);
             triggerNodeRerender(nodeId);
           }}
-          elementId={nodeId}
         />
 
         {componentsRenderer(node)}
