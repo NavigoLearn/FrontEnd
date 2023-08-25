@@ -19,7 +19,8 @@ const ErrorDisplay = ({ time, message }: { message: string; time: number }) => {
     >
       <div className='absolute h-full w-1 bg-red-800 rounded-md ' />
       <div className=' w-8 relative  '>
-        <img draggable="false"
+        <img
+          draggable='false'
           src={warn}
           className='absolute top-4 left-4'
           width='20'
