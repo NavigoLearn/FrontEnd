@@ -12,10 +12,8 @@ export interface ISetupScreenControlers {
 export const getCurrentRoadmap = () => {
   return roadmapSelector.get();
 };
-export const currentRoadmap = getCurrentRoadmap();
-
 export const saveRoadmapChanges = () => {
-  setRoadmapSelector(currentRoadmap);
+  setRoadmapSelector(getCurrentRoadmap());
 };
 
 // export const exitSetupScreen = () => {

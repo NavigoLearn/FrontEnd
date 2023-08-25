@@ -1,9 +1,9 @@
-import { currentRoadmap } from './roadmap-funtions';
+import { getCurrentRoadmap } from '@components/roadmap/displayers/setup-screen/roadmap-funtions';
 
 export const setTitleToRoadmap = (name: string) => {
-  currentRoadmap.data.roadmapName = name;
+  getCurrentRoadmap().data.roadmapName = name;
 };
 
 export const getTitleFromRoadmap = () => {
-  return currentRoadmap.data.roadmapName;
+  return getCurrentRoadmap().data.roadmapName;
 };

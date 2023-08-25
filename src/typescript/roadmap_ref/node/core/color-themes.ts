@@ -4,7 +4,7 @@ export const colorThemes: IColorThemes = {
   defaultTheme: {
     primary: {
       nodeColor: '#ffffff',
-      textColor: '#00000099',
+      textColor: '#000000',
     },
     secondary: {
       nodeColor: '#1A1B50',

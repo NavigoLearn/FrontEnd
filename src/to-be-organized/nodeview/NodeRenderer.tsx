@@ -43,6 +43,11 @@ import {
   setDraggableElement,
 } from '@store/roadmap-refactor/elements-editing/draggable-elements';
 import { snapNodeWidthHeight } from '@src/typescript/roadmap_ref/snapping/core';
+import {
+  selectNodeColorFromScheme,
+  selectNodeColorText,
+} from '@src/typescript/roadmap_ref/node/core/factories/data-mutation/services';
+import { getColorThemeFromRoadmap } from '@components/roadmap/displayers/setup-screen/theme-controler';
 
 interface NodeViewProps {
   nodeId: string;
@@ -61,8 +66,7 @@ const NodeRenderer: React.FC<NodeViewProps> = ({
   const renderNode = (nodeId: string) => {
     const loaded = useIsLoaded();
     const node = getNodeByIdRoadmapSelector(nodeId);
-    const { color, width, height, opacity, fontSizeType, textColor } =
-      node.data;
+    const { width, height, opacity, colorType } = node.data;
     node.data.center.x = width / 2;
     const { subNodeIds } = node;
     // Function to render each subnode
@@ -148,6 +152,11 @@ const NodeRenderer: React.FC<NodeViewProps> = ({
 
     const bgOpacity = opacity / 100;
 
+    const color = selectNodeColorFromScheme(
+      getColorThemeFromRoadmap(),
+      colorType
+    );
+
     const style = {
       // color: textColor,
       backgroundColor: `rgba(${parseInt(color.slice(1, 3), 16)}, ${parseInt(
@@ -159,7 +168,6 @@ const NodeRenderer: React.FC<NodeViewProps> = ({
       height: `${height}px`,
       top: `${calculatedOffsetCoords.y + coords.y}px`,
       left: `${calculatedOffsetCoords.x + coords.x}px`,
-      fontSize: FontSizeValues[fontSizeType],
       opacity: `${getNodeOpacity(node)}`,
     };
 

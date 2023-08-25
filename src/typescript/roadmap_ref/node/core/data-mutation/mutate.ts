@@ -4,7 +4,7 @@ import { triggerCenterRecalculationDecorator } from '@src/typescript/roadmap_ref
 import { triggerHubListeners } from '@store/roadmap-refactor/subscribers/function-subscribers';
 import { IActionTypes } from '@src/typescript/roadmap_ref/node/core/actions/core';
 import {
-  selectNodeColorScheme,
+  selectNodeColorFromScheme,
   selectNodeColorText,
 } from '@src/typescript/roadmap_ref/node/core/factories/data-mutation/services';
 import { triggerNodeRerender } from '@src/store/roadmap-refactor/render/rerender-triggers-nodes';
@@ -21,8 +21,8 @@ export function mutateNodeColor(
   colorType: IColorThemesColors
 ) {
   node.data.colorType = colorType;
-  node.data.color = selectNodeColorScheme(node.data.colorTheme, colorType);
-  node.data.textColor = selectNodeColorText(node.data.colorTheme, colorType);
+  // node.data.color = selectNodeColorScheme(node.data.colorTheme, colorType);
+  // node.data.textColor = selectNodeColorText(node.data.colorTheme, colorType);
   triggerNodeRerender(node.id);
 }
 
