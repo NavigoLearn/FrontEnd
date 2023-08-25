@@ -24,6 +24,7 @@ import DropdownGreyAdd from '@src/components/roadmap/displayers/editor/reusable-
 import { mutateActionLink } from '@src/typescript/roadmap_ref/node/core/actions/mutate';
 import { getColorThemeFromRoadmap } from '@components/roadmap/displayers/setup-screen/theme-controler';
 import { IActionTypes } from '@src/typescript/roadmap_ref/node/core/actions/core';
+import TextVariants from './TextVariants';
 
 type IActionsDropdown = {
   action: string;
@@ -98,8 +99,7 @@ const Properties = () => {
   const { actions } = node;
   const { possibleActions } = actions;
   const possibleActionsArray = possibleActions;
-  const [isClickedFirst, setIsClickedFirst] = useState(false);
-  const [isClickedSecond, setIsClickedSecond] = useState(false);
+  const [selectedSize, setSelectedSize] = useState('big');
   return (
     <div className='flex flex-col gap-6'>
       <div className='flex flex-col'>
@@ -194,8 +194,8 @@ const Properties = () => {
       </div>
       <hr className='border-1 border-gray-200' />
       <div className='flex flex-col gap-1'>
-        <h4 className='text-secondary text-base'>Colour </h4>
-        <h5 className='text-darkBlue font-medium text-md'>
+        <h4 className='text-secondary text-base font-roboto-text'>Colour </h4>
+        <h5 className='text-darkBlue font-medium text-md font-roboto-text'>
           Select node colour
         </h5>
         <VariantsComponent
@@ -204,66 +204,17 @@ const Properties = () => {
           node={node}
         />
       </div>
-      <div className='flex text-secondary font-roboto-text font-medium mt-2'>
-        Text
-      </div>
-      <div className='flex-row gap-1 items-start w-full'>
-        <div className='flex gap-2 items-center'>
-          <input
-            type='checkbox'
-            className='flex border-1 border-gray-400 w-5 h-5'
-            onClick={() => {
-              setIsClickedFirst(!isClickedFirst);
-              if (isClickedSecond) setIsClickedSecond(false);
-            }}
-          />
-          <div
-            className={`flex-row gap-1 items-start w-full p-3 ${
-              isClickedFirst
-                ? 'bg-primary bg-opacity-10 border-2 border-primary'
-                : ''
-            }`}
-          >
-            <h2 className='flex text-darkBlue font-roboto-text font-extrabold text-lg'>
-              Big headline style
-            </h2>
-            <h3 className='flex text-secondary font-roboto-text font-medium text-base'>
-              Big body text style
-            </h3>
-            <div className='rounded-lg w-40 border-2 border-primary text-primary pl-3 font-roboto-text py-[2px] mt-2'>
-              TEXT PREVIEW
-            </div>
-          </div>
-        </div>
-      </div>
-      <div className='flex-row gap-3 items-center'>
-        <div className='flex gap-2 items-center'>
-          <input
-            type='checkbox'
-            className='flex border-1 border-gray-400 w-5 h-5'
-            onClick={() => {
-              setIsClickedSecond(!isClickedSecond);
-              if (isClickedFirst) setIsClickedFirst(false);
-            }}
-          />
-          <div
-            className={`flex-row gap-1 items-start w-full p-3 ${
-              isClickedSecond
-                ? 'bg-primary bg-opacity-10 border-2 border-primary'
-                : ''
-            }`}
-          >
-            <h2 className='flex text-darkBlue font-roboto-text font-bold text-base'>
-              Medium headline style
-            </h2>
-            <h3 className='flex text-darkBlue font-medium text-lg'>
-              Big body text style 2
-            </h3>
-            <div className='rounded-lg w-40 border-2 border-primary bg-primary text-white pl-3 font-roboto-text py-[2px] mt-2'>
-              TEXT PREVIEW
-            </div>
-          </div>
-        </div>
+      <div className='flex flex-col gap-1'>
+        <h4 className='flex text-secondary font-roboto-text font-medium mt-2'>
+          Text
+        </h4>
+        <h5 className='text-darkBlue font-medium text-md font-roboto-text'>
+          Select text size
+        </h5>
+        <TextVariants
+          selectedSize={selectedSize}
+          setSelectedSize={setSelectedSize}
+        />
       </div>
       <div className='flex text-secondary font-roboto-text font-medium mt-2'>
         Interactions
