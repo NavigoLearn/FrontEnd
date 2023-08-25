@@ -13,7 +13,11 @@ import {
 } from '../roadmap-funtions';
 
 const ThemeSelector = ({ onNext }: ISetupScreenControlers) => {
-  const themes = [theme1, theme2, theme3];
+  const themes = [
+    { id: 0, name: theme1 },
+    { id: 1, name: theme2 },
+    { id: 2, name: theme3 },
+  ];
   const [isSelected, setIsSelected] = useState(0);
 
   const colorThemeSelector = (index: number) => {
@@ -45,9 +49,9 @@ const ThemeSelector = ({ onNext }: ISetupScreenControlers) => {
             <div>Select a roadmap</div>
             <div>theme</div>
             <div className='grid grid-cols-3 gap-3 mt-2'>
-              {themes.map((theme, index) => (
+              {themes.map((theme) => (
                 <motion.button
-                  key={index}
+                  key={theme.id}
                   initial={{ scale: 0, rotate: 330 }}
                   animate={{ scale: 1, rotate: 360 }}
                   exit={{ x: -100, opacity: 0 }}
@@ -55,20 +59,24 @@ const ThemeSelector = ({ onNext }: ISetupScreenControlers) => {
                     type: 'spring',
                     stiffness: 260,
                     damping: 20,
-                    delay: index * 0.2,
+                    delay: theme.id * 0.2,
                   }}
                   className={`h-32 w-28 border-2 rounded-md relative ${
-                    isSelected === index
+                    isSelected === theme.id
                       ? 'border-black border-2 shadow-xl'
                       : 'border-[#D9D9D9]'
                   }`}
                   onClick={() => {
-                    setIsSelected(index);
-                    colorThemeSelector(index);
+                    setIsSelected(theme.id);
+                    colorThemeSelector(theme.id);
                   }}
                 >
-                  <img src={theme} alt={`theme${index + 1}`} className='ml-5' />
-                  {isSelected === index && (
+                  <img
+                    src={theme.name}
+                    alt={`theme${theme.id + 1}`}
+                    className='ml-5'
+                  />
+                  {isSelected === theme.id && (
                     <svg
                       className='absolute top-1 right-1'
                       width='22'
@@ -102,7 +110,7 @@ const ThemeSelector = ({ onNext }: ISetupScreenControlers) => {
                       />
                     </svg>
                   )}
-                  {isSelected !== index && (
+                  {isSelected !== theme.id && (
                     <svg
                       className='absolute top-1 right-1'
                       width='22'
@@ -125,6 +133,8 @@ const ThemeSelector = ({ onNext }: ISetupScreenControlers) => {
               ))}
             </div>
           </motion.div>
+        </AnimatePresence>
+        <AnimatePresence>
           <motion.div
             initial={{ x: 0, opacity: 0 }} // Start from opacity 0
             animate={{ y: fadeOut ? 7 : 0, opacity: fadeOut ? 0 : 1 }} // Slide in from the left

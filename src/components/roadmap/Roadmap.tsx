@@ -1,8 +1,5 @@
-import React, { useEffect, useRef } from 'react';
-import {
-  factoryRoadmapFirstAttempt,
-  factoryRoadmapClassic,
-} from '@src/typescript/roadmap_ref/roadmap-templates/classic';
+import React, { useEffect, useRef, useState } from 'react';
+import { factoryRoadmapClassic } from '@src/typescript/roadmap_ref/roadmap-templates/classic';
 import renderNodesStore from '@store/roadmap-refactor/render/rendered-nodes';
 import {
   setChunkRerenderTrigger,
@@ -39,7 +36,15 @@ import {
   setRoadmapDisableDrag,
   setRoadmapEnableDrag,
 } from '@store/roadmap-refactor/roadmap-data/roadmap-functions-utils';
+import Notifications from '@src/UI-library/Notifications';
 import Popup from './tabs/popups/Popup';
+
+export function initializeRoadmapAfterLoad() {
+  applyRoadmapElementsDraggability();
+  setRoadmapIsLoaded();
+  triggerChunkRerender();
+  triggerRecenterRoadmap();
+}
 
 const Roadmap = ({
   pageId,
@@ -62,6 +67,16 @@ const Roadmap = ({
   useScrollHidden();
   const isLoaded = useIsLoaded();
 
+  const [isNotificationVisible, setIsNotificationVisible] = useState(false);
+
+  const handleCloseNotificationClick = () => {
+    setIsNotificationVisible(false);
+  };
+
+  const handleOpenNotificationClick = () => {
+    setIsNotificationVisible(true);
+  };
+
   const enableRoadmapDrag = () => {
     enableRoadmapZoomDragAndRecenter(
       'rootSvg',
@@ -81,13 +96,6 @@ const Roadmap = ({
     disableRoadmapDragZoom('rootSvg');
   };
 
-  function initializeRoadmapAfterLoad() {
-    applyRoadmapElementsDraggability();
-    setRoadmapIsLoaded();
-    triggerChunkRerender();
-    triggerRecenterRoadmap();
-  }
-
   useEffect(() => {
     // renderer object that handles chunking
     chunkRenderer.current = recalculateChunks('rootSvg');
@@ -100,7 +108,7 @@ const Roadmap = ({
       }
     );
 
-    if (!isCreate) setRoadmapId(pageId);
+    if (!isCreate) setRoadmapId(roadmap.id);
     else setRoadmapId(uuid4());
     // fetches the roadmap-roadmap-data from the api-wrapper
     // ...
@@ -109,10 +117,6 @@ const Roadmap = ({
       setRoadmapFromData(roadmap).then(() => {
         initializeRoadmapAfterLoad();
       });
-
-    afterEventLoop(() => {
-      isCreate && initializeRoadmapAfterLoad();
-    });
 
     setRoadmapDisableDrag(disableRoadmapDrag);
     setRoadmapEnableDrag(enableRoadmapDrag);
@@ -132,6 +136,7 @@ const Roadmap = ({
   }, []);
 
   useEffectAfterLoad(() => {
+    handleOpenNotificationClick();
     applyRoadmapElementsDraggability();
   }, [nodesIds, editing]);
 
@@ -144,6 +149,10 @@ const Roadmap = ({
         closeEditorProtocol();
       }}
     >
+      <Notifications
+        isVisible={isNotificationVisible}
+        onCloseClick={handleCloseNotificationClick}
+      />
       <Popup />
       <svg
         id='rootSvg'

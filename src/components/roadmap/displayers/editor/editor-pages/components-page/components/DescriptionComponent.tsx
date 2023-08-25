@@ -1,6 +1,9 @@
 import React from 'react';
 import { tailwindTransitionClass } from '@src/UI-library/tailwind-utils';
-import { mutateComponentDescriptionText } from '@src/typescript/roadmap_ref/node/components/text/mutate';
+import {
+  mutateComponentDescriptionText,
+  mutateComponentDescriptionWidth,
+} from '@src/typescript/roadmap_ref/node/components/text/mutate';
 import {
   getComponentDescriptionById,
   getComponentDescriptionText,
@@ -10,12 +13,20 @@ import { deleteComponentWithId } from '@src/typescript/roadmap_ref/node/core/dat
 import { NodeClass } from '@src/typescript/roadmap_ref/node/core/core';
 import { triggerNodeRerender } from '@store/roadmap-refactor/render/rerender-triggers-nodes';
 import TrashIcon from '@src/UI-library/svg-animations/trash/TrashIcon';
+import DraggableInput from '@src/UI-library/DraggableInput';
 
 type DescriptionComponentProps = {
   node: NodeClass;
   id: string;
   name: string;
 };
+
+function checkInvalidInput(value: string) {
+  const newValue = parseInt(value, 10);
+  if (typeof newValue !== 'number' || Number.isNaN(newValue)) return true;
+  return false;
+}
+
 const DescriptionComponent = ({
   node,
   id,
@@ -25,28 +36,56 @@ const DescriptionComponent = ({
   // is opened and node is selected
   const descriptionComponent = getComponentDescriptionById(node, id);
   return (
-    <div className='flex gap-2 w-full outline-2 outline-black'>
-      <textarea
-        className={`flex-grow border-2 border-gray-400 h-48  rounded-lg text-darkBlue text-lg pl-4 pt-4 font-medium focus:border-black ${tailwindTransitionClass}`}
-        placeholder={name}
-        value={getComponentDescriptionText(descriptionComponent)}
-        onChange={(event) => {
-          const { value } = event.target;
-          mutateComponentDescriptionText(descriptionComponent, value);
-          rerender();
-          triggerNodeRerender(node.id);
-        }}
-      />
-      <button
-        type='button'
-        className=' w-8 h-8 mr-6 mb-2'
-        onClick={() => {
-          deleteComponentWithId(node, id);
-          triggerNodeRerender(node.id);
-        }}
-      >
-        <TrashIcon />
-      </button>
+    <div>
+      <div className='flex gap-2 w-full outline-2 outline-black'>
+        <textarea
+          className={`flex-grow border-2 border-gray-400 h-48  rounded-lg text-darkBlue text-lg pl-4 pt-4 font-medium focus:border-black ${tailwindTransitionClass}`}
+          placeholder={name}
+          value={getComponentDescriptionText(descriptionComponent)}
+          onChange={(event) => {
+            const { value } = event.target;
+            mutateComponentDescriptionText(descriptionComponent, value);
+            rerender();
+            triggerNodeRerender(node.id);
+          }}
+        />
+        <button
+          type='button'
+          className=' w-8 h-8 mr-6 mb-2'
+          onClick={() => {
+            deleteComponentWithId(node, id);
+            triggerNodeRerender(node.id);
+          }}
+        >
+          <TrashIcon />
+        </button>
+      </div>
+      <div className='flex flex-row w-full'>
+        <DraggableInput
+          name='W'
+          value={descriptionComponent.width}
+          onChange={(value) => {
+            const newValue = parseInt(value, 10);
+            if (checkInvalidInput(value)) return;
+            if (newValue < 0) return;
+            mutateComponentDescriptionWidth(descriptionComponent, newValue);
+            rerender();
+            triggerNodeRerender(node.id);
+          }}
+        />
+        <DraggableInput
+          name='H'
+          value={descriptionComponent.height}
+          onChange={(value) => {
+            const newValue = parseInt(value, 10);
+            if (checkInvalidInput(value)) return;
+            if (newValue < 0) return;
+            mutateComponentDescriptionWidth(descriptionComponent, newValue);
+            rerender();
+            triggerNodeRerender(node.id);
+          }}
+        />
+      </div>
     </div>
   );
 };
