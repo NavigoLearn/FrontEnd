@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 
 type ITextVariantsProps = {
   selectedSize: string;
-  setSelectedSize: (size: string) => void; 
+  setSelectedSize: (size: string) => void;
 };
 
 const TextVariants = ({

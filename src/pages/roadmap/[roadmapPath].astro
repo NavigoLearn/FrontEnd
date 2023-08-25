@@ -70,9 +70,9 @@ if (typeof id === 'string') {
   type,
 }} excludeFooter={true}>
 
-  <!-- {isCreate && (
+  {isCreate && (
     <SetupScreen client:idle isCreate={isCreate}/>
-  )} -->
+  )}
 
   <PageViewCollection page='Roadmap' client:load />
   <div class='absolute w-full top-0 h-16 bg-white z-[-10]'></div>
