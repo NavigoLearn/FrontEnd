@@ -106,9 +106,7 @@ const NodeRenderer: React.FC<NodeViewProps> = ({
 
     useEffect(() => {
       if (node.flags.renderedOnRoadmapFlag) return;
-      afterEventLoop(() => {
-        setTriggerRender(node.id, rerender);
-      });
+      setTriggerRender(node.id, rerender);
     }, []);
 
     function getNodeOpacity(node: NodeClass) {
