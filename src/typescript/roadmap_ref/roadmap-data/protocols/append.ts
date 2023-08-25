@@ -2,7 +2,7 @@ import { factorySubNode } from '@src/typescript/roadmap_ref/node/core/factories/
 import {
   appendChildNodeId,
   appendConnectionNode,
-  appendSubNode,
+  appendSubNodeId,
 } from '@src/typescript/roadmap_ref/node/core/data-mutation/append';
 import { draggableElementProtocol } from '@components/roadmap/displayers/editor/editor-pages/utils';
 import { triggerNodeRerender } from '@store/roadmap-refactor/render/rerender-triggers-nodes';
@@ -20,9 +20,9 @@ import {
   injectRoadmapNode,
 } from '@src/typescript/roadmap_ref/roadmap-data/services/inject';
 
-export function appendNestedNode(node: NodeClass) {
+export function appendSubNode(node: NodeClass) {
   const newNestedNode = factorySubNode(node.id, 120, 40, 0, 0); // creates node
-  appendSubNode(node, newNestedNode.id); // appends to the parent of nesting
+  appendSubNodeId(node, newNestedNode.id); // appends to the parent of nesting
   injectRoadmapNode(newNestedNode);
   draggableElementProtocol(newNestedNode.draggingBehavior, newNestedNode.id);
   triggerNodeRerender(node.id);

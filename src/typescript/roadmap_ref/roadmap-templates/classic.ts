@@ -10,7 +10,7 @@ import {
 
 import {
   appendChildNodeId,
-  appendSubNode,
+  appendSubNodeId,
 } from '@src/typescript/roadmap_ref/node/core/data-mutation/append';
 import { injectParentData } from '@src/typescript/roadmap_ref/node/core/factories/data-mutation/inject';
 import { deepCopy } from '@src/typescript/roadmap_ref/utils';
@@ -70,10 +70,10 @@ export function factoryRoadmapFirstAttempt() {
   injectRoadmapNode(node1);
   injectRoadmapConnection(connection0);
 
-  appendSubNode(node0, subNode00.id);
-  appendSubNode(node0, subNode01.id);
-  appendSubNode(node0, subNode02.id);
-  appendSubNode(node0, subNode03.id);
+  appendSubNodeId(node0, subNode00.id);
+  appendSubNodeId(node0, subNode01.id);
+  appendSubNodeId(node0, subNode02.id);
+  appendSubNodeId(node0, subNode03.id);
 
   injectRoadmapNode(subNode00);
   injectRoadmapNode(subNode01);

@@ -23,7 +23,7 @@ const ComponentRenderer = ({
   const theme = getColorThemeFromRoadmap();
 
   const textColor = selectNodeColorText(theme, colorType);
-  // here goes both font weight and font size
+  // font weight and font size will per component and be ni the component itself
 
   return (
     <div

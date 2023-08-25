@@ -41,6 +41,7 @@ export function saveEditingProtocol() {
   transferEditToRoadmap(); //  transfers the changes to the static roadmap
   toggleRoadmapEditing();
   updateRoadmapData(roadmapSelector.get()); // sends the roadmap as update to the server
+  console.log('saved', roadmapSelector.get());
   setAllDraggableFalse();
   triggerChunkRerender();
   setDisplayPageType('closed');

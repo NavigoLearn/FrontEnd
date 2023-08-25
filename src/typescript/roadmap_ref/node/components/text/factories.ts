@@ -16,7 +16,7 @@ export type IComponentClasses = ComponentTitle | ComponentDescription;
 export function factoryComponentTitleEmpty(
   parentNodeId: string
 ): ComponentTitle {
-  const componentTitle = new ComponentTitle(0, 0, 100, 35, 'NewTitle');
+  const componentTitle = new ComponentTitle(0, 0, 400, 35, 'NewTitle');
   injectComponentParentNodeId(componentTitle, parentNodeId);
   const draggingBehavior = draggingBehaviorFactoryComponents(
     parentNodeId,
