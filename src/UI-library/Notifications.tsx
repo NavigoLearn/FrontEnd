@@ -1,6 +1,7 @@
 import React from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import blueinfo from 'src/assets/blue-info.svg';
+import { useStore } from '@nanostores/react';
 
 const Path = (props) => (
   <motion.path

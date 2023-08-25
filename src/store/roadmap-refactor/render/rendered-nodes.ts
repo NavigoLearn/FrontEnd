@@ -19,13 +19,13 @@ export function checkDiff(newNodes: string[]) {
   }
   return false;
 }
+
 export function setNodes(newNodes: string[]) {
   if (checkDiff(newNodes)) {
     const uniqueNodes = [];
     newNodes.forEach((nodeId) => {
       if (!uniqueNodes.includes(nodeId)) uniqueNodes.push(nodeId);
     });
-
     renderNodesStore.set({ nodesIds: uniqueNodes });
   }
 }

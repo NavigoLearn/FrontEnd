@@ -7,6 +7,8 @@ import {
   getNodeCornerPositions,
   getNodeCornerPositionsWithWH,
 } from '@src/typescript/roadmap_ref/snapping/generate-positions';
+import { setSnappings } from '@store/roadmap-refactor/render/snapping-lines';
+import { getScaleSafari } from '@store/roadmap-refactor/misc/scale-safari-store';
 
 export const snapCoordsToPositions = (
   newX: number,
@@ -15,7 +17,8 @@ export const snapCoordsToPositions = (
 ) => {
   let lastClosestIndexX = -1;
   let lastClosestIndexY = -1;
-  const snappingDistance = 15;
+  const scale = getScaleSafari();
+  const snappingDistance = 10 / scale;
 
   for (let i = 0; i < positions.length; i += 1) {
     const { x: rootNodeX, y: rootNodeY } = positions[i];
@@ -122,35 +125,50 @@ export const snapNodeWidthHeight = (
   const { snappedCoords, lastClosestIndexesX, lastClosestIndexesY } =
     snapCoordsMultipleToPositions(corners, nodesCornerPositions);
 
+  const snappings = [];
+
   const widthsSnapDeltas = [];
   const heightsSnapDeltas = [];
+
+  // I had to find minimum delta width and then trace back the coordinates corresponding to that delta snapping
+  // thats why we keep a trace of the indexes of the deltas
+  const widthDeltasIndexes = [];
+  const heightDeltasIndexes = [];
+
   for (let i = 0; i < snappedCoords.length; i += 1) {
     const indexX = lastClosestIndexesX[i];
     const indexY = lastClosestIndexesY[i];
     if (indexX !== -1) {
       const { x: newX } = nodesCornerPositions[indexX];
-      // horrible approach, needs refactor,
+      // horrible approach to conditionals, needs refactor,
       // we need to differentiate for the width delta between left and right corners
       if (i === 0 || i === 2) {
         widthsSnapDeltas.push(newX - corners[i].x);
+        widthDeltasIndexes.push(i);
       } else {
         widthsSnapDeltas.push(corners[i].x - newX);
+        widthDeltasIndexes.push(i);
       }
     }
+
     if (indexY !== -1) {
       const { y: newY } = nodesCornerPositions[indexY];
       if (i < 2) {
         heightsSnapDeltas.push(newY - corners[i].y);
+        heightDeltasIndexes.push(i);
       } else {
         heightsSnapDeltas.push(corners[i].y - newY);
+        heightDeltasIndexes.push(i);
       }
     }
   }
   if (widthsSnapDeltas.length === 0) {
-    widthsSnapDeltas.push(0);
+    widthsSnapDeltas.push(0); // ------
+    widthDeltasIndexes.push(-1);
   }
   if (heightsSnapDeltas.length === 0) {
     heightsSnapDeltas.push(0);
+    heightDeltasIndexes.push(-1);
   }
   // finds minimum index of the absolutes of the deltas
 
@@ -164,6 +182,20 @@ export const snapNodeWidthHeight = (
     }
   }
 
+  const originalIndexWidthSnapping = widthDeltasIndexes[minIndexWidth];
+  const firstSnappingCornerWidth = snappedCoords[originalIndexWidthSnapping];
+  const secondSnappingCornerWidth =
+    nodesCornerPositions[lastClosestIndexesX[originalIndexWidthSnapping]];
+
+  if (originalIndexWidthSnapping !== -1) {
+    snappings.push({
+      startX: firstSnappingCornerWidth.x,
+      startY: firstSnappingCornerWidth.y,
+      endX: secondSnappingCornerWidth.x,
+      endY: secondSnappingCornerWidth.y,
+    });
+  }
+
   let minIndexHeight = 0;
   let minDeltaHeight = heightsSnapDeltas[0];
   for (let i = 0; i < heightsSnapDeltas.length; i += 1) {
@@ -173,17 +205,26 @@ export const snapNodeWidthHeight = (
       minIndexHeight = i;
     }
   }
+
+  const originalIndexHeightSnapping = heightDeltasIndexes[minIndexHeight];
+  const firstSnappingCornerHeight = snappedCoords[originalIndexHeightSnapping];
+  const secondSnappingCornerHeight =
+    nodesCornerPositions[lastClosestIndexesY[originalIndexHeightSnapping]];
+
+  if (originalIndexHeightSnapping !== -1) {
+    snappings.push({
+      startX: firstSnappingCornerHeight.x,
+      startY: firstSnappingCornerHeight.y,
+      endX: secondSnappingCornerHeight.x,
+      endY: secondSnappingCornerHeight.y,
+    });
+  }
+  setSnappings(snappings);
+
   const minWidthSnapDelta = widthsSnapDeltas[minIndexWidth];
   const minHeightSnapDelta = heightsSnapDeltas[minIndexHeight];
 
   const node = getNodeByIdRoadmapSelector(nodeId);
-  console.log(
-    'minWidthSnapDelta',
-    widthsSnapDeltas,
-    minWidthSnapDelta,
-    width,
-    node.data.width
-  );
   return {
     width: width - 2 * minWidthSnapDelta,
     height: height - 2 * minHeightSnapDelta,

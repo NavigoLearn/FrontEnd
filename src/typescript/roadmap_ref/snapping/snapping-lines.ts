@@ -1,0 +1,30 @@
+import { ISnapping } from '@store/roadmap-refactor/render/snapping-lines';
+import { ICoords } from '@src/typescript/roadmap_ref/dragging/core';
+
+export const snappingLinesForCoords = (
+  coords: ICoords,
+  positionsSnappingTo: ICoords[],
+  lastClosestIndexX: number,
+  lastClosestIndexY: number
+): ISnapping[] => {
+  const snappings = [];
+  if (lastClosestIndexX !== -1) {
+    snappings.push({
+      startX: coords.x,
+      startY: coords.y,
+      endX: positionsSnappingTo[lastClosestIndexX].x,
+      endY: positionsSnappingTo[lastClosestIndexX].y,
+    });
+  }
+
+  if (lastClosestIndexY !== -1) {
+    snappings.push({
+      startX: coords.x,
+      startY: coords.y,
+      endX: positionsSnappingTo[lastClosestIndexY].x,
+      endY: positionsSnappingTo[lastClosestIndexY].y,
+    });
+  }
+
+  return snappings;
+};
