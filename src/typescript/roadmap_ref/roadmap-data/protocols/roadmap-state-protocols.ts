@@ -13,7 +13,7 @@ import { setAllDraggableFalse } from '@store/roadmap-refactor/elements-editing/d
 import { setDisplayPageType } from '@store/roadmap-refactor/display/display-manager';
 import { removeAllEffects } from '@store/roadmap-refactor/elements-editing/element-effects';
 import { toggleRoadmapEditing } from '@store/roadmap-refactor/roadmap-data/roadmap_state';
-import { updateRoadmapData } from '../../../../api-wrapper/roadmap/roadmaps';
+import { updateRoadmapData } from '@src/api-wrapper/roadmap/roadmaps';
 
 export function enterEditingModeProtocol() {
   const deepCopyRoadmap = deepCopy(roadmapSelector.get());

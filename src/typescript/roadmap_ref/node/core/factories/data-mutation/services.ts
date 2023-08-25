@@ -4,7 +4,7 @@ import {
 } from '@type/roadmap/node/colors-types';
 import { colorThemes } from '@src/typescript/roadmap_ref/node/core/color-themes';
 
-export function selectNodeColorScheme(
+export function selectNodeColorFromScheme(
   colorTheme: IColorThemesOptions,
   colorType: IColorThemesColors
 ) {

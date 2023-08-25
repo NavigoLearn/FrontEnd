@@ -20,6 +20,13 @@ export const getRootNodesIds = () => {
   return roadmapSelector.get().rootNodesIds;
 };
 
+export const getNonRootNodesIds = () => {
+  // makes diff between all nodes and root nodes
+  const allNodesIds = Object.keys(roadmapSelector.get().nodes);
+  const rootNodesIds = getRootNodesIds();
+  return allNodesIds.filter((nodeId) => !rootNodesIds.includes(nodeId));
+};
+
 export const getConnectionByIdRoadmapSelector = (id: string) => {
   return roadmapSelector.get().connections[id];
 };
@@ -41,7 +48,15 @@ export const getIsRenderedOnRoadmap = (nodeId: string) => {
   return renderedNodes.includes(nodeId);
 };
 
-export const getNodeAbsoluteCoords = (nodeId: string): ICoords => {
+export const getNodeAdjacentNodesIds = (nodeId: string): string[] => {
+  const node = getNodeByIdRoadmapSelector(nodeId);
+  const parentNode = getNodeByIdRoadmapSelector(node.properties.nestedWithin);
+  const parentSubNodesIds = parentNode.subNodeIds;
+  return parentSubNodesIds.filter((subNodeId) => subNodeId !== nodeId);
+};
+
+export const getNodeAbsoluteCoordsCenter = (nodeId: string): ICoords => {
+  // gives top left corner in absolute coords of a node
   let tracebackOffsetX = 0;
   let tracebackOffsetY = 0;
   const traceback = getTracebackNodeToRoot(nodeId);
@@ -52,21 +67,19 @@ export const getNodeAbsoluteCoords = (nodeId: string): ICoords => {
     const { coords: traceCoords } = traceNode.data;
     const { x: traceX, y: traceY } = traceCoords;
     const { width: traceWidth, height: traceHeight } = traceNode.data;
-    tracebackOffsetX += traceX + traceWidth / 2;
-    tracebackOffsetY += traceY + traceHeight / 2;
+    if (traceNode.flags.renderedOnRoadmapFlag) {
+      tracebackOffsetX += traceX + traceWidth / 2;
+      tracebackOffsetY += traceY + traceHeight / 2;
+    } else {
+      tracebackOffsetX += traceX;
+      tracebackOffsetY += traceY;
+    }
   });
   return { x: tracebackOffsetX, y: tracebackOffsetY };
 };
 
 export const getNodeCenterAbsoluteCoords = (nodeId: string) => {
-  const node = getNodeByIdRoadmapSelector(nodeId);
-  if (node.flags.renderedOnRoadmapFlag) {
-    // normal node
-    const x = node.data.coords.x + node.data.width / 2;
-    const y = node.data.coords.y + node.data.height / 2;
-    return { x, y };
-  }
-  // nested case
-  const { x, y } = getNodeAbsoluteCoords(nodeId);
+  // Too lazy to delete and reimport everywhere
+  const { x, y } = getNodeAbsoluteCoordsCenter(nodeId);
   return { x, y };
 };

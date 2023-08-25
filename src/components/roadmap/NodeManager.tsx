@@ -29,11 +29,13 @@ const NodeManager = ({ node }: NodeManagerProps) => {
 
   const renderNode = () => {
     const { id } = node;
-    const centerOffset = { x: 0, y: 0 };
     return (
       <NodeRenderer
         nodeId={id}
-        centerOffset={centerOffset}
+        centerOffset={{
+          x: 0,
+          y: 0,
+        }}
         divSizeCallback={(divRef) => setForeignObjectSize(divRef)}
       />
     );

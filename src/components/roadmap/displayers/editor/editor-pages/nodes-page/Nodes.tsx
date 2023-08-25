@@ -4,6 +4,8 @@ import editorSelectedData from '@store/roadmap-refactor/elements-editing/editor-
 import NodeComponent from '@components/roadmap/displayers/editor/editor-pages/nodes-page/NodeComponent';
 import { getNodeByIdRoadmapSelector } from '@src/typescript/roadmap_ref/roadmap-data/services/get';
 import DropdownPlus from '@src/UI-library/svg-animations/dropdownplus/DropdownPlus';
+import { appendSubNodeId } from '@src/typescript/roadmap_ref/node/core/data-mutation/append';
+import { appendSubNode } from '@src/typescript/roadmap_ref/roadmap-data/protocols/append';
 
 const Nodes = () => {
   const { selectedNodeId } = useStore(editorSelectedData);
@@ -15,6 +17,9 @@ const Nodes = () => {
         <button
           type='button'
           className='text-xl text-darkBlue font-medium font-roboto-text text-center flex justify-between items-center w-full h-full px-5'
+          onClick={() => {
+            appendSubNode(node);
+          }}
         >
           Add nested node
           <DropdownPlus />

@@ -3,7 +3,10 @@ import {
   IColorThemesOptions,
 } from '@type/roadmap/node/colors-types';
 
-import { selectNodeColorScheme } from '@src/typescript/roadmap_ref/node/core/factories/data-mutation/services';
+import {
+  selectNodeColorFromScheme,
+  selectNodeColorText,
+} from '@src/typescript/roadmap_ref/node/core/factories/data-mutation/services';
 import {
   defaultColorThemeOption,
   defaultNodeHeight,
@@ -11,27 +14,19 @@ import {
   defaultNodeWidth,
 } from '@src/typescript/roadmap_ref/node/core/factories/params/default-params';
 import { IFontSizeType } from '@type/roadmap/node/components-types';
+import { get } from 'http';
 import { deepCopy } from '../../utils';
-import { selectNodeColorText } from '@src/typescript/roadmap_ref/node/core/factories/data-mutation/services';
 
 export class Data {
   /* Used to manage all the possible data of a node */
 
-  private colorTypePrivate: IColorThemesColors;
-
-  colorTheme: IColorThemesOptions;
-
-  textColor: string;
-
-  color: string;
+  colorType: IColorThemesColors;
 
   width: number;
 
   height: number;
 
   opacity: number;
-
-  fontSizeType: IFontSizeType;
 
   center: {
     x: number;
@@ -44,20 +39,9 @@ export class Data {
   };
 
   // setter does not work
-  set colorType(colorType: IColorThemesColors) {
-    this.color = selectNodeColorScheme(this.colorTheme, colorType);
-    this.colorTypePrivate = colorType;
-  }
-
-  get colorType(): IColorThemesColors {
-    return this.colorTypePrivate;
-  }
 
   constructor() {
-    this.colorTheme = defaultColorThemeOption;
     this.colorType = 'primary';
-    this.textColor = selectNodeColorText(this.colorTheme, this.colorType);
-    this.color = selectNodeColorScheme(this.colorTheme, this.colorType);
     this.width = defaultNodeWidth;
     this.height = defaultNodeHeight;
     this.opacity = defaultNodeOpacity;

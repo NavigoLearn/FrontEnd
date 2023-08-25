@@ -2,26 +2,39 @@ import React, { useRef } from 'react';
 import { calculateComponentsPositions } from '@src/to-be-organized/nodeview/logic';
 import { NodeClass } from '@src/typescript/roadmap_ref/node/core/core';
 import { IComponentObject } from '@type/roadmap/node/components-types';
+import { selectNodeColorText } from '@src/typescript/roadmap_ref/node/core/factories/data-mutation/services';
+import { getColorThemeFromRoadmap } from '@components/roadmap/displayers/setup-screen/theme-controler';
 
 type IComponentElementProps = {
   component: IComponentObject;
   position: { x: number; y: number };
+  parentNode: NodeClass;
 };
 
-const ComponentRenderer = ({ component, position }: IComponentElementProps) => {
-  const { id, type, width, height, text, textColor, textFont, textSize } =
-    component;
+const ComponentRenderer = ({
+  component,
+  position,
+  parentNode,
+}: IComponentElementProps) => {
+  const { id, type, width, height, text, textFont, textSize } = component;
+  const { colorType } = parentNode.data;
   const objRef = useRef(null);
+  // text color is based on the node color
+  const theme = getColorThemeFromRoadmap();
+
+  const textColor = selectNodeColorText(theme, colorType);
+  // font weight and font size will per component and be ni the component itself
 
   return (
     <div
       ref={objRef}
       key={component.id}
       id={`div${id}`}
-      className=' items-center absolute overflow-hidden border-black border-2'
+      className=' items-center absolute overflow-hidden select-none'
       style={{
-        textDecorationColor: textColor,
-        textSizeAdjust: `${textSize}%`,
+        color: textColor,
+        fontSize: `18px`,
+        fontWeight: '450',
         textAlign: 'center',
         fontFamily: textFont,
         width: `${width}px`,
@@ -30,8 +43,10 @@ const ComponentRenderer = ({ component, position }: IComponentElementProps) => {
         left: `${position.x}px`,
       }}
     >
-      {type === 'Title' && <h1 className='text-center'>{text}</h1>}
-      {type === 'Description' && <p className='text-center'>{text}</p>}
+      {type === 'Title' && <h1 className='text-center select-none'>{text}</h1>}
+      {type === 'Description' && (
+        <p className='text-center select-none'>{text}</p>
+      )}
       {/* Add more conditions for other component types */}
     </div>
   );
@@ -42,13 +57,14 @@ export const componentsRenderer = (node: NodeClass) => {
   const positions = calculateComponentsPositions(node);
 
   return (
-    <div className='components-container'>
+    <div className='components-container select-none'>
       {components.map((component, index) => {
         return (
           <ComponentRenderer
             key={component.id}
             component={component}
             position={positions[index]}
+            parentNode={node}
           />
         );
       })}

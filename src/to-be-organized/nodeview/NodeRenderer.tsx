@@ -4,8 +4,15 @@ import React, { useEffect, useRef, Component } from 'react';
 import { afterEventLoop } from '@src/typescript/utils/misc';
 import { componentsRenderer } from '@src/to-be-organized/nodeview/ComponentsRenderer';
 import { useTriggerRerender } from '@hooks/useTriggerRerender';
-import { setTriggerRender } from '@store/roadmap-refactor/render/rerender-triggers-nodes';
-import { getNodeByIdRoadmapSelector } from '@src/typescript/roadmap_ref/roadmap-data/services/get';
+import {
+  setTriggerRender,
+  triggerNodeRerender,
+} from '@store/roadmap-refactor/render/rerender-triggers-nodes';
+import {
+  getNodeAdjacentNodesIds,
+  getNodeByIdRoadmapSelector,
+  getRootNodesIds,
+} from '@src/typescript/roadmap_ref/roadmap-data/services/get';
 import {
   getOnClickAction,
   getOnMouseOutAction,
@@ -26,9 +33,21 @@ import { getIsEditing } from '@store/roadmap-refactor/roadmap-data/roadmap_state
 import DraggingResizeElement from '@src/to-be-organized/DraggingResizeElement';
 import {
   mutateNodeHeight,
+  mutateNodeHeightWhileKeepingCenter,
   mutateNodeWidth,
+  mutateNodeWidthWhileKeepingCenter,
 } from '@src/typescript/roadmap_ref/node/core/data-mutation/mutate';
-import { getElementIsDraggable } from '@store/roadmap-refactor/elements-editing/draggable-elements';
+import {
+  getElementIsDraggable,
+  setDraggabilityAllElements,
+  setDraggableElement,
+} from '@store/roadmap-refactor/elements-editing/draggable-elements';
+import { snapNodeWidthHeight } from '@src/typescript/roadmap_ref/snapping/core';
+import {
+  selectNodeColorFromScheme,
+  selectNodeColorText,
+} from '@src/typescript/roadmap_ref/node/core/factories/data-mutation/services';
+import { getColorThemeFromRoadmap } from '@components/roadmap/displayers/setup-screen/theme-controler';
 
 interface NodeViewProps {
   nodeId: string;
@@ -47,8 +66,7 @@ const NodeRenderer: React.FC<NodeViewProps> = ({
   const renderNode = (nodeId: string) => {
     const loaded = useIsLoaded();
     const node = getNodeByIdRoadmapSelector(nodeId);
-    const { color, width, height, opacity, fontSizeType, textColor } =
-      node.data;
+    const { width, height, opacity, colorType } = node.data;
     node.data.center.x = width / 2;
     const { subNodeIds } = node;
     // Function to render each subnode
@@ -134,6 +152,11 @@ const NodeRenderer: React.FC<NodeViewProps> = ({
 
     const bgOpacity = opacity / 100;
 
+    const color = selectNodeColorFromScheme(
+      getColorThemeFromRoadmap(),
+      colorType
+    );
+
     const style = {
       // color: textColor,
       backgroundColor: `rgba(${parseInt(color.slice(1, 3), 16)}, ${parseInt(
@@ -145,7 +168,6 @@ const NodeRenderer: React.FC<NodeViewProps> = ({
       height: `${height}px`,
       top: `${calculatedOffsetCoords.y + coords.y}px`,
       left: `${calculatedOffsetCoords.x + coords.x}px`,
-      fontSize: FontSizeValues[fontSizeType],
       opacity: `${getNodeOpacity(node)}`,
     };
 
@@ -163,8 +185,6 @@ const NodeRenderer: React.FC<NodeViewProps> = ({
     });
 
     const isRoot = node.flags.renderedOnRoadmapFlag;
-    const firstDrag = true;
-
     return (
       // eslint-disable-next-line jsx-a11y/click-events-have-key-events,jsx-a11y/mouse-events-have-key-events,jsx-a11y/no-static-element-interactions
       <div
@@ -188,7 +208,7 @@ const NodeRenderer: React.FC<NodeViewProps> = ({
       >
         {!editing && (
           <div
-            className={`w-8 h-8 -left-4 -top-4 absolute rounded-full ${getStatusCircleStyle(
+            className={`w-8 h-8 -left-4 -top-4 absolute rounded-full select-none ${getStatusCircleStyle(
               node
             )}`}
           />
@@ -199,10 +219,29 @@ const NodeRenderer: React.FC<NodeViewProps> = ({
             height,
           }}
           heightCallback={(height) => {
-            mutateNodeHeight(node, height);
+            mutateNodeHeightWhileKeepingCenter(node, height);
+            triggerNodeRerender(nodeId);
           }}
-          widthCallback={() => {
-            mutateNodeWidth(node, width);
+          widthCallback={(width) => {
+            mutateNodeWidthWhileKeepingCenter(node, width);
+            triggerNodeRerender(nodeId);
+          }}
+          snappingCallback={(width, height) => {
+            const rootNode = node.flags.renderedOnRoadmapFlag;
+            const nodesToSnapTo = rootNode
+              ? getRootNodesIds()
+              : getNodeAdjacentNodesIds(nodeId);
+            // snapping node corners ( ͡° ͜ʖ ͡°) so width and height will also snap I hope
+            const { width: newWidth, height: newHeight } = snapNodeWidthHeight(
+              node.id,
+              nodesToSnapTo,
+              width,
+              height
+            );
+            return {
+              width: newWidth,
+              height: newHeight,
+            };
           }}
         />
 

@@ -8,7 +8,7 @@ import {
   setOwnerId,
   setRoadmapId,
 } from '@store/roadmap-refactor/roadmap-data/roadmap-visit-data';
-import { setTabAboutFromApi } from '@store/roadmap-refactor/roadmap-data/about';
+import { setTabAboutFromApi } from '@store/roadmap-refactor/roadmap-data/roadmap-about';
 import { setLoadedTrue } from '@src/typescript/roadmap_ref/utils';
 import miscParams from '@store/roadmap-refactor/misc/misc-params-store';
 

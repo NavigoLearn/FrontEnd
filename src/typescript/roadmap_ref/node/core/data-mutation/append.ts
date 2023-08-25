@@ -19,7 +19,7 @@ export function appendComponent(
   node.components.push(component);
 }
 
-export function appendSubNode(node: NodeClass, id: string) {
+export function appendSubNodeId(node: NodeClass, id: string) {
   node.subNodeIds.push(id);
 }
 

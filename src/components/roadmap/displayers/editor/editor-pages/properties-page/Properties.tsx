@@ -22,6 +22,8 @@ import DraggableInput from '@src/UI-library/DraggableInput';
 import DropdownWhiteSelect from '@components/roadmap/displayers/editor/reusable-components/DropdownWhiteSelect';
 import DropdownGreyAdd from '@src/components/roadmap/displayers/editor/reusable-components/DropdownWhiteAdd';
 import { mutateActionLink } from '@src/typescript/roadmap_ref/node/core/actions/mutate';
+import { getColorThemeFromRoadmap } from '@components/roadmap/displayers/setup-screen/theme-controler';
+import { IActionTypes } from '@src/typescript/roadmap_ref/node/core/actions/core';
 
 type IActionsDropdown = {
   action: string;
@@ -198,7 +200,7 @@ const Properties = () => {
         </h5>
         <VariantsComponent
           selectedColor={node.data.colorType}
-          selectedTheme={node.data.colorTheme}
+          selectedTheme={getColorThemeFromRoadmap()}
           node={node}
         />
       </div>
@@ -268,7 +270,7 @@ const Properties = () => {
       </div>
       <DropdownGreyAdd
         text='Add action'
-        onSelect={(actionName: string) => {
+        onSelect={(actionName: IActionTypes) => {
           mutateNodeOnClickAction(node, actionName);
           triggerRerenderEditor();
         }}

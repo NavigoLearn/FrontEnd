@@ -12,7 +12,7 @@ import { setDisplayPageType } from '@store/roadmap-refactor/display/display-mana
 import { setSelectedNodeId } from '@store/roadmap-refactor/elements-editing/editor-selected-data';
 import roadmapState from '@store/roadmap-refactor/roadmap-data/roadmap_state';
 import {
-  getNodeAbsoluteCoords,
+  getNodeAbsoluteCoordsCenter,
   getNodeByIdRoadmapSelector,
 } from '@src/typescript/roadmap_ref/roadmap-data/services/get';
 import {
@@ -46,7 +46,7 @@ export function moveRoadmapToNode(nodeId: string) {
   const wOffsetX = window.innerWidth / 2;
   const wOffsetY = window.innerHeight / 2;
 
-  const { x, y } = getNodeAbsoluteCoords(nodeId);
+  const { x, y } = getNodeAbsoluteCoordsCenter(nodeId);
   const tracebackOffsetX = x;
   const tracebackOffsetY = y;
 

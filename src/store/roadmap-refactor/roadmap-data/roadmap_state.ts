@@ -8,6 +8,7 @@ const roadmapState = atom({
   rerender: false, // used to rerender roadmap
   id: '', // the id of the roadmap
   userId: '',
+  starterTab: false,
 } as {
   editing: boolean;
   save: boolean;
@@ -16,6 +17,7 @@ const roadmapState = atom({
   rerender: boolean;
   id: string;
   userId: string;
+  starterTab: boolean;
 });
 
 export default roadmapState;

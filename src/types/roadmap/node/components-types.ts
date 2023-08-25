@@ -6,6 +6,7 @@ import {
 export type IComponentObject = ComponentTitle | ComponentDescription;
 
 export type IFontSizeType = 'normal' | 'large' | 'small';
+export type IFontWeightType = 'normal' | 'bold';
 
 export const FontSizeValues: Record<IFontSizeType, string> = {
   normal: '1.2rem',
