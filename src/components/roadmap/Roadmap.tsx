@@ -1,6 +1,5 @@
 import React, { useEffect, useRef } from 'react';
 import {
-  factoryRoadmapFirstAttempt,
   factoryRoadmapClassic,
 } from '@src/typescript/roadmap_ref/roadmap-templates/classic';
 import renderNodesStore from '@store/roadmap-refactor/render/rendered-nodes';
@@ -100,7 +99,7 @@ const Roadmap = ({
       }
     );
 
-    if (!isCreate) setRoadmapId(pageId);
+    if (!isCreate) setRoadmapId(roadmap.id);
     else setRoadmapId(uuid4());
     // fetches the roadmap-roadmap-data from the api-wrapper
     // ...
