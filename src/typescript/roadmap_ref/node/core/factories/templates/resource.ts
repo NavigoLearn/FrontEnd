@@ -8,7 +8,7 @@ import {
   appendAttachment,
   appendComponent,
 } from '@src/typescript/roadmap_ref/node/core/data-mutation/append';
-import { factoryComponentTitleEmpty } from '@src/typescript/roadmap_ref/node/components/text/factories';
+import { factoryComponentTextEmpty } from '@src/typescript/roadmap_ref/node/components/text/factories';
 import { factoryAttachmentTabEmpty } from '@src/typescript/roadmap_ref/node/attachments/tab/factory';
 
 export function nodeFactoryResourceBoilerplate(): NodeClass {
@@ -18,7 +18,7 @@ export function nodeFactoryResourceBoilerplate(): NodeClass {
   injectClassicFlags(node);
   injectNewRandomId(node);
   injectClassicData(node, 'someparent', []);
-  appendComponent(node, factoryComponentTitleEmpty(node.id));
+  appendComponent(node, factoryComponentTextEmpty(node.id));
   appendAttachment(node, factoryAttachmentTabEmpty());
 
   return node;

@@ -13,6 +13,7 @@ import renderNodesStore from '@store/roadmap-refactor/render/rendered-nodes';
 import { getComponentById } from '@src/typescript/roadmap_ref/node/core/data-get/components';
 import { setSnappings } from '@store/roadmap-refactor/render/snapping-lines';
 import { snapCoordsToPositions } from '@src/typescript/roadmap_ref/snapping/core';
+import { getNodeCornerPositions } from '@src/typescript/roadmap_ref/snapping/generate-positions';
 
 export const draggingStrategyFree = (draggingBehavior, newX, newY) => {
   return {
@@ -183,17 +184,17 @@ export const draggingStrategySnapRoadmapRootNodes = (
 ) => {
   // we snap root roadmap nodes-page
   // get positions of all root nodes-page
-  const rootNodes = getRootNodesIds();
+  const rootNodesIds = getRootNodesIds();
   const renderedNodes = renderNodesStore.get().nodesIds;
   // filter out nodes-page that are not rendered
-  const filteredRootNodes = rootNodes.filter((nodeId) => {
+  const filteredRootNodes = rootNodesIds.filter((nodeId) => {
     return (
       renderedNodes.includes(nodeId) &&
       nodeId !== draggingBehavior.draggingElementId
     );
   });
 
-  const rootNodesPositions = filteredRootNodes.map((nodeId) => {
+  const rootNodesPositionsCenter = filteredRootNodes.map((nodeId) => {
     const node = getNodeByIdRoadmapSelector(nodeId);
     // returns the centers of the nodes since the roots are positioned by top left corner
     return {
@@ -201,6 +202,16 @@ export const draggingStrategySnapRoadmapRootNodes = (
       y: node.data.coords.y + node.data.height / 2,
     };
   });
+  const rootNodesPositionsCorners = [];
+  rootNodesIds.forEach((nodeId) => {
+    if (nodeId === draggingBehavior.draggingElementId) return;
+    const corners = getNodeCornerPositions(nodeId);
+    rootNodesPositionsCorners.push(...corners);
+  });
+  const rootNodesPositions = [
+    ...rootNodesPositionsCenter,
+    ...rootNodesPositionsCorners,
+  ];
 
   const node = getNodeByIdRoadmapSelector(draggingBehavior.draggingElementId);
   const { width, height } = node.data;

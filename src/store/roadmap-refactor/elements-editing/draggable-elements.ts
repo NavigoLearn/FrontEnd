@@ -61,6 +61,17 @@ export function getElementDraggable(id: string) {
 export function getElementIsDraggable(id: string) {
   return draggableElements.get().draggableElements[id];
 }
+export function setAllDraggableTrue() {
+  const originalDraggables = draggableElements.get();
+  const newDraggables = {
+    ...originalDraggables,
+    draggableElements: {},
+  };
+  Object.keys(originalDraggables.draggableElements).forEach((key) => {
+    setDraggableElement(key, true);
+  });
+  draggableElements.set(newDraggables);
+}
 export function setAllDraggableFalse() {
   const originalDraggables = draggableElements.get();
   const newDraggables = {
@@ -93,12 +104,8 @@ export function setDraggableElementForNodeWithId(id: string) {
   });
 }
 
-export function setRoadmapRootRenderDraggable() {
-  setAllDraggableFalse();
-  const rootNodesIds = getRootNodesIds();
-  rootNodesIds.forEach((rootNodeId) => {
-    setDraggableElement(rootNodeId, true);
-  });
+export function closeEditorDraggabilitySettings() {
+  setAllDraggableTrue();
 }
 
 export default draggableElements;

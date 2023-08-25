@@ -5,13 +5,11 @@ import {
   mutateAttachmentTabComponentTitle,
 } from '@src/typescript/roadmap_ref/node/attachments/tab/mutate';
 import {
-  mutateComponentDescriptionX,
-  mutateComponentDescriptionY,
-  mutateComponentTitleHeight,
-  mutateComponentTitleText,
-  mutateComponentTitleWidth,
-  mutateComponentTitleX,
-  mutateComponentTitleY,
+  mutateComponentTextHeight,
+  mutateComponentTextText,
+  mutateComponentTextWidth,
+  mutateComponentTextX,
+  mutateComponentTextY,
 } from '@src/typescript/roadmap_ref/node/components/text/mutate';
 import {
   mutateNodeCoordX,
@@ -20,7 +18,6 @@ import {
   mutateNodeOpacity,
   mutateNodeWidth,
 } from '@src/typescript/roadmap_ref/node/core/data-mutation/mutate';
-import { factoryComponentDescriptionEmpty } from '@src/typescript/roadmap_ref/node/components/text/factories';
 import { appendComponent } from '@src/typescript/roadmap_ref/node/core/data-mutation/append';
 
 describe('Components logic', () => {
@@ -51,8 +48,8 @@ describe('Components logic', () => {
     const componentIndex = 0;
     const component = node.components[componentIndex];
     const newPosition = { x: 100, y: 100 };
-    mutateComponentTitleHeight(component, 100);
-    mutateComponentTitleWidth(component, 100);
+    mutateComponentTextHeight(component, 100);
+    mutateComponentTextWidth(component, 100);
     expect(component.width).toBe(100);
     expect(component.height).toBe(100);
   });
@@ -95,7 +92,7 @@ describe('Components logic', () => {
   it('should mutate the component title text', () => {
     const component = node.components[0];
     const text = 'New Text';
-    mutateComponentTitleText(component, text);
+    mutateComponentTextText(component, text);
     expect(component.text).toBe(text);
   });
 
@@ -103,20 +100,8 @@ describe('Components logic', () => {
     const component = node.components[0];
     const x = 20;
     const y = 20;
-    mutateComponentTitleX(component, x);
-    mutateComponentTitleY(component, y);
-    expect(component.x).toBe(x);
-    expect(component.y).toBe(y);
-  });
-
-  it('should mutate the component description position', () => {
-    const descriptionComponent = factoryComponentDescriptionEmpty(node.id);
-    appendComponent(node, descriptionComponent);
-    const component = node.components[1];
-    const x = 20;
-    const y = 20;
-    mutateComponentDescriptionX(component, x);
-    mutateComponentDescriptionY(component, y);
+    mutateComponentTextX(component, x);
+    mutateComponentTextY(component, y);
     expect(component.x).toBe(x);
     expect(component.y).toBe(y);
   });

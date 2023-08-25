@@ -33,7 +33,7 @@ export function nodeFactoryClassicBoilerplate(id?: string): NodeClass {
   id ? injectNewId(node, id) : injectNewRandomId(node);
   injectClassicData(node, '', []);
 
-  appendComponent(node, factoryComponentEmpty('Title', node.id));
+  appendComponent(node, factoryComponentEmpty('Text', node.id));
   appendAttachmentTabStandard(node);
   const draggingBehavior = draggingBehaviorFactoryRoadmapNode(node.id);
   injectDraggingStrategy(draggingBehavior, 'snap');

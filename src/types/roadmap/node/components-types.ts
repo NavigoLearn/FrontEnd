@@ -1,9 +1,6 @@
-import {
-  ComponentDescription,
-  ComponentTitle,
-} from '@src/typescript/roadmap_ref/node/components/text/core';
+import { ComponentText } from '@src/typescript/roadmap_ref/node/components/text/core';
 
-export type IComponentObject = ComponentTitle | ComponentDescription;
+export type IComponentObject = ComponentText;
 
 export type IFontSizeType = 'normal' | 'large' | 'small';
 export type IFontWeightType = 'normal' | 'bold';

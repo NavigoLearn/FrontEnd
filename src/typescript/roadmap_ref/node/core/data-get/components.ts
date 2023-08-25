@@ -1,9 +1,6 @@
 import { NodeClass } from '@src/typescript/roadmap_ref/node/core/core';
 import { IComponentObject } from '@type/roadmap/node/components-types';
-import {
-  ComponentDescription,
-  ComponentTitle,
-} from '@src/typescript/roadmap_ref/node/components/text/core';
+import { ComponentText } from '@src/typescript/roadmap_ref/node/components/text/core';
 
 export function getComponentById(
   node: NodeClass,
@@ -13,47 +10,17 @@ export function getComponentById(
   return node.components[index];
 }
 
-export function getComponentTitleById(
+export function getComponentTextById(
   node: NodeClass,
   id: string
-): ComponentTitle {
+): ComponentText {
   const component = getComponentById(node, id);
-  if (component.type === 'Title') {
+  if (component.type === 'Text') {
     return component;
   }
   throw new Error(`Component is not a TitleComponent${id} `);
 }
 
-export function getComponentDescriptionById(
-  node: NodeClass,
-  id: string
-): ComponentDescription {
-  const component = getComponentById(node, id);
-  if (component.type === 'Description') {
-    return component;
-  }
-  throw new Error('Component is not a Description component');
-}
-
-export function getComponentTitleTextById(node: NodeClass, id: string): string {
-  const component = getComponentTitleById(node, id);
-  return component.text;
-}
-
-export function getComponentDescriptionTextById(
-  node: NodeClass,
-  id: string
-): string {
-  const component = getComponentDescriptionById(node, id);
-  return component.text;
-}
-
-export function getComponentTitleText(componentTitle: ComponentTitle) {
-  return componentTitle.text;
-}
-
-export function getComponentDescriptionText(
-  componentDescription: ComponentDescription
-) {
-  return componentDescription.text;
+export function getComponentTextText(componentText: ComponentText) {
+  return componentText.text;
 }

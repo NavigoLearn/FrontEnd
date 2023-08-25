@@ -149,7 +149,10 @@ const DraggingResizeElement = ({
   // -1.5px accounts for the borders of the node and the resize div
 
   return (
-    <div ref={wrapperDiv} className=' top-[-1.5px] left-[-1.5px] absolute'>
+    <div
+      ref={wrapperDiv}
+      className=' top-[-1.5px] left-[-1.5px] absolute pointer-events-auto '
+    >
       <div
         onMouseOverCapture={(e) => {}}
         onMouseDownCapture={(e) => {

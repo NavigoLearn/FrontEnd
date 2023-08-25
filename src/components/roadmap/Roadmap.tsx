@@ -1,5 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { factoryRoadmapClassic } from '@src/typescript/roadmap_ref/roadmap-templates/classic';
+import {
+  factoryRoadmapClassic,
+  factoryRoadmapFirstAttempt,
+} from '@src/typescript/roadmap_ref/roadmap-templates/classic';
 import renderNodesStore from '@store/roadmap-refactor/render/rendered-nodes';
 import {
   setChunkRerenderTrigger,
@@ -37,6 +40,7 @@ import {
   setRoadmapEnableDrag,
 } from '@store/roadmap-refactor/roadmap-data/roadmap-functions-utils';
 import Notifications from '@src/UI-library/Notifications';
+import draggableElements from '@store/roadmap-refactor/elements-editing/draggable-elements';
 import Popup from './tabs/popups/Popup';
 
 export function initializeRoadmapAfterLoad() {
@@ -88,8 +92,8 @@ const Roadmap = ({
   useEffect(() => {
     // dummmy data
     if (!isCreate) return;
-    // factoryRoadmapFirstAttempt();
-    factoryRoadmapClassic();
+    factoryRoadmapFirstAttempt();
+    // factoryRoadmapClassic();
   }, []);
 
   const disableRoadmapDrag = () => {

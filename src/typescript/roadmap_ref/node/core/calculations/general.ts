@@ -1,5 +1,4 @@
 import { NodeClass } from '@src/typescript/roadmap_ref/node/core/core';
-import { v4 as uuidv4 } from 'uuid';
 import chunksStore from '@store/roadmap-refactor/render/rendered-chunks';
 import { injectChunkData } from '@src/typescript/roadmap_ref/node/core/factories/data-mutation/inject';
 
@@ -30,8 +29,4 @@ export function recalculateNodeChunks(node: NodeClass) {
     }
   }
   injectChunkData(node, chunks);
-}
-
-export function randomId() {
-  return uuidv4();
 }

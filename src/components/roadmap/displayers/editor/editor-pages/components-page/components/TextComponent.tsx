@@ -2,12 +2,12 @@ import React from 'react';
 import { deleteComponentWithId } from '@src/typescript/roadmap_ref/node/core/data-mutation/delete';
 import { tailwindTransitionClass } from '@src/UI-library/tailwind-utils';
 import {
-  getComponentTitleById,
-  getComponentTitleText,
+  getComponentTextById,
+  getComponentTextText,
 } from '@src/typescript/roadmap_ref/node/core/data-get/components';
 import {
-  mutateComponentTitleText,
-  mutateComponentTitleWidth,
+  mutateComponentTextText,
+  mutateComponentTextWidth,
 } from '@src/typescript/roadmap_ref/node/components/text/mutate';
 import { useTriggerRerender } from '@hooks/useTriggerRerender';
 import { NodeClass } from '@src/typescript/roadmap_ref/node/core/core';
@@ -27,10 +27,10 @@ function checkInvalidInput(value: string) {
   return false;
 }
 
-const TitleComponent = ({ node, id, name }: TitleComponentProps) => {
+const TextComponent = ({ node, id, name }: TitleComponentProps) => {
   const rerender = useTriggerRerender();
   // is opened and node is selected
-  const titleComponent = getComponentTitleById(node, id);
+  const titleComponent = getComponentTextById(node, id);
   // cache component
 
   return (
@@ -39,10 +39,10 @@ const TitleComponent = ({ node, id, name }: TitleComponentProps) => {
         <input
           className={`flex-grow border-2 border-gray-400 h-16 rounded-lg text-darkBlue text-lg pl-4 font-medium focus:border-black ${tailwindTransitionClass}`}
           placeholder={name}
-          value={getComponentTitleText(titleComponent)}
+          value={getComponentTextText(titleComponent)}
           onChange={(event) => {
             const { value } = event.target;
-            mutateComponentTitleText(titleComponent, value);
+            mutateComponentTextText(titleComponent, value);
             rerender();
             triggerNodeRerender(node.id);
           }}
@@ -66,7 +66,7 @@ const TitleComponent = ({ node, id, name }: TitleComponentProps) => {
             const newValue = parseInt(value, 10);
             if (checkInvalidInput(value)) return;
             if (newValue < 0) return;
-            mutateComponentTitleWidth(titleComponent, newValue);
+            mutateComponentTextWidth(titleComponent, newValue);
             rerender();
             triggerNodeRerender(node.id);
           }}
@@ -88,4 +88,4 @@ const TitleComponent = ({ node, id, name }: TitleComponentProps) => {
   );
 };
 
-export default TitleComponent;
+export default TextComponent;
