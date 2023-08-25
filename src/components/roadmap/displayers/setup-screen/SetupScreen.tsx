@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import exit from '../../../../../public/editor/close.svg';
 import ThemeSelector from './pages/ThemeSelector';
 import TitleSelector from './pages/TitleSelector';
+import { initializeRoadmapAfterLoad } from '../../Roadmap';
 
 const SetupScreen = ({ isCreate }: { isCreate: boolean }) => {
   const [activeTab, setActiveTab] = useState(0);
@@ -36,7 +37,13 @@ const SetupScreen = ({ isCreate }: { isCreate: boolean }) => {
           <div className='font-kanit-text text-black text-xl'>
             First things first
           </div>
-          <button type='button' onClick={() => handleExit()}>
+          <button
+            type='button'
+            onClick={() => {
+              handleExit();
+              initializeRoadmapAfterLoad();
+            }}
+          >
             <img src={exit} alt='exitButton' className='w-7 h-7' />
           </button>
         </div>

@@ -40,6 +40,13 @@ import {
 } from '@store/roadmap-refactor/roadmap-data/roadmap-functions-utils';
 import Popup from './tabs/popups/Popup';
 
+export function initializeRoadmapAfterLoad() {
+  applyRoadmapElementsDraggability();
+  setRoadmapIsLoaded();
+  triggerChunkRerender();
+  triggerRecenterRoadmap();
+}
+
 const Roadmap = ({
   pageId,
   roadmap,
@@ -80,13 +87,6 @@ const Roadmap = ({
     disableRoadmapDragZoom('rootSvg');
   };
 
-  function initializeRoadmapAfterLoad() {
-    applyRoadmapElementsDraggability();
-    setRoadmapIsLoaded();
-    triggerChunkRerender();
-    triggerRecenterRoadmap();
-  }
-
   useEffect(() => {
     // renderer object that handles chunking
     chunkRenderer.current = recalculateChunks('rootSvg');
@@ -108,10 +108,6 @@ const Roadmap = ({
       setRoadmapFromData(roadmap).then(() => {
         initializeRoadmapAfterLoad();
       });
-
-    afterEventLoop(() => {
-      isCreate && initializeRoadmapAfterLoad();
-    });
 
     setRoadmapDisableDrag(disableRoadmapDrag);
     setRoadmapEnableDrag(enableRoadmapDrag);
