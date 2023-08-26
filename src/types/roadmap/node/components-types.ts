@@ -5,11 +5,22 @@ import {
 
 export type IComponentObject = ComponentTitle | ComponentDescription;
 
-export type IFontSizeType = 'normal' | 'large' | 'small';
-export type IFontWeightType = 'normal' | 'bold';
+export interface ITextWidthStyle {
+  fontWeight: '300' | '450' | '650';
+}
 
-export const FontSizeValues: Record<IFontSizeType, string> = {
-  normal: '1.2rem',
-  large: '1.6rem',
-  small: '0.8rem',
-};
+export interface ITextSizeStyle {
+  fontSize: string;
+}
+
+export interface ITextWidthModes {
+  thin: ITextWidthStyle;
+  normal: ITextWidthStyle;
+  thick: ITextWidthStyle;
+}
+
+export interface ITextSizeModes {
+  small: ITextSizeStyle;
+  normal: ITextSizeStyle;
+  large: ITextSizeStyle;
+}

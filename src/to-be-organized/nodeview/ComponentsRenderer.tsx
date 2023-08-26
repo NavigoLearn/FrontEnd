@@ -2,7 +2,11 @@ import React, { useRef } from 'react';
 import { calculateComponentsPositions } from '@src/to-be-organized/nodeview/logic';
 import { NodeClass } from '@src/typescript/roadmap_ref/node/core/core';
 import { IComponentObject } from '@type/roadmap/node/components-types';
-import { selectNodeColorText } from '@src/typescript/roadmap_ref/node/core/factories/data-mutation/services';
+import {
+  selectNodeColorText,
+  selectTextFontWeight,
+  selectTextFontSize,
+} from '@src/typescript/roadmap_ref/node/core/factories/data-mutation/services';
 import { getColorThemeFromRoadmap } from '@components/roadmap/displayers/setup-screen/theme-controler';
 
 type IComponentElementProps = {
@@ -23,6 +27,12 @@ const ComponentRenderer = ({
   const theme = getColorThemeFromRoadmap();
 
   const textColor = selectNodeColorText(theme, colorType);
+
+  const textWeight = selectTextFontWeight('thick');
+  console.log(textWeight);
+
+  const fontSize = selectTextFontSize('large');
+  console.log(fontSize);
   // font weight and font size will per component and be ni the component itself
 
   return (
@@ -33,8 +43,8 @@ const ComponentRenderer = ({
       className=' items-center absolute overflow-hidden select-none'
       style={{
         color: textColor,
-        fontSize: `18px`,
-        fontWeight: '450',
+        fontSize,
+        fontWeight: textWeight,
         textAlign: 'center',
         fontFamily: textFont,
         width: `${width}px`,

@@ -13,7 +13,10 @@ import {
   defaultNodeOpacity,
   defaultNodeWidth,
 } from '@src/typescript/roadmap_ref/node/core/factories/params/default-params';
-import { IFontSizeType } from '@type/roadmap/node/components-types';
+import {
+  ITextSizeModes,
+  ITextWidthModes,
+} from '@type/roadmap/node/components-types';
 import { get } from 'http';
 import { deepCopy } from '../../utils';
 
@@ -27,6 +30,10 @@ export class Data {
   height: number;
 
   opacity: number;
+
+  textSize: keyof ITextSizeModes;
+
+  textWeight: keyof ITextWidthModes;
 
   center: {
     x: number;
