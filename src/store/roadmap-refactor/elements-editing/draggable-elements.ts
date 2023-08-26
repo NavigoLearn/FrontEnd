@@ -63,22 +63,14 @@ export function getElementIsDraggable(id: string) {
 }
 export function setAllDraggableTrue() {
   const originalDraggables = draggableElements.get();
-  const newDraggables = {
-    ...originalDraggables,
-    draggableElements: {},
-  };
   Object.keys(originalDraggables.draggableElements).forEach((key) => {
     setDraggableElement(key, true);
   });
-  draggableElements.set(newDraggables);
+  draggableElements.set(originalDraggables);
 }
 export function setAllDraggableFalse() {
-  const originalDraggables = draggableElements.get();
-  const newDraggables = {
-    ...originalDraggables,
-    draggableElements: {},
-  };
-  Object.keys(originalDraggables.draggableElements).forEach((key) => {
+  const newDraggables = draggableElements.get();
+  Object.keys(newDraggables.draggableElements).forEach((key) => {
     setDraggableElement(key, false);
   });
   draggableElements.set(newDraggables);
