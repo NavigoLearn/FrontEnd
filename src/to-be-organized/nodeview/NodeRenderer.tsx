@@ -43,10 +43,7 @@ import {
   setDraggableElement,
 } from '@store/roadmap-refactor/elements-editing/draggable-elements';
 import { snapNodeWidthHeight } from '@src/typescript/roadmap_ref/snapping/core';
-import {
-  selectNodeColorFromScheme,
-  selectNodeColorText,
-} from '@src/typescript/roadmap_ref/node/core/factories/data-mutation/services';
+import { selectNodeColorFromScheme } from '@src/typescript/roadmap_ref/node/core/factories/data-mutation/services';
 import { getColorThemeFromRoadmap } from '@components/roadmap/displayers/setup-screen/theme-controler';
 
 interface NodeViewProps {

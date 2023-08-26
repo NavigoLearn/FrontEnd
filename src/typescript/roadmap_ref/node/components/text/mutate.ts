@@ -1,5 +1,9 @@
 import { ComponentText } from '@src/typescript/roadmap_ref/node/components/text/core';
 import { decoratorTriggerRerenderEditor } from '@src/typescript/roadmap_ref/node/decorators/rerenders';
+import {
+  ITextSizeModes,
+  ITextWidthModes,
+} from '@src/types/roadmap/node/components-types';
 
 export function mutateComponentTextWidth(
   component: ComponentText,
@@ -29,9 +33,18 @@ export const mutateComponentTextText = decoratorTriggerRerenderEditor(
   }
 );
 
-export function mutateComponentTitleTextSize(
+export function mutateComponentTextSize(
   component: ComponentText,
-  textSize: number
+  textSize: keyof ITextSizeModes
 ) {
-  component.fontSize = textSize;
+  component.textSize = textSize;
+  console.log(component.textSize);
+}
+
+export function mutateComponentTextWeight(
+  component: ComponentText,
+  textWeight: keyof ITextWidthModes
+) {
+  component.textWeight = textWeight;
+  console.log(component.textWeight);
 }

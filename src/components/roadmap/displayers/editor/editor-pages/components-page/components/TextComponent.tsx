@@ -14,6 +14,8 @@ import { NodeClass } from '@src/typescript/roadmap_ref/node/core/core';
 import { triggerNodeRerender } from '@store/roadmap-refactor/render/rerender-triggers-nodes';
 import TrashIcon from '@src/UI-library/svg-animations/trash/TrashIcon';
 import DraggableInput from '@src/UI-library/DraggableInput';
+import TextSizeComponent from '../text-controler/TextSizeComponent';
+import TextWeightComponent from '../text-controler/TextWeightComponent';
 
 type TitleComponentProps = {
   node: NodeClass;
@@ -84,6 +86,8 @@ const TextComponent = ({ node, id, name }: TitleComponentProps) => {
           }}
         />
       </div>
+      <TextSizeComponent component={titleComponent} nodeId={node.id} />
+      <TextWeightComponent component={titleComponent} nodeId={node.id} />
     </div>
   );
 };

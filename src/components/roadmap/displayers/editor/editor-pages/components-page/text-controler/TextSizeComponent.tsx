@@ -1,14 +1,18 @@
 import React, { useState } from 'react';
+import { mutateComponentTextSize } from '@src/typescript/roadmap_ref/node/components/text/mutate';
+import { ComponentText } from '@src/typescript/roadmap_ref/node/components/text/core';
+import { triggerNodeRerender } from '@src/store/roadmap-refactor/render/rerender-triggers-nodes';
 
-type ITextVariantsProps = {
-  selectedSize: string;
-  setSelectedSize: (size: string) => void;
+type TextSizeComponentProps = {
+  component: ComponentText;
+  nodeId: string;
 };
 
-const TextVariants = ({
-  selectedSize,
-  setSelectedSize,
-}: ITextVariantsProps) => {
+const TextSizeComponent = ({ component, nodeId }: TextSizeComponentProps) => {
+  const [selectedSize, setSelectedSize] = useState<'big' | 'medium' | 'small'>(
+    'medium'
+  );
+
   return (
     <div className='flex-row flex gap-2 w-full items-center'>
       <div className='items-center flex flex-col w-20'>
@@ -22,7 +26,11 @@ const TextVariants = ({
               : ''
           }`}
           type='button'
-          onClick={() => setSelectedSize('big')}
+          onClick={() => {
+            setSelectedSize('big');
+            mutateComponentTextSize(component, 'large');
+            triggerNodeRerender(nodeId);
+          }}
         >
           <h2 className='flex text-darkBlue font-roboto-text font-extrabold text-lg'>
             Aa
@@ -43,7 +51,11 @@ const TextVariants = ({
               : ''
           }`}
           type='button'
-          onClick={() => setSelectedSize('medium')}
+          onClick={() => {
+            setSelectedSize('medium');
+            mutateComponentTextSize(component, 'normal');
+            triggerNodeRerender(nodeId);
+          }}
         >
           <h2 className='flex text-darkBlue font-roboto-text font-bold text-base'>
             Aa
@@ -62,7 +74,11 @@ const TextVariants = ({
               : ''
           }`}
           type='button'
-          onClick={() => setSelectedSize('small')}
+          onClick={() => {
+            setSelectedSize('small');
+            mutateComponentTextSize(component, 'small');
+            triggerNodeRerender(nodeId);
+          }}
         >
           <h2 className='flex text-darkBlue font-roboto-text font-semibold text-sm'>
             Aa
@@ -74,4 +90,4 @@ const TextVariants = ({
   );
 };
 
-export default TextVariants;
+export default TextSizeComponent;
