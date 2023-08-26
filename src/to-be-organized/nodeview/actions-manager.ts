@@ -6,7 +6,7 @@ import {
 } from '@src/typescript/roadmap_ref/node/core/actions/strategies';
 import {
   setDraggableElementForNodeWithId,
-  setRoadmapRootRenderDraggable,
+  closeEditorDraggabilitySettings,
 } from '@store/roadmap-refactor/elements-editing/draggable-elements';
 import { setDisplayPageType } from '@store/roadmap-refactor/display/display-manager';
 import { setSelectedNodeId } from '@store/roadmap-refactor/elements-editing/editor-selected-data';
@@ -29,6 +29,7 @@ import {
 import { triggerMoveRoadmapTo } from '@store/roadmap-refactor/misc/misc-params-store';
 import { HashMapWithKeys } from '@type/roadmap/stores/roadmap';
 import { IActionTypes } from '@src/typescript/roadmap_ref/node/core/actions/core';
+import { afterEventLoop } from '@src/typescript/utils/misc';
 
 export function getOnMouseOutActionEdit(nodeId): () => void {
   const div = getElementDiv(nodeId);
@@ -69,7 +70,7 @@ export function openEditorProtocol(nodeId: string) {
 
 export function closeEditorProtocol() {
   setDisplayPageType('closed');
-  setRoadmapRootRenderDraggable();
+  closeEditorDraggabilitySettings();
   setEditorClosedEffect();
   triggerAllNodesRerender();
 }

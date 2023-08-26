@@ -7,9 +7,7 @@ import { addDragabilityProtocol } from '@src/typescript/roadmap_ref/render/dragg
 export const inferAndSetNodeDraggability = (node: NodeClass) => {
   const { isCreate, editing } = roadmapState.get();
   if (isCreate || editing) {
-    if (node.flags.renderedOnRoadmapFlag) {
-      setDraggableElement(node.id, true);
-    }
+    setDraggableElement(node.id, true);
   }
 };
 

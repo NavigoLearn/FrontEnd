@@ -1,2 +1,2 @@
 export type IAttachmentOptions = 'Tab';
-export type IComponentOptions = 'Title' | 'Description';
+export type IComponentOptions = 'Text';

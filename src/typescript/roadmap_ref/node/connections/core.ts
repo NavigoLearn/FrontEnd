@@ -1,4 +1,4 @@
-import { randomId } from '@src/typescript/roadmap_ref/node/core/calculations/general';
+import { getRandomId } from '@src/typescript/utils/misc';
 
 export type IConnectionTypes = 'continuous' | 'dashed';
 export type IConnectionPositions =
@@ -25,7 +25,7 @@ export class ConnectionClass {
   positionTo: IConnectionPositions;
 
   constructor(from: string, to: string) {
-    this.id = randomId();
+    this.id = getRandomId();
     this.from = from;
     this.to = to;
     this.positionFrom = 'center';

@@ -1,4 +1,5 @@
 import * as d3 from 'd3';
+import { Notifications } from '@src/UI-library/Notifications';
 import {
   deleteDraggingRecursiveEffect,
   appendDraggingRecursiveEffect,
@@ -28,6 +29,8 @@ export const triggerNodeConnectionsRerender = (nodeId: string) => {
     triggerConnectionRerender(connectionId);
   });
 };
+
+const firstDrag = true;
 
 export const triggerAllConnectionsRerender = () => {
   const { connections } = renderedConnections.get();
@@ -116,6 +119,7 @@ export const addDragabilityProtocol = (draggingBehavior: DraggingBehavior) => {
     // eslint-disable-next-line func-names
     .on('drag', function (event) {
       // use adapter for coordinates to sync with the dragging space (eg nodes-page/nested reusable-components-page behave differently)
+
       const { x: adaptedX, y: adaptedY } = coordinatesAdapterStrategy(
         event.x,
         event.y
@@ -177,6 +181,7 @@ export const addDragabilityProtocol = (draggingBehavior: DraggingBehavior) => {
       .selectAll(draggingBehavior.draggingElementIdentifier)
       .select(`#${elementIdentifier}${id}`);
 
+    console.log('updateDraggabilityAllowed', allowed);
     if (allowed) {
       nodeSelection.call(drag);
     } else {

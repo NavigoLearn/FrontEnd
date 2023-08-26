@@ -122,7 +122,7 @@ const DropdownOptions = <T extends string>({
   );
 };
 
-const DropdownGreyAdd = <T extends string>({
+const DropdownWhiteAdd = <T extends string>({
   optionsList,
   onSelect,
   text,
@@ -136,7 +136,7 @@ const DropdownGreyAdd = <T extends string>({
   return (
     <motion.div
       animate={isOpen ? 'open' : 'closed'}
-      className='relative group mt-5 w-full h-16 rounded-lg bg-gray-200'
+      className='relative group mt-5 w-full h-16 rounded-lg bg-white border-2 border-gray-200'
     >
       <button
         onClick={toggleDropdown}
@@ -167,4 +167,4 @@ const DropdownGreyAdd = <T extends string>({
   );
 };
 
-export default DropdownGreyAdd;
+export default DropdownWhiteAdd;

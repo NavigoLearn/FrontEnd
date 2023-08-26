@@ -1,9 +1,6 @@
-import {
-  ComponentDescription,
-  ComponentTitle,
-} from '@src/typescript/roadmap_ref/node/components/text/core';
-import { IComponentObject } from '@type/roadmap/node/components-types';
+import { ComponentText } from '@src/typescript/roadmap_ref/node/components/text/core';
 import { IComponentOptions } from '@type/roadmap/node/options-types';
+import { IComponentObject } from '@type/roadmap/node/components-types';
 import {
   injectComponentDraggingBehavior,
   injectComponentParentNodeId,
@@ -11,38 +8,17 @@ import {
 import { draggingBehaviorFactoryComponents } from '@src/typescript/roadmap_ref/dragging/factories';
 import { injectDraggingStrategy } from '@src/typescript/roadmap_ref/dragging/inject';
 
-export type IComponentClasses = ComponentTitle | ComponentDescription;
+export type IComponentClasses = ComponentText;
 
-export function factoryComponentTitleEmpty(
-  parentNodeId: string
-): ComponentTitle {
-  const componentTitle = new ComponentTitle(0, 0, 400, 35, 'NewTitle');
-  injectComponentParentNodeId(componentTitle, parentNodeId);
+export function factoryComponentTextEmpty(parentNodeId: string): ComponentText {
+  const componentText = new ComponentText(0, 0, 150, 35, 'NewTitle');
+  injectComponentParentNodeId(componentText, parentNodeId);
   const draggingBehavior = draggingBehaviorFactoryComponents(
     parentNodeId,
-    componentTitle.id
+    componentText.id
   );
-  injectComponentDraggingBehavior(componentTitle, draggingBehavior);
-  return componentTitle;
-}
-
-export function factoryComponentDescriptionEmpty(
-  parentNodeId: string
-): ComponentDescription {
-  const componentDescription = new ComponentDescription(
-    0,
-    0,
-    100,
-    35,
-    'New Description'
-  );
-  injectComponentParentNodeId(componentDescription, parentNodeId);
-  const draggingBehavior = draggingBehaviorFactoryComponents(
-    parentNodeId,
-    componentDescription.id
-  );
-  injectComponentDraggingBehavior(componentDescription, draggingBehavior);
-  return componentDescription;
+  injectComponentDraggingBehavior(componentText, draggingBehavior);
+  return componentText;
 }
 
 export function factoryComponentEmpty(
@@ -52,8 +28,7 @@ export function factoryComponentEmpty(
   const factoriesMapper: {
     [key in IComponentOptions]: (nodeId: string) => IComponentObject;
   } = {
-    Title: factoryComponentTitleEmpty,
-    Description: factoryComponentDescriptionEmpty,
+    Text: factoryComponentTextEmpty,
   };
   const factory = factoriesMapper[componentType];
   const component = factory(parentNodeId);
