@@ -31,7 +31,7 @@ const ComponentRenderer = ({
   position,
   parentNode,
 }: IComponentElementProps) => {
-  const { id, type, width, height, text, fontSize } = component;
+  const { id, type, width, height, textSize, textWeight, text } = component;
   const { colorType } = parentNode.data;
   const objRef = useRef(null);
   // text color is based on the node color
@@ -39,11 +39,12 @@ const ComponentRenderer = ({
   const isEditing = getIsEditing();
   const textColor = selectNodeColorText(theme, colorType);
 
-  const textWeight = selectTextFontWeight('thick');
-  console.log(textWeight);
+  const textWeightSelect = selectTextFontWeight(textWeight);
+  console.log(textWeightSelect);
 
-  const fontSize = selectTextFontSize('large');
-  console.log(fontSize);
+  const fontSizeSelect = selectTextFontSize(textSize);
+  console.log(fontSizeSelect);
+  // console.log(component.textSize);
   // font weight and font size will per component and be ni the component itself
   const parentSelected =
     parentNode.id === editorSelectedData.get().selectedNodeId &&
@@ -59,8 +60,8 @@ const ComponentRenderer = ({
       } transition-allNoTransform`}
       style={{
         color: textColor,
-        fontSize,
-        fontWeight: textWeight,
+        fontSize: fontSizeSelect,
+        fontWeight: textWeightSelect,
         textAlign: 'center',
         width: `${width}px`,
         height: `${height}px`,

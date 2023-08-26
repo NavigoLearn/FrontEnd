@@ -3,13 +3,17 @@ import {
   DEFAULT_TEXT_SIZE,
   DEFAULT_TEXT_WEIGHT,
 } from '@src/typescript/roadmap_ref/node/components/text/params';
+import {
+  ITextSizeModes,
+  ITextWidthModes,
+} from '@src/types/roadmap/node/components-types';
 
 export class ComponentText extends ComponentNode {
   text: string;
 
-  fontSize: number;
+  textSize: keyof ITextSizeModes;
 
-  fontWeight: string;
+  textWeight: keyof ITextWidthModes;
 
   constructor(
     x: number,
@@ -20,7 +24,7 @@ export class ComponentText extends ComponentNode {
   ) {
     super('Text', x, y, width, height);
     this.text = text;
-    this.fontSize = DEFAULT_TEXT_SIZE;
-    this.fontWeight = DEFAULT_TEXT_WEIGHT;
+    this.textSize = DEFAULT_TEXT_SIZE;
+    this.textWeight = DEFAULT_TEXT_WEIGHT;
   }
 }

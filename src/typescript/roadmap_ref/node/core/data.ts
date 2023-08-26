@@ -31,10 +31,6 @@ export class Data {
 
   opacity: number;
 
-  textSize: keyof ITextSizeModes;
-
-  textWeight: keyof ITextWidthModes;
-
   center: {
     x: number;
     y: number;
