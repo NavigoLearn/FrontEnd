@@ -59,7 +59,7 @@ const EditorPageManager = () => {
       />
       <div
         className={`mt-5 flex-grow overflow-y-auto overflow-x-hidden ${
-          isAttachmentsPage ? 'px-0' : 'px-7'
+          isAttachmentsPage ? 'px-0' : 'px-5'
         }`}
       >
         <AnimatePresence>

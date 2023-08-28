@@ -21,6 +21,7 @@ export function appendNodeToChunks(node: NodeClass) {
     appendNodeToChunk(node.id, chunkId);
   });
 }
+
 export const appendRootNodeId = (id: string) => {
   const roadmap = roadmapSelector.get();
   roadmap.rootNodesIds.push(id);

@@ -70,17 +70,6 @@ const Roadmap = ({
   const chunkRenderer = useRef(null);
   useScrollHidden();
   const isLoaded = useIsLoaded();
-
-  const [isNotificationVisible, setIsNotificationVisible] = useState(false);
-
-  const handleCloseNotificationClick = () => {
-    setIsNotificationVisible(false);
-  };
-
-  const handleOpenNotificationClick = () => {
-    setIsNotificationVisible(true);
-  };
-
   const enableRoadmapDrag = () => {
     enableRoadmapZoomDragAndRecenter(
       'rootSvg',
@@ -140,7 +129,6 @@ const Roadmap = ({
   }, []);
 
   useEffectAfterLoad(() => {
-    handleOpenNotificationClick();
     applyRoadmapElementsDraggability();
   }, [nodesIds, editing]);
 
@@ -153,10 +141,7 @@ const Roadmap = ({
         closeEditorProtocol();
       }}
     >
-      <Notifications
-        isVisible={isNotificationVisible}
-        onCloseClick={handleCloseNotificationClick}
-      />
+      {/* <Notifications /> */}
       <Popup />
       <svg
         id='rootSvg'

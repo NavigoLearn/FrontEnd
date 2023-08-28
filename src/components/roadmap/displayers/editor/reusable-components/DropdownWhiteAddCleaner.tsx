@@ -37,7 +37,7 @@ const Option = ({ name, callback, tooltip, setDropdown }: IOptionProps) => {
           callback();
           setDropdown(false);
         }}
-        className={`pointer-events-auto h-10 my-1 text-opacity-60 hover:text-opacity-100 text-darkBlue w-full text-lg flex items-center ml-4 ${tailwindTransitionClass}`}
+        className={`pointer-events-auto h-10 my-1 text-opacity-60 hover:text-opacity-100 text-darkBlue w-full text-md flex items-center ml-4 ${tailwindTransitionClass}`}
       >
         {name}
       </button>
@@ -81,15 +81,15 @@ const DropdownWhiteAdd = ({
     >
       <button
         type='button'
-        className='flex items-center w-full h-full px-3'
+        className='flex items-center w-full h-full px-4'
         onClick={() => {
           setDropdown((prev) => !prev);
           if (dropdownCallback) {
-            dropdownCallback(dropdown);
+            dropdownCallback(!dropdown);
           }
         }}
       >
-        <span className='text-darkBlue text-lg font-medium font-roboto-text'>
+        <span className='text-darkBlue text-md font-medium font-roboto-text'>
           {dropdownName}
         </span>
         <img

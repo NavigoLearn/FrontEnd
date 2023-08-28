@@ -16,6 +16,8 @@ module.exports = {
         eugene: '#6B6DB0',
         footer: '#040E16',
         darkBlue: '#1A1B50',
+        secondaryBlack: 'rgb(0,0,0,0.6)',
+        placeholderBlack: 'rgb(0,0,0,0.3)',
       },
       borderColor: {
         light: 'rgb(0,0,0,0.3)',
