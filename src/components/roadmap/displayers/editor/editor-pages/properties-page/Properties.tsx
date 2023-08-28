@@ -24,7 +24,6 @@ import DropdownGreyAdd from '@src/components/roadmap/displayers/editor/reusable-
 import { mutateActionLink } from '@src/typescript/roadmap_ref/node/core/actions/mutate';
 import { getColorThemeFromRoadmap } from '@components/roadmap/displayers/setup-screen/theme-controler';
 import { IActionTypes } from '@src/typescript/roadmap_ref/node/core/actions/core';
-import TextVariants from './TextVariants';
 
 type IActionsDropdown = {
   action: string;
@@ -211,10 +210,6 @@ const Properties = () => {
         <h5 className='text-darkBlue font-medium text-md font-roboto-text'>
           Select text size
         </h5>
-        <TextVariants
-          selectedSize={selectedSize}
-          setSelectedSize={setSelectedSize}
-        />
       </div>
       <div className='flex text-secondary font-roboto-text font-medium mt-2'>
         Interactions

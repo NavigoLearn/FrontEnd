@@ -2,7 +2,11 @@ import React, { useRef } from 'react';
 import { calculateComponentsPositions } from '@src/to-be-organized/nodeview/logic';
 import { NodeClass } from '@src/typescript/roadmap_ref/node/core/core';
 import { IComponentObject } from '@type/roadmap/node/components-types';
-import { selectNodeColorText } from '@src/typescript/roadmap_ref/node/core/factories/data-mutation/services';
+import {
+  selectNodeColorText,
+  selectTextFontWeight,
+  selectTextFontSize,
+} from '@src/typescript/roadmap_ref/node/core/factories/data-mutation/services';
 import { getColorThemeFromRoadmap } from '@components/roadmap/displayers/setup-screen/theme-controler';
 import DraggingResizeElement from '@src/to-be-organized/DraggingResizeElement';
 import {
@@ -27,13 +31,20 @@ const ComponentRenderer = ({
   position,
   parentNode,
 }: IComponentElementProps) => {
-  const { id, type, width, height, text, fontSize } = component;
+  const { id, type, width, height, textSize, textWeight, text } = component;
   const { colorType } = parentNode.data;
   const objRef = useRef(null);
   // text color is based on the node color
   const theme = getColorThemeFromRoadmap();
   const isEditing = getIsEditing();
   const textColor = selectNodeColorText(theme, colorType);
+
+  const textWeightSelect = selectTextFontWeight(textWeight);
+  console.log(textWeightSelect);
+
+  const fontSizeSelect = selectTextFontSize(textSize);
+  console.log(fontSizeSelect);
+  // console.log(component.textSize);
   // font weight and font size will per component and be ni the component itself
   const parentSelected =
     parentNode.id === editorSelectedData.get().selectedNodeId &&
@@ -49,8 +60,8 @@ const ComponentRenderer = ({
       } transition-allNoTransform`}
       style={{
         color: textColor,
-        fontSize: `18px`,
-        fontWeight: '450',
+        fontSize: fontSizeSelect,
+        fontWeight: textWeightSelect,
         textAlign: 'center',
         width: `${width}px`,
         height: `${height}px`,
