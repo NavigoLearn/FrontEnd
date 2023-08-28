@@ -8,7 +8,7 @@ export function appendAttachment(
   attachment: IAttachmentObject
 ): void {
   node.attachments.push(attachment);
-  // gets actions-page and appends them to the node
+  // gets operations-page and appends them to the node
   appendAction(node, 'Open Tab');
 }
 

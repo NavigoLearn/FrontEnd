@@ -72,56 +72,51 @@ const TitleAndExit = () => {
   }, []);
 
   return (
-    <>
-      <div className='flex justify-between px-9 mt-7 relative'>
-        <div className='flex w-5/6 gap-6 '>
-          {!edit && (
-            <h2 className='text-3xl w-5/6 text-black font-medium font-kanit-text'>
-              {name}
-            </h2>
-          )}
-          {edit && (
-            <input
-              className='text-3xl text-black font-medium font-kanit-text outline-none border-2 border-gray-300'
-              value={name}
-              onChange={(e) => {
-                mutateNodeName(node, e.target.value);
-                triggerRerenderEditor();
-              }}
-            />
-          )}
-          <button
-            onClick={() => {
-              setEdit((prev) => !prev);
+    <div className='flex justify-between px-9 mt-7 relative'>
+      <div className='flex w-5/6 gap-6 '>
+        {!edit && (
+          <h2 className='text-3xl w-5/6 text-black font-medium font-kanit-text'>
+            {name}
+          </h2>
+        )}
+        {edit && (
+          <input
+            className='text-3xl text-black font-medium font-kanit-text outline-none border-2 border-gray-300'
+            value={name}
+            onChange={(e) => {
+              mutateNodeName(node, e.target.value);
+              triggerRerenderEditor();
             }}
-            type='button'
-            className='w-6 h-6'
-          >
-            <img
-              className='w-6 h-6'
-              alt='edit button for node name'
-              src='/editor/edit.svg'
-            />
-          </button>
-        </div>
+          />
+        )}
         <button
-          type='button'
           onClick={() => {
-            closeEditorProtocol();
+            setEdit((prev) => !prev);
           }}
-          className='absolute top-0 right-8'
+          type='button'
+          className='w-6 h-6'
         >
           <img
-            src='/editor/close.svg'
-            className='w-8 h-8'
-            alt='Close button for editor'
+            className='w-6 h-6'
+            alt='edit button for node name'
+            src='/editor/edit.svg'
           />
         </button>
       </div>
-      <h3 className='text-lg text-secondary pl-9 font-roboto-text mt-2'>
-        This is a helper text
-      </h3>
-    </>
+      <button
+        type='button'
+        onClick={() => {
+          closeEditorProtocol();
+        }}
+        className='absolute top-0 right-8'
+      >
+        <img
+          src='/editor/close.svg'
+          className='w-8 h-8'
+          alt='Close button for editor'
+        />
+      </button>
+    </div>
   );
 };
 
@@ -135,11 +130,11 @@ const EditorNavbarPagination = ({
   onChange,
 }: IEditorNavbarPaginationProps) => {
   const pages: IEditorDisplayPageType[] = [
-    'attachments',
+    'attachment',
     'components',
     'nodes',
     'properties',
-    'actions',
+    'operations',
   ];
 
   const selectedPage = value;
@@ -148,11 +143,11 @@ const EditorNavbarPagination = ({
     IEditorDisplayPageType,
     React.RefObject<HTMLButtonElement>
   > = {
-    attachments: useRef(null),
+    attachment: useRef(null),
     components: useRef(null),
     nodes: useRef(null),
     properties: useRef(null),
-    actions: useRef(null),
+    operations: useRef(null),
   };
 
   const [underlineStyle, setUnderlineStyle] = useState({
@@ -177,7 +172,7 @@ const EditorNavbarPagination = ({
   return (
     <div className='overflow-x-hidden'>
       <TitleAndExit />
-      <section className='w-full flex justify-center px-4 gap-3 mt-6'>
+      <section className='w-full flex relative justify-center px-4 gap-3 mt-6'>
         {pages.map((page: IEditorDisplayPageType, index: number) => (
           <EditorPageButton
             buttonRef={buttonRefs[page]}
@@ -191,7 +186,7 @@ const EditorNavbarPagination = ({
         ))}
         <AnimatePresence>
           <motion.div
-            className='border-lightBlue border-b-2 top-[150px] absolute'
+            className='border-lightBlue border-b-2 bottom-[-3px] absolute'
             style={{
               width: `${underlineStyle.width}px`,
             }}

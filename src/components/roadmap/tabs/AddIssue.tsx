@@ -20,7 +20,7 @@ const AddIssue = () => {
           type='button'
           className=' w-6 h-6 absolute left-10 top-2 '
           onClick={() => {
-            // close tab-attachment-page
+            // close tab-tab-page
             // setIssues();
           }}
         >

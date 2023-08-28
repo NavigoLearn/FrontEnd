@@ -40,7 +40,7 @@ export default defineConfig({
   use: {
     baseURL: 'http://localhost:3000/',
     actionTimeout: 0,
-    /* Base URL to use in actions-page like `await page.goto('/')`. */
+    /* Base URL to use in operations-page like `await page.goto('/')`. */
     // baseURL: 'http://localhost:3000',
 
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */

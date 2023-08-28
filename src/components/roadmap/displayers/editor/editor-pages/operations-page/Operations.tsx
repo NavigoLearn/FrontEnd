@@ -43,7 +43,7 @@ const DeleteButton = ({ callback, text }: IDeleteButtonProps) => {
   );
 };
 
-const Actions = () => {
+const Operations = () => {
   const { selectedNodeId } = useStore(editorSelectedData);
   const node = getNodeByIdRoadmapSelector(selectedNodeId);
   const [mouseOver, setMouseOver] = useState(false);
@@ -128,4 +128,4 @@ const Actions = () => {
   );
 };
 
-export default Actions;
+export default Operations;

@@ -19,7 +19,7 @@ export const fetchTabInfoData = errorHandlerDecorator(async (id: string) => {
   }).then((res) => res.json());
   const { tabInfo } = response;
   const decoded = JSON.parse(atob(tabInfo.content));
-  console.log('got decoded tab-attachment-page');
+  console.log('got decoded tab-tab-page');
   return decoded;
 });
 
@@ -29,7 +29,7 @@ export const updateTabInfoData = errorHandlerDecorator(
     const roadmapId = roadmapState.get().id;
     // creates the API object
     const apiTabData: TabInfoApi = {
-      stringId: tabData.id, // the id of the tab-attachment-page that is shared with the node
+      stringId: tabData.id, // the id of the tab-tab-page that is shared with the node
       roadmapId, // the id of the roadmap that is shared with the node
       // encoded json base64
       content: btoa(JSON.stringify(tabData)),
@@ -55,7 +55,7 @@ export const createTabInfoData = errorHandlerDecorator(
     const roadmapId = roadmapState.get().id;
     // creates the API object
     const apiTabData: TabInfoApi = {
-      stringId: tabData.id, // the id of the tab-attachment-page that is shared with the node
+      stringId: tabData.id, // the id of the tab-tab-page that is shared with the node
       roadmapId, // the id of the roadmap that is shared with the node
       // encoded json base64
       content: btoa(JSON.stringify(tabData)),

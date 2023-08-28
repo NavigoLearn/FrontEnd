@@ -2,8 +2,8 @@ import { atom } from 'nanostores';
 
 export type IEditorDisplayPageType =
   | 'components'
-  | 'attachments'
-  | 'actions'
+  | 'attachment'
+  | 'operations'
   | 'properties'
   | 'nodes';
 

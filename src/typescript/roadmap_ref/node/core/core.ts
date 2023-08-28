@@ -18,7 +18,7 @@ export class NodeClass {
 
   attachments: IAttachmentObject[] = []; // special reusable-components-page that are much more customizable and special, meant for any kind of interraction
 
-  actions: ActionsClass = new ActionsClass(); // the actions-page that are set on the node
+  actions: ActionsClass = new ActionsClass(); // the operations-page that are set on the node
 
   draggingBehavior: DraggingBehavior; // the dragging behavior of the node
 

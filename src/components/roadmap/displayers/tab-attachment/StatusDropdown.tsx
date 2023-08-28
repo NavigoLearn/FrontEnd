@@ -22,7 +22,7 @@ const iconMap = {
   'In Progress': inProgress,
   Completed: complete,
   Skip: skip,
-  // Add other actions-page and corresponding SVG imports here
+  // Add other operations-page and corresponding SVG imports here
 };
 
 const StatusDropdown = ({ attachment, nodeId }: IStatusDropdownProps) => {

@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { ReactDOM, useRef } from 'react';
 import attachmentPageStatus from '@store/roadmap-refactor/display/editor/attachment-page-status';
 import { useStore } from '@nanostores/react';
 import { rightWrapper } from '@components/roadmap/displayers/Wrappers';
@@ -6,15 +6,15 @@ import editorDisplayManager, {
   IEditorDisplayPageType,
 } from '@store/roadmap-refactor/display/editor/editor-display-manager';
 import EditorNavbarPagination from '@components/roadmap/displayers/editor/EditorNavbar';
-import TabAttachment from '@components/roadmap/displayers/editor/editor-pages/attachment-page/TabAttachmentEditor';
+import TabAttachment from '@components/roadmap/displayers/editor/editor-pages/tab-page/TabAttachmentEditor';
 import Components from '@components/roadmap/displayers/editor/editor-pages/components-page/Components';
-import Actions from '@components/roadmap/displayers/editor/editor-pages/actions-page/Actions';
+import Operations from '@components/roadmap/displayers/editor/editor-pages/operations-page/Operations';
 import Properties from '@components/roadmap/displayers/editor/editor-pages/properties-page/Properties';
 import Nodes from '@components/roadmap/displayers/editor/editor-pages/nodes-page/Nodes';
 import { AnimatePresence, motion } from 'framer-motion';
 
-const pagesMapperJSON = {
-  attachments: (
+const pagesMapperJSON: Record<IEditorDisplayPageType, React.ReactNode> = {
+  attachment: (
     <TabAttachment
       defaultValue={{ isEditing: true }}
       field='status'
@@ -22,7 +22,7 @@ const pagesMapperJSON = {
     />
   ),
   components: <Components />,
-  actions: <Actions />,
+  operations: <Operations />,
   properties: <Properties />,
   nodes: <Nodes />,
 };
@@ -48,7 +48,7 @@ const EditorPageManager = () => {
   const { page } = useStore(editorDisplayManager);
   const divRef = useRef(null);
 
-  const isAttachmentsPage = page === 'attachments'; // Check if selected page is "attachments"
+  const isAttachmentsPage = page === 'attachment'; // Check if selected page is "attachment"
 
   return (
     <div ref={divRef} className='h-full w-full flex flex-col '>

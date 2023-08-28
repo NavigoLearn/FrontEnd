@@ -10,7 +10,7 @@ import { factoryAttachmentTabEmpty } from '@src/typescript/roadmap_ref/node/atta
 export function NodeFactoryStaticBoilerplate(): NodeClass {
   // return boilerplate class for classic nodes-page and the most common
   const node = new NodeClass();
-  // classic nodes-page has a tab-attachment-page attachment-page and the default color scheme
+  // classic nodes-page has a tab-tab-page tab-page and the default color scheme
   injectClassicFlags(node);
   injectNewRandomId(node);
   injectClassicData(node, 'someparent', []);
