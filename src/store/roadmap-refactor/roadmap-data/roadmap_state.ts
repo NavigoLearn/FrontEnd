@@ -1,84 +1,76 @@
 import { atom } from 'nanostores';
 
-const roadmapState = atom({
-  editing: false, // used to determine if the userDisplay is elements-editing the roadmap
+export type IRoadmapState = 'create' | 'edit' | 'view' | 'draft';
+const roadmapStateStore = atom({
+  roadmapState: 'view', // used to determine if the roadmap is being created, edited or viewed
   save: true, // and if the elements-editing state should be saved or not
   loaded: false, // used to determine if the roadmap has been loaded
-  isCreate: false, // used to determine if the roadmap is being created
   rerender: false, // used to rerender roadmap
   id: '', // the id of the roadmap
   userId: '',
   starterTab: false,
 } as {
-  editing: boolean;
+  roadmapState: IRoadmapState;
   save: boolean;
   loaded: boolean;
-  isCreate: boolean;
   rerender: boolean;
   id: string;
   userId: string;
   starterTab: boolean;
 });
 
-export default roadmapState;
+export default roadmapStateStore;
 
 export function setSaveTrue() {
-  const original = roadmapState.get();
-  roadmapState.set({ ...original, save: true });
+  const original = roadmapStateStore.get();
+  roadmapStateStore.set({ ...original, save: true });
 }
 
-export function setEditingTrueNoRerender() {
-  const original = roadmapState.get();
-  original.editing = true;
-  roadmapState.set(original);
+export function setRoadmapState(state: IRoadmapState) {
+  const original = roadmapStateStore.get();
+  roadmapStateStore.set({ ...original, roadmapState: state });
 }
 
-export function toggleRoadmapEditing() {
-  const original = roadmapState.get();
-  roadmapState.set({ ...original, editing: !original.editing });
+export function getRoadmapState() {
+  const original = roadmapStateStore.get();
+  return original.roadmapState;
 }
 
 export function setRoadmapId(id: string) {
-  const original = roadmapState.get();
-  roadmapState.set({ ...original, id });
+  const original = roadmapStateStore.get();
+  roadmapStateStore.set({ ...original, id });
 }
 
 export function getRoadmapId() {
-  const original = roadmapState.get();
+  const original = roadmapStateStore.get();
   return original.id;
 }
 
-export function setSaveFalse() {
-  const original = roadmapState.get();
-  roadmapState.set({ ...original, save: false });
-}
-
-export function toggleSave() {
-  const original = roadmapState.get();
-  roadmapState.set({ ...original, save: !original.save });
-}
-
 export function setRoadmapIsLoaded() {
-  const original = roadmapState.get();
-  roadmapState.set({ ...original, loaded: true });
+  const original = roadmapStateStore.get();
+  roadmapStateStore.set({ ...original, loaded: true });
 }
-
-export function setIsCreateTrue() {
-  const original = roadmapState.get();
-  roadmapState.set({ ...original, isCreate: true });
+export function getIsEditing() {
+  const original = roadmapStateStore.get();
+  return original.roadmapState === 'edit';
 }
 
 export function getIsCreate() {
-  const original = roadmapState.get();
-  return original.isCreate;
+  const original = roadmapStateStore.get();
+  return original.roadmapState === 'create';
 }
 
-export function getIsEditing() {
-  const original = roadmapState.get();
-  return original.editing;
+export function getIsView() {
+  const original = roadmapStateStore.get();
+  return original.roadmapState === 'view';
+}
+
+export function getIsDraft() {
+  const original = roadmapStateStore.get();
+  return original.roadmapState === 'draft';
 }
 
 export function rerenderRoadmap() {
-  const original = roadmapState.get();
-  roadmapState.set({ ...original, rerender: !original.rerender });
+  const original = roadmapStateStore.get();
+  roadmapStateStore.set({ ...original, rerender: !original.rerender });
 }

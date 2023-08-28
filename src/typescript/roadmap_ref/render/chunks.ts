@@ -1,4 +1,6 @@
-import roadmapState from '@store/roadmap-refactor/roadmap-data/roadmap_state';
+import roadmapStateStore, {
+  getIsEditing,
+} from '@store/roadmap-refactor/roadmap-data/roadmap_state';
 import {
   getNodes,
   setNodes,
@@ -15,7 +17,7 @@ import miscParams from '@store/roadmap-refactor/misc/misc-params-store';
 import { roadmapSelector } from '@store/roadmap-refactor/roadmap-data/roadmap-selector';
 
 export function setConnectionsToRender() {
-  const { loaded } = roadmapState.get();
+  const { loaded } = roadmapStateStore.get();
   const roadmap = roadmapSelector.get();
   if (!loaded) return;
   const connectionsIds = []; // array of all the connections that should be rendered
@@ -50,7 +52,7 @@ export function extendNodeIdsForConnection(nodeIds, roadmap: Roadmap) {
 }
 
 export function setNodesToRender() {
-  const { editing, loaded } = roadmapState.get();
+  const { loaded } = roadmapStateStore.get();
   if (!loaded) return;
 
   const roadmapData: Roadmap = roadmapSelector.get();

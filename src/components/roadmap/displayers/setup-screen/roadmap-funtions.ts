@@ -2,7 +2,7 @@ import {
   roadmapSelector,
   setRoadmapSelector,
 } from '@src/store/roadmap-refactor/roadmap-data/roadmap-selector';
-import roadmapState from '@src/store/roadmap-refactor/roadmap-data/roadmap_state';
+import roadmapStateStore from '@src/store/roadmap-refactor/roadmap-data/roadmap_state';
 
 export interface ISetupScreenControlers {
   onNext: () => void;

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import cross from '@assets/cross.svg';
 import { divWrapper } from '@components/roadmap/tabs/utils/logic';
 import Button from '@components/roadmap/tabs/utils/Button';
-import roadmapState from '@store/roadmap-refactor/roadmap-data/roadmap_state';
+import roadmapStateStore from '@store/roadmap-refactor/roadmap-data/roadmap_state';
 import { IssueApi } from '@type/roadmap/old/Issues';
 import { fetchPostNewIssue } from '../../../api-wrapper/roadmap/issues';
 
@@ -66,12 +66,12 @@ const AddIssue = () => {
               const issue: IssueApi = {
                 title,
                 content: description,
-                roadmapId: roadmapState.get().id,
+                roadmapId: roadmapStateStore.get().id,
                 open: true,
                 createdAt: new Date(),
                 updatedAt: new Date(),
               };
-              fetchPostNewIssue(roadmapState.get().id, issue).then(() => {
+              fetchPostNewIssue(roadmapStateStore.get().id, issue).then(() => {
                 // setIssues();
               });
             }}

@@ -8,7 +8,7 @@ import DataCollectionManager from '../components/misc/DataCollectionManager';
 import '@fontsource/kanit';
 import '@fontsource/oxygen';
 import { PageMeta } from '../types/misc/PageMeta';
-import NavbarRoadmap from '../components/roadmap/navbar/NavbarRoadmap';
+import NavbarRoadmap from '../components/roadmap/navbar-roadmap/NavbarRoadmap';
 
 export interface Props {
   metadata?: PageMeta;
@@ -64,13 +64,6 @@ const { metadata, excludeFooter } = Astro.props;
 
     <slot />
 
-    {
-      !excludeFooter && (
-        <div class='h-32'>
-          <Footer />
-        </div>
-      )
-    }
     <div
       class='fixed top-[100px] flex justify-center w-full h-10 pointer-events-none'
     >

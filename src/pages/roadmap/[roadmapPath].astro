@@ -1,10 +1,10 @@
 ---
 import Base from '@layouts/Base.astro';
+import RoadmapLayout from '@layouts/RoadmapLayout.astro';
 import PageViewCollection from '@components/home/PageViewCollection';
 import TopBarRoadmap from '@components/roadmap/top-bar/TopBarRoadmap';
 import Roadmap from '@components/roadmap/Roadmap';
 import SideBar from '@components/roadmap/sidebar/NewSidebarDesktop';
-// import SideBarMobile from '@components/roadmap/sidebar/SideBarMobile';
 import RoadmapController from '@components/roadmap/roadmapcontroler/RoadmapController';
 import DisplayManager from '../../components/roadmap/displayers/DisplayManager';
 import { RoadmapTypeApi } from '../../types/explore/card';
@@ -67,7 +67,7 @@ if (typeof id === 'string') {
 }
 ---
 
-<Base
+<RoadmapLayout
   metadata={{
     title,
     description,
@@ -98,4 +98,4 @@ if (typeof id === 'string') {
       <DisplayManager client:idle />
     </div>
   </div>
-</Base>
+</RoadmapLayout>

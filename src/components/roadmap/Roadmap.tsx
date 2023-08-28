@@ -13,10 +13,11 @@ import { useScrollHidden } from '@hooks/useScrollHidden';
 import { v4 as uuid4 } from 'uuid';
 import NodeManager from '@components/roadmap/NodeManager';
 import { useStore } from '@nanostores/react';
-import roadmapState, {
-  setEditingTrueNoRerender,
+import roadmapStateStore, {
+  getRoadmapState,
   setRoadmapId,
   setRoadmapIsLoaded,
+  setRoadmapState,
 } from '@store/roadmap-refactor/roadmap-data/roadmap_state';
 import {
   enableRoadmapZoomDragAndRecenter,
@@ -59,9 +60,9 @@ const Roadmap = ({
 }) => {
   const isCreate = pageId === 'create'; // parameter to determine if we are in the create mode
   if (isCreate) {
-    setEditingTrueNoRerender();
+    setRoadmapState('create');
   }
-  const { editing } = isCreate ? { editing: true } : useStore(roadmapState);
+  const state = getRoadmapState();
   // need to take the ids of the nodes-page included in the current chunks and render them
   const { nodes } = roadmapSelector.get();
   const { nodesIds } = useStore(renderNodesStore);
@@ -121,7 +122,7 @@ const Roadmap = ({
       'rootGroup',
       chunkRenderer.current
     );
-  }, [editing, isCreate]);
+  }, [state, isCreate]);
 
   useEffectAfterLoad(() => {
     // adding event
@@ -130,7 +131,7 @@ const Roadmap = ({
 
   useEffectAfterLoad(() => {
     applyRoadmapElementsDraggability();
-  }, [nodesIds, editing]);
+  }, [nodesIds, state]);
 
   return (
     // eslint-disable-next-line jsx-a11y/click-events-have-key-events,jsx-a11y/no-static-element-interactions
@@ -160,7 +161,7 @@ const Roadmap = ({
                 return <NodeManager key={id} node={nodes[id]} />;
               })}
           </g>
-          {isLoaded && editing && (
+          {isLoaded && state === 'edit' && (
             <g id='rootGroupSnappingLines'>
               <SnappingLinesRenderer />
             </g>

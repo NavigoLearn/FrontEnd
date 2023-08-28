@@ -3,12 +3,12 @@ import {
   TabInfoApi,
   TabInfoApiSendFormat,
 } from '@type/roadmap/old/tab-manager';
-import roadmapState from '@store/roadmap-refactor/roadmap-data/roadmap_state';
+import roadmapStateStore from '@store/roadmap-refactor/roadmap-data/roadmap_state';
 import { errorHandlerDecorator } from '@src/typescript/error-handler';
 
 export const fetchTabInfoData = errorHandlerDecorator(async (id: string) => {
   // uses fetch to get roadmap-roadmap-data from the server
-  const roadmapId = roadmapState.get().id;
+  const roadmapId = roadmapStateStore.get().id;
   const response = await fetch(`/api/roadmaps/${roadmapId}/tabsInfo/${id}`, {
     method: 'GET',
 
@@ -26,7 +26,7 @@ export const fetchTabInfoData = errorHandlerDecorator(async (id: string) => {
 export const updateTabInfoData = errorHandlerDecorator(
   async (id: string, tabData: TabInfo) => {
     // uses fetch to post roadmap-roadmap-data on the server
-    const roadmapId = roadmapState.get().id;
+    const roadmapId = roadmapStateStore.get().id;
     // creates the API object
     const apiTabData: TabInfoApi = {
       stringId: tabData.id, // the id of the tab-tab-page that is shared with the node
@@ -52,7 +52,7 @@ export const updateTabInfoData = errorHandlerDecorator(
 export const createTabInfoData = errorHandlerDecorator(
   async (id: string, tabData: TabInfo) => {
     // uses fetch to post roadmap-roadmap-data on the server
-    const roadmapId = roadmapState.get().id;
+    const roadmapId = roadmapStateStore.get().id;
     // creates the API object
     const apiTabData: TabInfoApi = {
       stringId: tabData.id, // the id of the tab-tab-page that is shared with the node

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import roadmapState from '@store/roadmap-refactor/roadmap-data/roadmap_state';
+import roadmapStateStore from '@store/roadmap-refactor/roadmap-data/roadmap_state';
 import { useStore } from '@nanostores/react';
 import Button from '@components/roadmap/tabs/utils/Button';
 import cross from '@assets/cross.svg';
@@ -21,7 +21,7 @@ const Issues = () => {
 
   useEffect(() => {
     // fetches and caches all issues
-    getsIssuesAndSetsStore(roadmapState.get().id).then(() => {
+    getsIssuesAndSetsStore(roadmapStateStore.get().id).then(() => {
       setDisplayPage(page, issuePerPage);
       setLoaded(true);
     });

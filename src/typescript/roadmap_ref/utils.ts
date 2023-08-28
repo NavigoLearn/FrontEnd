@@ -1,8 +1,8 @@
-import roadmapState from '@store/roadmap-refactor/roadmap-data/roadmap_state';
+import roadmapStateStore from '@store/roadmap-refactor/roadmap-data/roadmap_state';
 
 export function setLoadedTrue() {
-  const original = roadmapState.get();
-  roadmapState.set({ ...original, loaded: true });
+  const original = roadmapStateStore.get();
+  roadmapStateStore.set({ ...original, loaded: true });
 }
 
 export function deepCopy(obj) {
