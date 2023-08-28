@@ -72,10 +72,10 @@ const TitleAndExit = () => {
   }, []);
 
   return (
-    <div className='flex justify-between px-9 mt-7 relative'>
-      <div className='flex w-5/6 gap-6 '>
+    <div className='flex  px-9 mt-5 relative'>
+      <div className='flex w-5/6 gap-5 items-center '>
         {!edit && (
-          <h2 className='text-3xl w-5/6 text-black font-medium font-kanit-text'>
+          <h2 className='text-3xl text-black font-medium font-kanit-text'>
             {name}
           </h2>
         )}
@@ -94,10 +94,10 @@ const TitleAndExit = () => {
             setEdit((prev) => !prev);
           }}
           type='button'
-          className='w-6 h-6'
+          className='w-5 h-5 opacity-70'
         >
           <img
-            className='w-6 h-6'
+            className='w-5 h-5'
             alt='edit button for node name'
             src='/editor/edit.svg'
           />

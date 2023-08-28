@@ -12,6 +12,8 @@ import DropdownWhiteSelect from '@components/roadmap/displayers/editor/reusable-
 import { tailwindTransitionClass } from '@src/UI-library/tailwind-utils';
 import TrashIconCustomizable from '@src/UI-library/svg-animations/trash/TrashIconCustomizable';
 import { applyNodeTemplate } from '@src/typescript/roadmap_ref/node/core/factories/core';
+import DropdownWhiteAdd from '@components/roadmap/displayers/editor/reusable-components/DropdownWhiteAdd';
+import DropdownWhiteAddCleaner from '@components/roadmap/displayers/editor/reusable-components/DropdownWhiteAddCleaner';
 
 type IDeleteButtonProps = {
   callback: () => void;
@@ -20,26 +22,33 @@ type IDeleteButtonProps = {
 const DeleteButton = ({ callback, text }: IDeleteButtonProps) => {
   const [mouseOver, setMouseOver] = useState(false);
   return (
-    <button
-      type='button'
-      onClick={() => {
-        callback();
-      }}
-      className='flex gap-4 justify-center items-center group h-10'
-      onMouseOver={() => {
-        setMouseOver(true);
-      }}
-      onMouseOut={() => {
-        setMouseOver(false);
-      }}
-    >
-      <span
-        className={`text-lg font-semibold text-darkBlue group-hover:text-red-500 ${tailwindTransitionClass}`}
+    <div className='flex items-center'>
+      <img
+        className='h-10 pt-4 w-12  flex items-center'
+        alt='delete one node'
+        src='/editor/rectangleSmall.svg'
+      />
+      <button
+        type='button'
+        onClick={() => {
+          callback();
+        }}
+        className='flex justify-center items-center group h-10'
+        onMouseOver={() => {
+          setMouseOver(true);
+        }}
+        onMouseOut={() => {
+          setMouseOver(false);
+        }}
       >
-        {text}
-      </span>
-      <TrashIconCustomizable size={50} hovered={mouseOver} />
-    </button>
+        <span
+          className={`text-lg font-semibold text-darkBlue group-hover:text-red-500 ${tailwindTransitionClass}`}
+        >
+          {text}
+        </span>
+        <TrashIconCustomizable size={50} hovered={mouseOver} />
+      </button>
+    </div>
   );
 };
 
@@ -50,13 +59,47 @@ const Operations = () => {
 
   return (
     <div className='flex flex-col gap-5 justify-start items-start'>
-      <DeleteButton
-        callback={() => {
-          deleteProtocolNodeFromRoadmap(node);
-          closeEditorProtocol();
-        }}
-        text='Delete Node'
-      />
+      <div className='flex justify-between'>
+        <div className='w-52'>
+          <DropdownWhiteAddCleaner
+            dropdownName='Add child'
+            options={[
+              {
+                name: 'Main',
+                callback: () => {
+                  appendClassicNodeToRoadmap(node);
+                },
+                tooltip: 'Basic main node with title and tab and main color',
+              },
+              {
+                name: 'Secondary',
+                callback: () => {
+                  appendClassicNodeToRoadmap(node);
+                },
+                tooltip: 'Basic node with title and secondary color and a tab',
+              },
+              {
+                name: 'Link',
+                callback: () => {
+                  appendClassicNodeToRoadmap(node);
+                },
+                tooltip:
+                  'Node holding a link to another roadmap or website on click',
+              },
+            ]}
+            dropdownCallback={(hasOpened) => {
+              //
+            }}
+          />
+        </div>
+        <DeleteButton
+          callback={() => {
+            deleteProtocolNodeFromRoadmap(node);
+            closeEditorProtocol();
+          }}
+          text='Delete Node'
+        />
+      </div>
 
       <DeleteButton
         callback={() => {
@@ -65,65 +108,6 @@ const Operations = () => {
         }}
         text='Delete Node and subtree'
       />
-
-      <div className='w-52'>
-        <DropdownWhiteSelect
-          dropdownName='Add Node'
-          options={[
-            {
-              name: 'Main',
-              callback: () => {
-                appendClassicNodeToRoadmap(node);
-              },
-              tooltip: 'Basic main node with title and tab and main color',
-            },
-            {
-              name: 'Secondary',
-              callback: () => {
-                appendClassicNodeToRoadmap(node);
-              },
-              tooltip: 'Basic node with title and secondary color and a tab',
-            },
-            {
-              name: 'Link',
-              callback: () => {
-                appendClassicNodeToRoadmap(node);
-              },
-              tooltip:
-                'Node holding a link to another roadmap or website on click',
-            },
-          ]}
-        />
-      </div>
-      <div className='w-52'>
-        <DropdownWhiteSelect
-          dropdownName='Apply Template'
-          options={[
-            {
-              name: 'Main',
-              callback: () => {
-                applyNodeTemplate(node, 'classic');
-              },
-              tooltip: 'Basic main node with title and tab and main color',
-            },
-            {
-              name: 'Secondary',
-              callback: () => {
-                applyNodeTemplate(node, 'classic');
-              },
-              tooltip: 'Basic node with title and secondary color and a tab',
-            },
-            {
-              name: 'Link',
-              callback: () => {
-                applyNodeTemplate(node, 'classic');
-              },
-              tooltip:
-                'Node holding a link to another roadmap or website on click',
-            },
-          ]}
-        />
-      </div>
     </div>
   );
 };

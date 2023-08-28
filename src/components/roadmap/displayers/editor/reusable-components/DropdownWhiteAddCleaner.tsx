@@ -13,7 +13,6 @@ type IDropdownWhiteSelectProps = {
   dropdownName: string;
   options: IOption[];
   dropdownCallback?: (dropdown: boolean) => void;
-  src?: string;
 };
 
 type IOptionProps = IOption & {
@@ -62,7 +61,7 @@ Option.defaultProps = {
   tooltip: null,
 };
 
-const DropdownWhiteSelect = ({
+const DropdownWhiteAdd = ({
   dropdownName,
   options,
   dropdownCallback,
@@ -82,7 +81,7 @@ const DropdownWhiteSelect = ({
     >
       <button
         type='button'
-        className='flex items-center w-full h-full px-5'
+        className='flex items-center w-full h-full px-3'
         onClick={() => {
           setDropdown((prev) => !prev);
           if (dropdownCallback) {
@@ -95,10 +94,8 @@ const DropdownWhiteSelect = ({
         </span>
         <img
           alt='arrow dropdown'
-          src='/roadmap/arrow-dropdown.svg'
-          className={` w-8 h-8 ${
-            dropdown && 'rotate-180'
-          }${tailwindTransitionClass} absolute right-2`}
+          src='/editor/addCircle.svg'
+          className={` w-7 h-7 ${tailwindTransitionClass} absolute right-2`}
         />
       </button>
 
@@ -132,8 +129,8 @@ const DropdownWhiteSelect = ({
   );
 };
 
-DropdownWhiteSelect.defaultProps = {
+DropdownWhiteAdd.defaultProps = {
   dropdownCallback: null,
 };
 
-export default DropdownWhiteSelect;
+export default DropdownWhiteAdd;
