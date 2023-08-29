@@ -1,4 +1,11 @@
 // TODO buttons are: Hide progress, About
+import { getIsEditing } from '@store/roadmap-refactor/roadmap-data/roadmap_state';
+import {
+  enterEditingModeProtocol,
+  saveEditingProtocol,
+} from '@src/typescript/roadmap_ref/roadmap-data/protocols/roadmap-state-protocols';
+import { dispatchAnalyticsEvent } from '@store/misc/analytics';
+
 export const buttonsViewVisitor = [
   {
     name: 'Hide progress',
@@ -14,7 +21,9 @@ export const buttonsViewVisitor = [
 export const buttonsViewOwner = [
   {
     name: 'Edit',
-    callback: () => {},
+    callback: () => {
+      enterEditingModeProtocol();
+    },
   },
   {
     name: 'About',

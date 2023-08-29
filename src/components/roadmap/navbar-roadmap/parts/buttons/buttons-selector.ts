@@ -7,6 +7,10 @@ import { buttonsDraft } from '@components/roadmap/navbar-roadmap/parts/buttons/b
 import { IRoadmapState } from '@store/roadmap-refactor/roadmap-data/roadmap_state';
 import bio from '@components/profile/common/components/Bio';
 import { boundCoordsToNode } from '@src/typescript/roadmap_ref/dragging/strategies/dragging-strategies';
+import {
+  buttonsViewOwner,
+  buttonsViewVisitor,
+} from '@components/roadmap/navbar-roadmap/parts/buttons/buttons-arrays/buttons-view';
 
 export type INavbarRoadmapButton = {
   name: string;
@@ -46,9 +50,9 @@ function getViewButtons(
 ): INavbarRoadmapButton[] {
   const buttons: INavbarRoadmapButton[] = [];
   if (isLogged && isOwner) {
-    buttons.push(...buttonsCreateLogged);
+    buttons.push(...buttonsViewOwner);
   } else if (isLogged && !isOwner) {
-    buttons.push(...buttonsCreateLogged);
+    buttons.push(...buttonsViewVisitor);
   } else if (!isLogged) {
     buttons.push(...buttonsCreateAnonymus);
   } else {

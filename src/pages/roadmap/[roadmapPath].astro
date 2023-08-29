@@ -1,11 +1,7 @@
 ---
-import Base from '@layouts/Base.astro';
 import RoadmapLayout from '@layouts/RoadmapLayout.astro';
 import PageViewCollection from '@components/home/PageViewCollection';
-import TopBarRoadmap from '@components/roadmap/top-bar/TopBarRoadmap';
 import Roadmap from '@components/roadmap/Roadmap';
-import SideBar from '@components/roadmap/sidebar/NewSidebarDesktop';
-import RoadmapController from '@components/roadmap/roadmapcontroler/RoadmapController';
 import DisplayManager from '../../components/roadmap/displayers/DisplayManager';
 import { RoadmapTypeApi } from '../../types/explore/card';
 import SetupScreen from '@src/components/roadmap/displayers/setup-screen/SetupScreen';
@@ -88,12 +84,6 @@ if (typeof id === 'string') {
       <Roadmap pageId={roadmapPath} roadmap={roadmap} client:load />
     </div>
 
-    <div class='hidden opacity-100 bg-white md:block'>
-      <SideBar isCreate={isCreate} client:idle />
-    </div>
-    <div class='absolute bottom-3 md:left-28 left-0'>
-      <RoadmapController client:idle />
-    </div>
     <div class='w-full h-full'>
       <DisplayManager client:idle />
     </div>

@@ -11,6 +11,7 @@ import {
 import { setDisplayPageType } from '@store/roadmap-refactor/display/display-manager';
 import { setSelectedNodeId } from '@store/roadmap-refactor/elements-editing/editor-selected-data';
 import roadmapStateStore, {
+  getIsEditable,
   getIsEditing,
 } from '@store/roadmap-refactor/roadmap-data/roadmap_state';
 import {
@@ -97,7 +98,7 @@ export function getOnClickActionView(nodeId): () => void {
 export function getOnClickAction(nodeId: string): () => void {
   // could be replaced with a onClick store that holds onClick for all nodes-page but that would mean a ton of side effects
   // when changing from view to edit or making a node draggable
-  const state = getIsEditing();
+  const state = getIsEditable();
   return state ? getOnClickActionEdit(nodeId) : getOnClickActionView(nodeId);
 }
 
@@ -118,7 +119,7 @@ export function getOnMouseOverActionView(nodeId): () => void {
 }
 
 export function getOnMouseOverAction(nodeId: string): () => void {
-  const state = getIsEditing();
+  const state = getIsEditable();
   return state
     ? getOnMouseOverActionEdit(nodeId)
     : getOnMouseOverActionView(nodeId);

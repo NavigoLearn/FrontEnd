@@ -1,7 +1,9 @@
 import React from 'react';
 
 const Title = () => {
-  return <div>title</div>;
+  return (
+    <div className='text-xl font-semibold '>AI and Data Science Roadmap</div>
+  );
 };
 
 export default Title;

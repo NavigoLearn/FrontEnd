@@ -1,11 +1,14 @@
 import { atom } from 'nanostores';
+import { deepCopy } from '@src/typescript/roadmap_ref/utils';
 
 const roadmapVisitData = atom({
+  loaded: false,
   roadmapId: '',
   ownerId: '',
   visitorId: '',
   visitorIsOwner: false,
 } as {
+  loaded: boolean;
   roadmapId: string;
   ownerId: string;
   visitorId: string;
@@ -13,11 +16,6 @@ const roadmapVisitData = atom({
 });
 
 export default roadmapVisitData;
-
-export function setRoadmapId(roadmapId: string) {
-  const original = roadmapVisitData.get();
-  roadmapVisitData.set({ ...original, roadmapId });
-}
 
 function recalculateIsOwner() {
   const original = roadmapVisitData.get();
@@ -39,6 +37,29 @@ function recalculateIsOwner() {
   });
 }
 
+function recalculateIsLoaded() {
+  const original = roadmapVisitData.get();
+  let loaded;
+
+  if (
+    original.roadmapId !== '' &&
+    original.roadmapId &&
+    original.ownerId !== '' &&
+    original.ownerId &&
+    original.visitorId !== '' &&
+    original.visitorId
+  ) {
+    loaded = true;
+  } else {
+    loaded = false;
+  }
+
+  roadmapVisitData.set({
+    ...original,
+    loaded,
+  });
+}
+
 export function validData() {
   const original = roadmapVisitData.get();
   return original.ownerId !== '';
@@ -51,12 +72,28 @@ function recalculateOwnerDecorator(func) {
   };
 }
 
-export const setOwnerId = recalculateOwnerDecorator((ownerId: string) => {
-  const original = roadmapVisitData.get();
-  roadmapVisitData.set({ ...original, ownerId });
-});
+function recalculateLoadedDecorator(func) {
+  return (...args) => {
+    func(...args);
+    recalculateIsLoaded();
+  };
+}
 
-export const setVisitorId = recalculateOwnerDecorator((visitorId: string) => {
+export const setOwnerId = recalculateLoadedDecorator(
+  recalculateOwnerDecorator((ownerId: string) => {
+    const original = roadmapVisitData.get();
+    roadmapVisitData.set({ ...original, ownerId });
+  })
+);
+
+export const setVisitorId = recalculateLoadedDecorator(
+  recalculateOwnerDecorator((visitorId: string) => {
+    const original = roadmapVisitData.get();
+    roadmapVisitData.set({ ...original, visitorId });
+  })
+);
+
+export const setRoadmapId = recalculateLoadedDecorator((roadmapId: string) => {
   const original = roadmapVisitData.get();
-  roadmapVisitData.set({ ...original, visitorId });
+  roadmapVisitData.set({ ...original, roadmapId });
 });

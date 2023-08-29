@@ -50,6 +50,11 @@ export function setRoadmapIsLoaded() {
   const original = roadmapStateStore.get();
   roadmapStateStore.set({ ...original, loaded: true });
 }
+
+export function getIsEditable() {
+  const original = roadmapStateStore.get();
+  return original.roadmapState === 'edit' || original.roadmapState === 'create';
+}
 export function getIsEditing() {
   const original = roadmapStateStore.get();
   return original.roadmapState === 'edit';
