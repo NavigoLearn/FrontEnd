@@ -22,4 +22,7 @@ export const setLoaded = (loaded: boolean) => {
   userStatusStore.set({ ...userStatusStore.get(), loaded });
 };
 
+export const getUserStatus = () => {
+  return userStatusStore.get();
+};
 export default userStatusStore;

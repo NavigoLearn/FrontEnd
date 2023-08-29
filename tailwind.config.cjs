@@ -15,6 +15,9 @@ module.exports = {
         thirdary: '#1A1B50',
         eugene: '#6B6DB0',
         footer: '#040E16',
+        darkBlue: '#1A1B50',
+        secondaryBlack: 'rgb(0,0,0,0.6)',
+        placeholderBlack: 'rgb(0,0,0,0.3)',
       },
       borderColor: {
         light: 'rgb(0,0,0,0.3)',
@@ -35,10 +38,10 @@ module.exports = {
       boxShadow: {
         standard: '0px 4px 20px rgba(0, 0, 0, 0.15)',
       },
-      screens: {
-        "landing-min": "1130px",
-        "mobile-landing": "970px",
-        "bigger-nodes": "400px"
+      screens: { // use fucking default breakpoint not this stupid shit
+        // "landing-min": "1130px",
+        // "mobile-landing": "970px",
+        // "bigger-nodes": "400px"
       },
       backgroundImage: {
         buttongradient: 'linear-gradient(90deg, #3361D8 0%, #262EE7 100%)',

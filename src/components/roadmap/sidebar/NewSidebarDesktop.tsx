@@ -1,8 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useStore } from '@nanostores/react';
-import roadmapState from '@store/roadmap-refactor/roadmap-data/roadmap_state';
+import roadmapStateStore from '@store/roadmap-refactor/roadmap-data/roadmap_state';
 import buttonsEditOwner from '@components/roadmap/sidebar/buttons-edit';
-import buttonsCreate from '@components/roadmap/sidebar/buttons-create';
 import userStatusStore from '@store/user/user-status';
 import roadmapVisitData, {
   validData,
@@ -11,6 +10,7 @@ import NewButtonDesktop from '@components/roadmap/sidebar/NewButtonDesktop';
 // import Ball from '@reusable-components-page/roadmap/sidebar/Ball';
 import { setOffsetY } from '@store/roadmap/sidebar/clickSubject';
 import { setClickedIndex } from '@store/roadmap/sidebar/clickedState';
+import { buttonsCreate } from '@components/roadmap/sidebar/buttons-create';
 import {
   buttonsTryTool,
   buttonsViewOwner,
@@ -18,7 +18,8 @@ import {
 } from './buttons-view';
 
 const SideBar = ({ isCreate }: { isCreate: string }) => {
-  const { editing } = useStore(roadmapState);
+  const { roadmapState } = useStore(roadmapStateStore);
+  const editing = roadmapState === 'edit';
   const [hydrated, setHydrated] = useState(false);
   const [isOwner, setIsOwner] = useState(false);
   const { isLogged, loaded } = useStore(userStatusStore);

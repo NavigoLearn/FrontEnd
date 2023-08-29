@@ -9,12 +9,12 @@ import {
   typeGuardTabLinkProperties,
   typeGuardTabTitleProperties,
 } from '@type/roadmap/node/tab-types';
-import DescriptionAttachment from '@components/roadmap/displayers/editor/editor-pages/attachment-page/components/DescriptionAttachment';
+import DescriptionAttachment from '@components/roadmap/displayers/editor/editor-pages/tab-page/components/DescriptionAttachment';
 import {
   mutateAttachmentTabComponentDescription,
   mutateAttachmentTabComponentTitle,
 } from '@src/typescript/roadmap_ref/node/attachments/tab/mutate';
-import TitleAttachment from '@components/roadmap/displayers/editor/editor-pages/attachment-page/components/TitleAttachment';
+import TitleAttachment from '@components/roadmap/displayers/editor/editor-pages/tab-page/components/TitleAttachment';
 import React from 'react';
 import ResourceAttachment from './components/ResourceAttachment';
 

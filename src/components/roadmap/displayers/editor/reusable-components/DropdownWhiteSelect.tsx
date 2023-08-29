@@ -12,6 +12,8 @@ type IOption = {
 type IDropdownWhiteSelectProps = {
   dropdownName: string;
   options: IOption[];
+  dropdownCallback?: (dropdown: boolean) => void;
+  src?: string;
 };
 
 type IOptionProps = IOption & {
@@ -36,7 +38,7 @@ const Option = ({ name, callback, tooltip, setDropdown }: IOptionProps) => {
           callback();
           setDropdown(false);
         }}
-        className={`pointer-events-auto h-10 my-1 text-opacity-60 hover:text-opacity-100 text-darkBlue w-full text-lg flex items-center ml-4 ${tailwindTransitionClass}`}
+        className={`pointer-events-auto h-10 my-1 text-opacity-60 hover:text-opacity-100 text-darkBlue w-full text-md flex items-center ml-4 ${tailwindTransitionClass}`}
       >
         {name}
       </button>
@@ -63,27 +65,32 @@ Option.defaultProps = {
 const DropdownWhiteSelect = ({
   dropdownName,
   options,
+  dropdownCallback,
 }: IDropdownWhiteSelectProps) => {
   const [dropdown, setDropdown] = useState(false);
   const divRef = useRef(null);
 
   useClickOutside(divRef, () => {
     setDropdown(false);
+    dropdownCallback(false);
   });
 
   return (
     <div
-      className={` w-full bg-white rounded-lg h-10  border-2 border-gray-300 ${tailwindTransitionClass} relative`}
+      className={` w-full bg-white rounded-lg h-10  border-2 border-gray-300 hover:border-darkBlue  ${tailwindTransitionClass} relative`}
       ref={divRef}
     >
       <button
         type='button'
-        className='flex items-center w-full h-full px-5'
+        className='flex items-center w-full h-full px-4'
         onClick={() => {
           setDropdown((prev) => !prev);
+          if (dropdownCallback) {
+            dropdownCallback(!dropdown);
+          }
         }}
       >
-        <span className='text-darkBlue text-lg font-medium font-roboto-text'>
+        <span className='text-darkBlue text-md font-medium font-roboto-text'>
           {dropdownName}
         </span>
         <img
@@ -123,6 +130,10 @@ const DropdownWhiteSelect = ({
       </AnimatePresence>
     </div>
   );
+};
+
+DropdownWhiteSelect.defaultProps = {
+  dropdownCallback: null,
 };
 
 export default DropdownWhiteSelect;

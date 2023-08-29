@@ -1,5 +1,5 @@
 import { Roadmap } from '@type/roadmap/stores/roadmap';
-import roadmapState from '@store/roadmap-refactor/roadmap-data/roadmap_state';
+import roadmapStateStore from '@store/roadmap-refactor/roadmap-data/roadmap_state';
 import aboutTabStore from '@store/roadmap-refactor/roadmap-data/roadmap-about';
 import { deepCopy } from '@src/typescript/roadmap_ref/utils';
 
@@ -24,7 +24,7 @@ type BackendRoadmapFormat = {
 };
 export const updateRoadmapData = async (roadmap: Roadmap) => {
   // posts roadmapData to api
-  const { id } = roadmapState.get();
+  const { id } = roadmapStateStore.get();
   const response = await fetch(`/api/roadmaps/${id}/data`, {
     method: 'POST',
     credentials: 'include',

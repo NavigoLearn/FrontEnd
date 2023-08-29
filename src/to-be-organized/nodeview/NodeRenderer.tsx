@@ -28,7 +28,6 @@ import {
 } from '@store/roadmap-refactor/elements-editing/element-effects';
 import { useIsLoaded } from '@hooks/useIsLoaded';
 import { setElementDiv } from '@store/roadmap-refactor/elements-editing/elements-divs';
-import { FontSizeValues } from '@src/types/roadmap/node/components-types';
 import { NodeClass } from '@src/typescript/roadmap_ref/node/core/core';
 import { getIsEditing } from '@store/roadmap-refactor/roadmap-data/roadmap_state';
 import DraggingResizeElement from '@src/to-be-organized/DraggingResizeElement';
@@ -38,11 +37,6 @@ import {
   mutateNodeWidth,
   mutateNodeWidthWhileKeepingCenter,
 } from '@src/typescript/roadmap_ref/node/core/data-mutation/mutate';
-import {
-  getElementIsDraggable,
-  setDraggabilityAllElements,
-  setDraggableElement,
-} from '@store/roadmap-refactor/elements-editing/draggable-elements';
 import { snapNodeWidthHeight } from '@src/typescript/roadmap_ref/snapping/core';
 import { selectNodeColorFromScheme } from '@src/typescript/roadmap_ref/node/core/factories/data-mutation/services';
 import { getColorThemeFromRoadmap } from '@components/roadmap/displayers/setup-screen/theme-controler';

@@ -13,10 +13,13 @@ import { useScrollHidden } from '@hooks/useScrollHidden';
 import { v4 as uuid4 } from 'uuid';
 import NodeManager from '@components/roadmap/NodeManager';
 import { useStore } from '@nanostores/react';
-import roadmapState, {
-  setEditingTrueNoRerender,
+import roadmapStateStore, {
+  getIsEditable,
+  getIsEditing,
+  getRoadmapState,
   setRoadmapId,
   setRoadmapIsLoaded,
+  setRoadmapState,
 } from '@store/roadmap-refactor/roadmap-data/roadmap_state';
 import {
   enableRoadmapZoomDragAndRecenter,
@@ -31,7 +34,6 @@ import { useEffectAfterLoad } from '@hooks/useEffectAfterLoad';
 import ConnectionRenderer from '@components/roadmap/ConnectionRenderer';
 import renderConnectionsStore from '@store/roadmap-refactor/render/rendered-connections';
 import { closeEditorProtocol } from '@src/to-be-organized/nodeview/actions-manager';
-import { afterEventLoop } from '@src/typescript/utils/misc';
 import SnappingLinesRenderer from '@components/roadmap/SnappingLinesRenderer';
 import { addKeyListeners } from '@src/typescript/roadmap_ref/key-shortcuts';
 import { RoadmapTypeApi } from '@type/explore/card';
@@ -39,8 +41,6 @@ import {
   setRoadmapDisableDrag,
   setRoadmapEnableDrag,
 } from '@store/roadmap-refactor/roadmap-data/roadmap-functions-utils';
-import Notifications from '@src/UI-library/Notifications';
-import draggableElements from '@store/roadmap-refactor/elements-editing/draggable-elements';
 import Popup from './tabs/popups/Popup';
 
 export function initializeRoadmapAfterLoad() {
@@ -59,9 +59,9 @@ const Roadmap = ({
 }) => {
   const isCreate = pageId === 'create'; // parameter to determine if we are in the create mode
   if (isCreate) {
-    setEditingTrueNoRerender();
+    setRoadmapState('create');
   }
-  const { editing } = isCreate ? { editing: true } : useStore(roadmapState);
+  const state = getRoadmapState();
   // need to take the ids of the nodes-page included in the current chunks and render them
   const { nodes } = roadmapSelector.get();
   const { nodesIds } = useStore(renderNodesStore);
@@ -70,17 +70,6 @@ const Roadmap = ({
   const chunkRenderer = useRef(null);
   useScrollHidden();
   const isLoaded = useIsLoaded();
-
-  const [isNotificationVisible, setIsNotificationVisible] = useState(false);
-
-  const handleCloseNotificationClick = () => {
-    setIsNotificationVisible(false);
-  };
-
-  const handleOpenNotificationClick = () => {
-    setIsNotificationVisible(true);
-  };
-
   const enableRoadmapDrag = () => {
     enableRoadmapZoomDragAndRecenter(
       'rootSvg',
@@ -132,7 +121,7 @@ const Roadmap = ({
       'rootGroup',
       chunkRenderer.current
     );
-  }, [editing, isCreate]);
+  }, [state, isCreate]);
 
   useEffectAfterLoad(() => {
     // adding event
@@ -140,9 +129,8 @@ const Roadmap = ({
   }, []);
 
   useEffectAfterLoad(() => {
-    handleOpenNotificationClick();
     applyRoadmapElementsDraggability();
-  }, [nodesIds, editing]);
+  }, [nodesIds, state]);
 
   return (
     // eslint-disable-next-line jsx-a11y/click-events-have-key-events,jsx-a11y/no-static-element-interactions
@@ -153,10 +141,7 @@ const Roadmap = ({
         closeEditorProtocol();
       }}
     >
-      <Notifications
-        isVisible={isNotificationVisible}
-        onCloseClick={handleCloseNotificationClick}
-      />
+      {/* <Notifications /> */}
       <Popup />
       <svg
         id='rootSvg'
@@ -172,10 +157,10 @@ const Roadmap = ({
             {isLoaded &&
               nodesIds.map((id) => {
                 // gets the roadmap-roadmap-data
-                return <NodeManager key={id} node={nodes[id]} />;
+                return <NodeManager key={id} nodeId={id} />;
               })}
           </g>
-          {isLoaded && editing && (
+          {isLoaded && (
             <g id='rootGroupSnappingLines'>
               <SnappingLinesRenderer />
             </g>

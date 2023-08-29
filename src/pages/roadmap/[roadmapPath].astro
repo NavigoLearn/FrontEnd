@@ -1,12 +1,7 @@
 ---
-import Base from '@layouts/Base.astro';
+import RoadmapLayout from '@layouts/RoadmapLayout.astro';
 import PageViewCollection from '@components/home/PageViewCollection';
-import TopBarRoadmap from '@components/roadmap/top-bar/TopBarRoadmap';
 import Roadmap from '@components/roadmap/Roadmap';
-import SideBar from '@components/roadmap/sidebar/NewSidebarDesktop';
-// import SideBarMobile from '@components/roadmap/sidebar/SideBarMobile';
-import RoadmapController
-  from '@components/roadmap/roadmapcontroler/RoadmapController';
 import DisplayManager from '../../components/roadmap/displayers/DisplayManager';
 import { RoadmapTypeApi } from '../../types/explore/card';
 import SetupScreen from '@src/components/roadmap/displayers/setup-screen/SetupScreen';
@@ -43,17 +38,22 @@ if (typeof id === 'string') {
       return Astro.redirect('/explore');
     }
 
-    const formattedName = (roadmap?.name || 'untitled')
-      .replace(/\s+/g, '-')
-      .toLowerCase()
-      .slice(0, 32) + '-' + id;
+    const formattedName =
+      (roadmap?.name || 'untitled')
+        .replace(/\s+/g, '-')
+        .toLowerCase()
+        .slice(0, 32) +
+      '-' +
+      id;
 
     if (formattedName !== roadmapPath) {
       return Astro.redirect(`/roadmap/${formattedName}`, 301);
     }
 
     title = roadmap.name;
-    description = `${roadmap.description.slice(0, 100)}${roadmap.description.length > 100 ? '...' : ''} - ${roadmap.name} on NavigoLearn`;
+    description = `${roadmap.description.slice(0, 100)}${
+      roadmap.description.length > 100 ? '...' : ''
+    } - ${roadmap.name} on NavigoLearn`;
     url = `https://navigolearn.com/roadmap/${roadmapPath}`;
     type = 'article';
   } catch (e) {
@@ -63,35 +63,29 @@ if (typeof id === 'string') {
 }
 ---
 
-<Base metadata={{
-  title,
-  description,
-  url,
-  type,
-}} excludeFooter={true}>
-
-  {isCreate && (
-    <SetupScreen client:idle isCreate={isCreate}/>
-  )}
+<RoadmapLayout
+  metadata={{
+    title,
+    description,
+    url,
+    type,
+  }}
+  excludeFooter={true}
+>
+  {isCreate && <SetupScreen client:idle isCreate={isCreate} />}
 
   <PageViewCollection page='Roadmap' client:load />
   <div class='absolute w-full top-0 h-16 bg-white z-[-10]'></div>
 
   <div class='h-[calc(100vh-64px)] md:mt-0 relative w-full'>
-      <!-- offset from nav reduced from total screen size -->
-      <div class='h-full relative'>
-          <!--<TopBarRoadmap client:idle />-->
-          <Roadmap pageId={roadmapPath} roadmap={roadmap} client:load />
-      </div>
+    <!-- offset from nav reduced from total screen size -->
+    <div class='h-full relative'>
+      <!--<TopBarRoadmap client:idle />-->
+      <Roadmap pageId={roadmapPath} roadmap={roadmap} client:load />
+    </div>
 
-      <div class='hidden opacity-100 bg-white md:block'>
-          <SideBar isCreate={isCreate} client:idle />
-      </div>
-      <div class='absolute bottom-3 md:left-28 left-0'>
-          <RoadmapController client:idle />
-      </div>
-      <div class='w-full h-full'>
-          <DisplayManager client:idle />
-      </div>
+    <div class='w-full h-full'>
+      <DisplayManager client:idle />
+    </div>
   </div>
-</Base>
+</RoadmapLayout>

@@ -24,7 +24,7 @@ export const attachmentTabStatusArray: IAttachmentTabStatus[] = [
 ];
 
 export class AttachmentTab extends Attachment {
-  // contains strictly the reusable-components-page specific to a tab-attachment-page
+  // contains strictly the reusable-components-page specific to a tab-tab-page
 
   status: IAttachmentTabStatus;
 

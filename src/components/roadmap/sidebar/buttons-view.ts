@@ -3,7 +3,9 @@ import issues from '@assets/issues.svg';
 import about from '@assets/about.svg';
 import cross from '@assets/cross.svg';
 import book from '@assets/book.svg';
-import roadmapState from '@store/roadmap-refactor/roadmap-data/roadmap_state';
+import roadmapStateStore, {
+  getIsEditing,
+} from '@store/roadmap-refactor/roadmap-data/roadmap_state';
 import {
   enterEditingModeProtocol,
   saveEditingProtocol,
@@ -60,7 +62,7 @@ export const buttonsViewOwner = [
     title: 'Edit',
     clickHandler: () => {
       // persist the changes to the original roadmap_static
-      if (roadmapState.get().editing) {
+      if (getIsEditing()) {
         saveEditingProtocol();
       } else {
         enterEditingModeProtocol();

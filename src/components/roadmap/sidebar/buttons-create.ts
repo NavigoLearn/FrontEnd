@@ -5,7 +5,7 @@ import { dispatchAnalyticsEvent } from '@store/misc/analytics';
 import { roadmapSelector } from '@store/roadmap-refactor/roadmap-data/roadmap-selector';
 import { postRoadmapData } from '../../../api-wrapper/roadmap/roadmaps';
 
-const buttonsCreate = [
+export const buttonsCreate = [
   {
     id: 1,
     cIcon: yestick,
@@ -35,5 +35,3 @@ const buttonsCreate = [
     },
   },
 ];
-
-export default buttonsCreate;

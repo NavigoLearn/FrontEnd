@@ -28,7 +28,7 @@ import { injectDraggingStrategy } from '@src/typescript/roadmap_ref/dragging/inj
 export function nodeFactoryClassicBoilerplate(id?: string): NodeClass {
   // return boilerplate class for classic nodes-page and the most common
   const node = new NodeClass();
-  // classic nodes-page has a tab-attachment-page attachment-page and the default color scheme
+  // classic nodes-page has a tab-tab-page tab-page and the default color scheme
   injectClassicFlags(node);
   id ? injectNewId(node, id) : injectNewRandomId(node);
   injectClassicData(node, '', []);

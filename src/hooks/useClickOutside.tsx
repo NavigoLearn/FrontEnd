@@ -12,8 +12,10 @@ export function useClickOutside(
       }
     }
     document.addEventListener('mousedown', handleClickOutside);
+    document.addEventListener('mouseup', handleClickOutside);
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener('mouseup', handleClickOutside);
     };
   }, []); // Empty dependency array means this useEffect runs once when the component mounts
 }

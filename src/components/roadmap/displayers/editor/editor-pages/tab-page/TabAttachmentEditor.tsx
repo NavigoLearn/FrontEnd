@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import HOCOnChange from '@src/HOC-library/store-based-hoc/OnChangeStore';
-import { componentMapper } from '@components/roadmap/displayers/editor/editor-pages/attachment-page/logic';
+import { componentMapper } from '@components/roadmap/displayers/editor/editor-pages/tab-page/logic';
 import { useStore } from '@nanostores/react';
 import editorSelectedData, {
   triggerRerenderEditor,
