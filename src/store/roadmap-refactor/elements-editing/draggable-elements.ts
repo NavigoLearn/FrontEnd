@@ -94,6 +94,7 @@ export function setDraggableElementForNodeWithId(id: string) {
   draggableIds.forEach((draggableId) => {
     setElementDraggable(draggableId, true);
   });
+  setElementDraggable(id, true);
 }
 
 export function closeEditorDraggabilitySettings() {

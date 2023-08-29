@@ -34,7 +34,6 @@ import { useEffectAfterLoad } from '@hooks/useEffectAfterLoad';
 import ConnectionRenderer from '@components/roadmap/ConnectionRenderer';
 import renderConnectionsStore from '@store/roadmap-refactor/render/rendered-connections';
 import { closeEditorProtocol } from '@src/to-be-organized/nodeview/actions-manager';
-import { afterEventLoop } from '@src/typescript/utils/misc';
 import SnappingLinesRenderer from '@components/roadmap/SnappingLinesRenderer';
 import { addKeyListeners } from '@src/typescript/roadmap_ref/key-shortcuts';
 import { RoadmapTypeApi } from '@type/explore/card';
@@ -42,8 +41,6 @@ import {
   setRoadmapDisableDrag,
   setRoadmapEnableDrag,
 } from '@store/roadmap-refactor/roadmap-data/roadmap-functions-utils';
-import Notifications from '@src/UI-library/Notifications';
-import draggableElements from '@store/roadmap-refactor/elements-editing/draggable-elements';
 import Popup from './tabs/popups/Popup';
 
 export function initializeRoadmapAfterLoad() {
@@ -69,7 +66,6 @@ const Roadmap = ({
   const { nodes } = roadmapSelector.get();
   const { nodesIds } = useStore(renderNodesStore);
   const { connections: connectionsIds } = useStore(renderConnectionsStore);
-  useStore(roadmapStateStore); // used to trigger rerenders when state changes
 
   const chunkRenderer = useRef(null);
   useScrollHidden();
@@ -164,7 +160,7 @@ const Roadmap = ({
                 return <NodeManager key={id} nodeId={id} />;
               })}
           </g>
-          {isLoaded && getIsEditable() && (
+          {isLoaded && (
             <g id='rootGroupSnappingLines'>
               <SnappingLinesRenderer />
             </g>
