@@ -40,10 +40,8 @@ const ComponentRenderer = ({
   const textColor = selectNodeColorText(theme, colorType);
 
   const textWeightSelect = selectTextFontWeight(textWeight);
-  console.log(textWeightSelect);
 
   const fontSizeSelect = selectTextFontSize(textSize);
-  console.log(fontSizeSelect);
   // console.log(component.textSize);
   // font weight and font size will per component and be ni the component itself
   const parentSelected =
