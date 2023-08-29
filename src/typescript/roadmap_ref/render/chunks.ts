@@ -10,11 +10,12 @@ import chunksStore, {
 } from '@store/roadmap-refactor/render/rendered-chunks';
 import * as d3 from 'd3';
 import { setConnections } from '@store/roadmap-refactor/render/rendered-connections';
-import { Roadmap } from '@type/roadmap/stores/roadmap';
+import { IRoadmap } from '@type/roadmap/stores/IRoadmap';
 import { setViewport } from '@store/roadmap-refactor/misc/viewport-coords-store';
 import { Viewport } from '@type/roadmap/old/misc';
 import miscParams from '@store/roadmap-refactor/misc/misc-params-store';
 import { roadmapSelector } from '@store/roadmap-refactor/roadmap-data/roadmap-selector';
+import { getRoadmapSelector } from '@src/typescript/roadmap_ref/roadmap-data/services/get';
 
 export function setConnectionsToRender() {
   const { loaded } = roadmapStateStore.get();
@@ -34,7 +35,7 @@ export function setConnectionsToRender() {
   setConnections(connectionsIds);
 }
 
-export function extendNodeIdsForConnection(nodeIds, roadmap: Roadmap) {
+function extendNodeIdsForConnection(nodeIds, roadmap: IRoadmap) {
   // extends the node ids array to include the nodes-page that are connected to the nodes-page in the array
   const extendedNodeIds = [...nodeIds];
   nodeIds.forEach((nodeId) => {
@@ -55,7 +56,7 @@ export function setNodesToRender() {
   const { loaded } = roadmapStateStore.get();
   if (!loaded) return;
 
-  const roadmapData: Roadmap = roadmapSelector.get();
+  const roadmapData: IRoadmap = getRoadmapSelector();
 
   const { chunks } = roadmapData;
 

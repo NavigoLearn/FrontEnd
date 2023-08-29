@@ -1,16 +1,14 @@
-import React, { useState } from 'react';
+import React from 'react';
 import AddTemplateButton from '@components/roadmap/displayers/editor/editor-pages/operations-page/templates/AddTemplateButton';
 import SearchTemplate from '@components/roadmap/displayers/editor/editor-pages/operations-page/templates/SearchTemplate';
 import Template from '@components/roadmap/displayers/editor/editor-pages/operations-page/templates/Template';
+import { getRoadmapTemplatesArray } from '@src/typescript/roadmap_ref/roadmap-data/services/get';
+import { mutateTemplateName } from '@src/typescript/roadmap_ref/node/templates-system/template-data-mutation';
+import { triggerRerenderOperations } from '@components/roadmap/displayers/editor/editor-pages/operations-page/stores/operations-store';
+import { deleteTemplate } from '@src/typescript/roadmap_ref/roadmap-data/services/delete';
 
 const TemplatesSystem = () => {
-  const [hovered, setHovered] = useState(false);
-  const templates = [
-    'template 1',
-    'the unholy node',
-    'another noe',
-    'template 2',
-  ];
+  const templates = getRoadmapTemplatesArray();
 
   return (
     <div>
@@ -24,16 +22,18 @@ const TemplatesSystem = () => {
         <SearchTemplate />
       </div>
       <div className='flex flex-col pt-4'>
-        {templates.map((name) => {
+        {templates.map(({ name, id }) => {
           return (
             <Template
-              key={name}
+              key={id}
               name={name}
               onNameChange={(newName: string) => {
-                console.log(newName);
+                mutateTemplateName(id, newName);
+                triggerRerenderOperations();
               }}
               onTemplateDelete={() => {
-                console.log('delete');
+                deleteTemplate(id);
+                triggerRerenderOperations();
               }}
             />
           );

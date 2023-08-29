@@ -15,6 +15,10 @@ export const setSelectedNodeId = (id: string) => {
   });
 };
 
+export const getSelectedNodeId = () => {
+  return editorSelectedData.get().selectedNodeId;
+};
+
 export const triggerRerenderEditor = () => {
   const originalStore = editorSelectedData.get();
   editorSelectedData.set({

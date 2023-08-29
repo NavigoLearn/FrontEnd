@@ -81,3 +81,9 @@ export const deleteNodeSubNode = (node: NodeClass) => {
   parent.subNodeIds = newSubNodes;
   roadmapSelector.set({ ...roadmap });
 };
+
+export const deleteTemplate = (templateId: string) => {
+  const roadmap = roadmapSelector.get();
+  delete roadmap.templates[templateId];
+  roadmapSelector.set({ ...roadmap });
+};

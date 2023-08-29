@@ -1,6 +1,6 @@
-import { factoryNodeClassicCustomizable } from '@src/typescript/roadmap_ref/node/core/factories/templates/classic';
+import { factoryNodeClassicCustomizable } from '@src/typescript/roadmap_ref/node/core/factories/base-templates-factories/classic';
 import { factoryConnection } from '@src/typescript/roadmap_ref/node/connections/factories-protocols';
-import { factorySubNode } from '@src/typescript/roadmap_ref/node/core/factories/templates/sub-node';
+import { factorySubNode } from '@src/typescript/roadmap_ref/node/core/factories/base-templates-factories/sub-node';
 import { appendRootNodeId } from '@src/typescript/roadmap_ref/roadmap-data/services/append';
 import {
   injectRoadmapConnection,

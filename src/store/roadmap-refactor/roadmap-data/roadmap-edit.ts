@@ -1,5 +1,5 @@
 import { atom } from 'nanostores';
-import { Roadmap } from '@type/roadmap/stores/roadmap';
+import { IRoadmap } from '@type/roadmap/stores/IRoadmap';
 import { roadmapSelector } from '@store/roadmap-refactor/roadmap-data/roadmap-selector';
 
 export const roadmapEdit = atom({
@@ -7,9 +7,9 @@ export const roadmapEdit = atom({
   connections: {},
   chunks: {},
   rootNodesIds: [],
-} as Roadmap);
+} as IRoadmap);
 
-export const setRoadmapEdit = (roadmap: Roadmap) => {
+export const setRoadmapEdit = (roadmap: IRoadmap) => {
   roadmapSelector.set({ ...roadmap });
   roadmapEdit.set({ ...roadmap });
 };

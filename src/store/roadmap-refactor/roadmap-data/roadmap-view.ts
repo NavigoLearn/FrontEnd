@@ -1,5 +1,5 @@
 import { atom } from 'nanostores';
-import { Roadmap } from '@type/roadmap/stores/roadmap';
+import { IRoadmap } from '@type/roadmap/stores/IRoadmap';
 import { setRoadmapSelector } from '@store/roadmap-refactor/roadmap-data/roadmap-selector';
 import { fetchRoadmap } from '@src/api-wrapper/roadmap/roadmaps';
 import { RoadmapTypeApi } from '@type/explore/card';
@@ -17,9 +17,9 @@ export const roadmapView = atom({
   nodes: {},
   connections: {},
   chunks: {},
-} as Roadmap);
+} as IRoadmap);
 
-export function setRoadmapView(roadmap: Roadmap) {
+export function setRoadmapView(roadmap: IRoadmap) {
   setRoadmapSelector(roadmap);
   roadmapView.set({ ...roadmap });
 }
@@ -31,7 +31,7 @@ export async function setRoadmapFromAPI(pageId: string) {
 export async function setRoadmapFromData(roadmapData: RoadmapTypeApi) {
   if (isRoadmapType(roadmapData.data)) {
     // @ts-ignore
-    const roadmap: Roadmap = roadmapData.data;
+    const roadmap: IRoadmap = roadmapData.data;
     setRoadmapView(roadmap);
 
     setOwnerId(roadmapData.ownerId);

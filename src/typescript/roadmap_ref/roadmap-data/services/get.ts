@@ -5,6 +5,7 @@ import { ICoords } from '@src/typescript/roadmap_ref/dragging/core';
 export const getNodeByIdRoadmapSelector = (id: string) => {
   return roadmapSelector.get().nodes[id];
 };
+
 export function getTracebackNodeToRoot(nodeId: string) {
   const tracebackNodes = [];
   let currentNode = roadmapSelector.get().nodes[nodeId];
@@ -82,4 +83,16 @@ export const getNodeCenterAbsoluteCoords = (nodeId: string) => {
   // Too lazy to delete and reimport everywhere
   const { x, y } = getNodeAbsoluteCoordsCenter(nodeId);
   return { x, y };
+};
+
+export const getRoadmapSelector = () => {
+  return roadmapSelector.get();
+};
+
+export const getRoadmapTemplatesArray = () => {
+  return Object.values(roadmapSelector.get().templates);
+};
+
+export const getTemplateById = (templateId: string) => {
+  return roadmapSelector.get().templates[templateId];
 };

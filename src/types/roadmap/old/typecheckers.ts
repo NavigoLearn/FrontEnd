@@ -1,4 +1,4 @@
-import { Roadmap } from '@type/roadmap/stores/roadmap';
+import { IRoadmap } from '@type/roadmap/stores/IRoadmap';
 import {
   ConnectionProps,
   ConnectionStore,
@@ -79,6 +79,6 @@ export function isValidNodeType(type: string): type is NodeIdentifierTypes {
   return nodeIdentifierTypesArray.includes(type);
 }
 
-export function isRoadmapType(props: any): props is Roadmap {
+export function isRoadmapType(props: any): props is IRoadmap {
   return 'nodes' in props;
 }

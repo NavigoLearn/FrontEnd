@@ -1,5 +1,5 @@
 import { atom } from 'nanostores';
-import { HashMap } from '@type/roadmap/stores/roadmap';
+import { HashMap } from '@type/roadmap/misc';
 
 export const elementsDivs = atom({} as HashMap<HTMLDivElement>);
 

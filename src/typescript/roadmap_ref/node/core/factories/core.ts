@@ -1,4 +1,4 @@
-import { factoryNodeClassic } from '@src/typescript/roadmap_ref/node/core/factories/templates/classic';
+import { factoryNodeClassic } from '@src/typescript/roadmap_ref/node/core/factories/base-templates-factories/classic';
 import {
   INodeTemplates,
   NodeClass,

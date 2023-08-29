@@ -1,5 +1,5 @@
 import { beforeAll, describe, expect, it } from 'vitest';
-import { nodeFactoryClassicBoilerplate } from '@src/typescript/roadmap_ref/node/core/factories/templates/classic';
+import { nodeFactoryClassicBoilerplate } from '@src/typescript/roadmap_ref/node/core/factories/base-templates-factories/classic';
 import {
   mutateAttachmentTabComponentDescription,
   mutateAttachmentTabComponentTitle,

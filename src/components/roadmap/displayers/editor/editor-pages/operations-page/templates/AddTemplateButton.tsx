@@ -1,14 +1,21 @@
 import React, { useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
+import { addTemplateFromNode } from '@src/typescript/roadmap_ref/node/templates-system/template-protocols';
+import { getSelectedNodeId } from '@store/roadmap-refactor/elements-editing/editor-selected-data';
+import { getNodeByIdRoadmapSelector } from '@src/typescript/roadmap_ref/roadmap-data/services/get';
+import { triggerRerenderOperations } from '@components/roadmap/displayers/editor/editor-pages/operations-page/stores/operations-store';
 
 const AddTemplateButton = () => {
   const [hovered, setHovered] = useState(false);
+  const nodeId = getSelectedNodeId();
 
   return (
     <section className='flex relative'>
       <button
         onClick={() => {
-          //
+          const node = getNodeByIdRoadmapSelector(nodeId);
+          addTemplateFromNode(node);
+          triggerRerenderOperations();
         }}
         onMouseOver={() => {
           setHovered(true);

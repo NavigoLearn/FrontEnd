@@ -32,6 +32,7 @@ export const applyRoadmapElementsDraggability = () => {
       addDragabilityProtocol(component.draggingBehavior);
     });
   });
+  console.log(roadmap, draggableElements.get());
 
   Object.values(roadmap.nodes).forEach((node) => {
     inferAndSetNodeDraggability(node);

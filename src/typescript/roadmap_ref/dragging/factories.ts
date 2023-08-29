@@ -14,7 +14,7 @@ export function draggingBehaviorFactoryRoadmapNode(
   const draggingBehavior = new DraggingBehavior();
   injectDraggingElementIdentifier(draggingBehavior, 'div');
   injectDraggingElementId(draggingBehavior, nodeId);
-  injectDraggingStrategy(draggingBehavior, 'free');
+  injectDraggingStrategy(draggingBehavior, 'snap');
   injectDraggingElementType(draggingBehavior, 'node');
 
   return draggingBehavior;
