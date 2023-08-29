@@ -14,6 +14,7 @@ import { getComponentById } from '@src/typescript/roadmap_ref/node/core/data-get
 import { setSnappings } from '@store/roadmap-refactor/render/snapping-lines';
 import { snapCoordsToPositions } from '@src/typescript/roadmap_ref/snapping/core';
 import { getNodeCornerPositions } from '@src/typescript/roadmap_ref/snapping/generate-positions';
+import { throttle } from '@src/typescript/roadmap_ref/render/chunks';
 
 export const draggingStrategyFree = (draggingBehavior, newX, newY) => {
   return {

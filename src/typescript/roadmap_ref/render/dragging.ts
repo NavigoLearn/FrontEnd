@@ -6,7 +6,10 @@ import {
 } from '@store/roadmap-refactor/elements-editing/element-effects';
 import { deleteAllSnappings } from '@store/roadmap-refactor/render/snapping-lines';
 import { DraggingBehavior } from '@src/typescript/roadmap_ref/dragging/core';
-import { setElementDraggableUpdateCallback } from '@store/roadmap-refactor/elements-editing/draggable-elements';
+import {
+  setElementDraggable,
+  setElementDraggableUpdateCallback,
+} from '@store/roadmap-refactor/elements-editing/draggable-elements';
 import { getNodeByIdRoadmapSelector } from '@src/typescript/roadmap_ref/roadmap-data/services/get';
 import { triggerConnectionRerender } from '@store/roadmap-refactor/render/rerender-trigger-connections';
 import { getCurrentCoordsStrategyFactory } from '@src/typescript/roadmap_ref/dragging/strategies/get-current-coords';

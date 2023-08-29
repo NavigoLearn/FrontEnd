@@ -14,6 +14,8 @@ import { v4 as uuid4 } from 'uuid';
 import NodeManager from '@components/roadmap/NodeManager';
 import { useStore } from '@nanostores/react';
 import roadmapStateStore, {
+  getIsEditable,
+  getIsEditing,
   getRoadmapState,
   setRoadmapId,
   setRoadmapIsLoaded,
@@ -67,6 +69,7 @@ const Roadmap = ({
   const { nodes } = roadmapSelector.get();
   const { nodesIds } = useStore(renderNodesStore);
   const { connections: connectionsIds } = useStore(renderConnectionsStore);
+  useStore(roadmapStateStore); // used to trigger rerenders when state changes
 
   const chunkRenderer = useRef(null);
   useScrollHidden();
@@ -158,10 +161,10 @@ const Roadmap = ({
             {isLoaded &&
               nodesIds.map((id) => {
                 // gets the roadmap-roadmap-data
-                return <NodeManager key={id} node={nodes[id]} />;
+                return <NodeManager key={id} nodeId={id} />;
               })}
           </g>
-          {isLoaded && state === 'edit' && (
+          {isLoaded && getIsEditable() && (
             <g id='rootGroupSnappingLines'>
               <SnappingLinesRenderer />
             </g>

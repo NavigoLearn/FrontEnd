@@ -1,5 +1,9 @@
 import { atom } from 'nanostores';
 import { deepCopy } from '@src/typescript/roadmap_ref/utils';
+import {
+  getIsCreate,
+  getRoadmapState,
+} from '@store/roadmap-refactor/roadmap-data/roadmap_state';
 
 const roadmapVisitData = atom({
   loaded: false,
@@ -31,6 +35,10 @@ function recalculateIsOwner() {
     visitorIsOwner = false;
   }
 
+  if (getIsCreate()) {
+    visitorIsOwner = true;
+  }
+
   roadmapVisitData.set({
     ...original,
     visitorIsOwner,
@@ -39,6 +47,7 @@ function recalculateIsOwner() {
 
 function recalculateIsLoaded() {
   const original = roadmapVisitData.get();
+  const roadmapState = getRoadmapState();
   let loaded;
 
   if (
@@ -97,3 +106,7 @@ export const setRoadmapId = recalculateLoadedDecorator((roadmapId: string) => {
   const original = roadmapVisitData.get();
   roadmapVisitData.set({ ...original, roadmapId });
 });
+
+export function getRoadmapVisitData() {
+  return roadmapVisitData.get();
+}

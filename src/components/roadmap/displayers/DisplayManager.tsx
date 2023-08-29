@@ -8,8 +8,6 @@ import EditorPageManager from '@components/roadmap/displayers/editor/EditorPageM
 const DisplayManager = () => {
   const { type } = useStore(displayStore);
 
-  console.log(type);
-
   return (
     <AnimatePresence>
       {type === 'editor' && <EditorPageManager />}

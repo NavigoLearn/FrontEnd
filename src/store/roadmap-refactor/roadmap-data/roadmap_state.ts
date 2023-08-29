@@ -36,6 +36,10 @@ export function getRoadmapState() {
   return original.roadmapState;
 }
 
+export function getRoadmapStateStoreData() {
+  return roadmapStateStore.get();
+}
+
 export function setRoadmapId(id: string) {
   const original = roadmapStateStore.get();
   roadmapStateStore.set({ ...original, id });

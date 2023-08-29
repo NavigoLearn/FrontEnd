@@ -11,7 +11,7 @@ import DropdownGreyAdd from '@src/components/roadmap/displayers/editor/reusable-
 import { appendComponent } from '@src/typescript/roadmap_ref/node/core/data-mutation/append';
 import { getNodeByIdRoadmapSelector } from '@src/typescript/roadmap_ref/roadmap-data/services/get';
 import { IComponentObject } from '@type/roadmap/node/components-types';
-import { setDraggableElement } from '@store/roadmap-refactor/elements-editing/draggable-elements';
+import { setElementDraggable } from '@store/roadmap-refactor/elements-editing/draggable-elements';
 import { addDragabilityProtocol } from '@src/typescript/roadmap_ref/render/dragging';
 import { afterEventLoop } from '@src/typescript/utils/misc';
 
@@ -41,7 +41,7 @@ const Components = () => {
           triggerNodeRerender(node.id);
           afterEventLoop(() => {
             // delays until the next render cycle
-            setDraggableElement(newComponent.id, true);
+            setElementDraggable(newComponent.id, true);
           });
           triggerRerenderEditor();
         }}

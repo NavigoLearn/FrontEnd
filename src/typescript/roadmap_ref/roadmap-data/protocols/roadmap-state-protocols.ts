@@ -9,7 +9,10 @@ import {
   roadmapSelector,
   setRoadmapSelector,
 } from '@store/roadmap-refactor/roadmap-data/roadmap-selector';
-import { setAllDraggableFalse } from '@store/roadmap-refactor/elements-editing/draggable-elements';
+import {
+  setAllDraggableFalse,
+  setAllDraggableTrue,
+} from '@store/roadmap-refactor/elements-editing/draggable-elements';
 import { setDisplayPageType } from '@store/roadmap-refactor/display/display-manager';
 import { removeAllEffects } from '@store/roadmap-refactor/elements-editing/element-effects';
 import { updateRoadmapData } from '@src/api-wrapper/roadmap/roadmaps';
@@ -20,6 +23,7 @@ export function enterEditingModeProtocol() {
   setRoadmapEdit(deepCopyRoadmap);
   setDisplayPageType('closed');
   setRoadmapState('edit');
+  setAllDraggableTrue();
 }
 
 export function transferEditToRoadmap() {

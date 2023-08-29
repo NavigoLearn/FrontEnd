@@ -17,7 +17,7 @@ const draggableElements = atom({
   };
 });
 
-export function setDraggableElement(id: string, draggable: boolean) {
+export function setElementDraggable(id: string, draggable: boolean) {
   const originalDraggables = draggableElements.get();
   // if callback does not exist throws and error
   if (!originalDraggables.draggableElementsUpdateCallbacks[id]) {
@@ -64,14 +64,14 @@ export function getElementIsDraggable(id: string) {
 export function setAllDraggableTrue() {
   const originalDraggables = draggableElements.get();
   Object.keys(originalDraggables.draggableElements).forEach((key) => {
-    setDraggableElement(key, true);
+    setElementDraggable(key, true);
   });
   draggableElements.set(originalDraggables);
 }
 export function setAllDraggableFalse() {
   const newDraggables = draggableElements.get();
   Object.keys(newDraggables.draggableElements).forEach((key) => {
-    setDraggableElement(key, false);
+    setElementDraggable(key, false);
   });
   draggableElements.set(newDraggables);
 }
@@ -92,7 +92,7 @@ export function setDraggableElementForNodeWithId(id: string) {
   });
 
   draggableIds.forEach((draggableId) => {
-    setDraggableElement(draggableId, true);
+    setElementDraggable(draggableId, true);
   });
 }
 

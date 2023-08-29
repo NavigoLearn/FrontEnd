@@ -1,17 +1,18 @@
 import React, { useEffect, useRef } from 'react';
 import { useTriggerRerender } from '@hooks/useTriggerRerender';
 import NodeRenderer from '@src/to-be-organized/nodeview/NodeRenderer';
-import { NodeClass } from '@src/typescript/roadmap_ref/node/core/core';
 import { setTriggerRender } from '@store/roadmap-refactor/render/rerender-triggers-nodes';
+import { getNodeByIdRoadmapSelector } from '@src/typescript/roadmap_ref/roadmap-data/services/get';
 
 export type NodeManagerProps = {
-  node: NodeClass;
+  nodeId: string;
 };
 
-const NodeManager = ({ node }: NodeManagerProps) => {
+const NodeManager = ({ nodeId }: NodeManagerProps) => {
   const objRef = useRef<SVGForeignObjectElement>(null);
   const rerender = useTriggerRerender();
 
+  const node = getNodeByIdRoadmapSelector(nodeId);
   const { data } = node;
 
   function setForeignObjectSize(rootDivRef) {
