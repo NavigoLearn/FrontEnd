@@ -1,5 +1,8 @@
 import { NodeClass } from '@src/typescript/roadmap_ref/node/core/core';
-import { IConnectionPositions } from '@src/typescript/roadmap_ref/node/connections/core';
+import {
+  ConnectionClass,
+  IConnectionPositions,
+} from '@src/typescript/roadmap_ref/node/connections/core';
 import { HashMapWithKeys } from '@type/roadmap/misc';
 import { getTransformXY } from '@src/typescript/roadmap_ref/render/coord-calc';
 
@@ -90,6 +93,18 @@ export function getBottomCoords(node: NodeClass): ICoord {
     y: node.data.coords.y + node.data.height,
   };
   return coords;
+}
+
+export function connectionSetter(
+  position: 'to' | 'from',
+  connection: ConnectionClass,
+  positionType: IConnectionPositions
+) {
+  if (position === 'from') {
+    connection.positionFrom = positionType;
+  } else if (position === 'to') {
+    connection.positionTo = positionType;
+  }
 }
 
 type IFunctionCoord = (node: NodeClass) => ICoord;

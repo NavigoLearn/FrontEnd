@@ -9,6 +9,7 @@ import {
   triggerNodeRerender,
 } from '@store/roadmap-refactor/render/rerender-triggers-nodes';
 import {
+  getConnectionByIdRoadmapSelector,
   getNodeAdjacentNodesIds,
   getNodeByIdRoadmapSelector,
   getRootNodesIds,
@@ -39,6 +40,8 @@ import {
 import { snapNodeWidthHeight } from '@src/typescript/roadmap_ref/snapping/core';
 import { selectNodeColorFromScheme } from '@src/typescript/roadmap_ref/node/core/factories/data-mutation/services';
 import { getColorThemeFromRoadmap } from '@components/roadmap/displayers/setup-screen/theme-controler';
+import ConnectionNodeSet from '@src/components/roadmap/connection-manager/ConnectionNodeSet';
+import { getIdArrayConnections } from '@src/components/roadmap/connection-manager/services';
 
 interface NodeViewProps {
   nodeId: string;
@@ -233,6 +236,11 @@ const NodeRenderer: React.FC<NodeViewProps> = ({
             };
           }}
         />
+
+        {/* <ConnectionNodeSet
+          node={node}
+          connections={getIdArrayConnections(nodeId)}
+        /> */}
 
         {componentsRenderer(node)}
         {subNodeIds &&
