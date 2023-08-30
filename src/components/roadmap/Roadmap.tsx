@@ -43,6 +43,7 @@ import {
 } from '@store/roadmap-refactor/roadmap-data/roadmap-functions-utils';
 import { useEffectDelayedCycle } from '@hooks/useEffectDelayedCycle';
 import { getRoadmapSelector } from '@src/typescript/roadmap_ref/roadmap-data/services/get';
+import { deepCopy } from '@src/typescript/roadmap_ref/utils';
 import Popup from './tabs/popups/Popup';
 
 export function initializeRoadmapAfterLoad() {
