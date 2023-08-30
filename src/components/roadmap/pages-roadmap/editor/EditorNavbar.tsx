@@ -15,6 +15,7 @@ import {
   clearSelectedNodeIdChild,
   clearSelectedNodeIdParent,
 } from '@components/roadmap/connections/connection-editing/connection-store';
+import { nodeNameSyncer } from '@src/typescript/roadmap_ref/node/misc';
 
 const getButtonWidth = (buttonRef: React.RefObject<HTMLButtonElement>) => {
   if (buttonRef.current) {
@@ -79,34 +80,38 @@ const TitleAndExit = () => {
     <div className='flex  px-9 mt-5 relative'>
       <div className='flex w-5/6 gap-5 items-center '>
         {!edit && (
-          <h2 className='text-3xl text-black font-medium font-kanit-text'>
+          <h2 className='text-2xl text-black font-medium font-kanit-text'>
             {name}
           </h2>
         )}
         {edit && (
           <input
-            className='text-3xl text-black font-medium font-kanit-text outline-none border-2 border-gray-300'
+            className='text-2xl text-black font-medium font-kanit-text outline-none border-2 border-gray-300 w-5/6'
             value={name}
             onChange={(e) => {
               mutateNodeName(node, e.target.value);
+              nodeNameSyncer(node.id, e.target.value);
               triggerRerenderEditor();
             }}
           />
         )}
+      </div>
+
+      {!edit && (
         <button
           onClick={() => {
             setEdit((prev) => !prev);
           }}
           type='button'
-          className='w-5 h-5 opacity-70'
+          className='w-6 h-6 opacity-70 absolute top-1 right-20'
         >
           <img
-            className='w-5 h-5'
+            className='w-full h-full'
             alt='edit button for node name'
             src='/editor/edit.svg'
           />
         </button>
-      </div>
+      )}
       <button
         type='button'
         onClick={() => {

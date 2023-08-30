@@ -16,8 +16,13 @@ import {
 import { triggerNodeRerender } from '@store/roadmap-refactor/render/rerender-triggers-nodes';
 import { tailwindTransitionClass } from '@src/UI-library/tailwind-utils';
 import { getNodeByIdRoadmapSelector } from '@src/typescript/roadmap_ref/roadmap-data/services/get';
-import { getIsEditing } from '@store/roadmap-refactor/roadmap-data/roadmap_state';
-import editorSelectedData from '@store/roadmap-refactor/elements-editing/editor-selected-data';
+import {
+  getIsEditable,
+  getIsEditing,
+} from '@store/roadmap-refactor/roadmap-data/roadmap_state';
+import editorSelectedData, {
+  getSelectedNodeId,
+} from '@store/roadmap-refactor/elements-editing/editor-selected-data';
 import displayManagerStore from '@store/roadmap-refactor/display/display-manager';
 
 type IComponentElementProps = {
@@ -36,7 +41,10 @@ const ComponentRenderer = ({
   const objRef = useRef(null);
   // text color is based on the node color
   const theme = getColorThemeFromRoadmap();
-  const isEditing = getIsEditing();
+  const parentSelected =
+    getSelectedNodeId() === parentNode.id &&
+    getIsEditable() &&
+    displayManagerStore.get().type !== 'closed';
   const textColor = selectNodeColorText(theme, colorType);
 
   const textWeightSelect = selectTextFontWeight(textWeight);
@@ -44,17 +52,16 @@ const ComponentRenderer = ({
   const fontSizeSelect = selectTextFontSize(textSize);
   // console.log(component.textSize);
   // font weight and font size will per component and be ni the component itself
-  const parentSelected =
-    parentNode.id === editorSelectedData.get().selectedNodeId &&
-    displayManagerStore.get().type !== 'closed';
+
+  console.log('parent selected', text);
 
   return (
     <div
       ref={objRef}
       key={component.id}
       id={`div${id}`}
-      className={`absolute flex justify-center items-center select-none border-2 pointer-events-auto border-transparent ${
-        isEditing && 'hover:border-black'
+      className={`absolute flex justify-center items-center select-none border-2 pointer-events-auto ${
+        parentSelected && 'border-black'
       } transition-allNoTransform`}
       style={{
         color: textColor,

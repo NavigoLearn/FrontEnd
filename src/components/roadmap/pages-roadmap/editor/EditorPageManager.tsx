@@ -10,7 +10,7 @@ import TabAttachment from '@components/roadmap/pages-roadmap/editor/editor-pages
 import Components from '@components/roadmap/pages-roadmap/editor/editor-pages/components-page/Components';
 import Operations from '@components/roadmap/pages-roadmap/editor/editor-pages/operations-page/Operations';
 import Properties from '@components/roadmap/pages-roadmap/editor/editor-pages/properties-page/Properties';
-import Nodes from '@components/roadmap/pages-roadmap/editor/editor-pages/nodes-page/Nodes';
+import SubNodesPage from '@components/roadmap/pages-roadmap/editor/editor-pages/nodes-page/SubNodesPage';
 import { AnimatePresence, motion } from 'framer-motion';
 
 const pagesMapperJSON: Record<IEditorDisplayPageType, React.ReactNode> = {
@@ -24,7 +24,7 @@ const pagesMapperJSON: Record<IEditorDisplayPageType, React.ReactNode> = {
   components: <Components />,
   operations: <Operations />,
   properties: <Properties />,
-  nodes: <Nodes />,
+  nodes: <SubNodesPage />,
 };
 
 const SelectedPage = ({ page }: { page: IEditorDisplayPageType }) => {

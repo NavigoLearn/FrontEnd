@@ -14,6 +14,7 @@ import { NodeClass } from '@src/typescript/roadmap_ref/node/core/core';
 import { triggerNodeRerender } from '@store/roadmap-refactor/render/rerender-triggers-nodes';
 import TrashIcon from '@src/UI-library/svg-animations/trash/TrashIcon';
 import DraggableInput from '@src/UI-library/DraggableInput';
+import { nodeNameSyncer } from '@src/typescript/roadmap_ref/node/misc';
 import TextSizeComponent from '../text-controler/TextSizeComponent';
 import TextWeightComponent from '../text-controler/TextWeightComponent';
 
@@ -45,6 +46,7 @@ const TextComponent = ({ node, id, name }: TitleComponentProps) => {
           onChange={(event) => {
             const { value } = event.target;
             mutateComponentTextText(titleComponent, value);
+            if (node.components.length === 1) nodeNameSyncer(node.id, value);
             rerender();
             triggerNodeRerender(node.id);
           }}

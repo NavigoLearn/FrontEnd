@@ -7,7 +7,7 @@ import DropdownPlus from '@src/UI-library/svg-animations/dropdownplus/DropdownPl
 import { appendSubNodeId } from '@src/typescript/roadmap_ref/node/core/data-mutation/append';
 import { appendSubNode } from '@src/typescript/roadmap_ref/roadmap-data/protocols/append';
 
-const Nodes = () => {
+const SubNodesPage = () => {
   const { selectedNodeId } = useStore(editorSelectedData);
   const node = getNodeByIdRoadmapSelector(selectedNodeId);
 
@@ -37,4 +37,4 @@ const Nodes = () => {
   );
 };
 
-export default Nodes;
+export default SubNodesPage;

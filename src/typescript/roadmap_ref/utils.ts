@@ -13,3 +13,7 @@ export function donsole(...args) {
   // @ts-ignore
   console.log(deepCopy(...args));
 }
+
+export function clipValue(str: string, length: number) {
+  return str.slice(0, length);
+}
