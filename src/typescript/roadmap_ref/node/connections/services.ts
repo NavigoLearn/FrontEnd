@@ -3,7 +3,7 @@ import {
   ConnectionClass,
   IConnectionPositions,
 } from '@src/typescript/roadmap_ref/node/connections/core';
-import { HashMapWithKeys } from '@type/roadmap/stores/roadmap';
+import { HashMapWithKeys } from '@type/roadmap/misc';
 import { getTransformXY } from '@src/typescript/roadmap_ref/render/coord-calc';
 
 type ICoord = {

@@ -4,6 +4,7 @@ import { tailwindTransitionClass } from '@src/UI-library/tailwind-utils';
 import { useClickOutside } from '@hooks/useClickOutside';
 
 type IOption = {
+  id: string;
   name: string;
   callback: () => void;
   tooltip?: string;
@@ -111,10 +112,11 @@ const DropdownWhiteAdd = ({
             className={`relative z-20 pointer-events-none translate-y-16 opacity-0 w-full rounded-lg bg-white 
              border-2 border-gray-100 drop-shadow-2xl `}
           >
-            {options.map(({ name, callback, tooltip }) => {
+            {options.map(({ name, callback, tooltip, id }) => {
               return (
                 <Option
-                  key={name}
+                  key={id}
+                  id={id}
                   name={name}
                   callback={callback}
                   tooltip={tooltip}

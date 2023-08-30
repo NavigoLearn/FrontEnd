@@ -7,7 +7,10 @@ import {
   injectNewId,
   injectNewRandomId,
 } from '@src/typescript/roadmap_ref/node/core/factories/data-mutation/inject';
-import { draggingBehaviorFactoryRoadmapNode } from '@src/typescript/roadmap_ref/dragging/factories';
+import {
+  draggingBehaviorFactoryRoadmapNode,
+  draggingBehaviorFactorySubNode,
+} from '@src/typescript/roadmap_ref/dragging/factories';
 import { appendComponent } from '@src/typescript/roadmap_ref/node/core/data-mutation/append';
 import { factoryComponentEmpty } from '@src/typescript/roadmap_ref/node/components/text/factories';
 import {
@@ -25,6 +28,17 @@ import { appendNodeToChunks } from '@src/typescript/roadmap_ref/roadmap-data/ser
 import { appendAttachmentTabStandard } from '@src/typescript/roadmap_ref/node/core/factories/data-mutation/append';
 import { injectDraggingStrategy } from '@src/typescript/roadmap_ref/dragging/inject';
 
+export function addDraggingBehaviorNodeProtocol(node: NodeClass) {
+  let draggingBehavior;
+  if (node.flags.renderedOnRoadmapFlag) {
+    draggingBehavior = draggingBehaviorFactoryRoadmapNode(node.id);
+  } else if (node.flags.subNodeFlag) {
+    draggingBehavior = draggingBehaviorFactorySubNode(node.id);
+  }
+  injectDraggingStrategy(draggingBehavior, 'snap');
+  injectDraggingBehavior(node, draggingBehavior);
+}
+
 export function nodeFactoryClassicBoilerplate(id?: string): NodeClass {
   // return boilerplate class for classic nodes-page and the most common
   const node = new NodeClass();
@@ -35,9 +49,7 @@ export function nodeFactoryClassicBoilerplate(id?: string): NodeClass {
 
   appendComponent(node, factoryComponentEmpty('Text', node.id));
   appendAttachmentTabStandard(node);
-  const draggingBehavior = draggingBehaviorFactoryRoadmapNode(node.id);
-  injectDraggingStrategy(draggingBehavior, 'snap');
-  injectDraggingBehavior(node, draggingBehavior);
+  addDraggingBehaviorNodeProtocol(node);
   recalculateNodeChunks(node);
 
   return node;

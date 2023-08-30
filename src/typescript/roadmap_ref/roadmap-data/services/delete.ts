@@ -81,3 +81,22 @@ export const deleteNodeSubNode = (node: NodeClass) => {
   parent.subNodeIds = newSubNodes;
   roadmapSelector.set({ ...roadmap });
 };
+
+export const deleteTemplate = (templateId: string) => {
+  const roadmap = roadmapSelector.get();
+  delete roadmap.templates[templateId];
+  roadmapSelector.set({ ...roadmap });
+};
+
+export const deleteNodeFromRootNodes = (node: NodeClass) => {
+  const roadmap = roadmapSelector.get();
+  const newRootNodes = roadmap.rootNodesIds.filter((id) => id !== node.id);
+  roadmap.rootNodesIds = newRootNodes;
+  roadmapSelector.set({ ...roadmap });
+};
+
+export const deleteNodeFromRoadmapNodes = (nodeId: string) => {
+  const roadmap = roadmapSelector.get();
+  delete roadmap.nodes[nodeId];
+  roadmapSelector.set({ ...roadmap });
+};

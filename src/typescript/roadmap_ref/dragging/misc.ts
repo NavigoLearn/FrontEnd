@@ -10,6 +10,7 @@ import { roadmapSelector } from '@store/roadmap-refactor/roadmap-data/roadmap-se
 import { addDragabilityProtocol } from '@src/typescript/roadmap_ref/render/dragging';
 import { Simulate } from 'react-dom/test-utils';
 import drag = Simulate.drag;
+import { deepCopy } from '@src/typescript/roadmap_ref/utils';
 
 export const inferAndSetNodeDraggability = (node: NodeClass) => {
   const isCreate = getIsCreate();

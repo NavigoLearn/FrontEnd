@@ -1,7 +1,7 @@
 import { atom } from 'nanostores';
 import { roadmapSelector } from '@store/roadmap-refactor/roadmap-data/roadmap-selector';
 import { getTracebackNodeToRoot } from '@src/typescript/roadmap_ref/roadmap-data/services/get';
-import { HashMap, HashMapWithKeys } from '@type/roadmap/stores/roadmap';
+import { HashMapWithKeys, HashMap } from '@type/roadmap/misc';
 import {
   effectBorderBlack,
   effectBorderBlue,

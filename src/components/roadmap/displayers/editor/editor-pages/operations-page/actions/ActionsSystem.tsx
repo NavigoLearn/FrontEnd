@@ -1,9 +1,16 @@
 import React, { useState } from 'react';
 import DropdownWhiteAddCleaner from '@components/roadmap/displayers/editor/reusable-components/DropdownWhiteAddCleaner';
-import { appendClassicNodeToRoadmap } from '@src/typescript/roadmap_ref/roadmap-data/protocols/append';
+import {
+  addChildTemplateToRoadmap,
+  appendClassicNodeToRoadmap,
+  applyTemplateToNode,
+} from '@src/typescript/roadmap_ref/roadmap-data/protocols/append';
 import { useStore } from '@nanostores/react';
 import editorSelectedData from '@store/roadmap-refactor/elements-editing/editor-selected-data';
-import { getNodeByIdRoadmapSelector } from '@src/typescript/roadmap_ref/roadmap-data/services/get';
+import {
+  getNodeByIdRoadmapSelector,
+  getRoadmapTemplatesArray,
+} from '@src/typescript/roadmap_ref/roadmap-data/services/get';
 import DeleteButton from '@components/roadmap/displayers/editor/editor-pages/operations-page/actions/DeleteButton';
 import {
   deleteProtocolNodeFromRoadmap,
@@ -15,11 +22,74 @@ import {
   operationsStore,
   setOperationsDropdown,
 } from '@components/roadmap/displayers/editor/editor-pages/operations-page/stores/operations-store';
+import { INodeTemplates } from '@src/typescript/roadmap_ref/node/core/core';
+import { TemplateNode } from '@src/typescript/roadmap_ref/node/templates-system/template-core';
+
+type IOption = {
+  id: string;
+  name: string;
+  callback: () => void;
+  tooltip?: string;
+};
+
+function formatTemplatesAddChild(
+  originalTemplates: TemplateNode[],
+  parentId: string
+) {
+  const templatesArray: IOption[] = [];
+
+  originalTemplates.forEach((template) => {
+    const templateObject: IOption = {
+      id: template.id,
+      name: template.name,
+      callback: () => {
+        addChildTemplateToRoadmap(parentId, template.id);
+      },
+      tooltip: `This template has ${
+        Object.keys(template.roadmapImage.nodes).length
+      } nodes`,
+    };
+    templatesArray.push(templateObject);
+  });
+
+  return templatesArray;
+}
+
+function formatTemplatesApply(
+  originalTemplates: TemplateNode[],
+  targetNodeId: string
+) {
+  const templatesArray: IOption[] = [];
+
+  originalTemplates.forEach((template) => {
+    const templateObject: IOption = {
+      id: template.id,
+      name: template.name,
+      callback: () => {
+        applyTemplateToNode(targetNodeId, template.id);
+      },
+
+      tooltip: `This template has ${
+        Object.keys(template.roadmapImage.nodes).length
+      } nodes`,
+    };
+    templatesArray.push(templateObject);
+  });
+
+  return templatesArray;
+}
 
 const ActionsSystem = () => {
   const { selectedNodeId } = useStore(editorSelectedData);
   const node = getNodeByIdRoadmapSelector(selectedNodeId);
   const { dropdown } = useStore(operationsStore);
+
+  const rawTemplates = getRoadmapTemplatesArray();
+  const templatesJSONAddChild = formatTemplatesAddChild(rawTemplates, node.id);
+  const templatesJSONApplyTemplate = formatTemplatesApply(
+    rawTemplates,
+    node.id
+  );
 
   return (
     <>
@@ -31,30 +101,7 @@ const ActionsSystem = () => {
         >
           <DropdownWhiteAddCleaner
             dropdownName='Add child'
-            options={[
-              {
-                name: 'Main',
-                callback: () => {
-                  appendClassicNodeToRoadmap(node);
-                },
-                tooltip: 'Basic main node with title and tab and main color',
-              },
-              {
-                name: 'Secondary',
-                callback: () => {
-                  appendClassicNodeToRoadmap(node);
-                },
-                tooltip: 'Basic node with title and secondary color and a tab',
-              },
-              {
-                name: 'Link',
-                callback: () => {
-                  appendClassicNodeToRoadmap(node);
-                },
-                tooltip:
-                  'Node holding a link to another roadmap or website on click',
-              },
-            ]}
+            options={[...templatesJSONAddChild]}
             dropdownCallback={(hasOpened) => {
               if (hasOpened) {
                 setOperationsDropdown('add-child');
@@ -83,30 +130,7 @@ const ActionsSystem = () => {
         >
           <DropdownWhiteSelect
             dropdownName='Apply template'
-            options={[
-              {
-                name: 'Main',
-                callback: () => {
-                  appendClassicNodeToRoadmap(node);
-                },
-                tooltip: 'Basic main node with title and tab and main color',
-              },
-              {
-                name: 'Secondary',
-                callback: () => {
-                  appendClassicNodeToRoadmap(node);
-                },
-                tooltip: 'Basic node with title and secondary color and a tab',
-              },
-              {
-                name: 'Link',
-                callback: () => {
-                  appendClassicNodeToRoadmap(node);
-                },
-                tooltip:
-                  'Node holding a link to another roadmap or website on click',
-              },
-            ]}
+            options={[...templatesJSONApplyTemplate]}
             dropdownCallback={(hasOpened) => {
               if (hasOpened) {
                 setOperationsDropdown('apply-template');

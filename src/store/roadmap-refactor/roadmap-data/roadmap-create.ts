@@ -1,8 +1,8 @@
 import { atom } from 'nanostores';
-import { Roadmap } from '@type/roadmap/stores/roadmap';
+import { IRoadmap } from '@type/roadmap/stores/IRoadmap';
 
 export const roadmapCreate = atom({
   nodes: {},
   connections: {},
   chunks: {},
-} as Roadmap);
+} as IRoadmap);

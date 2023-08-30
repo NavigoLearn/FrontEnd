@@ -17,7 +17,7 @@ const Button = ({ button }: IButtonProps) => {
           console.log('clicked', callback);
           callback();
         }}
-        className='font-medium font-roboto-text '
+        className='font-medium font-roboto-text text-darkBlue'
       >
         {name}
       </button>

@@ -1,5 +1,5 @@
 import { atom } from 'nanostores';
-import { Roadmap } from '@type/roadmap/stores/roadmap';
+import { IRoadmap } from '@type/roadmap/stores/IRoadmap';
 
 const roadmapPlaceholder = atom({
   nodes: {
@@ -8,6 +8,6 @@ const roadmapPlaceholder = atom({
   // if you want to get the node just search it by id
   connections: {},
   chunks: {},
-} as Roadmap);
+} as IRoadmap);
 
 export default roadmapPlaceholder;

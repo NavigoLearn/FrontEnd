@@ -3,10 +3,7 @@ import {
   getConnectionByIdRoadmapSelector,
   getNodeByIdRoadmapSelector,
 } from '@src/typescript/roadmap_ref/roadmap-data/services/get';
-import {
-  getConnectionPositionCoords,
-  setTopConnectionPositionFrom,
-} from '@src/typescript/roadmap_ref/node/connections/services';
+import { getConnectionPositionCoords } from '@src/typescript/roadmap_ref/node/connections/services';
 import { useTriggerRerender } from '@hooks/useTriggerRerender';
 import { addConnectionTrigger } from '@store/roadmap-refactor/render/rerender-trigger-connections';
 

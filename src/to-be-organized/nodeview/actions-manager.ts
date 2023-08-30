@@ -30,7 +30,7 @@ import {
   effectBorderBlue,
 } from '@src/to-be-organized/nodeview/effects';
 import { triggerMoveRoadmapTo } from '@store/roadmap-refactor/misc/misc-params-store';
-import { HashMapWithKeys } from '@type/roadmap/stores/roadmap';
+import { HashMapWithKeys } from '@type/roadmap/misc';
 import { IActionTypes } from '@src/typescript/roadmap_ref/node/core/actions/core';
 import { afterEventLoop } from '@src/typescript/utils/misc';
 

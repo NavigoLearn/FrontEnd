@@ -10,14 +10,22 @@ import { injectDraggingStrategy } from '@src/typescript/roadmap_ref/dragging/inj
 
 export type IComponentClasses = ComponentText;
 
+export function addDraggingBehaviorComponentProtocol(
+  component: IComponentObject,
+  parentNodeId: string
+) {
+  const draggingBehavior = draggingBehaviorFactoryComponents(
+    parentNodeId,
+    component.id
+  );
+  injectComponentDraggingBehavior(component, draggingBehavior);
+  injectDraggingStrategy(draggingBehavior, 'snap');
+}
+
 export function factoryComponentTextEmpty(parentNodeId: string): ComponentText {
   const componentText = new ComponentText(0, 0, 150, 35, 'NewTitle');
   injectComponentParentNodeId(componentText, parentNodeId);
-  const draggingBehavior = draggingBehaviorFactoryComponents(
-    parentNodeId,
-    componentText.id
-  );
-  injectComponentDraggingBehavior(componentText, draggingBehavior);
+  addDraggingBehaviorComponentProtocol(componentText, parentNodeId);
   return componentText;
 }
 

@@ -1,4 +1,4 @@
-import { Roadmap } from '@type/roadmap/stores/roadmap';
+import { IRoadmap } from '@type/roadmap/stores/IRoadmap';
 import roadmapStateStore from '@store/roadmap-refactor/roadmap-data/roadmap_state';
 import aboutTabStore from '@store/roadmap-refactor/roadmap-data/roadmap-about';
 import { deepCopy } from '@src/typescript/roadmap_ref/utils';
@@ -22,7 +22,7 @@ type BackendRoadmapFormat = {
   updatedAt?: string;
   data: string; // base64 encoded json
 };
-export const updateRoadmapData = async (roadmap: Roadmap) => {
+export const updateRoadmapData = async (roadmap: IRoadmap) => {
   // posts roadmapData to api
   const { id } = roadmapStateStore.get();
   const response = await fetch(`/api/roadmaps/${id}/data`, {
@@ -39,7 +39,7 @@ export const updateRoadmapData = async (roadmap: Roadmap) => {
   return response.json();
 };
 
-export const postRoadmapData = async (roadmap: Roadmap) => {
+export const postRoadmapData = async (roadmap: IRoadmap) => {
   // posts roadmapData to api
   const newRoadmap: BackendRoadmapFormat = {
     name: aboutTabStore.get().name,

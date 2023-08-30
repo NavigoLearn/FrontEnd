@@ -1,5 +1,5 @@
 import { atom } from 'nanostores';
-import { Roadmap } from '@type/roadmap/stores/roadmap';
+import { IRoadmap } from '@type/roadmap/stores/IRoadmap';
 
 export const roadmapSelector = atom({
   nodes: {},
@@ -9,8 +9,9 @@ export const roadmapSelector = atom({
   data: {
     colorTheme: 'defaultTheme',
   },
-} as Roadmap);
+  templates: {},
+} as IRoadmap);
 
-export const setRoadmapSelector = (roadmap: Roadmap) => {
+export const setRoadmapSelector = (roadmap: IRoadmap) => {
   roadmapSelector.set({ ...roadmap });
 };

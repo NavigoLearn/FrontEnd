@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import { throttle } from '@src/typescript/roadmap_ref/render/chunks';
-import { HashMapWithKeys } from '@type/roadmap/stores/roadmap';
+import { HashMapWithKeys } from '@type/roadmap/misc';
 import {
   getRoadmapDisableDrag,
   getRoadmapEnableDrag,
