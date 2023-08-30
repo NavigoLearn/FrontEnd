@@ -11,6 +11,10 @@ import {
 import { setTabAboutFromApi } from '@store/roadmap-refactor/roadmap-data/roadmap-about';
 import { setLoadedTrue } from '@src/typescript/roadmap_ref/utils';
 import miscParams from '@store/roadmap-refactor/misc/misc-params-store';
+import { SaveItem } from '@src/typescript/roadmap_ref/history/restoreSession';
+import {
+  setEditingTrueNoRerender
+} from '@store/roadmap-refactor/roadmap-data/roadmap_state';
 
 export const roadmapView = atom({
   rootNodesIds: [],
@@ -22,6 +26,10 @@ export const roadmapView = atom({
 export function setRoadmapView(roadmap: IRoadmap) {
   setRoadmapSelector(roadmap);
   roadmapView.set({ ...roadmap });
+}
+
+export function getRoadmapView() {
+  return roadmapView.get();
 }
 
 export async function setRoadmapFromAPI(pageId: string) {
@@ -43,4 +51,13 @@ export async function setRoadmapFromData(roadmapData: RoadmapTypeApi) {
   } else {
     throw new Error('Roadmap roadmap-roadmap-data is not of type Roadmap');
   }
+}
+
+export function setRoadmapFromRecovery(save: SaveItem) {
+  setRoadmapView(save.data);
+  // set edit mode to true
+  setEditingTrueNoRerender();
+  setLoadedTrue();
+
+  miscParams.get().recenterRoadmap();
 }
