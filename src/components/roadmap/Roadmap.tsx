@@ -1,6 +1,5 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef } from 'react';
 import {
-  factoryRoadmapClassic,
   factoryRoadmapFirstAttempt,
 } from '@src/typescript/roadmap_ref/roadmap-templates/classic';
 import renderNodesStore from '@store/roadmap-refactor/render/rendered-nodes';
@@ -8,33 +7,44 @@ import {
   setChunkRerenderTrigger,
   triggerChunkRerender,
 } from '@store/roadmap-refactor/render/rendered-chunks';
-import { roadmapSelector } from '@store/roadmap-refactor/roadmap-data/roadmap-selector';
+import {
+  roadmapSelector,
+} from '@store/roadmap-refactor/roadmap-data/roadmap-selector';
 import { useScrollHidden } from '@hooks/useScrollHidden';
 import { v4 as uuid4 } from 'uuid';
 import NodeManager from '@components/roadmap/to-be-organized/NodeManager';
 import { useStore } from '@nanostores/react';
-import roadmapStateStore, {
-  getIsEditable,
-  getIsEditing,
+import {
   getRoadmapState,
   setRoadmapId,
   setRoadmapIsLoaded,
   setRoadmapState,
 } from '@store/roadmap-refactor/roadmap-data/roadmap_state';
 import {
-  enableRoadmapZoomDragAndRecenter,
   disableRoadmapDragZoom,
+  enableRoadmapZoomDragAndRecenter,
 } from '@src/typescript/roadmap_ref/render/zoom-d3';
 import { recalculateChunks } from '@src/typescript/roadmap_ref/render/chunks';
-import { triggerRecenterRoadmap } from '@store/roadmap-refactor/misc/misc-params-store';
+import {
+  triggerRecenterRoadmap,
+} from '@store/roadmap-refactor/misc/misc-params-store';
 import { useIsLoaded } from '@hooks/useIsLoaded';
-import { setRoadmapFromData } from '@store/roadmap-refactor/roadmap-data/roadmap-view';
-import { applyRoadmapElementsDraggability } from '@src/typescript/roadmap_ref/dragging/misc';
+import {
+  setRoadmapFromData,
+} from '@store/roadmap-refactor/roadmap-data/roadmap-view';
+import {
+  applyRoadmapElementsDraggability,
+} from '@src/typescript/roadmap_ref/dragging/misc';
 import { useEffectAfterLoad } from '@hooks/useEffectAfterLoad';
-import ConnectionRenderer from '@components/roadmap/connections/ConnectionRenderer';
-import renderConnectionsStore from '@store/roadmap-refactor/render/rendered-connections';
-import { closeEditorProtocol } from '@src/to-be-organized/nodeview/actions-manager';
-import SnappingLinesRenderer from '@components/roadmap/to-be-organized/SnappingLinesRenderer';
+import ConnectionRenderer
+  from '@components/roadmap/connections/ConnectionRenderer';
+import renderConnectionsStore
+  from '@store/roadmap-refactor/render/rendered-connections';
+import {
+  closeEditorProtocol,
+} from '@src/to-be-organized/nodeview/actions-manager';
+import SnappingLinesRenderer
+  from '@components/roadmap/to-be-organized/SnappingLinesRenderer';
 import { addKeyListeners } from '@src/typescript/roadmap_ref/key-shortcuts';
 import { RoadmapTypeApi } from '@type/explore/card';
 import {
@@ -42,10 +52,8 @@ import {
   setRoadmapEnableDrag,
 } from '@store/roadmap-refactor/roadmap-data/roadmap-functions-utils';
 import { useEffectDelayedCycle } from '@hooks/useEffectDelayedCycle';
-import { getRoadmapSelector } from '@src/typescript/roadmap_ref/roadmap-data/services/get';
-import { deepCopy } from '@src/typescript/roadmap_ref/utils';
-import Popup from '@components/roadmap/to-be-organized/popups/Popup';
-import ElementsDisplayManager from '@components/roadmap/elements-display/ElementsDisplayManager';
+import ElementsDisplayManager
+  from '@components/roadmap/elements-display/ElementsDisplayManager';
 
 export function initializeRoadmapAfterLoad() {
   applyRoadmapElementsDraggability();
@@ -78,7 +86,7 @@ const Roadmap = ({
     enableRoadmapZoomDragAndRecenter(
       'rootSvg',
       'rootGroup',
-      chunkRenderer.current
+      chunkRenderer.current,
     );
   };
 
@@ -102,7 +110,7 @@ const Roadmap = ({
       // used for decorators
       () => {
         chunkRenderer.current();
-      }
+      },
     );
 
     if (!isCreate) setRoadmapId(roadmap.id);
@@ -111,9 +119,9 @@ const Roadmap = ({
     // ...
 
     !isCreate &&
-      setRoadmapFromData(roadmap).then(() => {
-        initializeRoadmapAfterLoad();
-      });
+    setRoadmapFromData(roadmap).then(() => {
+      initializeRoadmapAfterLoad();
+    });
 
     setRoadmapDisableDrag(disableRoadmapDrag);
     setRoadmapEnableDrag(enableRoadmapDrag);
@@ -123,9 +131,9 @@ const Roadmap = ({
     enableRoadmapZoomDragAndRecenter(
       'rootSvg',
       'rootGroup',
-      chunkRenderer.current
+      chunkRenderer.current,
     );
-  }, [state, isCreate]);
+  }, [ state, isCreate ]);
 
   useEffectAfterLoad(() => {
     // adding event
@@ -134,38 +142,38 @@ const Roadmap = ({
 
   useEffectDelayedCycle(() => {
     applyRoadmapElementsDraggability();
-  }, [nodesIds, state]);
+  }, [ nodesIds, state ]);
 
   return (
     // eslint-disable-next-line jsx-a11y/click-events-have-key-events,jsx-a11y/no-static-element-interactions
     <div
-      className='w-full h-full pointer-events-auto'
+      className="w-full h-full pointer-events-auto"
       onClick={() => {
         // stupid workaround for clicking editor when clicking somewhere else
         closeEditorProtocol();
       }}
     >
-      <ElementsDisplayManager />
+      <ElementsDisplayManager/>
       <svg
-        id='rootSvg'
-        width='100%'
-        height='100%'
-        className='bg-background pointer-events-auto'
+        id="rootSvg"
+        width="100%"
+        height="100%"
+        className="bg-background pointer-events-auto"
       >
-        <g id='rootGroup'>
-          <g id='rootGroupConnections'>
-            <ConnectionRenderer connectionsIds={connectionsIds} />
+        <g id="rootGroup">
+          <g id="rootGroupConnections">
+            <ConnectionRenderer connectionsIds={connectionsIds}/>
           </g>
-          <g id='rootGroupNodes'>
+          <g id="rootGroupNodes">
             {isLoaded &&
               nodesIds.map((id) => {
                 // gets the roadmap-roadmap-data
-                return <NodeManager key={id} nodeId={id} />;
+                return <NodeManager key={id} nodeId={id}/>;
               })}
           </g>
           {isLoaded && (
-            <g id='rootGroupSnappingLines'>
-              <SnappingLinesRenderer />
+            <g id="rootGroupSnappingLines">
+              <SnappingLinesRenderer/>
             </g>
           )}
         </g>

@@ -1,6 +1,8 @@
 import { atom } from 'nanostores';
 import { IRoadmap } from '@type/roadmap/stores/IRoadmap';
-import { setRoadmapSelector } from '@store/roadmap-refactor/roadmap-data/roadmap-selector';
+import {
+  setRoadmapSelector,
+} from '@store/roadmap-refactor/roadmap-data/roadmap-selector';
 import { fetchRoadmap } from '@src/api-wrapper/roadmap/roadmaps';
 import { RoadmapTypeApi } from '@type/explore/card';
 import { isRoadmapType } from '@type/roadmap/old/typecheckers';
@@ -8,12 +10,15 @@ import {
   setOwnerId,
   setRoadmapId,
 } from '@store/roadmap-refactor/roadmap-data/roadmap-visit-data';
-import { setTabAboutFromApi } from '@store/roadmap-refactor/roadmap-data/roadmap-about';
+import {
+  setTabAboutFromApi,
+} from '@store/roadmap-refactor/roadmap-data/roadmap-about';
 import { setLoadedTrue } from '@src/typescript/roadmap_ref/utils';
 import miscParams from '@store/roadmap-refactor/misc/misc-params-store';
 import { SaveItem } from '@src/typescript/roadmap_ref/history/restoreSession';
 import {
-  setEditingTrueNoRerender
+  getRoadmapState,
+  setRoadmapState,
 } from '@store/roadmap-refactor/roadmap-data/roadmap_state';
 
 export const roadmapView = atom({
@@ -55,8 +60,8 @@ export async function setRoadmapFromData(roadmapData: RoadmapTypeApi) {
 
 export function setRoadmapFromRecovery(save: SaveItem) {
   setRoadmapView(save.data);
-  // set edit mode to true
-  setEditingTrueNoRerender();
+  // set editing to true
+  getRoadmapState() !== 'create' && setRoadmapState('edit');
   setLoadedTrue();
 
   miscParams.get().recenterRoadmap();
