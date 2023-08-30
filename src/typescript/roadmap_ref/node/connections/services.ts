@@ -135,3 +135,49 @@ export function getConnectionPositionCoords(
   coords.y += offsetY;
   return coords;
 }
+
+export function getAnchorPositionRelativeToNodes(
+  node: NodeClass,
+  positionType: IConnectionPositions
+): ICoord {
+  const coordsMapper = {
+    'top-left': {
+      x: 0,
+      y: 0,
+    },
+    'top-right': {
+      x: node.data.width,
+      y: 0,
+    },
+    'bottom-left': {
+      x: 0,
+      y: node.data.height,
+    },
+    'bottom-right': {
+      x: node.data.width,
+      y: node.data.height,
+    },
+    center: {
+      x: node.data.width / 2,
+      y: node.data.height / 2,
+    },
+    left: {
+      x: 0,
+      y: node.data.height / 2,
+    },
+    right: {
+      x: node.data.width,
+      y: node.data.height / 2,
+    },
+    top: {
+      x: node.data.width / 2,
+      y: 0,
+    },
+    bottom: {
+      x: node.data.width / 2,
+      y: node.data.height,
+    },
+  };
+  const coords = coordsMapper[positionType];
+  return coords;
+}

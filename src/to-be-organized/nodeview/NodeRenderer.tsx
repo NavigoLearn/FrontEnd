@@ -1,9 +1,16 @@
 /* eslint-disable no-shadow */
 /* eslint-disable react/prop-types */
-import React, { useEffect, useRef, Component } from 'react';
+import React, { useEffect, useRef, Component, useState } from 'react';
 import { afterEventLoop } from '@src/typescript/utils/misc';
 import { componentsRenderer } from '@src/to-be-organized/nodeview/ComponentsRenderer';
 import { useTriggerRerender } from '@hooks/useTriggerRerender';
+import {
+  selectedConnectionId,
+  selectedNodeIdChild,
+  selectedNodeIdParent,
+  setSelectedNodeIdChild,
+  setSelectedNodeIdParent,
+} from '@src/components/roadmap/connection-manager/connection-store';
 import {
   setTriggerRender,
   triggerNodeRerender,
@@ -41,7 +48,11 @@ import { snapNodeWidthHeight } from '@src/typescript/roadmap_ref/snapping/core';
 import { selectNodeColorFromScheme } from '@src/typescript/roadmap_ref/node/core/factories/data-mutation/services';
 import { getColorThemeFromRoadmap } from '@components/roadmap/displayers/setup-screen/theme-controler';
 import ConnectionNodeSet from '@src/components/roadmap/connection-manager/ConnectionNodeSet';
-import { getIdArrayConnections } from '@src/components/roadmap/connection-manager/services';
+import {
+  getIdArrayConnections,
+  getIdCurrentConnection,
+} from '@src/components/roadmap/connection-manager/services';
+import { useStore } from '@nanostores/react';
 
 interface NodeViewProps {
   nodeId: string;
@@ -56,6 +67,9 @@ const NodeRenderer: React.FC<NodeViewProps> = ({
 }) => {
   const nodeDivRef = useRef<HTMLDivElement>(null);
   const rerender = useTriggerRerender();
+  const childNodeId = useStore(selectedNodeIdChild);
+  const parentNodeId = useStore(selectedNodeIdParent);
+  const currentConnection = useStore(selectedConnectionId);
 
   const renderNode = (nodeId: string) => {
     const loaded = useIsLoaded();
@@ -187,6 +201,8 @@ const NodeRenderer: React.FC<NodeViewProps> = ({
           // draggable elements coincide with clickable elements on a roadmap
           event.stopPropagation(); // to avoid clicking a subnode and its parent at the same time
           getOnClickAction(nodeId)();
+          setSelectedNodeIdChild(nodeId);
+          setSelectedNodeIdParent(nodeId);
         }}
         onMouseOver={(event) => {
           event.stopPropagation();
@@ -237,10 +253,21 @@ const NodeRenderer: React.FC<NodeViewProps> = ({
           }}
         />
 
-        {/* <ConnectionNodeSet
-          node={node}
-          connections={getIdArrayConnections(nodeId)}
-        /> */}
+        {childNodeId === nodeId && (
+          <ConnectionNodeSet
+            connection={currentConnection}
+            nodeId={nodeId}
+            kind='child'
+          />
+        )}
+
+        {parentNodeId === nodeId && (
+          <ConnectionNodeSet
+            connection={currentConnection}
+            nodeId={nodeId}
+            kind='parent'
+          />
+        )}
 
         {componentsRenderer(node)}
         {subNodeIds &&
