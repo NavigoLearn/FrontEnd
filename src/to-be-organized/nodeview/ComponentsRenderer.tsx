@@ -50,18 +50,14 @@ const ComponentRenderer = ({
   const textWeightSelect = selectTextFontWeight(textWeight);
 
   const fontSizeSelect = selectTextFontSize(textSize);
-  // console.log(component.textSize);
-  // font weight and font size will per component and be ni the component itself
-
-  console.log('parent selected', text);
 
   return (
     <div
       ref={objRef}
       key={component.id}
       id={`div${id}`}
-      className={`absolute flex justify-center items-center select-none border-2 pointer-events-auto ${
-        parentSelected && 'border-black'
+      className={`absolute flex justify-center items-center select-none border-2 border-black border-opacity-0  pointer-events-auto ${
+        parentSelected && 'border-opacity-100'
       } transition-allNoTransform`}
       style={{
         color: textColor,
