@@ -2,17 +2,24 @@ import React from 'react';
 import {
   getConnectionPositionCoords,
   connectionSetter,
+  getAnchorPositionRelativeToNodes,
 } from '@src/typescript/roadmap_ref/node/connections/services';
 import { NodeClass } from '@src/typescript/roadmap_ref/node/core/core';
 import {
   IConnectionPositions,
   ConnectionClass,
 } from '@src/typescript/roadmap_ref/node/connections/core';
-import { getConnectionByIdRoadmapSelector } from '@src/typescript/roadmap_ref/roadmap-data/services/get';
+import { triggerNodeRerender } from '@src/store/roadmap-refactor/render/rerender-triggers-nodes';
+import { triggerConnectionRerender } from '@src/store/roadmap-refactor/render/rerender-trigger-connections';
+import {
+  getConnectionByIdRoadmapSelector,
+  getNodeByIdRoadmapSelector,
+} from '@src/typescript/roadmap_ref/roadmap-data/services/get';
 
 type IConnectionNodeSet = {
-  node: NodeClass;
-  connections: string[];
+  connection: ConnectionClass | null;
+  nodeId: string;
+  kind: 'child' | 'parent';
 };
 
 type IRedSquare = {
@@ -21,6 +28,7 @@ type IRedSquare = {
   positionType: IConnectionPositions;
   position: 'to' | 'from';
   connection: ConnectionClass;
+  nodeId: string;
 };
 
 const RedSquare = ({
@@ -30,8 +38,10 @@ const RedSquare = ({
   position,
   connection,
 }: IRedSquare) => {
-  const handleClick = () => {
+  const handleClick = (e) => {
     connectionSetter(position, connection, positionType);
+    triggerConnectionRerender(connection.id);
+    e.stopPropagation();
   };
 
   return (
@@ -44,7 +54,11 @@ const RedSquare = ({
   );
 };
 
-const ConnectionNodeSet = ({ node, connections }: IConnectionNodeSet) => {
+const ConnectionNodeSet = ({
+  connection,
+  nodeId,
+  kind,
+}: IConnectionNodeSet) => {
   const positions = [
     'top-left',
     'top-right',
@@ -57,49 +71,60 @@ const ConnectionNodeSet = ({ node, connections }: IConnectionNodeSet) => {
     'bottom',
   ];
 
-  return (
-    <div>
-      {connections.map((connectionId, index) => {
-        const connection = getConnectionByIdRoadmapSelector(connectionId);
+  const node = getNodeByIdRoadmapSelector(nodeId);
+  console.log(kind);
 
-        if (index === 0) {
-          // This is the case for the parent node
-          return positions.map((positionType: IConnectionPositions) => {
-            const currentNodeCoords = getConnectionPositionCoords(
-              node,
-              positionType
-            );
-
-            return (
-              <RedSquare
-                key={`${connectionId}-${positionType}`}
-                x={currentNodeCoords.x}
-                y={currentNodeCoords.y}
-                connection={connection}
-                positionType={positionType}
-                position='from'
-              />
-            );
-          });
-        }
-
-        return positions.map((positionType: IConnectionPositions) => {
-          const endNodeCoords = getConnectionPositionCoords(node, positionType);
+  if (kind === 'child') {
+    return (
+      <div className='absolute left-0 top-0'>
+        {positions.map((positionType: IConnectionPositions) => {
+          const nodeCoords = getAnchorPositionRelativeToNodes(
+            node,
+            positionType
+          );
 
           return (
             <RedSquare
-              key={`${connectionId}-${positionType}`}
-              x={endNodeCoords.x}
-              y={endNodeCoords.y}
+              x={nodeCoords.x}
+              y={nodeCoords.y}
               connection={connection}
               positionType={positionType}
               position='to'
+              nodeId={nodeId}
+              key={`position-${positionType}`}
             />
           );
-        });
-      })}
-    </div>
-  );
+        })}
+      </div>
+    );
+  }
+
+  if (kind === 'parent') {
+    return (
+      <div className='absolute left-0 top-0'>
+        {positions.map((positionType: IConnectionPositions) => {
+          const nodeCoords = getAnchorPositionRelativeToNodes(
+            node,
+            positionType
+          );
+
+          return (
+            <RedSquare
+              x={nodeCoords.x}
+              y={nodeCoords.y}
+              connection={connection}
+              positionType={positionType}
+              position='from'
+              nodeId={nodeId}
+              key={`position-${positionType}`}
+            />
+          );
+        })}
+      </div>
+    );
+  }
+
+  return null; // Optional, in case there's another kind value
 };
 
 export default ConnectionNodeSet;
