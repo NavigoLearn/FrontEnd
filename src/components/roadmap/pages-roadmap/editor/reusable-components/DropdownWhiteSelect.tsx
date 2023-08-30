@@ -1,9 +1,13 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { tailwindTransitionClass } from '@src/UI-library/tailwind-utils';
 import { useClickOutside } from '@hooks/useClickOutside';
+import { useInvisibleSearch } from '@hooks/useInvisibleSearch';
+import { useOnEnter } from '@hooks/useOnEnter';
+import { useOnEsc } from '@hooks/useOnEsc';
 
 type IOption = {
+  id: string;
   name: string;
   callback: () => void;
   tooltip?: string;
@@ -20,7 +24,7 @@ type IOptionProps = IOption & {
   setDropdown: (isOpen: boolean) => void;
 };
 
-const Option = ({ name, callback, tooltip, setDropdown }: IOptionProps) => {
+const Option = ({ id, name, callback, tooltip, setDropdown }: IOptionProps) => {
   const [isHovered, setIsHovered] = useState(false);
   return (
     <div
@@ -75,6 +79,13 @@ const DropdownWhiteSelect = ({
     dropdownCallback(false);
   });
 
+  useOnEsc(() => {
+    setDropdown(false);
+    dropdownCallback(false);
+  });
+
+  const filterValue = useInvisibleSearch('', [dropdown]);
+
   return (
     <div
       className={` w-full bg-white rounded-lg h-10  border-2 border-gray-300 hover:border-darkBlue  ${tailwindTransitionClass} relative`}
@@ -114,17 +125,24 @@ const DropdownWhiteSelect = ({
             className={`relative z-20 pointer-events-none translate-y-16 opacity-0 w-full rounded-lg bg-white 
              border-2 border-gray-100 drop-shadow-2xl `}
           >
-            {options.map(({ name, callback, tooltip }) => {
-              return (
-                <Option
-                  key={name}
-                  name={name}
-                  callback={callback}
-                  tooltip={tooltip}
-                  setDropdown={setDropdown}
-                />
-              );
-            })}
+            {options
+              .filter((option) => {
+                return option.name
+                  .toLowerCase()
+                  .includes(filterValue.toLowerCase());
+              })
+              .map(({ id, name, callback, tooltip }) => {
+                return (
+                  <Option
+                    key={id}
+                    id={id}
+                    name={name}
+                    callback={callback}
+                    tooltip={tooltip}
+                    setDropdown={setDropdown}
+                  />
+                );
+              })}
           </motion.div>
         )}
       </AnimatePresence>
