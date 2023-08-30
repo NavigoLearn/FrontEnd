@@ -1,7 +1,4 @@
 ---
-import Navbar from '@components/navbar/Navbar';
-import Error from '../components/roadmap/top-bar/Error';
-import Footer from '@layouts/Footer.astro';
 import RequestManager from '../components/misc/RequestManager';
 import DataCollectionManager from '../components/misc/DataCollectionManager';
 
@@ -63,11 +60,5 @@ const { metadata, excludeFooter } = Astro.props;
     <NavbarRoadmap client:load />
 
     <slot />
-
-    <div
-      class='fixed top-[100px] flex justify-center w-full h-10 pointer-events-none'
-    >
-      <Error client:load />
-    </div>
   </body>
 </html>

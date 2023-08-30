@@ -10,7 +10,7 @@ import {
   selectedNodeIdParent,
   setSelectedNodeIdChild,
   setSelectedNodeIdParent,
-} from '@src/components/roadmap/connection-manager/connection-store';
+} from '@components/roadmap/connections/connection-editing/connection-store';
 import {
   setTriggerRender,
   triggerNodeRerender,
@@ -46,12 +46,12 @@ import {
 } from '@src/typescript/roadmap_ref/node/core/data-mutation/mutate';
 import { snapNodeWidthHeight } from '@src/typescript/roadmap_ref/snapping/core';
 import { selectNodeColorFromScheme } from '@src/typescript/roadmap_ref/node/core/factories/data-mutation/services';
-import { getColorThemeFromRoadmap } from '@components/roadmap/displayers/setup-screen/theme-controler';
-import ConnectionNodeSet from '@src/components/roadmap/connection-manager/ConnectionNodeSet';
+import { getColorThemeFromRoadmap } from '@components/roadmap/pages-roadmap/setup-screen/theme-controler';
+import ConnectionNodeSet from '@components/roadmap/connections/connection-editing/ConnectionNodeSet';
 import {
   getIdArrayConnections,
   getIdCurrentConnection,
-} from '@src/components/roadmap/connection-manager/services';
+} from '@components/roadmap/connections/connection-editing/services';
 import { useStore } from '@nanostores/react';
 
 interface NodeViewProps {
@@ -201,8 +201,9 @@ const NodeRenderer: React.FC<NodeViewProps> = ({
           // draggable elements coincide with clickable elements on a roadmap
           event.stopPropagation(); // to avoid clicking a subnode and its parent at the same time
           getOnClickAction(nodeId)();
-          setSelectedNodeIdChild(nodeId);
-          setSelectedNodeIdParent(nodeId);
+
+          // setSelectedNodeIdChild(nodeId);
+          // setSelectedNodeIdParent(nodeId);
         }}
         onMouseOver={(event) => {
           event.stopPropagation();

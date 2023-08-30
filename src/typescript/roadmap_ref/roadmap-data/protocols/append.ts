@@ -11,7 +11,7 @@ import {
   appendConnectionNode,
   appendSubNodeId,
 } from '@src/typescript/roadmap_ref/node/core/data-mutation/append';
-import { draggableElementProtocol } from '@components/roadmap/displayers/editor/editor-pages/utils';
+import { draggableElementProtocol } from '@components/roadmap/pages-roadmap/editor/editor-pages/utils';
 import { triggerNodeRerender } from '@store/roadmap-refactor/render/rerender-triggers-nodes';
 import { NodeClass } from '@src/typescript/roadmap_ref/node/core/core';
 import {
@@ -217,11 +217,12 @@ export function applyTemplateToNode(targetNodeId: string, templateId: string) {
   const targetNode: NodeClass = deepCopy(
     getNodeByIdRoadmapSelector(targetNodeId)
   );
-  applyTemplateToNewNode(targetNode, deepCopy(newNodes[newBaseId]));
-
   targetNode.subNodeIds.forEach((subNodeId) => {
     deleteNodeFromRoadmapNodes(subNodeId);
   });
+
+  applyTemplateToNewNode(targetNode, deepCopy(newNodes[newBaseId]));
+
   deleteNodeFromChunks(targetNode);
   deleteNodeFromRootNodes(targetNode);
   deleteNodeFromRoadmapNodes(targetNodeId);

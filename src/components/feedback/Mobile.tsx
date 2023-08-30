@@ -3,7 +3,7 @@ import discord from '@assets/discord.svg';
 import github from '@assets/github.svg';
 import gmail from '@assets/gmail.svg';
 import IssuesList from '@components/feedback/IssuesList';
-import Issue from '@components/roadmap/tabs/utils/Issue';
+import Issue from '@components/roadmap/to-be-organized/utils/Issue';
 
 const DesktopFeedback = () => {
   const [formType, setFormType] = useState(undefined);
@@ -185,7 +185,12 @@ const DesktopFeedback = () => {
             className='w-48 text-placeholder font-kanit-text translate-y-12'
           >
             discord
-            <img draggable="false" src={discord} alt='discord' className='w-full mt-2' />
+            <img
+              draggable='false'
+              src={discord}
+              alt='discord'
+              className='w-full mt-2'
+            />
           </a>
           <a
             href='https://github.com/NavigoLearn'
@@ -194,14 +199,14 @@ const DesktopFeedback = () => {
             className='w-48 text-placeholder font-kanit-text'
           >
             github organization
-            <img draggable="false" src={github} alt='github' className='mt-2' />
+            <img draggable='false' src={github} alt='github' className='mt-2' />
           </a>
           <a
             href='mailto:navigolearn@gmail.com'
             className='w-48 text-placeholder font-kanit-text translate-y-12'
           >
             email
-            <img draggable="false" src={gmail} alt='gmail' className='flex' />
+            <img draggable='false' src={gmail} alt='gmail' className='flex' />
           </a>
         </div>
       </div>

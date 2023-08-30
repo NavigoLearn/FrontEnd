@@ -3,7 +3,10 @@ import {
   setMoveRoadmapTo,
   setRecenterRoadmap,
 } from '@store/roadmap-refactor/misc/misc-params-store';
-import { setScaleSafari } from '@store/roadmap-refactor/misc/scale-safari-store';
+import {
+  getScaleSafari,
+  setScaleSafari,
+} from '@store/roadmap-refactor/misc/scale-safari-store';
 import { setDisplayTitlesFalse } from '@store/roadmap/sidebar/displayTitle';
 import { throttle } from '@src/typescript/roadmap_ref/render/chunks';
 import {
@@ -66,7 +69,9 @@ export const enableRoadmapZoomDragAndRecenter = (
   }
 
   function moveRoadmapTo(x: number, y: number, k: number) {
-    const customTransform = d3.zoomIdentity.translate(-x, -y).scale(k);
+    const customTransform = d3.zoomIdentity
+      .translate(-x, -y)
+      .scale(getScaleSafari());
     svg.transition().duration(750).call(zoom.transform, customTransform);
   }
 

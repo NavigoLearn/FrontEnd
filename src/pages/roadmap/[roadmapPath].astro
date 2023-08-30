@@ -2,9 +2,9 @@
 import RoadmapLayout from '@layouts/RoadmapLayout.astro';
 import PageViewCollection from '@components/home/PageViewCollection';
 import Roadmap from '@components/roadmap/Roadmap';
-import DisplayManager from '../../components/roadmap/displayers/DisplayManager';
+import PagesDisplayManager from '../../components/roadmap/pages-roadmap/PagesDisplayManager';
 import { RoadmapTypeApi } from '../../types/explore/card';
-import SetupScreen from '@src/components/roadmap/displayers/setup-screen/SetupScreen';
+import SetupScreen from '../../components/roadmap/pages-roadmap/setup-screen/SetupScreen';
 
 const { roadmapPath } = Astro.params;
 // here we should get the roadmap-roadmap-data for the actual roadmap_static
@@ -80,12 +80,11 @@ if (typeof id === 'string') {
   <div class='h-[calc(100vh-64px)] md:mt-0 relative w-full'>
     <!-- offset from nav reduced from total screen size -->
     <div class='h-full relative'>
-      <!--<TopBarRoadmap client:idle />-->
       <Roadmap pageId={roadmapPath} roadmap={roadmap} client:load />
     </div>
 
     <div class='w-full h-full'>
-      <DisplayManager client:idle />
+      <PagesDisplayManager client:idle />
     </div>
   </div>
 </RoadmapLayout>

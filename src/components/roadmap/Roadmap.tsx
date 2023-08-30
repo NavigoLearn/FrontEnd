@@ -11,7 +11,7 @@ import {
 import { roadmapSelector } from '@store/roadmap-refactor/roadmap-data/roadmap-selector';
 import { useScrollHidden } from '@hooks/useScrollHidden';
 import { v4 as uuid4 } from 'uuid';
-import NodeManager from '@components/roadmap/NodeManager';
+import NodeManager from '@components/roadmap/to-be-organized/NodeManager';
 import { useStore } from '@nanostores/react';
 import roadmapStateStore, {
   getIsEditable,
@@ -31,10 +31,10 @@ import { useIsLoaded } from '@hooks/useIsLoaded';
 import { setRoadmapFromData } from '@store/roadmap-refactor/roadmap-data/roadmap-view';
 import { applyRoadmapElementsDraggability } from '@src/typescript/roadmap_ref/dragging/misc';
 import { useEffectAfterLoad } from '@hooks/useEffectAfterLoad';
-import ConnectionRenderer from '@components/roadmap/ConnectionRenderer';
+import ConnectionRenderer from '@components/roadmap/connections/ConnectionRenderer';
 import renderConnectionsStore from '@store/roadmap-refactor/render/rendered-connections';
 import { closeEditorProtocol } from '@src/to-be-organized/nodeview/actions-manager';
-import SnappingLinesRenderer from '@components/roadmap/SnappingLinesRenderer';
+import SnappingLinesRenderer from '@components/roadmap/to-be-organized/SnappingLinesRenderer';
 import { addKeyListeners } from '@src/typescript/roadmap_ref/key-shortcuts';
 import { RoadmapTypeApi } from '@type/explore/card';
 import {
@@ -44,7 +44,8 @@ import {
 import { useEffectDelayedCycle } from '@hooks/useEffectDelayedCycle';
 import { getRoadmapSelector } from '@src/typescript/roadmap_ref/roadmap-data/services/get';
 import { deepCopy } from '@src/typescript/roadmap_ref/utils';
-import Popup from './tabs/popups/Popup';
+import Popup from '@components/roadmap/to-be-organized/popups/Popup';
+import ElementsDisplayManager from '@components/roadmap/elements-display/ElementsDisplayManager';
 
 export function initializeRoadmapAfterLoad() {
   applyRoadmapElementsDraggability();
@@ -144,8 +145,7 @@ const Roadmap = ({
         closeEditorProtocol();
       }}
     >
-      {/* <Notifications /> */}
-      <Popup />
+      <ElementsDisplayManager />
       <svg
         id='rootSvg'
         width='100%'

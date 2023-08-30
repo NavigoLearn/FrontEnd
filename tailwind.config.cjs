@@ -31,9 +31,7 @@ module.exports = {
         lightBlue: '#3361D8'
       },
       fontFamily: {
-        'kanit-text': ['"Kanit"'],
         'roboto-text': ['"Roboto"'],
-        'oxygen-text': ['"Oxygen"'],
       },
       boxShadow: {
         standard: '0px 4px 20px rgba(0, 0, 0, 0.15)',

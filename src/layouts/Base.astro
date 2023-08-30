@@ -1,12 +1,10 @@
 ---
 import Navbar from '@components/navbar/Navbar';
-import Error from '../components/roadmap/top-bar/Error';
 import Footer from '@layouts/Footer.astro';
 import RequestManager from '../components/misc/RequestManager';
 import DataCollectionManager from '../components/misc/DataCollectionManager';
 
 import '@fontsource/kanit';
-// import '@fontsource/roboto';
 import '@fontsource/oxygen';
 import { PageMeta } from '../types/misc/PageMeta';
 
@@ -71,10 +69,5 @@ const { metadata, excludeFooter } = Astro.props;
         </div>
       )
     }
-    <div
-      class='fixed top-[100px] flex justify-center w-full h-10 pointer-events-none'
-    >
-      <Error client:load />
-    </div>
   </body>
 </html>
