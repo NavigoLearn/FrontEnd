@@ -16,6 +16,7 @@ import { Viewport } from '@type/roadmap/old/misc';
 import miscParams from '@store/roadmap-refactor/misc/misc-params-store';
 import { roadmapSelector } from '@store/roadmap-refactor/roadmap-data/roadmap-selector';
 import { getRoadmapSelector } from '@src/typescript/roadmap_ref/roadmap-data/services/get';
+import { ConnectionClass } from '@src/typescript/roadmap_ref/node/connections/core';
 
 export function setConnectionsToRender() {
   const { loaded } = roadmapStateStore.get();
@@ -43,7 +44,7 @@ function extendNodeIdsForConnection(nodeIds, roadmap: IRoadmap) {
     if (node.connections !== undefined) {
       node.connections.forEach((connectionId) => {
         const connection = roadmap.connections[connectionId];
-        const { from, to } = connection;
+        const { from, to } = connection as ConnectionClass;
         if (!extendedNodeIds.includes(from)) extendedNodeIds.push(from);
         if (!extendedNodeIds.includes(to)) extendedNodeIds.push(to);
       });

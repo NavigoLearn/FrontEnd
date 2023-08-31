@@ -36,6 +36,14 @@ import { IActionTypes } from '@src/typescript/roadmap_ref/node/core/actions/core
 import { afterEventLoop } from '@src/typescript/utils/misc';
 import { getScaleSafari } from '@store/roadmap-refactor/misc/scale-safari-store';
 import { getViewport } from '@store/roadmap-refactor/misc/viewport-coords-store';
+import {
+  getEditingState,
+  IEditingState,
+} from '@store/roadmap-refactor/editing/editing-state';
+import {
+  clearSelectedConnection,
+  setSelectedConnectionForChildNode,
+} from '@components/roadmap/connections/connection-editing/connection-store';
 
 export function getOnMouseOutActionEdit(nodeId): () => void {
   const div = getElementDiv(nodeId);
@@ -72,6 +80,7 @@ export function moveRoadmapToNode(nodeId: string) {
 export function openEditorProtocol(nodeId: string) {
   setDisplayPageType('editor');
   setSelectedNodeId(nodeId);
+  clearSelectedConnection();
   setDraggableElementForNodeWithId(nodeId);
   setEditorOpenEffect(nodeId);
   moveRoadmapToNode(nodeId);
@@ -87,7 +96,16 @@ export function closeEditorProtocol() {
 }
 
 export function getOnClickActionEdit(nodeId): () => void {
-  return () => openEditorProtocol(nodeId);
+  const editingState = getEditingState();
+  const editingStateMapper: Record<IEditingState, () => void> = {
+    nodes: () => {
+      openEditorProtocol(nodeId);
+    },
+    connections: () => {
+      setSelectedConnectionForChildNode(nodeId);
+    },
+  };
+  return editingStateMapper[editingState];
 }
 
 export function getOnClickActionView(nodeId): () => void {

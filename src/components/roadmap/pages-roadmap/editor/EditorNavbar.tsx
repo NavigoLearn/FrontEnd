@@ -11,10 +11,7 @@ import editorSelectedData, {
 import { getNodeByIdRoadmapSelector } from '@src/typescript/roadmap_ref/roadmap-data/services/get';
 import { mutateNodeName } from '@src/typescript/roadmap_ref/node/core/data-mutation/mutate';
 import { motion, AnimatePresence } from 'framer-motion';
-import {
-  clearSelectedNodeIdChild,
-  clearSelectedNodeIdParent,
-} from '@components/roadmap/connections/connection-editing/connection-store';
+import { clearSelectedConnection } from '@components/roadmap/connections/connection-editing/connection-store';
 import { nodeNameSyncer } from '@src/typescript/roadmap_ref/node/misc';
 
 const getButtonWidth = (buttonRef: React.RefObject<HTMLButtonElement>) => {
@@ -116,8 +113,7 @@ const TitleAndExit = () => {
         type='button'
         onClick={() => {
           closeEditorProtocol();
-          clearSelectedNodeIdChild();
-          clearSelectedNodeIdParent();
+          clearSelectedConnection();
         }}
         className='absolute top-0 right-8'
       >

@@ -33,7 +33,7 @@ import {
   applyRoadmapElementsInitialDraggability,
 } from '@src/typescript/roadmap_ref/dragging/misc';
 import { useEffectAfterLoad } from '@hooks/useEffectAfterLoad';
-import ConnectionRenderer from '@components/roadmap/connections/ConnectionRenderer';
+import ConnectionsRenderer from '@components/roadmap/connections/ConnectionsRenderer';
 import renderConnectionsStore from '@store/roadmap-refactor/render/rendered-connections';
 import { closeEditorProtocol } from '@src/to-be-organized/nodeview/actions-manager';
 import SnappingLinesRenderer from '@components/roadmap/to-be-organized/SnappingLinesRenderer';
@@ -207,7 +207,7 @@ const Roadmap = ({
       >
         <g id='rootGroup'>
           <g id='rootGroupConnections'>
-            <ConnectionRenderer connectionsIds={connectionsIds} />
+            <ConnectionsRenderer connectionsIds={connectionsIds} />
           </g>
           <g id='rootGroupNodes'>
             {firstRenderDone &&

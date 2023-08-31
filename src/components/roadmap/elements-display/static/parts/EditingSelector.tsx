@@ -12,27 +12,27 @@ const EditingSelector = () => {
   const editState = getEditingState();
 
   return (
-    <div className='relative h-10 rounded-md bg-white shadow-darkBlue drop-shadow-sm flex justify-center items-center gap-4 '>
+    <div className='relative w-full h-full rounded-md bg-white shadow-darkBlue drop-shadow-sm flex justify-center items-center gap-2 '>
       <div className='flex relative items-center justify-center pointer-events-auto cursor-pointer'>
         <NodeEditSvg
           callback={() => {
             setEditingState('nodes');
           }}
           selected={editState === 'nodes'}
-          size={45}
+          size={30}
         />
       </div>
-      <div className='flex items-center justify-center pointer-events-auto pr-4 cursor-pointer'>
+      <div className='flex items-center justify-center pointer-events-auto  cursor-pointer pr-2'>
         <ConnectionEditSvg
           callback={() => {
             setEditingState('connections');
           }}
           selected={editState === 'connections'}
-          size={1.35}
+          size={1.2}
         />
       </div>
       <div className='absolute w-full h-2'>
-        <div className='absolute top-8 text-sm  left-1/2 -translate-x-1/2 font-roboto-text text-placeholder w-40 flex justify-center items-center '>
+        <div className='absolute top-0 text-sm right-0 translate-x-full pl-2 -translate-y-1.5 font-roboto-text text-placeholder w-40'>
           Editing {editState}
         </div>
       </div>

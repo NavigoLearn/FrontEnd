@@ -11,8 +11,8 @@ const StaticElementsDisplayManager = () => {
 
   return (
     <div className='absolute w-full h-full'>
-      <div className='flex justify-center items-center h-10 w-full mt-3  pointer-events-none'>
-        {editable && <EditingSelector />}
+      <div className='flex flex-col h-full justify-end pb-7 pl-4 w-40 border-2 border-black mt-3  pointer-events-none'>
+        <div className='w-24 h-8'>{editable && <EditingSelector />}</div>
       </div>
       <div className='absolute top-4 left-4 '>
         <CoordsRoadmapElement />

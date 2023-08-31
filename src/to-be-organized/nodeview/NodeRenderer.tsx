@@ -8,15 +8,12 @@ import {
   selectedConnectionId,
   selectedNodeIdChild,
   selectedNodeIdParent,
-  setSelectedNodeIdChild,
-  setSelectedNodeIdParent,
 } from '@components/roadmap/connections/connection-editing/connection-store';
 import {
   setTriggerRender,
   triggerNodeRerender,
 } from '@store/roadmap-refactor/render/rerender-triggers-nodes';
 import {
-  getConnectionByIdRoadmapSelector,
   getNodeAdjacentNodesIds,
   getNodeByIdRoadmapSelector,
   getRootNodesIds,
@@ -27,12 +24,10 @@ import {
   getOnMouseOverAction,
 } from '@src/to-be-organized/nodeview/actions-manager';
 import {
-  appendElementEffect,
   appendStatusEffect,
   applyElementEffects,
   setElementEffectsInitialEmpty,
   deleteStatusEffectAll,
-  getElementEffects,
 } from '@store/roadmap-refactor/elements-editing/element-effects';
 import { useIsLoaded } from '@hooks/useIsLoaded';
 import { setElementDiv } from '@store/roadmap-refactor/elements-editing/elements-divs';
@@ -192,7 +187,6 @@ const NodeRenderer: React.FC<NodeViewProps> = ({
       getIsEditing() && deleteStatusEffectAll(nodeId);
       loaded && applyElementEffects(nodeId, nodeDivRef.current);
     });
-    console.log('effects for', nodeId, getElementEffects(nodeId));
 
     const isDraggable = getElementIsDraggable(nodeId);
     const isRoot = node.flags.renderedOnRoadmapFlag;
@@ -206,9 +200,6 @@ const NodeRenderer: React.FC<NodeViewProps> = ({
           // draggable elements coincide with clickable elements on a roadmap
           event.stopPropagation(); // to avoid clicking a subnode and its parent at the same time
           getOnClickAction(nodeId)();
-
-          // setSelectedNodeIdChild(nodeId);
-          // setSelectedNodeIdParent(nodeId);
         }}
         onMouseOver={(event) => {
           event.stopPropagation();

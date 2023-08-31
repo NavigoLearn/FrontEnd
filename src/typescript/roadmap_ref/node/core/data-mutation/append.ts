@@ -9,7 +9,7 @@ export function appendAttachment(
 ): void {
   node.attachments.push(attachment);
   // gets operations-page and appends them to the node
-  appendAction(node, 'Open Tab');
+  appendAction(node, 'Open attachment');
 }
 
 export function appendComponent(

@@ -7,7 +7,7 @@ import {
   mutateNodeOpacity,
   mutateNodeWidth,
 } from '@src/typescript/roadmap_ref/node/core/data-mutation/mutate';
-import { useStore, useStore } from '@nanostores/react';
+import { useStore } from '@nanostores/react';
 import editorSelectedData, {
   triggerRerenderEditor,
 } from '@store/roadmap-refactor/elements-editing/editor-selected-data';

@@ -2,7 +2,7 @@ import React from 'react';
 import Connection from '@components/roadmap/connections/Connection';
 import { useIsLoaded } from '@hooks/useIsLoaded';
 
-const ConnectionRenderer = ({
+const ConnectionsRenderer = ({
   connectionsIds,
 }: {
   connectionsIds: string[];
@@ -22,4 +22,4 @@ const ConnectionRenderer = ({
   );
 };
 
-export default ConnectionRenderer;
+export default ConnectionsRenderer;
