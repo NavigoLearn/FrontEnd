@@ -14,7 +14,7 @@ import { useScrollHidden } from '@hooks/useScrollHidden';
 import { v4 as uuid4 } from 'uuid';
 import NodeManager from '@components/roadmap/to-be-organized/NodeManager';
 import { useStore } from '@nanostores/react';
-import {
+import roadmapStateStore, {
   getRoadmapState,
   setRoadmapId,
   setRoadmapIsLoaded,
@@ -73,7 +73,8 @@ const Roadmap = ({
   if (isCreate) {
     setRoadmapState('create');
   }
-  const state = getRoadmapState();
+  const initialState = getRoadmapState();
+  const [ state, setState ] = React.useState(initialState);
   // need to take the ids of the nodes-page included in the current chunks and render them
   const { nodes } = roadmapSelector.get();
   const { nodesIds } = useStore(renderNodesStore);
@@ -102,10 +103,14 @@ const Roadmap = ({
   };
 
   useEffect(() => {
+    roadmapStateStore.subscribe(() => {
+      console.log('roadmapStateStore.subscribe', getRoadmapState());
+        setState(getRoadmapState());
+    })
+
     // renderer object that handles chunking
     chunkRenderer.current = recalculateChunks('rootSvg');
     // sets the trigger for chunk recalculations to a global state
-
     setChunkRerenderTrigger(
       // used for decorators
       () => {
