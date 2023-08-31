@@ -4,6 +4,7 @@ import {
   deleteNodeClassicFromParentAndChildren,
   deleteNodeClassicFromRoadmapAndChunks,
   deleteNodeSubNode,
+  deleteNodeSubNodesRecursive,
 } from '@src/typescript/roadmap_ref/roadmap-data/services/delete';
 import { getNodeByIdRoadmapSelector } from '@src/typescript/roadmap_ref/roadmap-data/services/get';
 
@@ -11,10 +12,12 @@ export function deleteNodeFromRoadmap(node: NodeClass) {
   if (node.flags.renderedOnRoadmapFlag) {
     // deletes node from parent children and redirects children to parent + connections to parent
     deleteNodeClassicFromParentAndChildren(node);
+    // cleans up all its subnodes
+    deleteNodeSubNodesRecursive(node);
     // delete from roadmap and from chunks
     deleteNodeClassicFromRoadmapAndChunks(node);
   } else if (node.flags.subNodeFlag) {
-    // deletes node from parent children and redirects children to parent + connections to parent
+    deleteNodeSubNodesRecursive(node);
     deleteNodeSubNode(node);
   }
 }

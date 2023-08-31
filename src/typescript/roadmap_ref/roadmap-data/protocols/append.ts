@@ -217,9 +217,20 @@ export function applyTemplateToNode(targetNodeId: string, templateId: string) {
   const targetNode: NodeClass = deepCopy(
     getNodeByIdRoadmapSelector(targetNodeId)
   );
+
+  const queue = []; // deletes all subnodes without deleting target node+
   targetNode.subNodeIds.forEach((subNodeId) => {
-    deleteNodeFromRoadmapNodes(subNodeId);
+    queue.push(subNodeId);
   });
+
+  while (queue.length > 0) {
+    const subNodeId = queue.shift();
+    const subNode = roadmap.nodes[subNodeId];
+    subNode.subNodeIds.forEach((id) => {
+      queue.push(id);
+    });
+    deleteNodeFromRoadmapNodes(subNodeId);
+  }
 
   applyTemplateToNewNode(targetNode, deepCopy(newNodes[newBaseId]));
 
