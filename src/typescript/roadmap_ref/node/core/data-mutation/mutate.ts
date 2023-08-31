@@ -16,14 +16,19 @@ import {
 export function mutateNodeOpacity(node: NodeClass, opacity: number) {
   node.data.opacity = opacity;
 }
+export function mutateNodeColorAndRerender(
+  node: NodeClass,
+  colorType: IColorThemesColors
+) {
+  node.data.colorType = colorType;
+  triggerNodeRerender(node.id);
+}
+
 export function mutateNodeColor(
   node: NodeClass,
   colorType: IColorThemesColors
 ) {
   node.data.colorType = colorType;
-  // node.data.color = selectNodeColorScheme(node.data.colorTheme, colorType);
-  // node.data.textColor = selectNodeColorText(node.data.colorTheme, colorType);
-  triggerNodeRerender(node.id);
 }
 
 export const mutateNodeWidth = triggerHubListeners(

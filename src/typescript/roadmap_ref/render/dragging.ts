@@ -191,4 +191,5 @@ export const addDragabilityProtocol = (draggingBehavior: DraggingBehavior) => {
   }
   updateDraggabilityAllowed(false); // draggability is disabled by default but set to true at rendering
   setElementDraggableUpdateCallback(id, updateDraggabilityAllowed); //  callback to update draggability from the store directly
+  setElementDraggable(id, false);
 };

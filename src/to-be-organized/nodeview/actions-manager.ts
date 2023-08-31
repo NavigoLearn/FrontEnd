@@ -34,6 +34,8 @@ import { triggerMoveRoadmapTo } from '@store/roadmap-refactor/misc/misc-params-s
 import { HashMapWithKeys } from '@type/roadmap/misc';
 import { IActionTypes } from '@src/typescript/roadmap_ref/node/core/actions/core';
 import { afterEventLoop } from '@src/typescript/utils/misc';
+import { getScaleSafari } from '@store/roadmap-refactor/misc/scale-safari-store';
+import { getViewport } from '@store/roadmap-refactor/misc/viewport-coords-store';
 
 export function getOnMouseOutActionEdit(nodeId): () => void {
   const div = getElementDiv(nodeId);
@@ -48,16 +50,21 @@ export function moveRoadmapToNode(nodeId: string) {
   const node = getNodeByIdRoadmapSelector(nodeId);
   const { coords, width, height } = node.data;
 
-  const wOffsetX = window.innerWidth / 2;
-  const wOffsetY = window.innerHeight / 2;
+  const scale = getScaleSafari();
+  const viewport = getViewport();
+
+  // 500 accounts for editor width
+  const wOffsetX =
+    (viewport.endX - viewport.startX - 400 + node.data.width / 2) / 2;
+  const wOffsetY = (viewport.endY - viewport.startY) / 2;
 
   const { x, y } = getNodeAbsoluteCoordsCenter(nodeId);
-  const tracebackOffsetX = x;
-  const tracebackOffsetY = y;
+  const tracebackOffsetX = (x - wOffsetX) * scale;
+  const tracebackOffsetY = (y - wOffsetY) * scale;
 
   triggerMoveRoadmapTo(
-    tracebackOffsetX - wOffsetX + 250, // account for editor width
-    tracebackOffsetY - wOffsetY,
+    tracebackOffsetX, // account for editor width
+    tracebackOffsetY,
     1
   );
 }

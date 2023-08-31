@@ -69,9 +69,10 @@ export const enableRoadmapZoomDragAndRecenter = (
   }
 
   function moveRoadmapTo(x: number, y: number, k: number) {
+    const currentScale = getScaleSafari();
     const customTransform = d3.zoomIdentity
       .translate(-x, -y)
-      .scale(getScaleSafari());
+      .scale(currentScale);
     svg.transition().duration(750).call(zoom.transform, customTransform);
   }
 
