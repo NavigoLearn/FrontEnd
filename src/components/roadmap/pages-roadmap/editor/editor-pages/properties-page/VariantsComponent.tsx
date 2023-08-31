@@ -5,7 +5,7 @@ import {
 } from '@type/roadmap/node/colors-types';
 import { colorThemes } from '@src/typescript/roadmap_ref/node/core/color-themes';
 import { NodeClass } from '@src/typescript/roadmap_ref/node/core/core';
-import { mutateNodeColor } from '@src/typescript/roadmap_ref/node/core/data-mutation/mutate';
+import { mutateNodeColorAndRerender } from '@src/typescript/roadmap_ref/node/core/data-mutation/mutate';
 import { triggerRerenderEditor } from '@src/store/roadmap-refactor/elements-editing/editor-selected-data';
 
 type IVariantsComponentProps = {
@@ -38,7 +38,7 @@ const VariantsComponent = ({
             borderWidth: selectedColor === colorKey ? '2px' : '1px',
           }}
           onClick={() => {
-            mutateNodeColor(node, colorKey);
+            mutateNodeColorAndRerender(node, colorKey);
             triggerRerenderEditor();
           }}
         >

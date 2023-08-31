@@ -53,6 +53,9 @@ import {
   getIdCurrentConnection,
 } from '@components/roadmap/connections/connection-editing/services';
 import { useStore } from '@nanostores/react';
+import draggableElements, {
+  getElementIsDraggable,
+} from '@store/roadmap-refactor/elements-editing/draggable-elements';
 
 interface NodeViewProps {
   nodeId: string;
@@ -189,6 +192,7 @@ const NodeRenderer: React.FC<NodeViewProps> = ({
       loaded && applyElementEffects(nodeId, nodeDivRef.current);
     });
 
+    const isDraggable = getElementIsDraggable(nodeId);
     const isRoot = node.flags.renderedOnRoadmapFlag;
     return (
       // eslint-disable-next-line jsx-a11y/click-events-have-key-events,jsx-a11y/mouse-events-have-key-events,jsx-a11y/no-static-element-interactions
@@ -221,37 +225,35 @@ const NodeRenderer: React.FC<NodeViewProps> = ({
             )}`}
           />
         )}
-        <DraggingResizeElement
-          style={{
-            width,
-            height,
-          }}
-          heightCallback={(height) => {
-            mutateNodeHeightWhileKeepingCenter(node, height);
-            triggerNodeRerender(nodeId);
-          }}
-          widthCallback={(width) => {
-            mutateNodeWidthWhileKeepingCenter(node, width);
-            triggerNodeRerender(nodeId);
-          }}
-          snappingCallback={(width, height) => {
-            const rootNode = node.flags.renderedOnRoadmapFlag;
-            const nodesToSnapTo = rootNode
-              ? getRootNodesIds()
-              : getNodeAdjacentNodesIds(nodeId);
-            // snapping node corners ( ͡° ͜ʖ ͡°) so width and height will also snap I hope
-            const { width: newWidth, height: newHeight } = snapNodeWidthHeight(
-              node.id,
-              nodesToSnapTo,
+        {isDraggable && (
+          <DraggingResizeElement
+            style={{
               width,
-              height
-            );
-            return {
-              width: newWidth,
-              height: newHeight,
-            };
-          }}
-        />
+              height,
+            }}
+            heightCallback={(height) => {
+              mutateNodeHeightWhileKeepingCenter(node, height);
+              triggerNodeRerender(nodeId);
+            }}
+            widthCallback={(width) => {
+              mutateNodeWidthWhileKeepingCenter(node, width);
+              triggerNodeRerender(nodeId);
+            }}
+            snappingCallback={(width, height) => {
+              const rootNode = node.flags.renderedOnRoadmapFlag;
+              const nodesToSnapTo = rootNode
+                ? getRootNodesIds()
+                : getNodeAdjacentNodesIds(nodeId);
+              // snapping node corners ( ͡° ͜ʖ ͡°) so width and height will also snap I hope
+              const { width: newWidth, height: newHeight } =
+                snapNodeWidthHeight(node.id, nodesToSnapTo, width, height);
+              return {
+                width: newWidth,
+                height: newHeight,
+              };
+            }}
+          />
+        )}
 
         {childNodeId === nodeId && (
           <ConnectionNodeSet

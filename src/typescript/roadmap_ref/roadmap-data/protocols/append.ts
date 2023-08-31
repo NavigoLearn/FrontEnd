@@ -53,9 +53,18 @@ import { afterEventLoop, getRandomId } from '@src/typescript/utils/misc';
 import { addDragabilityProtocol } from '@src/typescript/roadmap_ref/render/dragging';
 import { addDraggingBehaviorComponentProtocol } from '@src/typescript/roadmap_ref/node/components/text/factories';
 import { mutateConnectionsIds } from '@src/typescript/roadmap_ref/roadmap-data/services/mutate';
+import {
+  mutateNodeColor,
+  mutateNodeColorAndRerender,
+} from '@src/typescript/roadmap_ref/node/core/data-mutation/mutate';
 
 export function appendSubNode(node: NodeClass) {
   const newNestedNode = factorySubNode(node.id, 120, 40, 0, 0); // creates node
+  if (node.data.colorType === 'tertiary') {
+    mutateNodeColor(newNestedNode, 'secondary');
+  } else {
+    mutateNodeColor(newNestedNode, 'tertiary');
+  }
   appendSubNodeId(node, newNestedNode.id); // appends to the parent of nesting
   injectRoadmapNode(newNestedNode);
   draggableElementProtocol(newNestedNode.draggingBehavior, newNestedNode.id);
@@ -217,9 +226,20 @@ export function applyTemplateToNode(targetNodeId: string, templateId: string) {
   const targetNode: NodeClass = deepCopy(
     getNodeByIdRoadmapSelector(targetNodeId)
   );
+
+  const queue = []; // deletes all subnodes without deleting target node+
   targetNode.subNodeIds.forEach((subNodeId) => {
-    deleteNodeFromRoadmapNodes(subNodeId);
+    queue.push(subNodeId);
   });
+
+  while (queue.length > 0) {
+    const subNodeId = queue.shift();
+    const subNode = roadmap.nodes[subNodeId];
+    subNode.subNodeIds.forEach((id) => {
+      queue.push(id);
+    });
+    deleteNodeFromRoadmapNodes(subNodeId);
+  }
 
   applyTemplateToNewNode(targetNode, deepCopy(newNodes[newBaseId]));
 

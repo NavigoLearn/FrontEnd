@@ -3,6 +3,8 @@ import {
   getNodeByIdRoadmapSelector,
   getRootNodesIds,
 } from '@src/typescript/roadmap_ref/roadmap-data/services/get';
+import { deepCopy } from '@src/typescript/roadmap_ref/utils';
+import renderedNodes from '@store/roadmap-refactor/render/rendered-nodes';
 
 const draggableElements = atom({
   canBeDragged: true,
@@ -54,13 +56,10 @@ export function setDraggabilityAllElements(allowed: boolean) {
   }
 }
 
-export function getElementDraggable(id: string) {
-  return draggableElements.get().draggableElements[id];
-}
-
 export function getElementIsDraggable(id: string) {
   return draggableElements.get().draggableElements[id];
 }
+
 export function setAllDraggableTrue() {
   const originalDraggables = draggableElements.get();
   Object.keys(originalDraggables.draggableElements).forEach((key) => {
@@ -69,18 +68,16 @@ export function setAllDraggableTrue() {
   draggableElements.set(originalDraggables);
 }
 export function setAllDraggableFalse() {
-  const newDraggables = draggableElements.get();
-  Object.keys(newDraggables.draggableElements).forEach((key) => {
+  const draggableStore = draggableElements.get();
+  Object.keys(draggableStore.draggableElements).forEach((key) => {
     setElementDraggable(key, false);
   });
-  draggableElements.set(newDraggables);
 }
 
 export function setDraggableElementForNodeWithId(id: string) {
   // iterates the reusable-components-page and subNodes Ids and makes them draggable
 
   setAllDraggableFalse();
-  const originalDraggables = draggableElements.get();
   const draggableIds = [];
   const node = getNodeByIdRoadmapSelector(id);
 
@@ -97,8 +94,24 @@ export function setDraggableElementForNodeWithId(id: string) {
   setElementDraggable(id, true);
 }
 
+export function setAllComponentsDraggableFalse() {
+  const renderedNodesIds = renderedNodes.get().nodesIds;
+  const queue = [...renderedNodesIds];
+  while (queue.length > 0) {
+    const nodeId = queue.shift();
+    const node = getNodeByIdRoadmapSelector(nodeId);
+    node.subNodeIds.forEach((subNodeId) => {
+      queue.push(subNodeId);
+    });
+    node.components.forEach((component) => {
+      setElementDraggable(component.id, false);
+    });
+  }
+}
+
 export function closeEditorDraggabilitySettings() {
   setAllDraggableTrue();
+  setAllComponentsDraggableFalse();
 }
 
 export default draggableElements;

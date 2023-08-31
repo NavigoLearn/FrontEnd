@@ -1,5 +1,6 @@
 import { roadmapSelector } from '@store/roadmap-refactor/roadmap-data/roadmap-selector';
 import { NodeClass } from '@src/typescript/roadmap_ref/node/core/core';
+import { getNodeByIdRoadmapSelector } from '@src/typescript/roadmap_ref/roadmap-data/services/get';
 
 export function deleteNodeFromChunk(nodeId: string, chunkId: string) {
   const roadmap = roadmapSelector.get();
@@ -100,3 +101,18 @@ export const deleteNodeFromRoadmapNodes = (nodeId: string) => {
   delete roadmap.nodes[nodeId];
   roadmapSelector.set({ ...roadmap });
 };
+
+export function deleteNodeSubNodesRecursive(node: NodeClass) {
+  const queue = [];
+  node.subNodeIds.forEach((id) => {
+    queue.push(id);
+  });
+  while (queue.length > 0) {
+    const id = queue.shift();
+    const childNode = getNodeByIdRoadmapSelector(id);
+    childNode.subNodeIds.forEach((subNodeId) => {
+      queue.push(subNodeId);
+    });
+    deleteNodeFromRoadmapNodes(childNode.id);
+  }
+}

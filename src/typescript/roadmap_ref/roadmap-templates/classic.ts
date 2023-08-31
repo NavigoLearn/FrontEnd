@@ -60,6 +60,7 @@ export function factoryRoadmapFirstAttempt() {
   injectRoadmapGlobalRootNodeId(node0.id);
   const node1 = factoryNodeClassicCustomizable(-200, -200, 200, 200);
   appendChildNodeId(node0, node1.id);
+  injectParentData(node1, node0.id);
   const connection0 = factoryConnection(node0, node1);
 
   const subNode00 = factorySubNode(node0.id, 100, 50, -75, -75);

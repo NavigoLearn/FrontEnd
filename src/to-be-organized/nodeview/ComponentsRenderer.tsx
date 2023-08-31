@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { calculateComponentsPositions } from '@src/to-be-organized/nodeview/logic';
 import { NodeClass } from '@src/typescript/roadmap_ref/node/core/core';
 import { IComponentObject } from '@type/roadmap/node/components-types';
@@ -27,18 +27,16 @@ import displayManagerStore from '@store/roadmap-refactor/display/display-manager
 
 type IComponentElementProps = {
   component: IComponentObject;
-  position: { x: number; y: number };
   parentNode: NodeClass;
 };
 
 const ComponentRenderer = ({
   component,
-  position,
   parentNode,
 }: IComponentElementProps) => {
-  const { id, type, width, height, textSize, textWeight, text } = component;
+  const { id, type, textSize, textWeight, text } = component;
   const { colorType } = parentNode.data;
-  const objRef = useRef(null);
+  const divRef = useRef(null);
   // text color is based on the node color
   const theme = getColorThemeFromRoadmap();
   const parentSelected =
@@ -51,9 +49,16 @@ const ComponentRenderer = ({
 
   const fontSizeSelect = selectTextFontSize(textSize);
 
+  const { position, height, width } = calculateComponentsPositions(
+    component,
+    parentNode,
+    divRef
+  );
+  mutateComponentTextHeight(component, height);
+
   return (
     <div
-      ref={objRef}
+      ref={divRef}
       key={component.id}
       id={`div${id}`}
       className={`absolute flex justify-center items-center select-none border-2 border-black border-opacity-0  pointer-events-auto ${
@@ -65,7 +70,7 @@ const ComponentRenderer = ({
         fontWeight: textWeightSelect,
         textAlign: 'center',
         width: `${width}px`,
-        height: `${height}px`,
+        // height: `${height}px`,
         top: `${position.y}px`,
         left: `${position.x}px`,
       }}
@@ -107,7 +112,6 @@ const ComponentRenderer = ({
 
 export const componentsRenderer = (node: NodeClass) => {
   const { components, data } = node;
-  const positions = calculateComponentsPositions(node);
 
   return (
     <div className='components-container select-none'>
@@ -116,7 +120,6 @@ export const componentsRenderer = (node: NodeClass) => {
           <ComponentRenderer
             key={component.id}
             component={component}
-            position={positions[index]}
             parentNode={node}
           />
         );

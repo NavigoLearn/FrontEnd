@@ -19,4 +19,7 @@ export function setViewport(viewport: Viewport) {
   viewportCoord.set({ ...newViewport });
 }
 
+export function getViewport() {
+  return viewportCoord.get();
+}
 export default viewportCoord;
