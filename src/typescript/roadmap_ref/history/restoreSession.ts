@@ -38,6 +38,7 @@ export async function saveSession() {
   // hash the json
   const hash = await hashData(roadmapData);
 
+
   // get the current version history
   const versionHistory = localStorage.getItem(`${id}-roadmapVersionHistory`);
   // if there is no version history, create one
@@ -49,6 +50,11 @@ export async function saveSession() {
 
   // if there is a version history, parse it
   const parsedVersionHistory = JSON.parse(versionHistory);
+
+  // if the current hash is the same as the last hash, return
+  if (parsedVersionHistory[parsedVersionHistory.length - 1] === hash) {
+    return;
+  }
   // add the new hash to the version history
   parsedVersionHistory.push(hash);
   // if parsedVersionHistory is larger than maxVersionHistory, remove the oldest version
