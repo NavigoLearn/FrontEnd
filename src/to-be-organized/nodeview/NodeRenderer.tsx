@@ -169,7 +169,6 @@ const NodeRenderer: React.FC<NodeViewProps> = ({
         color.slice(3, 5),
         16
       )}, ${parseInt(color.slice(5, 7), 16)}, ${bgOpacity})`, // assuming color is in #RRGGBB format
-      borderColor: `rgba(0,0,0, ${bgOpacity})`, // assuming borderColor is in #RRGGBB format
       width: `${width}px`,
       height: `${height}px`,
       top: `${calculatedOffsetCoords.y + coords.y}px`,
@@ -194,7 +193,7 @@ const NodeRenderer: React.FC<NodeViewProps> = ({
     return (
       // eslint-disable-next-line jsx-a11y/click-events-have-key-events,jsx-a11y/mouse-events-have-key-events,jsx-a11y/no-static-element-interactions
       <div
-        className={`drop-shadow-md rounded-lg border-2 border-black transition-allNoTransform duration-300 absolute `}
+        className={`drop-shadow-md rounded-lg border-[2px] border-solid border-transparent transition-allNoTransform duration-300 absolute `}
         id={`div${nodeId}`}
         ref={nodeDivRef}
         onClick={(event) => {
