@@ -52,6 +52,8 @@ import {
   saveSession,
 } from '@src/typescript/roadmap_ref/history/restoreSession';
 import { afterEventLoop } from '@src/typescript/utils/misc';
+import { clearSelectedConnection } from '@components/roadmap/connections/connection-editing/connection-store';
+import { setEditingState } from '@store/roadmap-refactor/editing/editing-state';
 
 export function initializeRoadmapAfterLoad() {
   setRoadmapIsLoaded();
@@ -196,6 +198,8 @@ const Roadmap = ({
       onClick={() => {
         // stupid workaround for clicking editor when clicking somewhere else
         closeEditorProtocol();
+        clearSelectedConnection();
+        setEditingState('nodes');
       }}
     >
       <ElementsDisplayManager />

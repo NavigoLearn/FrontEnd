@@ -18,4 +18,9 @@ export function setDisplayPageType(type: IDisplayPageType) {
   });
 }
 
+export function getDisplayPageType() {
+  const originalStore = displayManagerStore.get();
+  return originalStore.type;
+}
+
 export default displayManagerStore;

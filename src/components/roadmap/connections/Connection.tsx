@@ -34,12 +34,12 @@ const Connection = ({ connId }: { connId: string }) => {
     const angle = Math.atan2(endY - startY, endX - startX) * (180 / Math.PI);
 
     rectRef.current.setAttribute('x', startX);
-    rectRef.current.setAttribute('y', startY - 5); // -5 centers the rectangle around the line
+    rectRef.current.setAttribute('y', startY - 8); // -5 centers the rectangle around the line
     rectRef.current.setAttribute(
       'width',
       Math.sqrt((endX - startX) ** 2 + (endY - startY) ** 2)
     );
-    rectRef.current.setAttribute('height', 10);
+    rectRef.current.setAttribute('height', 16);
     rectRef.current.setAttribute(
       'transform',
       `rotate(${angle}, ${startX}, ${startY})`
@@ -59,8 +59,9 @@ const Connection = ({ connId }: { connId: string }) => {
         ref={rectRef}
         fill='transparent'
         pointerEvents='visible'
-        onClick={() => {
+        onClick={(e) => {
           setSelectedConnectionForConnectionId(connId);
+          e.stopPropagation();
         }}
       />
     </g>

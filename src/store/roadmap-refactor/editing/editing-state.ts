@@ -1,20 +1,34 @@
 import { atom } from 'nanostores';
+import { clearSelectedConnection } from '@components/roadmap/connections/connection-editing/connection-store';
+import { closeEditorProtocol } from '@src/to-be-organized/nodeview/actions-manager';
 
 export type IEditingState = 'nodes' | 'connections';
-const editingState = atom({
-  roadmapState: 'nodes',
+const editingStateStore = atom({
+  editingStateValue: 'nodes',
 } as {
-  roadmapState: IEditingState;
+  editingStateValue: IEditingState;
 });
 
+export function editingStateChangeSideEffects(
+  oldState: IEditingState,
+  newState: IEditingState
+) {
+  if (oldState === 'nodes' && newState === 'connections') {
+    closeEditorProtocol();
+  }
+  if (oldState === 'connections' && newState === 'nodes') {
+    clearSelectedConnection();
+  }
+}
 export function setEditingState(state: IEditingState) {
-  const original = editingState.get();
-  editingState.set({ ...original, roadmapState: state });
+  const original = editingStateStore.get();
+  editingStateChangeSideEffects(original.editingStateValue, state);
+  editingStateStore.set({ ...original, editingStateValue: state });
 }
 
 export function getEditingState() {
-  const original = editingState.get();
-  return original.roadmapState;
+  const original = editingStateStore.get();
+  return original.editingStateValue;
 }
 
-export default editingState;
+export default editingStateStore;

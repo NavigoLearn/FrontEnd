@@ -40,7 +40,7 @@ export const dynamicEffectsMapper: HashMapWithKeys<
 > = {
   'editor-defocused-node': {
     effectName: 'editor-defocused-node',
-    effectApply: (divRef) => effectOpacity30(divRef),
+    effectApply: (divRef) => effectOpacity60(divRef),
     effectLayer: 1,
   },
   'editor-focused-node': {

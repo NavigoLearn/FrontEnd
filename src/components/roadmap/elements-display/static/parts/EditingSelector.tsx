@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
 import NodeEditSvg from '@components/roadmap/elements-display/static/parts/components/NodeEditSvg';
 import ConnectionEditSvg from '@components/roadmap/elements-display/static/parts/components/ConnectionEditSvg';
-import editingState, {
+import editingStateStore, {
   getEditingState,
   setEditingState,
 } from '@store/roadmap-refactor/editing/editing-state';
 import { useStore } from '@nanostores/react';
 
 const EditingSelector = () => {
-  useStore(editingState);
+  useStore(editingStateStore);
   const editState = getEditingState();
 
   return (

@@ -8,7 +8,10 @@ import {
   setDraggableElementForNodeWithId,
   closeEditorDraggabilitySettings,
 } from '@store/roadmap-refactor/elements-editing/draggable-elements';
-import { setDisplayPageType } from '@store/roadmap-refactor/display/display-manager';
+import {
+  getDisplayPageType,
+  setDisplayPageType,
+} from '@store/roadmap-refactor/display/display-manager';
 import { setSelectedNodeId } from '@store/roadmap-refactor/elements-editing/editor-selected-data';
 import roadmapStateStore, {
   getIsEditable,
@@ -39,6 +42,7 @@ import { getViewport } from '@store/roadmap-refactor/misc/viewport-coords-store'
 import {
   getEditingState,
   IEditingState,
+  setEditingState,
 } from '@store/roadmap-refactor/editing/editing-state';
 import {
   clearSelectedConnection,
@@ -81,6 +85,7 @@ export function openEditorProtocol(nodeId: string) {
   setDisplayPageType('editor');
   setSelectedNodeId(nodeId);
   clearSelectedConnection();
+  setEditingState('nodes');
   setDraggableElementForNodeWithId(nodeId);
   setEditorOpenEffect(nodeId);
   moveRoadmapToNode(nodeId);
@@ -89,6 +94,7 @@ export function openEditorProtocol(nodeId: string) {
 }
 
 export function closeEditorProtocol() {
+  if (!(getDisplayPageType() === 'editor')) return;
   setDisplayPageType('closed');
   closeEditorDraggabilitySettings();
   setEditorClosedEffect();
@@ -96,16 +102,11 @@ export function closeEditorProtocol() {
 }
 
 export function getOnClickActionEdit(nodeId): () => void {
-  const editingState = getEditingState();
-  const editingStateMapper: Record<IEditingState, () => void> = {
-    nodes: () => {
-      openEditorProtocol(nodeId);
-    },
-    connections: () => {
-      setSelectedConnectionForChildNode(nodeId);
-    },
+  // const editingState = getEditingState();
+
+  return () => {
+    openEditorProtocol(nodeId);
   };
-  return editingStateMapper[editingState];
 }
 
 export function getOnClickActionView(nodeId): () => void {

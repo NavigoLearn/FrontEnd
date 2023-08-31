@@ -2,6 +2,7 @@ import { atom } from 'nanostores';
 import { ConnectionClass } from '@src/typescript/roadmap_ref/node/connections/core';
 import { triggerNodeRerender } from '@store/roadmap-refactor/render/rerender-triggers-nodes';
 import { getConnectionByIdRoadmapSelector } from '@src/typescript/roadmap_ref/roadmap-data/services/get';
+import { setEditingState } from '@store/roadmap-refactor/editing/editing-state';
 import {
   getParentNodeIdBasedOnConnection,
   getIdCurrentConnection,
@@ -25,6 +26,7 @@ export const clearSelectedConnection = () => {
   selectedNodeIdParent.set(null);
   selectedConnectionId.set(null);
   selectedNodeIdChild.set(null);
+  if (!parentNodeId || !childNodeId) return;
   triggerNodeRerender(parentNodeId);
   triggerNodeRerender(childNodeId);
 };
@@ -43,4 +45,5 @@ export const setSelectedConnectionForConnectionId = (connectionId: string) => {
   const connection = getConnectionByIdRoadmapSelector(connectionId);
   const { from, to } = connection;
   setSelectedConnectionForChildNode(to);
+  setEditingState('connections');
 };

@@ -35,19 +35,13 @@ import { NodeClass } from '@src/typescript/roadmap_ref/node/core/core';
 import { getIsEditing } from '@store/roadmap-refactor/roadmap-data/roadmap_state';
 import DraggingResizeElement from '@src/to-be-organized/DraggingResizeElement';
 import {
-  mutateNodeHeight,
   mutateNodeHeightWhileKeepingCenter,
-  mutateNodeWidth,
   mutateNodeWidthWhileKeepingCenter,
 } from '@src/typescript/roadmap_ref/node/core/data-mutation/mutate';
 import { snapNodeWidthHeight } from '@src/typescript/roadmap_ref/snapping/core';
 import { selectNodeColorFromScheme } from '@src/typescript/roadmap_ref/node/core/factories/data-mutation/services';
 import { getColorThemeFromRoadmap } from '@components/roadmap/pages-roadmap/setup-screen/theme-controler';
 import ConnectionNodeSet from '@components/roadmap/connections/connection-editing/ConnectionNodeSet';
-import {
-  getIdArrayConnections,
-  getIdCurrentConnection,
-} from '@components/roadmap/connections/connection-editing/services';
 import { useStore } from '@nanostores/react';
 import draggableElements, {
   getElementIsDraggable,

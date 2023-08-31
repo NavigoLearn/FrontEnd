@@ -72,7 +72,6 @@ const ConnectionNodeSet = ({
   ];
 
   const node = getNodeByIdRoadmapSelector(nodeId);
-  console.log(kind);
 
   if (kind === 'child') {
     return (
