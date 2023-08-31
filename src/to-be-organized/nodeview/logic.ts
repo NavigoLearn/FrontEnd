@@ -1,4 +1,6 @@
 import { NodeClass } from '@src/typescript/roadmap_ref/node/core/core';
+import { ICoords } from '@src/typescript/roadmap_ref/dragging/core';
+import { ComponentText } from '@src/typescript/roadmap_ref/node/components/text/core';
 
 export const calcCenter = (componentProperties) => {
   // Calculate the center of the component based on its width and height
@@ -8,27 +10,28 @@ export const calcCenter = (componentProperties) => {
   return { x: centerX, y: centerY };
 };
 
-export const calculateComponentsPositions = (node: NodeClass) => {
+export const calculateComponentsPositions = (
+  component: ComponentText,
+  node: NodeClass,
+  divRef: React.RefObject<HTMLDivElement>
+) => {
   const { components, data } = node;
-  const positions = [];
-  // const isFirstComponent = true;
-  components.forEach((component) => {
-    const { x, y, width, height } = component;
-    const newX = x - component.width / 2 + data.width / 2;
-    const newY = y - component.height / 2 + data.height / 2;
+  const position: ICoords = { x: 0, y: 0 };
 
-    // if (isFirstComponent) {
-    //   newX = nodeProperties.width / 2;
-    //   newY = nodeProperties.height / 8;
-    //   isFirstComponent = false;
-    // } else {
-    //   const { x: centerX, y: centerY } = calcCenter(component);
-    //   newX = nodeProperties.width / 2;
-    //   newY = centerY + height / 4;
-    // }
-    //
-    positions.push({ x: newX, y: newY });
-  });
-  // console.log('calculated positions', positions);
-  return positions;
+  const { x, y, width } = component;
+  let componentHeight = component.height;
+  if (divRef.current) {
+    componentHeight = divRef.current.clientHeight;
+  }
+
+  const newX = x - component.width / 2 + data.width / 2;
+  const newY = y - componentHeight / 2 + data.height / 2;
+
+  position.x = newX;
+  position.y = newY;
+  return {
+    position,
+    width,
+    height: componentHeight,
+  };
 };
