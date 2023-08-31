@@ -12,6 +12,10 @@ export const roadmapSelector = atom({
   templates: {},
 } as IRoadmap);
 
+export const getRoadmapSelector = () => {
+    return roadmapSelector.get();
+}
+
 export const setRoadmapSelector = (roadmap: IRoadmap) => {
   roadmapSelector.set({ ...roadmap });
 };

@@ -13,3 +13,7 @@ export const setRoadmapEdit = (roadmap: IRoadmap) => {
   roadmapSelector.set({ ...roadmap });
   roadmapEdit.set({ ...roadmap });
 };
+
+export const getRoadmapEdit = () => {
+  return roadmapEdit.get();
+}

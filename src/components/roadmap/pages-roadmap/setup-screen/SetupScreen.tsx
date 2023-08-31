@@ -1,8 +1,11 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import exit from '../../../../../public/editor/close.svg';
 import ThemeSelector from './pages/ThemeSelector';
 import TitleSelector from './pages/TitleSelector';
 import { initializeRoadmapAfterLoad } from '../../Roadmap';
+import {
+  checkIfSessionExists
+} from '@src/typescript/roadmap_ref/history/restoreSession';
 
 const SetupScreen = ({ isCreate }: { isCreate: boolean }) => {
   const [activeTab, setActiveTab] = useState(0);
@@ -16,6 +19,16 @@ const SetupScreen = ({ isCreate }: { isCreate: boolean }) => {
   const handleNext = () => {
     setActiveTab((prevTab) => (prevTab + 1) % totalTabs);
   };
+
+  useEffect(() => {
+    setTimeout(() => {
+        if (checkIfSessionExists()) {
+            initializeRoadmapAfterLoad();
+            handleExit();
+            return;
+        }
+    }, 50);
+  }, []);
 
   const renderActiveTab = () => {
     switch (activeTab) {

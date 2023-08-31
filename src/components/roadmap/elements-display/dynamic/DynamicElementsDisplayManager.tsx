@@ -1,10 +1,10 @@
 import React from 'react';
-import Popup from '@components/roadmap/to-be-organized/popups/Popup';
+import PopupTemplates from '@components/roadmap/to-be-organized/popups/PopupTemplates';
 
 const DynamicElementsDisplayManager = () => {
   return (
     <div className='w-full h-full absolute top-0 left-0'>
-      <Popup />
+      <PopupTemplates />
     </div>
   );
 };
