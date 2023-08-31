@@ -1,38 +1,46 @@
 import { hashData } from '@src/typescript/utils/hashData';
 import {
-  getRoadmapView, setRoadmapFromRecovery,
+  setRoadmapFromRecovery,
 } from '@store/roadmap-refactor/roadmap-data/roadmap-view';
 import {
-  getRoadmapId
+  getRoadmapId,
+  getRoadmapState,
+  IRoadmapState,
 } from '@store/roadmap-refactor/roadmap-data/roadmap_state';
 import { IRoadmap } from '@type/roadmap/stores/IRoadmap';
+import {
+  getRoadmapEdit,
+} from '@store/roadmap-refactor/roadmap-data/roadmap-edit';
 
 export type SaveItem = {
-    data: IRoadmap;
-    roadmapId: string;
+  data: IRoadmap;
+  state: IRoadmapState;
+  id: string;
 }
 
 const maxVersionHistory = 3;
 
 export async function saveRoadmapChanges() {
-  const data = getRoadmapView();
-  const roadmapId = getRoadmapId();
-  const saveItem = {
+  const data = getRoadmapEdit();
+  const state = getRoadmapState();
+  const id = getRoadmapState() === 'create' ? 'create' : getRoadmapId();
+  const saveItem: SaveItem = {
     data,
-    roadmapId,
-  } as SaveItem;
+    state,
+    id,
+  };
   // convert to json
   const roadmapData = JSON.stringify(saveItem);
   // hash the json
   const hash = await hashData(roadmapData);
 
   // get the current version history
-  const versionHistory = localStorage.getItem(`${roadmapId}-roadmapVersionHistory`);
+  const versionHistory = localStorage.getItem(`${id}-roadmapVersionHistory`);
   // if there is no version history, create one
   if (versionHistory === null) {
-      localStorage.setItem(`${roadmapId}-roadmapVersionHistory`, JSON.stringify([hash]));
-      localStorage.setItem(hash, roadmapData);
-      return;
+    localStorage.setItem(`${id}-roadmapVersionHistory`, JSON.stringify([ hash ]));
+    localStorage.setItem(hash, roadmapData);
+    return;
   }
 
   // if there is a version history, parse it
@@ -44,14 +52,14 @@ export async function saveRoadmapChanges() {
     parsedVersionHistory.shift();
   }
   // save the new version history
-  localStorage.setItem(`${roadmapId}-roadmapVersionHistory`, JSON.stringify(parsedVersionHistory));
+  localStorage.setItem(`${id}-roadmapVersionHistory`, JSON.stringify(parsedVersionHistory));
   // save the new roadmap data
   localStorage.setItem(hash, roadmapData);
 }
 
 export async function restoreSession() {
   // get the current roadmap id
-  const id = getRoadmapId();
+  const id = getRoadmapState() === 'create' ? 'create' : getRoadmapId();
   // get the current version history
   const versionHistory = localStorage.getItem(`${id}-roadmapVersionHistory`);
   // if there is no version history, return
@@ -92,7 +100,7 @@ export async function restoreSession() {
 
 export function clearSession() {
   // get the current roadmap id
-  const id = getRoadmapId();
+  const id = getRoadmapState() === 'create' ? 'create' : getRoadmapId();
 
   // get the current version history
   const versionHistory = localStorage.getItem(`${id}-roadmapVersionHistory`);
@@ -107,18 +115,18 @@ export function clearSession() {
   // remove all versions
   parsedVersionHistory.forEach((hash: string) => {
     localStorage.removeItem(hash);
-  })
+  });
 
   // remove the version history
   localStorage.removeItem(`${id}-roadmapVersionHistory`);
 }
 
 export function checkIfSessionExists() {
-    const versionHistory = localStorage.getItem('roadmapVersionHistory');
-    if (versionHistory === null) {
-        return false;
-    }
+  const versionHistory = localStorage.getItem('roadmapVersionHistory');
+  if (versionHistory === null) {
+    return false;
+  }
 
-    const parsedVersionHistory = JSON.parse(versionHistory);
-    return parsedVersionHistory.length !== 0;
+  const parsedVersionHistory = JSON.parse(versionHistory);
+  return parsedVersionHistory.length !== 0;
 }
