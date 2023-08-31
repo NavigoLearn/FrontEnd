@@ -17,6 +17,9 @@ import { setDisplayPageType } from '@store/roadmap-refactor/display/display-mana
 import { removeAllEffects } from '@store/roadmap-refactor/elements-editing/element-effects';
 import { updateRoadmapData } from '@src/api-wrapper/roadmap/roadmaps';
 import { setRoadmapState } from '@store/roadmap-refactor/roadmap-data/roadmap_state';
+import {
+  clearSession
+} from '@src/typescript/roadmap_ref/history/restoreSession';
 
 export function enterEditingModeProtocol() {
   const deepCopyRoadmap = deepCopy(roadmapSelector.get());
@@ -40,6 +43,8 @@ export function cancelEditingProtocol() {
   triggerChunkRerender(); // we call it in order to have the correct node ids in the renderStore for nodes-page
   setDisplayPageType('closed');
   removeAllEffects();
+  // clear saved Session from local storage
+  clearSession();
 }
 export function saveEditingProtocol() {
   transferEditToRoadmap(); //  transfers the changes to the static roadmap
@@ -49,6 +54,8 @@ export function saveEditingProtocol() {
   triggerChunkRerender();
   setDisplayPageType('closed');
   removeAllEffects();
+  // clear saved Session from local storage
+  clearSession();
   // here there should be a request to the server with the new saved roadmap json
 }
 
