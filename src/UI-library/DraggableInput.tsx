@@ -63,7 +63,7 @@ const DraggableInput = ({
 
   return (
     <div
-      className={`flex items-center border-2 border-transparent hover:border-gray-500 ${tailwindTransitionClass}`}
+      className={`flex items-center border border-transparent hover:border-gray-300 ${tailwindTransitionClass}`}
     >
       {/* eslint-disable-next-line jsx-a11y/no-static-element-interactions */}
       <div
@@ -76,7 +76,7 @@ const DraggableInput = ({
           userSelect: 'none',
         }}
       >
-        <div className='text-secondary'>{name}</div>
+        <div className='text-secondary text-lg'>{name}</div>
       </div>
       <input
         ref={inputRef}

@@ -97,7 +97,7 @@ export function getOnClickActionView(nodeId): () => void {
   const actionMap: HashMapWithKeys<IActionTypes, IActionStrategy> = {
     'Do nothing': actionStrategyDoNothing,
     'Open link': actionStrategyOpenLink,
-    'Open Tab': actionStrategyOpenTab,
+    'Open attachment': actionStrategyOpenTab,
   };
   return () => {
     actionMap[action](nodeId);

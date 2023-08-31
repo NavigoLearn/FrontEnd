@@ -1,4 +1,4 @@
-export type IActionTypes = 'Do nothing' | 'Open link' | 'Open Tab';
+export type IActionTypes = 'Do nothing' | 'Open link' | 'Open attachment';
 export type IAdditionalDataKeys = 'link';
 export interface IAdditionalDataFields {
   link: string;
