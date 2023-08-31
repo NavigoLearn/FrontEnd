@@ -3,11 +3,19 @@ import exit from '../../../../../public/editor/close.svg';
 import ThemeSelector from './pages/ThemeSelector';
 import TitleSelector from './pages/TitleSelector';
 import { initializeRoadmapAfterLoad } from '../../Roadmap';
+import {
+  checkIfSessionExists
+} from '@src/typescript/roadmap_ref/history/restoreSession';
 
 const SetupScreen = ({ isCreate }: { isCreate: boolean }) => {
   const [activeTab, setActiveTab] = useState(0);
   const [creation, setCreation] = useState(isCreate);
   const totalTabs = 2;
+
+  if (checkIfSessionExists()) {
+    initializeRoadmapAfterLoad();
+    return null;
+  }
 
   const handleExit = () => {
     setCreation(false);

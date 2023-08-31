@@ -1,6 +1,15 @@
 import { atom } from 'nanostores';
 
 export type IRoadmapState = 'create' | 'edit' | 'view' | 'draft';
+export type IRoadmapStateStore = {
+  roadmapState: IRoadmapState;
+  save: boolean;
+  loaded: boolean;
+  rerender: boolean;
+  id: string;
+  userId: string;
+  starterTab: boolean;
+}
 const roadmapStateStore = atom({
   roadmapState: 'view', // used to determine if the roadmap is being created, edited or viewed
   save: true, // and if the elements-editing state should be saved or not
@@ -9,15 +18,7 @@ const roadmapStateStore = atom({
   id: '', // the id of the roadmap
   userId: '',
   starterTab: false,
-} as {
-  roadmapState: IRoadmapState;
-  save: boolean;
-  loaded: boolean;
-  rerender: boolean;
-  id: string;
-  userId: string;
-  starterTab: boolean;
-});
+} as IRoadmapStateStore);
 
 export default roadmapStateStore;
 

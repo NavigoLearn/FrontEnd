@@ -20,7 +20,7 @@ export type SaveItem = {
 
 const maxVersionHistory = 3;
 
-export async function saveRoadmapChanges() {
+export async function saveSession() {
   const data = getRoadmapEdit();
   const state = getRoadmapState();
   const id = getRoadmapState() === 'create' ? 'create' : getRoadmapId();
@@ -49,7 +49,8 @@ export async function saveRoadmapChanges() {
   parsedVersionHistory.push(hash);
   // if parsedVersionHistory is larger than maxVersionHistory, remove the oldest version
   if (parsedVersionHistory.length > maxVersionHistory) {
-    parsedVersionHistory.shift();
+    const version = parsedVersionHistory.shift();
+    localStorage.removeItem(version);
   }
   // save the new version history
   localStorage.setItem(`${id}-roadmapVersionHistory`, JSON.stringify(parsedVersionHistory));
@@ -122,7 +123,8 @@ export function clearSession() {
 }
 
 export function checkIfSessionExists() {
-  const versionHistory = localStorage.getItem('roadmapVersionHistory');
+  const id = getRoadmapState() === 'create' ? 'create' : getRoadmapId();
+  const versionHistory = localStorage.getItem(`${id}-roadmapVersionHistory`);
   if (versionHistory === null) {
     return false;
   }

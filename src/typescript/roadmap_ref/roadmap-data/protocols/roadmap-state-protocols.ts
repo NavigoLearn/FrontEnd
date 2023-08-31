@@ -18,15 +18,20 @@ import { removeAllEffects } from '@store/roadmap-refactor/elements-editing/eleme
 import { updateRoadmapData } from '@src/api-wrapper/roadmap/roadmaps';
 import { setRoadmapState } from '@store/roadmap-refactor/roadmap-data/roadmap_state';
 import {
-  clearSession
+  clearSession, saveSession,
 } from '@src/typescript/roadmap_ref/history/restoreSession';
 
+let intervalSave: NodeJS.Timer;
 export function enterEditingModeProtocol() {
   const deepCopyRoadmap = deepCopy(roadmapSelector.get());
   setRoadmapEdit(deepCopyRoadmap);
   setDisplayPageType('closed');
   setRoadmapState('edit');
   setAllDraggableTrue();
+
+  intervalSave = setInterval(() => {
+    saveSession();
+  }, 10000);
 }
 
 export function transferEditToRoadmap() {
@@ -45,6 +50,7 @@ export function cancelEditingProtocol() {
   removeAllEffects();
   // clear saved Session from local storage
   clearSession();
+  clearInterval(intervalSave);
 }
 export function saveEditingProtocol() {
   transferEditToRoadmap(); //  transfers the changes to the static roadmap
@@ -56,6 +62,7 @@ export function saveEditingProtocol() {
   removeAllEffects();
   // clear saved Session from local storage
   clearSession();
+  clearInterval(intervalSave);
   // here there should be a request to the server with the new saved roadmap json
 }
 

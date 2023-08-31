@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import {
   factoryRoadmapFirstAttempt,
 } from '@src/typescript/roadmap_ref/roadmap-templates/classic';
@@ -14,7 +14,7 @@ import { useScrollHidden } from '@hooks/useScrollHidden';
 import { v4 as uuid4 } from 'uuid';
 import NodeManager from '@components/roadmap/to-be-organized/NodeManager';
 import { useStore } from '@nanostores/react';
-import roadmapStateStore, {
+import {
   getRoadmapState,
   setRoadmapId,
   setRoadmapIsLoaded,
@@ -55,7 +55,8 @@ import { useEffectDelayedCycle } from '@hooks/useEffectDelayedCycle';
 import ElementsDisplayManager
   from '@components/roadmap/elements-display/ElementsDisplayManager';
 import {
-  clearSession
+  checkIfSessionExists,
+  clearSession, restoreSession, saveSession,
 } from '@src/typescript/roadmap_ref/history/restoreSession';
 
 export function initializeRoadmapAfterLoad() {
@@ -77,7 +78,8 @@ const Roadmap = ({
     setRoadmapState('create');
   }
   const initialState = getRoadmapState();
-  const [ state, setState ] = React.useState(initialState);
+  const [ state, _ ] = useState(initialState);
+  const [ confirmed, setConfirmed ] = useState<boolean>(false);
   // need to take the ids of the nodes-page included in the current chunks and render them
   const { nodes } = roadmapSelector.get();
   const { nodesIds } = useStore(renderNodesStore);
@@ -98,6 +100,10 @@ const Roadmap = ({
     const state = getRoadmapState();
     // console.error('onBeforeUnload', state, isCreate)
     if (isCreate || state === 'edit') {
+      setConfirmed(true);
+      setTimeout(() => {
+        setConfirmed(false);
+      }, 10000);
       // Cancel the event
       e.preventDefault();
       const msg = 'Are you sure you want to leave? All your changes will be lost.';
@@ -118,10 +124,15 @@ const Roadmap = ({
   };
 
   useEffect(() => {
-    roadmapStateStore.subscribe(() => {
-      console.log('roadmapStateStore.subscribe', getRoadmapState());
-        setState(getRoadmapState());
-    })
+    // ! commented out to avoid infinite loop of re-renders
+    // roadmapStateStore.subscribe(() => {
+    //   setState(getRoadmapState());
+    // });
+    if (isCreate) {
+      setInterval(async () => {
+        await saveSession();
+      }, 10000);
+    }
 
     // renderer object that handles chunking
     chunkRenderer.current = recalculateChunks('rootSvg');
@@ -147,11 +158,17 @@ const Roadmap = ({
     setRoadmapEnableDrag(enableRoadmapDrag);
 
     window.addEventListener('beforeunload', onBeforeUnload);
-    window.addEventListener('unload', () => {
-      // console.log('unload')
-      clearSession();
-    });
+
+    if (checkIfSessionExists()) {
+      restoreSession();
+    }
   }, []);
+
+  useEffect(() => {
+    window.onunload = () => {
+      if (confirmed) clearSession();
+    };
+  }, [confirmed]);
 
   useEffect(() => {
     enableRoadmapZoomDragAndRecenter(
