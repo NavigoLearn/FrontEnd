@@ -7,6 +7,7 @@ export type IColorThemesFields = {
   primary: IColorTheme;
   secondary: IColorTheme;
   tertiary: IColorTheme;
+  Quaternary: IColorTheme;
 };
 
 export type IColorThemes = {
@@ -16,4 +17,8 @@ export type IColorThemes = {
 };
 
 export type IColorThemesOptions = 'defaultTheme' | 'whiteTheme' | 'darkTheme';
-export type IColorThemesColors = 'primary' | 'secondary' | 'tertiary';
+export type IColorThemesColors =
+  | 'primary'
+  | 'secondary'
+  | 'tertiary'
+  | 'Quaternary';

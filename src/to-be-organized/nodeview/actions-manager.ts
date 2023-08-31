@@ -28,6 +28,7 @@ import { getElementDiv } from '@store/roadmap-refactor/elements-editing/elements
 import {
   effectBorderBlack,
   effectBorderBlue,
+  effectBorderTransparent,
 } from '@src/to-be-organized/nodeview/effects';
 import { triggerMoveRoadmapTo } from '@store/roadmap-refactor/misc/misc-params-store';
 import { HashMapWithKeys } from '@type/roadmap/misc';
@@ -38,7 +39,7 @@ export function getOnMouseOutActionEdit(nodeId): () => void {
   const div = getElementDiv(nodeId);
   return () => {
     if (!getElementHasEffect(nodeId, 'dragging-recursive')) {
-      effectBorderBlack(div);
+      effectBorderTransparent(div);
     }
   };
 }
@@ -128,7 +129,7 @@ export function getOnMouseOverAction(nodeId: string): () => void {
 export function getOnMouseOutActionView(nodeId): () => void {
   return () => {
     const div = getElementDiv(nodeId);
-    effectBorderBlack(div);
+    effectBorderTransparent(div);
   };
 }
 

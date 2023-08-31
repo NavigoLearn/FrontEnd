@@ -4,7 +4,7 @@ export const colorThemes: IColorThemes = {
   defaultTheme: {
     primary: {
       nodeColor: '#ffffff',
-      textColor: '#000000',
+      textColor: 'rgb(0,0,0,0.6)',
     },
     secondary: {
       nodeColor: '#1A1B50',
@@ -14,24 +14,32 @@ export const colorThemes: IColorThemes = {
       nodeColor: '#3361D8',
       textColor: 'white',
     },
+    Quaternary: {
+      nodeColor: '#B4C6F4',
+      textColor: '#1A1B50',
+    },
   },
   whiteTheme: {
     primary: {
-      nodeColor: 'white',
-      textColor: '#8f6363',
-    },
-    secondary: {
-      nodeColor: '#8f6363',
+      nodeColor: '#3361D8',
       textColor: 'white',
     },
+    secondary: {
+      nodeColor: 'white',
+      textColor: '#3361D8',
+    },
     tertiary: {
-      nodeColor: '#b43d3d',
+      nodeColor: 'white',
+      textColor: 'black',
+    },
+    Quaternary: {
+      nodeColor: '#1A1B50',
       textColor: 'white',
     },
   },
   darkTheme: {
     primary: {
-      nodeColor: 'black',
+      nodeColor: '#1A1B50',
       textColor: 'white',
     },
     secondary: {
@@ -39,7 +47,11 @@ export const colorThemes: IColorThemes = {
       textColor: 'black',
     },
     tertiary: {
-      nodeColor: 'grey',
+      nodeColor: '#DBDFEF',
+      textColor: '#1A1B50',
+    },
+    Quaternary: {
+      nodeColor: '#3361D8',
       textColor: 'white',
     },
   },
