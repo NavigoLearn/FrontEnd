@@ -136,7 +136,7 @@ export function getConnectionPositionCoords(
   return coords;
 }
 
-export function getAnchorPositionRelativeToNodes(
+export function getAnchorPositionRelativeToNode(
   node: NodeClass,
   positionType: IConnectionPositions
 ): ICoord {

@@ -41,11 +41,12 @@ import {
 import { snapNodeWidthHeight } from '@src/typescript/roadmap_ref/snapping/core';
 import { selectNodeColorFromScheme } from '@src/typescript/roadmap_ref/node/core/factories/data-mutation/services';
 import { getColorThemeFromRoadmap } from '@components/roadmap/pages-roadmap/setup-screen/theme-controler';
-import ConnectionNodeSet from '@components/roadmap/connections/connection-editing/ConnectionNodeSet';
+import ConnectionAnchorsRenderer from '@components/roadmap/connections/connection-editing/ConnectionAnchorsRenderer';
 import { useStore } from '@nanostores/react';
 import draggableElements, {
   getElementIsDraggable,
 } from '@store/roadmap-refactor/elements-editing/draggable-elements';
+import { getEditingState } from '@store/roadmap-refactor/editing/editing-state';
 
 interface NodeViewProps {
   nodeId: string;
@@ -243,36 +244,40 @@ const NodeRenderer: React.FC<NodeViewProps> = ({
         )}
 
         {childNodeId === nodeId && (
-          <ConnectionNodeSet
+          <ConnectionAnchorsRenderer
             connection={currentConnection}
             nodeId={nodeId}
-            kind='child'
+            type='child'
           />
         )}
 
         {parentNodeId === nodeId && (
-          <ConnectionNodeSet
+          <ConnectionAnchorsRenderer
             connection={currentConnection}
             nodeId={nodeId}
-            kind='parent'
+            type='parent'
           />
         )}
 
-        {componentsRenderer(node)}
-        {subNodeIds &&
-          subNodeIds.map((subNodeId) => {
-            // the div is used to position the subNode in the center of the current node
-            return (
-              <NodeRenderer
-                key={subNodeId}
-                nodeId={subNodeId}
-                centerOffset={{
-                  x: node.data.width / 2,
-                  y: node.data.height / 2,
-                }}
-              />
-            );
-          })}
+        {getEditingState() === 'nodes' && (
+          <>
+            {componentsRenderer(node)}
+            {subNodeIds &&
+              subNodeIds.map((subNodeId) => {
+                // the div is used to position the subNode in the center of the current node
+                return (
+                  <NodeRenderer
+                    key={subNodeId}
+                    nodeId={subNodeId}
+                    centerOffset={{
+                      x: node.data.width / 2,
+                      y: node.data.height / 2,
+                    }}
+                  />
+                );
+              })}
+          </>
+        )}
       </div>
     );
   };

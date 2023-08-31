@@ -13,7 +13,7 @@ const EditingSelector = () => {
 
   return (
     <div className='relative w-full h-full rounded-md bg-white shadow-darkBlue drop-shadow-sm flex justify-center items-center gap-2 '>
-      <div className='flex relative items-center justify-center pointer-events-auto cursor-pointer'>
+      <div className='flex relative items-center justify-center pointer-events-auto '>
         <NodeEditSvg
           callback={() => {
             setEditingState('nodes');
@@ -22,7 +22,7 @@ const EditingSelector = () => {
           size={30}
         />
       </div>
-      <div className='flex items-center justify-center pointer-events-auto  cursor-pointer pr-2'>
+      <div className='flex items-center justify-center pointer-events-auto  pr-2'>
         <ConnectionEditSvg
           callback={() => {
             setEditingState('connections');

@@ -50,9 +50,12 @@ module.exports = {
       },
     strokeWidth: {
       '3': '3',
+      '4': '4',
     },
     animation: {
       'flowingDash': 'flowingDash 250ms linear infinite',
+      'flowingDashFaster': 'flowingDash 175ms linear infinite',
+      'flowingDashSlower': 'flowingDash 400ms linear infinite',
       'flowingGradient': 'flowingGradient 100ms linear infinite',
     },
     keyframes: {

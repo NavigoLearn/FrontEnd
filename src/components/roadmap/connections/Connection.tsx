@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import {
   getConnectionByIdRoadmapSelector,
   getNodeByIdRoadmapSelector,
@@ -48,11 +48,18 @@ const Connection = ({ connId }: { connId: string }) => {
 
   const dValue = `M${startX},${startY} L${endX},${endY}`;
 
+  const [hovered, setHovered] = useState(false);
+
+  const hoveredStyle = 'animate-flowingDash stroke-3 stroke-red-500';
+  const normalStyle = 'animate-flowingDash stroke-3 stroke-primary';
+
   return (
     <g>
       <path
         ref={pathRef}
-        className='dashed-line animate-flowingDash stroke-3 stroke-primary fill-none pointer-events-none'
+        className={`dashed-line ${
+          hovered ? hoveredStyle : normalStyle
+        }   fill-none pointer-events-none transition duration-200`}
         d={dValue}
       />
       <rect
@@ -63,6 +70,8 @@ const Connection = ({ connId }: { connId: string }) => {
           setSelectedConnectionForConnectionId(connId);
           e.stopPropagation();
         }}
+        onMouseOver={() => setHovered(true)}
+        onMouseOut={() => setHovered(false)}
       />
     </g>
   );

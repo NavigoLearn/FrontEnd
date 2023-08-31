@@ -19,14 +19,14 @@ export type IEffectsStatuses =
   | 'mark-as-skipped'
   | 'mark-as-status';
 
-export type IEffectsEditor = 'editor-defocused-node' | 'editor-focused-node';
+export type IEffectsFocus = 'defocus-node';
 
 export type IEffectsDragging = 'dragging-recursive';
 
 export type IEffectsPossible =
   | IEffectsStatuses
   | IEffectsDragging
-  | IEffectsEditor;
+  | IEffectsFocus;
 
 export type IEffectProperties = {
   effectName: IEffectsPossible;
@@ -38,14 +38,9 @@ export const dynamicEffectsMapper: HashMapWithKeys<
   IEffectsPossible,
   IEffectProperties
 > = {
-  'editor-defocused-node': {
-    effectName: 'editor-defocused-node',
+  'defocus-node': {
+    effectName: 'defocus-node',
     effectApply: (divRef) => effectOpacity60(divRef),
-    effectLayer: 1,
-  },
-  'editor-focused-node': {
-    effectName: 'editor-focused-node',
-    effectApply: effectOpacity100,
     effectLayer: 1,
   },
   'dragging-recursive': {
@@ -165,8 +160,20 @@ export function appendStatusEffect(id: string, status: IEffectsStatuses) {
   });
 }
 
+export function defocusAllNodesExceptBlacklist(blackListed: string[]) {
+  const originalEffects = elementEffects.get();
+  const nodes = Object.keys(roadmapSelector.get().nodes);
+  nodes.forEach((id) => {
+    if (blackListed.includes(id)) {
+      deleteElementEffect(originalEffects, id, 'defocus-node');
+    } else {
+      originalEffects[id].push('defocus-node');
+    }
+  });
+}
+
 export function setEditorOpenEffect(nodeId: string) {
-  // applies opacity 50 to all nodes-page except the one with the id
+  // applies opacity 60 to all nodes-page except the one with the id
   const originalEffects = elementEffects.get();
   const nodes = Object.keys(originalEffects);
   // getting the line of parent nodes-page from the node to the root
@@ -176,33 +183,45 @@ export function setEditorOpenEffect(nodeId: string) {
   currentNode.subNodeIds.forEach((id) => {
     blackListed.push(id);
   });
+  blackListed.push(nodeId);
 
-  nodes.forEach((id) => {
-    if (blackListed.includes(id)) {
-      // blacklist means normal node
-      deleteElementEffect(originalEffects, id, 'editor-defocused-node');
-      originalEffects[id].push('editor-focused-node');
-    } else {
-      // not in blacklist means parent node
-      deleteElementEffect(originalEffects, id, 'editor-focused-node');
-      originalEffects[id].push('editor-defocused-node');
-    }
+  defocusAllNodesExceptBlacklist(blackListed);
+
+  elementEffects.set({
+    ...originalEffects,
   });
+}
 
-  originalEffects[nodeId] = [];
+export function setConnectionSelectedEffect(parentId: string, childId: string) {
+  const originalEffects = elementEffects.get();
+  const blackListed = [parentId, childId];
+
+  defocusAllNodesExceptBlacklist(blackListed);
+
+  elementEffects.set({
+    ...originalEffects,
+  });
+}
+
+export function clearAllDefocusEffects() {
+  const originalEffects = elementEffects.get();
+  const nodes = Object.keys(originalEffects);
+  nodes.forEach((id) => {
+    deleteElementEffect(originalEffects, id, 'defocus-node');
+  });
+}
+
+export function setConnectionUnselectedEffect() {
+  const originalEffects = elementEffects.get();
+  clearAllDefocusEffects();
   elementEffects.set({
     ...originalEffects,
   });
 }
 
 export function setEditorClosedEffect() {
-  // removes opacity 50 from all nodes-page
   const originalEffects = elementEffects.get();
-  const nodes = Object.keys(originalEffects);
-  nodes.forEach((id) => {
-    // if node was defocused, remove defocused effect
-    deleteElementEffect(originalEffects, id, 'editor-defocused-node');
-  });
+  clearAllDefocusEffects();
   elementEffects.set({
     ...originalEffects,
   });

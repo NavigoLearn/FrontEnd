@@ -46,7 +46,7 @@ import {
 } from '@store/roadmap-refactor/editing/editing-state';
 import {
   clearSelectedConnection,
-  setSelectedConnectionForChildNode,
+  setSelectedConnectionFromChildProtocol,
 } from '@components/roadmap/connections/connection-editing/connection-store';
 
 export function getOnMouseOutActionEdit(nodeId): () => void {

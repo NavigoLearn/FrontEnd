@@ -20,10 +20,10 @@ const NodeEditSvg = ({ selected, size, callback }: INodeEditSvgProps) => {
       fill='none'
       xmlns='http://www.w3.org/2000/svg'
       onMouseOver={() => {
-        setMouseOver(true);
+        // setMouseOver(true);
       }}
       onMouseOut={() => {
-        setMouseOver(false);
+        // setMouseOver(false);
       }}
       onClick={() => {
         if (typeof callback !== 'undefined') {
