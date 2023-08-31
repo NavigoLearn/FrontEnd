@@ -5,24 +5,28 @@ import {
 import {
   getRoadmapId,
   getRoadmapState,
-  IRoadmapState,
+  getRoadmapStateStore,
+  IRoadmapStateStore,
 } from '@store/roadmap-refactor/roadmap-data/roadmap_state';
 import { IRoadmap } from '@type/roadmap/stores/IRoadmap';
 import {
   getRoadmapEdit,
 } from '@store/roadmap-refactor/roadmap-data/roadmap-edit';
+import {
+  getRoadmapSelector,
+} from '@store/roadmap-refactor/roadmap-data/roadmap-selector';
 
 export type SaveItem = {
   data: IRoadmap;
-  state: IRoadmapState;
+  state: IRoadmapStateStore;
   id: string;
 }
 
 const maxVersionHistory = 3;
 
 export async function saveSession() {
-  const data = getRoadmapEdit();
-  const state = getRoadmapState();
+  const data = getRoadmapState() === 'create' ? getRoadmapSelector() : getRoadmapEdit();
+  const state = getRoadmapStateStore();
   const id = getRoadmapState() === 'create' ? 'create' : getRoadmapId();
   const saveItem: SaveItem = {
     data,

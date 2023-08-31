@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import exit from '../../../../../public/editor/close.svg';
 import ThemeSelector from './pages/ThemeSelector';
 import TitleSelector from './pages/TitleSelector';
@@ -12,11 +12,6 @@ const SetupScreen = ({ isCreate }: { isCreate: boolean }) => {
   const [creation, setCreation] = useState(isCreate);
   const totalTabs = 2;
 
-  if (checkIfSessionExists()) {
-    initializeRoadmapAfterLoad();
-    return null;
-  }
-
   const handleExit = () => {
     setCreation(false);
   };
@@ -24,6 +19,16 @@ const SetupScreen = ({ isCreate }: { isCreate: boolean }) => {
   const handleNext = () => {
     setActiveTab((prevTab) => (prevTab + 1) % totalTabs);
   };
+
+  useEffect(() => {
+    setTimeout(() => {
+        if (checkIfSessionExists()) {
+            initializeRoadmapAfterLoad();
+            handleExit();
+            return;
+        }
+    }, 50);
+  }, []);
 
   const renderActiveTab = () => {
     switch (activeTab) {

@@ -37,8 +37,13 @@ export function getRoadmapState() {
   return original.roadmapState;
 }
 
-export function getRoadmapStateStoreData() {
+export function getRoadmapStateStore() {
   return roadmapStateStore.get();
+}
+
+export function setRoadmapStateStore(state: IRoadmapStateStore) {
+    const original = roadmapStateStore.get();
+    roadmapStateStore.set({ ...original, ...state });
 }
 
 export function setRoadmapId(id: string) {

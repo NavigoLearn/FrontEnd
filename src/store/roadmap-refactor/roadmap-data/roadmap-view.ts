@@ -14,16 +14,19 @@ import {
   setTabAboutFromApi,
 } from '@store/roadmap-refactor/roadmap-data/roadmap-about';
 import { setLoadedTrue } from '@src/typescript/roadmap_ref/utils';
-import miscParams from '@store/roadmap-refactor/misc/misc-params-store';
+import miscParams, {
+  triggerRecenterRoadmap,
+} from '@store/roadmap-refactor/misc/misc-params-store';
 import { SaveItem } from '@src/typescript/roadmap_ref/history/restoreSession';
 import {
-  getRoadmapState, setRoadmapState,
+  getRoadmapState,
+  setRoadmapStateStore,
 } from '@store/roadmap-refactor/roadmap-data/roadmap_state';
 import {
-  enterEditingModeProtocol
+  enterEditingModeProtocol,
 } from '@src/typescript/roadmap_ref/roadmap-data/protocols/roadmap-state-protocols';
 import {
-  setRoadmapEdit
+  setRoadmapEdit,
 } from '@store/roadmap-refactor/roadmap-data/roadmap-edit';
 
 export const roadmapView = atom({
@@ -64,11 +67,13 @@ export async function setRoadmapFromData(roadmapData: RoadmapTypeApi) {
 }
 
 export function setRoadmapFromRecovery(save: SaveItem) {
+  const state = getRoadmapState();
+  state === 'create' ? setRoadmapSelector(save.data) : setRoadmapEdit(save.data);
   setRoadmapEdit(save.data);
-  setRoadmapState(save.state);
+  setRoadmapStateStore(save.state);
   // set editing to true
   getRoadmapState() !== 'create' && enterEditingModeProtocol();
   setLoadedTrue();
 
-  miscParams.get().recenterRoadmap();
+  triggerRecenterRoadmap();
 }
