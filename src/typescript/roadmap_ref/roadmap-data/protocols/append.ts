@@ -25,7 +25,7 @@ import {
 } from '@src/typescript/roadmap_ref/node/core/factories/data-mutation/inject';
 import { factoryConnectionBoilerplate } from '@src/typescript/roadmap_ref/node/connections/factories';
 import { triggerChunkRerender } from '@store/roadmap-refactor/render/rendered-chunks';
-import { applyRoadmapElementsDraggability } from '@src/typescript/roadmap_ref/dragging/misc';
+import { applyRoadmapElementsInitialDraggability } from '@src/typescript/roadmap_ref/dragging/misc';
 import { setDisplayPageType } from '@store/roadmap-refactor/display/display-manager';
 import { removeAllEffects } from '@store/roadmap-refactor/elements-editing/element-effects';
 import {
@@ -93,7 +93,7 @@ export function appendClassicNodeToRoadmap(parentNode: NodeClass) {
   injectRoadmapConnection(connection);
 
   triggerChunkRerender();
-  applyRoadmapElementsDraggability();
+  applyRoadmapElementsInitialDraggability();
   removeAllEffects();
   setDisplayPageType('closed');
 }

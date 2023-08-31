@@ -84,8 +84,11 @@ export function setElementEffects(id: string, effects: IEffectsPossible[]) {
   });
 }
 
-export function setElementEffectsEmpty(id: string) {
+export function setElementEffectsInitialEmpty(id: string) {
   const originalEffects = elementEffects.get();
+  if (originalEffects[id]) {
+    return;
+  }
   originalEffects[id] = [];
   elementEffects.set({
     ...originalEffects,
@@ -235,4 +238,9 @@ export function deleteDraggingRecursiveEffect(nodeId: string) {
 export function getElementHasEffect(id: string, effect: IEffectsPossible) {
   const originalEffects = elementEffects.get();
   return originalEffects[id].includes(effect);
+}
+
+export function getElementEffects(id: string) {
+  const originalEffects = elementEffects.get();
+  return originalEffects[id];
 }

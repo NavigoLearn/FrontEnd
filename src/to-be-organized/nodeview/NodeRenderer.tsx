@@ -30,8 +30,9 @@ import {
   appendElementEffect,
   appendStatusEffect,
   applyElementEffects,
-  setElementEffectsEmpty,
+  setElementEffectsInitialEmpty,
   deleteStatusEffectAll,
+  getElementEffects,
 } from '@store/roadmap-refactor/elements-editing/element-effects';
 import { useIsLoaded } from '@hooks/useIsLoaded';
 import { setElementDiv } from '@store/roadmap-refactor/elements-editing/elements-divs';
@@ -111,7 +112,7 @@ const NodeRenderer: React.FC<NodeViewProps> = ({
       }, 0);
 
     useEffect(() => {
-      setElementEffectsEmpty(nodeId);
+      setElementEffectsInitialEmpty(nodeId);
       setElementDiv(nodeId, nodeDivRef.current);
     }, []);
 
@@ -191,6 +192,7 @@ const NodeRenderer: React.FC<NodeViewProps> = ({
       getIsEditing() && deleteStatusEffectAll(nodeId);
       loaded && applyElementEffects(nodeId, nodeDivRef.current);
     });
+    console.log('effects for', nodeId, getElementEffects(nodeId));
 
     const isDraggable = getElementIsDraggable(nodeId);
     const isRoot = node.flags.renderedOnRoadmapFlag;

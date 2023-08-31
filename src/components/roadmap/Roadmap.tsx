@@ -15,6 +15,7 @@ import NodeManager from '@components/roadmap/to-be-organized/NodeManager';
 import { useStore } from '@nanostores/react';
 import {
   getRoadmapState,
+  getRoadmapStateStore,
   setRoadmapId,
   setRoadmapIsLoaded,
   setRoadmapState,
@@ -27,7 +28,10 @@ import { recalculateChunks } from '@src/typescript/roadmap_ref/render/chunks';
 import { triggerRecenterRoadmap } from '@store/roadmap-refactor/misc/misc-params-store';
 import { useIsLoaded } from '@hooks/useIsLoaded';
 import { setRoadmapFromData } from '@store/roadmap-refactor/roadmap-data/roadmap-view';
-import { applyRoadmapElementsDraggability } from '@src/typescript/roadmap_ref/dragging/misc';
+import {
+  applyNodesDraggability,
+  applyRoadmapElementsInitialDraggability,
+} from '@src/typescript/roadmap_ref/dragging/misc';
 import { useEffectAfterLoad } from '@hooks/useEffectAfterLoad';
 import ConnectionRenderer from '@components/roadmap/connections/ConnectionRenderer';
 import renderConnectionsStore from '@store/roadmap-refactor/render/rendered-connections';
@@ -47,12 +51,15 @@ import {
   restoreSession,
   saveSession,
 } from '@src/typescript/roadmap_ref/history/restoreSession';
+import { afterEventLoop } from '@src/typescript/utils/misc';
 
 export function initializeRoadmapAfterLoad() {
-  applyRoadmapElementsDraggability();
   setRoadmapIsLoaded();
   triggerChunkRerender();
   triggerRecenterRoadmap();
+  afterEventLoop(() => {
+    applyRoadmapElementsInitialDraggability();
+  });
 }
 
 const Roadmap = ({
@@ -67,6 +74,8 @@ const Roadmap = ({
     setRoadmapState('create');
   }
   const initialState = getRoadmapState();
+  const stateStore = getRoadmapStateStore();
+  const { loaded } = stateStore;
   const [state, _] = useState(initialState);
   const [confirmed, setConfirmed] = useState<boolean>(false);
   // need to take the ids of the nodes-page included in the current chunks and render them
@@ -76,7 +85,8 @@ const Roadmap = ({
 
   const chunkRenderer = useRef(null);
   useScrollHidden();
-  const isLoaded = useIsLoaded();
+  const firstRenderDone = useIsLoaded();
+
   const enableRoadmapDrag = () => {
     enableRoadmapZoomDragAndRecenter(
       'rootSvg',
@@ -173,8 +183,10 @@ const Roadmap = ({
     addKeyListeners();
   }, []);
 
-  useEffectDelayedCycle(() => {
-    applyRoadmapElementsDraggability();
+  useEffectAfterLoad(() => {
+    if (loaded && nodesIds.length > 0) {
+      applyNodesDraggability();
+    }
   }, [nodesIds, state]);
 
   return (
@@ -198,13 +210,13 @@ const Roadmap = ({
             <ConnectionRenderer connectionsIds={connectionsIds} />
           </g>
           <g id='rootGroupNodes'>
-            {isLoaded &&
+            {firstRenderDone &&
               nodesIds.map((id) => {
                 // gets the roadmap-roadmap-data
                 return <NodeManager key={id} nodeId={id} />;
               })}
           </g>
-          {isLoaded && (
+          {firstRenderDone && (
             <g id='rootGroupSnappingLines'>
               <SnappingLinesRenderer />
             </g>
