@@ -70,7 +70,7 @@ export function factoryNodeClassicCustomizable(
   mutateNodeCoordX(node, x);
   mutateNodeCoordY(node, y);
 
-  mutateNodeOnClickAction(node, 'Open Tab');
+  mutateNodeOnClickAction(node, 'Open attachment');
 
   recalculateNodeChunks(node);
   recalculateNodeCenter(node);

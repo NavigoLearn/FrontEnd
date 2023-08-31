@@ -7,7 +7,7 @@ import {
   mutateNodeOpacity,
   mutateNodeWidth,
 } from '@src/typescript/roadmap_ref/node/core/data-mutation/mutate';
-import { useStore } from '@nanostores/react';
+import { useStore, useStore } from '@nanostores/react';
 import editorSelectedData, {
   triggerRerenderEditor,
 } from '@store/roadmap-refactor/elements-editing/editor-selected-data';
@@ -24,6 +24,7 @@ import DropdownGreyAdd from '@components/roadmap/pages-roadmap/editor/reusable-c
 import { mutateActionLink } from '@src/typescript/roadmap_ref/node/core/actions/mutate';
 import { getColorThemeFromRoadmap } from '@components/roadmap/pages-roadmap/setup-screen/theme-controler';
 import { IActionTypes } from '@src/typescript/roadmap_ref/node/core/actions/core';
+import SpecialInput from './SpecialInput';
 
 type IActionsDropdown = {
   action: string;
@@ -102,8 +103,8 @@ const Properties = () => {
   return (
     <div className='flex flex-col gap-6'>
       <div className='flex flex-col'>
-        <div className='flex text-secondary font-roboto-text font-medium'>
-          Position
+        <div className='flex text-placeholder font-roboto-text'>
+          Position & Size
         </div>
         <div className='flex flex-row gap-2 mt-2'>
           <DraggableInput
@@ -130,12 +131,7 @@ const Properties = () => {
             }}
             sensitivity={2}
           />
-        </div>
-        <hr className='border-1 border-gray-200 mt-4' />
-        <div className='flex text-secondary font-roboto-text font-medium mt-2'>
-          Size
-        </div>
-        <div className='flex flex-row gap-2 mt-2'>
+          <div className='border-l border-black' />
           <DraggableInput
             name='W'
             value={data.width}
@@ -176,6 +172,19 @@ const Properties = () => {
             }}
             sensitivity={2}
           />
+        </div>
+      </div>
+      <hr className='border-1 border-gray-200' />
+      <div className='flex flex-col gap-1'>
+        <div className='flex text-placeholder font-roboto-text mb-2'>
+          Node color theme
+        </div>
+        <VariantsComponent
+          selectedColor={node.data.colorType}
+          selectedTheme={getColorThemeFromRoadmap()}
+          node={node}
+        />
+        <div className='flex flex-row gap-2 mt-2'>
           <DraggableInput
             name='Opacity'
             value={data.opacity}
@@ -192,47 +201,44 @@ const Properties = () => {
         </div>
       </div>
       <hr className='border-1 border-gray-200' />
-      <div className='flex flex-col gap-1'>
-        <h4 className='text-secondary text-base font-roboto-text'>Colour </h4>
-        <h5 className='text-darkBlue font-medium text-md font-roboto-text'>
-          Select node colour
-        </h5>
-        <VariantsComponent
-          selectedColor={node.data.colorType}
-          selectedTheme={getColorThemeFromRoadmap()}
-          node={node}
-        />
-      </div>
-      <div className='flex flex-col gap-1'>
-        <h4 className='flex text-secondary font-roboto-text font-medium mt-2'>
-          Text
-        </h4>
-        <h5 className='text-darkBlue font-medium text-md font-roboto-text'>
-          Select text size
-        </h5>
-      </div>
-      <div className='flex text-secondary font-roboto-text font-medium mt-2'>
-        Interactions
-      </div>
-      <DropdownGreyAdd
-        text='Add action'
-        onSelect={(actionName: IActionTypes) => {
-          mutateNodeOnClickAction(node, actionName);
-          triggerRerenderEditor();
-        }}
-        optionsList={possibleActionsArray}
-      />
-      <hr className='border-1 border-gray-200' />
-      {actions.onClick === 'Open link' && (
-        <input
-          value={actions.additionalData.link}
-          onChange={(e) => {
-            mutateActionLink(actions, e.target.value);
-            triggerRerenderEditor();
+      <div className='flex text-placeholder font-roboto-text'>On click</div>
+      <div className='flex flex-row gap-3'>
+        <DropdownWhiteSelect
+          dropdownName={node.actions.onClick}
+          options={[
+            {
+              id: '1',
+              name: 'Do nothing',
+              callback: () => {
+                mutateNodeOnClickAction(node, 'Do nothing');
+                triggerRerenderEditor();
+              },
+            },
+            {
+              id: '2',
+              name: 'Open link',
+              callback: () => {
+                mutateNodeOnClickAction(node, 'Open link');
+                triggerRerenderEditor();
+              },
+            },
+            {
+              id: '3',
+              name: 'Open attachment',
+              callback: () => {
+                mutateNodeOnClickAction(node, 'Open attachment');
+                triggerRerenderEditor();
+              },
+            },
+          ]}
+          dropdownCallback={() => {
+            return null;
           }}
-          className='w-full h-10 border-2 border-gray-300 rounded-lg px-3'
         />
-      )}
+        {node.actions.onClick === 'Open link' && (
+          <SpecialInput label='Link' actions={actions} />
+        )}
+      </div>
     </div>
   );
 };

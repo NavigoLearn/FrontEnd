@@ -34,6 +34,7 @@ import { triggerMoveRoadmapTo } from '@store/roadmap-refactor/misc/misc-params-s
 import { HashMapWithKeys } from '@type/roadmap/misc';
 import { IActionTypes } from '@src/typescript/roadmap_ref/node/core/actions/core';
 import { afterEventLoop } from '@src/typescript/utils/misc';
+import { act } from 'react-dom/test-utils';
 
 export function getOnMouseOutActionEdit(nodeId): () => void {
   const div = getElementDiv(nodeId);
@@ -90,7 +91,7 @@ export function getOnClickActionView(nodeId): () => void {
   const actionMap: HashMapWithKeys<IActionTypes, IActionStrategy> = {
     'Do nothing': actionStrategyDoNothing,
     'Open link': actionStrategyOpenLink,
-    'Open Tab': actionStrategyOpenTab,
+    'Open attachment': actionStrategyOpenTab,
   };
   return () => {
     actionMap[action](nodeId);
