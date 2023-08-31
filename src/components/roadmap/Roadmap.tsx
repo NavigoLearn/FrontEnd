@@ -54,6 +54,9 @@ import {
 import { useEffectDelayedCycle } from '@hooks/useEffectDelayedCycle';
 import ElementsDisplayManager
   from '@components/roadmap/elements-display/ElementsDisplayManager';
+import {
+  clearSession
+} from '@src/typescript/roadmap_ref/history/restoreSession';
 
 export function initializeRoadmapAfterLoad() {
   applyRoadmapElementsDraggability();
@@ -90,6 +93,18 @@ const Roadmap = ({
       chunkRenderer.current,
     );
   };
+
+  function onBeforeUnload(e: BeforeUnloadEvent) {
+    const state = getRoadmapState();
+    // console.error('onBeforeUnload', state, isCreate)
+    if (isCreate || state === 'edit') {
+      // Cancel the event
+      e.preventDefault();
+      const msg = 'Are you sure you want to leave? All your changes will be lost.';
+      e.returnValue = msg;
+      return msg;
+    }
+  }
 
   useEffect(() => {
     // dummmy data
@@ -130,6 +145,12 @@ const Roadmap = ({
 
     setRoadmapDisableDrag(disableRoadmapDrag);
     setRoadmapEnableDrag(enableRoadmapDrag);
+
+    window.addEventListener('beforeunload', onBeforeUnload);
+    window.addEventListener('unload', () => {
+      // console.log('unload')
+      clearSession();
+    });
   }, []);
 
   useEffect(() => {
