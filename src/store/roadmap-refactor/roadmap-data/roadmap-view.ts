@@ -18,8 +18,10 @@ import miscParams from '@store/roadmap-refactor/misc/misc-params-store';
 import { SaveItem } from '@src/typescript/roadmap_ref/history/restoreSession';
 import {
   getRoadmapState,
-  setRoadmapState,
 } from '@store/roadmap-refactor/roadmap-data/roadmap_state';
+import {
+  enterEditingModeProtocol
+} from '@src/typescript/roadmap_ref/roadmap-data/protocols/roadmap-state-protocols';
 
 export const roadmapView = atom({
   rootNodesIds: [],
@@ -61,7 +63,7 @@ export async function setRoadmapFromData(roadmapData: RoadmapTypeApi) {
 export function setRoadmapFromRecovery(save: SaveItem) {
   setRoadmapView(save.data);
   // set editing to true
-  getRoadmapState() !== 'create' && setRoadmapState('edit');
+  getRoadmapState() !== 'create' && enterEditingModeProtocol();
   setLoadedTrue();
 
   miscParams.get().recenterRoadmap();
