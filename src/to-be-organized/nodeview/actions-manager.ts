@@ -55,7 +55,7 @@ export function moveRoadmapToNode(nodeId: string) {
 
   // 500 accounts for editor width
   const wOffsetX =
-    (viewport.endX - viewport.startX - 400 + node.data.width / 2) / 2;
+    (viewport.endX - viewport.startX - 500 / scale + node.data.width / 2) / 2;
   const wOffsetY = (viewport.endY - viewport.startY) / 2;
 
   const { x, y } = getNodeAbsoluteCoordsCenter(nodeId);
