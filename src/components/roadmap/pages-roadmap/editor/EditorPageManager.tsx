@@ -51,22 +51,26 @@ const EditorPageManager = () => {
   const isAttachmentsPage = page === 'attachment'; // Check if selected page is "attachment"
 
   return (
-    <div ref={divRef} className='h-full w-full flex flex-col '>
-      <EditorNavbarPagination
-        storeTemporary={editorDisplayManager}
-        field='page'
-        defaultValue='components'
-      />
-      <div
-        className={`mt-5 flex-grow overflow-y-auto overflow-x-hidden ${
-          isAttachmentsPage ? 'px-0' : 'px-5'
-        }`}
-      >
-        <AnimatePresence>
-          <SelectedPage page={page} />
-        </AnimatePresence>
+    <>
+      <div className='h-28'>
+        <EditorNavbarPagination
+          storeTemporary={editorDisplayManager}
+          field='page'
+          defaultValue='components'
+        />
       </div>
-    </div>
+      <div ref={divRef} className='h-full w-full flex flex-col '>
+        <div
+          className={`mt-2 flex-grow overflow-y-auto overflow-x-hidden ${
+            isAttachmentsPage ? 'px-0' : 'px-5'
+          }`}
+        >
+          <AnimatePresence>
+            <SelectedPage page={page} />
+          </AnimatePresence>
+        </div>
+      </div>
+    </>
   );
 };
 
