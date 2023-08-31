@@ -104,6 +104,8 @@ export const draggingStrategySnapRoadmapNestedComponents = (
     positions.push({
       x: component.x,
       y: component.y,
+      width: component.width,
+      height: component.height,
     });
   });
 

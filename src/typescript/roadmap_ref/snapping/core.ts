@@ -18,7 +18,7 @@ export const snapCoordsToPositions = (
   let lastClosestIndexX = -1;
   let lastClosestIndexY = -1;
   const scale = getScaleSafari();
-  const snappingDistance = 10 / scale;
+  const snappingDistance = 5 / scale;
 
   for (let i = 0; i < positions.length; i += 1) {
     const { x: rootNodeX, y: rootNodeY } = positions[i];
