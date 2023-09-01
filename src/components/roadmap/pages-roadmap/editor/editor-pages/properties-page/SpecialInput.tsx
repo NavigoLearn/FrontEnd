@@ -6,21 +6,25 @@ import { triggerRerenderEditor } from '@src/store/roadmap-refactor/elements-edit
 type SpecialInputProps = {
   label: string;
   actions: ActionsClass;
+  placeholder: string;
 };
 
-const SpecialInput = ({ label, actions }: SpecialInputProps) => {
+const SpecialInput = ({ label, actions, placeholder }: SpecialInputProps) => {
   return (
-    <div>
+    <div className='relative'>
       <input
         value={actions.additionalData.link}
         type='text'
-        className='h-10 w-52 border-2 border-darkBlue'
-        placeholder={label}
+        className='h-10 w-52 border-2 text-[#1A1B50] border-darkBlue rounded-lg hover:border-darkBlue border-placeholderBlack transition-all duration-300 focus:border-darkBlue focus:outline-none px-3'
+        placeholder={placeholder}
         onChange={(e) => {
           mutateActionLink(actions, e.target.value);
           triggerRerenderEditor();
         }}
       />
+      <div className='absolute -top-3 left-3 px-2 bg-white text-secondary font-roboto-text'>
+        {label}
+      </div>
     </div>
   );
 };

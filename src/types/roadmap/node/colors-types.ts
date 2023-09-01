@@ -21,4 +21,4 @@ export type IColorThemesColors =
   | 'primary'
   | 'secondary'
   | 'tertiary'
-  | 'Quaternary';
+  | 'quaternary';
