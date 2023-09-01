@@ -47,6 +47,7 @@ import draggableElements, {
   getElementIsDraggable,
 } from '@store/roadmap-refactor/elements-editing/draggable-elements';
 import { getEditingState } from '@store/roadmap-refactor/editing/editing-state';
+import { triggerAllConnectionsRerender } from '@src/typescript/roadmap_ref/render/dragging';
 
 interface NodeViewProps {
   nodeId: string;
@@ -222,10 +223,12 @@ const NodeRenderer: React.FC<NodeViewProps> = ({
             heightCallback={(height) => {
               mutateNodeHeightWhileKeepingCenter(node, height);
               triggerNodeRerender(nodeId);
+              triggerAllConnectionsRerender();
             }}
             widthCallback={(width) => {
               mutateNodeWidthWhileKeepingCenter(node, width);
               triggerNodeRerender(nodeId);
+              triggerAllConnectionsRerender();
             }}
             snappingCallback={(width, height) => {
               const rootNode = node.flags.renderedOnRoadmapFlag;
