@@ -10,10 +10,15 @@ import draggableElements, {
 import { roadmapSelector } from '@store/roadmap-refactor/roadmap-data/roadmap-selector';
 import { addDragabilityProtocol } from '@src/typescript/roadmap_ref/render/dragging';
 import { Simulate } from 'react-dom/test-utils';
-import drag = Simulate.drag;
 import { deepCopy } from '@src/typescript/roadmap_ref/utils';
 import { getRoadmapSelector } from '@src/typescript/roadmap_ref/roadmap-data/services/get';
-import { getRenderedNodesIds } from '@store/roadmap-refactor/render/rendered-nodes';
+import { getRenderedRootNodesIds } from '@store/roadmap-refactor/render/rendered-nodes';
+import {
+  getAllRenderedNodes,
+  getAllSubNodes,
+  getChildrenRenderedTraceback,
+} from '@src/typescript/roadmap_ref/roadmap-data/protocols/get';
+import drag = Simulate.drag;
 
 export const inferAndSetNodeDraggability = (node: NodeClass) => {
   const isCreate = getIsCreate();
@@ -27,9 +32,7 @@ export const inferAndSetNodeDraggability = (node: NodeClass) => {
 };
 
 export const applyRoadmapElementsInitialDraggability = () => {
-  const roadmap = getRoadmapSelector();
-  const nodesIds = getRenderedNodesIds();
-  const nodes = nodesIds.map((nodeId) => roadmap.nodes[nodeId]);
+  const nodes = getAllRenderedNodes();
 
   Object.values(nodes).forEach((node) => {
     addDragabilityProtocol(node.draggingBehavior);
@@ -42,9 +45,7 @@ export const applyRoadmapElementsInitialDraggability = () => {
 };
 
 export const applyNodesDraggability = () => {
-  const roadmap = getRoadmapSelector();
-  const nodesIds = getRenderedNodesIds();
-  const nodes = nodesIds.map((nodeId) => roadmap.nodes[nodeId]);
+  const nodes = getAllRenderedNodes();
 
   Object.values(nodes).forEach((node) => {
     const elementIsDraggable = getElementIsDraggable(node.id);

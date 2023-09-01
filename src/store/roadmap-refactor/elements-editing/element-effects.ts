@@ -53,7 +53,9 @@ export const dynamicEffectsMapper: HashMapWithKeys<
   },
   'on-mouse-over': {
     effectName: 'on-mouse-over',
-    effectApply: (divRef) => effectBorderBlue(divRef),
+    effectApply: (divRef) => {
+      // effectBorderBlue(divRef);
+    },
     effectLayer: 1,
   },
   'mark-as-completed': {

@@ -20,13 +20,26 @@ export const buttonsCreateAnonymus = [
 ];
 export const buttonsCreateLogged = [
   {
-    name: 'Create',
+    name: 'Publish',
     callback: async () => {
       // sending the roadmap to be created
       await postRoadmapData(roadmapSelector.get()).then((roadmapId) => {
         setRoadmapId(roadmapId.id);
       });
       window.location.href = '/profile';
+    },
+  },
+
+  {
+    name: 'Save as draft',
+    callback: async () => {
+      console.log('save as draft to be implemented');
+    },
+  },
+  {
+    name: 'About',
+    callback: async () => {
+      console.log('open about');
     },
   },
 

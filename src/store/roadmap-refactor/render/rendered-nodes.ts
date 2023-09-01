@@ -30,7 +30,7 @@ export function setNodes(newNodes: string[]) {
   }
 }
 
-export function getRenderedNodesIds() {
+export function getRenderedRootNodesIds() {
   return renderNodesStore.get().nodesIds;
 }
 

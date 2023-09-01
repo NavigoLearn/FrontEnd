@@ -65,7 +65,7 @@ export function setAllDraggableTrue() {
   Object.keys(originalDraggables.draggableElements).forEach((key) => {
     setElementDraggable(key, true);
   });
-  draggableElements.set(originalDraggables);
+  // draggableElements.set(originalDraggables);
 }
 export function setAllDraggableFalse() {
   const draggableStore = draggableElements.get();

@@ -1,6 +1,7 @@
 /* eslint-disable no-shadow */
 /* eslint-disable react/prop-types */
 import React, { useEffect, useRef, Component, useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { afterEventLoop } from '@src/typescript/utils/misc';
 import { componentsRenderer } from '@src/to-be-organized/nodeview/ComponentsRenderer';
 import { useTriggerRerender } from '@hooks/useTriggerRerender';
@@ -50,6 +51,8 @@ import draggableElements, {
 } from '@store/roadmap-refactor/elements-editing/draggable-elements';
 import { getEditingState } from '@store/roadmap-refactor/editing/editing-state';
 import { triggerAllConnectionsRerender } from '@src/typescript/roadmap_ref/render/dragging';
+import { useStateTimed } from '@hooks/useStateTimed';
+import { deleteAllSnappings } from '@store/roadmap-refactor/render/snapping-lines';
 
 interface NodeViewProps {
   nodeId: string;
@@ -113,6 +116,11 @@ const NodeRenderer: React.FC<NodeViewProps> = ({
       if (node.flags.renderedOnRoadmapFlag) return;
       setTriggerRender(node.id, rerender);
     }, []);
+
+    const [mouseOver, setMouseOver] = useState(false);
+    const [resizing, setResizing] = useStateTimed(false, 500, () => {
+      deleteAllSnappings();
+    });
 
     function getNodeOpacity(node: NodeClass) {
       const editing = getIsEditing();
@@ -202,14 +210,17 @@ const NodeRenderer: React.FC<NodeViewProps> = ({
         onMouseOver={(event) => {
           event.stopPropagation();
           getOnMouseOverAction(nodeId)();
+          setMouseOver(true);
           triggerNodeRerender(nodeId);
         }}
         onMouseLeave={() => {
           getOnMouseOutActionEdit(nodeId)();
+          setMouseOver(false);
         }}
         onMouseOut={(event) => {
           event.stopPropagation();
           getOnMouseOutAction(nodeId)();
+          setMouseOver(false);
         }}
         style={style}
       >
@@ -220,37 +231,47 @@ const NodeRenderer: React.FC<NodeViewProps> = ({
             )}`}
           />
         )}
-        {isDraggable && (
-          <DraggingResizeElement
-            style={{
-              width,
-              height,
-            }}
-            heightCallback={(height) => {
-              mutateNodeHeightWhileKeepingCenter(node, height);
-              triggerNodeRerender(nodeId);
-              triggerAllConnectionsRerender();
-            }}
-            widthCallback={(width) => {
-              mutateNodeWidthWhileKeepingCenter(node, width);
-              triggerNodeRerender(nodeId);
-              triggerAllConnectionsRerender();
-            }}
-            snappingCallback={(width, height) => {
-              const rootNode = node.flags.renderedOnRoadmapFlag;
-              const nodesToSnapTo = rootNode
-                ? getRootNodesIds()
-                : getNodeAdjacentNodesIds(nodeId);
-              // snapping node corners ( ͡° ͜ʖ ͡°) so width and height will also snap I hope
-              const { width: newWidth, height: newHeight } =
-                snapNodeWidthHeight(node.id, nodesToSnapTo, width, height);
-              return {
-                width: newWidth,
-                height: newHeight,
-              };
-            }}
-          />
-        )}
+        <AnimatePresence>
+          {isDraggable && (mouseOver || resizing) && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.2 }}
+            >
+              <DraggingResizeElement
+                style={{
+                  width,
+                  height,
+                }}
+                heightCallback={(height) => {
+                  mutateNodeHeightWhileKeepingCenter(node, height);
+                  triggerNodeRerender(nodeId);
+                  triggerAllConnectionsRerender();
+                }}
+                widthCallback={(width) => {
+                  mutateNodeWidthWhileKeepingCenter(node, width);
+                  triggerNodeRerender(nodeId);
+                  triggerAllConnectionsRerender();
+                }}
+                snappingCallback={(width, height) => {
+                  setResizing(true);
+                  const rootNode = node.flags.renderedOnRoadmapFlag;
+                  const nodesToSnapTo = rootNode
+                    ? getRootNodesIds()
+                    : getNodeAdjacentNodesIds(nodeId);
+                  // snapping node corners ( ͡° ͜ʖ ͡°) so width and height will also snap I hope
+                  const { width: newWidth, height: newHeight } =
+                    snapNodeWidthHeight(node.id, nodesToSnapTo, width, height);
+                  return {
+                    width: newWidth,
+                    height: newHeight,
+                  };
+                }}
+              />
+            </motion.div>
+          )}
+        </AnimatePresence>
 
         {childNodeId === nodeId && (
           <ConnectionAnchorsRenderer

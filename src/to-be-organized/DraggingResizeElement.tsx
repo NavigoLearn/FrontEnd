@@ -148,10 +148,12 @@ const DraggingResizeElement = ({
   // uses 8 invisible divs to allow user to resize in each direction
   // -1.5px accounts for the borders of the node and the resize div
 
+  const vertexStyle = ' w-3 h-3 bg-white border-2 border-primary ';
+
   return (
     <div
       ref={wrapperDiv}
-      className=' top-[-1.5px] left-[-1.5px] absolute pointer-events-auto '
+      className=' top-[-1.5px] left-[-1.5px] absolute pointer-events-auto border-2 border-primary'
     >
       <div
         onMouseOverCapture={(e) => {}}
@@ -211,7 +213,7 @@ const DraggingResizeElement = ({
           e.stopPropagation();
           // prevents clicking from opening editor
         }}
-        className='absolute -top-2 -left-2 cursor-nwse-resize w-4 h-4 '
+        className={`absolute -top-1.5 -left-1.5 cursor-nwse-resize  ${vertexStyle}`}
       />
       <div
         onMouseOverCapture={(e) => {}}
@@ -223,7 +225,7 @@ const DraggingResizeElement = ({
           e.stopPropagation();
           // prevents clicking from opening editor
         }}
-        className='absolute -top-2 -right-2 cursor-nesw-resize w-4 h-4 '
+        className={`absolute -top-1.5 -right-1.5 cursor-nesw-resize  ${vertexStyle}`}
       />
       <div
         onMouseOverCapture={(e) => {}}
@@ -235,7 +237,7 @@ const DraggingResizeElement = ({
           e.stopPropagation();
           // prevents clicking from opening editor
         }}
-        className='absolute -bottom-2 -left-2 cursor-nesw-resize w-4 h-4 '
+        className={`absolute -bottom-1.5 -left-1.5 cursor-nesw-resize  ${vertexStyle}`}
       />
       <div
         onMouseOverCapture={(e) => {}}
@@ -247,7 +249,7 @@ const DraggingResizeElement = ({
           e.stopPropagation();
           // prevents clicking from opening editor
         }}
-        className='absolute -bottom-2 -right-2 cursor-nwse-resize w-4 h-4 '
+        className={`absolute -bottom-1.5 -right-1.5 cursor-nwse-resize  ${vertexStyle}`}
       />
     </div>
   );

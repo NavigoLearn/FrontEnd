@@ -2,7 +2,7 @@ import roadmapStateStore, {
   getIsEditing,
 } from '@store/roadmap-refactor/roadmap-data/roadmap_state';
 import {
-  getRenderedNodesIds,
+  getRenderedRootNodesIds,
   setNodes,
 } from '@store/roadmap-refactor/render/rendered-nodes';
 import chunksStore, {
@@ -23,7 +23,7 @@ export function setConnectionsToRender() {
   const roadmap = roadmapSelector.get();
   if (!loaded) return;
   const connectionsIds = []; // array of all the connections that should be rendered
-  const nodes = getRenderedNodesIds();
+  const nodes = getRenderedRootNodesIds();
   // gets the connections for each node
   nodes.forEach((nodeId) => {
     const node = roadmap.nodes[nodeId];
