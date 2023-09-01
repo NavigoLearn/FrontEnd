@@ -7,6 +7,7 @@ import { colorThemes } from '@src/typescript/roadmap_ref/node/core/color-themes'
 import { NodeClass } from '@src/typescript/roadmap_ref/node/core/core';
 import { mutateNodeColorAndRerender } from '@src/typescript/roadmap_ref/node/core/data-mutation/mutate';
 import { triggerRerenderEditor } from '@src/store/roadmap-refactor/elements-editing/editor-selected-data';
+import { selectNodeColorText } from '@src/typescript/roadmap_ref/node/core/factories/data-mutation/services';
 
 type IVariantsComponentProps = {
   selectedColor: IColorThemesColors;
@@ -23,26 +24,35 @@ const VariantsComponent = ({
 
   return (
     <div className='flex flex-row '>
-      {Object.keys(themeDetails).map((colorKey: IColorThemesColors) => (
+      {Object.keys(themeDetails).map((colorKey: IColorThemesColors, index) => (
         <button
           className={`${selectedColor === colorKey ? 'drop-shadow-lg' : ''}`}
           key={colorKey}
           type='button'
           style={{
             backgroundColor: themeDetails[colorKey].nodeColor,
-            width: '4.5rem',
-            height: '2rem',
-            marginRight: '0.3rem',
+            width: '6.5rem',
+            height: '2.2rem',
+            marginRight: '0.1rem',
             borderRadius: '0.25rem',
-            borderColor: selectedColor === colorKey ? 'black' : 'gray-400',
-            borderWidth: selectedColor === colorKey ? '2px' : '1px',
+            transition: 'all 100ms ease-in-out',
+            padding: '0',
+            color: selectNodeColorText(selectedTheme, colorKey),
+            fontFamily: 'Roboto, sans-serif',
+            borderTopLeftRadius: index === 0 ? '0.25rem' : '0',
+            borderBottomLeftRadius: index === 0 ? '0.25rem' : '0',
+            borderTopRightRadius:
+              index === Object.keys(themeDetails).length - 1 ? '0.25rem' : '0',
+            borderBottomRightRadius:
+              index === Object.keys(themeDetails).length - 1 ? '0.25rem' : '0',
+            opacity: selectedColor === colorKey ? 1 : 0.6,
           }}
           onClick={() => {
             mutateNodeColorAndRerender(node, colorKey);
             triggerRerenderEditor();
           }}
         >
-          <div />
+          {colorKey.charAt(0).toUpperCase() + colorKey.slice(1)}
         </button>
       ))}
     </div>

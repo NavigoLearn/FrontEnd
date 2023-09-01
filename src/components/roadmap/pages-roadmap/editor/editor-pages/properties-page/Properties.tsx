@@ -92,7 +92,7 @@ const Properties = () => {
 
   function checkInvalidInput(value: string) {
     const newValue = parseInt(value, 10);
-    if (typeof newValue !== 'number' || Number.isNaN(newValue)) return true;
+    if (typeof newValue !== 'number' || newValue > 3000) return true;
     return false;
   }
 
@@ -101,18 +101,17 @@ const Properties = () => {
   const possibleActionsArray = possibleActions;
   const [selectedSize, setSelectedSize] = useState('big');
   return (
-    <div className='flex flex-col gap-6'>
+    <div className='flex flex-col'>
       <div className='flex flex-col'>
         <div className='flex text-placeholder font-roboto-text'>
           Position & Size
         </div>
-        <div className='flex flex-row gap-2 mt-2'>
+        <div className='flex flex-row gap-2 mt-1'>
           <DraggableInput
             name='X'
             value={data.coords.x}
             onChange={(value) => {
               const newValue = parseInt(value, 10);
-              if (checkInvalidInput(value)) return;
               mutateNodeCoordX(node, newValue);
               triggerRerenderEditor();
               triggerNodeRerender(node.id);
@@ -131,7 +130,7 @@ const Properties = () => {
             }}
             sensitivity={2}
           />
-          <div className='border-l border-black' />
+          <div className='border-l border-rgb(0,0,0,0.6)' />
           <DraggableInput
             name='W'
             value={data.width}
@@ -174,8 +173,8 @@ const Properties = () => {
           />
         </div>
       </div>
-      <hr className='border-1 border-gray-200' />
-      <div className='flex flex-col gap-1'>
+      <hr className='border-1 border-gray-200 mt-3' />
+      <div className='flex flex-col gap-1 mt-3'>
         <div className='flex text-placeholder font-roboto-text mb-2'>
           Node color theme
         </div>
@@ -200,43 +199,51 @@ const Properties = () => {
           />
         </div>
       </div>
-      <hr className='border-1 border-gray-200' />
-      <div className='flex text-placeholder font-roboto-text'>On click</div>
-      <div className='flex flex-row gap-3'>
-        <DropdownWhiteSelect
-          dropdownName={node.actions.onClick}
-          options={[
-            {
-              id: '1',
-              name: 'Do nothing',
-              callback: () => {
-                mutateNodeOnClickAction(node, 'Do nothing');
-                triggerRerenderEditor();
+      <hr className='border-1 border-gray-200 mt-3' />
+      <div className='flex text-placeholder font-roboto-text mt-3'>
+        On click
+      </div>
+      <div className='flex flex-row gap-3 mt-2'>
+        <div className='w-60'>
+          <DropdownWhiteSelect
+            dropdownName={node.actions.onClick}
+            options={[
+              {
+                id: '1',
+                name: 'Do nothing',
+                callback: () => {
+                  mutateNodeOnClickAction(node, 'Do nothing');
+                  triggerRerenderEditor();
+                },
               },
-            },
-            {
-              id: '2',
-              name: 'Open link',
-              callback: () => {
-                mutateNodeOnClickAction(node, 'Open link');
-                triggerRerenderEditor();
+              {
+                id: '2',
+                name: 'Open link',
+                callback: () => {
+                  mutateNodeOnClickAction(node, 'Open link');
+                  triggerRerenderEditor();
+                },
               },
-            },
-            {
-              id: '3',
-              name: 'Open attachment',
-              callback: () => {
-                mutateNodeOnClickAction(node, 'Open attachment');
-                triggerRerenderEditor();
+              {
+                id: '3',
+                name: 'Open attachment',
+                callback: () => {
+                  mutateNodeOnClickAction(node, 'Open attachment');
+                  triggerRerenderEditor();
+                },
               },
-            },
-          ]}
-          dropdownCallback={() => {
-            return null;
-          }}
-        />
+            ]}
+            dropdownCallback={() => {
+              return null;
+            }}
+          />
+        </div>
         {node.actions.onClick === 'Open link' && (
-          <SpecialInput label='Link' actions={actions} />
+          <SpecialInput
+            label='Link'
+            actions={actions}
+            placeholder='http://google.com'
+          />
         )}
       </div>
     </div>
