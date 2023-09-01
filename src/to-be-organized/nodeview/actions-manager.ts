@@ -6,7 +6,7 @@ import {
 } from '@src/typescript/roadmap_ref/node/core/actions/strategies';
 import {
   setDraggableElementForNodeWithId,
-  closeEditorDraggabilitySettings,
+  setDefaultDraggabilitySettings,
 } from '@store/roadmap-refactor/elements-editing/draggable-elements';
 import {
   getDisplayPageType,
@@ -89,7 +89,7 @@ export function openEditorProtocol(nodeId: string) {
 export function closeEditorProtocol() {
   if (!(getDisplayPageType() === 'editor')) return;
   setDisplayPageType('closed');
-  closeEditorDraggabilitySettings();
+  setDefaultDraggabilitySettings();
   setEditorClosedEffect();
   triggerAllNodesRerender();
 }

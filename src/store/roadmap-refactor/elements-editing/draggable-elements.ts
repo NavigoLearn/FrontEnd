@@ -109,7 +109,7 @@ export function setAllComponentsDraggableFalse() {
   }
 }
 
-export function closeEditorDraggabilitySettings() {
+export function setDefaultDraggabilitySettings() {
   setAllDraggableTrue();
   setAllComponentsDraggableFalse();
 }

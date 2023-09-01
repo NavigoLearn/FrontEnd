@@ -84,9 +84,10 @@ export const addDragabilityProtocol = (draggingBehavior: DraggingBehavior) => {
 
   function startDragging(event) {
     const { x: originalX, y: originalY } = event.subject;
-    /* I have a very vague idea why this works but further  inspection is required.
+    /* I have a vague idea why this works but further  inspection is required.
     Not taking subject coords will break the shift key press / unpress while dragging
     DO NOT CHANGE SUBJECT AND IF YOU DO, MAY GOD HAVE MERCY ON YOUR SOUL
+    --- a tormented developer
     */
 
     // coordinates of the node in the original reference system
@@ -200,7 +201,6 @@ export const addDragabilityProtocol = (draggingBehavior: DraggingBehavior) => {
         if (isRecursive !== getShift()) {
           endDragging();
           startDragging(event);
-          console.log(event);
         } else {
           onDragging(event);
         }

@@ -8,6 +8,7 @@ import {
   setConnectionSelectedEffect,
   setConnectionUnselectedEffect,
 } from '@store/roadmap-refactor/elements-editing/element-effects';
+import { setDefaultDraggabilitySettings } from '@store/roadmap-refactor/elements-editing/draggable-elements';
 import {
   getParentNodeIdBasedOnConnection,
   getIdCurrentConnection,
@@ -33,6 +34,7 @@ export const clearSelectedConnection = () => {
   selectedNodeIdChild.set(null);
   if (!parentNodeId || !childNodeId) return;
   setConnectionUnselectedEffect();
+  setDefaultDraggabilitySettings();
   triggerNodeRerender(parentNodeId);
   triggerNodeRerender(childNodeId);
 };
