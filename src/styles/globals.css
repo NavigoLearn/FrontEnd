@@ -56,24 +56,22 @@
     }
 }
 
-
-/* Hide default scrollbar for Webkit browsers */
-.invisible-scroll::-webkit-scrollbar {
-    width: 0;
-    background: transparent;
+/* Custom scrollbar for Webkit browsers */
+.scrollbar-custom::-webkit-scrollbar {
+    width: 12px; /* Width of the scrollbar */
 }
 
-.invisible-scroll::-webkit-scrollbar-thumb {
-    background: transparent;
+.scrollbar-custom::-webkit-scrollbar-track {
+    background: transparent; /* Make track transparent */
 }
 
-/* Hide scrollbar for Firefox */
-.invisible-scroll {
-    scrollbar-width: none;
+.scrollbar-custom::-webkit-scrollbar-thumb {
+    background: #040436; /* Make thumb dark blue */
 }
 
-/* Hide scrollbar for IE */
-.invisible-scroll {
-    -ms-overflow-style: none;
+/* Custom scrollbar for Firefox */
+.scrollbar-custom {
+    scrollbar-width: thin; /* Set width */
+    scrollbar-color: #040436 transparent; /* Set thumb and track color */
 }
 

@@ -268,25 +268,21 @@ const NodeRenderer: React.FC<NodeViewProps> = ({
           />
         )}
 
-        {getEditingState() === 'nodes' && (
-          <>
-            {componentsRenderer(node)}
-            {subNodeIds &&
-              subNodeIds.map((subNodeId) => {
-                // the div is used to position the subNode in the center of the current node
-                return (
-                  <NodeRenderer
-                    key={subNodeId}
-                    nodeId={subNodeId}
-                    centerOffset={{
-                      x: node.data.width / 2,
-                      y: node.data.height / 2,
-                    }}
-                  />
-                );
-              })}
-          </>
-        )}
+        {getEditingState() === 'nodes' && <>{componentsRenderer(node)}</>}
+        {subNodeIds &&
+          subNodeIds.map((subNodeId) => {
+            // the div is used to position the subNode in the center of the current node
+            return (
+              <NodeRenderer
+                key={subNodeId}
+                nodeId={subNodeId}
+                centerOffset={{
+                  x: node.data.width / 2,
+                  y: node.data.height / 2,
+                }}
+              />
+            );
+          })}
       </div>
     );
   };

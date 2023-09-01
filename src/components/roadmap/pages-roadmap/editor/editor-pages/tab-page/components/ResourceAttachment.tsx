@@ -127,7 +127,7 @@ const ResourceBulletListItem = ({
     <div
       key={item.id}
       ref={myDiv}
-      className='w-full flex relative justify-between items-center px-3 mt-3'
+      className='w-full flex relative justify-between items-center px-3 mt-1'
     >
       <section>
         <div className='text-darkBlue text-lg font-semibold'>{item.text}</div>
@@ -163,7 +163,7 @@ const ResourceBulletListItem = ({
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 20 }}
             transition={{ duration: 0.2 }}
-            className='absolute w-60 bg-white top-14 shadow-xl border-2 border-gray-200 rounded-lg z-20'
+            className='absolute w-64 bg-white top-14 shadow-xl border-2 border-gray-200 rounded-lg z-20'
           >
             <ResourceBulletListItemDropdown
               component={component}
@@ -180,7 +180,7 @@ const ResourceAttachmentEdit = ({ component }: IResourceAttachmentProps) => {
   return (
     <div className='flex gap-1 w-full relative flex-col border-2 border-gray-400 rounded-lg pb-4'>
       <div className='flex justify-between px-4  w-full mt-4'>
-        <h1 className='text-darkBlue font-roboto-text'>Resources</h1>
+        <h1 className='text-placeholder font-roboto-text'>Resources</h1>
         <button
           onClick={() => {
             appendAttachmentBulletListNewItem(component);

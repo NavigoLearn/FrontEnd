@@ -59,9 +59,9 @@ const EditorPageManager = () => {
           defaultValue='components'
         />
       </div>
-      <div ref={divRef} className='h-full w-full flex flex-col '>
+      <div ref={divRef} className='h-[calc(100%-112px)] w-full flex flex-col '>
         <div
-          className={`mt-2 flex-grow overflow-y-auto overflow-x-hidden ${
+          className={`mt-2   flex-grow overflow-y-auto overflow-x-hidden ${
             isAttachmentsPage ? 'px-0' : 'px-5'
           }`}
         >

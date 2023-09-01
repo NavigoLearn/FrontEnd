@@ -24,9 +24,9 @@ const TitleAttachmentView = ({ value, onChange }: ITitleComponentProps) => {
 const TitleAttachmentEdit = ({ value, onChange }: ITitleComponentProps) => {
   return (
     <div className='flex flex-col gap-1 w-full outline-2 outline-black'>
-      <h1 className='font-roboto-text text-darkBlue'>Title</h1>
+      <h1 className='font-roboto-text text-placeholder'>Title</h1>
       <input
-        className={`flex-grow mt-2 h-14 resize-none outline-none border-2 border-gray-400 rounded-lg text-darkBlue text-lg pl-4 font-semibold focus:border-black ${tailwindTransitionClass}`}
+        className={`flex-grow mt-2 h-14 resize-none outline-none border-2 border-gray-400 rounded-lg text-darkBlue text-lg pl-4 font-medium focus:border-black ${tailwindTransitionClass}`}
         value={value}
         placeholder='Give an expressive title'
         onChange={(event) => {

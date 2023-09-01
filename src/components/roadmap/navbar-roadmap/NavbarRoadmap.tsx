@@ -10,7 +10,7 @@ const NavbarRoadmap = () => {
 
   return (
     <div className='hidden md:block sticky top-0 z-[20]'>
-      <nav className='bg-transparent shadow-sm  relative flex w-full h-16 z-10  items-center transition-all  duration-300 select-none'>
+      <nav className='bg-transparent border-b-2 border-b-gray-200 relative flex w-full h-16 z-10  items-center transition-all  duration-300 select-none'>
         {loaded && (
           <>
             <BackArrow />
