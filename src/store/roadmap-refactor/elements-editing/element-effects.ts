@@ -5,13 +5,13 @@ import { HashMapWithKeys, HashMap } from '@type/roadmap/misc';
 import {
   effectBorderBlack,
   effectBorderBlue,
+  effectBorderBlueDashed,
   effectBorderRed,
   effectBorderYellow,
   effectOpacity100,
   effectOpacity30,
   effectOpacity60,
 } from '@src/to-be-organized/nodeview/effects';
-import { deepCopy } from '@src/typescript/roadmap_ref/utils';
 
 export type IEffectsStatuses =
   | 'mark-as-progress'
@@ -97,16 +97,15 @@ export function setElementEffectsInitialEmpty(id: string) {
     ...originalEffects,
   });
 }
+
 export function applyElementEffects(id: string, divElementRef: HTMLDivElement) {
   const originalEffects = elementEffects.get();
   const effectsArr = originalEffects[id].map(
     (effectElement) => dynamicEffectsMapper[effectElement]
   );
-
   const sortedEffectsArr = effectsArr.sort((a, b) => {
     return a.effectLayer - b.effectLayer;
   });
-
   sortedEffectsArr.forEach((effectElement) => {
     effectElement.effectApply(divElementRef);
   });
@@ -135,6 +134,19 @@ export function appendElementEffect(id, effect: IEffectsPossible) {
   });
 }
 
+export function deleteElementEffectNoStoreParam(
+  id: string,
+  effect: IEffectsPossible
+) {
+  const originalEffects = elementEffects.get();
+  if (!originalEffects[id]) return;
+  originalEffects[id] = originalEffects[id].filter(
+    (effectName) => effectName !== effect
+  );
+  elementEffects.set({
+    ...originalEffects,
+  });
+}
 export function deleteStatusEffectAll(id: string) {
   const originalEffects = elementEffects.get();
   const statusEffects: IEffectsStatuses[] = [

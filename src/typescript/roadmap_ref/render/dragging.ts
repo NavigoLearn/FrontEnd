@@ -24,6 +24,8 @@ import renderedConnections from '@store/roadmap-refactor/render/rendered-connect
 import { getShift } from '@store/roadmap-refactor/misc/key-press-store';
 import { triggerNodeRerender } from '@store/roadmap-refactor/render/rerender-triggers-nodes';
 import { deepCopy } from '@src/typescript/roadmap_ref/utils';
+import { throttle } from '@src/typescript/roadmap_ref/render/chunks';
+import { afterEventLoop } from '@src/typescript/utils/misc';
 
 export const triggerNodeConnectionsRerender = (nodeId: string) => {
   const node = getNodeByIdRoadmapSelector(nodeId);
@@ -80,104 +82,133 @@ export const addDragabilityProtocol = (draggingBehavior: DraggingBehavior) => {
 
   let isRecursive = false;
 
+  function startDragging(event) {
+    const { x: originalX, y: originalY } = event.subject;
+    /* I have a very vague idea why this works but further  inspection is required.
+    Not taking subject coords will break the shift key press / unpress while dragging
+    DO NOT CHANGE SUBJECT AND IF YOU DO, MAY GOD HAVE MERCY ON YOUR SOUL
+    */
+
+    // coordinates of the node in the original reference system
+    const currentCoords = currentCoordsStrategy();
+    // also account for the difference between rendering relative to center and relative to top left corner
+    const { x, y } = coordinatesAdapterStrategy(originalX, originalY);
+
+    const offsetX = x - currentCoords.x;
+    const offsetY = y - currentCoords.y;
+
+    offset.x = offsetX;
+    offset.y = offsetY;
+
+    initialPos.x = currentCoords.x;
+    initialPos.y = currentCoords.y;
+
+    newPos.x = x - offset.x;
+    newPos.y = y - offset.y; // offsets are used to sync the mouse position with the dragging position
+
+    isRecursive = getShift() && draggingBehavior.draggingElementType === 'node';
+
+    if (isRecursive) {
+      const children = getChildrenRenderedTraceback(id);
+      // add dragging Effect
+      children.forEach((childId) => {
+        const child = getNodeByIdRoadmapSelector(childId);
+        const { id: idChild } = child;
+        appendDraggingRecursiveEffect(idChild);
+        triggerNodeRerender(idChild);
+      });
+      appendDraggingRecursiveEffect(id);
+      triggerNodeRerender(id);
+    } else {
+      appendDraggingRecursiveEffect(id);
+      triggerNodeRerender(id);
+    }
+  }
+
+  function onDragging(event) {
+    // use adapter for coordinates to sync with the dragging space (eg nodes-page/nested reusable-components-page behave differently)
+
+    const { x: adaptedX, y: adaptedY } = coordinatesAdapterStrategy(
+      event.x,
+      event.y
+    );
+
+    const offsetAdaptedX = adaptedX - offset.x;
+    const offsetAdaptedY = adaptedY - offset.y;
+
+    const { x, y } = draggingStrategy(offsetAdaptedX, offsetAdaptedY);
+
+    // we set the new coordinates to the element
+    newPos.x = x;
+    newPos.y = y; // offsets are used to sync the mouse position with the dragging position
+
+    // at the end we simply do not substract the offset and the element will be placed properly
+
+    // we temporarily update the position to emulate the dragging, which will then be applied to the actual element
+    // after its finished
+    const sel = document.getElementById(`${elementIdentifier}${id}`);
+    const obj = d3.select(sel);
+
+    const displacementVectorX = newPos.x - initialPos.x;
+    const displacementVectorY = newPos.y - initialPos.y;
+    obj.style(
+      'transform',
+      `translate(${displacementVectorX}px, ${displacementVectorY}px)`
+    );
+    isRecursive &&
+      propagateDraggingToChildrenNodes(
+        draggingBehavior,
+        displacementVectorX,
+        displacementVectorY
+      );
+
+    // we apply the translate relative to initial position because you can imagine dragging like an arrow
+    // from initial position to final position and after we are done the arrow is translated in actual
+    // coordinates changes
+
+    // update connections here
+    draggingBehavior.draggingElementType === 'node' &&
+      triggerAllConnectionsRerender();
+  }
+
+  function endDragging() {
+    // chunk recalculations are integrated in the coordinates setter strategy
+    draggingEndStrategy(newPos.x, newPos.y);
+    deleteAllSnappings();
+    if (isRecursive) {
+      draggingEndChildrenTraceback(draggingBehavior);
+      const children = getChildrenRenderedTraceback(id);
+      children.forEach((childId) => {
+        deleteDraggingRecursiveEffect(childId);
+      });
+    } else {
+      deleteDraggingRecursiveEffect(id);
+    }
+  }
+
   const drag = d3
     .drag()
     // eslint-disable-next-line func-names
     .on('start', function (event) {
-      const { x: originalX, y: originalY } = event;
-      // coordinates of the node in the original reference system
-      const currentCoords = currentCoordsStrategy();
-      // also account for the difference between rendering relative to center and relative to top left corner
-      const { x, y } = coordinatesAdapterStrategy(originalX, originalY);
-
-      const offsetX = x - currentCoords.x;
-      const offsetY = y - currentCoords.y;
-
-      offset.x = offsetX;
-      offset.y = offsetY;
-
-      initialPos.x = currentCoords.x;
-      initialPos.y = currentCoords.y;
-
-      newPos.x = x - offset.x;
-      newPos.y = y - offset.y; // offsets are used to sync the mouse position with the dragging position
-
-      isRecursive =
-        getShift() && draggingBehavior.draggingElementType === 'node';
-
-      if (isRecursive) {
-        const children = getChildrenRenderedTraceback(id);
-        // add dragging Effect
-        children.forEach((childId) => {
-          const child = getNodeByIdRoadmapSelector(childId);
-          const { id: idChild } = child;
-          appendDraggingRecursiveEffect(idChild);
-          triggerNodeRerender(idChild);
-        });
-        appendDraggingRecursiveEffect(id);
-        triggerNodeRerender(id);
-      }
+      startDragging(event);
     })
     // eslint-disable-next-line func-names
-    .on('drag', function (event) {
-      // use adapter for coordinates to sync with the dragging space (eg nodes-page/nested reusable-components-page behave differently)
-
-      const { x: adaptedX, y: adaptedY } = coordinatesAdapterStrategy(
-        event.x,
-        event.y
-      );
-
-      const offsetAdaptedX = adaptedX - offset.x;
-      const offsetAdaptedY = adaptedY - offset.y;
-
-      const { x, y } = draggingStrategy(offsetAdaptedX, offsetAdaptedY);
-
-      // we set the new coordinates to the element
-      newPos.x = x;
-      newPos.y = y; // offsets are used to sync the mouse position with the dragging position
-
-      // at the end we simply do not substract the offset and the element will be placed properly
-
-      // we temporarily update the position to emulate the dragging, which will then be applied to the actual element
-      // after its finished
-      const sel = document.getElementById(`${elementIdentifier}${id}`);
-      const obj = d3.select(sel);
-
-      const displacementVectorX = newPos.x - initialPos.x;
-      const displacementVectorY = newPos.y - initialPos.y;
-      obj.style(
-        'transform',
-        `translate(${displacementVectorX}px, ${displacementVectorY}px)`
-      );
-      isRecursive &&
-        propagateDraggingToChildrenNodes(
-          draggingBehavior,
-          displacementVectorX,
-          displacementVectorY
-        );
-
-      // we apply the translate relative to initial position because you can imagine dragging like an arrow
-      // from initial position to final position and after we are done the arrow is translated in actual
-      // coordinates changes
-
-      // update connections here
-      draggingBehavior.draggingElementType === 'node' &&
-        triggerAllConnectionsRerender();
-    })
+    .on(
+      'drag',
+      throttle(function (event) {
+        // runs at 60fps
+        if (isRecursive !== getShift()) {
+          endDragging();
+          startDragging(event);
+          console.log(event);
+        } else {
+          onDragging(event);
+        }
+      }, 1000 / 60)
+    )
     // eslint-disable-next-line func-names
     .on('end', function () {
-      // chunk recalculations are integrated in the coordinates setter strategy
-      draggingEndStrategy(newPos.x, newPos.y);
-      deleteAllSnappings();
-      console.log('dragging end');
-      if (isRecursive) {
-        draggingEndChildrenTraceback(draggingBehavior);
-        const children = getChildrenRenderedTraceback(id);
-        children.forEach((childId) => {
-          deleteDraggingRecursiveEffect(childId);
-        });
-        console.log(elementEffects.get());
-      }
+      endDragging();
     });
 
   function updateDraggabilityAllowed(allowed: boolean) {

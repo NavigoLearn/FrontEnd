@@ -21,6 +21,7 @@ import {
 import {
   getOnClickAction,
   getOnMouseOutAction,
+  getOnMouseOutActionEdit,
   getOnMouseOverAction,
 } from '@src/to-be-organized/nodeview/actions-manager';
 import {
@@ -170,6 +171,7 @@ const NodeRenderer: React.FC<NodeViewProps> = ({
       top: `${calculatedOffsetCoords.y + coords.y}px`,
       left: `${calculatedOffsetCoords.x + coords.x}px`,
       opacity: `${getNodeOpacity(node)}`,
+      border: '2px solid transparent',
     };
 
     const applyStyle = () => {
@@ -190,19 +192,20 @@ const NodeRenderer: React.FC<NodeViewProps> = ({
     return (
       // eslint-disable-next-line jsx-a11y/click-events-have-key-events,jsx-a11y/mouse-events-have-key-events,jsx-a11y/no-static-element-interactions
       <div
-        className={`drop-shadow-md rounded-lg transition-allNoTransform duration-300 absolute `}
+        className={`drop-shadow-md rounded-lg transition-allNoTransform duration-200 absolute `}
         id={`div${nodeId}`}
         ref={nodeDivRef}
         onClick={(event) => {
-          // draggable elements coincide with clickable elements on a roadmap
-          event.stopPropagation(); // to avoid clicking a subnode and its parent at the same time
+          event.stopPropagation();
           getOnClickAction(nodeId)();
         }}
-        onMouseEnter={(event) => {
+        onMouseOver={(event) => {
           event.stopPropagation();
           getOnMouseOverAction(nodeId)();
           triggerNodeRerender(nodeId);
-          console.log(elementEffects.get());
+        }}
+        onMouseLeave={() => {
+          getOnMouseOutActionEdit(nodeId)();
         }}
         onMouseOut={(event) => {
           event.stopPropagation();

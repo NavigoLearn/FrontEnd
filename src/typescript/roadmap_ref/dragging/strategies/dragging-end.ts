@@ -25,6 +25,7 @@ export const draggingEndNode = (
   const sel = document.getElementById(`div${node.id}`);
   const obj = d3.select(sel);
   obj.style('transform', `translate(${0}px, ${0}px)`);
+  console.log('dragging end node', x, y);
   deleteNodeFromChunks(node);
   recalculateNodeChunks(node);
   appendNodeToChunks(node);

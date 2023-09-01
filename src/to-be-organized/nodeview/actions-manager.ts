@@ -26,6 +26,8 @@ import {
   getElementHasEffect,
   setEditorClosedEffect,
   setEditorOpenEffect,
+  deleteElementEffect,
+  deleteElementEffectNoStoreParam,
 } from '@store/roadmap-refactor/elements-editing/element-effects';
 import { triggerAllNodesRerender } from '@store/roadmap-refactor/render/rerender-triggers-nodes';
 import { getElementDiv } from '@store/roadmap-refactor/elements-editing/elements-divs';
@@ -37,25 +39,15 @@ import {
 import { triggerMoveRoadmapTo } from '@store/roadmap-refactor/misc/misc-params-store';
 import { HashMapWithKeys } from '@type/roadmap/misc';
 import { IActionTypes } from '@src/typescript/roadmap_ref/node/core/actions/core';
-import { afterEventLoop } from '@src/typescript/utils/misc';
 import { getScaleSafari } from '@store/roadmap-refactor/misc/scale-safari-store';
 import { getViewport } from '@store/roadmap-refactor/misc/viewport-coords-store';
-import {
-  getEditingState,
-  IEditingState,
-  setEditingState,
-} from '@store/roadmap-refactor/editing/editing-state';
-import {
-  clearSelectedConnection,
-  setSelectedConnectionFromChildProtocol,
-} from '@components/roadmap/connections/connection-editing/connection-store';
+import { setEditingState } from '@store/roadmap-refactor/editing/editing-state';
+import { clearSelectedConnection } from '@components/roadmap/connections/connection-editing/connection-store';
 
 export function getOnMouseOutActionEdit(nodeId): () => void {
   const div = getElementDiv(nodeId);
   return () => {
-    if (!getElementHasEffect(nodeId, 'dragging-recursive')) {
-      effectBorderTransparent(div);
-    }
+    deleteElementEffectNoStoreParam(nodeId, 'on-mouse-over');
   };
 }
 
@@ -131,7 +123,6 @@ export function getOnClickAction(nodeId: string): () => void {
 }
 
 export function getOnMouseOverActionEdit(nodeId): () => void {
-  const div = getElementDiv(nodeId);
   return () => {
     appendElementEffect(nodeId, 'on-mouse-over');
   };

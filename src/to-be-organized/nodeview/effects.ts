@@ -17,6 +17,9 @@ export const effectBorderTransparent = (divElementRef: HTMLDivElement) => {
   divElementRef.style.border = '2px solid transparent';
 };
 
+export const effectBorderBlueDashed = (divElementRef: HTMLDivElement) => {
+  divElementRef.style.border = '2px dashed blue';
+};
 export const effectBorderBlue = (divElementRef: HTMLDivElement) => {
   divElementRef.style.border = '2px solid blue';
 };
