@@ -1,9 +1,9 @@
 import React, { useEffect, useRef } from 'react';
 import dropclose from '@assets/cross.svg';
-import Filter1 from '@components/explore/mobile/filter-components/Filter1';
-import Filter2 from '@components/explore/mobile/filter-components/Filter2';
-import Filter3 from '@components/explore/mobile/filter-components/Filter3';
-import AugmentFilter from '@components/explore/mobile/filter-hoc/AugmentFilter';
+import Filter1 from '@components/explore/old-shit/mobile/filter-components/Filter1';
+import Filter2 from '@components/explore/old-shit/mobile/filter-components/Filter2';
+import Filter3 from '@components/explore/old-shit/mobile/filter-components/Filter3';
+import AugmentFilter from '@components/explore/old-shit/mobile/filter-hoc/AugmentFilter';
 import { FilterManagerProps } from '@type/explore/filterProps';
 
 export const opitonsFilter1 = [

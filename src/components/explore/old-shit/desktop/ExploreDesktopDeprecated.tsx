@@ -10,7 +10,7 @@ import cardsFromApi, {
   setRoadmapCardsFromApiExplore,
 } from '@store/explore/card_store_explore';
 // import FilterAugD from './filterhoc/FilterAugD';
-import EmptyCard from '@components/explore/EmptyCard';
+import EmptyCard from '@components/explore/old-shit/EmptyCard';
 import erase from '@assets/cross.svg';
 import Card from '../Card';
 

@@ -207,7 +207,7 @@ const Roadmap = ({
         id='rootSvg'
         width='100%'
         height='100%'
-        className='bg-background pointer-events-auto'
+        className='bg-backgroundRoadmap pointer-events-auto'
       >
         <g id='rootGroup'>
           <g id='rootGroupConnections'>

@@ -9,7 +9,7 @@ import chevronright from '@assets/chevron-right.svg';
 import cardsFromApi, {
   setRoadmapCardsFromApiExplore,
 } from '@store/explore/card_store_explore';
-import EmptyCard from '@components/explore/EmptyCard';
+import EmptyCard from '@components/explore/old-shit/EmptyCard';
 import erase from '@assets/cross.svg';
 import SortBy from './SortBy';
 // import Filter from './Filter';

@@ -6,7 +6,7 @@ import RedirectToProfile from '@components/shared/RedirectToProfile';
 import {
   likeCardFetch,
   unlikeCardFetch,
-} from 'src/api-wrapper/explore/roadmap-likes';
+} from '@src/api-wrapper/explore/roadmap-likes';
 import userStatus from '@store/user/user-status';
 
 const Card = ({ cardStore }: { cardStore: CardType }) => {

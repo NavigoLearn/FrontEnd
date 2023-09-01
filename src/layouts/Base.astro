@@ -56,14 +56,13 @@ const { metadata, excludeFooter } = Astro.props;
   </head>
 
   <body class='bg-background relative w-full min-h-screen'>
-    <DataCollectionManager client:load />
-    <RequestManager client:load />
+    <!--<RequestManager client:load />-->
     <Navbar client:load />
 
     <slot />
 
     {
-      !excludeFooter && (
+      !excludeFooter && false && (
         <div class='h-32'>
           <Footer />
         </div>

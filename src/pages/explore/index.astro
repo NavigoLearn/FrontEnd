@@ -1,34 +1,17 @@
 ---
 import Base from '@layouts/Base.astro';
-import SearchMobile from '../../components/explore/mobile/Explore';
-import ExploreDesktop from '../../components/explore/desktop/Explore';
-import PageViewCollection from '../../components/home/PageViewCollection';
+import Explore from '@components/explore/Explore';
 ---
 
-<Base metadata={{
-  title: 'Explore',
-  description: 'Explore all the roadmaps created by the community and find the one that suits you best. What will you learn today?',
-  url: 'https://navigolearn.com/explore',
-}}>
-  <PageViewCollection page='Explore' client:load />
-  <div class='hidden md:block'>
-    <div class='h-[200px]'></div>
-    <div class='flex justify-center items-center'>
-      <h1
-        class='font-semibold font-kanit-text mt-2 lg:text-4xl text-[35px] absolute 2xl:text-5xl'
-      >
-        The journey of 1000 miles starts with 1 roadmap
-      </h1>
-    </div>
-    <ExploreDesktop client:idle />
-  </div>
-  <div class='md:hidden'>
-    <div
-      class='flex items-center justify-center font-kanit-text text-[21px] flex-col mt-9 sm:text-[31px]'
-    >
-      <h1>The journey of 1000 steps</h1>
-      <h1>starts with 1 roadmap</h1>
-    </div>
-    <SearchMobile client:idle />
+<Base
+  metadata={{
+    title: 'Explore',
+    description:
+      'Explore all the roadmaps created by the community and find the one that suits you best. What will you learn today?',
+    url: 'https://navigolearn.com/explore',
+  }}
+>
+  <div>
+    <Explore />
   </div>
 </Base>

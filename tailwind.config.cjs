@@ -8,7 +8,8 @@ module.exports = {
         primary: '#3361D8',
         secondary: '#3C42CE',
         highlight: '#007aff',
-        background: '#ECEFF2',
+        backgroundRoadmap: '#ECEFF2',
+        background: '#ffffff',
         textgradient: 'linear-gradient(90deg, #561BB6 0%, #253FC8 100%)',
         resourceSubNode: '#DEE2E7',
         white: '#FFFFFF',
@@ -31,6 +32,7 @@ module.exports = {
         lightBlue: '#3361D8'
       },
       fontFamily: {
+        'kanit-text': ['"Kanit"'],
         'roboto-text': ['"Roboto"'],
       },
       boxShadow: {
