@@ -107,7 +107,8 @@ export const addDragabilityProtocol = (draggingBehavior: DraggingBehavior) => {
     newPos.x = x - offset.x;
     newPos.y = y - offset.y; // offsets are used to sync the mouse position with the dragging position
 
-    isRecursive = getShift() && draggingBehavior.draggingElementType === 'node';
+    const type = draggingBehavior.draggingElementType;
+    isRecursive = getShift() && type === 'node';
 
     if (isRecursive) {
       const children = getChildrenRenderedTraceback(id);
@@ -122,7 +123,9 @@ export const addDragabilityProtocol = (draggingBehavior: DraggingBehavior) => {
       triggerNodeRerender(id);
     } else {
       appendDraggingRecursiveEffect(id);
-      triggerNodeRerender(id);
+      if (type === 'node') {
+        triggerNodeRerender(id);
+      }
     }
   }
 
