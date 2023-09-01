@@ -92,7 +92,12 @@ const Properties = () => {
 
   function checkInvalidInput(value: string) {
     const newValue = parseInt(value, 10);
-    if (typeof newValue !== 'number' || newValue > 3000) return true;
+    if (
+      typeof newValue !== 'number' ||
+      newValue > 3000 ||
+      Number.isNaN(newValue)
+    )
+      return true;
     return false;
   }
 
