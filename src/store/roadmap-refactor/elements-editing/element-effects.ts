@@ -23,10 +23,13 @@ export type IEffectsFocus = 'defocus-node';
 
 export type IEffectsDragging = 'dragging-recursive';
 
+export type IEffectsUserActions = 'on-mouse-over';
+
 export type IEffectsPossible =
   | IEffectsStatuses
   | IEffectsDragging
-  | IEffectsFocus;
+  | IEffectsFocus
+  | IEffectsUserActions;
 
 export type IEffectProperties = {
   effectName: IEffectsPossible;
@@ -46,6 +49,11 @@ export const dynamicEffectsMapper: HashMapWithKeys<
   'dragging-recursive': {
     effectName: 'dragging-recursive',
     effectApply: effectBorderRed,
+    effectLayer: 5,
+  },
+  'on-mouse-over': {
+    effectName: 'on-mouse-over',
+    effectApply: (divRef) => effectBorderBlue(divRef),
     effectLayer: 1,
   },
   'mark-as-completed': {

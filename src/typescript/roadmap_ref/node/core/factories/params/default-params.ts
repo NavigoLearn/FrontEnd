@@ -1,9 +1,9 @@
 import { IColorThemesOptions } from '@type/roadmap/node/colors-types';
 
-export const defaultNodeWidth = 300;
-export const defaultNodeHeight = 80;
-export const defaultNodeOpacity = 100;
-export const defaultColorThemeOption: IColorThemesOptions = 'defaultTheme';
+export const DEFAULT_NODE_WIDTH = 300;
+export const DEFAULT_NODE_HEIGHT = 80;
+export const DEFAULT_NODE_OPACITY = 100;
+export const DEFAULT_COLOR_THEME_OPTION: IColorThemesOptions = 'defaultTheme';
 
-export const minimumNodeWidth = 50;
-export const minimumNodeHeight = 30;
+export const MINIMUM_NODE_WIDTH = 50;
+export const MINIMUM_NODE_HEIGHT = 30;

@@ -8,10 +8,10 @@ import {
   selectNodeColorText,
 } from '@src/typescript/roadmap_ref/node/core/factories/data-mutation/services';
 import {
-  defaultColorThemeOption,
-  defaultNodeHeight,
-  defaultNodeOpacity,
-  defaultNodeWidth,
+  DEFAULT_COLOR_THEME_OPTION,
+  DEFAULT_NODE_HEIGHT,
+  DEFAULT_NODE_OPACITY,
+  DEFAULT_NODE_WIDTH,
 } from '@src/typescript/roadmap_ref/node/core/factories/params/default-params';
 import {
   ITextSizeModes,
@@ -45,9 +45,9 @@ export class Data {
 
   constructor() {
     this.colorType = 'primary';
-    this.width = defaultNodeWidth;
-    this.height = defaultNodeHeight;
-    this.opacity = defaultNodeOpacity;
+    this.width = DEFAULT_NODE_WIDTH;
+    this.height = DEFAULT_NODE_HEIGHT;
+    this.opacity = DEFAULT_NODE_OPACITY;
     this.center = {
       x: 0,
       y: 0,

@@ -22,6 +22,7 @@ import {
   getNodeByIdRoadmapSelector,
 } from '@src/typescript/roadmap_ref/roadmap-data/services/get';
 import {
+  appendElementEffect,
   getElementHasEffect,
   setEditorClosedEffect,
   setEditorOpenEffect,
@@ -132,9 +133,7 @@ export function getOnClickAction(nodeId: string): () => void {
 export function getOnMouseOverActionEdit(nodeId): () => void {
   const div = getElementDiv(nodeId);
   return () => {
-    if (!getElementHasEffect(nodeId, 'dragging-recursive')) {
-      effectBorderBlue(div);
-    }
+    appendElementEffect(nodeId, 'on-mouse-over');
   };
 }
 

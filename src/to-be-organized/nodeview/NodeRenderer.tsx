@@ -28,6 +28,7 @@ import {
   applyElementEffects,
   setElementEffectsInitialEmpty,
   deleteStatusEffectAll,
+  elementEffects,
 } from '@store/roadmap-refactor/elements-editing/element-effects';
 import { useIsLoaded } from '@hooks/useIsLoaded';
 import { setElementDiv } from '@store/roadmap-refactor/elements-editing/elements-divs';
@@ -179,8 +180,8 @@ const NodeRenderer: React.FC<NodeViewProps> = ({
     afterEventLoop(() => {
       // runs all the effects after the node is rendered
       applyStyle();
-      loaded && !getIsEditing() && appendNodeMarkAsDone(node);
-      getIsEditing() && deleteStatusEffectAll(nodeId);
+      // loaded && !getIsEditing() && appendNodeMarkAsDone(node);
+      // getIsEditing() && deleteStatusEffectAll(nodeId);
       loaded && applyElementEffects(nodeId, nodeDivRef.current);
     });
 
@@ -189,7 +190,7 @@ const NodeRenderer: React.FC<NodeViewProps> = ({
     return (
       // eslint-disable-next-line jsx-a11y/click-events-have-key-events,jsx-a11y/mouse-events-have-key-events,jsx-a11y/no-static-element-interactions
       <div
-        className={`drop-shadow-md rounded-lg border-[2px] border-solid border-transparent transition-allNoTransform duration-300 absolute `}
+        className={`drop-shadow-md rounded-lg transition-allNoTransform duration-300 absolute `}
         id={`div${nodeId}`}
         ref={nodeDivRef}
         onClick={(event) => {
@@ -197,9 +198,11 @@ const NodeRenderer: React.FC<NodeViewProps> = ({
           event.stopPropagation(); // to avoid clicking a subnode and its parent at the same time
           getOnClickAction(nodeId)();
         }}
-        onMouseOver={(event) => {
+        onMouseEnter={(event) => {
           event.stopPropagation();
           getOnMouseOverAction(nodeId)();
+          triggerNodeRerender(nodeId);
+          console.log(elementEffects.get());
         }}
         onMouseOut={(event) => {
           event.stopPropagation();

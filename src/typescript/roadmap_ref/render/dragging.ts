@@ -169,12 +169,14 @@ export const addDragabilityProtocol = (draggingBehavior: DraggingBehavior) => {
       // chunk recalculations are integrated in the coordinates setter strategy
       draggingEndStrategy(newPos.x, newPos.y);
       deleteAllSnappings();
+      console.log('dragging end');
       if (isRecursive) {
         draggingEndChildrenTraceback(draggingBehavior);
         const children = getChildrenRenderedTraceback(id);
         children.forEach((childId) => {
           deleteDraggingRecursiveEffect(childId);
         });
+        console.log(elementEffects.get());
       }
     });
 

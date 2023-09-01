@@ -24,6 +24,10 @@ import DropdownGreyAdd from '@components/roadmap/pages-roadmap/editor/reusable-c
 import { mutateActionLink } from '@src/typescript/roadmap_ref/node/core/actions/mutate';
 import { getColorThemeFromRoadmap } from '@components/roadmap/pages-roadmap/setup-screen/theme-controler';
 import { IActionTypes } from '@src/typescript/roadmap_ref/node/core/actions/core';
+import {
+  MINIMUM_NODE_HEIGHT,
+  MINIMUM_NODE_WIDTH,
+} from '@src/typescript/roadmap_ref/node/core/factories/params/default-params';
 import SpecialInput from './SpecialInput';
 
 type IActionsDropdown = {
@@ -140,9 +144,11 @@ const Properties = () => {
             name='W'
             value={data.width}
             onChange={(value) => {
-              const newValue = parseInt(value, 10);
+              let newValue = parseInt(value, 10);
               if (checkInvalidInput(value)) return;
-              if (newValue < 0) return;
+              if (newValue < MINIMUM_NODE_WIDTH) {
+                newValue = MINIMUM_NODE_WIDTH;
+              }
               // adjust for old value to keep the same center in the same place even after resizing
               const oldWidth = data.width;
               getIsRootNode(node.id) &&
@@ -160,9 +166,11 @@ const Properties = () => {
             name='H'
             value={data.height}
             onChange={(value) => {
-              const newValue = parseInt(value, 10);
+              let newValue = parseInt(value, 10);
               if (checkInvalidInput(value)) return;
-              if (newValue < 0) return;
+              if (newValue < MINIMUM_NODE_HEIGHT) {
+                newValue = MINIMUM_NODE_HEIGHT;
+              }
               // adjust for old value to keep the same center in the same place even after resizing
               const oldHeight = data.height;
               getIsRootNode(node.id) &&
@@ -193,9 +201,14 @@ const Properties = () => {
             name='Opacity'
             value={data.opacity}
             onChange={(value) => {
-              const newValue = parseInt(value, 10);
+              let newValue = parseInt(value, 10);
               if (checkInvalidInput(value)) return;
-              if (newValue < 0 || newValue > 100) return;
+              if (newValue < 0) {
+                newValue = 0;
+              }
+              if (newValue > 100) {
+                newValue = 100;
+              }
               mutateNodeOpacity(node, newValue);
               triggerRerenderEditor();
               triggerNodeRerender(node.id);

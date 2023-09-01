@@ -6,7 +6,7 @@ import {
   getRoadmapEnableDrag,
 } from '@store/roadmap-refactor/roadmap-data/roadmap-functions-utils';
 import { getScaleSafari } from '@store/roadmap-refactor/misc/scale-safari-store';
-import { minimumNodeHeight } from '@src/typescript/roadmap_ref/node/core/factories/params/default-params';
+import { MINIMUM_NODE_HEIGHT } from '@src/typescript/roadmap_ref/node/core/factories/params/default-params';
 
 type IDraggingSizeWrapperProps = {
   style: {
@@ -112,8 +112,8 @@ const DraggingResizeElement = ({
     const deltaX = calculateNewWidth(mouseMoveEvent, direction) / scale;
     let newWidth = style.width + deltaX * 2;
 
-    if (newHeight < minimumNodeHeight) newHeight = minimumNodeHeight;
-    if (newWidth < minimumNodeHeight) newWidth = minimumNodeHeight;
+    if (newHeight < MINIMUM_NODE_HEIGHT) newHeight = MINIMUM_NODE_HEIGHT;
+    if (newWidth < MINIMUM_NODE_HEIGHT) newWidth = MINIMUM_NODE_HEIGHT;
 
     const { width: finalWidth, height: finalHeight } = snappingCallback(
       newWidth,
