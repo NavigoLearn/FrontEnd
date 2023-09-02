@@ -5,34 +5,6 @@ import profile from '@assets/profile.svg';
 import circle from '@assets/circle.svg';
 import write from '@assets/write.svg';
 
-const universalLinks = [
-  {
-    title: 'Home',
-    path: '/',
-    cName:
-      'text-[14px] flex items-center text-center font-medium inline-block text-secondary hover:text-main transtion-all duration-300 ',
-    id: 1,
-    hasUnder: true,
-  },
-  {
-    title: 'Explore',
-    path: '/explore',
-    cName:
-      ' text-md text-main opacity-70 hover:opacity-100 flex items-center text-center font-medium hover:text-main transtion-all duration-300  ',
-    cIcon: '',
-    id: 2,
-    hasUnder: true,
-  },
-  {
-    title: 'Feedback',
-    path: '/feedback',
-    cName:
-      'text-[14px] flex items-center text-center  inline-block font-medium text-secondary hover:text-main transtion-all duration-300 ',
-    id: 3,
-    hasUnder: true,
-  },
-];
-
 const loggedLinks = [
   // {
   //   title: 'Profile',
@@ -46,7 +18,8 @@ const loggedLinks = [
     title: 'Create Roadmap',
     path: '/roadmap/create',
     cName:
-      ' text-md font-semibold px-2 py-1 rounded-lg bg-primary border-2 border-transparent hover:border-black hover:bg-transparent hover:text-black transition-all text-white flex items-center text-center font-normal ',
+      ' text-md font-semibold px-8 drop-shadow-xl rounded-md py-1 bg-primary border-2 border-transparent hover:border-black hover:bg-darkBlue transition-all text-white flex items-center text-center font-normal ',
+
     cIcon: '',
     id: 3,
     hasUnder: false,
@@ -55,19 +28,19 @@ const loggedLinks = [
 
 const guestLinks = [
   {
-    title: 'Login',
+    title: 'Log In',
     path: '/login',
     cName:
-      'text-[14px] flex items-center text-center font-medium inline-block text-secondary hover:text-main transtion-all duration-300 ',
+      'text-md font-medium font-roboto-text text-center inline-block px-8 py-1 rounded-md drop-shadow-xl border-2 border-black hover:bg-darkBlue hover:text-white transition-all',
     id: 1,
     cIcon: '',
-    hasUnder: true,
+    hasUnder: false,
   },
   {
     title: 'Get Started',
     path: '/signup',
     cName:
-      ' text-md font-semibold px-2 py-1 rounded-lg bg-primary border-2 border-transparent hover:border-black hover:bg-transparent hover:text-black transition-all text-white flex items-center text-center font-normal ',
+      ' text-md font-semibold px-8 drop-shadow-xl rounded-md py-1 bg-primary border-2 border-transparent hover:border-black hover:bg-darkBlue transition-all text-white flex items-center text-center font-normal ',
     id: 2,
     cIcon: '',
     hasUnder: false,
@@ -76,7 +49,7 @@ const guestLinks = [
     title: 'Try Tool',
     path: '/roadmap/create',
     cName:
-      ' text-md font-semibold px-2 py-1 rounded-lg bg-primary border-2 border-transparent hover:border-black hover:bg-transparent hover:text-black transition-all text-white flex items-center text-center font-normal ',
+      ' text-md font-semibold px-8 drop-shadow-xl rounded-md py-1 bg-primary border-2 border-transparent hover:border-black hover:bg-darkBlue transition-all text-white flex items-center text-center font-normal ',
     cIcon: '',
     id: 3,
     hasUnder: false,
@@ -168,7 +141,7 @@ const mobileGuest = [
     title: 'Try Tool',
     path: '/roadmap/create',
     cName:
-    'flex items-center text-center text-xl py-8 mx-auto hover:underline w-10/12 h-12 justify-center -translate-x-2 mb-2',
+      'flex items-center text-center text-xl py-8 mx-auto hover:underline w-10/12 h-12 justify-center -translate-x-2 mb-2',
     cIcon: write,
     id: 5,
   },
@@ -181,4 +154,4 @@ const mobileGuest = [
   },
 ];
 
-export { loggedLinks, guestLinks, mobileLogged, mobileGuest, universalLinks };
+export { loggedLinks, guestLinks, mobileLogged, mobileGuest };
