@@ -37,6 +37,7 @@ module.exports = {
       },
       boxShadow: {
         standard: '0px 4px 20px rgba(0, 0, 0, 0.15)',
+        darkBlue:'0px 6px 6px 0px rgba(60, 66, 206, 0.10)'
       },
       screens: { // use fucking default breakpoint not this stupid shit
         // "landing-min": "1130px",

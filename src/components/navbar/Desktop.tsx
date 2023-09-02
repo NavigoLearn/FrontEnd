@@ -12,6 +12,9 @@ const DesktopNavbar = () => {
   const [hydrated, setHydrated] = useState(false);
   const { profilePictureUrl } = useStore(loggedUser);
   const { loaded, isLogged } = useStore(userStatus);
+  console.log(userStatus.get());
+
+  console.log('isLogged', isLogged, loaded, hydrated);
 
   useEffect(() => {
     setHydrated(true);

@@ -75,3 +75,7 @@
     scrollbar-color: #040436 transparent; /* Set thumb and track color */
 }
 
+.card-shadow{
+    box-shadow: 0px 6px 6px 0px rgba(60, 66, 206, 0.90);
+}
+
