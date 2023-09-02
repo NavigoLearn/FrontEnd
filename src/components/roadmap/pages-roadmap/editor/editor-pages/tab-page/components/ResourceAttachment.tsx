@@ -16,7 +16,7 @@ import {
 import { AnimatePresence, motion } from 'framer-motion';
 import { useClickOutside } from '@hooks/useClickOutside';
 import linkpop from '@assets/linkpop.svg';
-import TrashIcon from '@src/UI-library/svg-animations/trash/TrashIcon';
+import TrashIcon from '@src/UI-library/svg-components/trash/TrashIcon';
 
 type IResourceAttachmentProps = {
   component: IAttachmentTabBulletListProperties;

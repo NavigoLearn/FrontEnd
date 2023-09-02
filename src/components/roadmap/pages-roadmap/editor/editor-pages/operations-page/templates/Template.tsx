@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
-import TrashIconCustomizable from '@src/UI-library/svg-animations/trash/TrashIconCustomizable';
-import { EDIT_SRC, TICK_SRC } from '@src/to-be-organized/svg-params';
+import TrashIconCustomizable from '@src/UI-library/svg-components/trash/TrashIconCustomizable';
+import { EDIT_SRC, TICK_SRC_BLACK } from '@src/to-be-organized/svg-params';
 import { tailwindTransitionClass } from '@src/UI-library/tailwind-utils';
 import { useOnEnter } from '@hooks/useOnEnter';
 import { afterEventLoop } from '@src/typescript/utils/misc';
@@ -66,7 +66,7 @@ const Template = ({ name, onNameChange, onTemplateDelete }: ITemplateProps) => {
             <img
               className='w-full h-full'
               alt='edit template button'
-              src={TICK_SRC}
+              src={TICK_SRC_BLACK}
             />
           )}
         </button>

@@ -1,12 +1,6 @@
 ---
 import Base from '@layouts/Base.astro';
 import PageViewCollection from '../../components/home/PageViewCollection';
-import FirstSection from '@components/home/desktop/FirstSection.astro';
-import SecondSection from '@components/home/desktop/SecondSection.astro';
-import ThirdSection from '@components/home/desktop/ThirdSection.astro';
-import FirstSectionM from '@components/home/mobile/FirstSectionM.astro';
-import SecondSectionM from '@components/home/mobile/SecondSectionM.astro';
-import ThirdSectionM from '@components/home/mobile/ThirdSectionM.astro';
 ---
 
 <Base
@@ -15,11 +9,5 @@ import ThirdSectionM from '@components/home/mobile/ThirdSectionM.astro';
   }}
 >
   <PageViewCollection page='Home' client:load />
-  <div
-    class='w-96 h-96 bg-amber-200 hover:bg-amber-600'
-    onclick={() => {
-      console.log('clicked');
-    }}
-  >
-  </div>
+  <div class='w-96 h-96 bg-amber-200 hover:bg-amber-600'></div>
 </Base>

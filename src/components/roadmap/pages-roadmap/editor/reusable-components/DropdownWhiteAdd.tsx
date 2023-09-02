@@ -3,7 +3,7 @@ import { tailwindTransitionClass } from '@src/UI-library/tailwind-utils';
 import { triggerNodeRerender } from '@store/roadmap-refactor/render/rerender-triggers-nodes';
 import editorSelectedData from '@store/roadmap-refactor/elements-editing/editor-selected-data';
 import { motion } from 'framer-motion';
-import DropdownPlus from '@src/UI-library/svg-animations/dropdownplus/DropdownPlus';
+import DropdownPlus from '@src/UI-library/svg-components/dropdownplus/DropdownPlus';
 
 type IDropdownSelectProps<T extends string> = {
   optionsList: T[];

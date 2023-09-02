@@ -6,18 +6,7 @@ import { useIsMobile } from '@hooks/useIsMobile';
 const Explore = () => {
   const mobile = useIsMobile();
   return (
-    <div
-      onMouseOver={() => {
-        console.log('hovered');
-      }}
-      onClick={() => {
-        console.log('clicked');
-      }}
-      onClickCapture={() => {
-        console.log('clicked capture');
-      }}
-      className='relative pointer-events-auto z-10 hover:bg-red-200'
-    >
+    <div className='relative pointer-events-auto z-10 '>
       {mobile ? <ExploreMobile /> : <ExploreDesktop />}
     </div>
   );

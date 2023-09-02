@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { tailwindTransitionClass } from '@src/UI-library/tailwind-utils';
-import TrashIconCustomizable from '@src/UI-library/svg-animations/trash/TrashIconCustomizable';
+import TrashIconCustomizable from '@src/UI-library/svg-components/trash/TrashIconCustomizable';
 
 type IDeleteButtonProps = {
   callback: () => void;

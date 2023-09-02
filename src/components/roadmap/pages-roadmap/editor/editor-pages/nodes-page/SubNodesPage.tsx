@@ -3,7 +3,7 @@ import { useStore } from '@nanostores/react';
 import editorSelectedData from '@store/roadmap-refactor/elements-editing/editor-selected-data';
 import NodeComponent from '@components/roadmap/pages-roadmap/editor/editor-pages/nodes-page/NodeComponent';
 import { getNodeByIdRoadmapSelector } from '@src/typescript/roadmap_ref/roadmap-data/services/get';
-import DropdownPlus from '@src/UI-library/svg-animations/dropdownplus/DropdownPlus';
+import DropdownPlus from '@src/UI-library/svg-components/dropdownplus/DropdownPlus';
 import { appendSubNodeId } from '@src/typescript/roadmap_ref/node/core/data-mutation/append';
 import { appendSubNode } from '@src/typescript/roadmap_ref/roadmap-data/protocols/append';
 

@@ -12,7 +12,7 @@ import {
 import { useTriggerRerender } from '@hooks/useTriggerRerender';
 import { NodeClass } from '@src/typescript/roadmap_ref/node/core/core';
 import { triggerNodeRerender } from '@store/roadmap-refactor/render/rerender-triggers-nodes';
-import TrashIcon from '@src/UI-library/svg-animations/trash/TrashIcon';
+import TrashIcon from '@src/UI-library/svg-components/trash/TrashIcon';
 import DraggableInput from '@src/UI-library/DraggableInput';
 import { nodeNameSyncer } from '@src/typescript/roadmap_ref/node/misc';
 import TextSizeComponent from '../text-controler/TextSizeComponent';

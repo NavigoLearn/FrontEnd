@@ -14,7 +14,7 @@ import { roadmapSelector } from '@store/roadmap-refactor/roadmap-data/roadmap-se
 import { triggerNodeRerender } from '@store/roadmap-refactor/render/rerender-triggers-nodes';
 import { useTriggerRerender } from '@hooks/useTriggerRerender';
 import { subscribeToHub } from '@store/roadmap-refactor/subscribers/function-subscribers';
-import TrashIcon from '@src/UI-library/svg-animations/trash/TrashIcon';
+import TrashIcon from '@src/UI-library/svg-components/trash/TrashIcon';
 import { deleteProtocolNodeFromRoadmap } from '@src/typescript/roadmap_ref/roadmap-data/protocols/delete';
 import DraggableInput from '@src/UI-library/DraggableInput';
 

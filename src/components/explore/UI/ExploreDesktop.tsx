@@ -1,24 +1,58 @@
 import React from 'react';
 import OptionSelect from '@components/explore/UI/components-desktop/OptionSelect';
+import {
+  exploreQueryStore,
+  IPerPage,
+  ISortBy,
+  ITopic,
+  setExploreQueryPerPage,
+  setExploreQuerySortBy,
+  setExploreQueryTopic,
+} from '@components/explore/stores/explore-query-store';
+import { useStore } from '@nanostores/react';
 
 const ExploreDesktop = () => {
+  const { params } = useStore(exploreQueryStore);
+  const { page, perPage, query, sortBy, topic } = params;
+  const sortByOptions: ISortBy[] = ['Likes', 'Views', 'Relevance'];
+  const perPageOptions: IPerPage[] = [15, 30, 50];
+  const topicOptions: ITopic[] = [
+    'All',
+    'Programming',
+    'Math',
+    'Physics',
+    'Biology',
+  ];
+
   return (
     <div className='w-full h-full border-black border-2'>
       <div className=' w-full border-2 border-black flex'>
         <div className='w-52 border-2 border-black'>
           <div className='w-full h-24'>empty space</div>
-          <div
-            className='w-full h-96 border-2 border-black pl-3 bg-red-200 '
-            onMouseOver={() => {
-              console.log('hovered');
-            }}
-          >
+          <div className='w-full h-96 border-2 border-black pl-3 flex flex-col gap-3  '>
             <OptionSelect
               name='Sort By'
-              options={['Likes', 'Views', 'Popularity']}
-              callback={(name: string) => {
-                console.log(name);
+              options={sortByOptions}
+              callback={(name: ISortBy) => {
+                setExploreQuerySortBy(name);
               }}
+              selected={sortBy}
+            />
+            <OptionSelect
+              name='Roadmaps per page'
+              options={perPageOptions}
+              callback={(name: IPerPage) => {
+                setExploreQueryPerPage(name);
+              }}
+              selected={perPage}
+            />
+            <OptionSelect
+              name='Topic'
+              options={topicOptions}
+              callback={(name: ITopic) => {
+                setExploreQueryTopic(name);
+              }}
+              selected={topic}
             />
           </div>
         </div>
