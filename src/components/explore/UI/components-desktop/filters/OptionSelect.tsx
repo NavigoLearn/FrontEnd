@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { tailwindTransitionClass } from '@src/UI-library/tailwind-utils';
 import { ARROW_DROPDROWN_SRC } from '@src/to-be-organized/svg-params';
 import { AnimatePresence, motion } from 'framer-motion';
-import Option from '@components/explore/UI/components-desktop/Option';
+import Option from '@components/explore/UI/components-desktop/filters/Option';
 
 type IOptionSelectProps<T> = {
   name: string;

@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import UpvoteDownvote from '@components/explore/UI/shared/cards/components/UpvoteDownvote';
 
 type ICardProps = {
   roadmapId: string;
@@ -25,26 +26,27 @@ async function getRoadmapMiniData(roadmapId) {
 }
 
 // Usage
-getRoadmapMiniData('someId').then((data) => {
-  console.log(data);
-});
 const Card = ({ roadmapId }: ICardProps) => {
   const [upvotes, setUpvotes] = useState(0);
-  const [upvoted, setUpvoted] = useState(false);
 
   const [loaded, setLoaded] = useState(false);
   const [roadmapMiniData, setRoadmapMiniData] = useState(null);
 
   useEffect(() => {
     getRoadmapMiniData(roadmapId).then((data) => {
-      console.log(data, ' retunr ed data');
+      // console.log(data, ' retunr ed data');
       setRoadmapMiniData(data);
       setLoaded(true);
+      setUpvotes(data.upvotes);
     });
   }, []);
 
   if (!loaded) {
-    return <div>Loading...</div>;
+    return (
+      <div className='w-[520px] h-[250px] border-2 border-black border-opacity-10 rounded-md relative'>
+        Loading...
+      </div>
+    );
   }
 
   return (
@@ -58,25 +60,39 @@ const Card = ({ roadmapId }: ICardProps) => {
         <h1 className='text-2xl font-roboto-text font-medium'>
           {roadmapMiniData.title}
         </h1>
-        <div className=' flex gap-2 items-center'>
+        <button
+          type='button'
+          onClick={() => {
+            console.log('clicked and went to profile');
+          }}
+          className=' flex gap-2 items-center'
+        >
           <div className='text-placeholder font-roboto-text'>Made by</div>
           <img
+            alt='profile picture'
             className='w-6 h-6 rounded-full'
             src={roadmapMiniData.miniCreatorData.profilePictureUrl}
           />
-        </div>
+        </button>
       </section>
       <span className='absolute top-16 w-full  pl-4 pr-2 text-secondary font-roboto-text'>
         {roadmapMiniData.description}
       </span>
 
-      <div className='absolute bottom-2 flex justify-between px-2'>
-        <div>
-          <button>
-            <img />
-          </button>
-          <div>{roadmapMiniData.upvotes}</div>
-        </div>
+      <div className='absolute bottom-4 flex justify-between px-4 w-full'>
+        <UpvoteDownvote
+          upvotes={upvotes}
+          voteState={roadmapMiniData.voteState}
+        />
+        <button
+          type='button'
+          onClick={() => {
+            console.log('clicked and learnin stuff');
+          }}
+          className='font-roboto-text font-medium  text-lg bg-primary rounded-md px-5 py-1 text-white'
+        >
+          Learn
+        </button>
       </div>
     </div>
   );

@@ -1,1 +1,1 @@
-export const tailwindTransitionClass = ' transition-all duration-300 ';
+export const tailwindTransitionClass = ' transition-all duration-200 ';

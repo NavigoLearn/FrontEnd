@@ -2,7 +2,7 @@ import React from 'react';
 import { tailwindTransitionClass } from '@src/UI-library/tailwind-utils';
 import { AnimatePresence, motion } from 'framer-motion';
 import { TICK_SRC_BLACK } from '@src/to-be-organized/svg-params';
-import Tick from '@components/explore/UI/components-desktop/Tick';
+import Tick from '@components/explore/UI/components-desktop/filters/Tick';
 
 type IOptionProps<T> = {
   fieldName: T;
@@ -22,7 +22,7 @@ const Option = <T extends string | number>({
         onClick={() => {
           callback(fieldName);
         }}
-        className='flex items-center gap-0 mt-1'
+        className='flex items-center gap-0 mt-2'
       >
         <div
           className={`rounded-sm border-2 border-placeholderBlack w-4 h-4 flex justify-center items-center ${tailwindTransitionClass}${
