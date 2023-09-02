@@ -6,7 +6,7 @@ import loggedUser from '@store/user/logged-user';
 import userStatus from '@store/user/user-status';
 import DesktopButton from '@components/navbar/DesktopButton';
 import SearchRoadmap from '@components/navbar/SearchRoadmap';
-import { loggedLinks, guestLinks, universalLinks } from './Links';
+import { loggedLinks, guestLinks } from './Links';
 
 const DesktopNavbar = () => {
   const [hydrated, setHydrated] = useState(false);
@@ -31,8 +31,11 @@ const DesktopNavbar = () => {
   }, []);
 
   return (
-    <nav className='bg-transparent relative flex w-full h-16 z-10 justify-between items-center transition-all  duration-300 select-none'>
-      <a href='/explore' className='justify-start cursor-pointer flex'>
+    <nav className='bg-white relative flex w-full h-16 z-10 items-center transition-all justify-center duration-300 select-none'>
+      <a
+        href='/explore'
+        className='justify-start cursor-pointer flex left-0 absolute'
+      >
         <img
           draggable='false'
           className='w-20 ml-8 select-none '
@@ -40,8 +43,10 @@ const DesktopNavbar = () => {
           alt='navbar-logo'
         />
       </a>
-      <SearchRoadmap />
-      <ul className='flex text-center items-center gap-4 h-full justify-items-end mx-4'>
+      <div className='justify-center'>
+        <SearchRoadmap />
+      </div>
+      <ul className='flex text-center items-center gap-4 h-full absolute right-4'>
         {hydrated &&
           loaded &&
           isLogged &&
