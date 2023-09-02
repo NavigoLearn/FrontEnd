@@ -24,6 +24,7 @@ const SearchRoadmap = () => {
         animate={isOpen ? 'open' : 'closed'}
         onFocus={() => setFocus(true)}
         onBlur={handleBlur}
+        onSubmit={handleSubmit}
         onMouseDown={() => setIsOpen(true)}
         onClick={() => setIsOpen(true)}
         className={`outline-none w-full h-full px-4 py-2 text-sm font-roboto-text bg-[#F4F4F5] text-darkBlue ${tailwindTransitionClass} ${
@@ -34,7 +35,6 @@ const SearchRoadmap = () => {
         onChange={(e) => setQuery(e.target.value)}
       />
       <motion.button
-        onClick={{handleSubmit}}
         animate={isOpen ? 'open' : 'closed'}
         className={`w-10 bg-[#F4F4F5] h-full absolute -right-2 top-0 ${borderSrc} border-l-0 border-l-transparent rounded-l-none ${tailwindTransitionClass} flex justify-center items-center ${
           focus ? 'border-darkBlue ' : 'border-gray-200'
