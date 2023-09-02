@@ -18,6 +18,8 @@ const SearchRoadmap = () => {
     setFocus(false);
   };
 
+  // animation for the searchbox can be differt type, look at tailwindcss
+
   return (
     <motion.div className='w-[30vw] h-10 relative '>
       <motion.input
