@@ -24,7 +24,6 @@ const Template = ({ name, onNameChange, onTemplateDelete }: ITemplateProps) => {
   });
 
   useEffect(() => {
-    console.log('edit', edit);
     if (edit) {
       inputRef.current.focus();
     }
