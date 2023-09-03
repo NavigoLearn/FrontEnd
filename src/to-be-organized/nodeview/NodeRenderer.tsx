@@ -1,6 +1,6 @@
 /* eslint-disable no-shadow */
 /* eslint-disable react/prop-types */
-import React, { useEffect, useRef, Component, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { afterEventLoop } from '@src/typescript/utils/misc';
 import { componentsRenderer } from '@src/to-be-organized/nodeview/ComponentsRenderer';
@@ -30,7 +30,8 @@ import {
   applyElementEffects,
   setElementEffectsInitialEmpty,
   deleteStatusEffectAll,
-  elementEffects,
+  getElementEffects,
+  getElementHasEffect,
 } from '@store/roadmap-refactor/elements-editing/element-effects';
 import { useIsLoaded } from '@hooks/useIsLoaded';
 import { setElementDiv } from '@store/roadmap-refactor/elements-editing/elements-divs';
@@ -203,13 +204,18 @@ const NodeRenderer: React.FC<NodeViewProps> = ({
     afterEventLoop(() => {
       // runs all the effects after the node is rendered
       applyStyle();
-      // loaded && !getIsEditing() && appendNodeMarkAsDone(node);
-      // getIsEditing() && deleteStatusEffectAll(nodeId);
+      loaded && !getIsEditing() && appendNodeMarkAsDone(node);
+      getIsEditing() && deleteStatusEffectAll(nodeId);
       loaded && applyElementEffects(nodeId, nodeDivRef.current);
     });
 
     const isDraggable = getElementIsDraggable(nodeId);
     const isRoot = node.flags.renderedOnRoadmapFlag;
+    const isCurrentlyDragged = getElementHasEffect(
+      nodeId,
+      'dragging-recursive'
+    );
+
     return (
       // eslint-disable-next-line jsx-a11y/click-events-have-key-events,jsx-a11y/mouse-events-have-key-events,jsx-a11y/no-static-element-interactions
       <div
@@ -245,7 +251,7 @@ const NodeRenderer: React.FC<NodeViewProps> = ({
           />
         )}
         <AnimatePresence>
-          {isDraggable && (mouseOver || resizing) && (
+          {isDraggable && !isCurrentlyDragged && (mouseOver || resizing) && (
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
