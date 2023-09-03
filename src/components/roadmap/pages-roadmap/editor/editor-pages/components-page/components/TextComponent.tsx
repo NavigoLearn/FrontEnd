@@ -88,8 +88,11 @@ const TextComponent = ({ node, id, name }: TitleComponentProps) => {
           }}
         />
       </div>
-      <TextSizeComponent component={titleComponent} nodeId={node.id} />
-      <TextWeightComponent component={titleComponent} nodeId={node.id} />
+      <div className='flex flex-row gap-2'>
+        <TextSizeComponent component={titleComponent} nodeId={node.id} />
+        <div className='border-[1px] border-gray-300 h-10 mx-4 translate-y-9' />
+        <TextWeightComponent component={titleComponent} nodeId={node.id} />
+      </div>
     </div>
   );
 };
