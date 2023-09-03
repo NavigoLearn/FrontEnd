@@ -1,6 +1,6 @@
 import { atom } from 'nanostores';
 
-export type ISnapping = {
+export type ISnapDrawCoordintes = {
   startX: number;
   startY: number;
   endX: number;
@@ -9,10 +9,10 @@ export type ISnapping = {
 export const snappingCoordinates = atom({
   snappings: [],
 } as {
-  snappings: ISnapping[];
+  snappings: ISnapDrawCoordintes[];
 });
 
-export const checkIfSnappingExists = (snapping: ISnapping) => {
+export const checkIfSnappingExists = (snapping: ISnapDrawCoordintes) => {
   const { snappings } = snappingCoordinates.get();
   return snappings.some(
     (existingSnapping) =>
@@ -22,7 +22,7 @@ export const checkIfSnappingExists = (snapping: ISnapping) => {
       existingSnapping.endY === snapping.endY
   );
 };
-export const appendSnapping = (snapping: ISnapping) => {
+export const appendSnapping = (snapping: ISnapDrawCoordintes) => {
   if (checkIfSnappingExists(snapping)) return;
   const { snappings } = snappingCoordinates.get();
   snappings.push(snapping);
@@ -34,7 +34,7 @@ export const deleteAllSnappings = () => {
   snappingCoordinates.set({ snappings: [] });
 };
 
-export const setSnappings = (snappings: ISnapping[]) => {
+export const setSnappings = (snappings: ISnapDrawCoordintes[]) => {
   // check if snappings are the same
   const { snappings: currentSnappings } = snappingCoordinates.get();
   if (currentSnappings.length === snappings.length) {
@@ -56,7 +56,9 @@ export const setSnappings = (snappings: ISnapping[]) => {
   });
 };
 
-export const deleteSnappingsThatDoNotMatch = (snappings: ISnapping[]) => {
+export const deleteSnappingsThatDoNotMatch = (
+  snappings: ISnapDrawCoordintes[]
+) => {
   const { snappings: currentSnappings } = snappingCoordinates.get();
   const newSnappings = currentSnappings.filter((currentSnapping) =>
     snappings.some(

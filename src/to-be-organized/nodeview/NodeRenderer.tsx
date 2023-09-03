@@ -41,7 +41,7 @@ import {
   mutateNodeHeightWhileKeepingCenter,
   mutateNodeWidthWhileKeepingCenter,
 } from '@src/typescript/roadmap_ref/node/core/data-mutation/mutate';
-import { snapNodeWidthHeight } from '@src/typescript/roadmap_ref/snapping/core';
+import { snapNodeWidthHeight } from '@src/typescript/roadmap_ref/snapping/old/core';
 import {
   selectNodeColorFromScheme,
   selectNodeColorTextBorder,

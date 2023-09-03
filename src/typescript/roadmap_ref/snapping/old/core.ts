@@ -6,7 +6,7 @@ import {
 import {
   getNodeCornerPositions,
   getNodeCornerPositionsWithWH,
-} from '@src/typescript/roadmap_ref/snapping/generate-positions';
+} from '@src/typescript/roadmap_ref/snapping/old/generate-positions';
 import { setSnappings } from '@store/roadmap-refactor/render/snapping-lines';
 import { getScaleSafari } from '@store/roadmap-refactor/misc/scale-safari-store';
 

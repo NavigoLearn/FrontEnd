@@ -12,9 +12,10 @@ import {
 import renderNodesStore from '@store/roadmap-refactor/render/rendered-nodes';
 import { getComponentById } from '@src/typescript/roadmap_ref/node/core/data-get/components';
 import { setSnappings } from '@store/roadmap-refactor/render/snapping-lines';
-import { snapCoordsToPositions } from '@src/typescript/roadmap_ref/snapping/core';
-import { getNodeCornerPositions } from '@src/typescript/roadmap_ref/snapping/generate-positions';
+import { snapCoordsToPositions } from '@src/typescript/roadmap_ref/snapping/old/core';
+import { getNodeCornerPositions } from '@src/typescript/roadmap_ref/snapping/old/generate-positions';
 import { throttle } from '@src/typescript/roadmap_ref/render/chunks';
+import { snapRootNodeProtocol } from '@src/typescript/roadmap_ref/snapping/snap-protocols/root-nodes';
 
 export const draggingStrategyFree = (draggingBehavior, newX, newY) => {
   return {
@@ -180,6 +181,18 @@ export const draggingStrategySnapRoadmapNestedNodes = (
   };
 };
 
+export const draggingStrategySnapRoadmapRootNodesRemade = (
+  draggingBehavior,
+  dragX,
+  dragY
+) => {
+  const { x, y } = snapRootNodeProtocol(dragX, dragY, draggingBehavior);
+  return {
+    x,
+    y,
+  };
+};
+
 export const draggingStrategySnapRoadmapRootNodes = (
   draggingBehavior,
   newX,
@@ -324,7 +337,11 @@ export const draggingStrategySnap = (draggingBehavior, newX, newY): ICoords => {
     draggingBehavior.draggingElementType;
 
   if (elementType === 'node') {
-    return draggingStrategySnapRoadmapRootNodes(draggingBehavior, newX, newY);
+    return draggingStrategySnapRoadmapRootNodesRemade(
+      draggingBehavior,
+      newX,
+      newY
+    );
   }
   if (elementType === 'subNode') {
     const { x, y } = draggingStrategySnapRoadmapNestedNodes(
