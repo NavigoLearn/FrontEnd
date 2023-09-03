@@ -59,6 +59,7 @@ const Pagination = ({
           const isSelected = pageNumber === currentPage;
           return (
             <div
+              key={pageNumber}
               className={`p-2 ${isSelected && 'border-b-2 border-darkBlue'}`}
             >
               <button

@@ -16,7 +16,7 @@ export const exploreQueryStore = atom({
     query: '',
     page: 1,
     sortBy: 'Likes' as ISortBy,
-    perPage: 15 as IPerPage,
+    perPage: 9 as IPerPage,
     topic: 'All' as ITopic,
   },
 } as {
