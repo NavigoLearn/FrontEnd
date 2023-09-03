@@ -1,90 +1,75 @@
 import React, { useState } from 'react';
+import { ITextSize } from '@src/types/roadmap/node/text-types';
 import { mutateComponentTextSize } from '@src/typescript/roadmap_ref/node/components/text/mutate';
 import { ComponentText } from '@src/typescript/roadmap_ref/node/components/text/core';
 import { triggerNodeRerender } from '@src/store/roadmap-refactor/render/rerender-triggers-nodes';
+import Tick from '@src/components/explore/UI/components-desktop/filters/Tick';
 
 type TextSizeComponentProps = {
   component: ComponentText;
   nodeId: string;
+  selectedSize: ITextSize;
 };
 
-const TextSizeComponent = ({ component, nodeId }: TextSizeComponentProps) => {
-  const [selectedSize, setSelectedSize] = useState<'big' | 'medium' | 'small'>(
-    'medium'
-  );
+const TextSizeComponent = ({
+  component,
+  nodeId,
+  selectedSize,
+}: TextSizeComponentProps) => {
+  const textSizeOptions: ITextSize[] = ['small', 'normal', 'large'];
+
+  const [activeButton, setActiveButton] = useState<ITextSize | null>('normal');
+
+  const handleSizeChange = (size: ITextSize) => {
+    mutateComponentTextSize(component, size);
+    triggerNodeRerender(nodeId);
+    setActiveButton(size);
+  };
 
   return (
-    <div className='flex-row flex gap-2 w-full items-center'>
-      <div className='items-center flex flex-col w-20'>
-        <h5 className='text-darkBlue font-medium text-md font-roboto-text justify-center'>
-          Big
-        </h5>
-        <button
-          className={`w-20 h-20 p-3 border-2 border-black ${
-            selectedSize === 'big'
-              ? 'bg-primary bg-opacity-10 border-2 border-primary'
-              : ''
-          }`}
-          type='button'
-          onClick={() => {
-            setSelectedSize('big');
-            mutateComponentTextSize(component, 'large');
-            triggerNodeRerender(nodeId);
-          }}
-        >
-          <h2 className='flex text-darkBlue font-roboto-text font-extrabold text-lg'>
-            Aa
-          </h2>
-          <h3 className='flex text-secondary font-roboto-text font-medium text-base'>
-            Aa
-          </h3>
-        </button>
+    <div>
+      <div className='flex text-placeholder text text-center font-roboto-text mb-2'>
+        Font size
       </div>
-      <div className='items-center text-center flex flex-col w-20'>
-        <h5 className='text-darkBlue font-medium text-md font-roboto-text justify-center'>
-          Medium
-        </h5>
-        <button
-          className={`w-20 h-20 p-3 border-2 border-black ${
-            selectedSize === 'medium'
-              ? 'bg-primary bg-opacity-10 border-2 border-primary'
-              : ''
-          }`}
-          type='button'
-          onClick={() => {
-            setSelectedSize('medium');
-            mutateComponentTextSize(component, 'normal');
-            triggerNodeRerender(nodeId);
-          }}
-        >
-          <h2 className='flex text-darkBlue font-roboto-text font-bold text-base'>
-            Aa
-          </h2>
-          <h3 className='flex text-secondary font-medium text-sm'>Aa</h3>
-        </button>
-      </div>
-      <div className='items-center text-center flex flex-col w-20'>
-        <h5 className='text-darkBlue font-medium text-md font-roboto-text justify-center'>
-          Small
-        </h5>
-        <button
-          className={`w-20 h-20 p-3 border-2 border-black ${
-            selectedSize === 'small'
-              ? 'bg-primary bg-opacity-10 border-2 border-primary'
-              : ''
-          }`}
-          type='button'
-          onClick={() => {
-            setSelectedSize('small');
-            mutateComponentTextSize(component, 'small');
-            triggerNodeRerender(nodeId);
-          }}
-        >
-          <h2 className='flex text-darkBlue font-roboto-text font-semibold text-sm'>
-            Aa
-          </h2>
-          <h3 className='flex text-secondary font-medium text-xs'>Aa</h3>
-        </button>
+      <div className='flex gap-2 flex-row'>
+        {textSizeOptions.map((sizeOption) => (
+          // eslint-disable-next-line jsx-a11y/label-has-associated-control
+          <label className='checkbox-label' key={sizeOption}>
+            <input
+              type='radio'
+              name='fontsize'
+              value={sizeOption}
+              checked={activeButton === sizeOption}
+              onChange={() => handleSizeChange(sizeOption)}
+              className='hidden'
+            />
+            <div className='flex items-center h-12'>
+              <div
+                className={`w-4 h-4 border-[1px] border-black mr-2 cursor-pointer ${
+                  activeButton === sizeOption ? 'border-transparent' : ''
+                }`}
+              >
+                {activeButton === sizeOption && (
+                  <div className='-translate-y-1'>
+                    <Tick width={18} height={18} fill='#3361D8' />
+                  </div>
+                )}
+              </div>
+              <h2
+                className={`text-${
+                  // eslint-disable-next-line no-nested-ternary
+                  sizeOption === 'small'
+                    ? 'base'
+                    : sizeOption === 'normal'
+                    ? 'lg'
+                    : 'xl'
+                } text-darkBlue font-roboto-text`}
+              >
+                Aa
+              </h2>
+            </div>
+          </label>
+        ))}
       </div>
     </div>
   );

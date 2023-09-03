@@ -28,19 +28,10 @@ const loggedLinks = [
 
 const guestLinks = [
   {
-    title: 'Log In',
-    path: '/login',
-    cName:
-      'text-md font-medium font-roboto-text text-center inline-block px-8 py-1 rounded-md drop-shadow-xl border-2 border-black hover:bg-darkBlue hover:text-white transition-all',
-    id: 1,
-    cIcon: '',
-    hasUnder: false,
-  },
-  {
     title: 'Get Started',
     path: '/signup',
     cName:
-      ' text-md font-semibold px-8 drop-shadow-xl rounded-md py-1 bg-primary border-2 border-transparent hover:border-black hover:bg-darkBlue transition-all text-white flex items-center text-center font-normal ',
+      'text-md font-medium font-roboto-text text-center inline-block px-8 py-1 rounded-md drop-shadow-xl border-2 border-black hover:bg-darkBlue hover:text-white transition-all',
     id: 2,
     cIcon: '',
     hasUnder: false,
