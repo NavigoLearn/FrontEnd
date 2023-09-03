@@ -23,6 +23,13 @@ export function selectNodeColorText(
   return colorThemes[colorTheme][colorType].textColor;
 }
 
+export function selectNodeColorTextBorder(
+  colorTheme: IColorThemesOptions,
+  colorType: IColorThemesColors
+) {
+  return colorThemes[colorTheme][colorType].borderColor;
+}
+
 export function selectTextFontWeight(mode: keyof ITextWidthModes) {
   return textWidthModes[mode].fontWeight;
 }

@@ -61,7 +61,7 @@ const ComponentRenderer = ({
       ref={divRef}
       key={component.id}
       id={`div${id}`}
-      className={`absolute flex justify-center items-center select-none border-2 border-black border-opacity-0  pointer-events-auto ${
+      className={`absolute flex justify-center items-center select-none pointer-events-auto ${
         parentSelected && 'border-opacity-100'
       } transition-allNoTransform`}
       style={{

@@ -1,6 +1,7 @@
 export type IColorTheme = {
   nodeColor: string;
   textColor: string;
+  borderColor: string;
 };
 
 export type IColorThemesFields = {

@@ -42,7 +42,10 @@ import {
   mutateNodeWidthWhileKeepingCenter,
 } from '@src/typescript/roadmap_ref/node/core/data-mutation/mutate';
 import { snapNodeWidthHeight } from '@src/typescript/roadmap_ref/snapping/core';
-import { selectNodeColorFromScheme } from '@src/typescript/roadmap_ref/node/core/factories/data-mutation/services';
+import {
+  selectNodeColorFromScheme,
+  selectNodeColorTextBorder,
+} from '@src/typescript/roadmap_ref/node/core/factories/data-mutation/services';
 import { getColorThemeFromRoadmap } from '@components/roadmap/pages-roadmap/setup-screen/theme-controler';
 import ConnectionAnchorsRenderer from '@components/roadmap/connections/connection-editing/ConnectionAnchorsRenderer';
 import { useStore } from '@nanostores/react';
@@ -168,6 +171,16 @@ const NodeRenderer: React.FC<NodeViewProps> = ({
       colorType
     );
 
+    const borderColor = selectNodeColorTextBorder(
+      getColorThemeFromRoadmap(),
+      colorType
+    );
+
+    const borderStyle =
+      borderColor === 'none'
+        ? '2px solid transparent'
+        : `2px solid #${borderColor}`;
+
     const style = {
       // color: textColor,
       backgroundColor: `rgba(${parseInt(color.slice(1, 3), 16)}, ${parseInt(
@@ -179,7 +192,7 @@ const NodeRenderer: React.FC<NodeViewProps> = ({
       top: `${calculatedOffsetCoords.y + coords.y}px`,
       left: `${calculatedOffsetCoords.x + coords.x}px`,
       opacity: `${getNodeOpacity(node)}`,
-      border: '2px solid transparent',
+      border: borderStyle,
     };
 
     const applyStyle = () => {
