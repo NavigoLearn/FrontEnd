@@ -11,7 +11,7 @@ const UpvoteDownvote = ({ upvotes, voteState }: IUpvoteDownvoteProps) => {
   return (
     <div className='flex items-center'>
       <UpvoteSvg
-        size={27}
+        size={20}
         voted={clickedRight}
         upvote
         callback={(isUpvote) => {
@@ -19,7 +19,7 @@ const UpvoteDownvote = ({ upvotes, voteState }: IUpvoteDownvoteProps) => {
         }}
       />
       <UpvoteSvg
-        size={27}
+        size={20}
         voted={clickedLeft}
         upvote={false}
         callback={() => {
@@ -27,7 +27,7 @@ const UpvoteDownvote = ({ upvotes, voteState }: IUpvoteDownvoteProps) => {
         }}
       />
 
-      <span className='text-darkBlue font-semibold text-md font-roboto-text ml-2'>
+      <span className='text-darkBlue text-sm font-roboto-text ml-2'>
         {upvotes}
       </span>
     </div>
