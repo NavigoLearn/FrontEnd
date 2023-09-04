@@ -1,101 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { handleLogout } from '@components/auth/socialAuth';
+import { motion } from 'framer-motion';
 
-const SvgLogoutSvg = () => {
-  return (
-    <svg
-      width='100%'
-      height='100%'
-      viewBox='0 0 90 97'
-      fill='none'
-      xmlns='http://www.w3.org/2000/svg'
-    >
-      <path
-        d='M49 2.5H3V94H49'
-        stroke='black'
-        strokeWidth='5'
-        className='stroke-3 group-hover/button:stroke-white transition-all duration-200'
-      />
-      <path
-        d='M88.7678 51.7678C89.7441 50.7915 89.7441 49.2085 88.7678 48.2322L72.8579 32.3223C71.8816 31.346 70.2986 31.346 69.3223 32.3223C68.346 33.2986 68.346 34.8816 69.3223 35.8579L83.4645 50L69.3223 64.1421C68.346 65.1184 68.346 66.7014 69.3223 67.6777C70.2986 68.654 71.8816 68.654 72.8579 67.6777L88.7678 51.7678ZM27 52.5H87V47.5H27V52.5Z'
-        fill='black'
-        className=' group-hover/button:fill-white transition-all duration-200'
-      />
-    </svg>
-  );
-};
-const SvgProfileSvg = () => {
-  return (
-    <svg
-      width='100%'
-      height='100%'
-      viewBox='0 0 24 24'
-      fill='none'
-      xmlns='http://www.w3.org/2000/svg'
-    >
-      <g id='SVGRepo_bgCarrier' strokeWidth='0' />
-      <g
-        id='SVGRepo_tracerCarrier'
-        strokeLinecap='round'
-        strokeLinejoin='round'
-      />
-      <g id='SVGRepo_iconCarrier'>
-        <g id='style=linear'>
-          <g id='profile'>
-            <path
-              id='vector'
-              d='M12 11C14.4853 11 16.5 8.98528 16.5 6.5C16.5 4.01472 14.4853 2 12 2C9.51472 2 7.5 4.01472 7.5 6.5C7.5 8.98528 9.51472 11 12 11Z'
-              stroke='#000000'
-              className='stroke-[1.15px] group-hover/button:stroke-white  transition-all duration-200'
-              strokeLinecap='round'
-              strokeLinejoin='round'
-            />
-            <path
-              id='rec'
-              d='M5 18.5714C5 16.0467 7.0467 14 9.57143 14H14.4286C16.9533 14 19 16.0467 19 18.5714C19 20.465 17.465 22 15.5714 22H8.42857C6.53502 22 5 20.465 5 18.5714Z'
-              stroke='#000000'
-              className='stroke-[1.15px] group-hover/button:stroke-white  transition-all duration-200'
-            />
-          </g>
-        </g>
-      </g>
-    </svg>
-  );
-};
-
-const SvgProfileComponent = () => {
-  return (
-    <button
-      type='button'
-      className='w-full flex justify-center py-2  group/button hover:bg-primary transition-all duration-200'
-      onClick={() => {
-        window.location.href = '/profile';
-      }}
-    >
-      <div className='absolute border-black bg-white group-hover/button:bg-primary w-full h-5 top-0 duration-200 transition-all ' />
-      <div className='w-4/6 z-10'>
-        <SvgProfileSvg />
-      </div>
-    </button>
-  );
-};
-
-const SvgLogoutComponent = () => {
-  return (
-    <button
-      type='button'
-      className='w-full flex justify-center py-2 pt-3  group/button hover:bg-red-500 transition-all duration-200'
-      onClick={() => {
-        // logs out userDisplay
-        handleLogout();
-      }}
-    >
-      <div className='w-3/6 p-[1px] ml-1 z-10'>
-        <SvgLogoutSvg />
-      </div>
-      <div className='absolute border-black bg-white group-hover/button:bg-red-500 w-full h-10 bottom-0 duration-200 transition-all z-0 ' />
-    </button>
-  );
+const variants = {
+  open: { opacity: 1, x: 0 },
+  closed: { opacity: 0, x: -100 },
 };
 
 const ProfileDropdown = ({
@@ -103,22 +12,87 @@ const ProfileDropdown = ({
 }: {
   profilePictureUrl: string;
 }) => {
+  const [isOpen, setIsOpen] = useState(false);
+
+  function handleAnimation() {
+    setIsOpen(!isOpen);
+    console.log('isOpen?', isOpen);
+  }
+
   return (
-    <li className='flex relative group/wrapper  w-12 h-12 mr-2'>
+    <li className='flex relative group/wrapper w-12 h-12 mr-2'>
       <div className=' absolute top-0 flex group/wrapper w-10 h-20'>
-        <a className='' href='/profile'>
-          <img draggable="false"
+        {/* <a className='' href='/profile'> */}
+        <svg
+          onClick={handleAnimation}
+          className='w-10 h-10'
+          viewBox='0 0 200 100'
+          version='1.1'
+          xmlns='http://www.w3.org/2000/svg'
+          fill='#000000'
+          stroke='#000000'
+        >
+          <g strokeWidth='0' />
+          <g
+            strokeLinecap='round'
+            strokeLinejoin='round'
+            stroke='#000000'
+            strokeWidth='0.738'
+          />
+          <g>
+            <g fill='none' fillRule='evenodd' id='Page-1' strokeWidth='0.00123'>
+              <g fillRule='nonzero' id='iconprofile'>
+                <path
+                  d='M61.3,65.6 C79.3,65.6 93.9,51 93.9,33 C93.9,15 79.3,0.5 61.3,0.5 C43.3,0.5 28.7,15.1 28.7,33 C28.7,50.9 43.3,65.6 61.3,65.6 Z M61.3,9 C74.5,9 85.3,19.8 85.3,33 C85.3,46.2 74.5,57 61.3,57 C48.1,57 37.3,46.2 37.3,33 C37.3,19.8 48.1,9 61.3,9 Z'
+                  fill='#000000'
+                  id='body'
+                />
+                <path
+                  d='M4.9,116.5 L118.1,116.5 C120.5,116.5 122.4,114.6 122.4,112.2 C122.4,89.7 104.1,71.3 81.5,71.3 L41.5,71.3 C19,71.3 0.6,89.6 0.6,112.2 C0.6,114.6 2.5,116.5 4.9,116.5 Z M41.5,79.9 L81.5,79.9 C97.9,79.9 111.4,92.1 113.5,107.9 L9.5,107.9 C11.6,92.2 25.1,79.9 41.5,79.9 Z'
+                  fill='#000000'
+                  id='head'
+                />
+              </g>
+            </g>
+          </g>
+          <motion.line
+            animate={isOpen ? 'open' : 'closed'}
+            variants={variants}
+            x1='110'
+            y1='30'
+            x2='200'
+            y2='30'
+            stroke='black'
+            strokeWidth='10'
+          />
+          <motion.line
+            animate={isOpen ? 'open' : 'closed'}
+            variants={variants}
+            x1='100'
+            y1='60'
+            x2='200'
+            y2='60'
+            stroke='black'
+            strokeWidth='10'
+          />
+          <motion.line
+            animate={isOpen ? 'open' : 'closed'}
+            variants={variants}
+            x1='130'
+            y1='90'
+            x2='200'
+            y2='90'
+            stroke='black'
+            strokeWidth='10'
+          />
+        </svg>
+        {/* <img
+            draggable='false'
             src={profilePictureUrl}
             alt='icon'
             className='w-10 h-10 rounded-full flex m-1'
-          />
-        </a>
-        <div className='absolute flex flex-col left-1 w-10 overflow-hidden transition-all duration-300 h-4 opacity-0 group-hover/wrapper:opacity-100 group-hover/wrapper:h-[95px]  top-12 rounded-full bg-white shadow-standard '>
-          <div className='w-full flex flex-col justify-center items-center'>
-            <SvgProfileComponent />
-            <SvgLogoutComponent />
-          </div>
-        </div>
+          /> */}
+        {/* </a> */}
       </div>
     </li>
   );

@@ -11,8 +11,10 @@ import { loggedLinks, guestLinks } from './Links';
 const DesktopNavbar = () => {
   const [hydrated, setHydrated] = useState(false);
   const { profilePictureUrl } = useStore(loggedUser);
-  const { loaded, isLogged } = useStore(userStatus);
+  const { loaded } = useStore(userStatus);
   console.log(userStatus.get());
+
+  const isLogged = true;
 
   console.log('isLogged', isLogged, loaded, hydrated);
 
@@ -66,7 +68,6 @@ const DesktopNavbar = () => {
               />
             );
           })}
-
         {hydrated && loaded && isLogged && (
           <ProfileDropdown
             profilePictureUrl={
