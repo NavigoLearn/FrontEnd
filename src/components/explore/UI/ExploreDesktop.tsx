@@ -17,7 +17,7 @@ const ExploreDesktop = () => {
   const { params } = useStore(exploreQueryStore);
   const { page, perPage, query, sortBy, topic } = params;
   const sortByOptions: ISortBy[] = ['Likes', 'Views', 'Relevance'];
-  const perPageOptions: IPerPage[] = [9, 18, 36];
+  const perPageOptions: IPerPage[] = [15, 30, 50];
   const topicOptions: ITopic[] = [
     'All',
     'Programming',

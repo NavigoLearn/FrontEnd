@@ -1,14 +1,16 @@
 ---
 import Base from '@layouts/Base.astro';
-import PageViewCollection from '../../components/home/PageViewCollection';
-import Profile from '@components/profile/Profile';
+import ProfileDeprecated from '../../components/profile/old-stuff/ProfileDeprecated';
+import Profile from '../../components/profile/Profile';
 
 const { id } = Astro.params;
 ---
 
-<Base metadata={{
-  title: 'Profile',
-}}>
-  <PageViewCollection page='Profile' client:load />
-  <Profile id={id} client:load />
+<Base
+  metadata={{
+    title: 'Profile',
+  }}
+>
+  <Profile client:load />
+  <!--<ProfileDeprecated client:load />-->
 </Base>

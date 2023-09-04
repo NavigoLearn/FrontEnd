@@ -1,6 +1,6 @@
 import React from 'react';
-import ProfileDisplay from '@components/profile/mobile/ProfileDisplay';
-import CardDisplay from '@components/profile/common/CardDisplay';
+import ProfileDisplay from '@components/profile/old-stuff/mobile/ProfileDisplay';
+import CardDisplay from '@components/profile/old-stuff/common/CardDisplay';
 
 const MobileProfile = ({ id }: { id: string }) => {
   return (

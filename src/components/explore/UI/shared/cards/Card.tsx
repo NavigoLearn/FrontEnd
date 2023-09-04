@@ -40,6 +40,7 @@ const Card = ({ roadmapId }: ICardProps) => {
       // console.log(data, ' retunr ed data');
       setRoadmapMiniData(data);
       setLoaded(true);
+      // @ts-ignore
       setUpvotes(data.upvotes);
     });
   }, []);

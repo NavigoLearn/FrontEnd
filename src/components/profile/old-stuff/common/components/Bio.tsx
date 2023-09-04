@@ -1,6 +1,6 @@
 import React from 'react';
 import { ProfileComponentProps } from '@type/profile/types';
-import HOCedit from '@components/profile/common/HOCedit';
+import HOCedit from '@components/profile/old-stuff/common/HOCedit';
 
 const Bio = ({ onEdit, value, edit }: ProfileComponentProps) => {
   return (

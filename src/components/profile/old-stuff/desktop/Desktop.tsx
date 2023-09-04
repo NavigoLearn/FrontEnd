@@ -1,6 +1,6 @@
 import React from 'react';
-import ProfileDisplay from '@components/profile/desktop/ProfileDisplay';
-import CardDisplay from '@components/profile/common/CardDisplay';
+import ProfileDisplay from '@components/profile/old-stuff/desktop/ProfileDisplay';
+import CardDisplay from '@components/profile/old-stuff/common/CardDisplay';
 
 const DesktopProfile = ({ id }: { id: string }) => {
   return (

@@ -1,5 +1,5 @@
 import React from 'react';
-import HOCedit from '@components/profile/common/HOCedit';
+import HOCedit from '@components/profile/old-stuff/common/HOCedit';
 import { ProfileComponentProps } from '@type/profile/types';
 
 const Quote = ({ onEdit, edit, value }: ProfileComponentProps) => {
