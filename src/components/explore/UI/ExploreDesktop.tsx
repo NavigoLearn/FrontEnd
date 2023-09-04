@@ -26,7 +26,29 @@ const ExploreDesktop = () => {
     'Biology',
   ];
 
-  const roadmapsIds = ['1', '2', '3', '4', '5', '6', '7', '8', '9'];
+  const roadmapsIds = [
+    '1',
+    '2',
+    '3',
+    '4',
+    '5',
+    '6',
+    '7',
+    '8',
+    '9',
+    '10',
+    '11',
+    '12',
+    '13',
+    '14',
+    '15',
+    '16',
+    '17',
+    '18',
+    '19',
+    '20',
+    '21',
+  ];
 
   return (
     <div className='w-full flex justify-center'>
@@ -63,12 +85,12 @@ const ExploreDesktop = () => {
           </div>
           <div className='max-w-[1200px]'>
             <div className='w-full h-24   flex justify-between items-end  '>
-              <div className='text-xl font-kanit-text  text-darkBlue font-semibold mb-6'>
+              <div className='text-3xl font-kanit-text  text-darkBlue font-semibold mb-6'>
                 10,000 results for "React"
               </div>
               <button
                 type='button'
-                className='py-1 px-3 border-2 border-primary font-roboto-text font-medium text-primary rounded-lg mb-6'
+                className='py-1 px-3 border-2 border-primary font-roboto-text font-medium text-primary rounded-lg mb-6 hover:bg-primary hover:text-white transition-all'
               >
                 I'm feeling lucky
               </button>
@@ -78,10 +100,14 @@ const ExploreDesktop = () => {
                 return <Card roadmapId={roadmapId} key={roadmapId} />;
               })}
             </div>
+            <div className='w-full mt-10 mb-20 flex justify-center'>
+              <Pagination
+                currentPage={1}
+                roadmapsPerPage={9}
+                totalRoadmaps={400}
+              />
+            </div>
           </div>
-        </div>
-        <div className='w-full mt-10 mb-20 flex justify-center'>
-          <Pagination currentPage={1} roadmapsPerPage={9} totalRoadmaps={400} />
         </div>
       </div>
     </div>

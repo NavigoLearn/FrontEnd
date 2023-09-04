@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import UpvoteDownvote from '@components/explore/UI/shared/cards/components/UpvoteDownvote';
 import { motion, AnimatePresence } from 'framer-motion';
 import { rerenderRoadmap } from '@src/store/roadmap-refactor/roadmap-data/roadmap_state';
+import { tailwindTransitionClass } from '@src/UI-library/tailwind-utils';
 
 type ICardProps = {
   roadmapId: string;
@@ -23,7 +24,7 @@ async function getRoadmapMiniData(roadmapId) {
           id: '1',
         },
       });
-    }, 10);
+    }, 250);
   });
 }
 
@@ -115,7 +116,7 @@ const Card = ({ roadmapId }: ICardProps) => {
 
   return (
     <div
-      className='w-80 h-48 border-2 border-black border-opacity-10 rounded-md relative'
+      className={`w-80 h-48 border-2 border-black hover:border-primary hover:border-opacity-30 border-opacity-10 rounded-md relative${tailwindTransitionClass}`}
       style={{
         boxShadow: '0 4px 6px 0 rgba(0, 0, 255, 0.1)',
       }}
@@ -143,7 +144,7 @@ const Card = ({ roadmapId }: ICardProps) => {
         {roadmapMiniData.description}
       </span>
 
-      <div className='absolute bottom-2 flex justify-between px-4 w-full pr-6'>
+      <div className='absolute bottom-2 flex justify-between px-4 w-full pr-3'>
         <UpvoteDownvote
           upvotes={upvotes}
           voteState={roadmapMiniData.voteState}
@@ -153,7 +154,7 @@ const Card = ({ roadmapId }: ICardProps) => {
           onClick={() => {
             console.log('clicked and learnin stuff');
           }}
-          className='font-roboto-text text-primary text-sm'
+          className={`font-roboto-text text-primary px-3 py-1 rounded-sm text-sm font-medium bg-transparent hover:bg-primary hover:text-white ${tailwindTransitionClass}`}
         >
           Learn
         </button>

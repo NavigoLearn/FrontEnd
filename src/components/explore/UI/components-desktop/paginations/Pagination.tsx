@@ -1,4 +1,5 @@
 import React from 'react';
+import { tailwindTransitionClass } from '@src/UI-library/tailwind-utils';
 
 type IPaginationProps = {
   currentPage: number;
@@ -60,14 +61,14 @@ const Pagination = ({
           return (
             <div
               key={pageNumber}
-              className={`p-2 ${isSelected && 'border-b-2 border-darkBlue'}`}
+              className={` ${isSelected && 'border-b-2 border-darkBlue'}`}
             >
               <button
                 key={pageNumber}
                 type='button'
-                className={`font-roboto-text font-medium ${
+                className={`p-2 font-roboto-text font-medium hover:text-darkBlue ${
                   isSelected ? 'text-darkBlue' : 'text-secondary'
-                }`}
+                }${tailwindTransitionClass}`}
                 onClick={() => {
                   console.log(pageNumber);
                 }}
@@ -78,7 +79,7 @@ const Pagination = ({
           );
         })}
       </div>
-      <div className='absolute -left-96 top-0 flex gap-2 items-center'>
+      <div className='absolute -left-72 top-0 flex gap-2 items-center h-full'>
         <span className='font-roboto-text font-medium text-secondary'>
           {roadmapIndexStart} - {roadmapIndexEnd}
         </span>
