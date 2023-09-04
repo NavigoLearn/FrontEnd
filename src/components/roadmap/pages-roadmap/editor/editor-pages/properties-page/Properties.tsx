@@ -259,8 +259,14 @@ const Properties = () => {
         {node.actions.onClick === 'Open link' && (
           <SpecialInput
             label='Link'
-            actions={actions}
+            value={actions.additionalData.link || ''}
             placeholder='http://google.com'
+            onChange={(newValue: string) => {
+              mutateActionLink(actions, newValue);
+              triggerRerenderEditor();
+            }}
+            h='10' // Customize height here
+            w='52' // Customize width here
           />
         )}
       </div>

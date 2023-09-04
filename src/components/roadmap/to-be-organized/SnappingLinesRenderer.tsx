@@ -1,7 +1,7 @@
 import React from 'react';
 import { useStore } from '@nanostores/react';
 import {
-  ISnapping,
+  ISnapDrawCoordintes,
   snappingCoordinates,
 } from '@store/roadmap-refactor/render/snapping-lines';
 
@@ -9,7 +9,7 @@ const SnappingLinesRenderer = () => {
   const { snappings } = useStore(snappingCoordinates);
   return (
     <>
-      {snappings.map(({ startX, startY, endX, endY }: ISnapping) => {
+      {snappings.map(({ startX, startY, endX, endY }: ISnapDrawCoordintes) => {
         return (
           <line
             key={Math.random()}
@@ -18,8 +18,8 @@ const SnappingLinesRenderer = () => {
             x2={endX}
             y2={endY}
             stroke='red'
-            strokeWidth='2'
-            opacity={0.55}
+            strokeWidth='1.5'
+            opacity={1}
           />
         );
       })}

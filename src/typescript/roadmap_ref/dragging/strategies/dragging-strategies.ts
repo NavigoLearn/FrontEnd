@@ -12,9 +12,12 @@ import {
 import renderNodesStore from '@store/roadmap-refactor/render/rendered-nodes';
 import { getComponentById } from '@src/typescript/roadmap_ref/node/core/data-get/components';
 import { setSnappings } from '@store/roadmap-refactor/render/snapping-lines';
-import { snapCoordsToPositions } from '@src/typescript/roadmap_ref/snapping/core';
-import { getNodeCornerPositions } from '@src/typescript/roadmap_ref/snapping/generate-positions';
+import { snapCoordsToPositions } from '@src/typescript/roadmap_ref/snapping/old/core';
+import { getNodeCornerPositions } from '@src/typescript/roadmap_ref/snapping/old/generate-positions';
 import { throttle } from '@src/typescript/roadmap_ref/render/chunks';
+import { snapRootNodeProtocol } from '@src/typescript/roadmap_ref/snapping/snap-protocols/root-nodes';
+import { snapSubNodeProtocol } from '@src/typescript/roadmap_ref/snapping/snap-protocols/sub-nodes';
+import { snapComponentProtocol } from '@src/typescript/roadmap_ref/snapping/snap-protocols/components';
 
 export const draggingStrategyFree = (draggingBehavior, newX, newY) => {
   return {
@@ -72,6 +75,18 @@ export const dispatchSnappingLinesNestedElements = (
   setSnappings(snappings);
 };
 
+export const draggingStrategySnapRoadmapNestedComponentsRemade = (
+  draggingBehavior: DraggingBehavior,
+  newX: number,
+  newY: number
+) => {
+  const { x, y } = snapComponentProtocol(newX, newY, draggingBehavior);
+  return {
+    x,
+    y,
+  };
+};
+
 export const draggingStrategySnapRoadmapNestedComponents = (
   draggingBehavior: DraggingBehavior,
   newX: number,
@@ -122,6 +137,18 @@ export const draggingStrategySnapRoadmapNestedComponents = (
   return {
     x: coords.x,
     y: coords.y,
+  };
+};
+
+export const draggingStrategySnapRoadmapSubNodes = (
+  draggingBehavior,
+  newX,
+  newY
+) => {
+  const { x, y } = snapSubNodeProtocol(newX, newY, draggingBehavior);
+  return {
+    x,
+    y,
   };
 };
 
@@ -182,82 +209,14 @@ export const draggingStrategySnapRoadmapNestedNodes = (
 
 export const draggingStrategySnapRoadmapRootNodes = (
   draggingBehavior,
-  newX,
-  newY
+  dragX,
+  dragY
 ) => {
-  // we snap root roadmap nodes-page
-  // get positions of all root nodes-page
-  const rootNodesIds = getRootNodesIds();
-  const renderedNodes = renderNodesStore.get().nodesIds;
-  // filter out nodes-page that are not rendered
-  const filteredRootNodes = rootNodesIds.filter((nodeId) => {
-    return (
-      renderedNodes.includes(nodeId) &&
-      nodeId !== draggingBehavior.draggingElementId
-    );
-  });
-
-  const rootNodesPositionsCenter = filteredRootNodes.map((nodeId) => {
-    const node = getNodeByIdRoadmapSelector(nodeId);
-    // returns the centers of the nodes since the roots are positioned by top left corner
-    return {
-      x: node.data.coords.x + node.data.width / 2,
-      y: node.data.coords.y + node.data.height / 2,
-    };
-  });
-  const rootNodesPositionsCorners = [];
-  rootNodesIds.forEach((nodeId) => {
-    if (nodeId === draggingBehavior.draggingElementId) return;
-    const corners = getNodeCornerPositions(nodeId);
-    rootNodesPositionsCorners.push(...corners);
-  });
-  const rootNodesPositions = [
-    ...rootNodesPositionsCenter,
-    ...rootNodesPositionsCorners,
-  ];
-
-  const node = getNodeByIdRoadmapSelector(draggingBehavior.draggingElementId);
-  const { width, height } = node.data;
-  // adjusts coords to work with centers
-  const coords = snapCoordsToPositions(
-    newX + width / 2,
-    newY + height / 2,
-    rootNodesPositions
-  );
-  const { lastClosestIndexX, lastClosestIndexY } = coords;
-  // if snapped add lines
-  const snappings = [];
-  if (lastClosestIndexX !== -1) {
-    snappings.push({
-      startX: coords.x,
-      startY: coords.y,
-      endX: rootNodesPositions[lastClosestIndexX].x,
-      endY: rootNodesPositions[lastClosestIndexX].y,
-    });
-  }
-
-  if (lastClosestIndexY !== -1) {
-    snappings.push({
-      startX: coords.x,
-      startY: coords.y,
-      endX: rootNodesPositions[lastClosestIndexY].x,
-      endY: rootNodesPositions[lastClosestIndexY].y,
-    });
-  }
-  setSnappings(snappings);
-
-  coords.x -= width / 2;
-  coords.y -= height / 2;
-  return coords;
-};
-
-type IDraggingStrategyInternal = (
-  draggingBehavior: DraggingBehavior,
-  x: number,
-  y: number
-) => {
-  x: number;
-  y: number;
+  const { x, y } = snapRootNodeProtocol(dragX, dragY, draggingBehavior);
+  return {
+    x,
+    y,
+  };
 };
 
 export const boundCoordsToNode = (
@@ -327,7 +286,7 @@ export const draggingStrategySnap = (draggingBehavior, newX, newY): ICoords => {
     return draggingStrategySnapRoadmapRootNodes(draggingBehavior, newX, newY);
   }
   if (elementType === 'subNode') {
-    const { x, y } = draggingStrategySnapRoadmapNestedNodes(
+    const { x, y } = draggingStrategySnapRoadmapSubNodes(
       draggingBehavior,
       newX,
       newY
@@ -335,7 +294,7 @@ export const draggingStrategySnap = (draggingBehavior, newX, newY): ICoords => {
     return draggingBoundStrategyNestedNodes(draggingBehavior, x, y);
   }
   if (elementType === 'component') {
-    const { x, y } = draggingStrategySnapRoadmapNestedComponents(
+    const { x, y } = draggingStrategySnapRoadmapNestedComponentsRemade(
       draggingBehavior,
       newX,
       newY

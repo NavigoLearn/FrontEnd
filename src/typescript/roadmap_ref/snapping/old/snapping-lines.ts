@@ -1,4 +1,4 @@
-import { ISnapping } from '@store/roadmap-refactor/render/snapping-lines';
+import { ISnapDrawCoordintes } from '@store/roadmap-refactor/render/snapping-lines';
 import { ICoords } from '@src/typescript/roadmap_ref/dragging/core';
 
 export const snappingLinesForCoords = (
@@ -6,7 +6,7 @@ export const snappingLinesForCoords = (
   positionsSnappingTo: ICoords[],
   lastClosestIndexX: number,
   lastClosestIndexY: number
-): ISnapping[] => {
+): ISnapDrawCoordintes[] => {
   const snappings = [];
   if (lastClosestIndexX !== -1) {
     snappings.push({

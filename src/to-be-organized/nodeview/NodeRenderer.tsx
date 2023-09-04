@@ -1,6 +1,6 @@
 /* eslint-disable no-shadow */
 /* eslint-disable react/prop-types */
-import React, { useEffect, useRef, Component, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { afterEventLoop } from '@src/typescript/utils/misc';
 import { componentsRenderer } from '@src/to-be-organized/nodeview/ComponentsRenderer';
@@ -30,7 +30,8 @@ import {
   applyElementEffects,
   setElementEffectsInitialEmpty,
   deleteStatusEffectAll,
-  elementEffects,
+  getElementEffects,
+  getElementHasEffect,
 } from '@store/roadmap-refactor/elements-editing/element-effects';
 import { useIsLoaded } from '@hooks/useIsLoaded';
 import { setElementDiv } from '@store/roadmap-refactor/elements-editing/elements-divs';
@@ -41,7 +42,7 @@ import {
   mutateNodeHeightWhileKeepingCenter,
   mutateNodeWidthWhileKeepingCenter,
 } from '@src/typescript/roadmap_ref/node/core/data-mutation/mutate';
-import { snapNodeWidthHeight } from '@src/typescript/roadmap_ref/snapping/core';
+import { snapNodeWidthHeight } from '@src/typescript/roadmap_ref/snapping/old/core';
 import {
   selectNodeColorFromScheme,
   selectNodeColorTextBorder,
@@ -203,121 +204,137 @@ const NodeRenderer: React.FC<NodeViewProps> = ({
     afterEventLoop(() => {
       // runs all the effects after the node is rendered
       applyStyle();
-      // loaded && !getIsEditing() && appendNodeMarkAsDone(node);
-      // getIsEditing() && deleteStatusEffectAll(nodeId);
+      loaded && !getIsEditing() && appendNodeMarkAsDone(node);
+      getIsEditing() && deleteStatusEffectAll(nodeId);
       loaded && applyElementEffects(nodeId, nodeDivRef.current);
     });
 
     const isDraggable = getElementIsDraggable(nodeId);
     const isRoot = node.flags.renderedOnRoadmapFlag;
+    const isCurrentlyDragged = getElementHasEffect(
+      nodeId,
+      'dragging-recursive'
+    );
+
     return (
-      // eslint-disable-next-line jsx-a11y/click-events-have-key-events,jsx-a11y/mouse-events-have-key-events,jsx-a11y/no-static-element-interactions
-      <div
-        className={`drop-shadow-md rounded-lg transition-allNoTransform duration-200 absolute `}
-        id={`div${nodeId}`}
-        ref={nodeDivRef}
-        onClick={(event) => {
-          event.stopPropagation();
-          getOnClickAction(nodeId)();
-        }}
-        onMouseOver={(event) => {
-          event.stopPropagation();
-          getOnMouseOverAction(nodeId)();
-          setMouseOver(true);
-          triggerNodeRerender(nodeId);
-        }}
-        onMouseLeave={() => {
-          getOnMouseOutActionEdit(nodeId)();
-          setMouseOver(false);
-        }}
-        onMouseOut={(event) => {
-          event.stopPropagation();
-          getOnMouseOutAction(nodeId)();
-          setMouseOver(false);
-        }}
-        style={style}
-      >
+      <>
         {!editing && (
           <div
-            className={`w-8 h-8 -left-4 -top-4 absolute rounded-full select-none ${getStatusCircleStyle(
+            className={`w-full z-10 h-3 left-0 top-0 rounded-t-lg absolute  select-none ${getStatusCircleStyle(
               node
             )}`}
+            style={{
+              opacity: 1,
+              top: `${calculatedOffsetCoords.y + coords.y - 3}px`,
+              left: `${calculatedOffsetCoords.x + coords.x}px`,
+            }}
           />
         )}
-        <AnimatePresence>
-          {isDraggable && (mouseOver || resizing) && (
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.2 }}
-            >
-              <DraggingResizeElement
-                style={{
-                  width,
-                  height,
-                }}
-                heightCallback={(height) => {
-                  mutateNodeHeightWhileKeepingCenter(node, height);
-                  triggerNodeRerender(nodeId);
-                  triggerAllConnectionsRerender();
-                }}
-                widthCallback={(width) => {
-                  mutateNodeWidthWhileKeepingCenter(node, width);
-                  triggerNodeRerender(nodeId);
-                  triggerAllConnectionsRerender();
-                }}
-                snappingCallback={(width, height) => {
-                  setResizing(true);
-                  const rootNode = node.flags.renderedOnRoadmapFlag;
-                  const nodesToSnapTo = rootNode
-                    ? getRootNodesIds()
-                    : getNodeAdjacentNodesIds(nodeId);
-                  // snapping node corners ( ͡° ͜ʖ ͡°) so width and height will also snap I hope
-                  const { width: newWidth, height: newHeight } =
-                    snapNodeWidthHeight(node.id, nodesToSnapTo, width, height);
-                  return {
-                    width: newWidth,
-                    height: newHeight,
-                  };
-                }}
-              />
-            </motion.div>
+        <div
+          className={`drop-shadow-md rounded-lg transition-allNoTransform duration-200 absolute `}
+          id={`div${nodeId}`}
+          ref={nodeDivRef}
+          onClick={(event) => {
+            event.stopPropagation();
+            getOnClickAction(nodeId)();
+          }}
+          onMouseOver={(event) => {
+            event.stopPropagation();
+            getOnMouseOverAction(nodeId)();
+            setMouseOver(true);
+            triggerNodeRerender(nodeId);
+          }}
+          onMouseLeave={() => {
+            getOnMouseOutActionEdit(nodeId)();
+            setMouseOver(false);
+          }}
+          onMouseOut={(event) => {
+            event.stopPropagation();
+            getOnMouseOutAction(nodeId)();
+            setMouseOver(false);
+          }}
+          style={style}
+        >
+          <AnimatePresence>
+            {isDraggable && !isCurrentlyDragged && (mouseOver || resizing) && (
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.2 }}
+              >
+                <DraggingResizeElement
+                  style={{
+                    width,
+                    height,
+                  }}
+                  heightCallback={(height) => {
+                    mutateNodeHeightWhileKeepingCenter(node, height);
+                    triggerNodeRerender(nodeId);
+                    triggerAllConnectionsRerender();
+                  }}
+                  widthCallback={(width) => {
+                    mutateNodeWidthWhileKeepingCenter(node, width);
+                    triggerNodeRerender(nodeId);
+                    triggerAllConnectionsRerender();
+                  }}
+                  snappingCallback={(width, height) => {
+                    setResizing(true);
+                    const rootNode = node.flags.renderedOnRoadmapFlag;
+                    const nodesToSnapTo = rootNode
+                      ? getRootNodesIds()
+                      : getNodeAdjacentNodesIds(nodeId);
+                    // snapping node corners ( ͡° ͜ʖ ͡°) so width and height will also snap I hope
+                    const { width: newWidth, height: newHeight } =
+                      snapNodeWidthHeight(
+                        node.id,
+                        nodesToSnapTo,
+                        width,
+                        height
+                      );
+                    return {
+                      width: newWidth,
+                      height: newHeight,
+                    };
+                  }}
+                />
+              </motion.div>
+            )}
+          </AnimatePresence>
+
+          {childNodeId === nodeId && (
+            <ConnectionAnchorsRenderer
+              connection={currentConnection}
+              nodeId={nodeId}
+              type='child'
+            />
           )}
-        </AnimatePresence>
 
-        {childNodeId === nodeId && (
-          <ConnectionAnchorsRenderer
-            connection={currentConnection}
-            nodeId={nodeId}
-            type='child'
-          />
-        )}
+          {parentNodeId === nodeId && (
+            <ConnectionAnchorsRenderer
+              connection={currentConnection}
+              nodeId={nodeId}
+              type='parent'
+            />
+          )}
 
-        {parentNodeId === nodeId && (
-          <ConnectionAnchorsRenderer
-            connection={currentConnection}
-            nodeId={nodeId}
-            type='parent'
-          />
-        )}
-
-        {getEditingState() === 'nodes' && <>{componentsRenderer(node)}</>}
-        {subNodeIds &&
-          subNodeIds.map((subNodeId) => {
-            // the div is used to position the subNode in the center of the current node
-            return (
-              <NodeRenderer
-                key={subNodeId}
-                nodeId={subNodeId}
-                centerOffset={{
-                  x: node.data.width / 2,
-                  y: node.data.height / 2,
-                }}
-              />
-            );
-          })}
-      </div>
+          {getEditingState() === 'nodes' && <>{componentsRenderer(node)}</>}
+          {subNodeIds &&
+            subNodeIds.map((subNodeId) => {
+              // the div is used to position the subNode in the center of the current node
+              return (
+                <NodeRenderer
+                  key={subNodeId}
+                  nodeId={subNodeId}
+                  centerOffset={{
+                    x: node.data.width / 2,
+                    y: node.data.height / 2,
+                  }}
+                />
+              );
+            })}
+        </div>
+      </>
     );
   };
 

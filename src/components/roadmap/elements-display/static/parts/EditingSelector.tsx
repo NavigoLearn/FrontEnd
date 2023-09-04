@@ -12,7 +12,7 @@ const EditingSelector = () => {
   const editState = getEditingState();
 
   return (
-    <div className='relative w-full h-full rounded-md bg-white shadow-darkBlue drop-shadow-sm flex justify-center items-center gap-2 '>
+    <div className='relative w-full h-full rounded-md bg-white  drop-shadow-sm flex justify-center items-center gap-2 '>
       <div className='flex relative items-center justify-center pointer-events-auto '>
         <NodeEditSvg
           callback={() => {

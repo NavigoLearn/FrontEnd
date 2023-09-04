@@ -278,6 +278,7 @@ export function deleteDraggingRecursiveEffect(nodeId: string) {
 
 export function getElementHasEffect(id: string, effect: IEffectsPossible) {
   const originalEffects = elementEffects.get();
+  if (!originalEffects[id]) return false;
   return originalEffects[id].includes(effect);
 }
 

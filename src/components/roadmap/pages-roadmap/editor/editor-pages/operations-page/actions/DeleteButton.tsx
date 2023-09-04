@@ -13,11 +13,13 @@ const DeleteButton = ({ callback, text, src, space }: IDeleteButtonProps) => {
   const [mouseOver, setMouseOver] = useState(false);
   return (
     <div className='flex gap-1 items-center'>
-      <img
-        className={`h-10 w-12 ${space && 'pt-4'} flex items-center`}
-        alt='delete one node'
-        src={src}
-      />
+      {src && (
+        <img
+          className='h-10 w-12 pt-4 flex items-center'
+          alt='delete one node'
+          src={src}
+        />
+      )}
       <button
         type='button'
         onClick={() => {

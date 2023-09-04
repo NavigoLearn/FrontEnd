@@ -14,6 +14,8 @@ import { IComponentObject } from '@type/roadmap/node/components-types';
 import { setElementDraggable } from '@store/roadmap-refactor/elements-editing/draggable-elements';
 import { addDragabilityProtocol } from '@src/typescript/roadmap_ref/render/dragging';
 import { afterEventLoop } from '@src/typescript/utils/misc';
+import { deleteAllComponents } from '@src/typescript/roadmap_ref/node/core/data-mutation/delete';
+import DeleteButton from '../operations-page/actions/DeleteButton';
 
 const Components = () => {
   const { selectedNodeId } = useStore(editorSelectedData);
@@ -32,22 +34,33 @@ const Components = () => {
 
   return (
     <div className='w-full h-full max-h-full flex flex-col'>
-      <DropdownGreyAdd
-        text='Add component'
-        onSelect={(componentType: IComponentOptions) => {
-          const newComponent = factoryComponentEmpty(componentType, node.id);
-          appendComponent(node, newComponent); // needs parentNodeId injected
-          addDragabilityProtocol(newComponent.draggingBehavior);
-          triggerNodeRerender(node.id);
-          afterEventLoop(() => {
-            // delays until the next render cycle
-            setElementDraggable(newComponent.id, true);
-          });
-          triggerRerenderEditor();
-        }}
-        optionsList={['Text']}
-      />
-      <div className='flex flex-col gap-4 h-5/6 mt-10 mb-6 overflow-y-auto border-b-2 border-gray-200 overflow-x-hidden'>
+      <div className='flex justify-between'>
+        <DropdownGreyAdd
+          text='Add component'
+          onSelect={(componentType: IComponentOptions) => {
+            const newComponent = factoryComponentEmpty(componentType, node.id);
+            appendComponent(node, newComponent); // needs parentNodeId injected
+            addDragabilityProtocol(newComponent.draggingBehavior);
+            triggerNodeRerender(node.id);
+            afterEventLoop(() => {
+              // delays until the next render cycle
+              setElementDraggable(newComponent.id, true);
+            });
+            triggerRerenderEditor();
+          }}
+          optionsList={['Text']}
+        />
+        <div className='flex justify-center items-center mr-6'>
+          <DeleteButton
+            callback={() => {
+              deleteAllComponents(node);
+            }}
+            text='Delete All'
+            src=''
+          />
+        </div>
+      </div>
+      <div className='flex flex-col gap-4 h-5/6 mt-4 mb-6 overflow-y-auto border-b-2 border-gray-200 overflow-x-hidden'>
         {node.components.map((component: IComponentObject) => {
           return selectComponentToRender(
             component.type,
