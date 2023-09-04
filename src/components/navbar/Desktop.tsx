@@ -66,7 +66,6 @@ const DesktopNavbar = () => {
               />
             );
           })}
-
         {hydrated && loaded && isLogged && (
           <ProfileDropdown
             profilePictureUrl={
