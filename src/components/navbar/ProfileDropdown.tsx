@@ -55,7 +55,7 @@ const ProfileDropdown = ({
         />
       </motion.button>
       <motion.ul
-        className='flex flex-col gap-2 items-center justify-center w-32 h-24 bg-white rounded-md shadow-md absolute top-5 left-90%'
+        className='flex flex-col gap-2 items-center justify-center w-32 h-24 bg-white rounded-md shadow-2xl absolute top-5 left-90%'
         variants={{
           open: {
             clipPath: 'inset(0% 0% 0% 0% round 10px)',
