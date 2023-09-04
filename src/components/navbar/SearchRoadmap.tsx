@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import LOUPE_SRC from '@src/assets/loupe.svg';
+import { LOUPE_SRC } from '@src/to-be-organized/svg-params';
 import { tailwindTransitionClass } from '@src/UI-library/tailwind-utils';
 import { motion } from 'framer-motion';
 
