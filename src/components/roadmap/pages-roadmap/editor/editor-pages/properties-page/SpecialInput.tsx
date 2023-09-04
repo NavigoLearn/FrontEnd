@@ -1,25 +1,34 @@
 import { ActionsClass } from '@src/typescript/roadmap_ref/node/core/actions/core';
 import React, { useState } from 'react';
-import { mutateActionLink } from '@src/typescript/roadmap_ref/node/core/actions/mutate';
 import { triggerRerenderEditor } from '@src/store/roadmap-refactor/elements-editing/editor-selected-data';
 
 type SpecialInputProps = {
   label: string;
-  actions: ActionsClass;
+  value: string;
   placeholder: string;
+  onChange: (value: string) => void;
+  h: string;
+  w: string;
 };
 
-const SpecialInput = ({ label, actions, placeholder }: SpecialInputProps) => {
+const SpecialInput = ({
+  label,
+  value,
+  placeholder,
+  onChange,
+  h,
+  w,
+}: SpecialInputProps) => {
   return (
     <div className='relative'>
       <input
-        value={actions.additionalData.link}
+        value={value}
         type='text'
-        className='h-10 w-52 border-2 text-[#1A1B50] border-darkBlue rounded-lg hover:border-darkBlue border-placeholderBlack transition-all duration-300 focus:border-darkBlue focus:outline-none px-3'
+        className={`h-${h} w-${w} border-2 text-[#1A1B50] border-darkBlue rounded-lg hover:border-darkBlue border-placeholderBlack transition-all duration-300 focus:border-darkBlue focus:outline-none px-3`}
         placeholder={placeholder}
         onChange={(e) => {
-          mutateActionLink(actions, e.target.value);
-          triggerRerenderEditor();
+          const newValue = e.target.value;
+          onChange(newValue);
         }}
       />
       <div className='absolute -top-3 left-3 px-2 bg-white text-secondary font-roboto-text'>

@@ -8,13 +8,11 @@ import Tick from '@src/components/explore/UI/components-desktop/filters/Tick';
 type TextWeightComponentProps = {
   component: ComponentText;
   nodeId: string;
-  selectedWeight: ITextWeight;
 };
 
 const TextWeightComponent = ({
   component,
   nodeId,
-  selectedWeight,
 }: TextWeightComponentProps) => {
   const textWeightOptions: ITextWeight[] = ['thin', 'normal', 'thick'];
 
@@ -32,7 +30,7 @@ const TextWeightComponent = ({
 
   return (
     <div>
-      <div className='flex text-placeholder text text-center font-roboto-text mb-2'>
+      <div className='flex text-placeholder text text-center font-roboto-text text-sm ml-1'>
         Font weight
       </div>
       <div className='flex gap-2 flex-row'>
@@ -47,15 +45,15 @@ const TextWeightComponent = ({
               onChange={() => handleWeightChange(weightOption)}
               className='hidden'
             />
-            <div className='flex items-center h-12'>
+            <div className='flex items-center h-8'>
               <div
-                className={`w-4 h-4 border-[1px] border-black mr-2 cursor-pointer ${
+                className={`w-3 h-3 border-[1px] border-black mr-2 cursor-pointer ${
                   activeButton === weightOption ? 'border-transparent' : ''
                 }`}
               >
                 {activeButton === weightOption && (
-                  <div className='-translate-y-1'>
-                    <Tick width={18} height={18} fill='#3361D8' />
+                  <div className='-translate-y-0.5'>
+                    <Tick width={14} height={14} fill='#3361D8' />
                   </div>
                 )}
               </div>
@@ -74,6 +72,7 @@ const TextWeightComponent = ({
             </div>
           </label>
         ))}
+        <div className='border-l border-rgb(0,0,0,0.6) mx-1' />
       </div>
     </div>
   );

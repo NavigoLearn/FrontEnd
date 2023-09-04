@@ -45,11 +45,11 @@ const DropdownOptions = <T extends string>({
   const height = containerRef.current?.offsetHeight;
 
   return (
-    <div className='absolute w-full left-0 top-20  bg-white flex flex-col rounded-xl '>
+    <div className='absolute w-full left-0 top-14  bg-white flex flex-col rounded-xl z-10'>
       <motion.div
         animate={isOpen ? 'open' : 'closed'}
         variants={variants}
-        className='absolute w-full h-full border-2 border-gray-500 left-0 top-0 z-20 rounded-xl pointer-events-none'
+        className='absolute w-full h-12 border-2 border-placeholderBlack left-0 top-0 z-20 rounded-lg pointer-events-none hover:border-darkBlue'
       />
       {optionsList.map((element, index) => {
         return (
@@ -91,7 +91,7 @@ const DropdownOptions = <T extends string>({
               }}
               type='button'
               key={element}
-              className={`text-darkBlue font-medium text-xl font-roboto-text flex justify-start items-center w-full hover:text-white bg-white hover:bg-highlight pl-4 h-16 ${
+              className={`text-darkBlue font-roboto-text flex justify-start items-center w-full hover:text-white bg-white hover:bg-highlight pl-3 h-12 ${
                 index === 0 && 'rounded-t-xl'
               } ${
                 index === optionsList.length - 1 && 'rounded-b-xl'
@@ -136,12 +136,12 @@ const DropdownWhiteAdd = <T extends string>({
   return (
     <motion.div
       animate={isOpen ? 'open' : 'closed'}
-      className='relative group mt-5 w-full h-16 rounded-lg bg-white border-2 border-gray-200'
+      className='relative group mt-2 w-48 h-12 rounded-lg bg-white border-2 border-gray-200 z-10'
     >
       <button
         onClick={toggleDropdown}
         type='button'
-        className='text-xl text-darkBlue font-medium font-roboto-text text-center flex justify-between items-center w-full h-full px-5'
+        className='text-darkBlue font-roboto-text text-center flex justify-between items-center w-full h-full px-3'
       >
         {text}
         <DropdownPlus />

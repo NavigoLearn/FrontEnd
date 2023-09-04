@@ -15,5 +15,7 @@ export class ActionsClass {
   onHover: IActionTypes = 'Do nothing';
 
   // @ts-ignore
-  additionalData: IAdditionalData = {};
+  additionalData: IAdditionalData = {
+    link: '',
+  };
 }

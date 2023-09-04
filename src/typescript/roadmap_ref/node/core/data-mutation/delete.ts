@@ -8,6 +8,13 @@ export const deleteComponentWithId = decoratorTriggerRerenderEditor(
     );
   }
 );
+
+export const deleteAllComponents = decoratorTriggerRerenderEditor(
+  (node: NodeClass) => {
+    node.components = [];
+  }
+);
+
 export function deleteAttachmentWithId(node: NodeClass, id: string) {
   node.attachments = node.attachments.filter(
     (attachment) => attachment.id !== id

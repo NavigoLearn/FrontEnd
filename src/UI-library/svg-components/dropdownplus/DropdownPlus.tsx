@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 
 const DropdownPlus = () => {
   return (
-    <svg width='35' height='35' viewBox='0 0 23 23' fill='none'>
+    <svg width='30' height='30' viewBox='0 0 23 23' fill='none'>
       <circle cx='11.5' cy='11.5' r='10' fill='#1A1B50' />
       <motion.line
         x1='7'
