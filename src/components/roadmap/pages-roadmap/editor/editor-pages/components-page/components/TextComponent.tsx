@@ -17,6 +17,7 @@ import DraggableInput from '@src/UI-library/DraggableInput';
 import { nodeNameSyncer } from '@src/typescript/roadmap_ref/node/misc';
 import TextSizeComponent from '../text-controler/TextSizeComponent';
 import TextWeightComponent from '../text-controler/TextWeightComponent';
+import SpecialInput from '../../properties-page/SpecialInput';
 
 type TitleComponentProps = {
   node: NodeClass;
@@ -38,18 +39,19 @@ const TextComponent = ({ node, id, name }: TitleComponentProps) => {
 
   return (
     <div>
-      <div className='flex w-full outline-black'>
-        <input
-          className={`flex-grow border-2 border-gray-400 h-16 rounded-lg text-darkBlue text-lg pl-4 font-medium focus:border-black ${tailwindTransitionClass}`}
+      <div className='flex w-full outline-black mt-2'>
+        <SpecialInput
+          label='Text'
           placeholder={name}
           value={getComponentTextText(titleComponent)}
-          onChange={(event) => {
-            const { value } = event.target;
-            mutateComponentTextText(titleComponent, value);
-            if (node.components.length === 1) nodeNameSyncer(node.id, value);
+          onChange={(newValue) => {
+            mutateComponentTextText(titleComponent, newValue);
+            if (node.components.length === 1) nodeNameSyncer(node.id, newValue);
             rerender();
             triggerNodeRerender(node.id);
           }}
+          w='96'
+          h='14'
         />
         <button
           type='button'
@@ -62,36 +64,40 @@ const TextComponent = ({ node, id, name }: TitleComponentProps) => {
           <TrashIcon />
         </button>
       </div>
-      <div className='flex flex-row w-full'>
-        <DraggableInput
-          name='W'
-          value={titleComponent.width}
-          onChange={(value) => {
-            const newValue = parseInt(value, 10);
-            if (checkInvalidInput(value)) return;
-            if (newValue < 0) return;
-            mutateComponentTextWidth(titleComponent, newValue);
-            rerender();
-            triggerNodeRerender(node.id);
-          }}
-        />
-        <DraggableInput
-          name='H'
-          value={titleComponent.height}
-          onChange={(value) => {
-            const newValue = parseInt(value, 10);
-            if (checkInvalidInput(value)) return;
-            if (newValue < 0) return;
-            titleComponent.height = newValue;
-            rerender();
-            triggerNodeRerender(node.id);
-          }}
-        />
-      </div>
-      <div className='flex flex-row gap-2'>
+      <div className='flex flex-row mt-1'>
         <TextSizeComponent component={titleComponent} nodeId={node.id} />
-        <div className='border-[1px] border-gray-300 h-10 mx-4 translate-y-9' />
         <TextWeightComponent component={titleComponent} nodeId={node.id} />
+        <div className='flex flex-col'>
+          <div className='text-placeholder font-roboto-text text-sm ml-1'>
+            Sizing
+          </div>
+          <div className='flex flex-row'>
+            <DraggableInput
+              name='W'
+              value={titleComponent.width}
+              onChange={(value) => {
+                const newValue = parseInt(value, 10);
+                if (checkInvalidInput(value)) return;
+                if (newValue < 0) return;
+                mutateComponentTextWidth(titleComponent, newValue);
+                rerender();
+                triggerNodeRerender(node.id);
+              }}
+            />
+            <DraggableInput
+              name='H'
+              value={titleComponent.height}
+              onChange={(value) => {
+                const newValue = parseInt(value, 10);
+                if (checkInvalidInput(value)) return;
+                if (newValue < 0) return;
+                titleComponent.height = newValue;
+                rerender();
+                triggerNodeRerender(node.id);
+              }}
+            />
+          </div>
+        </div>
       </div>
     </div>
   );
