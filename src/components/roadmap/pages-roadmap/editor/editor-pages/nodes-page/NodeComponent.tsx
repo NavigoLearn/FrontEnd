@@ -42,33 +42,7 @@ const NodeProperties = ({ node }: INodeProperties) => {
 
   return (
     <div className=''>
-      <div className='flex'>
-        <DraggableInput
-          name='H'
-          value={data.height}
-          onChange={(value) => {
-            const newValue = parseInt(value, 10);
-            if (checkInvalidInput(value)) return;
-            mutateNodeHeight(node, newValue);
-            triggerNodeRerender(node.id);
-            triggerRerenderEditor();
-          }}
-          sensitivity={2}
-        />
-        <DraggableInput
-          name='W'
-          value={data.width}
-          onChange={(value) => {
-            const newValue = parseInt(value, 10);
-            if (checkInvalidInput(value)) return;
-            mutateNodeWidth(node, newValue);
-            triggerNodeRerender(node.id);
-            triggerRerenderEditor();
-          }}
-          sensitivity={2}
-        />
-      </div>
-      <div className='flex'>
+      <div className='flex flex-row gap-1'>
         <DraggableInput
           name='X'
           value={data.coords.x}
@@ -93,7 +67,33 @@ const NodeProperties = ({ node }: INodeProperties) => {
           }}
           sensitivity={2}
         />
+        <div className='border-l-[2px] border-rgb(0,0,0,0.6) mx-1' />
+        <DraggableInput
+          name='W'
+          value={data.width}
+          onChange={(value) => {
+            const newValue = parseInt(value, 10);
+            if (checkInvalidInput(value)) return;
+            mutateNodeWidth(node, newValue);
+            triggerNodeRerender(node.id);
+            triggerRerenderEditor();
+          }}
+          sensitivity={2}
+        />
+        <DraggableInput
+          name='H'
+          value={data.height}
+          onChange={(value) => {
+            const newValue = parseInt(value, 10);
+            if (checkInvalidInput(value)) return;
+            mutateNodeHeight(node, newValue);
+            triggerNodeRerender(node.id);
+            triggerRerenderEditor();
+          }}
+          sensitivity={2}
+        />
       </div>
+      <div className='flex' />
     </div>
   );
 };
@@ -134,6 +134,7 @@ const NodeComponent = ({
   const node = nodes[id];
   const parentNode = nodes[parentNestId];
   const [nameChange, setNameChange] = useState(false);
+  const nodeNumber = parentNode.subNodeIds.indexOf(id) + 1;
 
   return (
     <div>
@@ -146,7 +147,7 @@ const NodeComponent = ({
               }}
               className=''
             >
-              {node.name}
+              {`Subnode ${nodeNumber}`}
             </span>
           ) : (
             <NameChangeComponent
