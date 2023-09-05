@@ -37,8 +37,8 @@ module.exports = {
         'roboto-text': ['"Roboto"'],
       },
       boxShadow: {
-        standard: '0px 4px 20px rgba(0, 0, 0, 0.15)',
-        darkBlue:'0px 6px 6px 0px rgba(60, 66, 206, 0.10)'
+        standard: '0px 4px 4px rgba(0, 0, 0, 0.10)',
+        darkBlueCustom:'0px 6px 6px 0px rgba(60, 66, 206, 0.10)'
       },
       screens: { // fk u eugene
         // for each new stupid screen size, one part of the integration bed will be shattered stupid

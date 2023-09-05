@@ -1,6 +1,8 @@
-import React, { useState } from 'react';
+import React, { useRef } from 'react';
 import { handleLogout } from '@components/auth/socialAuth';
 import { motion, Variants } from 'framer-motion';
+import { useClickOutside } from '@hooks/useClickOutside';
+import useStateAndRef from '@hooks/useStateAndRef';
 import ButtonItem from './ButtonItem';
 
 const ProfileDropdown = ({
@@ -8,31 +10,38 @@ const ProfileDropdown = ({
 }: {
   profilePictureUrl: string;
 }) => {
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen, isOpenRef] = useStateAndRef(false);
+  const dropdownRef = useRef(null);
+
+  useClickOutside(dropdownRef, () => {
+    if (isOpenRef.current === false) {
+      return;
+    }
+    setIsOpen(false);
+  });
 
   const itemVariants: Variants = {
     open: {
       opacity: 1,
-      y: 0,
+      x: 0,
       transition: {
-        restDelta: 0.5,
         type: 'spring',
         stiffness: 300,
         damping: 24,
+        duration: 0.2,
       },
     },
     closed: {
+      x: 10,
       opacity: 0,
-      y: 20,
       transition: {
-        restDelta: 0.5,
-        duration: 0.2,
+        duration: 0,
       },
     },
   };
 
   const handleAnimation = () => {
-    setIsOpen(!isOpen);
+    setIsOpen(!isOpenRef.current);
   };
 
   return (
@@ -45,7 +54,10 @@ const ProfileDropdown = ({
         whileTap={{
           scale: 0.9,
         }}
-        onClick={handleAnimation}
+        onClick={(e) => {
+          handleAnimation();
+          e.stopPropagation();
+        }}
       >
         <img
           draggable='false'
@@ -54,26 +66,29 @@ const ProfileDropdown = ({
           className='w-10 h-10 rounded-full flex m-1'
         />
       </motion.button>
-      <motion.ul
-        className='flex flex-col gap-2 items-center justify-center w-32 h-24 bg-white rounded-md shadow-2xl absolute top-5 left-90%'
+      <motion.div
+        ref={dropdownRef}
+        className='w-32 h-[88px] bg-white rounded-md  absolute top-16 right-0 z-10'
+        initial={{
+          x: 0,
+          y: 20,
+          opacity: 0,
+        }}
         variants={{
           open: {
-            clipPath: 'inset(0% 0% 0% 0% round 10px)',
-            translateY: 50,
-            translateX: -40,
+            y: 0,
+            x: 0,
             opacity: 1,
             transition: {
               type: 'spring',
               bounce: 0,
-              duration: 0.7,
-              delayChildren: 0.3,
+              duration: 0.3,
               staggerChildren: 0.05,
             },
           },
           closed: {
-            clipPath: 'inset(10% 50% 90% 50% round 10px)',
-            translateY: 0,
-            translateX: 0,
+            y: 20,
+            x: 0,
             opacity: 0,
             transition: {
               type: 'spring',
@@ -84,21 +99,24 @@ const ProfileDropdown = ({
         }}
         style={{ pointerEvents: isOpen ? 'auto' : 'none' }}
       >
-        <ButtonItem
-          variants={itemVariants}
-          text='Profile'
-          handleAnimation={handleAnimation}
-          isOpen={isOpen}
-          onClick={() => console.log('profile')}
-        />
-        <ButtonItem
-          variants={itemVariants}
-          text='Log Out'
-          handleAnimation={handleAnimation}
-          isOpen={isOpen}
-          onClick={handleLogout}
-        />
-      </motion.ul>
+        <ul className=' flex flex-col gap-1 items-center justify-center absolute top-0 left-0 bg-white w-full h-full z-20 border-2 border-gray-200  rounded-md'>
+          <ButtonItem
+            variants={itemVariants}
+            text='Profile'
+            handleAnimation={handleAnimation}
+            isOpen={isOpen}
+            onClick={() => console.log('profile')}
+          />
+          <ButtonItem
+            variants={itemVariants}
+            text='Log Out'
+            handleAnimation={handleAnimation}
+            isOpen={isOpen}
+            onClick={handleLogout}
+          />
+        </ul>
+        <div className='absolute w-4 h-4  top-[-7px] right-4  rotate-45 bg-white z-20 border-0 border-l-2 border-t-2  border-gray-200 pointer-events-none ' />
+      </motion.div>
     </motion.nav>
   );
 };

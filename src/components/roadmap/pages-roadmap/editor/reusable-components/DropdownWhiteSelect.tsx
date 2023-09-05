@@ -94,11 +94,12 @@ const DropdownWhiteSelect = ({
       <button
         type='button'
         className='flex items-center w-full h-full px-4'
-        onClick={() => {
+        onClick={(e) => {
           setDropdown((prev) => !prev);
           if (dropdownCallback) {
             dropdownCallback(!dropdown);
           }
+          e.stopPropagation();
         }}
       >
         <span className='text-darkBlue text-md font-medium font-roboto-text'>

@@ -4,17 +4,15 @@ import { motion } from 'framer-motion';
 type IProfileIconsProps = {
   handleAnimation: () => void;
   isOpen: boolean;
-  width: number;
-  height: number;
   isHovered: boolean;
+  size: number;
 };
 
 export const ProfileIcons = ({
   handleAnimation,
   isOpen,
-  width,
-  height,
   isHovered,
+  size,
 }: IProfileIconsProps) => {
   const variants = {
     open: {
@@ -22,7 +20,6 @@ export const ProfileIcons = ({
       x: 0,
       transition: {
         staggerChildren: 0.07,
-        delayChildren: 0.2, // Delay for the entire group
       },
     },
     closed: { opacity: 0, x: 100 },
@@ -30,28 +27,30 @@ export const ProfileIcons = ({
       opacity: 1,
       x: 0,
       transition: {
-        delay: 0.55, // Delay for the first line
+        delay: 0.1, // Delay for the first line
       },
     },
     line2: {
       opacity: 1,
       x: 0,
       transition: {
-        delay: 0.65, // Delay for the second line
+        delay: 0.15, // Delay for the second line
       },
     },
     line3: {
       opacity: 1,
       x: 0,
       transition: {
-        delay: 0.75, // Delay for the third line
+        delay: 0.2, // Delay for the third line
       },
     },
   };
   return (
     <svg
       onClick={handleAnimation}
-      className={`w-${width} h-${height} flex`}
+      className='flex'
+      width={size}
+      height={size}
       viewBox='0 0 200 100'
       version='1.1'
       xmlns='http://www.w3.org/2000/svg'
@@ -74,14 +73,14 @@ export const ProfileIcons = ({
                 open: {
                   opacity: 1,
                   transition: {
-                    duration: 0.3,
-                    delay: 0.5,
+                    duration: 0.2,
+                    delay: 0.1,
                   },
                 },
                 closed: {
                   opacity: 0,
                   transition: {
-                    duration: 0.3,
+                    duration: 0.2,
                   },
                 },
               }}
@@ -95,14 +94,13 @@ export const ProfileIcons = ({
                 open: {
                   opacity: 1,
                   transition: {
-                    duration: 0.3,
-                    delay: 0.5,
+                    duration: 0.2,
                   },
                 },
                 closed: {
                   opacity: 0,
                   transition: {
-                    duration: 0.3,
+                    duration: 0.2,
                   },
                 },
               }}
@@ -121,7 +119,7 @@ export const ProfileIcons = ({
         x2='200'
         y2='30'
         stroke={isHovered ? '#ffffff' : '#1A1B50'}
-        strokeWidth='10'
+        strokeWidth='5'
       />
 
       <motion.line
@@ -132,7 +130,7 @@ export const ProfileIcons = ({
         x2='200'
         y2='60'
         stroke={isHovered ? '#ffffff' : '#1A1B50'}
-        strokeWidth='10'
+        strokeWidth='5'
       />
 
       <motion.line
@@ -143,7 +141,7 @@ export const ProfileIcons = ({
         x2='200'
         y2='90'
         stroke={isHovered ? '#ffffff' : '#1A1B50'}
-        strokeWidth='10'
+        strokeWidth='5'
       />
     </svg>
   );
