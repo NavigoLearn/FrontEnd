@@ -35,9 +35,6 @@ const ActivityPage = () => {
           );
         })}
       </div>
-      <h1 className='text-lg monitor:text-2xl text-darkBlue font-roboto-text font-medium mt-10'>
-        Achievements
-      </h1>
     </div>
   );
 };
