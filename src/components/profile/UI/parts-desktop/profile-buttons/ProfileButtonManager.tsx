@@ -10,6 +10,9 @@ import { useStore } from '@nanostores/react';
 
 const ProfileButtonManager = () => {
   useStore(storeProfilePages);
+  function firstLetterUpperCase(str: string) {
+    return str.charAt(0).toUpperCase() + str.slice(1);
+  }
   return (
     <div className='flex flex-col gap-1'>
       {profilePagesArray.map((page) => {
@@ -18,7 +21,7 @@ const ProfileButtonManager = () => {
           <ProfileButton
             selected={selected}
             key={page}
-            name={page}
+            name={firstLetterUpperCase(page)}
             callback={() => {
               setProfilePage(page);
             }}
