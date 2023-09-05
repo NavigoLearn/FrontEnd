@@ -19,8 +19,8 @@ const SubNodesPage = () => {
 
   return (
     <div className='w-full h-full'>
-      <div className='w-full flex justify-between h-[58px] items-center'>
-        <div className='relative group mt-5 w-52 h-[58px] rounded-lg border-gray-200 border-2'>
+      <div className='w-full flex justify-between h-[50px] items-center'>
+        <div className='relative group mt-5 w-52 h-[50px] rounded-lg border-gray-200 border-2'>
           <button
             type='button'
             onMouseEnter={() => setIsHovered(true)}
@@ -46,7 +46,7 @@ const SubNodesPage = () => {
           />
         </div>
       </div>
-      <div className='flex flex-col gap-4 mt-5'>
+      <div className='flex flex-col gap-4 mt-8'>
         {node.subNodeIds.map((id) => {
           return (
             // at this component is the node tab problem
