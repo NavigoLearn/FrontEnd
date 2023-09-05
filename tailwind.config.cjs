@@ -29,6 +29,7 @@ module.exports = {
         secondary: 'rgb(0,0,0,0.6)',
         placeholder: 'rgb(0,0,0,0.3)',
         darkBlue: '#1A1B50',
+        secondaryDarkBlue: 'rgba(26,27,80,0.7)',
         lightBlue: '#3361D8'
       },
       fontFamily: {
@@ -36,13 +37,13 @@ module.exports = {
         'roboto-text': ['"Roboto"'],
       },
       boxShadow: {
-        standard: '0px 4px 20px rgba(0, 0, 0, 0.15)',
-        darkBlue:'0px 6px 6px 0px rgba(60, 66, 206, 0.10)'
+        standard: '0px 4px 4px rgba(0, 0, 0, 0.10)',
+        darkBlueCustom:'0px 6px 6px 0px rgba(60, 66, 206, 0.10)'
       },
       screens: { // fk u eugene
+        // for each new stupid screen size, one part of the integration bed will be shattered stupid
         "landing-min": "1260px",
-        // "mobile-landing": "970px",
-        // "bigger-nodes": "400px"
+        "monitor": "2000px",
       },
       backgroundImage: {
         buttongradient: 'linear-gradient(90deg, #3361D8 0%, #262EE7 100%)',

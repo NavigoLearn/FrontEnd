@@ -1,16 +1,16 @@
 import React, { RefObject, useEffect, useState } from 'react';
 import { useStore } from '@nanostores/react';
 import userDisplay, { fetchUserAndSetStore } from '@store/user/user-display';
-import Bio from '@components/profile/common/components/Bio';
-import WebsiteUrl from '@components/profile/common/components/WebsiteUrl';
-import Quote from '@components/profile/common/components/Quote';
-import Label from '@components/profile/common/components/Label';
-import Follow from '@components/profile/common/components/Follow';
-import Name from '@components/profile/common/components/Name';
-import Statistics from '@components/profile/common/components/Statistics';
-import ButtonsEdit from '@components/profile/common/components/ButtonsEdit';
+import Bio from '@components/profile/old-stuff/common/components/Bio';
+import WebsiteUrl from '@components/profile/old-stuff/common/components/WebsiteUrl';
+import Quote from '@components/profile/old-stuff/common/components/Quote';
+import Label from '@components/profile/old-stuff/common/components/Label';
+import Follow from '@components/profile/old-stuff/common/components/Follow';
+import Name from '@components/profile/old-stuff/common/components/Name';
+import Statistics from '@components/profile/old-stuff/common/components/Statistics';
+import ButtonsEdit from '@components/profile/old-stuff/common/components/ButtonsEdit';
 import loggedUser from '@store/user/logged-user';
-import ButtonsFollow from '@components/profile/common/components/ButtonsFollow';
+import ButtonsFollow from '@components/profile/old-stuff/common/components/ButtonsFollow';
 import {
   postBioData,
   postNameData,

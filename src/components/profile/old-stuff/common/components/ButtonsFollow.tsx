@@ -4,7 +4,7 @@ import loggedUser from '@store/user/logged-user';
 import {
   fetchFollowUser,
   fetchUnfollowUser,
-} from '../../../../api-wrapper/user/user';
+} from '../../../../../api-wrapper/user/user';
 
 const ButtonsFollow = ({ reqAgain }: { reqAgain: () => void }) => {
   const [loaded, setLoaded] = useState(false);

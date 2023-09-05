@@ -7,7 +7,9 @@ const Explore = () => {
   const mobile = useIsMobile();
   return (
     <div className='relative pointer-events-auto z-10 '>
-      {mobile ? <ExploreMobile /> : <ExploreDesktop />}
+      {mobile !== null && (
+        <div>{mobile ? <ExploreMobile /> : <ExploreDesktop />}</div>
+      )}
     </div>
   );
 };

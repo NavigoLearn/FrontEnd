@@ -9,13 +9,14 @@ export function useClickOutside(
     function handleClickOutside(event) {
       if (myElement.current && !myElement.current.contains(event.target)) {
         callback();
+        event.stopPropagation();
       }
     }
-    document.addEventListener('mousedown', handleClickOutside);
-    document.addEventListener('mouseup', handleClickOutside);
+    // document.addEventListener('mousedown', handleClickOutside);
+    document.addEventListener('click', handleClickOutside);
     return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-      document.removeEventListener('mouseup', handleClickOutside);
+      // document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener('click', handleClickOutside);
     };
   }, []); // Empty dependency array means this useEffect runs once when the component mounts
 }

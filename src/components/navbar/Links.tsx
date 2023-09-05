@@ -18,7 +18,7 @@ const loggedLinks = [
     title: 'Create Roadmap',
     path: '/roadmap/create',
     cName:
-      ' text-md font-semibold px-6 drop-shadow-xl rounded-md py-1 bg-primary border-2 border-transparent hover:border-black hover:bg-darkBlue transition-all text-white flex items-center text-center font-normal ',
+      ' text-md font-semibold px-3 drop-shadow-md rounded-md py-1 bg-primary border-2 border-transparent hover:bg-darkBlue transition-all text-white flex items-center text-center font-normal ',
 
     cIcon: '',
     id: 3,

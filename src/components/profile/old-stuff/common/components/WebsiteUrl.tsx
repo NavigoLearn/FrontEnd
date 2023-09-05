@@ -1,7 +1,7 @@
 import React from 'react';
 import link from '@assets/link.svg';
 import { ProfileComponentProps } from '@type/profile/types';
-import HOCedit from '@components/profile/common/HOCedit';
+import HOCedit from '@components/profile/old-stuff/common/HOCedit';
 
 const WebsiteUrl = ({ edit, onEdit, value }: ProfileComponentProps) => {
   return (
@@ -14,7 +14,8 @@ const WebsiteUrl = ({ edit, onEdit, value }: ProfileComponentProps) => {
           target='_blank'
           rel='noopener noreferrer'
         >
-          <img draggable="false"
+          <img
+            draggable='false'
             src={link}
             className='mx-2 inline-block w-4 h-4 select-none'
             alt='linkicon'
@@ -23,7 +24,8 @@ const WebsiteUrl = ({ edit, onEdit, value }: ProfileComponentProps) => {
         </a>
       ) : (
         <div className='flex'>
-          <img draggable="false"
+          <img
+            draggable='false'
             src={link}
             className='mx-2 inline-block w-4 h-4 select-none'
             alt='linkicon'

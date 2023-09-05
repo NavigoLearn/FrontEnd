@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 
 export function useIsMobile() {
-  const [isMobile, setIsMobile] = useState(false);
+  const [isMobile, setIsMobile] = useState(null);
 
   useEffect(() => {
     const userAgent =
