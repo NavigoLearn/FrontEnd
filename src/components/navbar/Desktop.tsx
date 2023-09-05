@@ -11,7 +11,9 @@ import { loggedLinks, guestLinks } from './Links';
 const DesktopNavbar = () => {
   const [hydrated, setHydrated] = useState(false);
   const { profilePictureUrl } = useStore(loggedUser);
-  const { loaded, isLogged } = useStore(userStatus);
+  const { loaded } = useStore(userStatus);
+
+  const isLogged = true;
 
   useEffect(() => {
     setHydrated(true);

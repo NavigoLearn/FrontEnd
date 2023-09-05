@@ -162,7 +162,7 @@ const NodeComponent = ({
         </section>
         <button
           type='button'
-          className=' w-8 h-8 mx-4 mb-2'
+          className=' w-2 h-2 mb-8'
           onClick={() => {
             deleteProtocolNodeFromRoadmap(node);
             triggerNodeRerender(parentNode.id);
