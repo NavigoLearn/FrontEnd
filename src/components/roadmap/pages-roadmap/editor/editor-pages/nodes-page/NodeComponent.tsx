@@ -17,6 +17,7 @@ import { subscribeToHub } from '@store/roadmap-refactor/subscribers/function-sub
 import TrashIcon from '@src/UI-library/svg-components/trash/TrashIcon';
 import { deleteProtocolNodeFromRoadmap } from '@src/typescript/roadmap_ref/roadmap-data/protocols/delete';
 import DraggableInput from '@src/UI-library/DraggableInput';
+import TrashIconCustomizable from '@src/UI-library/svg-components/trash/TrashIconCustomizable';
 
 type INodeProperties = {
   node: NodeClass;
@@ -135,6 +136,7 @@ const NodeComponent = ({
   const parentNode = nodes[parentNestId];
   const [nameChange, setNameChange] = useState(false);
   const nodeNumber = parentNode.subNodeIds.indexOf(id) + 1;
+  const [isHovered, setIsHovered] = useState(false);
 
   return (
     <div>
@@ -145,7 +147,7 @@ const NodeComponent = ({
               onDoubleClick={() => {
                 setNameChange(true);
               }}
-              className=''
+              className='text-placeholder font-roboto-text text-md'
             >
               {`Subnode ${nodeNumber}`}
             </span>
@@ -162,14 +164,20 @@ const NodeComponent = ({
         </section>
         <button
           type='button'
-          className=' w-2 h-2 mb-8'
+          onMouseEnter={() => setIsHovered(true)}
+          onMouseLeave={() => setIsHovered(false)}
+          className='mt-5'
           onClick={() => {
             deleteProtocolNodeFromRoadmap(node);
             triggerNodeRerender(parentNode.id);
             triggerRerenderEditor();
           }}
         >
-          <TrashIcon />
+          <TrashIconCustomizable
+            sizeIcon={50}
+            sizeContainer={50}
+            hovered={isHovered}
+          />
         </button>
         {/* <button */}
         {/*  type='button' */}
