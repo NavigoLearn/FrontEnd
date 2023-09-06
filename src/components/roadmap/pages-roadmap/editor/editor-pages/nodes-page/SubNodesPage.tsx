@@ -11,6 +11,7 @@ import { appendSubNode } from '@src/typescript/roadmap_ref/roadmap-data/protocol
 import { deleteAllSubNodes } from '@src/typescript/roadmap_ref/node/core/data-mutation/delete';
 import DeleteButton from '@components/roadmap/pages-roadmap/editor/editor-pages/operations-page/actions/DeleteButton';
 import { triggerNodeRerender } from '@src/store/roadmap-refactor/render/rerender-triggers-nodes';
+import DropdownPlusSelection from '../../reusable-components/DropdownPlusSelection';
 
 const SubNodesPage = () => {
   const { selectedNodeId } = useStore(editorSelectedData);
@@ -20,7 +21,7 @@ const SubNodesPage = () => {
   return (
     <div className='w-full h-full'>
       <div className='w-full flex justify-between h-[50px] items-center'>
-        <div className='relative group mt-5 w-52 h-[50px] rounded-lg border-gray-200 border-2'>
+        {/* <div className='relative group mt-5 w-52 h-[50px] rounded-lg border-gray-200 border-2'>
           <button
             type='button'
             onMouseEnter={() => setIsHovered(true)}
@@ -33,8 +34,27 @@ const SubNodesPage = () => {
             Add subnode
             <DropdownPlus isHovered={isHovered} />
           </button>
+        </div> */}
+        <div className='w-48'>
+          <DropdownPlusSelection
+            dropdownName='Add subnode'
+            options={[
+              {
+                id: '1',
+                name: 'Subnode',
+                callback: () => {
+                  appendSubNode(node);
+                  triggerNodeRerender(node.id);
+                  triggerRerenderEditor();
+                },
+              },
+            ]}
+            dropdownCallback={() => {
+              return null;
+            }}
+          />
         </div>
-        <div className='flex justify-center items-center mr-6 mt-4'>
+        <div className='flex justify-center items-center mr-6'>
           <DeleteButton
             callback={() => {
               deleteAllSubNodes(node);
@@ -46,7 +66,8 @@ const SubNodesPage = () => {
           />
         </div>
       </div>
-      <div className='flex flex-col gap-4 mt-8'>
+      <hr className='border-1 border-gray-200 mt-5 mb-2' />
+      <div className='flex flex-col gap-4'>
         {node.subNodeIds.map((id) => {
           return (
             // at this component is the node tab problem
