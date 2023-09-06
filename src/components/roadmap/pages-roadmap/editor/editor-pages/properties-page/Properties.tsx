@@ -20,7 +20,6 @@ import {
 import { tailwindTransitionClass } from '@src/UI-library/tailwind-utils';
 import DraggableInput from '@src/UI-library/DraggableInput';
 import DropdownWhiteSelect from '@components/roadmap/pages-roadmap/editor/reusable-components/DropdownWhiteSelect';
-import DropdownGreyAdd from '@components/roadmap/pages-roadmap/editor/reusable-components/DropdownWhiteAdd';
 import { mutateActionLink } from '@src/typescript/roadmap_ref/node/core/actions/mutate';
 import { getColorThemeFromRoadmap } from '@components/roadmap/pages-roadmap/setup-screen/theme-controler';
 import { IActionTypes } from '@src/typescript/roadmap_ref/node/core/actions/core';
