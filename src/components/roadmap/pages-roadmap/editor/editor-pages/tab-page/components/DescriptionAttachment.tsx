@@ -4,6 +4,8 @@ import { triggerRerenderEditor } from '@store/roadmap-refactor/elements-editing/
 import { tailwindTransitionClass } from '@src/UI-library/tailwind-utils';
 import { IAttachmentTabDescriptionProperties } from '@type/roadmap/node/tab-types';
 import { useStore } from '@nanostores/react';
+import SpecialTextArea from '../../properties-page/SpecialTextArea';
+import SpecialInput from '../../properties-page/SpecialInput';
 
 type IDescriptionComponentProps = {
   value: string;
@@ -19,18 +21,22 @@ const DescriptionAttachmentEdit = ({
 }: IDescriptionComponentProps) => {
   const { status } = useStore(attachmentPageStatus);
   const { isEditing } = status;
+  const handleChange = (newValue) => {
+    if (onChange) {
+      onChange('descriptionText', newValue);
+      triggerRerenderEditor();
+    }
+  };
 
   return (
-    <div className='flex gap-1 w-full flex-col'>
-      <h1 className='text-placeholder font-roboto-text'>Description</h1>
-      <textarea
-        className={`flex-grow mt-2 pt-2 font-medium h-40 resize-none outline-none border-2 border-gray-400 rounded-lg text-darkBlue text-lg pl-4 focus:border-black ${tailwindTransitionClass}`}
-        placeholder='Give an expressive description'
+    <div className='w-full'>
+      <SpecialTextArea
+        label='Description'
         value={value}
-        onChange={(event) => {
-          onChange('descriptionText', event.target.value);
-          triggerRerenderEditor();
-        }}
+        onChange={(newValue) => handleChange(newValue)}
+        placeholder='Give an expressive description'
+        h='40'
+        w='full'
       />
     </div>
   );
@@ -42,7 +48,7 @@ export const DescriptionAttachmentView = ({
   const { isEditing } = status;
 
   return (
-    <div className='flex gap-2 w-full font-roboto-text text-secondary text-lg mt-3 mb-5 px-9'>
+    <div className='w-full font-roboto-text text-secondary text-lg mt-3 mb-5 px-9 break-words whitespace-pre-line'>
       {value || 'No description yet'}
     </div>
   );
