@@ -4,16 +4,14 @@ import { motion } from 'framer-motion';
 type ILogOutIconProps = {
   handleAnimation: () => void;
   isOpen: boolean;
-  width: number;
-  height: number;
+  size: number;
   isHovered: boolean;
 };
 
 export const LogOutIcon = ({
   handleAnimation,
   isOpen,
-  width,
-  height,
+  size,
   isHovered,
 }: ILogOutIconProps) => {
   const variants = {
@@ -30,29 +28,31 @@ export const LogOutIcon = ({
       opacity: 1,
       x: 0,
       transition: {
-        delay: 0.55,
+        delay: 0.1,
       },
     },
     arrow: {
       opacity: 1,
       x: 0,
       transition: {
-        delay: 0.65,
+        delay: 0.15,
       },
     },
     arrowClosed: {
       opacity: 0,
-      x: 100,
+      x: 20,
       transition: {
-        delay: 0.65,
+        delay: 0.2,
       },
     },
   };
   return (
     <svg
       onClick={handleAnimation}
-      className={`w-${width} h-${height} flex`}
+      className={` flex`}
       viewBox='0 0 24 24'
+      width={size}
+      height={size}
       fill='none'
       xmlns='http://www.w3.org/2000/svg'
     >

@@ -25,7 +25,7 @@ const ProfileDisplayManager = () => {
   const page = getProfilePage();
 
   return (
-    <div className=' w-[600px] monitor:w-[900px] '>
+    <div className=' w-[750px] monitor:w-[900px] '>
       <AnimatePresence>
         {page === 'profile' && (
           <AnimationWrapper id={page}>

@@ -17,6 +17,7 @@ import { subscribeToHub } from '@store/roadmap-refactor/subscribers/function-sub
 import TrashIcon from '@src/UI-library/svg-components/trash/TrashIcon';
 import { deleteProtocolNodeFromRoadmap } from '@src/typescript/roadmap_ref/roadmap-data/protocols/delete';
 import DraggableInput from '@src/UI-library/DraggableInput';
+import TrashIconCustomizable from '@src/UI-library/svg-components/trash/TrashIconCustomizable';
 
 type INodeProperties = {
   node: NodeClass;
@@ -42,33 +43,7 @@ const NodeProperties = ({ node }: INodeProperties) => {
 
   return (
     <div className=''>
-      <div className='flex'>
-        <DraggableInput
-          name='H'
-          value={data.height}
-          onChange={(value) => {
-            const newValue = parseInt(value, 10);
-            if (checkInvalidInput(value)) return;
-            mutateNodeHeight(node, newValue);
-            triggerNodeRerender(node.id);
-            triggerRerenderEditor();
-          }}
-          sensitivity={2}
-        />
-        <DraggableInput
-          name='W'
-          value={data.width}
-          onChange={(value) => {
-            const newValue = parseInt(value, 10);
-            if (checkInvalidInput(value)) return;
-            mutateNodeWidth(node, newValue);
-            triggerNodeRerender(node.id);
-            triggerRerenderEditor();
-          }}
-          sensitivity={2}
-        />
-      </div>
-      <div className='flex'>
+      <div className='flex flex-row gap-1'>
         <DraggableInput
           name='X'
           value={data.coords.x}
@@ -93,7 +68,33 @@ const NodeProperties = ({ node }: INodeProperties) => {
           }}
           sensitivity={2}
         />
+        <div className='border-l-[2px] border-rgb(0,0,0,0.6) mx-1' />
+        <DraggableInput
+          name='W'
+          value={data.width}
+          onChange={(value) => {
+            const newValue = parseInt(value, 10);
+            if (checkInvalidInput(value)) return;
+            mutateNodeWidth(node, newValue);
+            triggerNodeRerender(node.id);
+            triggerRerenderEditor();
+          }}
+          sensitivity={2}
+        />
+        <DraggableInput
+          name='H'
+          value={data.height}
+          onChange={(value) => {
+            const newValue = parseInt(value, 10);
+            if (checkInvalidInput(value)) return;
+            mutateNodeHeight(node, newValue);
+            triggerNodeRerender(node.id);
+            triggerRerenderEditor();
+          }}
+          sensitivity={2}
+        />
       </div>
+      <div className='flex' />
     </div>
   );
 };
@@ -134,6 +135,8 @@ const NodeComponent = ({
   const node = nodes[id];
   const parentNode = nodes[parentNestId];
   const [nameChange, setNameChange] = useState(false);
+  const nodeNumber = parentNode.subNodeIds.indexOf(id) + 1;
+  const [isHovered, setIsHovered] = useState(false);
 
   return (
     <div>
@@ -144,9 +147,9 @@ const NodeComponent = ({
               onDoubleClick={() => {
                 setNameChange(true);
               }}
-              className=''
+              className='text-placeholder font-roboto-text text-md'
             >
-              {node.name}
+              {`Subnode ${nodeNumber}`}
             </span>
           ) : (
             <NameChangeComponent
@@ -161,14 +164,20 @@ const NodeComponent = ({
         </section>
         <button
           type='button'
-          className=' w-8 h-8 mx-4 mb-2'
+          onMouseEnter={() => setIsHovered(true)}
+          onMouseLeave={() => setIsHovered(false)}
+          className='mt-5'
           onClick={() => {
             deleteProtocolNodeFromRoadmap(node);
             triggerNodeRerender(parentNode.id);
             triggerRerenderEditor();
           }}
         >
-          <TrashIcon />
+          <TrashIconCustomizable
+            sizeIcon={50}
+            sizeContainer={50}
+            hovered={isHovered}
+          />
         </button>
         {/* <button */}
         {/*  type='button' */}

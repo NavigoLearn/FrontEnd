@@ -67,7 +67,12 @@ const ProfilePage = () => {
     });
   }, []);
 
-  if (!profileData) return null;
+  if (!profileData)
+    return (
+      <div className='text-2xl ml-14 mt-6 font-roboto-text text-darkBlue'>
+        Loading...
+      </div>
+    );
 
   return (
     <div className='ml-14 mt-6'>
