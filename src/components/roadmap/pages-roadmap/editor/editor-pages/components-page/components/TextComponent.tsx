@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { deleteComponentWithId } from '@src/typescript/roadmap_ref/node/core/data-mutation/delete';
 import { tailwindTransitionClass } from '@src/UI-library/tailwind-utils';
 import {
@@ -33,9 +33,11 @@ function checkInvalidInput(value: string) {
 
 const TextComponent = ({ node, id, name }: TitleComponentProps) => {
   const rerender = useTriggerRerender();
-  // is opened and node is selected
   const titleComponent = getComponentTextById(node, id);
-  // cache component
+  const [showElement, setShowElement] = useState(false);
+  const toggleShowElement = () => {
+    setShowElement(!showElement);
+  };
 
   return (
     <div>
@@ -51,11 +53,11 @@ const TextComponent = ({ node, id, name }: TitleComponentProps) => {
             triggerNodeRerender(node.id);
           }}
           w='96'
-          h='14'
+          h='12'
         />
         <button
           type='button'
-          className=' w-8 h-8 mr-6 mb-2'
+          className='w-8 h-8 ml-1 -mt-4'
           onClick={() => {
             deleteComponentWithId(node, id);
             triggerNodeRerender(node.id);
@@ -64,41 +66,28 @@ const TextComponent = ({ node, id, name }: TitleComponentProps) => {
           <TrashIcon />
         </button>
       </div>
-      <div className='flex flex-row mt-1'>
-        <TextSizeComponent component={titleComponent} nodeId={node.id} />
-        <TextWeightComponent component={titleComponent} nodeId={node.id} />
-        <div className='flex flex-col'>
-          <div className='text-placeholder font-roboto-text text-sm ml-1'>
-            Sizing
-          </div>
-          <div className='flex flex-row'>
-            <DraggableInput
-              name='W'
-              value={titleComponent.width}
-              onChange={(value) => {
-                const newValue = parseInt(value, 10);
-                if (checkInvalidInput(value)) return;
-                if (newValue < 0) return;
-                mutateComponentTextWidth(titleComponent, newValue);
-                rerender();
-                triggerNodeRerender(node.id);
-              }}
-            />
-            <DraggableInput
-              name='H'
-              value={titleComponent.height}
-              onChange={(value) => {
-                const newValue = parseInt(value, 10);
-                if (checkInvalidInput(value)) return;
-                if (newValue < 0) return;
-                titleComponent.height = newValue;
-                rerender();
-                triggerNodeRerender(node.id);
-              }}
-            />
-          </div>
+      <button
+        type='button'
+        className='flex items-center ml-2'
+        onClick={toggleShowElement}
+      >
+        <span className='text-darkBlue text-sm font-medium font-roboto-text'>
+          Show Properties
+        </span>
+        <img
+          alt='arrow dropdown'
+          src='/roadmap/arrow-dropdown.svg'
+          className={`w-7 h-7 transition-all duration-200 ${
+            showElement ? 'rotate-180' : ''
+          }`}
+        />
+      </button>
+      {showElement && (
+        <div className='flex flex-row'>
+          <TextSizeComponent component={titleComponent} nodeId={node.id} />
+          <TextWeightComponent component={titleComponent} nodeId={node.id} />
         </div>
-      </div>
+      )}
     </div>
   );
 };
