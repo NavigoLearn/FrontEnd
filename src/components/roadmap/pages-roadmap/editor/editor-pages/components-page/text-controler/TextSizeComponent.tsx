@@ -26,7 +26,7 @@ const TextSizeComponent = ({ component, nodeId }: TextSizeComponentProps) => {
       <div className='flex text-placeholder font-roboto-text text-sm ml-1 absolute'>
         Font size
       </div>
-      <div className='flex gap-2 flex-row mt-3'>
+      <div className='flex gap-2 flex-row mt-4'>
         {textSizeOptions.map((sizeOption) => (
           // eslint-disable-next-line jsx-a11y/label-has-associated-control
           <label className='checkbox-label' key={sizeOption}>

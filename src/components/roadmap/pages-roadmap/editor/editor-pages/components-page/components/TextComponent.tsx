@@ -71,7 +71,7 @@ const TextComponent = ({ node, id, name }: TitleComponentProps) => {
         className='flex items-center ml-2'
         onClick={toggleShowElement}
       >
-        <span className='text-darkBlue text-sm font-medium font-roboto-text'>
+        <span className='text-darkBlue text-sm font-medium font-roboto-text my-2'>
           Show Properties
         </span>
         <img
@@ -83,7 +83,7 @@ const TextComponent = ({ node, id, name }: TitleComponentProps) => {
         />
       </button>
       {showElement && (
-        <div className='flex flex-row'>
+        <div className='flex flex-row ml-1.5'>
           <TextSizeComponent component={titleComponent} nodeId={node.id} />
           <TextWeightComponent component={titleComponent} nodeId={node.id} />
         </div>

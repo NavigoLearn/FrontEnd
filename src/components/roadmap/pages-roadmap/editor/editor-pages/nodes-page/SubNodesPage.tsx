@@ -16,43 +16,23 @@ import DropdownPlusSelection from '../../reusable-components/DropdownPlusSelecti
 const SubNodesPage = () => {
   const { selectedNodeId } = useStore(editorSelectedData);
   const node = getNodeByIdRoadmapSelector(selectedNodeId);
-  const [isHovered, setIsHovered] = useState(false);
 
   return (
     <div className='w-full h-full'>
-      <div className='w-full flex justify-between h-[50px] items-center'>
-        {/* <div className='relative group mt-5 w-52 h-[50px] rounded-lg border-gray-200 border-2'>
+      <div className='w-full flex justify-between h-10 items-center my-1'>
+        <div className='relative group w-48 h-10 rounded-lg border-gray-300 hover:border-darkBlue border-2'>
           <button
             type='button'
-            onMouseEnter={() => setIsHovered(true)}
-            onMouseLeave={() => setIsHovered(false)}
-            className='text-md mr-4 text-darkBlue hover:bg-darkBlue hover:rounded-md hover:text-white font-medium font-roboto-text text-center flex justify-between items-center w-full h-full px-5'
+            className='text-md text-darkBlue font-medium font-roboto-text text-center flex justify-between items-center w-full h-full px-4'
             onClick={() => {
               appendSubNode(node);
             }}
           >
             Add subnode
-            <DropdownPlus isHovered={isHovered} />
+            <div className='absolute right-2'>
+              <DropdownPlus />
+            </div>
           </button>
-        </div> */}
-        <div className='w-48'>
-          <DropdownPlusSelection
-            dropdownName='Add subnode'
-            options={[
-              {
-                id: '1',
-                name: 'Subnode',
-                callback: () => {
-                  appendSubNode(node);
-                  triggerNodeRerender(node.id);
-                  triggerRerenderEditor();
-                },
-              },
-            ]}
-            dropdownCallback={() => {
-              return null;
-            }}
-          />
         </div>
         <div className='flex justify-center items-center mr-6'>
           <DeleteButton
@@ -66,8 +46,8 @@ const SubNodesPage = () => {
           />
         </div>
       </div>
-      <hr className='border-1 border-gray-200 mt-5 mb-2' />
-      <div className='flex flex-col gap-4'>
+      <hr className='border-1 border-gray-200 mt-6 mb-2' />
+      <div className='flex flex-col gap-3'>
         {node.subNodeIds.map((id) => {
           return (
             // at this component is the node tab problem

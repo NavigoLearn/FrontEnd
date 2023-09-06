@@ -33,7 +33,7 @@ const TextWeightComponent = ({
       <div className='flex text-placeholder text text-center font-roboto-text text-sm ml-1 absolute'>
         Font weight
       </div>
-      <div className='flex gap-2 flex-row mt-3'>
+      <div className='flex gap-2 flex-row mt-4'>
         {textWeightOptions.map((weightOption) => (
           // eslint-disable-next-line jsx-a11y/label-has-associated-control
           <label className='checkbox-label' key={weightOption}>
