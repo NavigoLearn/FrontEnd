@@ -99,7 +99,6 @@ const Roadmap = ({
 
   function onBeforeUnload(e: BeforeUnloadEvent) {
     const state = getRoadmapState();
-    // console.error('onBeforeUnload', state, isCreate)
     if (isCreate || state === 'edit') {
       setConfirmed(true);
       setTimeout(() => {
@@ -159,7 +158,7 @@ const Roadmap = ({
     setRoadmapDisableDrag(disableRoadmapDrag);
     setRoadmapEnableDrag(enableRoadmapDrag);
 
-    window.addEventListener('beforeunload', onBeforeUnload);
+    window.onbeforeunload = onBeforeUnload;
 
     if (checkIfSessionExists()) {
       restoreSession();
