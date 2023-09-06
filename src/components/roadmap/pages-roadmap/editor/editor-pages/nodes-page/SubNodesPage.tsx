@@ -20,7 +20,7 @@ const SubNodesPage = () => {
   return (
     <div className='w-full h-full'>
       <div className='w-full flex justify-between h-[50px] items-center'>
-        <div className='relative group mt-5 w-52 h-[50px] rounded-lg border-gray-200 border-2'>
+        <div className='relative group mt-5 w-48 h-[50px] rounded-lg border-gray-200 border-2'>
           <button
             type='button'
             onMouseEnter={() => setIsHovered(true)}
@@ -34,7 +34,7 @@ const SubNodesPage = () => {
             <DropdownPlus isHovered={isHovered} />
           </button>
         </div>
-        <div className='flex justify-center items-center mr-6 mt-4'>
+        <div className='flex justify-center items-center mt-4'>
           <DeleteButton
             callback={() => {
               deleteAllSubNodes(node);
