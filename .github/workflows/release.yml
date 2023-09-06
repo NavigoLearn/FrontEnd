@@ -27,7 +27,7 @@ jobs:
 
       - name: Generate version number
         id: vars
-        run: echo ::set-output name=version::$(date +%Y.%m.%d)
+        run: echo ::set-output name=version::$(date date +%y.%m.%d-%s)
 
       - name: Create Release
         id: create_release
