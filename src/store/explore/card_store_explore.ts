@@ -2,10 +2,7 @@ import { atom } from 'nanostores';
 import { CardType } from '@type/explore_old/card';
 import { errorHandlerDecorator } from '@src/typescript/error-handler';
 import { dispatchAnalyticsEvent } from '@store/misc/analytics';
-import {
-  fetchDefaultCardsExplore,
-  fetchRoadmapCardsProfile,
-} from '@src/api-wrapper/explore/roadmap-card-data';
+import { fetchRoadmapCardsProfile } from '@src/api-wrapper/explore/roadmap-card-data';
 
 const cardsFromApi = atom({
   cards: {},

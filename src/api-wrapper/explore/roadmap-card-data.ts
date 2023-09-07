@@ -33,7 +33,9 @@ function parameterBuilder(params: ISearchParams) {
 
 export const fetchRoadmapCardsExplore = errorHandlerDecorator(
   async (params: ISearchParams): Promise<RoadmapTypeApiExplore> => {
-    const fetchRouteExplore = `/api/search/roadmaps${parameterBuilder(params)}`;
+    const buildParams = parameterBuilder(params);
+    console.log(buildParams);
+    const fetchRouteExplore = `/api/search/roadmaps${buildParams}`;
     const responseExplore = await fetch(fetchRouteExplore, {
       method: 'GET',
       credentials: 'include',

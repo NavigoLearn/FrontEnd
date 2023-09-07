@@ -10,19 +10,17 @@ import {
   sortByOptions,
   perPageOptions,
   topicOptions,
-  setExploreQueryFieldsWithoutSideEffects,
 } from '@components/explore/stores/explore-query-store';
 import Card from '@components/explore/UI/shared/cards/Card';
 import Pagination from '@components/explore/UI/components-desktop/paginations/Pagination';
 import { CardRoadmapTypeApi } from '@type/explore/card';
 import LoadingCard from '@components/explore/UI/shared/cards/LoadingCard';
 import { useExploreCardData } from '@components/explore/logic/hooks/useExploreCardData';
-import { useTriggerRerender } from '@hooks/useTriggerRerender';
 
 const ExploreDesktop = () => {
   const { cardData, params, perPage, sortBy, topic } = useExploreCardData();
-  const rerender = useTriggerRerender();
 
+  console.log('cardData', cardData);
   return (
     <div className='w-full flex justify-center'>
       <div className='w-[1500px]'>

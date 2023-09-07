@@ -96,22 +96,6 @@ const Roadmap = ({
     );
   };
 
-  function onBeforeUnload(e: BeforeUnloadEvent) {
-    const state = getRoadmapState();
-    if (isCreate || state === 'edit') {
-      setConfirmed(true);
-      setTimeout(() => {
-        setConfirmed(false);
-      }, 10000);
-      // Cancel the event
-      e.preventDefault();
-      const msg =
-        'Are you sure you want to leave? All your changes will be lost.';
-      e.returnValue = msg;
-      return msg;
-    }
-  }
-
   useEffect(() => {
     // dummmy data
     if (!isCreate) return;
@@ -157,11 +141,9 @@ const Roadmap = ({
     setRoadmapDisableDrag(disableRoadmapDrag);
     setRoadmapEnableDrag(enableRoadmapDrag);
 
-    window.onbeforeunload = onBeforeUnload;
-
-    if (checkIfSessionExists()) {
-      restoreSession();
-    }
+    // if (checkIfSessionExists()) {
+    //   restoreSession();
+    // }
   }, []);
 
   useEffect(() => {

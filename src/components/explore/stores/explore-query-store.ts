@@ -1,6 +1,7 @@
 import { atom } from 'nanostores';
 import {
   fetchAndSetRoadmapCardsExplore,
+  setCardsLoaded,
   setCardsLoading,
 } from '@components/explore/stores/explore-cards-store';
 
@@ -75,6 +76,8 @@ export function setExploreQueryPage(page: number) {
       page,
     },
   });
+
+  setCardsLoading();
 }
 
 export function setExploreQuerySortBy(sortBy: ISortBy) {
@@ -86,6 +89,8 @@ export function setExploreQuerySortBy(sortBy: ISortBy) {
       sortBy,
     },
   });
+
+  setCardsLoading();
 }
 
 export function setExploreQueryPerPage(perPage: IPerPage) {
@@ -95,6 +100,7 @@ export function setExploreQueryPerPage(perPage: IPerPage) {
       perPage,
     },
   });
+  setCardsLoading();
 }
 
 export function setExploreQueryTopic(topic: ITopic) {
@@ -104,4 +110,6 @@ export function setExploreQueryTopic(topic: ITopic) {
       topic,
     },
   });
+
+  setCardsLoading();
 }

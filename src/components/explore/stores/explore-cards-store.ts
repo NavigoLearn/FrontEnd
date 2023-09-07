@@ -24,7 +24,6 @@ export function setCardsLoaded() {
 }
 
 export async function fetchAndSetRoadmapCardsExplore() {
-  console.log('fetching cards');
   setCardsLoading();
 
   // fetch cards from api using query

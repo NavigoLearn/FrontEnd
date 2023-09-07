@@ -1,8 +1,6 @@
 import React from 'react';
 import { tailwindTransitionClass } from '@src/UI-library/tailwind-utils';
-import {
-  setExploreQueryPage
-} from '@components/explore/stores/explore-query-store';
+import { setExploreQueryPage } from '@components/explore/stores/explore-query-store';
 
 type IPaginationProps = {
   currentPage: number;
@@ -16,7 +14,7 @@ export function calculatePages(
   roadmapsPerPage: number,
   totalRoadmaps: number
 ) {
-  const maxPages = totalRoadmaps / roadmapsPerPage;
+  const maxPages = (totalRoadmaps - 1) / roadmapsPerPage + 1;
   let auxIndex = 1;
   let displayedPagesAux = displayedPages;
   const pageNumbers = [currentPage];
@@ -77,7 +75,7 @@ const Pagination = ({
                   isSelected ? 'text-darkBlue' : 'text-secondary'
                 }${tailwindTransitionClass}`}
                 onClick={() => {
-                  setExploreQueryPage(pageNumber)
+                  setExploreQueryPage(pageNumber);
                 }}
               >
                 {pageNumber}

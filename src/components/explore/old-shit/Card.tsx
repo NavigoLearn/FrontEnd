@@ -25,7 +25,7 @@ const Card = ({ cardStore }: { cardStore: CardType }) => {
     if (!isLoaded) return;
 
     if (!userStatus.get().isLogged) {
-      // redirect to login
+      // eslint-disable-next-line no-restricted-globals
       location.href = '/login';
       return;
     }
