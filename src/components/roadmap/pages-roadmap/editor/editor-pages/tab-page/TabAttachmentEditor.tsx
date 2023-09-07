@@ -28,7 +28,7 @@ const EditButton = ({ onChange }: IEditButtonProps) => {
   return (
     <button
       type='button'
-      className='px-10 py-2 bg-blue-600 text-white rounded-lg text-lg font-medium flex'
+      className='px-10 py-2 bg-[#3361D8] text-white rounded-md text-lg font-roboto-text flex'
       onClick={() => {
         onChange();
       }}
@@ -46,12 +46,12 @@ const PreviewButton = ({ onChange }: IPreviewButtonProps) => {
   return (
     <button
       type='button'
-      className='px-10 py-2 bg-blue-600 text-white rounded-lg text-lg font-medium'
+      className='px-10 py-2 bg-[#3361D8] text-white rounded-md text-lg font-roboto-text flex'
       onClick={() => {
         onChange();
       }}
     >
-      Preview
+      Save
     </button>
   );
 };
@@ -79,7 +79,7 @@ const TabAttachmentEditor = ({ onChange, value }: ITabAttachmentProps) => {
   });
 
   return (
-    <div className='w-full h-full pb-10 relative '>
+    <div className='w-full h-full relative '>
       <div
         ref={divRef}
         className={`h-[calc(100%-80px)] overflow-auto max-h-[600px] pr-3 ${
@@ -95,19 +95,6 @@ const TabAttachmentEditor = ({ onChange, value }: ITabAttachmentProps) => {
           );
         })}
       </div>
-      <AnimatePresence>
-        {scrollable && (
-          <motion.div
-            initial={{ opacity: 0, y: -10 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -10 }}
-            transition={{ duration: 0.2 }}
-            className='absolute w-full text-purple-500 font-semibold text-lg text-center bottom-16'
-          >
-            Scroll me
-          </motion.div>
-        )}
-      </AnimatePresence>
       <div className='absolute bottom-4 right-4 pl-4'>
         {!isEditing && (
           <EditButton

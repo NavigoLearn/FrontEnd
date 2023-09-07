@@ -17,7 +17,10 @@ import {
 import TitleAttachment from '@components/roadmap/pages-roadmap/editor/editor-pages/tab-page/components/TitleAttachment';
 import React from 'react';
 import { nodeNameSyncer } from '@src/typescript/roadmap_ref/node/misc';
-import { getSelectedNodeId } from '@store/roadmap-refactor/elements-editing/editor-selected-data';
+import {
+  getSelectedNodeId,
+  triggerRerenderEditor,
+} from '@store/roadmap-refactor/elements-editing/editor-selected-data';
 import ResourceAttachment from './components/ResourceAttachment';
 
 export const descriptionBuilder = (
@@ -43,6 +46,7 @@ export const titleBuilder = (component: IAttachmentTabTitleProperties) => {
       value={component.titleText}
       onChange={(field: string, newValue: any) => {
         mutateAttachmentTabComponentTitle(component, 'titleText', newValue);
+        triggerRerenderEditor();
         nodeNameSyncer(getSelectedNodeId(), newValue);
       }}
     />
