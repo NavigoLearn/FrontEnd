@@ -40,7 +40,7 @@ export const fetchRoadmapCardsExplore = errorHandlerDecorator(
       method: 'GET',
       credentials: 'include',
     }).then((res) => res);
-    return await responseExplore.json();
+    return responseExplore.json();
   }
 );
 
