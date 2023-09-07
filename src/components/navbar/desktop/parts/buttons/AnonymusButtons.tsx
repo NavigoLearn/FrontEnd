@@ -1,5 +1,6 @@
 import React from 'react';
 import Button from '@components/navbar/desktop/parts/buttons/Button';
+import { setBasePopup } from '@components/shared/stores/store-base-popups';
 
 const AnonymusButtons = () => {
   return (
@@ -10,7 +11,8 @@ const AnonymusButtons = () => {
         buttonData={{
           type: 'button',
           callback: () => {
-            console.log('Get Started');
+            console.log('get-started');
+            setBasePopup('get-started');
           },
         }}
       />

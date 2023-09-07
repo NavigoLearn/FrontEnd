@@ -1,21 +1,29 @@
 import React from 'react';
 import githublogo from '@assets/githublogo.png';
+import { tailwindTransitionClass } from '@src/UI-library/tailwind-utils';
 
 const GithubLoginButton = ({ onClick }: { onClick: () => void }) => {
   return (
     <button
       type='button'
-      className='flex rounded-lg relative justify-start w-72 h-14 bg-[#171515]  '
+      className='flex rounded-sm relative justify-start w-60  bg-[#171515] p-1 border-2 border-transparent'
       onClick={onClick}
     >
-      <div className='w-20 h-full  flex justify-center items-center'>
-        <div className='w-8 h-8 flex justify-center items-center'>
-          <img draggable="false" alt='' src={githublogo} className='w-full h-full select-none' />
+      <div className=' p-2 h-full  flex justify-start items-center'>
+        <div className='w-6 h-6 flex justify-center items-center'>
+          <img
+            draggable='false'
+            alt='github octocat image'
+            src={githublogo}
+            className='w-full h-full select-none'
+          />
         </div>
       </div>
-      <div className='absolute w-full flex justify-center items-center h-full'>
-        <div className='text-white font-semibold text-xl select-none'>
-          Github
+      <div className='absolute top-0 left-0 w-full  h-full'>
+        <div className='flex w-full h-full items-center justify-center'>
+          <span className='text-white font-medium font-roboto-text text-lg select-none'>
+            Github
+          </span>
         </div>
       </div>
     </button>

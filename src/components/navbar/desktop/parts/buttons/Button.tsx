@@ -52,6 +52,9 @@ const Button = ({ hasUnder, name, buttonData }: IButtonProps) => {
         <button
           type='button'
           className='text-md font-medium font-roboto-text text-center inline-block  transition-all'
+          onClick={() => {
+            buttonData.callback();
+          }}
         >
           {name}
         </button>

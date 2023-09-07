@@ -16,11 +16,10 @@ const SelectedPopup = ({ page }: { page: IBasePopup }) => {
   return (
     <motion.div
       key={page}
-      initial={{ opacity: 0, x: '5%', y: 0 }}
-      animate={{ opacity: 1, x: 0, y: 0 }}
+      initial={{ opacity: 0, x: 20 }}
+      animate={{ opacity: 1, x: 0 }}
       transition={{
-        duration: 0.25,
-        ease: [0.43, 0.13, 0.23, 0.96], // Custom easing curve
+        duration: 0.2,
       }}
       className=' relative w-full h-full'
     >
@@ -31,12 +30,15 @@ const SelectedPopup = ({ page }: { page: IBasePopup }) => {
 
 const BasePopupManager = () => {
   const { basePopup } = useStore(storeBasePopups);
+  console.log(basePopup);
   if (basePopup === 'none') return null;
   return (
-    <div className='h-[100%] w-[100%] bg-[#1A1B504D] absolute top-0 z-30 flex justify-center items-center'>
-      <AnimatePresence>
-        <SelectedPopup page={basePopup} />
-      </AnimatePresence>
+    <div className='h-screen w-screen bg-coverColor absolute left-0 top-0 z-30 flex justify-center items-center'>
+      <div className='flex justify-center items-center'>
+        <AnimatePresence>
+          <SelectedPopup page={basePopup} />
+        </AnimatePresence>
+      </div>
     </div>
   );
 };

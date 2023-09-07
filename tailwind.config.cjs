@@ -12,6 +12,7 @@ module.exports = {
         backgroundRoadmap: '#ECEFF2',
         background: '#ffffff',
         textgradient: 'linear-gradient(90deg, #561BB6 0%, #253FC8 100%)',
+        coverColor: 'rgba(26,27,80,0.4)',
         resourceSubNode: '#DEE2E7',
         white: '#FFFFFF',
         thirdary: '#1A1B50',

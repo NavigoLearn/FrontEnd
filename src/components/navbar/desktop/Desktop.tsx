@@ -8,7 +8,6 @@ import Logo from '@components/navbar/desktop/parts/logo/Logo';
 
 const DesktopNavbar = () => {
   const [hydrated, setHydrated] = useState(false);
-  const { profilePictureUrl } = useStore(loggedUser);
   const { loaded, isLogged } = useStore(userStatus);
 
   useEffect(() => {

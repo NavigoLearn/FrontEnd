@@ -5,17 +5,24 @@ const GoogleLoginButton = ({ onClick }: { onClick: () => void }) => {
   return (
     <button
       type='button'
-      className='flex rounded-lg relative justify-start w-72 h-14 bg-white shadow-standard  '
+      className='flex rounded-sm relative justify-start w-60 bg-white p-1  border-2 border-placeholderBlack'
       onClick={onClick}
     >
-      <div className='w-20 h-full  flex justify-center items-center'>
-        <div className='w-8 h-8 flex justify-center items-center'>
-          <img draggable="false" alt='' src={googleLogo} className='w-full h-full select-none ' />
+      <div className=' p-2 h-full  flex justify-start items-center'>
+        <div className='w-6 h-6 flex justify-center items-center'>
+          <img
+            draggable='false'
+            alt='google logo'
+            src={googleLogo}
+            className='w-full h-full select-none'
+          />
         </div>
       </div>
-      <div className='absolute w-full flex justify-center items-center h-full'>
-        <div className='text-main font-semibold text-xl select-none '>
-          Google
+      <div className='absolute top-0 left-0 w-full  h-full'>
+        <div className='flex w-full h-full items-center justify-center'>
+          <span className='text-black font-medium font-roboto-text text-lg select-none'>
+            Google
+          </span>
         </div>
       </div>
     </button>
