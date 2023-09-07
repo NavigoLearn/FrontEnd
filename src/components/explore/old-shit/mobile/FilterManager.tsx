@@ -4,7 +4,7 @@ import Filter1 from '@components/explore/old-shit/mobile/filter-components/Filte
 import Filter2 from '@components/explore/old-shit/mobile/filter-components/Filter2';
 import Filter3 from '@components/explore/old-shit/mobile/filter-components/Filter3';
 import AugmentFilter from '@components/explore/old-shit/mobile/filter-hoc/AugmentFilter';
-import { FilterManagerProps } from '@type/explore/filterProps';
+import { FilterManagerProps } from '@type/explore_old/filterProps';
 
 export const opitonsFilter1 = [
   { name: 'a', id: 1 },

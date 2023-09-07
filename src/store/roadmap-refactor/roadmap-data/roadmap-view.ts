@@ -4,7 +4,7 @@ import {
   setRoadmapSelector,
 } from '@store/roadmap-refactor/roadmap-data/roadmap-selector';
 import { fetchRoadmap } from '@src/api-wrapper/roadmap/roadmaps';
-import { RoadmapTypeApi } from '@type/explore/card';
+import { RoadmapTypeApi } from '@type/explore_old/card';
 import { isRoadmapType } from '@type/roadmap/old/typecheckers';
 import {
   setOwnerId,

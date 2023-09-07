@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import likeButton from '@assets/heart.svg';
 import likeButtonFilled from '@assets/heartfill.svg';
-import { CardType } from '@type/explore/card';
+import { CardType } from '@type/explore_old/card';
 import RedirectToProfile from '@components/shared/RedirectToProfile';
 import {
   likeCardFetch,
@@ -27,7 +27,6 @@ const Card = ({ cardStore }: { cardStore: CardType }) => {
     if (!userStatus.get().isLogged) {
       // redirect to login
       location.href = '/login';
-      const a = 2;
       return;
     }
 

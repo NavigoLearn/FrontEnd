@@ -1,5 +1,8 @@
 import React from 'react';
 import { tailwindTransitionClass } from '@src/UI-library/tailwind-utils';
+import {
+  setExploreQueryPage
+} from '@components/explore/stores/explore-query-store';
 
 type IPaginationProps = {
   currentPage: number;
@@ -51,7 +54,11 @@ const Pagination = ({
   );
 
   const roadmapIndexStart = (currentPage - 1) * roadmapsPerPage + 1;
-  const roadmapIndexEnd = currentPage * roadmapsPerPage;
+  let roadmapIndexEnd = currentPage * roadmapsPerPage;
+
+  if (roadmapIndexEnd > totalRoadmaps) {
+    roadmapIndexEnd = totalRoadmaps;
+  }
 
   return (
     <div className='relative'>
@@ -70,7 +77,7 @@ const Pagination = ({
                   isSelected ? 'text-darkBlue' : 'text-secondary'
                 }${tailwindTransitionClass}`}
                 onClick={() => {
-                  console.log(pageNumber);
+                  setExploreQueryPage(pageNumber)
                 }}
               >
                 {pageNumber}

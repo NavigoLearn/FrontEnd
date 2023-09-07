@@ -1,5 +1,6 @@
-import React from 'react';
-import OptionSelect from '@components/explore/UI/components-desktop/filters/OptionSelect';
+import React, { useEffect } from 'react';
+import OptionSelect
+  from '@components/explore/UI/components-desktop/filters/OptionSelect';
 import {
   exploreQueryStore,
   IPerPage,
@@ -11,13 +12,20 @@ import {
 } from '@components/explore/stores/explore-query-store';
 import { useStore } from '@nanostores/react';
 import Card from '@components/explore/UI/shared/cards/Card';
-import Pagination from '@components/explore/UI/components-desktop/paginations/Pagination';
+import Pagination
+  from '@components/explore/UI/components-desktop/paginations/Pagination';
+import {
+  exploreCardsStore, refreshExploreCards,
+} from '@components/explore/stores/explore-cards-store';
+import { CardRoadmapTypeApi } from '@type/explore/card';
+import LoadingCard from '@components/explore/UI/shared/cards/LoadingCard';
 
 const ExploreDesktop = () => {
   const { params } = useStore(exploreQueryStore);
-  const { page, perPage, query, sortBy, topic } = params;
-  const sortByOptions: ISortBy[] = ['Likes', 'Views', 'Relevance'];
-  const perPageOptions: IPerPage[] = [15, 30, 50];
+  const cardData = useStore(exploreCardsStore);
+  const { perPage, sortBy, topic } = params;
+  const sortByOptions: ISortBy[] = [ 'Likes', 'Views', 'New' ];
+  const perPageOptions: IPerPage[] = [ 15, 30, 50 ];
   const topicOptions: ITopic[] = [
     'All',
     'Programming',
@@ -26,29 +34,11 @@ const ExploreDesktop = () => {
     'Biology',
   ];
 
-  const roadmapsIds = [
-    '1',
-    '2',
-    '3',
-    '4',
-    '5',
-    '6',
-    '7',
-    '8',
-    '9',
-    '10',
-    '11',
-    '12',
-    '13',
-    '14',
-    '15',
-    '16',
-    '17',
-    '18',
-    '19',
-    '20',
-    '21',
-  ];
+  useEffect(() => {
+    refreshExploreCards().catch((e) => {
+      console.log(e);
+    });
+  }, []);
 
   return (
     <div className='w-full flex justify-center'>
@@ -85,8 +75,9 @@ const ExploreDesktop = () => {
           </div>
           <div className='max-w-[1200px]'>
             <div className='w-full h-24   flex justify-between items-end  '>
-              <div className='text-3xl font-kanit-text  text-darkBlue font-semibold mb-6'>
-                10,000 results for "React"
+              <div
+                className='text-3xl font-kanit-text  text-darkBlue font-semibold mb-6'>
+                {cardData.total} results {params.query != '' && `for '${params.query}'`}
               </div>
               <button
                 type='button'
@@ -95,16 +86,28 @@ const ExploreDesktop = () => {
                 I'm feeling lucky
               </button>
             </div>
-            <div className='max-w-[1100px] grid landing-min:grid-cols-3 grid-cols-2 gap-x-7 gap-y-6 '>
-              {roadmapsIds.map((roadmapId) => {
-                return <Card roadmapId={roadmapId} key={roadmapId} />;
-              })}
+            <div
+              className='max-w-[1100px] grid landing-min:grid-cols-3 grid-cols-2 gap-x-7 gap-y-6 '>
+              {!!cardData &&
+              !cardData.loading ? (
+                  cardData.cards.length === 0 ? (
+                      <div
+                        className='text-2xl font-kanit-text text-darkBlue font-semibold mt-10'>
+                        No results found
+                      </div>
+                    ) :
+                    cardData.cards.map((card: CardRoadmapTypeApi, i) => {
+                      return <Card data={card} key={i}/>;
+                    })) :
+                new Array(params.perPage).fill(0).map((_, i) => {
+                  return <LoadingCard key={i}/>;
+                })}
             </div>
             <div className='w-full mt-10 mb-20 flex justify-center'>
               <Pagination
-                currentPage={1}
-                roadmapsPerPage={9}
-                totalRoadmaps={400}
+                currentPage={params.page}
+                roadmapsPerPage={params.perPage}
+                totalRoadmaps={cardData.total}
               />
             </div>
           </div>
