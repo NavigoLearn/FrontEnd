@@ -130,8 +130,24 @@ const ResourceBulletListItem = ({
       className='w-full flex relative justify-between items-center px-3 mt-1'
     >
       <section>
-        <div className='text-darkBlue text-lg font-semibold'>{item.text}</div>
-        <div className='text-darkBlue text-sm font-medium'>{item.linkURL}</div>
+        <div
+          className='text-darkBlue text-lg font-semibold w-80 break-words select-none'
+          onDoubleClick={() => setDropdown(true)}
+          onClick={() => {
+            setDropdown(false);
+          }}
+        >
+          {item.text}
+        </div>
+        <div
+          className='text-darkBlue text-sm font-medium w-80 break-words select-none'
+          onDoubleClick={() => setDropdown(true)}
+          onClick={() => {
+            setDropdown(false); // Close the dropdown with a single click if it's open
+          }}
+        >
+          {item.linkURL}
+        </div>
       </section>
       <div className='flex gap-4'>
         <button

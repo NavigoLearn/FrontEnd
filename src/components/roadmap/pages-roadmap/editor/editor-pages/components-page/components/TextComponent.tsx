@@ -48,8 +48,7 @@ const TextComponent = ({ node, id, name }: TitleComponentProps) => {
           value={getComponentTextText(titleComponent)}
           onChange={(newValue) => {
             mutateComponentTextText(titleComponent, newValue);
-            if (node.components.length === 1) nodeNameSyncer(node.id, newValue);
-            rerender();
+            if (node.components.length === 1) rerender();
             triggerNodeRerender(node.id);
           }}
           w='96'
