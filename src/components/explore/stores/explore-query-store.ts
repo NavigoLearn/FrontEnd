@@ -41,22 +41,26 @@ export const exploreQueryStore = atom({
 export function setExploreQueryFieldsWithoutSideEffects(
   params: Partial<ISearchParams>
 ) {
-  exploreQueryStore.set({
-    params: {
-      ...exploreQueryStore.get().params,
-      ...params,
-    },
-  });
+  let { params: paramsRef } = exploreQueryStore.get();
+  paramsRef = {
+    ...paramsRef,
+    ...params,
+  };
+  exploreQueryStore.get().params = {
+    ...paramsRef,
+  };
 }
 
-export function setExploreQueryFieldsWithSideEffects(
-  params: Partial<ISearchParams>
-) {
+export function triggerExploreFetch() {
+  const { params: paramsRef } = exploreQueryStore.get();
+
+  const newStore = exploreQueryStore.get();
+  newStore.params = {
+    ...paramsRef,
+  };
+
   exploreQueryStore.set({
-    params: {
-      ...exploreQueryStore.get().params,
-      ...params,
-    },
+    ...newStore,
   });
 }
 
@@ -71,9 +75,6 @@ export function setExploreQueryPage(page: number) {
       page,
     },
   });
-  fetchAndSetRoadmapCardsExplore().catch((err) => {
-    console.log(err);
-  });
 }
 
 export function setExploreQuerySortBy(sortBy: ISortBy) {
@@ -85,10 +86,6 @@ export function setExploreQuerySortBy(sortBy: ISortBy) {
       sortBy,
     },
   });
-
-  fetchAndSetRoadmapCardsExplore().catch((err) => {
-    console.log(err);
-  });
 }
 
 export function setExploreQueryPerPage(perPage: IPerPage) {
@@ -98,10 +95,6 @@ export function setExploreQueryPerPage(perPage: IPerPage) {
       perPage,
     },
   });
-
-  fetchAndSetRoadmapCardsExplore().catch((err) => {
-    console.log(err);
-  });
 }
 
 export function setExploreQueryTopic(topic: ITopic) {
@@ -110,9 +103,5 @@ export function setExploreQueryTopic(topic: ITopic) {
       ...exploreQueryStore.get().params,
       topic,
     },
-  });
-
-  fetchAndSetRoadmapCardsExplore().catch((err) => {
-    console.log(err);
   });
 }

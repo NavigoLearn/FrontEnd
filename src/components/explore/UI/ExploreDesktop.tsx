@@ -10,15 +10,18 @@ import {
   sortByOptions,
   perPageOptions,
   topicOptions,
+  setExploreQueryFieldsWithoutSideEffects,
 } from '@components/explore/stores/explore-query-store';
 import Card from '@components/explore/UI/shared/cards/Card';
 import Pagination from '@components/explore/UI/components-desktop/paginations/Pagination';
 import { CardRoadmapTypeApi } from '@type/explore/card';
 import LoadingCard from '@components/explore/UI/shared/cards/LoadingCard';
 import { useExploreCardData } from '@components/explore/logic/hooks/useExploreCardData';
+import { useTriggerRerender } from '@hooks/useTriggerRerender';
 
 const ExploreDesktop = () => {
   const { cardData, params, perPage, sortBy, topic } = useExploreCardData();
+  const rerender = useTriggerRerender();
 
   return (
     <div className='w-full flex justify-center'>
@@ -30,8 +33,8 @@ const ExploreDesktop = () => {
               <OptionSelect
                 name='Sort By'
                 options={sortByOptions}
-                callback={(name: ISortBy) => {
-                  setExploreQuerySortBy(name);
+                callback={(newSortBy: ISortBy) => {
+                  setExploreQuerySortBy(newSortBy);
                 }}
                 selected={sortBy}
               />

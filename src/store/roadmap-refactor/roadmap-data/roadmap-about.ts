@@ -7,9 +7,9 @@ import {
 } from '@src/api-wrapper/roadmap/tab-data';
 
 const aboutTabStore = atom({
-  name: '',
+  name: 'Untitled',
   author: '',
-  description: '',
+  description: 'No description',
 } as {
   name: string;
   author: string;

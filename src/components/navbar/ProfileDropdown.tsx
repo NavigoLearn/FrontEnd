@@ -105,7 +105,10 @@ const ProfileDropdown = ({
             text='Profile'
             handleAnimation={handleAnimation}
             isOpen={isOpen}
-            onClick={() => console.log('profile')}
+            onClick={() => {
+              // eslint-disable-next-line no-restricted-globals
+              location.href = '/profile';
+            }}
           />
           <ButtonItem
             variants={itemVariants}

@@ -2,7 +2,11 @@ import React, { useEffect, useState } from 'react';
 import { LOUPE_SRC } from '@src/to-be-organized/svg-params';
 import { tailwindTransitionClass } from '@src/UI-library/tailwind-utils';
 import { motion } from 'framer-motion';
-import { setExploreQuery } from '@components/explore/stores/explore-query-store';
+import {
+  setExploreQuery,
+  triggerExploreFetch,
+} from '@components/explore/stores/explore-query-store';
+import { useOnEnter } from '@hooks/useOnEnter';
 
 const SearchRoadmap = () => {
   const borderSrc = `border-2  rounded-md `;
@@ -10,6 +14,10 @@ const SearchRoadmap = () => {
   const [query, setQuery] = useState('');
   const [isOpen, setIsOpen] = useState(false);
   const [isExplorePage, setIsExplorePage] = useState(false);
+
+  useOnEnter(() => {
+    triggerExploreFetch();
+  });
 
   useEffect(() => {
     const isExplore = location.pathname.startsWith('/explore');

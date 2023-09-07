@@ -12,12 +12,8 @@ export function useExploreCardData() {
   const cardData = useStore(exploreCardsStore);
   const { perPage, sortBy, topic } = params;
 
-  // console.log('useExploreCardData', deepCopy(params));
   useEffect(() => {
-    console.log('REQUEST', deepCopy(params));
-    fetchAndSetRoadmapCardsExplore().catch((e) => {
-      console.log(e);
-    });
+    fetchAndSetRoadmapCardsExplore();
   }, [params]);
 
   return { cardData, params, perPage, sortBy, topic };
