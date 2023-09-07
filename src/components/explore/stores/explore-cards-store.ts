@@ -1,11 +1,7 @@
 import { atom } from 'nanostores';
 import { CardRoadmapTypeApi } from '@type/explore/card';
-import {
-  fetchRoadmapCardsExplore,
-} from '@src/api-wrapper/explore/roadmap-card-data';
-import {
-  exploreQueryStore,
-} from '@components/explore/stores/explore-query-store';
+import { fetchRoadmapCardsExplore } from '@src/api-wrapper/explore/roadmap-card-data';
+import { exploreQueryStore } from '@components/explore/stores/explore-query-store';
 
 export const exploreCardsStore = atom({
   cards: [] as CardRoadmapTypeApi[],
@@ -27,19 +23,18 @@ export function setCardsLoaded() {
   });
 }
 
-export async function refreshExploreCards() {
+export async function fetchAndSetRoadmapCardsExplore() {
   setCardsLoading();
 
   // fetch cards from api using query
-  const data =
-    await fetchRoadmapCardsExplore(exploreQueryStore.get().params);
+  const data = await fetchRoadmapCardsExplore(exploreQueryStore.get().params);
 
   exploreCardsStore.set({
     ...exploreCardsStore.get(),
     cards: data.data,
     total: data.total,
-  })
+  });
 
   // update the store
-  setCardsLoaded()
+  setCardsLoaded();
 }

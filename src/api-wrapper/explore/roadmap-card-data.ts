@@ -1,4 +1,3 @@
-
 import { errorHandlerDecorator } from '@src/typescript/error-handler';
 import { CardRoadmapTypeApi, RoadmapTypeApiExplore } from '@type/explore/card';
 import { ISearchParams } from '@components/explore/stores/explore-query-store';
@@ -6,7 +5,7 @@ import { ISearchParams } from '@components/explore/stores/explore-query-store';
 function parameterBuilder(params: ISearchParams) {
   let result = '?';
   let paramCount = 0;
-  const query = params.query;
+  const { query } = params;
   if (query !== '') {
     result += `query=${encodeURI(query).replace(/#/g, '%23')}`;
     paramCount += 1;
@@ -34,8 +33,7 @@ function parameterBuilder(params: ISearchParams) {
 
 export const fetchRoadmapCardsExplore = errorHandlerDecorator(
   async (params: ISearchParams): Promise<RoadmapTypeApiExplore> => {
-    const fetchRouteExplore =
-      `/api/search/roadmaps${parameterBuilder(params)}`;
+    const fetchRouteExplore = `/api/search/roadmaps${parameterBuilder(params)}`;
     const responseExplore = await fetch(fetchRouteExplore, {
       method: 'GET',
       credentials: 'include',

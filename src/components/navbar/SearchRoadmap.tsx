@@ -2,9 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { LOUPE_SRC } from '@src/to-be-organized/svg-params';
 import { tailwindTransitionClass } from '@src/UI-library/tailwind-utils';
 import { motion } from 'framer-motion';
-import {
-  setExploreQuery
-} from '@components/explore/stores/explore-query-store';
+import { setExploreQuery } from '@components/explore/stores/explore-query-store';
 
 const SearchRoadmap = () => {
   const borderSrc = `border-2  rounded-md `;
@@ -14,14 +12,16 @@ const SearchRoadmap = () => {
   const [isExplorePage, setIsExplorePage] = useState(false);
 
   useEffect(() => {
-    let isExplore = location.pathname.startsWith('/explore');
+    const isExplore = location.pathname.startsWith('/explore');
     setIsExplorePage(isExplore);
 
     if (!isExplore) return;
     try {
       setQuery(decodeURI(location.hash?.slice(1) || ''));
       setExploreQuery({ query });
-    } catch (e) { console.error(e) }
+    } catch (e) {
+      console.error(e);
+    }
   }, []);
 
   useEffect(() => {
@@ -59,9 +59,9 @@ const SearchRoadmap = () => {
         value={query}
         onChange={(e) => setQuery(e.target.value)}
         onKeyUp={(e) => {
-            if (e.key === 'Enter') {
-                handleSubmit();
-            }
+          if (e.key === 'Enter') {
+            handleSubmit();
+          }
         }}
       />
       <motion.button

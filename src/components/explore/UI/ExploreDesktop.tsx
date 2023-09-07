@@ -1,48 +1,28 @@
-import React, { useEffect } from 'react';
-import OptionSelect
-  from '@components/explore/UI/components-desktop/filters/OptionSelect';
+import React from 'react';
+import OptionSelect from '@components/explore/UI/components-desktop/filters/OptionSelect';
 import {
-  exploreQueryStore,
   IPerPage,
   ISortBy,
   ITopic,
   setExploreQueryPerPage,
   setExploreQuerySortBy,
   setExploreQueryTopic,
+  sortByOptions,
+  perPageOptions,
+  topicOptions,
 } from '@components/explore/stores/explore-query-store';
-import { useStore } from '@nanostores/react';
 import Card from '@components/explore/UI/shared/cards/Card';
-import Pagination
-  from '@components/explore/UI/components-desktop/paginations/Pagination';
-import {
-  exploreCardsStore, refreshExploreCards,
-} from '@components/explore/stores/explore-cards-store';
+import Pagination from '@components/explore/UI/components-desktop/paginations/Pagination';
 import { CardRoadmapTypeApi } from '@type/explore/card';
 import LoadingCard from '@components/explore/UI/shared/cards/LoadingCard';
+import { useExploreCardData } from '@components/explore/logic/hooks/useExploreCardData';
 
 const ExploreDesktop = () => {
-  const { params } = useStore(exploreQueryStore);
-  const cardData = useStore(exploreCardsStore);
-  const { perPage, sortBy, topic } = params;
-  const sortByOptions: ISortBy[] = [ 'Likes', 'Views', 'New' ];
-  const perPageOptions: IPerPage[] = [ 15, 30, 50 ];
-  const topicOptions: ITopic[] = [
-    'All',
-    'Programming',
-    'Math',
-    'Physics',
-    'Biology',
-  ];
-
-  useEffect(() => {
-    refreshExploreCards().catch((e) => {
-      console.log(e);
-    });
-  }, []);
+  const { cardData, params, perPage, sortBy, topic } = useExploreCardData();
 
   return (
     <div className='w-full flex justify-center'>
-      <div className='max-w-[1500px]'>
+      <div className='w-[1500px]'>
         <div className='w-full flex justify-between gap-16'>
           <div className='w-52'>
             <div className='w-full h-24' />
@@ -73,11 +53,11 @@ const ExploreDesktop = () => {
               />
             </div>
           </div>
-          <div className='max-w-[1200px]'>
+          <div className='w-[1200px]'>
             <div className='w-full h-24   flex justify-between items-end  '>
-              <div
-                className='text-3xl font-kanit-text  text-darkBlue font-semibold mb-6'>
-                {cardData.total} results {params.query != '' && `for '${params.query}'`}
+              <div className='text-3xl font-kanit-text  text-darkBlue font-semibold mb-6'>
+                {cardData.total} results{' '}
+                {params.query != '' && `for '${params.query}'`}
               </div>
               <button
                 type='button'
@@ -86,22 +66,23 @@ const ExploreDesktop = () => {
                 I'm feeling lucky
               </button>
             </div>
-            <div
-              className='max-w-[1100px] grid landing-min:grid-cols-3 grid-cols-2 gap-x-7 gap-y-6 '>
-              {!!cardData &&
-              !cardData.loading ? (
-                  cardData.cards.length === 0 ? (
-                      <div
-                        className='text-2xl font-kanit-text text-darkBlue font-semibold mt-10'>
-                        No results found
-                      </div>
-                    ) :
-                    cardData.cards.map((card: CardRoadmapTypeApi, i) => {
-                      return <Card data={card} key={i}/>;
-                    })) :
+
+            <div className='max-w-[1100px] grid landing-min:grid-cols-3 grid-cols-2 gap-x-7 gap-y-6 '>
+              {!!cardData && !cardData.loading ? (
+                cardData.cards.length === 0 ? (
+                  <div className='text-2xl font-kanit-text text-darkBlue font-semibold mt-10'>
+                    No results found
+                  </div>
+                ) : (
+                  cardData.cards.map((card: CardRoadmapTypeApi, i) => {
+                    return <Card data={card} key={i} />;
+                  })
+                )
+              ) : (
                 new Array(params.perPage).fill(0).map((_, i) => {
-                  return <LoadingCard key={i}/>;
-                })}
+                  return <LoadingCard key={i} />;
+                })
+              )}
             </div>
             <div className='w-full mt-10 mb-20 flex justify-center'>
               <Pagination

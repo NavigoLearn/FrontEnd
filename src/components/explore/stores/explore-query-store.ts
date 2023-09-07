@@ -1,6 +1,7 @@
 import { atom } from 'nanostores';
 import {
-  refreshExploreCards, setCardsLoading,
+  fetchAndSetRoadmapCardsExplore,
+  setCardsLoading,
 } from '@components/explore/stores/explore-cards-store';
 
 export type ISortBy = 'Likes' | 'Views' | 'New';
@@ -14,6 +15,17 @@ export type ISearchParams = {
   perPage: IPerPage;
   topic: ITopic;
 };
+
+export const sortByOptions: ISortBy[] = ['Likes', 'Views', 'New'];
+export const perPageOptions: IPerPage[] = [15, 30, 50];
+export const topicOptions: ITopic[] = [
+  'All',
+  'Programming',
+  'Math',
+  'Physics',
+  'Biology',
+];
+
 export const exploreQueryStore = atom({
   params: {
     query: '',
@@ -26,24 +38,30 @@ export const exploreQueryStore = atom({
   params: ISearchParams;
 });
 
-let tempQuery;
+export function setExploreQueryFieldsWithoutSideEffects(
+  params: Partial<ISearchParams>
+) {
+  exploreQueryStore.set({
+    params: {
+      ...exploreQueryStore.get().params,
+      ...params,
+    },
+  });
+}
+
+export function setExploreQueryFieldsWithSideEffects(
+  params: Partial<ISearchParams>
+) {
+  exploreQueryStore.set({
+    params: {
+      ...exploreQueryStore.get().params,
+      ...params,
+    },
+  });
+}
+
 export function setExploreQuery({ query }: Partial<ISearchParams>) {
-  setCardsLoading();
-
-  tempQuery = query;
-  // wait for 250ms before checking if the query has changed
-  setTimeout(() => {
-    if (tempQuery === query) {
-      exploreQueryStore.set({
-        params: {
-          ...exploreQueryStore.get().params,
-          query,
-        },
-      });
-
-      refreshExploreCards().catch((err) => {console.log(err)});
-    }
-  }, 250);
+  setExploreQueryFieldsWithoutSideEffects({ query });
 }
 
 export function setExploreQueryPage(page: number) {
@@ -53,19 +71,24 @@ export function setExploreQueryPage(page: number) {
       page,
     },
   });
-  refreshExploreCards().catch((err) => {console.log(err)});
+  fetchAndSetRoadmapCardsExplore().catch((err) => {
+    console.log(err);
+  });
 }
 
 export function setExploreQuerySortBy(sortBy: ISortBy) {
   const newStore = exploreQueryStore.get();
   newStore.params.sortBy = sortBy;
-  exploreQueryStore.set({ params: {
+  exploreQueryStore.set({
+    params: {
       ...exploreQueryStore.get().params,
-        sortBy,
+      sortBy,
     },
   });
 
-  refreshExploreCards().catch((err) => {console.log(err)});
+  fetchAndSetRoadmapCardsExplore().catch((err) => {
+    console.log(err);
+  });
 }
 
 export function setExploreQueryPerPage(perPage: IPerPage) {
@@ -76,7 +99,9 @@ export function setExploreQueryPerPage(perPage: IPerPage) {
     },
   });
 
-  refreshExploreCards().catch((err) => {console.log(err)});
+  fetchAndSetRoadmapCardsExplore().catch((err) => {
+    console.log(err);
+  });
 }
 
 export function setExploreQueryTopic(topic: ITopic) {
@@ -87,5 +112,7 @@ export function setExploreQueryTopic(topic: ITopic) {
     },
   });
 
-  refreshExploreCards().catch((err) => {console.log(err)});
+  fetchAndSetRoadmapCardsExplore().catch((err) => {
+    console.log(err);
+  });
 }
