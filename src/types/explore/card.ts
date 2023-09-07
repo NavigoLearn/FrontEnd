@@ -1,7 +1,7 @@
 import { ISortBy } from '@components/explore/stores/explore-query-store';
 
 export type CardRoadmapTypeApi = {
-  readonly id: string;
+  readonly id: number;
   readonly name: string;
   readonly description: string;
   readonly topic: ISortBy;
@@ -11,20 +11,20 @@ export type CardRoadmapTypeApi = {
   readonly updatedAt: Date;
 
   // user
-  readonly userId: string;
+  readonly userId: number;
   readonly userAvatar: string | null;
   readonly userName: string;
 
   // stats
-  readonly likeCount: string;
-  readonly viewCount: string;
+  readonly likeCount: number;
+  readonly viewCount: number;
 
   // user stats
-  readonly isLiked: string;
+  readonly isLiked: number;
 };
 
 export type FullRoadmapTypeApi = {
-  readonly id: string;
+  readonly id: number;
   readonly name: string;
   readonly description: string;
   readonly data: string;
@@ -35,16 +35,16 @@ export type FullRoadmapTypeApi = {
   readonly updatedAt: Date;
 
   // user
-  readonly userId: string;
+  readonly userId: number;
   readonly userAvatar: string | null;
   readonly userName: string;
 
   // stats
-  readonly likeCount: string;
-  readonly viewCount: string;
+  readonly likeCount: number;
+  readonly viewCount: number;
 
   // user stats
-  readonly isLiked: string;
+  readonly isLiked: number;
 };
 
 export type FullRoadmapTypeApiResponse = {

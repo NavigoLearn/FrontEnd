@@ -40,10 +40,6 @@ const ExploreDesktop = () => {
     });
   }, []);
 
-  useEffect(() => {
-    console.log(params);
-  }, [ params ]);
-
   return (
     <div className='w-full flex justify-center'>
       <div className='max-w-[1500px]'>

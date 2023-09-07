@@ -4,7 +4,6 @@ import { CardRoadmapTypeApi, RoadmapTypeApiExplore } from '@type/explore/card';
 import { ISearchParams } from '@components/explore/stores/explore-query-store';
 
 function parameterBuilder(params: ISearchParams) {
-  console.log(params);
   let result = '?';
   let paramCount = 0;
   const query = params.query;
@@ -30,7 +29,6 @@ function parameterBuilder(params: ISearchParams) {
   result += `&limit=${params.perPage}`;
   result += `&page=${params.page}`;
 
-  console.log(result);
   return result;
 }
 

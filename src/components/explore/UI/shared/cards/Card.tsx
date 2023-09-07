@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import UpvoteDownvote from '@components/explore/UI/shared/cards/components/UpvoteDownvote';
 import { tailwindTransitionClass } from '@src/UI-library/tailwind-utils';
 import { CardRoadmapTypeApi } from '@type/explore/card';
@@ -9,8 +9,6 @@ type ICardProps = {
 
 // Usage
 const Card = ({ data }: ICardProps) => {
-  const [upvotes, setUpvotes] = useState(parseInt(data?.likeCount || '0'));
-
   return (
     <div
       className={`w-80 h-48 border-2 border-black hover:border-primary hover:border-opacity-30 border-opacity-10 rounded-md relative${tailwindTransitionClass}`}
@@ -42,11 +40,11 @@ const Card = ({ data }: ICardProps) => {
 
       <div className='absolute bottom-2 flex justify-between px-4 w-full pr-3'>
         <UpvoteDownvote
-          upvotes={upvotes}
+          upvotes={data.likeCount - data.isLiked}
           voteState={
-            data.isLiked === '-1' ? 'downvote' :
-              data.isLiked === '1' ? 'upvote' : 'none'
-        }
+            data.isLiked == -1 ? 'downvote' :
+              data.isLiked == 1 ? 'upvote' : 'none'}
+          roadmapId={data.id}
         />
         <button
           type='button'
