@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import UpvoteSvg
-  from '@components/explore/UI/shared/cards/components/UpvoteSvg';
+import UpvoteSvg from '@components/explore/UI/shared/cards/components/UpvoteSvg';
 import {
   dislikeCardFetch,
   likeCardFetch,
@@ -13,11 +12,15 @@ type IUpvoteDownvoteProps = {
   voteState: 'upvote' | 'downvote' | 'none';
   roadmapId: number;
 };
-const UpvoteDownvote = ({ upvotes, voteState, roadmapId }: IUpvoteDownvoteProps) => {
-  const [ loaded, setLoaded ] = useState(false);
-  const [ upvote, setUpvote ] = useState(false);
-  const [ downvote, setDownvote ] = useState(false);
-  const [ votes, setVotes ] = useState(upvotes);
+const UpvoteDownvote = ({
+  upvotes,
+  voteState,
+  roadmapId,
+}: IUpvoteDownvoteProps) => {
+  const [loaded, setLoaded] = useState(false);
+  const [upvote, setUpvote] = useState(false);
+  const [downvote, setDownvote] = useState(false);
+  const [votes, setVotes] = useState(upvotes);
 
   function setFromVoteState() {
     if (voteState === 'upvote') {
@@ -35,22 +38,15 @@ const UpvoteDownvote = ({ upvotes, voteState, roadmapId }: IUpvoteDownvoteProps)
   }
 
   useEffect(() => {
-    if(!loaded) {
+    if (!loaded) {
       setFromVoteState();
-      return;
     }
   }, []);
 
-  useEffect(() => {
-    if (loaded) handleVote();
-  }, [upvote, downvote]);
-
   function handleVote() {
-    if(getUserStatus().isLogged === false)
-      return location.href = '/login';
+    if (getUserStatus().isLogged === false) return (location.href = '/login');
 
-    if(!upvote && !downvote) {
-
+    if (!upvote && !downvote) {
       setVotes(upvotes);
       removeRatingCardFetch(roadmapId)
         .catch((err) => {
@@ -64,7 +60,7 @@ const UpvoteDownvote = ({ upvotes, voteState, roadmapId }: IUpvoteDownvoteProps)
           voteState = 'none';
         });
     } else if (upvote) {
-      setVotes(upvotes + 1)
+      setVotes(upvotes + 1);
       likeCardFetch(roadmapId)
         .catch((err) => {
           console.log(err);
@@ -77,7 +73,7 @@ const UpvoteDownvote = ({ upvotes, voteState, roadmapId }: IUpvoteDownvoteProps)
           voteState = 'upvote';
         });
     } else if (downvote) {
-      setVotes(upvotes - 1)
+      setVotes(upvotes - 1);
       dislikeCardFetch(roadmapId)
         .catch((err) => {
           console.log(err);
@@ -90,16 +86,19 @@ const UpvoteDownvote = ({ upvotes, voteState, roadmapId }: IUpvoteDownvoteProps)
           voteState = 'downvote';
         });
     } else {
-      console.log('error in handle vote');
+      throw new Error('Invalid vote state');
     }
   }
+  useEffect(() => {
+    if (loaded) handleVote();
+  }, [upvote, downvote]);
 
   return (
-    <div className="flex items-center">
+    <div className='flex items-center'>
       <UpvoteSvg
         size={20}
         voted={upvote}
-        upvote={true}
+        upvote
         callback={() => {
           setLoaded(true);
 
@@ -108,7 +107,7 @@ const UpvoteDownvote = ({ upvotes, voteState, roadmapId }: IUpvoteDownvoteProps)
           }
           setUpvote((prev) => !prev);
 
-          setVotes(upvotes + (upvote ? 0 : 1))
+          setVotes(upvotes + (upvote ? 0 : 1));
         }}
       />
       <UpvoteSvg
@@ -126,7 +125,7 @@ const UpvoteDownvote = ({ upvotes, voteState, roadmapId }: IUpvoteDownvoteProps)
         }}
       />
 
-      <span className="text-darkBlue text-sm font-roboto-text ml-2">
+      <span className='text-darkBlue text-sm font-roboto-text ml-2'>
         {votes}
       </span>
     </div>

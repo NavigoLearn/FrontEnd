@@ -10,6 +10,7 @@ import {
   sortByOptions,
   perPageOptions,
   topicOptions,
+  setExploreQuery,
 } from '@components/explore/stores/explore-query-store';
 import Card from '@components/explore/UI/shared/cards/Card';
 import Pagination from '@components/explore/UI/components-desktop/paginations/Pagination';
@@ -20,11 +21,10 @@ import { useExploreCardData } from '@components/explore/logic/hooks/useExploreCa
 const ExploreDesktop = () => {
   const { cardData, params, perPage, sortBy, topic } = useExploreCardData();
 
-  console.log('cardData', cardData);
   return (
     <div className='w-full flex justify-center'>
-      <div className='w-[1500px]'>
-        <div className='w-full flex justify-between gap-16'>
+      <div className='monitor:w-[2000px] landing-min:w-[1400px]'>
+        <div className='w-full flex justify-center gap-16'>
           <div className='w-52'>
             <div className='w-full h-24' />
             <div className='w-full h-96 pl-3 flex flex-col gap-3  '>
@@ -54,21 +54,28 @@ const ExploreDesktop = () => {
               />
             </div>
           </div>
-          <div className='w-[1200px]'>
-            <div className='w-full h-24   flex justify-between items-end  '>
+          <div className=' landing-min:w-[1100px] monitor:w-[1400px] '>
+            <div className='monitor:w-[1360px]  landing-min:w-[1050px] h-24   flex justify-between items-end  '>
               <div className='text-3xl font-kanit-text  text-darkBlue font-semibold mb-6'>
                 {cardData.total} results{' '}
-                {params.query != '' && `for '${params.query}'`}
+                {params.query !== '' && `for '${params.query}'`}
               </div>
               <button
                 type='button'
+                onClick={() => {
+                  setExploreQuery({
+                    query: '',
+                  });
+                  setExploreQueryTopic('All');
+                }}
                 className='py-1 px-3 border-2 border-primary font-roboto-text font-medium text-primary rounded-lg mb-6 hover:bg-primary hover:text-white transition-all'
               >
-                I'm feeling lucky
+                I feel lucky
               </button>
             </div>
 
-            <div className='max-w-[1100px] grid landing-min:grid-cols-3 grid-cols-2 gap-x-7 gap-y-6 '>
+            <div className='monitor:w-[1400px] landing-min:w-[1100px] grid  grid-cols-2 landing-min:grid-cols-3 monitor:grid-cols-4 gap-y-6 '>
+              {/* eslint-disable-next-line no-nested-ternary */}
               {!!cardData && !cardData.loading ? (
                 cardData.cards.length === 0 ? (
                   <div className='text-2xl font-kanit-text text-darkBlue font-semibold mt-10'>
@@ -76,11 +83,13 @@ const ExploreDesktop = () => {
                   </div>
                 ) : (
                   cardData.cards.map((card: CardRoadmapTypeApi, i) => {
+                    // eslint-disable-next-line react/no-array-index-key
                     return <Card data={card} key={i} />;
                   })
                 )
               ) : (
                 new Array(params.perPage).fill(0).map((_, i) => {
+                  // eslint-disable-next-line react/no-array-index-key
                   return <LoadingCard key={i} />;
                 })
               )}

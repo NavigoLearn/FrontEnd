@@ -17,9 +17,7 @@ const Card = ({ data }: ICardProps) => {
       }}
     >
       <section className='flex mt-3 items-center justify-between px-4'>
-        <h1 className='text-lg font-roboto-text font-medium'>
-           {data.name}
-        </h1>
+        <h1 className='text-lg font-roboto-text font-medium'>{data.name}</h1>
         <button
           type='button'
           onClick={() => {
@@ -30,7 +28,10 @@ const Card = ({ data }: ICardProps) => {
           <img
             alt='profilePicture'
             className='w-6 h-6 rounded-full'
-            src={data.userAvatar || 'https://media.istockphoto.com/id/470100848/ro/vector/pictograma-profilului-masculin-alb%C4%83-pe-fundal-albastru.jpg?s=612x612&w=0&k=20&c=-We-8zY-Oj7MMSuKwpOEkm7QUX8Gnc4Bk0KcBIO8lYY='}
+            src={
+              data.userAvatar ||
+              'https://media.istockphoto.com/id/470100848/ro/vector/pictograma-profilului-masculin-alb%C4%83-pe-fundal-albastru.jpg?s=612x612&w=0&k=20&c=-We-8zY-Oj7MMSuKwpOEkm7QUX8Gnc4Bk0KcBIO8lYY='
+            }
           />
         </button>
       </section>
@@ -42,8 +43,12 @@ const Card = ({ data }: ICardProps) => {
         <UpvoteDownvote
           upvotes={data.likeCount - data.isLiked}
           voteState={
-            data.isLiked == -1 ? 'downvote' :
-              data.isLiked == 1 ? 'upvote' : 'none'}
+            data.isLiked == -1
+              ? 'downvote'
+              : data.isLiked == 1
+              ? 'upvote'
+              : 'none'
+          }
           roadmapId={data.id}
         />
         <button

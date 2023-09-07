@@ -6,6 +6,7 @@ module.exports = {
     extend: {
       colors: {
         primary: '#3361D8',
+        primaryHover: 'rgb(16,75,241)',
         secondary: '#3C42CE',
         highlight: '#007aff',
         backgroundRoadmap: '#ECEFF2',

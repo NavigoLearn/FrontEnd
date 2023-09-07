@@ -149,6 +149,7 @@ const Card = ({ roadmapId }: ICardProps) => {
       <div className='absolute bottom-2 flex justify-end px-4 w-full pr-3'>
         {!roadmapMiniData.isDraft && (
           <UpvoteDownvote
+            roadmapId={roadmapId}
             upvotes={upvotes}
             voteState={roadmapMiniData.voteState}
           />
