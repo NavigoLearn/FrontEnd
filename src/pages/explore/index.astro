@@ -1,6 +1,5 @@
 ---
 import Base from '@layouts/Base.astro';
-import RoadmapLayout from '@layouts/RoadmapLayout.astro';
 import Explore from '@components/explore/Explore';
 ---
 
@@ -13,6 +12,6 @@ import Explore from '@components/explore/Explore';
   }}
 >
   <div>
-    <Explore client:load />
+    <Explore client:idle />
   </div>
 </Base>

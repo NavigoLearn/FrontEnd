@@ -1,47 +1,61 @@
-export type CardType = {
-  name: string;
-  author: string;
-  authorId: string;
-  description: string;
-  likes: number;
-  isLiked: boolean;
-  id: string;
+import { ISortBy } from '@components/explore/stores/explore-query-store';
+
+export type CardRoadmapTypeApi = {
+  readonly id: string;
+  readonly name: string;
+  readonly description: string;
+  readonly topic: ISortBy;
+  readonly isPublic: boolean;
+  readonly isDraft: boolean;
+  readonly createdAt: Date;
+  readonly updatedAt: Date;
+
+  // user
+  readonly userId: string;
+  readonly userAvatar: string | null;
+  readonly userName: string;
+
+  // stats
+  readonly likeCount: string;
+  readonly viewCount: string;
+
+  // user stats
+  readonly isLiked: string;
 };
 
-export type RoadmapTypeApi = {
-  id: string;
-  ownerId: string;
-  name: string;
-  likes: string;
-  description: string;
-  createdAt: string;
-  updatedAt: string;
-  isPublic: boolean;
-  data: string;
+export type FullRoadmapTypeApi = {
+  readonly id: string;
+  readonly name: string;
+  readonly description: string;
+  readonly data: string;
+  readonly topic: ISortBy;
+  readonly isPublic: boolean;
+  readonly isDraft: boolean;
+  readonly createdAt: Date;
+  readonly updatedAt: Date;
+
+  // user
+  readonly userId: string;
+  readonly userAvatar: string | null;
+  readonly userName: string;
+
+  // stats
+  readonly likeCount: string;
+  readonly viewCount: string;
+
+  // user stats
+  readonly isLiked: string;
 };
 
-export type CardTypeApiResponse = {
-  type: 'roadmaps';
-  userId: string;
-  roadmaps: RoadmapTypeApiExplore[];
+export type FullRoadmapTypeApiResponse = {
+  success: boolean;
+  message: string;
+  data: FullRoadmapTypeApi[];
 };
 
 export type RoadmapTypeApiExplore = {
-  id: string;
-  name: string;
-  description: string;
-  likes: number;
-  isLiked: boolean;
-  ownerName: string;
-  ownerId: string;
-};
-
-export type CardTypeApiResponseExplore = {
   success: boolean;
-  pageCount: number;
-  roadmaps: RoadmapTypeApiExplore[];
-};
-
-export type likeType = {
-  success: boolean;
+  message: string;
+  data: CardRoadmapTypeApi[];
+  total: number;
 };

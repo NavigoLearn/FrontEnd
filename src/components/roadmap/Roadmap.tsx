@@ -38,12 +38,11 @@ import renderConnectionsStore from '@store/roadmap-refactor/render/rendered-conn
 import { closeEditorProtocol } from '@src/to-be-organized/nodeview/actions-manager';
 import SnappingLinesRenderer from '@components/roadmap/to-be-organized/SnappingLinesRenderer';
 import { addKeyListeners } from '@src/typescript/roadmap_ref/key-shortcuts';
-import { RoadmapTypeApi } from '@type/explore/card';
+import { RoadmapTypeApi } from '@type/explore_old/card';
 import {
   setRoadmapDisableDrag,
   setRoadmapEnableDrag,
 } from '@store/roadmap-refactor/roadmap-data/roadmap-functions-utils';
-import { useEffectDelayedCycle } from '@hooks/useEffectDelayedCycle';
 import ElementsDisplayManager from '@components/roadmap/elements-display/ElementsDisplayManager';
 import {
   checkIfSessionExists,

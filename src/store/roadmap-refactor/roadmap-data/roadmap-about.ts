@@ -1,10 +1,10 @@
 import { atom } from 'nanostores';
-import { RoadmapTypeApi } from '@type/explore/card';
-import { fetchGetMiniProfileDataById } from '../../../api-wrapper/user/user';
+import { RoadmapTypeApi } from '@type/explore_old/card';
+import { fetchGetMiniProfileDataById } from '@src/api-wrapper/user/user';
 import {
   fetchPostTabAboutDescription,
   fetchPostTabAboutTitle,
-} from '../../../api-wrapper/roadmap/tab-data';
+} from '@src/api-wrapper/roadmap/tab-data';
 
 const aboutTabStore = atom({
   name: '',
