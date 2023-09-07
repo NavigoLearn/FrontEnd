@@ -33,8 +33,18 @@ const AuthPopup = () => {
       </section>
 
       <div className='gap-2.5 mt-16 w-full flex flex-col justify-center items-center'>
-        <GithubLoginButton onClick={handleGitHubLogin} />
-        <GoogleLoginButton onClick={handleGoogleLogin} />
+        <GithubLoginButton
+          onClick={() => {
+            setBasePopup('none');
+            handleGitHubLogin();
+          }}
+        />
+        <GoogleLoginButton
+          onClick={() => {
+            setBasePopup('none');
+            handleGoogleLogin();
+          }}
+        />
       </div>
     </div>
   );

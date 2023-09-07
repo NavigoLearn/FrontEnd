@@ -6,8 +6,9 @@ import loggedUser from '@store/user/logged-user';
 
 const LoggedButtons = () => {
   const { profilePictureUrl } = useStore(loggedUser);
+  console.log(loggedUser.get());
   return (
-    <div className='flex gap-8 mr-6 items-center'>
+    <div className='flex gap-8 mr-3 items-center'>
       <Button
         hasUnder
         name='Create roadmap'

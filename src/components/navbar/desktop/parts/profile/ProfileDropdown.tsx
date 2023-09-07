@@ -48,7 +48,7 @@ const ProfileDropdown = ({
     <motion.nav
       initial={false}
       animate={isOpen ? 'open' : 'closed'}
-      className='flex flex-col items-center justify-center'
+      className='flex relative flex-col items-center justify-center'
     >
       <motion.button
         whileTap={{
