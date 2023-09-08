@@ -9,7 +9,7 @@ const TrashIcon = () => {
 
   return (
     <svg
-      className='trash-icon fill-darkBlue w-16 h-16 duration-200'
+      className='trash-icon fill-darkBlue w-14 h-14 duration-200'
       xmlns='http://www.w3.org/2000/svg'
       viewBox='0 0 28 40'
       onMouseEnter={handleHover}

@@ -30,10 +30,10 @@ const TextWeightComponent = ({
 
   return (
     <div>
-      <div className='flex text-placeholder text text-center font-roboto-text text-sm ml-1'>
+      <div className='flex text-placeholder text text-center font-roboto-text text-sm ml-1 absolute'>
         Font weight
       </div>
-      <div className='flex gap-2 flex-row'>
+      <div className='flex gap-2 flex-row mt-4'>
         {textWeightOptions.map((weightOption) => (
           // eslint-disable-next-line jsx-a11y/label-has-associated-control
           <label className='checkbox-label' key={weightOption}>
@@ -47,8 +47,10 @@ const TextWeightComponent = ({
             />
             <div className='flex items-center h-8'>
               <div
-                className={`w-3 h-3 border-[1px] border-black mr-2 cursor-pointer ${
-                  activeButton === weightOption ? 'border-transparent' : ''
+                className={`w-3 h-3 border-[1.5px] border-gray-200 mr-2 rounded-sm cursor-pointer ${
+                  activeButton === weightOption
+                    ? 'border-transparent'
+                    : 'hover:border-darkBlue transition-all duration-200'
                 }`}
               >
                 {activeButton === weightOption && (
@@ -72,7 +74,6 @@ const TextWeightComponent = ({
             </div>
           </label>
         ))}
-        <div className='border-l border-rgb(0,0,0,0.6) mx-1' />
       </div>
     </div>
   );

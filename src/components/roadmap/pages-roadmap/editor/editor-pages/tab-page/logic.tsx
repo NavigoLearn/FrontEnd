@@ -17,7 +17,10 @@ import {
 import TitleAttachment from '@components/roadmap/pages-roadmap/editor/editor-pages/tab-page/components/TitleAttachment';
 import React from 'react';
 import { nodeNameSyncer } from '@src/typescript/roadmap_ref/node/misc';
-import { getSelectedNodeId } from '@store/roadmap-refactor/elements-editing/editor-selected-data';
+import {
+  getSelectedNodeId,
+  triggerRerenderEditor,
+} from '@store/roadmap-refactor/elements-editing/editor-selected-data';
 import ResourceAttachment from './components/ResourceAttachment';
 
 export const descriptionBuilder = (
@@ -43,6 +46,7 @@ export const titleBuilder = (component: IAttachmentTabTitleProperties) => {
       value={component.titleText}
       onChange={(field: string, newValue: any) => {
         mutateAttachmentTabComponentTitle(component, 'titleText', newValue);
+        triggerRerenderEditor();
         nodeNameSyncer(getSelectedNodeId(), newValue);
       }}
     />
@@ -84,7 +88,8 @@ export function componentMapper(component: IAttachmentTabComponentProperties) {
     if (!typeGuardTabLinkProperties(component)) {
       throw new Error('Component typeguard is wrong somewhere');
     }
-    // lol eugene e mad pe alexander
+    // lol eugene e mad pe alexander - Antonel
+    // eugene e un mad kid in general - Alex
     return <div>Fucking rus didnt finish the task and I didnt check it</div>;
   }
   throw new Error('Component type not found');

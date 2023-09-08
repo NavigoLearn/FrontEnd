@@ -174,8 +174,8 @@ const NodeComponent = ({
           }}
         >
           <TrashIconCustomizable
-            sizeIcon={50}
-            sizeContainer={50}
+            sizeIcon={53}
+            sizeContainer={53}
             hovered={isHovered}
           />
         </button>

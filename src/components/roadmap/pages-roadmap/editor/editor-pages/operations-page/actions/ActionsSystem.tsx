@@ -22,6 +22,7 @@ import {
   setOperationsDropdown,
 } from '@components/roadmap/pages-roadmap/editor/editor-pages/operations-page/stores/operations-store';
 import { TemplateNode } from '@src/typescript/roadmap_ref/node/templates-system/template-core';
+import DropdownPlusSelection from '../../../reusable-components/DropdownPlusSelection';
 
 type IOption = {
   id: string;
@@ -97,7 +98,18 @@ const ActionsSystem = () => {
             dropdown === 'add-child' ? 'z-20' : 'z-10'
           }`}
         >
-          <DropdownWhiteAddCleaner
+          {/* <DropdownWhiteAddCleaner
+            dropdownName='Add child'
+            options={[...templatesJSONAddChild]}
+            dropdownCallback={(hasOpened) => {
+              if (hasOpened) {
+                setOperationsDropdown('add-child');
+              } else {
+                setOperationsDropdown('none');
+              }
+            }}
+          /> */}
+          <DropdownPlusSelection
             dropdownName='Add child'
             options={[...templatesJSONAddChild]}
             dropdownCallback={(hasOpened) => {
@@ -117,7 +129,7 @@ const ActionsSystem = () => {
           text='Delete Node'
           space
         />
-        <hr className='absolute w-[calc(100%+80px)] -left-10 bottom-0' />
+        <hr className='absolute w-full bottom-0' />
       </div>
 
       <div className='flex gap-6 w-full'>
@@ -148,7 +160,7 @@ const ActionsSystem = () => {
         />
       </div>
       <div className='w-full relative'>
-        <hr className='absolute w-[calc(100%+80px)] -left-10 bottom-0' />
+        <hr className='absolute w-full bottom-0' />
       </div>
     </>
   );

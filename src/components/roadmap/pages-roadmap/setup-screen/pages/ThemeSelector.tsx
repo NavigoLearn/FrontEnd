@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import theme1 from '@assets/theme1.svg';
 import theme2 from '@assets/theme2.svg';
 import theme3 from '@assets/theme3.svg';
+import theme4 from '@assets/theme4.svg';
 import { AnimatePresence, motion } from 'framer-motion';
 import {
   getColorThemeFromRoadmap,
@@ -17,19 +18,22 @@ const ThemeSelector = ({ onNext }: ISetupScreenControlers) => {
     { id: 0, name: theme1 },
     { id: 1, name: theme2 },
     { id: 2, name: theme3 },
+    { id: 3, name: theme4 },
   ];
   const [isSelected, setIsSelected] = useState(0);
 
   const colorThemeSelector = (index: number) => {
     switch (index) {
       case 0:
-        return setColorThemeToRoadmap('defaultTheme');
+        return setColorThemeToRoadmap('winterTheme');
       case 1:
-        return setColorThemeToRoadmap('whiteTheme');
+        return setColorThemeToRoadmap('autumnTheme');
       case 2:
-        return setColorThemeToRoadmap('darkTheme');
+        return setColorThemeToRoadmap('summerTheme');
+      case 3:
+        return setColorThemeToRoadmap('springTheme');
       default:
-        return setColorThemeToRoadmap('defaultTheme');
+        return setColorThemeToRoadmap('winterTheme');
     }
   };
 
@@ -48,7 +52,7 @@ const ThemeSelector = ({ onNext }: ISetupScreenControlers) => {
           >
             <div>Select a roadmap</div>
             <div>theme</div>
-            <div className='grid grid-cols-3 gap-3 mt-2'>
+            <div className='grid grid-cols-4 gap-3 mt-2'>
               {themes.map((theme) => (
                 <motion.button
                   key={theme.id}
@@ -129,6 +133,14 @@ const ThemeSelector = ({ onNext }: ISetupScreenControlers) => {
                       />
                     </svg>
                   )}
+                  <div className='w-28 flex items-center justify-center absolute'>
+                    <div className='text-base mt-4'>
+                      {theme.id === 0 && 'Winter'}
+                      {theme.id === 1 && 'Autumn'}
+                      {theme.id === 2 && 'Summer'}
+                      {theme.id === 3 && 'Spring'}
+                    </div>
+                  </div>
                 </motion.button>
               ))}
             </div>
@@ -146,7 +158,7 @@ const ThemeSelector = ({ onNext }: ISetupScreenControlers) => {
               animate={{ opacity: 1, y: 0 }}
               exit={{ x: -100, opacity: 0 }}
               transition={{ duration: 0.5, delay: themes.length * 0.2 }}
-              className='bg-[#3361D8] text-white px-4 py-1 rounded-md text-base w-72 font-roboto-text mt-3'
+              className='bg-[#3361D8] text-white px-4 py-1 rounded-md text-base w-72 font-roboto-text mt-12'
               onClick={() => {
                 saveRoadmapChanges();
                 setFadeOut(true); // Start fade out animation

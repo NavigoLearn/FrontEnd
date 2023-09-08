@@ -6,11 +6,13 @@ module.exports = {
     extend: {
       colors: {
         primary: '#3361D8',
+        primaryHover: 'rgb(16,75,241)',
         secondary: '#3C42CE',
         highlight: '#007aff',
         backgroundRoadmap: '#ECEFF2',
         background: '#ffffff',
         textgradient: 'linear-gradient(90deg, #561BB6 0%, #253FC8 100%)',
+        coverColor: 'rgba(26,27,80,0.4)',
         resourceSubNode: '#DEE2E7',
         white: '#FFFFFF',
         thirdary: '#1A1B50',

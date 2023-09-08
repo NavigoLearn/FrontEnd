@@ -12,12 +12,17 @@ export type IColorThemesFields = {
 };
 
 export type IColorThemes = {
-  defaultTheme: IColorThemesFields;
-  whiteTheme: IColorThemesFields;
-  darkTheme: IColorThemesFields;
+  winterTheme: IColorThemesFields;
+  autumnTheme: IColorThemesFields;
+  summerTheme: IColorThemesFields;
+  springTheme: IColorThemesFields;
 };
 
-export type IColorThemesOptions = 'defaultTheme' | 'whiteTheme' | 'darkTheme';
+export type IColorThemesOptions =
+  | 'winterTheme'
+  | 'autumnTheme'
+  | 'summerTheme'
+  | 'springTheme';
 export type IColorThemesColors =
   | 'primary'
   | 'secondary'

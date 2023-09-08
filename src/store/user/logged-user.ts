@@ -46,7 +46,7 @@ export const setProfileMini = (
 ) => {
   const originalUser = loggedUser.get();
   const newProfilePictureUrl =
-    profilePictureUrl !== ''
+    profilePictureUrl !== '' && profilePictureUrl
       ? profilePictureUrl
       : originalUser.profilePictureUrl;
   loggedUser.set({

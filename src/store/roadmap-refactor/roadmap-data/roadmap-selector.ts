@@ -7,14 +7,14 @@ export const roadmapSelector = atom({
   chunks: {},
   rootNodesIds: [],
   data: {
-    colorTheme: 'defaultTheme',
+    colorTheme: 'winterTheme',
   },
   templates: {},
 } as IRoadmap);
 
 export const getRoadmapSelector = () => {
-    return roadmapSelector.get();
-}
+  return roadmapSelector.get();
+};
 
 export const setRoadmapSelector = (roadmap: IRoadmap) => {
   roadmapSelector.set({ ...roadmap });

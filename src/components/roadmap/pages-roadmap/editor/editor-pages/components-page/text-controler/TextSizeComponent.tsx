@@ -23,10 +23,10 @@ const TextSizeComponent = ({ component, nodeId }: TextSizeComponentProps) => {
 
   return (
     <div>
-      <div className='flex text-placeholder text text-center font-roboto-text text-sm ml-1'>
+      <div className='flex text-placeholder font-roboto-text text-sm ml-1 absolute'>
         Font size
       </div>
-      <div className='flex gap-2 flex-row'>
+      <div className='flex gap-2 flex-row mt-4'>
         {textSizeOptions.map((sizeOption) => (
           // eslint-disable-next-line jsx-a11y/label-has-associated-control
           <label className='checkbox-label' key={sizeOption}>
@@ -38,10 +38,13 @@ const TextSizeComponent = ({ component, nodeId }: TextSizeComponentProps) => {
               onChange={() => handleSizeChange(sizeOption)}
               className='hidden'
             />
+
             <div className='flex items-center h-8'>
               <div
-                className={`w-3 h-3 border-[1px] border-black mr-2 cursor-pointer ${
-                  activeButton === sizeOption ? 'border-transparent' : ''
+                className={`w-3 h-3 border-[1.5px] border-gray-200 rounded-sm mr-2 cursor-pointer ${
+                  activeButton === sizeOption
+                    ? 'border-transparent'
+                    : 'hover:border-darkBlue transition-all duration-200'
                 }`}
               >
                 {activeButton === sizeOption && (
@@ -65,7 +68,7 @@ const TextSizeComponent = ({ component, nodeId }: TextSizeComponentProps) => {
             </div>
           </label>
         ))}
-        <div className='border-l border-rgb(0,0,0,0.6) mx-1' />
+        <div className='border-l border-rgb(0,0,0,0.6) mx-2 mr-4' />
       </div>
     </div>
   );
