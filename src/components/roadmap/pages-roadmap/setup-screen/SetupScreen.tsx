@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { checkIfSessionExists } from '@src/typescript/roadmap_ref/history/restoreSession';
+import { deepCopy } from '@src/typescript/roadmap_ref/utils';
 import exit from '../../../../../public/editor/close.svg';
 import ThemeSelector from './pages/ThemeSelector';
 import TitleSelector from './pages/TitleSelector';
 import { initializeRoadmapAfterLoad } from '../../Roadmap';
+import { getCurrentRoadmap } from './roadmap-funtions';
 
 const SetupScreen = ({ isCreate }: { isCreate: boolean }) => {
   const [activeTab, setActiveTab] = useState(0);
@@ -42,7 +44,7 @@ const SetupScreen = ({ isCreate }: { isCreate: boolean }) => {
 
   return (
     <div className='h-[100%] w-[100%] bg-[#1A1B504D] absolute top-0 z-30 flex justify-center items-center'>
-      <div className='bg-white w-96 h-80'>
+      <div className='bg-white w-[32rem] h-[22rem]'>
         <div className='flex justify-between p-3'>
           <div className='font-kanit-text text-black text-xl'>
             First things first

@@ -11,6 +11,8 @@ import {
   selectNodeColorText,
   selectNodeColorTextBorder,
 } from '@src/typescript/roadmap_ref/node/core/factories/data-mutation/services';
+import { deepCopy } from '@src/typescript/roadmap_ref/utils';
+import { getCurrentRoadmap } from '../../../setup-screen/roadmap-funtions';
 
 type IVariantsComponentProps = {
   selectedColor: IColorThemesColors;

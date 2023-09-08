@@ -74,7 +74,7 @@ const TitleSelector = ({ onNext, handleExit }: ThemeSelectorProps) => {
           <input
             autoFocus
             value={value}
-            className='border-2 border-[#D9D9D9] rounded-lg w-80 placeholder:text-[#D9D9D9] placeholder:font-roboto-text px-3 py-2 mt-5 text-darkBlue outline-none'
+            className='border-2 border-[#D9D9D9] rounded-lg w-96 placeholder:text-[#D9D9D9] placeholder:font-roboto-text px-3 py-2 mt-5 text-darkBlue outline-none'
             placeholder='Write here an awesome title'
             onChange={(e) => setValue(e.target.value)}
             onKeyDown={(e) => {
@@ -89,7 +89,7 @@ const TitleSelector = ({ onNext, handleExit }: ThemeSelectorProps) => {
       <div className='relative flex justify-center'>
         {showError && <ErrorDisplay message='Please input a valid title' />}
       </div>
-      <div className='flex flex-col items-center mt-24 text-base font-roboto-text'>
+      <div className='flex flex-col items-center mt-28 text-base font-roboto-text'>
         <AnimatePresence>
           {' '}
           <motion.button

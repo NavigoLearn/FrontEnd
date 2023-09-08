@@ -2,7 +2,7 @@ import { ActionsClass } from '@src/typescript/roadmap_ref/node/core/actions/core
 import React, { useState } from 'react';
 import { triggerRerenderEditor } from '@src/store/roadmap-refactor/elements-editing/editor-selected-data';
 
-type SpecialInputProps = {
+type ITextInputStandard = {
   label: string;
   value: string;
   placeholder: string;
@@ -11,21 +11,25 @@ type SpecialInputProps = {
   w: string;
 };
 
-const SpecialInput = ({
+const TextInputStandard = ({
   label,
   value,
   placeholder,
   onChange,
   h,
   w,
-}: SpecialInputProps) => {
+}: ITextInputStandard) => {
   return (
     <div className='relative'>
       <input
         value={value}
         type='text'
-        className={`h-${h} w-${w} border-2 text-[#1A1B50] border-darkBlue rounded-lg hover:border-darkBlue border-placeholderBlack transition-all duration-300 focus:border-darkBlue focus:outline-none px-3`}
+        className='border text-[#1A1B50] border-darkBlue rounded-lg hover:border-darkBlue border-placeholderBlack transition-all duration-300 focus:border-darkBlue focus:outline-none px-3'
         placeholder={placeholder}
+        style={{
+          height: `${h}`,
+          width: `${w}`,
+        }}
         onChange={(e) => {
           const newValue = e.target.value;
           onChange(newValue);
@@ -38,4 +42,4 @@ const SpecialInput = ({
   );
 };
 
-export default SpecialInput;
+export default TextInputStandard;

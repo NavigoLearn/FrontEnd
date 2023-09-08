@@ -5,7 +5,7 @@ import { tailwindTransitionClass } from '@src/UI-library/tailwind-utils';
 import { IAttachmentTabDescriptionProperties } from '@type/roadmap/node/tab-types';
 import { useStore } from '@nanostores/react';
 import SpecialTextArea from '../../properties-page/SpecialTextArea';
-import SpecialInput from '../../properties-page/SpecialInput';
+import TextInputStandard from '../../properties-page/TextInputStandard';
 
 type IDescriptionComponentProps = {
   value: string;

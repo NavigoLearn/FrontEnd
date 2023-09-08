@@ -79,7 +79,7 @@ const ResourceBulletListItemDropdown = ({
   return (
     <div className='w-full h-full p-4 flex flex-col gap-1 font-roboto-text text-darkBlue'>
       <input
-        className='border-2 border-placeholderBlack outline-none rounded-md'
+        className='border p-1 border-placeholderBlack outline-none rounded-md'
         value={listItem.text}
         onChange={(e) => {
           const newValue = e.target.value;
@@ -92,7 +92,7 @@ const ResourceBulletListItemDropdown = ({
         }}
       />
       <input
-        className='border-2 border-placeholderBlack outline-none rounded-md'
+        className='border p-1 border-placeholderBlack outline-none rounded-md'
         value={listItem.linkURL}
         onChange={(e) => {
           const newValue = e.target.value;
@@ -194,7 +194,7 @@ const ResourceBulletListItem = ({
 
 const ResourceAttachmentEdit = ({ component }: IResourceAttachmentProps) => {
   return (
-    <div className='flex gap-1 w-full relative flex-col border-2 border-placeholderBlack rounded-lg pb-4'>
+    <div className='flex gap-1 w-full relative flex-col border border-placeholderBlack rounded-lg pb-4'>
       <div className='flex justify-between px-4  w-full mt-4'>
         <h1 className='text-secondary font-roboto-text'>Resources</h1>
         <button

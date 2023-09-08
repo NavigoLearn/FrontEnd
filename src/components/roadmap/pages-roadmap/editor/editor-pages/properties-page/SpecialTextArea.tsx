@@ -22,7 +22,7 @@ const SpecialTextArea = ({
   return (
     <div className='relative'>
       <div
-        className={`h-${h} w-${w} px-2 pt-3 border-2 rounded-lg hover:border-darkBlue border-placeholderBlack transition-all duration-300 focus:border-darkBlue focus:outline-none`}
+        className={`h-${h} w-${w} px-2 pt-3 border rounded-lg hover:border-darkBlue border-placeholderBlack transition-all duration-300 focus:border-darkBlue focus:outline-none`}
       >
         <textarea
           value={value}

@@ -13,9 +13,6 @@ export const buttonsDraft = [
     name: 'Save',
     callback: async () => {
       // TODO: Implement Save functionality
-      await postRoadmapData(roadmapSelector.get()).then((roadmapId) => {
-        setRoadmapId(roadmapId.id);
-      });
       window.location.href = '/profile';
     },
   },

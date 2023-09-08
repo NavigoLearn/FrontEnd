@@ -1,5 +1,5 @@
 import { atom } from 'nanostores';
-import aboutTabStore from '@store/roadmap-refactor/roadmap-data/roadmap-about';
+import storeRoadmapAbout from '@store/roadmap-refactor/roadmap-data/roadmap-about';
 import { getRoadmapSelector } from '@store/roadmap-refactor/roadmap-data/roadmap-selector';
 
 export type IBackendRoadmapFormat = {
@@ -16,8 +16,8 @@ export const storeRoadmapPostPayload = atom({} as IBackendRoadmapFormat);
 
 export function setPostRoadmapPayloadFromExistingStores() {
   const roadmapPayload: IBackendRoadmapFormat = {
-    name: aboutTabStore.get().name,
-    description: aboutTabStore.get().description,
+    name: storeRoadmapAbout.get().name,
+    description: storeRoadmapAbout.get().description,
     isPublic: false,
     isDraft: false,
     createdAt: new Date().toISOString(),
