@@ -6,7 +6,7 @@ import loggedUser from '@store/user/logged-user';
 import {
   fetchCloseIssue,
   fetchOpenIssue,
-} from '@src/api-wrapper/roadmap/issues';
+} from '@src/api-wrapper/roadmap/deprecated/issues';
 import { useStore } from '@nanostores/react';
 import roadmapVisitData from '@store/roadmap-refactor/roadmap-data/roadmap-visit-data';
 

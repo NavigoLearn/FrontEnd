@@ -1,18 +1,14 @@
 import { atom } from 'nanostores';
 import { IRoadmap } from '@type/roadmap/stores/IRoadmap';
-import {
-  setRoadmapSelector,
-} from '@store/roadmap-refactor/roadmap-data/roadmap-selector';
-import { fetchRoadmap } from '@src/api-wrapper/roadmap/roadmaps';
+import { setRoadmapSelector } from '@store/roadmap-refactor/roadmap-data/roadmap-selector';
+import { fetchRoadmap } from '@src/api-wrapper/roadmap/routes/roadmaps';
 import { RoadmapTypeApi } from '@type/explore_old/card';
 import { isRoadmapType } from '@type/roadmap/old/typecheckers';
 import {
   setOwnerId,
   setRoadmapId,
 } from '@store/roadmap-refactor/roadmap-data/roadmap-visit-data';
-import {
-  setTabAboutFromApi,
-} from '@store/roadmap-refactor/roadmap-data/roadmap-about';
+import { setTabAboutFromApi } from '@store/roadmap-refactor/roadmap-data/roadmap-about';
 import { setLoadedTrue } from '@src/typescript/roadmap_ref/utils';
 import miscParams, {
   triggerRecenterRoadmap,
@@ -22,12 +18,8 @@ import {
   getRoadmapState,
   setRoadmapStateStore,
 } from '@store/roadmap-refactor/roadmap-data/roadmap_state';
-import {
-  enterEditingModeProtocol,
-} from '@src/typescript/roadmap_ref/roadmap-data/protocols/roadmap-state-protocols';
-import {
-  setRoadmapEdit,
-} from '@store/roadmap-refactor/roadmap-data/roadmap-edit';
+import { enterEditingModeProtocol } from '@src/typescript/roadmap_ref/roadmap-data/protocols/roadmap-state-protocols';
+import { setRoadmapEdit } from '@store/roadmap-refactor/roadmap-data/roadmap-edit';
 
 export const roadmapView = atom({
   rootNodesIds: [],
@@ -68,7 +60,9 @@ export async function setRoadmapFromData(roadmapData: RoadmapTypeApi) {
 
 export function setRoadmapFromRecovery(save: SaveItem) {
   const state = getRoadmapState();
-  state === 'create' ? setRoadmapSelector(save.data) : setRoadmapEdit(save.data);
+  state === 'create'
+    ? setRoadmapSelector(save.data)
+    : setRoadmapEdit(save.data);
   setRoadmapEdit(save.data);
   setRoadmapStateStore(save.state);
   // set editing to true

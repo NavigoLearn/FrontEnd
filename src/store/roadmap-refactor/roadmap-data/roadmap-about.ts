@@ -4,7 +4,7 @@ import { fetchGetMiniProfileDataById } from '@src/api-wrapper/user/user';
 import {
   fetchPostTabAboutDescription,
   fetchPostTabAboutTitle,
-} from '@src/api-wrapper/roadmap/tab-data';
+} from '@src/api-wrapper/roadmap/deprecated/tab-data';
 
 const aboutTabStore = atom({
   name: 'Untitled',
