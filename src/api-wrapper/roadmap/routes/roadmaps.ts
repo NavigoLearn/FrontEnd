@@ -36,6 +36,8 @@ export const updateRoadmapData = async (roadmap: IRoadmap) => {
 export const postRoadmapData = errorHandlerDecorator(async () => {
   const newRoadmap = storeRoadmapPostPayload.get();
 
+  console.log('newRoadmap', newRoadmap);
+
   const response = await fetch('/api/roadmaps/create', {
     method: 'POST',
     credentials: 'include',
@@ -47,6 +49,7 @@ export const postRoadmapData = errorHandlerDecorator(async () => {
     },
   });
   const responseJson = await response.json();
+
   return responseJson;
 });
 

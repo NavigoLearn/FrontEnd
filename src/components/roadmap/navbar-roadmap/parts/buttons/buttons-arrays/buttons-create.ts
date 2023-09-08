@@ -1,9 +1,11 @@
 import { setRoadmapId } from '@store/roadmap-refactor/roadmap-data/misc-data/roadmap_state';
 import { postRoadmapData } from '@src/api-wrapper/roadmap/routes/roadmaps';
 import {
+  replaceRoadmapPostPayloadMissingWithDefaults,
   setPostRoadmapPayloadFromExistingStores,
   setPostRoadmapPostPayloadIsDraft,
   setPostRoadmapPostPayloadIsPublic,
+  validateRoadmapPostPayload,
 } from '@src/api-wrapper/roadmap/stores/roadmap-payload';
 import { setDisplayPageTypeFullScreen } from '@src/store/roadmap-refactor/display/display-manager-full-screen';
 import { pullStoreAboutTempFromApp } from '@components/roadmap/to-be-organized/about/stores/store-about-temp';
@@ -32,6 +34,8 @@ export const buttonsCreateLogged = [
       setPostRoadmapPayloadFromExistingStores();
       setPostRoadmapPostPayloadIsDraft(false);
       setPostRoadmapPostPayloadIsPublic(true);
+      replaceRoadmapPostPayloadMissingWithDefaults();
+      validateRoadmapPostPayload();
 
       await postRoadmapData().then((roadmapId) => {
         setRoadmapId(roadmapId.id);

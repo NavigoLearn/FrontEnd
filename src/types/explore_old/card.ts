@@ -10,7 +10,7 @@ export type CardType = {
 
 export type RoadmapTypeApi = {
   id: string;
-  ownerId: string;
+  userId: string;
   name: string;
   likes: string;
   description: string;

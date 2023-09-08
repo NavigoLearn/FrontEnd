@@ -27,6 +27,9 @@ export type INavbarRoadmapButton = {
 function getPublicButtons(isLogged, isOwner): INavbarRoadmapButton[] {
   const state = getRoadmapState();
   const buttons: INavbarRoadmapButton[] = [];
+  console.log('state', state);
+  console.log('isLogged', isLogged);
+  console.log('isOwner', isOwner);
 
   if (!isLogged) {
     buttons.push(...buttonsPublicAnonymus);
@@ -110,8 +113,10 @@ export function getNavbarRoadmapButtons(): INavbarRoadmapButton[] {
   const { isLogged, userId } = getUserStatus();
   const { ownerId } = getRoadmapAbout();
 
+  console.log('isLogged', ownerId, userId);
   const isOwner = userId === ownerId;
   const roadmapType = getRoadmapType();
+  console.log('roadmapType', roadmapType);
 
   if (roadmapType === 'create') {
     buttons.push(...getCreateButtons(isLogged, isOwner));

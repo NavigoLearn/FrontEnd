@@ -12,13 +12,13 @@ export type IRoadmapAbout = {
 
 const BOILERPLATE_ROADMAP_ABOUT: IRoadmapAbout = {
   roadmapType: 'create', // concerned with the type of the roadmap BEFORE RUNTIME
-  name: 'Untitled',
+  name: '',
   roadmapId: '',
   ownerId: '',
-  description: 'No description',
+  description: '',
 };
 
-export const DEFAULT_NAME = '';
+export const DEFAULT_NAME = 'Untitled';
 export const DEFAULT_DESCRIPTION = 'No description';
 
 const storeRoadmapAbout = atom(BOILERPLATE_ROADMAP_ABOUT as IRoadmapAbout);

@@ -41,7 +41,6 @@ import { addKeyListeners } from '@src/typescript/roadmap_ref/key-shortcuts';
 import { RoadmapTypeApi } from '@type/explore_old/card';
 import {
   enableRoadmapInteractions,
-  getRoadmapEnableInteractions,
   setRoadmapDisableDragAndZoom,
   setRoadmapEnableDragAndZoom,
 } from '@store/roadmap-refactor/roadmap-data/roadmap-functions-utils';
@@ -64,6 +63,7 @@ import userStatus from '@store/user/user-status';
 import { checkIfSessionExists } from '@src/typescript/roadmap_ref/history/restoreSession';
 import { setDisplayPageTypeFullScreen } from '@store/roadmap-refactor/display/display-manager-full-screen';
 import { setRoadmapCreate } from '@store/roadmap-refactor/roadmap-data/roadmap-create';
+import { setRoadmapViewFromAPI } from '@store/roadmap-refactor/roadmap-data/roadmap-view';
 
 export function initialRoadmapProtocolAfterLoad() {
   setRoadmapIsLoaded();
@@ -85,6 +85,10 @@ export function checkAndSetInitialRoadmapType(
   }
   const isDraft = roadmap.isDraft === true;
   const isPublic = roadmap.isPublic === true;
+
+  if (!isDraft && !isPublic) {
+    throw new Error('Roadmap is neither draft nor public');
+  }
 
   if (isDraft) {
     setRoadmapType('draft');
@@ -146,11 +150,12 @@ function initializeRoadmapAboutData(roadmap?: RoadmapTypeApi) {
   if (type === 'draft' || type === 'public') {
     if (!roadmap)
       throw new Error('Roadmap is undefined despite being draft mode?');
-    const { name, description, ownerId, id } = roadmap;
+    const { name, description, userId, id } = roadmap;
+    console.log('roadmap', roadmap);
 
     setRoadmapAboutName(name);
     setRoadmapAboutDescription(description);
-    setRoadmapAboutOwnerId(ownerId);
+    setRoadmapAboutOwnerId(userId);
     setRoadmapAboutId(id);
   }
 }
@@ -163,30 +168,49 @@ function handleRoadmapSessionRestoration() {
   return false;
 }
 
-function handleRoadmapRenderingDataAndInitializationProtocol(
+type IHandleRoadmapDataStatus =
+  | 'restored'
+  | 'factory-created'
+  | 'retrieved-from-api'
+  | 'error';
+
+function handleRoadmapRenderingData(
   roadmap?: RoadmapTypeApi
-) {
+): IHandleRoadmapDataStatus {
   const type = getRoadmapType();
   if (type === 'create') {
     const restoredFromCache = handleRoadmapSessionRestoration();
 
     if (restoredFromCache) {
       initialRoadmapProtocolAfterLoad();
-      return;
+      return 'restored';
     }
     // otherwise the initialization triggers from the setup screen
-
-    setDisplayPageTypeFullScreen('setup-screen');
     createAndSetRoadmapClassic(); // also handles setting the roadmap data in the store
+    return 'factory-created';
+  }
+  if (type === 'draft' || type === 'public') {
+    setRoadmapEditFromAPI(roadmap);
+    initialRoadmapProtocolAfterLoad();
+    return 'retrieved-from-api';
+  }
+  throw new Error('Roadmap rendering data initialization failed');
+}
+
+function handleRoadmapAfterLoadInitialization(
+  status: IHandleRoadmapDataStatus
+) {
+  console.log('handleRoadmapAfterLoadInitialization', status);
+  if (status === 'restored') {
+    initialRoadmapProtocolAfterLoad();
+    return;
+  }
+  if (status === 'factory-created') {
+    setDisplayPageTypeFullScreen('setup-screen');
     setHasStarterTab(true);
-  } else {
-    const state = getRoadmapState();
-    if (state === 'edit') {
-      setRoadmapEditFromAPI(roadmap);
-    }
-    if (state === 'view') {
-      setRoadmapViewFromAPI(roadmap);
-    }
+    // intialization is done as a side effect in the setup screen
+  }
+  if (status === 'retrieved-from-api') {
     initialRoadmapProtocolAfterLoad();
   }
 }
@@ -209,13 +233,13 @@ const Roadmap = ({
     // rendering and interactivity initializations
     initializeChunkRerendering();
     initializeRoadmapInteractions();
+    enableRoadmapInteractions();
 
     // data initializations
     checkAndSetInitialRoadmapType(roadmap, pageId);
-    initializeRoadmapAboutData(roadmap);
-    handleRoadmapRenderingDataAndInitializationProtocol(roadmap);
-
-    enableRoadmapInteractions();
+    initializeRoadmapAboutData(roadmap); // all the misc data about the roadmap like title, desc, id etc
+    const dataRetrievalStatus = handleRoadmapRenderingData(roadmap); // .data from api
+    handleRoadmapAfterLoadInitialization(dataRetrievalStatus);
   }, []);
 
   useEffectAfterLoad(() => {

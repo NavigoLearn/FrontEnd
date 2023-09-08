@@ -1,5 +1,8 @@
 import { atom } from 'nanostores';
-import storeRoadmapAbout from '@store/roadmap-refactor/roadmap-data/misc-data/roadmap-about';
+import storeRoadmapAbout, {
+  DEFAULT_DESCRIPTION,
+  DEFAULT_NAME,
+} from '@store/roadmap-refactor/roadmap-data/misc-data/roadmap-about';
 import { getRoadmapSelector } from '@store/roadmap-refactor/roadmap-data/roadmap-selector';
 
 export type IBackendRoadmapFormat = {
@@ -39,4 +42,28 @@ export function setPostRoadmapPostPayloadIsPublic(isPublic: boolean) {
     ...storeRoadmapPostPayload.get(),
     isPublic,
   });
+}
+
+export function validateRoadmapPostPayload() {
+  const store = storeRoadmapPostPayload.get();
+  if (!store.name) {
+    throw new Error('Roadmap name is missing');
+  }
+  if (!store.description) {
+    throw new Error('Roadmap description is missing');
+  }
+  if (!store.data) {
+    throw new Error('Roadmap data is missing');
+  }
+}
+
+export function replaceRoadmapPostPayloadMissingWithDefaults() {
+  const store = storeRoadmapPostPayload.get();
+  if (!store.name) {
+    store.name = DEFAULT_NAME;
+  }
+  if (!store.description) {
+    store.description = DEFAULT_DESCRIPTION;
+  }
+  storeRoadmapPostPayload.set(store);
 }
