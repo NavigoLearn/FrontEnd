@@ -55,6 +55,7 @@ import { clearSelectedConnection } from '@components/roadmap/connections/connect
 import { setEditingState } from '@store/roadmap-refactor/editing/editing-state';
 import { deepCopy } from '@src/typescript/roadmap_ref/utils';
 import { getCurrentRoadmap } from './pages-roadmap/setup-screen/roadmap-funtions';
+import { useNotification } from './to-be-organized/notifications/NotificationLogic';
 
 export function initializeRoadmapAfterLoad() {
   setRoadmapIsLoaded();
@@ -174,7 +175,6 @@ const Roadmap = ({
   }, [nodesIds, state]);
 
   return (
-    // eslint-disable-next-line jsx-a11y/click-events-have-key-events,jsx-a11y/no-static-element-interactions
     <div
       className='w-full h-full pointer-events-auto'
       onClick={() => {

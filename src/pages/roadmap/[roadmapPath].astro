@@ -1,13 +1,14 @@
 ---
 import RoadmapLayout from '@layouts/RoadmapLayout.astro';
 import PageViewCollection from '@components/home/PageViewCollection';
-import Roadmap from '@components/roadmap/Roadmap';
+import RoadmapWithNotifications from '@src/components/roadmap/RoadmapWithNotifications';
 import PagesDisplayManager from '@components/roadmap/pages-roadmap/PagesDisplayManager';
 import { RoadmapTypeApi } from '../../types/explore_old/card';
 import SetupScreen from '@components/roadmap/pages-roadmap/setup-screen/SetupScreen';
 import RequestManager from '../../components/misc/RequestManager';
 import AboutRenderer from '@src/components/roadmap/to-be-organized/about/AboutRenderer';
 import FullScreenTabManager from '@src/components/roadmap/pages-roadmap/FullScreenTabManager';
+import { NotificationProvider } from '@src/components/roadmap/to-be-organized/notifications/NotificationLogic';
 
 const { roadmapPath } = Astro.params;
 // here we should get the roadmap-roadmap-data for the actual roadmap_static
@@ -80,11 +81,15 @@ if (typeof id === 'string') {
   <div class='h-[calc(100vh-64px)] md:mt-0 relative w-full'>
     <!-- offset from nav reduced from total screen size -->
     <div class='h-full relative'>
-      <Roadmap pageId={roadmapPath} roadmap={roadmap} client:load />
+      <RoadmapWithNotifications
+        pageId={roadmapPath}
+        roadmap={roadmap}
+      client:load 
+      />
     </div>
-
     <div class='w-full h-full'>
       <PagesDisplayManager client:idle />
     </div>
   </div>
 </RoadmapLayout>
+

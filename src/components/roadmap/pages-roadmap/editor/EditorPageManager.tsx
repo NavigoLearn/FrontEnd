@@ -12,6 +12,7 @@ import Operations from '@components/roadmap/pages-roadmap/editor/editor-pages/op
 import Properties from '@components/roadmap/pages-roadmap/editor/editor-pages/properties-page/Properties';
 import SubNodesPage from '@components/roadmap/pages-roadmap/editor/editor-pages/nodes-page/SubNodesPage';
 import { AnimatePresence, motion } from 'framer-motion';
+import { NotificationProvider } from '../../to-be-organized/notifications/NotificationLogic';
 
 const pagesMapperJSON: Record<IEditorDisplayPageType, React.ReactNode> = {
   attachment: (

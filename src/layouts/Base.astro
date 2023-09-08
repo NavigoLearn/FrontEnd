@@ -3,6 +3,7 @@ import Navbar from '@components/navbar/Navbar';
 import Footer from '@layouts/Footer.astro';
 import RequestManager from '../components/misc/RequestManager';
 import DataCollectionManager from '../components/misc/DataCollectionManager';
+import { NotificationProvider } from '@src/components/roadmap/to-be-organized/notifications/NotificationLogic';
 
 import '@fontsource/kanit';
 import '@fontsource/oxygen';
@@ -17,6 +18,7 @@ export interface Props {
 const { metadata, excludeFooter } = Astro.props;
 ---
 
+<NotificationProvider>
 <html lang='en' class='overflow-x-hidden'>
   <head>
     <meta charset='UTF-8' />
@@ -72,3 +74,4 @@ const { metadata, excludeFooter } = Astro.props;
     }
   </body>
 </html>
+</NotificationProvider>
