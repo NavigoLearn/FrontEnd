@@ -10,6 +10,7 @@ const ButtonsManager = () => {
   useStore(roadmapStateStore);
   useStore(userStatusStore);
   useStore(roadmapVisitData);
+
   const buttons = getNavbarRoadmapButtons();
 
   return (

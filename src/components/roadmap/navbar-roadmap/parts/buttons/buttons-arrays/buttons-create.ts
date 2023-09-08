@@ -6,6 +6,7 @@ import {
   setPostRoadmapPostPayloadIsPublic,
 } from '@src/api-wrapper/roadmap/stores/roadmap-payload';
 import { setDisplayPageTypeFullScreen } from '@src/store/roadmap-refactor/display/display-manager-full-screen';
+import { pullStoreAboutTempFromApp } from '@components/roadmap/to-be-organized/about/stores/store-about-temp';
 
 export const buttonsCreateAnonymus = [
   {
@@ -59,6 +60,7 @@ export const buttonsCreateLogged = [
     name: 'About',
     callback: async () => {
       setDisplayPageTypeFullScreen('about');
+      pullStoreAboutTempFromApp();
     },
   },
 

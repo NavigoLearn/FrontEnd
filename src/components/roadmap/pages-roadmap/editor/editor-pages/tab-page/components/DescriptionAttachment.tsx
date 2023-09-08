@@ -4,7 +4,7 @@ import { triggerRerenderEditor } from '@store/roadmap-refactor/elements-editing/
 import { tailwindTransitionClass } from '@src/UI-library/tailwind-utils';
 import { IAttachmentTabDescriptionProperties } from '@type/roadmap/node/tab-types';
 import { useStore } from '@nanostores/react';
-import SpecialTextArea from '../../properties-page/SpecialTextArea';
+import TextareaStandardInput from '../../properties-page/TextareaStandardInput';
 import TextInputStandard from '../../properties-page/TextInputStandard';
 
 type IDescriptionComponentProps = {
@@ -30,13 +30,13 @@ const DescriptionAttachmentEdit = ({
 
   return (
     <div className='w-full'>
-      <SpecialTextArea
+      <TextareaStandardInput
         label='Description'
         value={value}
         onChange={(newValue) => handleChange(newValue)}
         placeholder='Give an expressive description'
-        h='40'
-        w='full'
+        h='160px'
+        w='100%'
       />
     </div>
   );

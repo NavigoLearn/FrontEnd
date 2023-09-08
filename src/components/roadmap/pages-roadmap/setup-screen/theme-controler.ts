@@ -5,7 +5,7 @@ export const getColorThemeFromRoadmap = () => {
   return getCurrentRoadmap().data.colorTheme;
 };
 
-export const setColorThemeToRoadmap = (colorTheme: IColorThemesOptions) => {
+export const setRoadmapColorTheme = (colorTheme: IColorThemesOptions) => {
   getCurrentRoadmap().data.colorTheme = colorTheme;
 };
 

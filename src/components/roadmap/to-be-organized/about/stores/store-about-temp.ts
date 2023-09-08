@@ -4,6 +4,7 @@ import roadmapAbout, {
 } from '@store/roadmap-refactor/roadmap-data/roadmap-about';
 import { IColorThemesOptions } from '@type/roadmap/node/colors-types';
 import { getRoadmapSelector } from '@src/typescript/roadmap_ref/roadmap-data/services/get';
+import { setRoadmapColorTheme } from '@components/roadmap/pages-roadmap/setup-screen/theme-controler';
 
 const storeAboutTemporary = atom({
   name: 'Untitled',
@@ -38,6 +39,14 @@ export function setStoreAboutTempAuthor(author: string) {
   });
 }
 
+export function setStoreAboutTempTheme(theme: IColorThemesOptions) {
+  const newTempStore = storeAboutTemporary.get();
+  newTempStore.theme = theme;
+  storeAboutTemporary.set({
+    ...newTempStore,
+  });
+}
+
 export function pullStoreAboutTempFromApp() {
   const currentAbout = roadmapAbout.get();
   const theme = getRoadmapSelector().data.colorTheme;
@@ -48,4 +57,22 @@ export function pullStoreAboutTempFromApp() {
     author: currentAbout.author,
     theme,
   });
+}
+
+export function pushStoreAboutTempChangesToApp() {
+  const currentAbout = roadmapAbout.get();
+  const tempAbout = storeAboutTemporary.get();
+
+  currentAbout.name = tempAbout.name;
+  currentAbout.description = tempAbout.description;
+  currentAbout.author = tempAbout.author;
+  roadmapAbout.set({
+    ...currentAbout,
+  });
+
+  setRoadmapColorTheme(tempAbout.theme);
+}
+
+export function getStoreAboutTemp() {
+  return storeAboutTemporary.get();
 }
