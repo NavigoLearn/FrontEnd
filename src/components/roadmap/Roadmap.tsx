@@ -28,7 +28,6 @@ import {
 import { recalculateChunks } from '@src/typescript/roadmap_ref/render/chunks';
 import { triggerRecenterRoadmap } from '@store/roadmap-refactor/misc/misc-params-store';
 import { useIsLoaded } from '@hooks/useIsLoaded';
-import { setRoadmapViewFromAPI } from '@store/roadmap-refactor/roadmap-data/roadmap-view';
 import {
   applyNodesDraggability,
   applyRoadmapElementsInitialDraggability,
@@ -157,9 +156,9 @@ function initializeRoadmapAboutData(roadmap?: RoadmapTypeApi) {
 }
 
 function handleRoadmapSessionRestoration() {
+  return false;
   if (checkIfSessionExists()) {
     console.log('restoring session');
-    return false;
   }
   return false;
 }

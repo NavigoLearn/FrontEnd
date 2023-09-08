@@ -10,6 +10,7 @@ const { id } = Astro.params;
     title: 'Profile',
   }}
 >
-  <Profile client:load />
-  <!--<ProfileDeprecated client:load />-->
+  <div>
+    <Profile client:load />
+  </div>
 </Base>

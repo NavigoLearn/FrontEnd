@@ -31,14 +31,6 @@ export function setStoreAboutTempDescription(description: string) {
   });
 }
 
-export function setStoreAboutTempAuthor(author: string) {
-  const newTab = storeAboutTemporary.get();
-  newTab.author = author;
-  storeAboutTemporary.set({
-    ...newTab,
-  });
-}
-
 export function setStoreAboutTempTheme(theme: IColorThemesOptions) {
   const newTempStore = storeAboutTemporary.get();
   newTempStore.theme = theme;
@@ -54,7 +46,7 @@ export function pullStoreAboutTempFromApp() {
   storeAboutTemporary.set({
     name: currentAbout.name,
     description: currentAbout.description,
-    author: currentAbout.author,
+    author: currentAbout.ownerId,
     theme,
   });
 }

@@ -1,5 +1,4 @@
 import { hashData } from '@src/typescript/utils/hashData';
-import { setRoadmapFromRecovery } from '@store/roadmap-refactor/roadmap-data/roadmap-view';
 import {
   getRoadmapId,
   getRoadmapState,
