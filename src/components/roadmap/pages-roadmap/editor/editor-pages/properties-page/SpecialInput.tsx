@@ -24,7 +24,7 @@ const SpecialInput = ({
       <input
         value={value}
         type='text'
-        className={`h-${h} w-${w} border-2 text-[#1A1B50] border-darkBlue rounded-lg hover:border-darkBlue border-placeholderBlack transition-all duration-300 focus:border-darkBlue focus:outline-none px-3`}
+        className={`h-${h} w-${w} border text-[#1A1B50] border-darkBlue rounded-lg hover:border-darkBlue border-placeholderBlack transition-all duration-300 focus:border-darkBlue focus:outline-none px-3`}
         placeholder={placeholder}
         onChange={(e) => {
           const newValue = e.target.value;

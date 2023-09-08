@@ -10,5 +10,5 @@ export const setColorThemeToRoadmap = (colorTheme: IColorThemesOptions) => {
 };
 
 export const setDefaultColorThemeToRoadmap = () => {
-  getCurrentRoadmap().data.colorTheme = 'defaultTheme';
+  getCurrentRoadmap().data.colorTheme = 'winterTheme';
 };

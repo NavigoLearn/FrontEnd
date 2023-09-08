@@ -53,6 +53,8 @@ import {
 import { afterEventLoop } from '@src/typescript/utils/misc';
 import { clearSelectedConnection } from '@components/roadmap/connections/connection-editing/connection-store';
 import { setEditingState } from '@store/roadmap-refactor/editing/editing-state';
+import { deepCopy } from '@src/typescript/roadmap_ref/utils';
+import { getCurrentRoadmap } from './pages-roadmap/setup-screen/roadmap-funtions';
 
 export function initializeRoadmapAfterLoad() {
   setRoadmapIsLoaded();
