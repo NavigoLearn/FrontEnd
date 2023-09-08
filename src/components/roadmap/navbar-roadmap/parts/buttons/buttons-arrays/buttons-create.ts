@@ -1,7 +1,12 @@
 import { setRoadmapId } from '@store/roadmap-refactor/roadmap-data/roadmap_state';
-import { roadmapSelector } from '@store/roadmap-refactor/roadmap-data/roadmap-selector';
-import { postRoadmapData } from '@src/api-wrapper/roadmap/roadmaps';
+import { postRoadmapData } from '@src/api-wrapper/roadmap/routes/roadmaps';
+import {
+  setPostRoadmapPayloadFromExistingStores,
+  setPostRoadmapPostPayloadIsDraft,
+  setPostRoadmapPostPayloadIsPublic,
+} from '@src/api-wrapper/roadmap/stores/roadmap-payload';
 import { setDisplayPageTypeFullScreen } from '@src/store/roadmap-refactor/display/display-manager-full-screen';
+import { pullStoreAboutTempFromApp } from '@components/roadmap/to-be-organized/about/stores/store-about-temp';
 
 export const buttonsCreateAnonymus = [
   {
@@ -24,7 +29,12 @@ export const buttonsCreateLogged = [
     name: 'Publish',
     callback: async () => {
       // sending the roadmap to be created
-      await postRoadmapData(roadmapSelector.get()).then((roadmapId) => {
+
+      setPostRoadmapPayloadFromExistingStores();
+      setPostRoadmapPostPayloadIsDraft(false);
+      setPostRoadmapPostPayloadIsPublic(true);
+
+      await postRoadmapData().then((roadmapId) => {
         setRoadmapId(roadmapId.id);
       });
       window.location.href = '/profile';
@@ -34,13 +44,23 @@ export const buttonsCreateLogged = [
   {
     name: 'Save as draft',
     callback: async () => {
-      console.log('save as draft to be implemented');
+      // sending the roadmap to be created
+
+      setPostRoadmapPayloadFromExistingStores();
+      setPostRoadmapPostPayloadIsDraft(true);
+      setPostRoadmapPostPayloadIsPublic(false);
+
+      await postRoadmapData().then((roadmapId) => {
+        setRoadmapId(roadmapId.id);
+      });
+      window.location.href = '/profile';
     },
   },
   {
     name: 'About',
     callback: async () => {
       setDisplayPageTypeFullScreen('about');
+      pullStoreAboutTempFromApp();
     },
   },
 

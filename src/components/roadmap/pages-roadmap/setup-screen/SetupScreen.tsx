@@ -20,15 +20,15 @@ const SetupScreen = ({ isCreate }: { isCreate: boolean }) => {
     setActiveTab((prevTab) => (prevTab + 1) % totalTabs);
   };
 
-  useEffect(() => {
-    setTimeout(() => {
-      if (checkIfSessionExists()) {
-        initializeRoadmapAfterLoad();
-        handleExit();
-      }
-    }, 50);
-  }, []);
-
+  // useEffect(() => {
+  //   setTimeout(() => {
+  //     if (checkIfSessionExists()) {
+  //       initializeRoadmapAfterLoad();
+  //       handleExit();
+  //     }
+  //   }, 50);
+  // }, []);
+  //
   const renderActiveTab = () => {
     switch (activeTab) {
       case 0:

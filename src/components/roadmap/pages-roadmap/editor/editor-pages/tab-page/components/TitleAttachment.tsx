@@ -4,7 +4,7 @@ import { tailwindTransitionClass } from '@src/UI-library/tailwind-utils';
 import { IAttachmentTabTitleProperties } from '@type/roadmap/node/tab-types';
 import { useStore } from '@nanostores/react';
 import attachmentPageStatus from '@store/roadmap-refactor/display/editor/attachment-page-status';
-import SpecialInput from '../../properties-page/SpecialInput';
+import TextInputStandard from '../../properties-page/TextInputStandard';
 
 type ITitleComponentProps = {
   value: string;
@@ -31,13 +31,13 @@ const TitleAttachmentEdit = ({ value, onChange }: ITitleComponentProps) => {
   };
 
   return (
-    <SpecialInput
+    <TextInputStandard
       label='Title'
       value={value}
       onChange={(newValue) => handleChange(newValue)}
       placeholder='Give an expressive title'
-      h='14'
-      w='full'
+      h='56px'
+      w='100%'
     />
   );
 };

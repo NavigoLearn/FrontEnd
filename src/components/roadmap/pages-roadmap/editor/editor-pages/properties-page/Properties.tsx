@@ -27,7 +27,7 @@ import {
   MINIMUM_NODE_HEIGHT,
   MINIMUM_NODE_WIDTH,
 } from '@src/typescript/roadmap_ref/node/core/factories/params/default-params';
-import SpecialInput from './SpecialInput';
+import TextInputStandard from './TextInputStandard';
 
 type IActionsDropdown = {
   action: string;
@@ -256,7 +256,7 @@ const Properties = () => {
           />
         </div>
         {node.actions.onClick === 'Open link' && (
-          <SpecialInput
+          <TextInputStandard
             label='Link'
             value={actions.additionalData.link || ''}
             placeholder='http://google.com'
@@ -264,8 +264,8 @@ const Properties = () => {
               mutateActionLink(actions, newValue);
               triggerRerenderEditor();
             }}
-            h='10' // Customize height here
-            w='52' // Customize width here
+            h='40px' // Customize height here
+            w='208px' // Customize width here
           />
         )}
       </div>

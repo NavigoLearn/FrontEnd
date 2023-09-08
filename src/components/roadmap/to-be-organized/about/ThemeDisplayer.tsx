@@ -5,8 +5,13 @@ import theme3 from '@assets/theme3.svg';
 import theme4 from '@assets/theme4.svg';
 import { AnimatePresence, motion } from 'framer-motion';
 import {
+  getStoreAboutTemp,
+  setStoreAboutTempTheme,
+} from '@components/roadmap/to-be-organized/about/stores/store-about-temp';
+import { IColorThemesOptions } from '@type/roadmap/node/colors-types';
+import {
   getColorThemeFromRoadmap,
-  setColorThemeToRoadmap,
+  setRoadmapColorTheme,
 } from '../../pages-roadmap/setup-screen/theme-controler';
 import {
   saveRoadmapChanges,
@@ -20,29 +25,29 @@ const ThemeDisplayer = () => {
     { id: 2, name: theme3 },
     { id: 3, name: theme4 },
   ];
-  const themeMappings = {
+  const themeMappings: Record<IColorThemesOptions, number> = {
     winterTheme: 0,
     autumnTheme: 1,
     summerTheme: 2,
     springTheme: 3,
   };
 
-  const initialTheme = themeMappings[getColorThemeFromRoadmap()] || 0;
+  const initialTheme = themeMappings[getStoreAboutTemp().theme] || 0;
 
   const [isSelected, setIsSelected] = useState(initialTheme);
 
   const colorThemeSelector = (index: number) => {
     switch (index) {
       case 0:
-        return setColorThemeToRoadmap('winterTheme');
+        return setStoreAboutTempTheme('winterTheme');
       case 1:
-        return setColorThemeToRoadmap('autumnTheme');
+        return setStoreAboutTempTheme('autumnTheme');
       case 2:
-        return setColorThemeToRoadmap('summerTheme');
+        return setStoreAboutTempTheme('summerTheme');
       case 3:
-        return setColorThemeToRoadmap('springTheme');
+        return setStoreAboutTempTheme('springTheme');
       default:
-        return setColorThemeToRoadmap('winterTheme');
+        return setStoreAboutTempTheme('winterTheme');
     }
   };
 

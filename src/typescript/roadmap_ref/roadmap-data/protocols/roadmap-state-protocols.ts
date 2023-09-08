@@ -15,10 +15,11 @@ import {
 } from '@store/roadmap-refactor/elements-editing/draggable-elements';
 import { setDisplayPageType } from '@store/roadmap-refactor/display/display-manager';
 import { removeAllEffects } from '@store/roadmap-refactor/elements-editing/element-effects';
-import { updateRoadmapData } from '@src/api-wrapper/roadmap/roadmaps';
+import { updateRoadmapData } from '@src/api-wrapper/roadmap/routes/roadmaps';
 import { setRoadmapState } from '@store/roadmap-refactor/roadmap-data/roadmap_state';
 import {
-  clearSession, saveSession,
+  clearSession,
+  saveSession,
 } from '@src/typescript/roadmap_ref/history/restoreSession';
 
 let intervalSave: NodeJS.Timer;

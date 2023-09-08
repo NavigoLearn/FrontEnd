@@ -6,7 +6,7 @@ import theme4 from '@assets/theme4.svg';
 import { AnimatePresence, motion } from 'framer-motion';
 import {
   getColorThemeFromRoadmap,
-  setColorThemeToRoadmap,
+  setRoadmapColorTheme,
 } from '../theme-controler';
 import {
   saveRoadmapChanges,
@@ -25,15 +25,15 @@ const ThemeSelector = ({ onNext }: ISetupScreenControlers) => {
   const colorThemeSelector = (index: number) => {
     switch (index) {
       case 0:
-        return setColorThemeToRoadmap('winterTheme');
+        return setRoadmapColorTheme('winterTheme');
       case 1:
-        return setColorThemeToRoadmap('autumnTheme');
+        return setRoadmapColorTheme('autumnTheme');
       case 2:
-        return setColorThemeToRoadmap('summerTheme');
+        return setRoadmapColorTheme('summerTheme');
       case 3:
-        return setColorThemeToRoadmap('springTheme');
+        return setRoadmapColorTheme('springTheme');
       default:
-        return setColorThemeToRoadmap('winterTheme');
+        return setRoadmapColorTheme('winterTheme');
     }
   };
 

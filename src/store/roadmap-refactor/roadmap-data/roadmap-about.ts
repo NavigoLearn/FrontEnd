@@ -4,33 +4,39 @@ import { fetchGetMiniProfileDataById } from '@src/api-wrapper/user/user';
 import {
   fetchPostTabAboutDescription,
   fetchPostTabAboutTitle,
-} from '@src/api-wrapper/roadmap/tab-data';
+} from '@src/api-wrapper/roadmap/deprecated/tab-data';
+import {
+  IColorThemes,
+  IColorThemesOptions,
+} from '@type/roadmap/node/colors-types';
 
-const aboutTabStore = atom({
-  name: 'Untitled',
-  author: '',
-  description: 'No description',
-} as {
+export type IRoadmapAbout = {
   name: string;
   author: string;
   description: string;
-});
+};
 
-export default aboutTabStore;
+const storeRoadmapAbout = atom({
+  name: 'Untitled',
+  author: '',
+  description: 'No description',
+} as IRoadmapAbout);
+
+export default storeRoadmapAbout;
 
 export async function setTabAboutFromApi(roadmap: RoadmapTypeApi) {
-  const newTab = aboutTabStore.get();
+  const newTab = storeRoadmapAbout.get();
   newTab.name = roadmap.name;
   const miniProfile = await fetchGetMiniProfileDataById(roadmap.ownerId);
   newTab.author = miniProfile.name;
   newTab.description = roadmap.description;
-  aboutTabStore.set({
+  storeRoadmapAbout.set({
     ...newTab,
   });
 }
 
 export function setTabAboutName(name: string, roadmapId: string) {
-  const newTab = aboutTabStore.get();
+  const newTab = storeRoadmapAbout.get();
   newTab.name = name;
   // also dispatches request to backend
   try {
@@ -38,13 +44,13 @@ export function setTabAboutName(name: string, roadmapId: string) {
   } catch (e) {
     throw new Error('Error updating title');
   }
-  aboutTabStore.set({
+  storeRoadmapAbout.set({
     ...newTab,
   });
 }
 
 export function setTabAboutDescription(description: string, roadmapId: string) {
-  const newTab = aboutTabStore.get();
+  const newTab = storeRoadmapAbout.get();
   newTab.description = description;
   // also dispatches request to backend
   try {
@@ -52,23 +58,23 @@ export function setTabAboutDescription(description: string, roadmapId: string) {
   } catch (e) {
     throw new Error('Error updating description');
   }
-  aboutTabStore.set({
+  storeRoadmapAbout.set({
     ...newTab,
   });
 }
 
 export function setTabAboutNameNoRequest(name: string) {
-  const newTab = aboutTabStore.get();
+  const newTab = storeRoadmapAbout.get();
   newTab.name = name;
-  aboutTabStore.set({
+  storeRoadmapAbout.set({
     ...newTab,
   });
 }
 
 export function setTabAboutDescriptionNoRequest(description: string) {
-  const newTab = aboutTabStore.get();
+  const newTab = storeRoadmapAbout.get();
   newTab.description = description;
-  aboutTabStore.set({
+  storeRoadmapAbout.set({
     ...newTab,
   });
 }

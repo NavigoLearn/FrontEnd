@@ -2,7 +2,7 @@ import { ActionsClass } from '@src/typescript/roadmap_ref/node/core/actions/core
 import React, { useState } from 'react';
 import { triggerRerenderEditor } from '@src/store/roadmap-refactor/elements-editing/editor-selected-data';
 
-type SpecialInputProps = {
+type ITextareaStandardInput = {
   label: string;
   value: string;
   placeholder: string;
@@ -11,18 +11,22 @@ type SpecialInputProps = {
   w: string;
 };
 
-const SpecialTextArea = ({
+const TextareaStandardInput = ({
   label,
   value,
   placeholder,
   onChange,
   h,
   w,
-}: SpecialInputProps) => {
+}: ITextareaStandardInput) => {
   return (
     <div className='relative'>
       <div
-        className={`h-${h} w-${w} px-2 pt-3 border rounded-lg hover:border-darkBlue border-placeholderBlack transition-all duration-300 focus:border-darkBlue focus:outline-none`}
+        className={` px-2 pt-3 border rounded-lg hover:border-darkBlue border-placeholderBlack transition-all duration-300 focus:border-darkBlue focus:outline-none`}
+        style={{
+          height: `${h}`,
+          width: `${w}`,
+        }}
       >
         <textarea
           value={value}
@@ -41,4 +45,4 @@ const SpecialTextArea = ({
   );
 };
 
-export default SpecialTextArea;
+export default TextareaStandardInput;

@@ -17,7 +17,7 @@ import DraggableInput from '@src/UI-library/DraggableInput';
 import { nodeNameSyncer } from '@src/typescript/roadmap_ref/node/misc';
 import TextSizeComponent from '../text-controler/TextSizeComponent';
 import TextWeightComponent from '../text-controler/TextWeightComponent';
-import SpecialInput from '../../properties-page/SpecialInput';
+import TextInputStandard from '../../properties-page/TextInputStandard';
 
 type TitleComponentProps = {
   node: NodeClass;
@@ -42,7 +42,7 @@ const TextComponent = ({ node, id, name }: TitleComponentProps) => {
   return (
     <div>
       <div className='flex w-full outline-black mt-2'>
-        <SpecialInput
+        <TextInputStandard
           label='Text'
           placeholder={name}
           value={getComponentTextText(titleComponent)}
@@ -51,8 +51,8 @@ const TextComponent = ({ node, id, name }: TitleComponentProps) => {
             if (node.components.length === 1) rerender();
             triggerNodeRerender(node.id);
           }}
-          w='96'
-          h='12'
+          w='384px'
+          h='48px'
         />
         <button
           type='button'
