@@ -1,6 +1,7 @@
 import { setRoadmapId } from '@store/roadmap-refactor/roadmap-data/roadmap_state';
 import { roadmapSelector } from '@store/roadmap-refactor/roadmap-data/roadmap-selector';
 import { postRoadmapData } from '@src/api-wrapper/roadmap/roadmaps';
+import { setDisplayPageTypeFullScreen } from '@src/store/roadmap-refactor/display/display-manager-full-screen';
 
 export const buttonsCreateAnonymus = [
   {
@@ -39,7 +40,7 @@ export const buttonsCreateLogged = [
   {
     name: 'About',
     callback: async () => {
-      console.log('open about');
+      setDisplayPageTypeFullScreen('about');
     },
   },
 

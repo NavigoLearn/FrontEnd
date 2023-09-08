@@ -2,23 +2,15 @@ import {
   buttonsCreateAnonymus,
   buttonsCreateLogged,
 } from '@components/roadmap/navbar-roadmap/parts/buttons/buttons-arrays/buttons-create';
-import {
-  buttonsEdit,
-} from '@components/roadmap/navbar-roadmap/parts/buttons/buttons-arrays/buttons-edit';
-import {
-  buttonsDraft,
-} from '@components/roadmap/navbar-roadmap/parts/buttons/buttons-arrays/buttons-draft';
-import {
-  getRoadmapStateStore,
-} from '@store/roadmap-refactor/roadmap-data/roadmap_state';
+import { buttonsEdit } from '@components/roadmap/navbar-roadmap/parts/buttons/buttons-arrays/buttons-edit';
+import { buttonsDraft } from '@components/roadmap/navbar-roadmap/parts/buttons/buttons-arrays/buttons-draft';
+import { getRoadmapStateStore } from '@store/roadmap-refactor/roadmap-data/roadmap_state';
 import {
   buttonsViewOwner,
   buttonsViewVisitor,
 } from '@components/roadmap/navbar-roadmap/parts/buttons/buttons-arrays/buttons-view';
 import { getUserStatus } from '@store/user/user-status';
-import {
-  getRoadmapVisitData,
-} from '@store/roadmap-refactor/roadmap-data/roadmap-visit-data';
+import { getRoadmapVisitData } from '@store/roadmap-refactor/roadmap-data/roadmap-visit-data';
 
 export type INavbarRoadmapButton = {
   name: string;
@@ -39,7 +31,7 @@ function getDraftButtons(): INavbarRoadmapButton[] {
 
 function getCreateButtons(
   isLogged: boolean,
-  isOwner: boolean,
+  isOwner: boolean
 ): INavbarRoadmapButton[] {
   const buttons: INavbarRoadmapButton[] = [];
   if (isLogged) {
@@ -52,7 +44,7 @@ function getCreateButtons(
 
 function getViewButtons(
   isLogged: boolean,
-  isOwner: boolean,
+  isOwner: boolean
 ): INavbarRoadmapButton[] {
   const buttons: INavbarRoadmapButton[] = [];
   if (isLogged && isOwner) {

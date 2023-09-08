@@ -7,20 +7,29 @@ import { AnimatePresence, motion } from 'framer-motion';
 import {
   getColorThemeFromRoadmap,
   setColorThemeToRoadmap,
-} from '../theme-controler';
+} from '../../pages-roadmap/setup-screen/theme-controler';
 import {
   saveRoadmapChanges,
   ISetupScreenControlers,
-} from '../roadmap-funtions';
+} from '../../pages-roadmap/setup-screen/roadmap-funtions';
 
-const ThemeSelector = ({ onNext }: ISetupScreenControlers) => {
+const ThemeDisplayer = () => {
   const themes = [
     { id: 0, name: theme1 },
     { id: 1, name: theme2 },
     { id: 2, name: theme3 },
     { id: 3, name: theme4 },
   ];
-  const [isSelected, setIsSelected] = useState(0);
+  const themeMappings = {
+    winterTheme: 0,
+    autumnTheme: 1,
+    summerTheme: 2,
+    springTheme: 3,
+  };
+
+  const initialTheme = themeMappings[getColorThemeFromRoadmap()] || 0;
+
+  const [isSelected, setIsSelected] = useState(initialTheme);
 
   const colorThemeSelector = (index: number) => {
     switch (index) {
@@ -50,20 +59,18 @@ const ThemeSelector = ({ onNext }: ISetupScreenControlers) => {
             transition={{ duration: 0.4 }}
             className='flex flex-col items-center text-3xl font-kanit-text text-darkBlue'
           >
-            <div>Select a roadmap</div>
-            <div>theme</div>
-            <div className='grid grid-cols-4 gap-3 mt-2'>
+            <div className='grid grid-cols-4 gap-3 mt-1'>
               {themes.map((theme) => (
                 <motion.button
                   key={theme.id}
-                  initial={{ scale: 0, rotate: 330 }}
-                  animate={{ scale: 1, rotate: 360 }}
+                  initial={{ scale: 0.5 }}
+                  animate={{ scale: 1 }}
                   exit={{ x: -100, opacity: 0 }}
                   transition={{
                     type: 'spring',
-                    stiffness: 260,
-                    damping: 20,
-                    delay: theme.id * 0.2,
+                    stiffness: 360,
+                    damping: 40,
+                    delay: (theme.id - 0.8) * 0.1,
                   }}
                   className={`h-32 w-28 border-2 rounded-md relative ${
                     isSelected === theme.id
@@ -146,34 +153,9 @@ const ThemeSelector = ({ onNext }: ISetupScreenControlers) => {
             </div>
           </motion.div>
         </AnimatePresence>
-        <AnimatePresence>
-          <motion.div
-            initial={{ x: 0, opacity: 0 }} // Start from opacity 0
-            animate={{ y: fadeOut ? 7 : 0, opacity: fadeOut ? 0 : 1 }} // Slide in from the left
-            exit={{ x: -100, opacity: 0 }} // Slide out to the left
-            transition={{ duration: 0.4 }}
-          >
-            <motion.button
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ x: -100, opacity: 0 }}
-              transition={{ duration: 0.5, delay: themes.length * 0.2 }}
-              className='bg-[#3361D8] text-white px-4 py-1 rounded-md text-base w-72 font-roboto-text mt-12'
-              onClick={() => {
-                saveRoadmapChanges();
-                setFadeOut(true); // Start fade out animation
-                setTimeout(() => {
-                  onNext(); // Call onNext after animation
-                }, 350); // Adjust the delay to match the animation duration
-              }}
-            >
-              Next
-            </motion.button>
-          </motion.div>
-        </AnimatePresence>
       </div>
     </div>
   );
 };
 
-export default ThemeSelector;
+export default ThemeDisplayer;

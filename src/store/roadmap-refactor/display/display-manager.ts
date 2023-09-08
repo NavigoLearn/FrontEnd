@@ -1,3 +1,4 @@
+import { get } from 'http';
 import { atom } from 'nanostores';
 
 export type IDisplayStyles = 'right' | 'rightExtended' | 'fullScreen';
