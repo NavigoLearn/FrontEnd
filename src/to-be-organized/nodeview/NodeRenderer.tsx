@@ -57,12 +57,15 @@ import { getEditingState } from '@store/roadmap-refactor/editing/editing-state';
 import { triggerAllConnectionsRerender } from '@src/typescript/roadmap_ref/render/dragging';
 import { useStateTimed } from '@hooks/useStateTimed';
 import { deleteAllSnappings } from '@store/roadmap-refactor/render/snapping-lines';
+import { useNotification } from '@src/components/roadmap/to-be-organized/notifications/NotificationLogic';
 
 interface NodeViewProps {
   nodeId: string;
   centerOffset: { x: number; y: number };
   divSizeCallback?: (divRef: React.MutableRefObject<HTMLDivElement>) => void; //
 }
+
+let firstNotification = true;
 
 const NodeRenderer: React.FC<NodeViewProps> = ({
   nodeId,
@@ -216,6 +219,15 @@ const NodeRenderer: React.FC<NodeViewProps> = ({
       'dragging-recursive'
     );
 
+    const { addNotification } = useNotification();
+
+    const handleNotification = () => {
+      if (firstNotification) {
+        firstNotification = false;
+        addNotification('tip', 'Hold shift to drag the entire tree of nodes');
+      }
+    };
+
     return (
       <>
         {!editing && (
@@ -235,6 +247,7 @@ const NodeRenderer: React.FC<NodeViewProps> = ({
           id={`div${nodeId}`}
           ref={nodeDivRef}
           onClick={(event) => {
+            handleNotification();
             event.stopPropagation();
             getOnClickAction(nodeId)();
           }}
