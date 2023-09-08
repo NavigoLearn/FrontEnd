@@ -17,6 +17,7 @@ export type RoadmapTypeApi = {
   createdAt: string;
   updatedAt: string;
   isPublic: boolean;
+  isDraft: boolean;
   data: string;
 };
 

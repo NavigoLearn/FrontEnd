@@ -54,10 +54,13 @@ const Card = ({ data }: ICardProps) => {
         <button
           type='button'
           onClick={() => {
-            location.href = `/roadmap/${data.name
+            const link = `/roadmap/${data.name
               .replace(/\s+/g, '-')
               .toLowerCase()
               .slice(0, 32)}-${data.id}`;
+
+            console.log('clicked and went to roadmap ', link);
+            location.href = link;
           }}
           className={`font-roboto-text text-primary px-3 py-1 rounded-sm text-sm font-medium bg-transparent hover:bg-primary hover:text-white ${tailwindTransitionClass}`}
         >

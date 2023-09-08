@@ -1,5 +1,5 @@
 import { atom } from 'nanostores';
-import storeRoadmapAbout from '@store/roadmap-refactor/roadmap-data/roadmap-about';
+import storeRoadmapAbout from '@store/roadmap-refactor/roadmap-data/misc-data/roadmap-about';
 import { getRoadmapSelector } from '@store/roadmap-refactor/roadmap-data/roadmap-selector';
 
 export type IBackendRoadmapFormat = {

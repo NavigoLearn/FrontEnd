@@ -15,7 +15,7 @@ import {
 import { injectParentData } from '@src/typescript/roadmap_ref/node/core/factories/data-mutation/inject';
 import { deepCopy } from '@src/typescript/roadmap_ref/utils';
 
-export function factoryRoadmapClassic() {
+export function createAndSetRoadmapClassic() {
   const node0 = factoryNodeClassicCustomizable(0, 0, 200, 50, 0);
   injectRoadmapGlobalRootNodeId(node0.id);
   const node1 = factoryNodeClassicCustomizable(0, 150, 200, 50, 1);

@@ -36,7 +36,7 @@ import {
 import { useIsLoaded } from '@hooks/useIsLoaded';
 import { setElementDiv } from '@store/roadmap-refactor/elements-editing/elements-divs';
 import { NodeClass } from '@src/typescript/roadmap_ref/node/core/core';
-import { getIsEditing } from '@store/roadmap-refactor/roadmap-data/roadmap_state';
+import { getIsEditing } from '@store/roadmap-refactor/roadmap-data/misc-data/roadmap_state';
 import DraggingResizeElement from '@src/to-be-organized/DraggingResizeElement';
 import {
   mutateNodeHeightWhileKeepingCenter,

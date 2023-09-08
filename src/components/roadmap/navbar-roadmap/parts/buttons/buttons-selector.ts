@@ -4,13 +4,12 @@ import {
 } from '@components/roadmap/navbar-roadmap/parts/buttons/buttons-arrays/buttons-create';
 import { buttonsEdit } from '@components/roadmap/navbar-roadmap/parts/buttons/buttons-arrays/buttons-edit';
 import { buttonsDraft } from '@components/roadmap/navbar-roadmap/parts/buttons/buttons-arrays/buttons-draft';
-import { getRoadmapStateStore } from '@store/roadmap-refactor/roadmap-data/roadmap_state';
+import { getRoadmapStateStore } from '@store/roadmap-refactor/roadmap-data/misc-data/roadmap_state';
 import {
   buttonsViewOwner,
   buttonsViewVisitor,
 } from '@components/roadmap/navbar-roadmap/parts/buttons/buttons-arrays/buttons-view';
 import { getUserStatus } from '@store/user/user-status';
-import { getRoadmapVisitData } from '@store/roadmap-refactor/roadmap-data/roadmap-visit-data';
 
 export type INavbarRoadmapButton = {
   name: string;
@@ -62,8 +61,7 @@ function getViewButtons(
 function getButtonsShouldLoad(): boolean {
   const { roadmapState, loaded: loadedRoadmap } = getRoadmapStateStore();
   const { loaded: loadedUserData, isLogged } = getUserStatus();
-  const { loaded: loadedRoadmapVisitData, visitorIsOwner } =
-    getRoadmapVisitData();
+  const loadedRoadmapVisitData = false;
   if (roadmapState === 'create' && loadedRoadmap) {
     return true;
   }
@@ -88,7 +86,7 @@ export function getNavbarRoadmapButtons(): INavbarRoadmapButton[] {
   }
 
   const { roadmapState } = getRoadmapStateStore();
-  const { isLogged } = getUserStatus();
+  const { isLogged, userId } = getUserStatus();
   const { visitorIsOwner: isOwner } = getRoadmapVisitData();
 
   if (roadmapState === 'create') {

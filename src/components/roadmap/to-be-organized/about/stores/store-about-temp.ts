@@ -1,14 +1,14 @@
 import { atom } from 'nanostores';
 import roadmapAbout, {
   IRoadmapAbout,
-} from '@store/roadmap-refactor/roadmap-data/roadmap-about';
+} from '@store/roadmap-refactor/roadmap-data/misc-data/roadmap-about';
 import { IColorThemesOptions } from '@type/roadmap/node/colors-types';
 import { getRoadmapSelector } from '@src/typescript/roadmap_ref/roadmap-data/services/get';
 import { setRoadmapColorTheme } from '@components/roadmap/pages-roadmap/setup-screen/theme-controler';
 
 const storeAboutTemporary = atom({
   name: 'Untitled',
-  author: '',
+  ownerId: '',
   description: 'No description',
   theme: 'winterTheme',
 } as IRoadmapAbout & { theme: IColorThemesOptions });

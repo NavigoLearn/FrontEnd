@@ -19,7 +19,7 @@ import { getNodeByIdRoadmapSelector } from '@src/typescript/roadmap_ref/roadmap-
 import {
   getIsEditable,
   getIsEditing,
-} from '@store/roadmap-refactor/roadmap-data/roadmap_state';
+} from '@store/roadmap-refactor/roadmap-data/misc-data/roadmap_state';
 import editorSelectedData, {
   getSelectedNodeId,
 } from '@store/roadmap-refactor/elements-editing/editor-selected-data';

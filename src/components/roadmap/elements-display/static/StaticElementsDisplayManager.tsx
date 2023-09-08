@@ -3,7 +3,7 @@ import CoordsRoadmapElement from '@components/roadmap/elements-display/static/pa
 import EditingSelector from '@components/roadmap/elements-display/static/parts/EditingSelector';
 import roadmapStateStore, {
   getIsEditable,
-} from '@store/roadmap-refactor/roadmap-data/roadmap_state';
+} from '@store/roadmap-refactor/roadmap-data/misc-data/roadmap_state';
 import { useStore } from '@nanostores/react';
 
 const StaticElementsDisplayManager = () => {

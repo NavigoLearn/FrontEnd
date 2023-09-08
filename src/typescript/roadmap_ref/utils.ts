@@ -1,4 +1,4 @@
-import roadmapStateStore from '@store/roadmap-refactor/roadmap-data/roadmap_state';
+import roadmapStateStore from '@store/roadmap-refactor/roadmap-data/misc-data/roadmap_state';
 
 export function setLoadedTrue() {
   const original = roadmapStateStore.get();

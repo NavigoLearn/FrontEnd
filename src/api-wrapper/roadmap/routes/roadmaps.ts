@@ -1,6 +1,6 @@
 import { IRoadmap } from '@type/roadmap/stores/IRoadmap';
-import roadmapStateStore from '@store/roadmap-refactor/roadmap-data/roadmap_state';
-import storeRoadmapAbout from '@store/roadmap-refactor/roadmap-data/roadmap-about';
+import roadmapStateStore from '@store/roadmap-refactor/roadmap-data/misc-data/roadmap_state';
+import storeRoadmapAbout from '@store/roadmap-refactor/roadmap-data/misc-data/roadmap-about';
 import { deepCopy } from '@src/typescript/roadmap_ref/utils';
 import { errorHandlerDecorator } from '@src/typescript/error-handler';
 import { storeRoadmapPostPayload } from '@src/api-wrapper/roadmap/stores/roadmap-payload';

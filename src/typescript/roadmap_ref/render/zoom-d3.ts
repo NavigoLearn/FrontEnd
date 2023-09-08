@@ -88,7 +88,7 @@ export const enableRoadmapZoomDragAndRecenter = (
   });
 };
 
-export const disableRoadmapDragZoom = (rootSvgId = 'rootSvg') => {
+export const disableRoadmapDragZoomAnd = (rootSvgId = 'rootSvg') => {
   const svg = d3.select(`#${rootSvgId}`);
   svg.on('.zoom', null);
 };

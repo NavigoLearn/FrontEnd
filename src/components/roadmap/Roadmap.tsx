@@ -1,10 +1,11 @@
 import React, { useEffect, useRef, useState } from 'react';
 import {
   factoryRoadmapFirstAttempt,
-  factoryRoadmapClassic,
+  createAndSetRoadmapClassic,
 } from '@src/typescript/roadmap_ref/roadmap-templates/classic';
 import renderNodesStore from '@store/roadmap-refactor/render/rendered-nodes';
 import {
+  getChunkRerenderTrigger,
   setChunkRerenderTrigger,
   triggerChunkRerender,
 } from '@store/roadmap-refactor/render/rendered-chunks';
@@ -14,20 +15,20 @@ import { v4 as uuid4 } from 'uuid';
 import NodeManager from '@components/roadmap/to-be-organized/NodeManager';
 import { useStore } from '@nanostores/react';
 import {
-  getRoadmapState,
-  getRoadmapStateStore,
   setRoadmapId,
   setRoadmapIsLoaded,
   setRoadmapState,
-} from '@store/roadmap-refactor/roadmap-data/roadmap_state';
+  setHasStarterTab,
+  getRoadmapState,
+} from '@store/roadmap-refactor/roadmap-data/misc-data/roadmap_state';
 import {
-  disableRoadmapDragZoom,
+  disableRoadmapDragZoomAnd,
   enableRoadmapZoomDragAndRecenter,
 } from '@src/typescript/roadmap_ref/render/zoom-d3';
 import { recalculateChunks } from '@src/typescript/roadmap_ref/render/chunks';
 import { triggerRecenterRoadmap } from '@store/roadmap-refactor/misc/misc-params-store';
 import { useIsLoaded } from '@hooks/useIsLoaded';
-import { setRoadmapFromData } from '@store/roadmap-refactor/roadmap-data/roadmap-view';
+import { setRoadmapViewFromAPI } from '@store/roadmap-refactor/roadmap-data/roadmap-view';
 import {
   applyNodesDraggability,
   applyRoadmapElementsInitialDraggability,
@@ -40,30 +41,155 @@ import SnappingLinesRenderer from '@components/roadmap/to-be-organized/SnappingL
 import { addKeyListeners } from '@src/typescript/roadmap_ref/key-shortcuts';
 import { RoadmapTypeApi } from '@type/explore_old/card';
 import {
-  setRoadmapDisableDrag,
-  setRoadmapEnableDrag,
+  enableRoadmapInteractions,
+  getRoadmapEnableInteractions,
+  setRoadmapDisableDragAndZoom,
+  setRoadmapEnableDragAndZoom,
 } from '@store/roadmap-refactor/roadmap-data/roadmap-functions-utils';
 import ElementsDisplayManager from '@components/roadmap/elements-display/ElementsDisplayManager';
-import {
-  checkIfSessionExists,
-  clearSession,
-  restoreSession,
-  saveSession,
-} from '@src/typescript/roadmap_ref/history/restoreSession';
 import { afterEventLoop } from '@src/typescript/utils/misc';
 import { clearSelectedConnection } from '@components/roadmap/connections/connection-editing/connection-store';
 import { setEditingState } from '@store/roadmap-refactor/editing/editing-state';
-import { deepCopy } from '@src/typescript/roadmap_ref/utils';
-import { getCurrentRoadmap } from './pages-roadmap/setup-screen/roadmap-funtions';
-import { useNotification } from './to-be-organized/notifications/NotificationLogic';
+import { setRoadmapEditFromAPI } from '@store/roadmap-refactor/roadmap-data/roadmap-edit';
+import {
+  setRoadmapType,
+  getRoadmapType,
+  setRoadmapAboutName,
+  DEFAULT_NAME,
+  setRoadmapAboutDescription,
+  DEFAULT_DESCRIPTION,
+  setRoadmapAboutOwnerId,
+  setRoadmapAboutId,
+} from '@store/roadmap-refactor/roadmap-data/misc-data/roadmap-about';
+import userStatus from '@store/user/user-status';
+import { checkIfSessionExists } from '@src/typescript/roadmap_ref/history/restoreSession';
+import { setDisplayPageTypeFullScreen } from '@store/roadmap-refactor/display/display-manager-full-screen';
+import { setRoadmapCreate } from '@store/roadmap-refactor/roadmap-data/roadmap-create';
 
-export function initializeRoadmapAfterLoad() {
+export function initialRoadmapProtocolAfterLoad() {
   setRoadmapIsLoaded();
   triggerChunkRerender();
   triggerRecenterRoadmap();
   afterEventLoop(() => {
     applyRoadmapElementsInitialDraggability();
   });
+}
+
+export function checkAndSetInitialRoadmapType(
+  roadmap: RoadmapTypeApi,
+  pageId: string
+) {
+  const isCreate = pageId === 'create'; // parameter to determine if we are in the create mode
+  if (isCreate) {
+    setRoadmapType('create');
+    return;
+  }
+  const isDraft = roadmap.isDraft === true;
+  const isPublic = roadmap.isPublic === true;
+
+  if (isDraft) {
+    setRoadmapType('draft');
+  }
+  if (isPublic) {
+    setRoadmapType('public');
+  }
+}
+
+export function initializeRoadmapTypeData(roadmap?: RoadmapTypeApi) {
+  const type = getRoadmapType();
+  if (type === 'create') {
+    createAndSetRoadmapClassic();
+    setRoadmapState('edit');
+  }
+  if (type === 'draft') {
+    setRoadmapEditFromAPI(roadmap);
+    setRoadmapState('edit');
+  }
+
+  if (type === 'public') {
+    setRoadmapViewFromAPI(roadmap);
+    setRoadmapState('view');
+  }
+}
+
+function initializeRoadmapInteractions() {
+  const chunkRecalculation = getChunkRerenderTrigger();
+  const enableRoadmapInteraction = () => {
+    enableRoadmapZoomDragAndRecenter(
+      'rootSvg',
+      'rootGroup',
+      chunkRecalculation
+    );
+  };
+
+  const disableRoadmapInteraction = () => {
+    disableRoadmapDragZoomAnd('rootSvg');
+  };
+
+  setRoadmapDisableDragAndZoom(disableRoadmapInteraction);
+  setRoadmapEnableDragAndZoom(enableRoadmapInteraction);
+}
+
+function initializeChunkRerendering() {
+  const chunkRecalculation = recalculateChunks('rootSvg');
+  setChunkRerenderTrigger(() => {
+    chunkRecalculation();
+  });
+}
+
+function initializeRoadmapAboutData(roadmap?: RoadmapTypeApi) {
+  const type = getRoadmapType();
+  if (type === 'create') {
+    setRoadmapAboutName(DEFAULT_NAME);
+    setRoadmapAboutDescription(DEFAULT_DESCRIPTION);
+    setRoadmapAboutOwnerId('');
+  }
+  if (type === 'draft' || type === 'public') {
+    if (!roadmap)
+      throw new Error('Roadmap is undefined despite being draft mode?');
+    const { name, description, ownerId, id } = roadmap;
+
+    setRoadmapAboutName(name);
+    setRoadmapAboutDescription(description);
+    setRoadmapAboutOwnerId(ownerId);
+    setRoadmapAboutId(id);
+  }
+}
+
+function handleRoadmapSessionRestoration() {
+  if (checkIfSessionExists()) {
+    console.log('restoring session');
+    return false;
+  }
+  return false;
+}
+
+function handleRoadmapRenderingDataAndInitializationProtocol(
+  roadmap?: RoadmapTypeApi
+) {
+  const type = getRoadmapType();
+  if (type === 'create') {
+    const restoredFromCache = handleRoadmapSessionRestoration();
+
+    if (restoredFromCache) {
+      initialRoadmapProtocolAfterLoad();
+      return;
+    }
+    // otherwise the initialization triggers from the setup screen
+
+    setDisplayPageTypeFullScreen('setup-screen');
+    createAndSetRoadmapClassic(); // also handles setting the roadmap data in the store
+    setHasStarterTab(true);
+  } else {
+    const state = getRoadmapState();
+    if (state === 'edit') {
+      setRoadmapEditFromAPI(roadmap);
+    }
+    if (state === 'view') {
+      setRoadmapViewFromAPI(roadmap);
+    }
+    initialRoadmapProtocolAfterLoad();
+  }
 }
 
 const Roadmap = ({
@@ -73,95 +199,30 @@ const Roadmap = ({
   pageId: string;
   roadmap: RoadmapTypeApi;
 }) => {
-  const isCreate = pageId === 'create'; // parameter to determine if we are in the create mode
-  if (isCreate) {
-    setRoadmapState('create');
-  }
-  const initialState = getRoadmapState();
-  const stateStore = getRoadmapStateStore();
-  const { loaded } = stateStore;
-  const [state, _] = useState(initialState);
-  const [confirmed, setConfirmed] = useState<boolean>(false);
-  // need to take the ids of the nodes-page included in the current chunks and render them
-  const { nodes } = roadmapSelector.get();
+  useScrollHidden();
+
   const { nodesIds } = useStore(renderNodesStore);
   const { connections: connectionsIds } = useStore(renderConnectionsStore);
 
-  const chunkRenderer = useRef(null);
-  useScrollHidden();
   const firstRenderDone = useIsLoaded();
 
-  const enableRoadmapDrag = () => {
-    enableRoadmapZoomDragAndRecenter(
-      'rootSvg',
-      'rootGroup',
-      chunkRenderer.current
-    );
-  };
+  // useEffect(() => {
+  //   // factoryRoadmapFirstAttempt();
+  //   factoryRoadmapClassic();
+  // }, []);
 
   useEffect(() => {
-    // dummmy data
-    if (!isCreate) return;
-    // factoryRoadmapFirstAttempt();
-    factoryRoadmapClassic();
+    // rendering and interactivity initializations
+    initializeChunkRerendering();
+    initializeRoadmapInteractions();
+
+    // data initializations
+    checkAndSetInitialRoadmapType(roadmap, pageId);
+    initializeRoadmapAboutData(roadmap);
+    handleRoadmapRenderingDataAndInitializationProtocol(roadmap);
+
+    enableRoadmapInteractions();
   }, []);
-
-  const disableRoadmapDrag = () => {
-    disableRoadmapDragZoom('rootSvg');
-  };
-
-  useEffect(() => {
-    // ! commented out to avoid infinite loop of re-renders
-    // roadmapStateStore.subscribe(() => {
-    //   setState(getRoadmapState());
-    // });
-    if (isCreate) {
-      setInterval(async () => {
-        await saveSession();
-      }, 10000);
-    }
-
-    // renderer object that handles chunking
-    chunkRenderer.current = recalculateChunks('rootSvg');
-    // sets the trigger for chunk recalculations to a global state
-    setChunkRerenderTrigger(
-      // used for decorators
-      () => {
-        chunkRenderer.current();
-      }
-    );
-
-    if (!isCreate) setRoadmapId(roadmap.id);
-    else setRoadmapId(uuid4());
-    // fetches the roadmap-roadmap-data from the api-wrapper
-    // ...
-
-    !isCreate &&
-      setRoadmapFromData(roadmap).then(() => {
-        initializeRoadmapAfterLoad();
-      });
-
-    setRoadmapDisableDrag(disableRoadmapDrag);
-    setRoadmapEnableDrag(enableRoadmapDrag);
-
-    // if (checkIfSessionExists()) {
-    //   restoreSession();
-    // }
-  }, []);
-
-  useEffect(() => {
-    window.onunload = () => {
-      if (confirmed) clearSession();
-    };
-  }, [confirmed]);
-
-  useEffect(() => {
-    enableRoadmapZoomDragAndRecenter(
-      'rootSvg',
-      'rootGroup',
-      chunkRenderer.current
-    );
-  }, [state, isCreate]);
 
   useEffectAfterLoad(() => {
     // adding event
@@ -169,10 +230,10 @@ const Roadmap = ({
   }, []);
 
   useEffectAfterLoad(() => {
-    if (loaded && nodesIds.length > 0) {
+    if (firstRenderDone && nodesIds.length > 0) {
       applyNodesDraggability();
     }
-  }, [nodesIds, state]);
+  }, [nodesIds]);
 
   return (
     <div

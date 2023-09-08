@@ -1,9 +1,9 @@
 import { deepCopy } from '@src/typescript/roadmap_ref/utils';
 import { triggerChunkRerender } from '@store/roadmap-refactor/render/rendered-chunks';
-import { setRoadmapEdit } from '@store/roadmap-refactor/roadmap-data/roadmap-edit';
+import { setRoadmapEditStore } from '@store/roadmap-refactor/roadmap-data/roadmap-edit';
 import {
   roadmapView,
-  setRoadmapView,
+  setRoadmapViewStore,
 } from '@store/roadmap-refactor/roadmap-data/roadmap-view';
 import {
   roadmapSelector,
@@ -16,7 +16,7 @@ import {
 import { setDisplayPageType } from '@store/roadmap-refactor/display/display-manager';
 import { removeAllEffects } from '@store/roadmap-refactor/elements-editing/element-effects';
 import { updateRoadmapData } from '@src/api-wrapper/roadmap/routes/roadmaps';
-import { setRoadmapState } from '@store/roadmap-refactor/roadmap-data/roadmap_state';
+import { setRoadmapState } from '@store/roadmap-refactor/roadmap-data/misc-data/roadmap_state';
 import {
   clearSession,
   saveSession,
@@ -25,7 +25,7 @@ import {
 let intervalSave: NodeJS.Timer;
 export function enterEditingModeProtocol() {
   const deepCopyRoadmap = deepCopy(roadmapSelector.get());
-  setRoadmapEdit(deepCopyRoadmap);
+  setRoadmapEditStore(deepCopyRoadmap);
   setDisplayPageType('closed');
   setRoadmapState('edit');
   setAllDraggableTrue();
@@ -38,7 +38,7 @@ export function enterEditingModeProtocol() {
 export function transferEditToRoadmap() {
   const deepCopyRoadmap = deepCopy(roadmapSelector.get());
   // sends the roadmap as update to the server
-  setRoadmapView(deepCopyRoadmap);
+  setRoadmapViewStore(deepCopyRoadmap);
   setRoadmapSelector(deepCopyRoadmap); // so they have the same reference
 }
 export function cancelEditingProtocol() {

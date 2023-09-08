@@ -1,6 +1,5 @@
 ---
 import RoadmapLayout from '@layouts/RoadmapLayout.astro';
-import PageViewCollection from '@components/home/PageViewCollection';
 import RoadmapWithNotifications from '@src/components/roadmap/RoadmapWithNotifications';
 import PagesDisplayManager from '@components/roadmap/pages-roadmap/PagesDisplayManager';
 import { RoadmapTypeApi } from '../../types/explore_old/card';
@@ -28,9 +27,8 @@ if (typeof id === 'string') {
   try {
     // fetches roadmapData from api
     const response = await fetch(`${Astro.site}api/roadmaps/${id}`);
-
-    roadmap = await response.json();
-
+    const requestResponseJson = await response.json();
+    roadmap = requestResponseJson.data;
     // decodes the roadmap-roadmap-data field from base64 to json
     roadmap.data = JSON.parse(atob(roadmap.data));
 

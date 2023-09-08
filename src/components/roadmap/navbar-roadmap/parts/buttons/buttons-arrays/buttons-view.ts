@@ -1,5 +1,5 @@
 // TODO buttons are: Hide progress, About
-import { getIsEditing } from '@store/roadmap-refactor/roadmap-data/roadmap_state';
+import { getIsEditing } from '@store/roadmap-refactor/roadmap-data/misc-data/roadmap_state';
 import {
   enterEditingModeProtocol,
   saveEditingProtocol,

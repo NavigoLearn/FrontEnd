@@ -1,30 +1,33 @@
 import { atom } from 'nanostores';
 
-export type IRoadmapState = 'create' | 'edit' | 'view' | 'draft';
+export type IRoadmapState = 'edit' | 'view';
 export type IRoadmapStateStore = {
-  roadmapState: IRoadmapState;
+  roadmapState: IRoadmapState; // concerned with the state of the roadmap AT RUNTIME
   save: boolean;
   loaded: boolean;
-  rerender: boolean;
   id: string;
-  userId: string;
   starterTab: boolean;
-}
+};
+
+// THIS STORE IS CONCERNED WITH ROADMAP STATE AT RUNTIME
 const roadmapStateStore = atom({
-  roadmapState: 'view', // used to determine if the roadmap is being created, edited or viewed
-  save: true, // and if the elements-editing state should be saved or not
-  loaded: false, // used to determine if the roadmap has been loaded
-  rerender: false, // used to rerender roadmap
-  id: '', // the id of the roadmap
-  userId: '',
+  roadmapState: 'view',
+  save: true,
+  loaded: false,
   starterTab: false,
+  id: '',
 } as IRoadmapStateStore);
 
 export default roadmapStateStore;
 
-export function setSaveTrue() {
+export function setHasStarterTab(state: boolean) {
   const original = roadmapStateStore.get();
-  roadmapStateStore.set({ ...original, save: true });
+  roadmapStateStore.set({ ...original, starterTab: state });
+}
+
+export function getStarterTabState() {
+  const original = roadmapStateStore.get();
+  return original.starterTab;
 }
 
 export function setRoadmapState(state: IRoadmapState) {
@@ -42,8 +45,8 @@ export function getRoadmapStateStore() {
 }
 
 export function setRoadmapStateStore(state: IRoadmapStateStore) {
-    const original = roadmapStateStore.get();
-    roadmapStateStore.set({ ...original, ...state });
+  const original = roadmapStateStore.get();
+  roadmapStateStore.set({ ...original, ...state });
 }
 
 export function setRoadmapId(id: string) {
@@ -63,29 +66,9 @@ export function setRoadmapIsLoaded() {
 
 export function getIsEditable() {
   const original = roadmapStateStore.get();
-  return original.roadmapState === 'edit' || original.roadmapState === 'create';
+  return original.roadmapState === 'edit';
 }
 export function getIsEditing() {
   const original = roadmapStateStore.get();
   return original.roadmapState === 'edit';
-}
-
-export function getIsCreate() {
-  const original = roadmapStateStore.get();
-  return original.roadmapState === 'create';
-}
-
-export function getIsView() {
-  const original = roadmapStateStore.get();
-  return original.roadmapState === 'view';
-}
-
-export function getIsDraft() {
-  const original = roadmapStateStore.get();
-  return original.roadmapState === 'draft';
-}
-
-export function rerenderRoadmap() {
-  const original = roadmapStateStore.get();
-  roadmapStateStore.set({ ...original, rerender: !original.rerender });
 }

@@ -2,8 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { CLOSE_SVG_SRC } from '@src/to-be-organized/svg-params';
 import { tailwindTransitionClass } from '@src/UI-library/tailwind-utils';
 import { resetRoadmapCreate } from '@store/roadmap-refactor/roadmap-data/roadmap-create';
-import { factoryRoadmapClassic } from '@src/typescript/roadmap_ref/roadmap-templates/classic';
-import { initializeRoadmapAfterLoad } from '@components/roadmap/Roadmap';
+import { createAndSetRoadmapClassic } from '@src/typescript/roadmap_ref/roadmap-templates/classic';
+import { initialRoadmapProtocolAfterLoad } from '@components/roadmap/Roadmap';
 
 type IAuthPopupProps = {
   closeCallback: () => void;
@@ -38,8 +38,8 @@ const ResetRoadmapPopup = ({ closeCallback }: IAuthPopupProps) => {
           onClick={() => {
             closeCallback();
             resetRoadmapCreate();
-            factoryRoadmapClassic();
-            initializeRoadmapAfterLoad();
+            createAndSetRoadmapClassic();
+            initialRoadmapProtocolAfterLoad();
           }}
         >
           Reset Roadmap

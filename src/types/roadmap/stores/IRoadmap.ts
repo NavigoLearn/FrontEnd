@@ -7,8 +7,6 @@ import { HashMap } from '@type/roadmap/misc';
 export type IRoadmapData = {
   colorTheme: IColorThemesOptions;
   globalRootNodeId: string;
-  roadmapName: string;
-  roadmapDescription: string;
 };
 
 export type IRoadmap = {

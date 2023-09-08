@@ -4,11 +4,6 @@ import { setRoadmapSelector } from '@store/roadmap-refactor/roadmap-data/roadmap
 import { fetchRoadmap } from '@src/api-wrapper/roadmap/routes/roadmaps';
 import { RoadmapTypeApi } from '@type/explore_old/card';
 import { isRoadmapType } from '@type/roadmap/old/typecheckers';
-import {
-  setOwnerId,
-  setRoadmapId,
-} from '@store/roadmap-refactor/roadmap-data/roadmap-visit-data';
-import { setTabAboutFromApi } from '@store/roadmap-refactor/roadmap-data/roadmap-about';
 import { setLoadedTrue } from '@src/typescript/roadmap_ref/utils';
 import miscParams, {
   triggerRecenterRoadmap,
@@ -17,9 +12,9 @@ import { SaveItem } from '@src/typescript/roadmap_ref/history/restoreSession';
 import {
   getRoadmapState,
   setRoadmapStateStore,
-} from '@store/roadmap-refactor/roadmap-data/roadmap_state';
+} from '@store/roadmap-refactor/roadmap-data/misc-data/roadmap_state';
 import { enterEditingModeProtocol } from '@src/typescript/roadmap_ref/roadmap-data/protocols/roadmap-state-protocols';
-import { setRoadmapEdit } from '@store/roadmap-refactor/roadmap-data/roadmap-edit';
+import { setRoadmapEditStore } from '@store/roadmap-refactor/roadmap-data/roadmap-edit';
 
 export const roadmapView = atom({
   rootNodesIds: [],
@@ -28,31 +23,16 @@ export const roadmapView = atom({
   chunks: {},
 } as IRoadmap);
 
-export function setRoadmapView(roadmap: IRoadmap) {
+export function setRoadmapViewStore(roadmap: IRoadmap) {
   setRoadmapSelector(roadmap);
   roadmapView.set({ ...roadmap });
 }
 
-export function getRoadmapView() {
-  return roadmapView.get();
-}
-
-export async function setRoadmapFromAPI(pageId: string) {
-  await fetchRoadmap(pageId).then(setRoadmapFromData);
-}
-
-export async function setRoadmapFromData(roadmapData: RoadmapTypeApi) {
+export function setRoadmapViewFromAPI(roadmapData: RoadmapTypeApi) {
   if (isRoadmapType(roadmapData.data)) {
     // @ts-ignore
     const roadmap: IRoadmap = roadmapData.data;
-    setRoadmapView(roadmap);
-
-    setOwnerId(roadmapData.ownerId);
-    setRoadmapId(roadmapData.id);
-    await setTabAboutFromApi(roadmapData);
-    setLoadedTrue();
-
-    miscParams.get().recenterRoadmap();
+    setRoadmapViewStore(roadmap);
   } else {
     throw new Error('Roadmap roadmap-roadmap-data is not of type Roadmap');
   }
@@ -62,8 +42,8 @@ export function setRoadmapFromRecovery(save: SaveItem) {
   const state = getRoadmapState();
   state === 'create'
     ? setRoadmapSelector(save.data)
-    : setRoadmapEdit(save.data);
-  setRoadmapEdit(save.data);
+    : setRoadmapEditStore(save.data);
+  setRoadmapEditStore(save.data);
   setRoadmapStateStore(save.state);
   // set editing to true
   getRoadmapState() !== 'create' && enterEditingModeProtocol();

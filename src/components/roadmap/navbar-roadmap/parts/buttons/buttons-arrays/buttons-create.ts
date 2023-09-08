@@ -1,4 +1,4 @@
-import { setRoadmapId } from '@store/roadmap-refactor/roadmap-data/roadmap_state';
+import { setRoadmapId } from '@store/roadmap-refactor/roadmap-data/misc-data/roadmap_state';
 import { postRoadmapData } from '@src/api-wrapper/roadmap/routes/roadmaps';
 import {
   setPostRoadmapPayloadFromExistingStores,
@@ -60,6 +60,13 @@ export const buttonsCreateLogged = [
     callback: async () => {
       setDisplayPageTypeFullScreen('about');
       pullStoreAboutTempFromApp();
+    },
+  },
+
+  {
+    name: 'Reset roadmap',
+    callback: () => {
+      setDisplayPageTypeFullScreen('reset-roadmap');
     },
   },
 

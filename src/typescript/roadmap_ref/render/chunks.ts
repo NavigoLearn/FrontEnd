@@ -1,6 +1,6 @@
 import roadmapStateStore, {
   getIsEditing,
-} from '@store/roadmap-refactor/roadmap-data/roadmap_state';
+} from '@store/roadmap-refactor/roadmap-data/misc-data/roadmap_state';
 import {
   getRenderedRootNodesIds,
   setNodes,
