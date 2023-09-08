@@ -6,6 +6,7 @@ import storeAboutTemporary, {
   setStoreAboutTempDescription,
   setStoreAboutTempName,
 } from '@components/roadmap/to-be-organized/about/stores/store-about-temp';
+import { triggerAllNodesRerender } from '@src/store/roadmap-refactor/render/rerender-triggers-nodes';
 import TextInputStandard from '../../pages-roadmap/editor/editor-pages/properties-page/TextInputStandard';
 import TextareaStandardInput from '../../pages-roadmap/editor/editor-pages/properties-page/TextareaStandardInput';
 import ThemeDisplayer from './ThemeDisplayer';
@@ -46,7 +47,7 @@ const AboutRenderer = () => {
             <TextareaStandardInput
               label='Description'
               value={description}
-              placeholder='Give an expressive title'
+              placeholder='Give an expressive description'
               onChange={(newValue: string) => {
                 setStoreAboutTempDescription(newValue);
               }}
@@ -75,6 +76,7 @@ const AboutRenderer = () => {
               onClick={() => {
                 setDisplayPageTypeFullScreen('closed');
                 pushStoreAboutTempChangesToApp();
+                triggerAllNodesRerender();
               }}
               className='bg-[#3361D8] text-white px-4 py-1 rounded-md text-base w-44 font-roboto-text'
             >
