@@ -7,20 +7,19 @@ import {
 } from '@src/api-wrapper/roadmap/stores/roadmap-payload';
 import { setDisplayPageTypeFullScreen } from '@src/store/roadmap-refactor/display/display-manager-full-screen';
 import { pullStoreAboutTempFromApp } from '@components/roadmap/to-be-organized/about/stores/store-about-temp';
+import { setBasePopup } from '@components/shared/stores/store-base-popups';
 
 export const buttonsCreateAnonymus = [
   {
-    name: 'Login',
-    callback: async () => {
-      // sending the roadmap to be created
-      window.location.href = '/login';
+    name: 'Get started',
+    callback: () => {
+      setDisplayPageTypeFullScreen('get-started');
     },
   },
-
   {
-    name: 'Sign up',
+    name: 'Reset roadmap',
     callback: () => {
-      window.location.href = '/signup';
+      setDisplayPageTypeFullScreen('reset-roadmap');
     },
   },
 ];

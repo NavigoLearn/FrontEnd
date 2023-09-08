@@ -9,7 +9,6 @@ import Logo from '@components/navbar/desktop/parts/logo/Logo';
 const DesktopNavbar = () => {
   const [hydrated, setHydrated] = useState(false);
   const { loaded, isLogged } = useStore(userStatus);
-  console.log(loggedUser.get(), userStatus.get());
 
   useEffect(() => {
     setHydrated(true);

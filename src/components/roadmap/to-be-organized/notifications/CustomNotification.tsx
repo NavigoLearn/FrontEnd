@@ -35,6 +35,7 @@ const CustmoNotification = ({
       ) : (
         <img alt='close' className='h-6' src={close} />
       )}
+
       <p
         className={`font-roboto-text text-lg font-medium mx-2 ${
           type === 'tip'

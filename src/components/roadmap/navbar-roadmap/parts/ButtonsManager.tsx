@@ -3,8 +3,8 @@ import { getNavbarRoadmapButtons } from '@components/roadmap/navbar-roadmap/part
 import { useStore } from '@nanostores/react';
 import userStatusStore from '@store/user/user-status';
 import roadmapStateStore from '@store/roadmap-refactor/roadmap-data/roadmap_state';
-import Button from '@components/roadmap/navbar-roadmap/parts/buttons/Button';
 import roadmapVisitData from '@store/roadmap-refactor/roadmap-data/roadmap-visit-data';
+import Button from '@components/navbar/desktop/parts/buttons/Button';
 
 const ButtonsManager = () => {
   useStore(roadmapStateStore);
@@ -16,7 +16,17 @@ const ButtonsManager = () => {
   return (
     <div className='flex gap-6 '>
       {buttons.map((button) => {
-        return <Button key={button.name} button={button} />;
+        return (
+          <Button
+            key={button.name}
+            name={button.name}
+            hasUnder
+            buttonData={{
+              type: 'button',
+              callback: button.callback,
+            }}
+          />
+        );
       })}
     </div>
   );

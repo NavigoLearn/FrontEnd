@@ -8,9 +8,12 @@ import GoogleLoginButton from '@components/auth/old/social-buttons/GoogleLoginBu
 import { CLOSE_SVG_SRC } from '@src/to-be-organized/svg-params';
 import { setBasePopup } from '@components/shared/stores/store-base-popups';
 
-const AuthPopup = () => {
+type IAuthPopupProps = {
+  closeCallback: () => void;
+};
+const AuthPopup = ({ closeCallback }: IAuthPopupProps) => {
   return (
-    <div className='bg-white w-72 pb-6 border-t-8 border-t-primary rounded-lg'>
+    <div className='relative bg-white w-72 pb-6 border-t-8 border-t-primary rounded-lg'>
       <h2 className='text-2xl font-medium font-roboto-text w-full flex justify-center mt-6 '>
         Get started now
       </h2>
@@ -25,7 +28,7 @@ const AuthPopup = () => {
           className='w-full h-full opacity-30 hover:opacity-100'
           type='button'
           onClick={() => {
-            setBasePopup('none');
+            closeCallback();
           }}
         >
           <img src={CLOSE_SVG_SRC} className='w-full h-full' />
@@ -35,14 +38,14 @@ const AuthPopup = () => {
       <div className='gap-2.5 mt-16 w-full flex flex-col justify-center items-center'>
         <GithubLoginButton
           onClick={() => {
-            setBasePopup('none');
             handleGitHubLogin();
+            closeCallback();
           }}
         />
         <GoogleLoginButton
           onClick={() => {
-            setBasePopup('none');
             handleGoogleLogin();
+            closeCallback();
           }}
         />
       </div>
