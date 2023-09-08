@@ -68,3 +68,7 @@ export function getIsDraft() {
   const store = storeRoadmapAbout.get();
   return store.roadmapType === 'draft';
 }
+
+export function getRoadmapAbout() {
+  return storeRoadmapAbout.get();
+}

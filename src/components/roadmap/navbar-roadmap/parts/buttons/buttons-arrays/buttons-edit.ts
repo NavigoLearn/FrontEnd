@@ -3,7 +3,7 @@ import {
   setConfirmSave,
 } from '@store/roadmap-refactor/popups/popup';
 
-export const buttonsEdit = [
+export const buttonsPublicEdit = [
   {
     name: 'Save',
     callback: async () => {

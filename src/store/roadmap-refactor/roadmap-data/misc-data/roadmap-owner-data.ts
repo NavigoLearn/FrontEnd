@@ -1,8 +1,4 @@
 import { atom } from 'nanostores';
-import {
-  getIsCreate,
-  getRoadmapState,
-} from '@store/roadmap-refactor/roadmap-data/misc-data/roadmap_state';
 
 export const storeRoadmapOwnerData = atom({
   loaded: false,

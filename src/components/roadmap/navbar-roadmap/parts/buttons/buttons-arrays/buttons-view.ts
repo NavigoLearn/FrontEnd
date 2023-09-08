@@ -6,7 +6,7 @@ import {
 } from '@src/typescript/roadmap_ref/roadmap-data/protocols/roadmap-state-protocols';
 import { dispatchAnalyticsEvent } from '@store/misc/analytics';
 
-export const buttonsViewVisitor = [
+export const buttonsPublicVisitor = [
   {
     name: 'Hide progress',
     callback: () => {},
@@ -18,7 +18,7 @@ export const buttonsViewVisitor = [
 ];
 
 // TODO buttons are :Edit, About, Hide progress, Unpublish, Delete
-export const buttonsViewOwner = [
+export const buttonsPublicOwner = [
   {
     name: 'Edit',
     callback: () => {
@@ -44,7 +44,7 @@ export const buttonsViewOwner = [
 ];
 
 // TODO buttons are: Login, Signup, About
-export const buttonsViewAnonymus = [
+export const buttonsPublicAnonymus = [
   {
     name: 'Login',
     callback: () => {},

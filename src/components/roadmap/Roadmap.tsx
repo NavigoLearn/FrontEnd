@@ -206,12 +206,7 @@ const Roadmap = ({
 
   const firstRenderDone = useIsLoaded();
 
-  // useEffect(() => {
-  //   // factoryRoadmapFirstAttempt();
-  //   factoryRoadmapClassic();
-  // }, []);
-
-  useEffect(() => {
+  useEffectAfterLoad(() => {
     // rendering and interactivity initializations
     initializeChunkRerendering();
     initializeRoadmapInteractions();
