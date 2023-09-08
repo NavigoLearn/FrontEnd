@@ -5,6 +5,7 @@ import { useIsMobile } from '@hooks/useIsMobile';
 
 const Explore = () => {
   const mobile = useIsMobile();
+  console.log(mobile);
   return (
     <div className='relative pointer-events-auto z-10 '>
       {mobile !== null && (

@@ -2,6 +2,7 @@ import { IRoadmap } from '@type/roadmap/stores/IRoadmap';
 import roadmapStateStore from '@store/roadmap-refactor/roadmap-data/roadmap_state';
 import aboutTabStore from '@store/roadmap-refactor/roadmap-data/roadmap-about';
 import { deepCopy } from '@src/typescript/roadmap_ref/utils';
+import { errorHandlerDecorator } from '@src/typescript/error-handler';
 
 export const fetchRoadmap = async (id: string) => {
   // fetches roadmapData from api
@@ -39,31 +40,32 @@ export const updateRoadmapData = async (roadmap: IRoadmap) => {
   return response.json();
 };
 
-export const postRoadmapData = async (roadmap: IRoadmap) => {
-  // posts roadmapData to api
-  const newRoadmap: BackendRoadmapFormat = {
-    name: aboutTabStore.get().name,
-    description: aboutTabStore.get().description,
-    isPublic: true,
-    createdAt: new Date().toISOString(),
-    updatedAt: new Date().toISOString(),
-    data: btoa(JSON.stringify(roadmap)),
-  };
-  console.log(newRoadmap);
-  console.log(deepCopy(roadmap));
+export const postRoadmapData = errorHandlerDecorator(
+  async (roadmap: IRoadmap) => {
+    // posts roadmapData to api
+    const newRoadmap: BackendRoadmapFormat = {
+      name: aboutTabStore.get().name,
+      description: aboutTabStore.get().description,
+      isPublic: true,
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+      data: btoa(JSON.stringify(roadmap)),
+    };
 
-  const response = await fetch('/api/roadmaps/create', {
-    method: 'POST',
-    credentials: 'include',
-    body: JSON.stringify({
-      roadmap: newRoadmap,
-    }),
-    headers: {
-      'Content-Type': 'application/json',
-    },
-  });
-  return response.json();
-};
+    const response = await fetch('/api/roadmaps/create', {
+      method: 'POST',
+      credentials: 'include',
+      body: JSON.stringify({
+        ...newRoadmap,
+      }),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+    const responseJson = await response.json();
+    return responseJson;
+  }
+);
 
 export const deleteRoadmap = async (id: string) => {
   // deletes roadmapData from api

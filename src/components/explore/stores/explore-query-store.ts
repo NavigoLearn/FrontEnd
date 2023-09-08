@@ -1,35 +1,72 @@
 import { atom } from 'nanostores';
+import {
+  fetchAndSetRoadmapCardsExplore,
+  setCardsLoaded,
+  setCardsLoading,
+} from '@components/explore/stores/explore-cards-store';
 
-export type ISortBy = 'Relevance' | 'Likes' | 'Views';
+export type ISortBy = 'Likes' | 'Views' | 'New';
 export type IPerPage = 15 | 30 | 50;
 export type ITopic = 'All' | 'Programming' | 'Math' | 'Physics' | 'Biology';
 
-type IParams = {
+export type ISearchParams = {
   query: string;
   page: number;
   sortBy: ISortBy;
   perPage: IPerPage;
   topic: ITopic;
 };
+
+export const sortByOptions: ISortBy[] = ['Likes', 'Views', 'New'];
+export const perPageOptions: IPerPage[] = [15, 30, 50];
+export const topicOptions: ITopic[] = [
+  'All',
+  'Programming',
+  'Math',
+  'Physics',
+  'Biology',
+];
+
 export const exploreQueryStore = atom({
   params: {
     query: '',
     page: 1,
     sortBy: 'Likes' as ISortBy,
-    perPage: 9 as IPerPage,
+    perPage: 30 as IPerPage,
     topic: 'All' as ITopic,
   },
 } as {
-  params: IParams;
+  params: ISearchParams;
 });
 
-export function setExploreQuery(query: Partial<IParams>) {
+export function setExploreQueryFieldsWithoutSideEffects(
+  params: Partial<ISearchParams>
+) {
+  let { params: paramsRef } = exploreQueryStore.get();
+  paramsRef = {
+    ...paramsRef,
+    ...params,
+  };
+  exploreQueryStore.get().params = {
+    ...paramsRef,
+  };
+}
+
+export function triggerExploreFetch() {
+  const { params: paramsRef } = exploreQueryStore.get();
+
+  const newStore = exploreQueryStore.get();
+  newStore.params = {
+    ...paramsRef,
+  };
+
   exploreQueryStore.set({
-    params: {
-      ...exploreQueryStore.get().params,
-      ...query,
-    },
+    ...newStore,
   });
+}
+
+export function setExploreQuery({ query }: Partial<ISearchParams>) {
+  setExploreQueryFieldsWithoutSideEffects({ query });
 }
 
 export function setExploreQueryPage(page: number) {
@@ -39,12 +76,21 @@ export function setExploreQueryPage(page: number) {
       page,
     },
   });
+
+  setCardsLoading();
 }
 
 export function setExploreQuerySortBy(sortBy: ISortBy) {
   const newStore = exploreQueryStore.get();
   newStore.params.sortBy = sortBy;
-  exploreQueryStore.set({ ...newStore });
+  exploreQueryStore.set({
+    params: {
+      ...exploreQueryStore.get().params,
+      sortBy,
+    },
+  });
+
+  setCardsLoading();
 }
 
 export function setExploreQueryPerPage(perPage: IPerPage) {
@@ -54,6 +100,7 @@ export function setExploreQueryPerPage(perPage: IPerPage) {
       perPage,
     },
   });
+  setCardsLoading();
 }
 
 export function setExploreQueryTopic(topic: ITopic) {
@@ -63,4 +110,6 @@ export function setExploreQueryTopic(topic: ITopic) {
       topic,
     },
   });
+
+  setCardsLoading();
 }

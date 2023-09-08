@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { setProfileMini } from '@store/user/logged-user';
+import loggedUser, { setProfileMini } from '@store/user/logged-user';
 import { setVisitorId } from '@store/roadmap-refactor/roadmap-data/roadmap-visit-data';
 import { setIsLogged, setLoaded } from '@store/user/user-status';
 import { fetchGetMiniProfileData } from '../../api-wrapper/user/user';
@@ -20,14 +20,11 @@ const RequestManager = () => {
       }
 
       if (res === 'Error') return;
-      setProfileMini(res?.profilePictureUrl, res?.userId, res?.name);
-      setVisitorId(res?.userId);
+      const { avatar, name, id } = res.data;
+      setProfileMini(avatar, id, name);
+      setVisitorId(id);
       setIsLogged(true);
     });
-    // if (document.cookie.includes('token')) {
-    //   setIsLogged(true);
-    // }
-    // setLoaded(true);
   }, []);
 };
 

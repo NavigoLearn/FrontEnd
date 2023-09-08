@@ -38,12 +38,11 @@ import renderConnectionsStore from '@store/roadmap-refactor/render/rendered-conn
 import { closeEditorProtocol } from '@src/to-be-organized/nodeview/actions-manager';
 import SnappingLinesRenderer from '@components/roadmap/to-be-organized/SnappingLinesRenderer';
 import { addKeyListeners } from '@src/typescript/roadmap_ref/key-shortcuts';
-import { RoadmapTypeApi } from '@type/explore/card';
+import { RoadmapTypeApi } from '@type/explore_old/card';
 import {
   setRoadmapDisableDrag,
   setRoadmapEnableDrag,
 } from '@store/roadmap-refactor/roadmap-data/roadmap-functions-utils';
-import { useEffectDelayedCycle } from '@hooks/useEffectDelayedCycle';
 import ElementsDisplayManager from '@components/roadmap/elements-display/ElementsDisplayManager';
 import {
   checkIfSessionExists,
@@ -99,22 +98,6 @@ const Roadmap = ({
     );
   };
 
-  function onBeforeUnload(e: BeforeUnloadEvent) {
-    const state = getRoadmapState();
-    if (isCreate || state === 'edit') {
-      setConfirmed(true);
-      setTimeout(() => {
-        setConfirmed(false);
-      }, 10000);
-      // Cancel the event
-      e.preventDefault();
-      const msg =
-        'Are you sure you want to leave? All your changes will be lost.';
-      e.returnValue = msg;
-      return msg;
-    }
-  }
-
   useEffect(() => {
     // dummmy data
     if (!isCreate) return;
@@ -160,11 +143,9 @@ const Roadmap = ({
     setRoadmapDisableDrag(disableRoadmapDrag);
     setRoadmapEnableDrag(enableRoadmapDrag);
 
-    window.onbeforeunload = onBeforeUnload;
-
-    if (checkIfSessionExists()) {
-      restoreSession();
-    }
+    // if (checkIfSessionExists()) {
+    //   restoreSession();
+    // }
   }, []);
 
   useEffect(() => {
