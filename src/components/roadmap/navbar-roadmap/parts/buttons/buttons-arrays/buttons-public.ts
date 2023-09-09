@@ -20,7 +20,7 @@ const buttonsPublicOwnerArray: IButtonsRoadmapNavbarOptions[] = [
   'convert-to-draft',
   'delete',
 ];
-export const buttonsPublicOwner = buttonsPublicOwnerArray.map((buttonType) => {
+export const buttonsPublicOwnerView = buttonsPublicOwnerArray.map((buttonType) => {
   return requestButton(buttonType);
 });
 

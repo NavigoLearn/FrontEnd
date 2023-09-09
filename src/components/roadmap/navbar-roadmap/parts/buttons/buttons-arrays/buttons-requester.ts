@@ -1,12 +1,16 @@
 import { setDisplayPageTypeFullScreen } from '@store/roadmap-refactor/display/display-manager-full-screen';
-import { enterEditingModeProtocol } from '@src/typescript/roadmap_ref/roadmap-data/protocols/roadmap-state-protocols';
-import { publishRoadmapProtocol } from '@components/roadmap/navbar-roadmap/parts/buttons/buttons-arrays/protocols';
 import {
-  fetchDeleteRoadmap,
-  fetchUpdateRoadmapIsDraft,
-} from '@src/api-wrapper/roadmap/routes/routes-roadmaps';
-import { fetchDeleteComment } from '@src/api-wrapper/roadmap/deprecated/issues';
-import fullScreenTabManager from '@components/roadmap/pages-roadmap/FullScreenTabManager';
+  enterEditingModeProtocol,
+  cancelEditingProtocol,
+  saveEditingProtocol,
+} from '@src/typescript/roadmap_ref/roadmap-data/protocols/roadmap-state-protocols';
+import { publishRoadmapProtocol } from '@components/roadmap/navbar-roadmap/parts/buttons/buttons-arrays/protocols';
+import { fetchUpdateRoadmapIsDraft } from '@src/api-wrapper/roadmap/routes/routes-roadmaps';
+import {
+  setHideProgress,
+  toggleProgressView,
+} from '@store/roadmap-refactor/roadmap-data/misc-data/roadmap_state';
+import { triggerAllNodesRerender } from '@store/roadmap-refactor/render/rerender-triggers-nodes';
 
 export type IButtonsRoadmapNavbarOptions =
   | 'get-started'
@@ -75,22 +79,25 @@ const buttonsMapper: Record<IButtonsRoadmapNavbarOptions, IButtonProperties> = {
     },
   },
   'hide-progress': {
-    name: 'Hide progress',
+    name: 'Show/Hide progress',
     callback: () => {
-      // TODO
+      toggleProgressView();
+      triggerAllNodesRerender();
     },
   },
 
   'save-changes': {
     name: 'Save',
     callback: () => {
-      // TODO
+      saveEditingProtocol();
+      setDisplayPageTypeFullScreen('closed');
     },
   },
   'cancel-changes': {
     name: 'Cancel',
     callback: () => {
-      // TODO
+      cancelEditingProtocol();
+      setDisplayPageTypeFullScreen('closed');
     },
   },
 };
@@ -100,25 +107,3 @@ export function requestButton(
 ): IButtonProperties {
   return buttonsMapper[buttonType];
 }
-
-// import {
-//   setConfirmCancel,
-//   setConfirmSave,
-// } from '@store/roadmap-refactor/popups/popup';
-//
-// export const buttonsPublicEdit = [
-//   {
-//     name: 'Save',
-//     callback: async () => {
-//       setConfirmSave();
-//     },
-//   },
-//   {
-//     name: 'Cancel Changes',
-//     callback: async () => {
-//       setConfirmCancel();
-//     },
-//   },
-// ];
-//
-//

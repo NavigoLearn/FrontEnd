@@ -36,7 +36,10 @@ import {
 import { useIsLoaded } from '@hooks/useIsLoaded';
 import { setElementDiv } from '@store/roadmap-refactor/elements-editing/elements-divs';
 import { NodeClass } from '@src/typescript/roadmap_ref/node/core/core';
-import { getIsEditing } from '@store/roadmap-refactor/roadmap-data/misc-data/roadmap_state';
+import {
+  getHideProgress,
+  getIsEditing,
+} from '@store/roadmap-refactor/roadmap-data/misc-data/roadmap_state';
 import DraggingResizeElement from '@src/to-be-organized/DraggingResizeElement';
 import {
   mutateNodeHeightWhileKeepingCenter,
@@ -130,9 +133,7 @@ const NodeRenderer: React.FC<NodeViewProps> = ({
     });
 
     function getNodeOpacity(node: NodeClass) {
-      const editing = getIsEditing();
-      if (editing) return 1;
-      return node.properties.markAsDone ? 0.35 : 1;
+      return node.data.opacity / 100;
     }
 
     function appendNodeMarkAsDone(node: NodeClass) {
@@ -230,7 +231,7 @@ const NodeRenderer: React.FC<NodeViewProps> = ({
 
     return (
       <>
-        {!editing && (
+        {!editing && !getHideProgress() && (
           <div
             className={`w-full z-10 h-3 left-0 top-0 rounded-t-lg absolute  select-none ${getStatusCircleStyle(
               node

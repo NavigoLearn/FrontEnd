@@ -12,7 +12,7 @@ import {
 import { useScrollHidden } from '@hooks/useScrollHidden';
 import NodeManager from '@components/roadmap/to-be-organized/NodeManager';
 import { useStore } from '@nanostores/react';
-import {
+import roadmapStateStore, {
   setRoadmapIsLoaded,
   setRoadmapState,
   setHasStarterTab,
@@ -26,8 +26,9 @@ import { recalculateChunks } from '@src/typescript/roadmap_ref/render/chunks';
 import { triggerRecenterRoadmap } from '@store/roadmap-refactor/misc/misc-params-store';
 import { useIsLoaded } from '@hooks/useIsLoaded';
 import {
-  applyNodesDraggability,
+  applyRoadmapElementsRechunkedDraggability,
   applyRoadmapElementsInitialDraggability,
+  inferRoadmapElementsDraggability,
 } from '@src/typescript/roadmap_ref/dragging/misc';
 import { useEffectAfterLoad } from '@hooks/useEffectAfterLoad';
 import ConnectionsRenderer from '@components/roadmap/connections/ConnectionsRenderer';
@@ -79,16 +80,10 @@ export function checkAndSetInitialRoadmapType(
     return;
   }
   const isDraft = roadmap.isDraft === true;
-  const isPublic = roadmap.isPublic === true;
-
-  if (!isDraft && !isPublic) {
-    throw new Error('Roadmap is neither draft nor public');
-  }
 
   if (isDraft) {
     setRoadmapType('draft');
-  }
-  if (isPublic) {
+  } else {
     setRoadmapType('public');
   }
 }
@@ -180,7 +175,7 @@ function handleRoadmapRenderingData(
     return 'factory-created';
   }
   if (type === 'draft' || type === 'public') {
-    setRoadmapEditFromAPI(roadmap);
+    setRoadmapViewFromAPI(roadmap);
     initialRoadmapProtocolAfterLoad();
     return 'retrieved-from-api';
   }
@@ -213,10 +208,10 @@ const Roadmap = ({
   roadmap: RoadmapTypeApi;
 }) => {
   useScrollHidden();
+  const { roadmapState } = useStore(roadmapStateStore);
 
   const { nodesIds } = useStore(renderNodesStore);
   const { connections: connectionsIds } = useStore(renderConnectionsStore);
-
   const firstRenderDone = useIsLoaded();
 
   useEffectAfterLoad(() => {
@@ -240,9 +235,18 @@ const Roadmap = ({
 
   useEffectAfterLoad(() => {
     if (firstRenderDone && nodesIds.length > 0) {
-      applyNodesDraggability();
+      // because when a node gets out of chunk it is unloaded from the screen and then loaded again
+      // when it is loaded again, the previous draggability is lost and needs to be reapplied
+      applyRoadmapElementsRechunkedDraggability();
     }
   }, [nodesIds]);
+
+  useEffectAfterLoad(() => {
+    if (firstRenderDone && nodesIds.length > 0) {
+      // because when you switch between edit and view dragability needs to be changed
+      inferRoadmapElementsDraggability();
+    }
+  }, [roadmapState]);
 
   return (
     <div

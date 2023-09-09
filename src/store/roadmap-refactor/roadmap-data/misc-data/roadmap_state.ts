@@ -6,6 +6,7 @@ export type IRoadmapStateStore = {
   save: boolean;
   loaded: boolean;
   starterTab: boolean;
+  hiddenProgress: boolean;
 };
 
 // THIS STORE IS CONCERNED WITH ROADMAP STATE AT RUNTIME
@@ -14,6 +15,7 @@ const roadmapStateStore = atom({
   save: true,
   loaded: false,
   starterTab: false,
+  hiddenProgress: false,
 } as IRoadmapStateStore);
 
 export default roadmapStateStore;
@@ -59,4 +61,22 @@ export function getIsEditable() {
 export function getIsEditing() {
   const original = roadmapStateStore.get();
   return original.roadmapState === 'edit';
+}
+
+export function setHideProgress(state: boolean) {
+  const original = roadmapStateStore.get();
+  roadmapStateStore.set({ ...original, hiddenProgress: state });
+}
+
+export function toggleProgressView() {
+  const original = roadmapStateStore.get();
+  roadmapStateStore.set({
+    ...original,
+    hiddenProgress: !original.hiddenProgress,
+  });
+}
+
+export function getHideProgress() {
+  const original = roadmapStateStore.get();
+  return original.hiddenProgress;
 }

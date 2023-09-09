@@ -17,22 +17,13 @@ import { setDisplayPageType } from '@store/roadmap-refactor/display/display-mana
 import { removeAllEffects } from '@store/roadmap-refactor/elements-editing/element-effects';
 import { fetchUpdateRoadmapData } from '@src/api-wrapper/roadmap/routes/routes-roadmaps';
 import { setRoadmapState } from '@store/roadmap-refactor/roadmap-data/misc-data/roadmap_state';
-import {
-  clearSession,
-  saveSession,
-} from '@src/typescript/roadmap_ref/history/restoreSession';
 
-let intervalSave: NodeJS.Timer;
 export function enterEditingModeProtocol() {
   const deepCopyRoadmap = deepCopy(roadmapSelector.get());
   setRoadmapEditStore(deepCopyRoadmap);
   setDisplayPageType('closed');
   setRoadmapState('edit');
   setAllDraggableTrue();
-
-  intervalSave = setInterval(() => {
-    saveSession();
-  }, 10000);
 }
 
 export function transferEditToRoadmap() {
@@ -49,9 +40,6 @@ export function cancelEditingProtocol() {
   triggerChunkRerender(); // we call it in order to have the correct node ids in the renderStore for nodes-page
   setDisplayPageType('closed');
   removeAllEffects();
-  // clear saved Session from local storage
-  clearSession();
-  clearInterval(intervalSave);
 }
 export function saveEditingProtocol() {
   transferEditToRoadmap(); //  transfers the changes to the static roadmap
@@ -61,9 +49,6 @@ export function saveEditingProtocol() {
   triggerChunkRerender();
   setDisplayPageType('closed');
   removeAllEffects();
-  // clear saved Session from local storage
-  clearSession();
-  clearInterval(intervalSave);
   // here there should be a request to the server with the new saved roadmap json
 }
 

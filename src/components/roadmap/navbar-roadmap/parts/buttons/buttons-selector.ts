@@ -13,8 +13,9 @@ import {
 } from '@store/roadmap-refactor/roadmap-data/misc-data/roadmap_state';
 import {
   buttonsPublicAnonymus,
-  buttonsPublicOwner,
+  buttonsPublicOwnerView,
   buttonsPublicLoggedVisitor,
+  buttonsPublicOwnerEdit,
 } from '@components/roadmap/navbar-roadmap/parts/buttons/buttons-arrays/buttons-public';
 import { getUserStatus } from '@store/user/user-status';
 import {
@@ -37,9 +38,9 @@ function getPublicButtons(isLogged, isOwner): INavbarRoadmapButton[] {
     buttons.push(...buttonsPublicLoggedVisitor);
   } else if (isLogged && isOwner) {
     if (state === 'edit') {
-      buttons.push(...buttonsPublicOwner);
+      buttons.push(...buttonsPublicOwnerEdit);
     } else if (state === 'view') {
-      buttons.push(...buttonsPublicOwner);
+      buttons.push(...buttonsPublicOwnerView);
     }
   }
   return buttons;
@@ -79,7 +80,7 @@ function getViewButtons(
 ): INavbarRoadmapButton[] {
   const buttons: INavbarRoadmapButton[] = [];
   if (isLogged && isOwner) {
-    buttons.push(...buttonsPublicOwner);
+    buttons.push(...buttonsPublicOwnerView);
   } else if (isLogged && !isOwner) {
     buttons.push(...buttonsPublicLoggedVisitor);
   } else if (!isLogged) {

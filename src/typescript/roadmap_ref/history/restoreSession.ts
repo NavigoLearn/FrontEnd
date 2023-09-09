@@ -101,7 +101,7 @@ export async function restoreSession() {
     return restoreSession();
   }
 
-  setRoadmapFromRecovery(JSON.parse(lastData) as SaveItem);
+  // setRoadmapFromRecovery(JSON.parse(lastData) as SaveItem);
 }
 
 export function clearSession() {
