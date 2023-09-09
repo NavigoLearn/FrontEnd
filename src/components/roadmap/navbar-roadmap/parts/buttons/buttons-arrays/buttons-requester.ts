@@ -20,6 +20,7 @@ export type IButtonsRoadmapNavbarOptions =
   | 'publish'
   | 'save-as-draft'
   | 'convert-to-draft'
+  | 'convert-to-public'
   | 'delete'
   | 'hide-progress'
   | 'save-changes'
@@ -69,7 +70,9 @@ const buttonsMapper: Record<IButtonsRoadmapNavbarOptions, IButtonProperties> = {
   'convert-to-draft': {
     name: 'Convert to draft',
     callback: () => {
-      fetchUpdateRoadmapIsDraft(true);
+      fetchUpdateRoadmapIsDraft(true).then(() => {
+        location.reload();
+      });
     },
   },
   delete: {
@@ -98,6 +101,14 @@ const buttonsMapper: Record<IButtonsRoadmapNavbarOptions, IButtonProperties> = {
     callback: () => {
       // cancelEditingProtocol();
       setDisplayPageTypeFullScreen('cancel-changes');
+    },
+  },
+  'convert-to-public': {
+    name: 'Publish draft',
+    callback: () => {
+      fetchUpdateRoadmapIsDraft(false).then(() => {
+        location.reload();
+      });
     },
   },
 };

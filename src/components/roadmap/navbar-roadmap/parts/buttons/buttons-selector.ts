@@ -3,9 +3,9 @@ import {
   buttonsCreateLogged,
 } from '@components/roadmap/navbar-roadmap/parts/buttons/buttons-arrays/buttons-create';
 import {
-  buttonsDraftOwnerEdit,
+  buttonsDraft,
   buttonsDraftOwnerView,
-} from '@components/roadmap/navbar-roadmap/parts/buttons/buttons-arrays/buttons-draft-owner-edit';
+} from '@components/roadmap/navbar-roadmap/parts/buttons/buttons-arrays/buttons-draft';
 import {
   getIsEditing,
   getRoadmapState,
@@ -54,7 +54,7 @@ function getDraftButtons(
   const buttons: INavbarRoadmapButton[] = [];
 
   if (editing) {
-    buttons.push(...buttonsDraftOwnerEdit);
+    buttons.push(...buttonsDraft);
   } else {
     buttons.push(...buttonsDraftOwnerView);
   }

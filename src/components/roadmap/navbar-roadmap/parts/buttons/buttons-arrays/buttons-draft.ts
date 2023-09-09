@@ -7,15 +7,13 @@ export const buttonsDraftOwnerEditArray: IButtonsRoadmapNavbarOptions[] = [
   'save-changes',
   'cancel-changes',
 ];
-export const buttonsDraftOwnerEdit = buttonsDraftOwnerEditArray.map(
-  (buttonType) => {
-    return requestButton(buttonType);
-  }
-);
+export const buttonsDraft = buttonsDraftOwnerEditArray.map((buttonType) => {
+  return requestButton(buttonType);
+});
 
 const buttonsDraftOwnerViewArray: IButtonsRoadmapNavbarOptions[] = [
   'edit',
-  'publish',
+  'convert-to-public',
   'about',
   'hide-progress',
   'delete',
