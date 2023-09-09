@@ -1,27 +1,20 @@
 import { atom } from 'nanostores';
-import { CardRoadmapTypeApi } from '@src/types/explore/card';
-
-type ProfileType = {
-  name: string;
-  GitHub: string | null;
-  email: string;
-  website: string;
-  bio: string;
-};
-
-type ActivityType = {
-  totalRoadmaps: number;
-  totalLikes: number;
-  totalViews: number;
-};
+import {
+  CardRoadmapTypeApi,
+  RoadmapTypeApiExplore,
+} from '@src/types/explore/card';
+import { getLoggedUserId } from '@src/store/user/logged-user';
+import {
+  fetchProfileData,
+  fetchRoadmapCardsProfile,
+} from '../profile/profile-fetch';
+import { ProfileDataReponse, UserData } from '../profile/profile-data';
+import { DefaultProfileAdapter } from '../profile/adapter';
 
 export const profileDataStore = atom({
   loading: true,
-  data: {
-    Profile: {} as ProfileType,
-    Activity: {} as ActivityType,
-    ProfileRoadmaps: {} as CardRoadmapTypeApi[],
-  },
+  data: {} as UserData,
+  ProfileRoadmaps: {} as CardRoadmapTypeApi[],
 });
 
 export function setProfileDataLoading() {
@@ -38,14 +31,25 @@ export function setProfileDataLoaded() {
   });
 }
 
+export function getProfileDataLoading() {
+  return profileDataStore.get().loading;
+}
+
+const adapter = new DefaultProfileAdapter();
+
 export async function fetchAndSetProfileData() {
   setProfileDataLoading();
 
-  const data = await fetchProfileData();
+  const rawData = await fetchProfileData(getLoggedUserId());
+  const rawProfileRoadmaps = await fetchRoadmapCardsProfile(getLoggedUserId());
+
+  const adaptedData = adapter.adapt(rawData);
+  const adaptedRoadmaps = adapter.adaptRoadmaps(rawProfileRoadmaps);
 
   profileDataStore.set({
     ...profileDataStore.get(),
-    data: data.data,
+    data: adaptedData.data,
+    ProfileRoadmaps: adaptedRoadmaps,
   });
 
   setProfileDataLoaded();
