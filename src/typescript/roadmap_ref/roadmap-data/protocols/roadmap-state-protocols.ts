@@ -15,7 +15,7 @@ import {
 } from '@store/roadmap-refactor/elements-editing/draggable-elements';
 import { setDisplayPageType } from '@store/roadmap-refactor/display/display-manager';
 import { removeAllEffects } from '@store/roadmap-refactor/elements-editing/element-effects';
-import { updateRoadmapData } from '@src/api-wrapper/roadmap/routes/roadmaps';
+import { fetchUpdateRoadmapData } from '@src/api-wrapper/roadmap/routes/routes-roadmaps';
 import { setRoadmapState } from '@store/roadmap-refactor/roadmap-data/misc-data/roadmap_state';
 import {
   clearSession,
@@ -56,7 +56,7 @@ export function cancelEditingProtocol() {
 export function saveEditingProtocol() {
   transferEditToRoadmap(); //  transfers the changes to the static roadmap
   setRoadmapState('view');
-  updateRoadmapData(roadmapSelector.get()); // sends the roadmap as update to the server
+  fetchUpdateRoadmapData(roadmapSelector.get()); // sends the roadmap as update to the server
   setAllDraggableFalse();
   triggerChunkRerender();
   setDisplayPageType('closed');

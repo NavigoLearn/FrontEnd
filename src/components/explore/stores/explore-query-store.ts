@@ -7,24 +7,25 @@ import {
 
 export type ISortBy = 'Likes' | 'Views' | 'New';
 export type IPerPage = 15 | 30 | 50;
-export type ITopic = 'All' | 'Programming' | 'Math' | 'Physics' | 'Biology';
+export type ITopicOptions = 'programming' | 'math' | 'physics' | 'biology';
+export type ITopicParam = 'All' | ITopicOptions;
 
 export type ISearchParams = {
   query: string;
   page: number;
   sortBy: ISortBy;
   perPage: IPerPage;
-  topic: ITopic;
+  topic: ITopicParam;
 };
 
 export const sortByOptions: ISortBy[] = ['Likes', 'Views', 'New'];
 export const perPageOptions: IPerPage[] = [15, 30, 50];
-export const topicOptions: ITopic[] = [
+export const topicOptions: ITopicParam[] = [
   'All',
-  'Programming',
-  'Math',
-  'Physics',
-  'Biology',
+  'programming',
+  'math',
+  'physics',
+  'biology',
 ];
 
 export const exploreQueryStore = atom({
@@ -33,7 +34,7 @@ export const exploreQueryStore = atom({
     page: 1,
     sortBy: 'Likes' as ISortBy,
     perPage: 30 as IPerPage,
-    topic: 'All' as ITopic,
+    topic: 'All' as ITopicParam,
   },
 } as {
   params: ISearchParams;
@@ -103,7 +104,7 @@ export function setExploreQueryPerPage(perPage: IPerPage) {
   setCardsLoading();
 }
 
-export function setExploreQueryTopic(topic: ITopic) {
+export function setExploreQueryTopic(topic: ITopicParam) {
   exploreQueryStore.set({
     params: {
       ...exploreQueryStore.get().params,

@@ -1,6 +1,5 @@
 import { hashData } from '@src/typescript/utils/hashData';
 import {
-  getRoadmapId,
   getRoadmapState,
   getRoadmapStateStore,
   IRoadmapStateStore,

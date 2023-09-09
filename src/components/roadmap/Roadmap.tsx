@@ -9,13 +9,10 @@ import {
   setChunkRerenderTrigger,
   triggerChunkRerender,
 } from '@store/roadmap-refactor/render/rendered-chunks';
-import { roadmapSelector } from '@store/roadmap-refactor/roadmap-data/roadmap-selector';
 import { useScrollHidden } from '@hooks/useScrollHidden';
-import { v4 as uuid4 } from 'uuid';
 import NodeManager from '@components/roadmap/to-be-organized/NodeManager';
 import { useStore } from '@nanostores/react';
 import {
-  setRoadmapId,
   setRoadmapIsLoaded,
   setRoadmapState,
   setHasStarterTab,
@@ -57,12 +54,10 @@ import {
   setRoadmapAboutDescription,
   DEFAULT_DESCRIPTION,
   setRoadmapAboutOwnerId,
-  setRoadmapAboutId,
+  setRoadmapId,
 } from '@store/roadmap-refactor/roadmap-data/misc-data/roadmap-about';
-import userStatus from '@store/user/user-status';
 import { checkIfSessionExists } from '@src/typescript/roadmap_ref/history/restoreSession';
 import { setDisplayPageTypeFullScreen } from '@store/roadmap-refactor/display/display-manager-full-screen';
-import { setRoadmapCreate } from '@store/roadmap-refactor/roadmap-data/roadmap-create';
 import { setRoadmapViewFromAPI } from '@store/roadmap-refactor/roadmap-data/roadmap-view';
 
 export function initialRoadmapProtocolAfterLoad() {
@@ -98,19 +93,15 @@ export function checkAndSetInitialRoadmapType(
   }
 }
 
-export function initializeRoadmapTypeData(roadmap?: RoadmapTypeApi) {
+export function initializeRoadmapTypeData() {
   const type = getRoadmapType();
   if (type === 'create') {
-    createAndSetRoadmapClassic();
     setRoadmapState('edit');
   }
   if (type === 'draft') {
-    setRoadmapEditFromAPI(roadmap);
-    setRoadmapState('edit');
+    setRoadmapState('view');
   }
-
   if (type === 'public') {
-    setRoadmapViewFromAPI(roadmap);
     setRoadmapState('view');
   }
 }
@@ -151,12 +142,11 @@ function initializeRoadmapAboutData(roadmap?: RoadmapTypeApi) {
     if (!roadmap)
       throw new Error('Roadmap is undefined despite being draft mode?');
     const { name, description, userId, id } = roadmap;
-    console.log('roadmap', roadmap);
 
     setRoadmapAboutName(name);
     setRoadmapAboutDescription(description);
     setRoadmapAboutOwnerId(userId);
-    setRoadmapAboutId(id);
+    setRoadmapId(id);
   }
 }
 
@@ -237,6 +227,7 @@ const Roadmap = ({
 
     // data initializations
     checkAndSetInitialRoadmapType(roadmap, pageId);
+    initializeRoadmapTypeData();
     initializeRoadmapAboutData(roadmap); // all the misc data about the roadmap like title, desc, id etc
     const dataRetrievalStatus = handleRoadmapRenderingData(roadmap); // .data from api
     handleRoadmapAfterLoadInitialization(dataRetrievalStatus);

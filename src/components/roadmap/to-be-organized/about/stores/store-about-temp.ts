@@ -44,9 +44,10 @@ export function pullStoreAboutTempFromApp() {
   const theme = getRoadmapSelector().data.colorTheme;
 
   storeAboutTemporary.set({
+    ...currentAbout,
     name: currentAbout.name,
     description: currentAbout.description,
-    author: currentAbout.ownerId,
+    ownerId: currentAbout.ownerId,
     theme,
   });
 }
@@ -57,7 +58,7 @@ export function pushStoreAboutTempChangesToApp() {
 
   currentAbout.name = tempAbout.name;
   currentAbout.description = tempAbout.description;
-  currentAbout.author = tempAbout.author;
+  currentAbout.ownerId = tempAbout.ownerId;
   roadmapAbout.set({
     ...currentAbout,
   });

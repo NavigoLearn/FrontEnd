@@ -247,7 +247,7 @@ const NodeRenderer: React.FC<NodeViewProps> = ({
           id={`div${nodeId}`}
           ref={nodeDivRef}
           onClick={(event) => {
-            handleNotification();
+            // handleNotification();
             event.stopPropagation();
             getOnClickAction(nodeId)();
           }}

@@ -13,6 +13,7 @@ export type IBackendRoadmapFormat = {
   createdAt?: string;
   updatedAt?: string;
   data: string; // base64 encoded json
+  miscData: string; // base64 encoded json
 };
 
 export const storeRoadmapPostPayload = atom({} as IBackendRoadmapFormat);
@@ -26,6 +27,8 @@ export function setPostRoadmapPayloadFromExistingStores() {
     createdAt: new Date().toISOString(),
     updatedAt: new Date().toISOString(),
     data: btoa(JSON.stringify(getRoadmapSelector())),
+
+    miscData: btoa(JSON.stringify(getRoadmapSelector().data)),
   };
   storeRoadmapPostPayload.set({ ...roadmapPayload });
 }
@@ -37,7 +40,7 @@ export function setPostRoadmapPostPayloadIsDraft(isDraft: boolean) {
   });
 }
 
-export function setPostRoadmapPostPayloadIsPublic(isPublic: boolean) {
+export function setPostRoadmapPostPayloadIsNotBanned(isPublic: boolean) {
   storeRoadmapPostPayload.set({
     ...storeRoadmapPostPayload.get(),
     isPublic,

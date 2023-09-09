@@ -11,13 +11,12 @@ function handleSocialLogin(link: string, features: string) {
       if (!document.cookie.includes('token')) return;
 
       // do something after successful login
-      console.log('Login successful!');
 
       // stop polling
       clearInterval(intervalId);
 
       // redirect to home page
-      window.location.href = '/home';
+      window.location.reload();
     } catch (e) {
       // do nothing
       console.log(e);

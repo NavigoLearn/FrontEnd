@@ -9,16 +9,11 @@ import {
   setStoreAboutTempTheme,
 } from '@components/roadmap/to-be-organized/about/stores/store-about-temp';
 import { IColorThemesOptions } from '@type/roadmap/node/colors-types';
-import {
-  getColorThemeFromRoadmap,
-  setRoadmapColorTheme,
-} from '../../../pages-roadmap/setup-screen/theme-controler';
-import {
-  saveRoadmapChanges,
-  ISetupScreenControlers,
-} from '../../../pages-roadmap/setup-screen/roadmap-funtions';
 
-const ThemeDisplayer = () => {
+type IThemeDisplayerProps = {
+  isSelectible: boolean;
+};
+const ThemeDisplayer = ({ isSelectible }: IThemeDisplayerProps) => {
   const themes = [
     { id: 0, name: theme1 },
     { id: 1, name: theme2 },
@@ -34,7 +29,7 @@ const ThemeDisplayer = () => {
 
   const initialTheme = themeMappings[getStoreAboutTemp().theme] || 0;
 
-  const [isSelected, setIsSelected] = useState(initialTheme);
+  const [selection, setSelection] = useState(initialTheme);
 
   const colorThemeSelector = (index: number) => {
     switch (index) {
@@ -65,96 +60,100 @@ const ThemeDisplayer = () => {
             className='flex flex-col items-center text-3xl font-kanit-text text-darkBlue'
           >
             <div className='grid grid-cols-4 gap-3 mt-1'>
-              {themes.map((theme) => (
-                <motion.button
-                  key={theme.id}
-                  initial={{ scale: 0.5 }}
-                  animate={{ scale: 1 }}
-                  exit={{ x: -100, opacity: 0 }}
-                  transition={{
-                    type: 'spring',
-                    stiffness: 360,
-                    damping: 40,
-                    delay: (theme.id - 0.8) * 0.1,
-                  }}
-                  className={`h-32 w-28 border-2 rounded-md relative ${
-                    isSelected === theme.id
-                      ? 'border-black border-2 shadow-xl'
-                      : 'border-[#D9D9D9]'
-                  }`}
-                  onClick={() => {
-                    setIsSelected(theme.id);
-                    colorThemeSelector(theme.id);
-                  }}
-                >
-                  <img
-                    src={theme.name}
-                    alt={`theme${theme.id + 1}`}
-                    className='ml-5'
-                  />
-                  {isSelected === theme.id && (
-                    <svg
-                      className='absolute top-1 right-1'
-                      width='22'
-                      height='22'
-                      viewBox='0 0 60 60'
-                      fill='#3361D8'
-                      xmlns='http://www.w3.org/2000/svg'
-                    >
-                      {/* Blue circle */}
-                      <motion.circle
-                        cx='30'
-                        cy='30'
-                        r='25'
-                        stroke='none'
-                        strokeWidth='6'
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        transition={{ duration: 0.3 }}
-                      />
+              {themes.map((theme) => {
+                const isSelected = theme.id === selection;
+                if (!isSelectible && !isSelected) return null;
+                return (
+                  <motion.button
+                    key={theme.id}
+                    initial={{ scale: 0.5 }}
+                    animate={{ scale: 1 }}
+                    exit={{ x: -100, opacity: 0 }}
+                    transition={{
+                      type: 'spring',
+                      stiffness: 360,
+                      damping: 40,
+                      delay: (theme.id - 0.8) * 0.1,
+                    }}
+                    className={`h-32 w-28 border-2 rounded-md relative ${
+                      isSelected
+                        ? 'border-black border-2 shadow-xl'
+                        : 'border-[#D9D9D9]'
+                    } ${isSelectible ? 'cursor-pointer' : 'cursor-default'} `}
+                    onClick={() => {
+                      setSelection(theme.id);
+                      colorThemeSelector(theme.id);
+                    }}
+                  >
+                    <img
+                      src={theme.name}
+                      alt={`theme${theme.id + 1}`}
+                      className='ml-5'
+                    />
+                    {selection === theme.id && (
+                      <svg
+                        className='absolute top-1 right-1'
+                        width='22'
+                        height='22'
+                        viewBox='0 0 60 60'
+                        fill='#3361D8'
+                        xmlns='http://www.w3.org/2000/svg'
+                      >
+                        {/* Blue circle */}
+                        <motion.circle
+                          cx='30'
+                          cy='30'
+                          r='25'
+                          stroke='none'
+                          strokeWidth='6'
+                          initial={{ opacity: 0 }}
+                          animate={{ opacity: 1 }}
+                          transition={{ duration: 0.3 }}
+                        />
 
-                      {/* Check mark */}
-                      <motion.path
-                        d='M13.5 30L24.75 41.25L45 18.75'
-                        stroke='#fff'
-                        strokeWidth='6'
-                        strokeLinecap='round'
+                        {/* Check mark */}
+                        <motion.path
+                          d='M13.5 30L24.75 41.25L45 18.75'
+                          stroke='#fff'
+                          strokeWidth='6'
+                          strokeLinecap='round'
+                          fill='none'
+                          initial={{ pathLength: 0, opacity: 0 }}
+                          animate={{ pathLength: 1, opacity: 1, scale: 0.8 }}
+                          transition={{ duration: 0.35 }}
+                        />
+                      </svg>
+                    )}
+                    {selection !== theme.id && (
+                      <svg
+                        className='absolute top-1 right-1'
+                        width='22'
+                        height='22'
+                        viewBox='0 0 60 60'
                         fill='none'
-                        initial={{ pathLength: 0, opacity: 0 }}
-                        animate={{ pathLength: 1, opacity: 1, scale: 0.8 }}
-                        transition={{ duration: 0.35 }}
-                      />
-                    </svg>
-                  )}
-                  {isSelected !== theme.id && (
-                    <svg
-                      className='absolute top-1 right-1'
-                      width='22'
-                      height='22'
-                      viewBox='0 0 60 60'
-                      fill='none'
-                      xmlns='http://www.w3.org/2000/svg'
-                    >
-                      <circle
-                        cx='30'
-                        cy='30'
-                        r='25'
-                        stroke='#D9D9D9'
-                        strokeWidth='3'
-                        fill='transparent'
-                      />
-                    </svg>
-                  )}
-                  <div className='w-28 flex items-center justify-center absolute'>
-                    <div className='text-base mt-4'>
-                      {theme.id === 0 && 'Winter'}
-                      {theme.id === 1 && 'Autumn'}
-                      {theme.id === 2 && 'Summer'}
-                      {theme.id === 3 && 'Spring'}
+                        xmlns='http://www.w3.org/2000/svg'
+                      >
+                        <circle
+                          cx='30'
+                          cy='30'
+                          r='25'
+                          stroke='#D9D9D9'
+                          strokeWidth='3'
+                          fill='transparent'
+                        />
+                      </svg>
+                    )}
+                    <div className='w-28 flex items-center justify-center absolute'>
+                      <div className='text-base mt-4'>
+                        {theme.id === 0 && 'Winter'}
+                        {theme.id === 1 && 'Autumn'}
+                        {theme.id === 2 && 'Summer'}
+                        {theme.id === 3 && 'Spring'}
+                      </div>
                     </div>
-                  </div>
-                </motion.button>
-              ))}
+                  </motion.button>
+                );
+              })}
             </div>
           </motion.div>
         </AnimatePresence>

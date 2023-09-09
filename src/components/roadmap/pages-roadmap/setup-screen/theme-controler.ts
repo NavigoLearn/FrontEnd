@@ -8,7 +8,3 @@ export const getColorThemeFromRoadmap = () => {
 export const setRoadmapColorTheme = (colorTheme: IColorThemesOptions) => {
   getCurrentRoadmap().data.colorTheme = colorTheme;
 };
-
-export const setDefaultColorThemeToRoadmap = () => {
-  getCurrentRoadmap().data.colorTheme = 'winterTheme';
-};

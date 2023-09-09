@@ -1,9 +1,9 @@
 import React from 'react';
 import { setConfirmDelete } from '@store/roadmap-refactor/popups/popup';
-import { deleteRoadmap } from '@src/api-wrapper/roadmap/routes/roadmaps';
-import { getRoadmapId } from '@store/roadmap-refactor/roadmap-data/misc-data/roadmap_state';
+import { fetchDeleteRoadmap } from '@src/api-wrapper/roadmap/routes/routes-roadmaps';
 import { dispatchAnalyticsEvent } from '@store/misc/analytics';
 import Popup from '@components/roadmap/to-be-organized/popups/Popup';
+import { getRoadmapId } from '@store/roadmap-refactor/roadmap-data/misc-data/roadmap-about';
 
 const ConfirmDelete = () => {
   return (
@@ -15,7 +15,7 @@ const ConfirmDelete = () => {
         dispatchAnalyticsEvent('roadmapInteraction', {
           actionType: 'Delete Roadmap',
         });
-        deleteRoadmap(getRoadmapId());
+        fetchDeleteRoadmap(getRoadmapId());
         setConfirmDelete();
         window.location.href = '/profile';
       }}

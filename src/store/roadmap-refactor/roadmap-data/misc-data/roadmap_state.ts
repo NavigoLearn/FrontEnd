@@ -5,7 +5,6 @@ export type IRoadmapStateStore = {
   roadmapState: IRoadmapState; // concerned with the state of the roadmap AT RUNTIME
   save: boolean;
   loaded: boolean;
-  id: string;
   starterTab: boolean;
 };
 
@@ -15,7 +14,6 @@ const roadmapStateStore = atom({
   save: true,
   loaded: false,
   starterTab: false,
-  id: '',
 } as IRoadmapStateStore);
 
 export default roadmapStateStore;
@@ -47,16 +45,6 @@ export function getRoadmapStateStore() {
 export function setRoadmapStateStore(state: IRoadmapStateStore) {
   const original = roadmapStateStore.get();
   roadmapStateStore.set({ ...original, ...state });
-}
-
-export function setRoadmapId(id: string) {
-  const original = roadmapStateStore.get();
-  roadmapStateStore.set({ ...original, id });
-}
-
-export function getRoadmapId() {
-  const original = roadmapStateStore.get();
-  return original.id;
 }
 
 export function setRoadmapIsLoaded() {

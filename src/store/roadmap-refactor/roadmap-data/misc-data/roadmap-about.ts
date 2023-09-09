@@ -18,7 +18,7 @@ const BOILERPLATE_ROADMAP_ABOUT: IRoadmapAbout = {
   description: '',
 };
 
-export const DEFAULT_NAME = 'Untitled';
+export const DEFAULT_NAME = 'Untitled Roadmap';
 export const DEFAULT_DESCRIPTION = 'No description';
 
 const storeRoadmapAbout = atom(BOILERPLATE_ROADMAP_ABOUT as IRoadmapAbout);
@@ -49,7 +49,7 @@ export function getRoadmapType() {
   return store.roadmapType;
 }
 
-export function setRoadmapAboutId(id: string) {
+export function setRoadmapId(id: string) {
   const store = storeRoadmapAbout.get();
   storeRoadmapAbout.set({ ...store, roadmapId: id });
 }
@@ -71,4 +71,18 @@ export function getIsDraft() {
 
 export function getRoadmapAbout() {
   return storeRoadmapAbout.get();
+}
+
+export function fetchRoadmapAboutPost() {
+  const store = storeRoadmapAbout.get();
+  return {
+    name: store.name,
+    description: store.description,
+    ownerId: store.ownerId,
+  };
+}
+
+export function getRoadmapId() {
+  const store = storeRoadmapAbout.get();
+  return store.roadmapId;
 }

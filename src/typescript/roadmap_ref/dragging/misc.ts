@@ -9,10 +9,10 @@ import { getAllRenderedNodes } from '@src/typescript/roadmap_ref/roadmap-data/pr
 import { getIsCreate } from '@store/roadmap-refactor/roadmap-data/misc-data/roadmap-about';
 
 export const inferAndSetNodeDraggability = (node: NodeClass) => {
-  const isCreate = getIsCreate();
   const editing = getIsEditing();
 
-  if (isCreate || editing) {
+  console.log('inferAndSetNodeDraggability', editing);
+  if (editing) {
     setElementDraggable(node.id, true);
   } else {
     setElementDraggable(node.id, false);

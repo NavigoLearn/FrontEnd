@@ -3,7 +3,7 @@ import OptionSelect from '@components/explore/UI/components-desktop/filters/Opti
 import {
   IPerPage,
   ISortBy,
-  ITopic,
+  ITopicParam,
   setExploreQueryPerPage,
   setExploreQuerySortBy,
   setExploreQueryTopic,
@@ -47,7 +47,7 @@ const ExploreDesktop = () => {
               <OptionSelect
                 name='Topic'
                 options={topicOptions}
-                callback={(name: ITopic) => {
+                callback={(name: ITopicParam) => {
                   setExploreQueryTopic(name);
                 }}
                 selected={topic}
