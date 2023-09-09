@@ -1,12 +1,9 @@
 ---
 import RoadmapLayout from '@layouts/RoadmapLayout.astro';
-import PageViewCollection from '@components/home/PageViewCollection';
-import Roadmap from '@components/roadmap/Roadmap';
+import RoadmapWithNotifications from '@src/components/roadmap/RoadmapWithNotifications';
 import PagesDisplayManager from '@components/roadmap/pages-roadmap/PagesDisplayManager';
 import { RoadmapTypeApi } from '../../types/explore_old/card';
-import SetupScreen from '@components/roadmap/pages-roadmap/setup-screen/SetupScreen';
 import RequestManager from '../../components/misc/RequestManager';
-import AboutRenderer from '@src/components/roadmap/to-be-organized/about/AboutRenderer';
 import FullScreenTabManager from '@src/components/roadmap/pages-roadmap/FullScreenTabManager';
 
 const { roadmapPath } = Astro.params;
@@ -22,46 +19,40 @@ let url = `https://navigolearn.com/roadmap/create`;
 let type = 'article';
 
 // if id is not a number, redirect to explore
-if (!!id && !!isCreate) {
-  return Astro.redirect('/explore');
-}
+// if (!!id && !!isCreate) {
+//   return Astro.redirect('/explore');
+// }
 
 if (typeof id === 'string') {
-  try {
-    // fetches roadmapData from api
-    const response = await fetch(`${Astro.site}api/roadmaps/${id}`);
+  // fetches roadmapData from api
+  const response = await fetch(`${Astro.site}api/roadmaps/${id}`);
+  const requestResponseJson = await response.json();
+  roadmap = requestResponseJson.data;
+  // decodes the roadmap-roadmap-data field from base64 to json
+  roadmap.data = JSON.parse(atob(roadmap.data));
 
-    roadmap = await response.json();
-
-    // decodes the roadmap-roadmap-data field from base64 to json
-    roadmap.data = JSON.parse(atob(roadmap.data));
-
-    if (!roadmap) {
-      return Astro.redirect('/explore');
-    }
-
-    const formattedName =
-      (roadmap?.name || 'untitled')
-        .replace(/\s+/g, '-')
-        .toLowerCase()
-        .slice(0, 32) +
-      '-' +
-      id;
-
-    if (formattedName !== roadmapPath) {
-      return Astro.redirect(`/roadmap/${formattedName}`, 301);
-    }
-
-    title = roadmap.name;
-    description = `${roadmap.description.slice(0, 100)}${
-      roadmap.description.length > 100 ? '...' : ''
-    } - ${roadmap.name} on NavigoLearn`;
-    url = `https://navigolearn.com/roadmap/${roadmapPath}`;
-    type = 'article';
-  } catch (e) {
-    console.error(e);
+  if (!roadmap) {
     return Astro.redirect('/explore');
   }
+
+  const formattedName =
+    (roadmap?.name || 'untitled')
+      .replace(/\s+/g, '-')
+      .toLowerCase()
+      .slice(0, 32) +
+    '-' +
+    id;
+
+  if (formattedName !== roadmapPath) {
+    return Astro.redirect(`/roadmap/${formattedName}`, 301);
+  }
+
+  title = roadmap.name;
+  description = `${roadmap.description.slice(0, 100)}${
+    roadmap.description.length > 100 ? '...' : ''
+  } - ${roadmap.name} on NavigoLearn`;
+  url = `https://navigolearn.com/roadmap/${roadmapPath}`;
+  type = 'article';
 }
 ---
 
@@ -75,14 +66,17 @@ if (typeof id === 'string') {
   excludeFooter={true}
 >
   <RequestManager client:load />
-  <FullScreenTabManager client:load isCreate={isCreate}/>
+  <FullScreenTabManager client:load isCreate={isCreate} />
 
   <div class='h-[calc(100vh-64px)] md:mt-0 relative w-full'>
     <!-- offset from nav reduced from total screen size -->
     <div class='h-full relative'>
-      <Roadmap pageId={roadmapPath} roadmap={roadmap} client:load />
+      <RoadmapWithNotifications
+        pageId={roadmapPath}
+        roadmap={roadmap}
+        client:load
+      />
     </div>
-
     <div class='w-full h-full'>
       <PagesDisplayManager client:idle />
     </div>

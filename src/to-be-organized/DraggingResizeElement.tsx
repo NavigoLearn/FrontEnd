@@ -2,8 +2,8 @@ import React, { useEffect, useRef } from 'react';
 import { throttle } from '@src/typescript/roadmap_ref/render/chunks';
 import { HashMapWithKeys } from '@type/roadmap/misc';
 import {
-  getRoadmapDisableDrag,
-  getRoadmapEnableDrag,
+  getRoadmapDisableInteractions,
+  getRoadmapEnableInteractions,
 } from '@store/roadmap-refactor/roadmap-data/roadmap-functions-utils';
 import { getScaleSafari } from '@store/roadmap-refactor/misc/scale-safari-store';
 import { MINIMUM_NODE_HEIGHT } from '@src/typescript/roadmap_ref/node/core/factories/params/default-params';
@@ -127,12 +127,12 @@ const DraggingResizeElement = ({
   const handleMouseUp = () => {
     document.removeEventListener('mousemove', mouseMoveFunction.current);
     document.removeEventListener('mouseup', handleMouseUp);
-    getRoadmapEnableDrag()();
+    getRoadmapEnableInteractions()();
     window.getSelection().removeAllRanges(); // Deselect any selected text
   };
 
   const handleMouseDown = (mouseDownEvent, direction: IDirections) => {
-    getRoadmapDisableDrag()();
+    getRoadmapDisableInteractions()();
     startPos.current = {
       x: mouseDownEvent.pageX,
       y: mouseDownEvent.pageY,

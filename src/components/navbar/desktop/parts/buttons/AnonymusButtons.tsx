@@ -11,7 +11,6 @@ const AnonymusButtons = () => {
         buttonData={{
           type: 'button',
           callback: () => {
-            console.log('get-started');
             setBasePopup('get-started');
           },
         }}

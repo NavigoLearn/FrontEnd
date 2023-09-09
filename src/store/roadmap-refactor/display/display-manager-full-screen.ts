@@ -1,6 +1,12 @@
 import { atom } from 'nanostores';
 
-export type IDisplayPageTypeFullScreen = 'about' | 'setUp' | 'closed';
+export type IDisplayPageTypeFullScreen =
+  | 'about'
+  | 'setUp'
+  | 'closed'
+  | 'get-started'
+  | 'reset-roadmap'
+  | 'setup-screen';
 
 const displayManagerStoreFullScreen = atom({
   type: 'closed',

@@ -1,31 +1,25 @@
 import { hashData } from '@src/typescript/utils/hashData';
 import {
-  setRoadmapFromRecovery,
-} from '@store/roadmap-refactor/roadmap-data/roadmap-view';
-import {
   getRoadmapId,
   getRoadmapState,
   getRoadmapStateStore,
   IRoadmapStateStore,
-} from '@store/roadmap-refactor/roadmap-data/roadmap_state';
+} from '@store/roadmap-refactor/roadmap-data/misc-data/roadmap_state';
 import { IRoadmap } from '@type/roadmap/stores/IRoadmap';
-import {
-  getRoadmapEdit,
-} from '@store/roadmap-refactor/roadmap-data/roadmap-edit';
-import {
-  getRoadmapSelector,
-} from '@store/roadmap-refactor/roadmap-data/roadmap-selector';
+import { getRoadmapEdit } from '@store/roadmap-refactor/roadmap-data/roadmap-edit';
+import { getRoadmapSelector } from '@store/roadmap-refactor/roadmap-data/roadmap-selector';
 
 export type SaveItem = {
   data: IRoadmap;
   state: IRoadmapStateStore;
   id: string;
-}
+};
 
 const maxVersionHistory = 3;
 
 export async function saveSession() {
-  const data = getRoadmapState() === 'create' ? getRoadmapSelector() : getRoadmapEdit();
+  const data =
+    getRoadmapState() === 'create' ? getRoadmapSelector() : getRoadmapEdit();
   const state = getRoadmapStateStore();
   const id = getRoadmapState() === 'create' ? 'create' : getRoadmapId();
   const saveItem: SaveItem = {
@@ -38,12 +32,11 @@ export async function saveSession() {
   // hash the json
   const hash = await hashData(roadmapData);
 
-
   // get the current version history
   const versionHistory = localStorage.getItem(`${id}-roadmapVersionHistory`);
   // if there is no version history, create one
   if (versionHistory === null) {
-    localStorage.setItem(`${id}-roadmapVersionHistory`, JSON.stringify([ hash ]));
+    localStorage.setItem(`${id}-roadmapVersionHistory`, JSON.stringify([hash]));
     localStorage.setItem(hash, roadmapData);
     return;
   }
@@ -63,7 +56,10 @@ export async function saveSession() {
     localStorage.removeItem(version);
   }
   // save the new version history
-  localStorage.setItem(`${id}-roadmapVersionHistory`, JSON.stringify(parsedVersionHistory));
+  localStorage.setItem(
+    `${id}-roadmapVersionHistory`,
+    JSON.stringify(parsedVersionHistory)
+  );
   // save the new roadmap data
   localStorage.setItem(hash, roadmapData);
 }

@@ -1,19 +1,16 @@
 import React, { useEffect, useState } from 'react';
-import { checkIfSessionExists } from '@src/typescript/roadmap_ref/history/restoreSession';
-import { deepCopy } from '@src/typescript/roadmap_ref/utils';
+import { setDisplayPageTypeFullScreen } from '@store/roadmap-refactor/display/display-manager-full-screen';
 import exit from '../../../../../public/editor/close.svg';
 import ThemeSelector from './pages/ThemeSelector';
 import TitleSelector from './pages/TitleSelector';
-import { initializeRoadmapAfterLoad } from '../../Roadmap';
-import { getCurrentRoadmap } from './roadmap-funtions';
+import { initialRoadmapProtocolAfterLoad } from '../../Roadmap';
 
-const SetupScreen = ({ isCreate }: { isCreate: boolean }) => {
+const SetupScreen = () => {
   const [activeTab, setActiveTab] = useState(0);
-  const [creation, setCreation] = useState(isCreate);
   const totalTabs = 2;
 
   const handleExit = () => {
-    setCreation(false);
+    setDisplayPageTypeFullScreen('closed');
   };
 
   const handleNext = () => {
@@ -40,8 +37,6 @@ const SetupScreen = ({ isCreate }: { isCreate: boolean }) => {
     }
   };
 
-  if (creation === false) return null;
-
   return (
     <div className='h-[100%] w-[100%] bg-[#1A1B504D] absolute top-0 z-30 flex justify-center items-center'>
       <div className='bg-white w-[32rem] h-[22rem]'>
@@ -53,7 +48,7 @@ const SetupScreen = ({ isCreate }: { isCreate: boolean }) => {
             type='button'
             onClick={() => {
               handleExit();
-              initializeRoadmapAfterLoad();
+              initialRoadmapProtocolAfterLoad();
             }}
           >
             <img src={exit} alt='exitButton' className='w-7 h-7' />

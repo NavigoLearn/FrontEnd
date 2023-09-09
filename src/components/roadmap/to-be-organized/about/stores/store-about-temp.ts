@@ -1,14 +1,14 @@
 import { atom } from 'nanostores';
 import roadmapAbout, {
   IRoadmapAbout,
-} from '@store/roadmap-refactor/roadmap-data/roadmap-about';
+} from '@store/roadmap-refactor/roadmap-data/misc-data/roadmap-about';
 import { IColorThemesOptions } from '@type/roadmap/node/colors-types';
 import { getRoadmapSelector } from '@src/typescript/roadmap_ref/roadmap-data/services/get';
 import { setRoadmapColorTheme } from '@components/roadmap/pages-roadmap/setup-screen/theme-controler';
 
 const storeAboutTemporary = atom({
   name: 'Untitled',
-  author: '',
+  ownerId: '',
   description: 'No description',
   theme: 'winterTheme',
 } as IRoadmapAbout & { theme: IColorThemesOptions });
@@ -31,14 +31,6 @@ export function setStoreAboutTempDescription(description: string) {
   });
 }
 
-export function setStoreAboutTempAuthor(author: string) {
-  const newTab = storeAboutTemporary.get();
-  newTab.author = author;
-  storeAboutTemporary.set({
-    ...newTab,
-  });
-}
-
 export function setStoreAboutTempTheme(theme: IColorThemesOptions) {
   const newTempStore = storeAboutTemporary.get();
   newTempStore.theme = theme;
@@ -54,7 +46,7 @@ export function pullStoreAboutTempFromApp() {
   storeAboutTemporary.set({
     name: currentAbout.name,
     description: currentAbout.description,
-    author: currentAbout.author,
+    author: currentAbout.ownerId,
     theme,
   });
 }

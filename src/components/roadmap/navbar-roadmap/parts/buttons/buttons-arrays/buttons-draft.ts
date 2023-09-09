@@ -1,4 +1,4 @@
-import { setRoadmapId } from '@store/roadmap-refactor/roadmap-data/roadmap_state';
+import { setRoadmapId } from '@store/roadmap-refactor/roadmap-data/misc-data/roadmap_state';
 import { roadmapSelector } from '@store/roadmap-refactor/roadmap-data/roadmap-selector';
 import { postRoadmapData } from '@src/api-wrapper/roadmap/routes/roadmaps';
 

@@ -12,11 +12,11 @@ import { IColorThemesOptions } from '@type/roadmap/node/colors-types';
 import {
   getColorThemeFromRoadmap,
   setRoadmapColorTheme,
-} from '../../pages-roadmap/setup-screen/theme-controler';
+} from '../../../pages-roadmap/setup-screen/theme-controler';
 import {
   saveRoadmapChanges,
   ISetupScreenControlers,
-} from '../../pages-roadmap/setup-screen/roadmap-funtions';
+} from '../../../pages-roadmap/setup-screen/roadmap-funtions';
 
 const ThemeDisplayer = () => {
   const themes = [

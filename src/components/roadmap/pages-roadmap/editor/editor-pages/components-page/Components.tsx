@@ -7,7 +7,6 @@ import editorSelectedData, {
 import { IComponentOptions } from '@type/roadmap/node/options-types';
 import { factoryComponentEmpty } from '@src/typescript/roadmap_ref/node/components/text/factories';
 import TextComponent from '@components/roadmap/pages-roadmap/editor/editor-pages/components-page/components/TextComponent';
-import DropdownGreyAdd from '@src/components/roadmap/pages-roadmap/editor/reusable-components/DropdownPlusSelection';
 import { appendComponent } from '@src/typescript/roadmap_ref/node/core/data-mutation/append';
 import { getNodeByIdRoadmapSelector } from '@src/typescript/roadmap_ref/roadmap-data/services/get';
 import { IComponentObject } from '@type/roadmap/node/components-types';

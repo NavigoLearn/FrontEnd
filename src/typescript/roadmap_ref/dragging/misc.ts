@@ -1,24 +1,12 @@
 import { NodeClass } from '@src/typescript/roadmap_ref/node/core/core';
-import roadmapStateStore, {
-  getIsCreate,
-  getIsEditing,
-} from '@store/roadmap-refactor/roadmap-data/roadmap_state';
-import draggableElements, {
+import { getIsEditing } from '@store/roadmap-refactor/roadmap-data/misc-data/roadmap_state';
+import {
   getElementIsDraggable,
   setElementDraggable,
 } from '@store/roadmap-refactor/elements-editing/draggable-elements';
-import { roadmapSelector } from '@store/roadmap-refactor/roadmap-data/roadmap-selector';
 import { addDragabilityProtocol } from '@src/typescript/roadmap_ref/render/dragging';
-import { Simulate } from 'react-dom/test-utils';
-import { deepCopy } from '@src/typescript/roadmap_ref/utils';
-import { getRoadmapSelector } from '@src/typescript/roadmap_ref/roadmap-data/services/get';
-import { getRenderedRootNodesIds } from '@store/roadmap-refactor/render/rendered-nodes';
-import {
-  getAllRenderedNodes,
-  getAllSubNodes,
-  getChildrenRenderedTraceback,
-} from '@src/typescript/roadmap_ref/roadmap-data/protocols/get';
-import drag = Simulate.drag;
+import { getAllRenderedNodes } from '@src/typescript/roadmap_ref/roadmap-data/protocols/get';
+import { getIsCreate } from '@store/roadmap-refactor/roadmap-data/misc-data/roadmap-about';
 
 export const inferAndSetNodeDraggability = (node: NodeClass) => {
   const isCreate = getIsCreate();

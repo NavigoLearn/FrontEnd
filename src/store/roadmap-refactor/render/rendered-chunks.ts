@@ -35,10 +35,9 @@ export function triggerChunkRerender() {
     throw new Error('Chunk rerender trigger is not set');
   original.chunkRerenderTrigger();
 }
-
-export function setChunkSize(newChunkSize: number) {
+export function getChunkRerenderTrigger() {
   const original = chunksStore.get();
-  chunksStore.set({ ...original, chunkSize: newChunkSize });
+  return original.chunkRerenderTrigger;
 }
 
 export default chunksStore;

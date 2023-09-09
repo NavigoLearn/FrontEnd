@@ -1,7 +1,7 @@
 import React from 'react';
 import { setConfirmDelete } from '@store/roadmap-refactor/popups/popup';
 import { deleteRoadmap } from '@src/api-wrapper/roadmap/routes/roadmaps';
-import { getRoadmapId } from '@store/roadmap-refactor/roadmap-data/roadmap_state';
+import { getRoadmapId } from '@store/roadmap-refactor/roadmap-data/misc-data/roadmap_state';
 import { dispatchAnalyticsEvent } from '@store/misc/analytics';
 import Popup from '@components/roadmap/to-be-organized/popups/Popup';
 

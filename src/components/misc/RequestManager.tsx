@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
-import loggedUser, { setProfileMini } from '@store/user/logged-user';
-import { setVisitorId } from '@store/roadmap-refactor/roadmap-data/roadmap-visit-data';
-import { setIsLogged, setLoaded } from '@store/user/user-status';
+import { setProfileMini } from '@store/user/logged-user';
+import { setIsLogged, setLoaded, setVisitorId } from '@store/user/user-status';
 import { fetchGetMiniProfileData } from '../../api-wrapper/user/user';
 
 const RequestManager = () => {

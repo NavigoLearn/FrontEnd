@@ -1,8 +1,11 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { useStore } from '@nanostores/react';
 import { AnimatePresence, motion } from 'framer-motion';
-import { initializeRoadmapAfterLoad } from '@src/components/roadmap/Roadmap';
+import { initialRoadmapProtocolAfterLoad } from '@src/components/roadmap/Roadmap';
 import { afterEventLoop } from '@src/typescript/utils/misc';
-import { setTitleToRoadmap, getTitleFromRoadmap } from '../name-controler';
+import roadmapAbout, {
+  setRoadmapAboutName,
+} from '@store/roadmap-refactor/roadmap-data/misc-data/roadmap-about';
 
 interface ThemeSelectorProps {
   onNext: () => void;
@@ -28,13 +31,12 @@ const ErrorDisplay: React.FC<ErrorDisplayProps> = ({ message }) => {
 };
 
 const TitleSelector = ({ onNext, handleExit }: ThemeSelectorProps) => {
-  const [value, setValue] = useState('');
+  const { name: value } = useStore(roadmapAbout);
   const [showError, setShowError] = useState(false);
   const finishButtonRef = useRef(null);
 
   useEffect(() => {
     let timeout: NodeJS.Timeout;
-
     if (showError) {
       timeout = setTimeout(() => {
         setShowError(false);
@@ -48,15 +50,19 @@ const TitleSelector = ({ onNext, handleExit }: ThemeSelectorProps) => {
 
   const handleTilteInput = () => {
     if (value !== '') {
-      setTitleToRoadmap(value);
+      setRoadmapAboutName(value);
       afterEventLoop(() => {
-        initializeRoadmapAfterLoad();
+        initialRoadmapProtocolAfterLoad();
       });
       handleExit();
     } else {
       setShowError(true);
     }
   };
+
+  function setValue(newValue: string) {
+    setRoadmapAboutName(newValue);
+  }
 
   return (
     <div>
@@ -91,7 +97,6 @@ const TitleSelector = ({ onNext, handleExit }: ThemeSelectorProps) => {
       </div>
       <div className='flex flex-col items-center mt-28 text-base font-roboto-text'>
         <AnimatePresence>
-          {' '}
           <motion.button
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
@@ -102,7 +107,6 @@ const TitleSelector = ({ onNext, handleExit }: ThemeSelectorProps) => {
             ref={finishButtonRef}
             onClick={() => {
               handleTilteInput();
-              console.log(getTitleFromRoadmap());
             }}
           >
             Finish
@@ -118,7 +122,7 @@ const TitleSelector = ({ onNext, handleExit }: ThemeSelectorProps) => {
             className='mt-1'
             onClick={() => {
               handleExit();
-              initializeRoadmapAfterLoad();
+              initialRoadmapProtocolAfterLoad();
             }}
           >
             I&rsquo;ll do it later

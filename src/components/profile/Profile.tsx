@@ -4,12 +4,9 @@ import ProfileDesktop from '@components/profile/UI/ProfileDesktop';
 
 const Profile = () => {
   const mobile = useIsMobile();
+  if (mobile === null) return null;
   return (
-    <div className='relative pointer-events-auto z-10 '>
-      {mobile !== null && (
-        <div>{mobile ? <div>Mobile</div> : <ProfileDesktop />}</div>
-      )}
-    </div>
+    <div className=''>{mobile ? <div>Mobile</div> : <ProfileDesktop />}</div>
   );
 };
 

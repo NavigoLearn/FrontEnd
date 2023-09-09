@@ -10,24 +10,32 @@ export const roadmapFunctionsUtils = atom({
   enableRoadmapDrag: () => {},
 } as IRoadmapFunctionsUtils);
 
-export const setRoadmapDisableDrag = (disableDrag: () => void) => {
+export const setRoadmapDisableDragAndZoom = (disableDrag: () => void) => {
   roadmapFunctionsUtils.set({
     ...roadmapFunctionsUtils.get(),
     disableRoadmapDrag: disableDrag,
   });
 };
 
-export const setRoadmapEnableDrag = (enableDrag: () => void) => {
+export const setRoadmapEnableDragAndZoom = (enableDrag: () => void) => {
   roadmapFunctionsUtils.set({
     ...roadmapFunctionsUtils.get(),
     enableRoadmapDrag: enableDrag,
   });
 };
 
-export const getRoadmapDisableDrag = () => {
+export const getRoadmapDisableInteractions = () => {
   return roadmapFunctionsUtils.get().disableRoadmapDrag;
 };
 
-export const getRoadmapEnableDrag = () => {
+export const getRoadmapEnableInteractions = () => {
   return roadmapFunctionsUtils.get().enableRoadmapDrag;
+};
+
+export const enableRoadmapInteractions = () => {
+  getRoadmapEnableInteractions()();
+};
+
+export const disableRoadmapInteractions = () => {
+  getRoadmapDisableInteractions()();
 };
