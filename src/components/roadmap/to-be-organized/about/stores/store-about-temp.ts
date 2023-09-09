@@ -4,7 +4,11 @@ import roadmapAbout, {
 } from '@store/roadmap-refactor/roadmap-data/misc-data/roadmap-about';
 import { IColorThemesOptions } from '@type/roadmap/node/colors-types';
 import { getRoadmapSelector } from '@src/typescript/roadmap_ref/roadmap-data/services/get';
-import { setRoadmapColorTheme } from '@components/roadmap/pages-roadmap/setup-screen/theme-controler';
+import {
+  getColorThemeFromRoadmap,
+  setRoadmapColorTheme,
+} from '@components/roadmap/pages-roadmap/setup-screen/theme-controler';
+import { triggerAllNodesRerender } from '@store/roadmap-refactor/render/rerender-triggers-nodes';
 
 const storeAboutTemporary = atom({
   name: 'Untitled',
@@ -41,7 +45,7 @@ export function setStoreAboutTempTheme(theme: IColorThemesOptions) {
 
 export function pullStoreAboutTempFromApp() {
   const currentAbout = roadmapAbout.get();
-  const theme = getRoadmapSelector().data.colorTheme;
+  const theme = getColorThemeFromRoadmap();
 
   storeAboutTemporary.set({
     ...currentAbout,
@@ -64,6 +68,7 @@ export function pushStoreAboutTempChangesToApp() {
   });
 
   setRoadmapColorTheme(tempAbout.theme);
+  triggerAllNodesRerender();
 }
 
 export function getStoreAboutTemp() {

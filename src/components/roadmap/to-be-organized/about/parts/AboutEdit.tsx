@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { setDisplayPageTypeFullScreen } from '@src/store/roadmap-refactor/display/display-manager-full-screen';
 import { useStore } from '@nanostores/react';
 import storeAboutTemporary, {
+  getStoreAboutTemp,
   pushStoreAboutTempChangesToApp,
   setStoreAboutTempDescription,
   setStoreAboutTempName,
@@ -61,7 +62,7 @@ const AboutEdit = ({ callback }: IAboutEditProps) => {
         <div className='w-[90%] mt-1'>
           <div className='font-roboto-text text-darkBlue'>Theme</div>
         </div>
-        <ThemeDisplayer isSelectible />
+        <ThemeDisplayer isSelectible initialTheme={getStoreAboutTemp().theme} />
       </div>
       <div className=' mt-12 flex justify-center'>
         <div className='flex flex-row w-[90%] justify-end'>

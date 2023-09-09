@@ -8,7 +8,9 @@ export type IDisplayPageTypeFullScreen =
   | 'reset-roadmap'
   | 'setup-screen'
   | 'convert-to-draft'
-  | 'delete-roadmap';
+  | 'delete-roadmap'
+  | 'save-changes'
+  | 'cancel-changes';
 
 const displayManagerStoreFullScreen = atom({
   type: 'closed',

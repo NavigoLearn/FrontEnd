@@ -20,6 +20,8 @@ export function setRoadmapViewFromAPI(roadmapData: RoadmapTypeApi) {
   if (isRoadmapType(roadmapData.data)) {
     // @ts-ignore
     const roadmap: IRoadmap = roadmapData.data;
+    // @ts-ignore
+    roadmap.data = roadmapData.miscData;
     setRoadmapViewStore(roadmap);
   } else {
     throw new Error('Roadmap roadmap-roadmap-data is not of type Roadmap');

@@ -163,6 +163,7 @@ function handleRoadmapRenderingData(
   roadmap?: RoadmapTypeApi
 ): IHandleRoadmapDataStatus {
   const type = getRoadmapType();
+  console.log('type', type, roadmap);
   if (type === 'create') {
     const restoredFromCache = handleRoadmapSessionRestoration();
 
@@ -185,7 +186,6 @@ function handleRoadmapRenderingData(
 function handleRoadmapAfterLoadInitialization(
   status: IHandleRoadmapDataStatus
 ) {
-  console.log('handleRoadmapAfterLoadInitialization', status);
   if (status === 'restored') {
     initialRoadmapProtocolAfterLoad();
     return;

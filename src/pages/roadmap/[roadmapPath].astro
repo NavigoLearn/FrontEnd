@@ -4,7 +4,7 @@ import RoadmapWithNotifications from '@src/components/roadmap/RoadmapWithNotific
 import PagesDisplayManager from '@components/roadmap/pages-roadmap/PagesDisplayManager';
 import { RoadmapTypeApi } from '../../types/explore_old/card';
 import RequestManager from '../../components/misc/RequestManager';
-import FullScreenTabManager from '@src/components/roadmap/pages-roadmap/FullScreenTabManager';
+import FullScreenPopupManager from '../../components/roadmap/pages-roadmap/FullScreenPopupManager';
 
 const { roadmapPath } = Astro.params;
 // here we should get the roadmap-roadmap-data for the actual roadmap_static
@@ -70,7 +70,7 @@ if (typeof id === 'string') {
   excludeFooter={true}
 >
   <RequestManager client:load />
-  <FullScreenTabManager client:load isCreate={isCreate} />
+  <FullScreenPopupManager client:load isCreate={isCreate} />
 
   <div class='h-[calc(100vh-64px)] md:mt-0 relative w-full'>
     <!-- offset from nav reduced from total screen size -->

@@ -4,16 +4,17 @@ import theme2 from '@assets/theme2.svg';
 import theme3 from '@assets/theme3.svg';
 import theme4 from '@assets/theme4.svg';
 import { AnimatePresence, motion } from 'framer-motion';
-import {
-  getStoreAboutTemp,
-  setStoreAboutTempTheme,
-} from '@components/roadmap/to-be-organized/about/stores/store-about-temp';
+import { setStoreAboutTempTheme } from '@components/roadmap/to-be-organized/about/stores/store-about-temp';
 import { IColorThemesOptions } from '@type/roadmap/node/colors-types';
 
 type IThemeDisplayerProps = {
   isSelectible: boolean;
+  initialTheme: IColorThemesOptions;
 };
-const ThemeDisplayer = ({ isSelectible }: IThemeDisplayerProps) => {
+const ThemeDisplayer = ({
+  isSelectible,
+  initialTheme,
+}: IThemeDisplayerProps) => {
   const themes = [
     { id: 0, name: theme1 },
     { id: 1, name: theme2 },
@@ -27,9 +28,8 @@ const ThemeDisplayer = ({ isSelectible }: IThemeDisplayerProps) => {
     springTheme: 3,
   };
 
-  const initialTheme = themeMappings[getStoreAboutTemp().theme] || 0;
-
-  const [selection, setSelection] = useState(initialTheme);
+  const mappedInitialTheme = themeMappings[initialTheme];
+  const [selection, setSelection] = useState(mappedInitialTheme);
 
   const colorThemeSelector = (index: number) => {
     switch (index) {

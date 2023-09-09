@@ -89,15 +89,15 @@ const buttonsMapper: Record<IButtonsRoadmapNavbarOptions, IButtonProperties> = {
   'save-changes': {
     name: 'Save',
     callback: () => {
-      saveEditingProtocol();
-      setDisplayPageTypeFullScreen('closed');
+      // saveEditingProtocol();
+      setDisplayPageTypeFullScreen('save-changes');
     },
   },
   'cancel-changes': {
     name: 'Cancel',
     callback: () => {
-      cancelEditingProtocol();
-      setDisplayPageTypeFullScreen('closed');
+      // cancelEditingProtocol();
+      setDisplayPageTypeFullScreen('cancel-changes');
     },
   },
 };

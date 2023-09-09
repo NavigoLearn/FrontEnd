@@ -14,6 +14,7 @@ import {
 import ThemeDisplayer from '@components/roadmap/to-be-organized/about/components/ThemeDisplayer';
 import StandardTextDisplay from '@components/roadmap/to-be-organized/about/components/StandardTextDisplay';
 import title from '@components/roadmap/navbar-roadmap/parts/Title';
+import { getColorThemeFromRoadmap } from '@components/roadmap/pages-roadmap/setup-screen/theme-controler';
 
 type IAboutViewProps = {
   callback: () => void;
@@ -55,7 +56,10 @@ const AboutView = ({ callback }: IAboutViewProps) => {
           <div className='font-roboto-text text-darkBlue'>Theme</div>
         </div>
         <div className='ml-3'>
-          <ThemeDisplayer isSelectible={false} />
+          <ThemeDisplayer
+            isSelectible={false}
+            initialTheme={getColorThemeFromRoadmap()}
+          />
         </div>
       </div>
       <div className='relative mt-12 flex justify-center w-full '>
