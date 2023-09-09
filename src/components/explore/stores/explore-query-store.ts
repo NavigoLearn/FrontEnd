@@ -77,8 +77,6 @@ export function setExploreQueryPage(page: number) {
       page,
     },
   });
-
-  setCardsLoading();
 }
 
 export function setExploreQuerySortBy(sortBy: ISortBy) {
@@ -90,8 +88,6 @@ export function setExploreQuerySortBy(sortBy: ISortBy) {
       sortBy,
     },
   });
-
-  setCardsLoading();
 }
 
 export function setExploreQueryPerPage(perPage: IPerPage) {
@@ -101,7 +97,6 @@ export function setExploreQueryPerPage(perPage: IPerPage) {
       perPage,
     },
   });
-  setCardsLoading();
 }
 
 export function setExploreQueryTopic(topic: ITopicParam) {
@@ -111,6 +106,4 @@ export function setExploreQueryTopic(topic: ITopicParam) {
       topic,
     },
   });
-
-  setCardsLoading();
 }

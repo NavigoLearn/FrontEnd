@@ -1,9 +1,19 @@
 import React, { useState } from 'react';
-import Card from '@components/profile/UI/shared/Card';
+import { useStore } from '@nanostores/react';
+import { profileDataStore } from '@src/components/profile/stores/store-profile-data';
+import { CardRoadmapTypeApi } from '@src/types/explore/card';
+import Card from '@src/components/explore/UI/shared/cards/Card';
 
 const RoadmapsPage = () => {
   const [drafts, setDrafts] = useState(false);
-  const roadmapsIds = ['1', '2', '3', '4', '5', '6', '7', '8', '9'];
+  const { loading, ProfileRoadmaps } = useStore(profileDataStore);
+
+  if (loading)
+    return (
+      <div className='text-2xl ml-14 mt-6 font-roboto-text text-darkBlue'>
+        Loading...
+      </div>
+    );
 
   return (
     <div className='mt-5 ml-10'>
@@ -33,8 +43,9 @@ const RoadmapsPage = () => {
         </button>
       </div>
       <div className='grid-cols-2 grid gap-5 w-[660px] mt-7'>
-        {roadmapsIds.map((id) => {
-          return <Card roadmapId={id} key={id} />;
+        {ProfileRoadmaps.map((card: CardRoadmapTypeApi, i) => {
+          // eslint-disable-next-line react/no-array-index-key
+          return <Card data={card} key={i} />;
         })}
       </div>
     </div>

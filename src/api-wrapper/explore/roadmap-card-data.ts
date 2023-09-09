@@ -42,16 +42,3 @@ export const fetchRoadmapCardsExplore = errorHandlerDecorator(
     return responseExplore.json();
   }
 );
-
-export const fetchRoadmapCardsProfile = errorHandlerDecorator(
-  async (id: string): Promise<CardRoadmapTypeApi[]> => {
-    // fetches from the api the cards
-    const fetchRoute = `/api/users/${id}/roadmaps`;
-    const response = await fetch(fetchRoute, {
-      method: 'GET',
-      credentials: 'include',
-    });
-    const dataJson: RoadmapTypeApiExplore = await response.json();
-    return dataJson.data;
-  }
-);
