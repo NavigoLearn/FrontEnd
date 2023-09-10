@@ -6,12 +6,19 @@ import {
   getProfileInfoRoadmapsLikes,
   getProfileInfoRoadmapsViews,
 } from '@src/components/profile/stores/store-profile-pages';
-import { useStore } from '@nanostores/react';
-import { profileDataStore } from '@src/components/profile/stores/store-profile-data';
+// import { useStore } from '@nanostores/react';
+// import { profileDataStore } from '@src/components/profile/stores/store-profile-data';
+import { getProfileDataLoading } from '@src/components/profile/stores/store-profile-data';
 
 const ActivityPage = () => {
-  const { loading } = useStore(profileDataStore);
-  if (loading)
+  // const { loading } = useStore(profileDataStore);
+  // if (loading)
+  //   return (
+  //     <div className='text-2xl ml-14 mt-6 font-roboto-text text-darkBlue'>
+  //       Loading...
+  //     </div>
+  //   );
+  if (getProfileDataLoading())
     return (
       <div className='text-2xl ml-14 mt-6 font-roboto-text text-darkBlue'>
         Loading...
