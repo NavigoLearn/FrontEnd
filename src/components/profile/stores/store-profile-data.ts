@@ -45,6 +45,7 @@ export async function fetchAndSetProfileData() {
 
   const adaptedData = adapter.adapt(rawData);
   const adaptedRoadmaps = adapter.adaptRoadmaps(rawProfileRoadmaps);
+  console.log(adaptedRoadmaps);
 
   profileDataStore.set({
     ...profileDataStore.get(),

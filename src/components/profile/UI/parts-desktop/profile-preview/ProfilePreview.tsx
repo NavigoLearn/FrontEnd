@@ -1,33 +1,32 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import HumanSvg from '@components/profile/UI/parts-desktop/profile-preview/components/HumanSvg';
 import useProfileData from '@src/components/profile/hooks/useProfileData';
-import { useStore } from '@nanostores/react';
-import { profileDataStore } from '@src/components/profile/stores/store-profile-data';
+import { useStore, useStore } from '@nanostores/react';
+import {
+  profileDataStore,
+  getProfileDataLoading,
+} from '@src/components/profile/stores/store-profile-data';
 import {
   getProfileInfoAvatar,
   getProfileInfoFollowerCount,
   getProfileInfoFollowingCount,
   getProfileInfoName,
+  setProfilePage,
 } from '@src/components/profile/stores/store-profile-pages';
-import { getProfileDataLoading } from '@src/components/profile/stores/store-profile-data';
 
 const ProfilePreview = () => {
   const { loading } = useStore(profileDataStore);
 
-  // if (loading)
-  //   return (
-  //     <div className='text-2xl ml-14 mt-6 font-roboto-text text-darkBlue'>
-  //       Loading...
-  //     </div>
-  //   );
-
   return (
     <div className='relative flex items-center gap-3'>
       <section>
-        <img src={loading ? '' : getProfileInfoAvatar()} alt='profilePic' />
+        <img
+          src={getProfileDataLoading() ? '' : getProfileInfoAvatar()}
+          alt='profilePic'
+        />
         <div className='rounded-full w-8 h-8 monitor:w-10 monitor:h-10 bg-gray-300' />
       </section>
-      {loading ? (
+      {getProfileDataLoading() ? (
         <div className='text-sm font-roboto-text text-darkBlue'>loading...</div>
       ) : (
         <span className='font-kanit-text text-lg monitor:text-xl'>
@@ -39,7 +38,7 @@ const ProfilePreview = () => {
       <span className='font-roboto-text text-placeholder monitor:text-lg ml-2'>
         Followers
       </span>
-      {loading ? (
+      {getProfileDataLoading() ? (
         <div className='text-sm font-roboto-text text-darkBlue'>loading...</div>
       ) : (
         <span className='font-roboto-text text-darkBlue monitor:text-lg  font-medium'>
@@ -49,7 +48,7 @@ const ProfilePreview = () => {
       <span className='font-roboto-text text-placeholder monitor:text-lg  ml-4'>
         Following
       </span>
-      {loading ? (
+      {getProfileDataLoading() ? (
         <div className='text-sm font-roboto-text text-darkBlue'>loading...</div>
       ) : (
         <span className='font-roboto-text text-darkBlue monitor:text-lg  font-medium'>
