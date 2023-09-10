@@ -9,13 +9,10 @@ import {
   setChunkRerenderTrigger,
   triggerChunkRerender,
 } from '@store/roadmap-refactor/render/rendered-chunks';
-import { roadmapSelector } from '@store/roadmap-refactor/roadmap-data/roadmap-selector';
 import { useScrollHidden } from '@hooks/useScrollHidden';
-import { v4 as uuid4 } from 'uuid';
 import NodeManager from '@components/roadmap/to-be-organized/NodeManager';
 import { useStore } from '@nanostores/react';
-import {
-  setRoadmapId,
+import roadmapStateStore, {
   setRoadmapIsLoaded,
   setRoadmapState,
   setHasStarterTab,
@@ -29,8 +26,9 @@ import { recalculateChunks } from '@src/typescript/roadmap_ref/render/chunks';
 import { triggerRecenterRoadmap } from '@store/roadmap-refactor/misc/misc-params-store';
 import { useIsLoaded } from '@hooks/useIsLoaded';
 import {
-  applyNodesDraggability,
+  applyRoadmapElementsRechunkedDraggability,
   applyRoadmapElementsInitialDraggability,
+  inferRoadmapElementsDraggability,
 } from '@src/typescript/roadmap_ref/dragging/misc';
 import { useEffectAfterLoad } from '@hooks/useEffectAfterLoad';
 import ConnectionsRenderer from '@components/roadmap/connections/ConnectionsRenderer';
@@ -57,12 +55,10 @@ import {
   setRoadmapAboutDescription,
   DEFAULT_DESCRIPTION,
   setRoadmapAboutOwnerId,
-  setRoadmapAboutId,
+  setRoadmapId,
 } from '@store/roadmap-refactor/roadmap-data/misc-data/roadmap-about';
-import userStatus from '@store/user/user-status';
 import { checkIfSessionExists } from '@src/typescript/roadmap_ref/history/restoreSession';
 import { setDisplayPageTypeFullScreen } from '@store/roadmap-refactor/display/display-manager-full-screen';
-import { setRoadmapCreate } from '@store/roadmap-refactor/roadmap-data/roadmap-create';
 import { setRoadmapViewFromAPI } from '@store/roadmap-refactor/roadmap-data/roadmap-view';
 
 export function initialRoadmapProtocolAfterLoad() {
@@ -84,33 +80,23 @@ export function checkAndSetInitialRoadmapType(
     return;
   }
   const isDraft = roadmap.isDraft === true;
-  const isPublic = roadmap.isPublic === true;
-
-  if (!isDraft && !isPublic) {
-    throw new Error('Roadmap is neither draft nor public');
-  }
 
   if (isDraft) {
     setRoadmapType('draft');
-  }
-  if (isPublic) {
+  } else {
     setRoadmapType('public');
   }
 }
 
-export function initializeRoadmapTypeData(roadmap?: RoadmapTypeApi) {
+export function initializeRoadmapTypeData() {
   const type = getRoadmapType();
   if (type === 'create') {
-    createAndSetRoadmapClassic();
     setRoadmapState('edit');
   }
   if (type === 'draft') {
-    setRoadmapEditFromAPI(roadmap);
-    setRoadmapState('edit');
+    setRoadmapState('view');
   }
-
   if (type === 'public') {
-    setRoadmapViewFromAPI(roadmap);
     setRoadmapState('view');
   }
 }
@@ -151,12 +137,11 @@ function initializeRoadmapAboutData(roadmap?: RoadmapTypeApi) {
     if (!roadmap)
       throw new Error('Roadmap is undefined despite being draft mode?');
     const { name, description, userId, id } = roadmap;
-    console.log('roadmap', roadmap);
 
     setRoadmapAboutName(name);
     setRoadmapAboutDescription(description);
     setRoadmapAboutOwnerId(userId);
-    setRoadmapAboutId(id);
+    setRoadmapId(id);
   }
 }
 
@@ -178,6 +163,7 @@ function handleRoadmapRenderingData(
   roadmap?: RoadmapTypeApi
 ): IHandleRoadmapDataStatus {
   const type = getRoadmapType();
+  console.log('type', type, roadmap);
   if (type === 'create') {
     const restoredFromCache = handleRoadmapSessionRestoration();
 
@@ -190,7 +176,7 @@ function handleRoadmapRenderingData(
     return 'factory-created';
   }
   if (type === 'draft' || type === 'public') {
-    setRoadmapEditFromAPI(roadmap);
+    setRoadmapViewFromAPI(roadmap);
     initialRoadmapProtocolAfterLoad();
     return 'retrieved-from-api';
   }
@@ -200,7 +186,6 @@ function handleRoadmapRenderingData(
 function handleRoadmapAfterLoadInitialization(
   status: IHandleRoadmapDataStatus
 ) {
-  console.log('handleRoadmapAfterLoadInitialization', status);
   if (status === 'restored') {
     initialRoadmapProtocolAfterLoad();
     return;
@@ -223,10 +208,10 @@ const Roadmap = ({
   roadmap: RoadmapTypeApi;
 }) => {
   useScrollHidden();
+  const { roadmapState } = useStore(roadmapStateStore);
 
   const { nodesIds } = useStore(renderNodesStore);
   const { connections: connectionsIds } = useStore(renderConnectionsStore);
-
   const firstRenderDone = useIsLoaded();
 
   useEffectAfterLoad(() => {
@@ -237,6 +222,7 @@ const Roadmap = ({
 
     // data initializations
     checkAndSetInitialRoadmapType(roadmap, pageId);
+    initializeRoadmapTypeData();
     initializeRoadmapAboutData(roadmap); // all the misc data about the roadmap like title, desc, id etc
     const dataRetrievalStatus = handleRoadmapRenderingData(roadmap); // .data from api
     handleRoadmapAfterLoadInitialization(dataRetrievalStatus);
@@ -249,9 +235,18 @@ const Roadmap = ({
 
   useEffectAfterLoad(() => {
     if (firstRenderDone && nodesIds.length > 0) {
-      applyNodesDraggability();
+      // because when a node gets out of chunk it is unloaded from the screen and then loaded again
+      // when it is loaded again, the previous draggability is lost and needs to be reapplied
+      applyRoadmapElementsRechunkedDraggability();
     }
   }, [nodesIds]);
+
+  useEffectAfterLoad(() => {
+    if (firstRenderDone && nodesIds.length > 0) {
+      // because when you switch between edit and view dragability needs to be changed
+      inferRoadmapElementsDraggability();
+    }
+  }, [roadmapState]);
 
   return (
     <div

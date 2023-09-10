@@ -2,6 +2,8 @@ import { NodeClass } from '@src/typescript/roadmap_ref/node/core/core';
 import { getIsEditing } from '@store/roadmap-refactor/roadmap-data/misc-data/roadmap_state';
 import {
   getElementIsDraggable,
+  setAllDraggableFalse,
+  setDefaultDraggabilitySettings,
   setElementDraggable,
 } from '@store/roadmap-refactor/elements-editing/draggable-elements';
 import { addDragabilityProtocol } from '@src/typescript/roadmap_ref/render/dragging';
@@ -9,10 +11,10 @@ import { getAllRenderedNodes } from '@src/typescript/roadmap_ref/roadmap-data/pr
 import { getIsCreate } from '@store/roadmap-refactor/roadmap-data/misc-data/roadmap-about';
 
 export const inferAndSetNodeDraggability = (node: NodeClass) => {
-  const isCreate = getIsCreate();
   const editing = getIsEditing();
 
-  if (isCreate || editing) {
+  console.log('editing', editing);
+  if (editing) {
     setElementDraggable(node.id, true);
   } else {
     setElementDraggable(node.id, false);
@@ -32,7 +34,7 @@ export const applyRoadmapElementsInitialDraggability = () => {
   });
 };
 
-export const applyNodesDraggability = () => {
+export const applyRoadmapElementsRechunkedDraggability = () => {
   const nodes = getAllRenderedNodes();
 
   Object.values(nodes).forEach((node) => {
@@ -55,4 +57,12 @@ export const applyNodesDraggability = () => {
       setElementDraggable(node.id, elementIsDraggable);
     }
   });
+};
+
+export const inferRoadmapElementsDraggability = () => {
+  if (getIsEditing()) {
+    setDefaultDraggabilitySettings(); // {all elements} \ {components} draggable;
+  } else {
+    setAllDraggableFalse();
+  }
 };

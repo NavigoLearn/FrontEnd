@@ -9,6 +9,7 @@ import {
   setConnectionUnselectedEffect,
 } from '@store/roadmap-refactor/elements-editing/element-effects';
 import { setDefaultDraggabilitySettings } from '@store/roadmap-refactor/elements-editing/draggable-elements';
+import { getIsEditing } from '@store/roadmap-refactor/roadmap-data/misc-data/roadmap_state';
 import {
   getParentNodeIdBasedOnConnection,
   getIdCurrentConnection,

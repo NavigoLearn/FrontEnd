@@ -26,7 +26,7 @@ import {
 import { factoryConnectionBoilerplate } from '@src/typescript/roadmap_ref/node/connections/factories';
 import { triggerChunkRerender } from '@store/roadmap-refactor/render/rendered-chunks';
 import {
-  applyNodesDraggability,
+  applyRoadmapElementsRechunkedDraggability,
   applyRoadmapElementsInitialDraggability,
 } from '@src/typescript/roadmap_ref/dragging/misc';
 import { setDisplayPageType } from '@store/roadmap-refactor/display/display-manager';
@@ -191,7 +191,7 @@ export function appendNodeTemplateBase(
   triggerChunkRerender();
   removeAllEffects();
 
-  applyNodesDraggability();
+  applyRoadmapElementsRechunkedDraggability();
   closeEditorProtocol();
 }
 

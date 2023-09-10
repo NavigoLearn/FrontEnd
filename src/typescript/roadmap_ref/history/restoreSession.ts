@@ -1,6 +1,5 @@
 import { hashData } from '@src/typescript/utils/hashData';
 import {
-  getRoadmapId,
   getRoadmapState,
   getRoadmapStateStore,
   IRoadmapStateStore,
@@ -102,7 +101,7 @@ export async function restoreSession() {
     return restoreSession();
   }
 
-  setRoadmapFromRecovery(JSON.parse(lastData) as SaveItem);
+  // setRoadmapFromRecovery(JSON.parse(lastData) as SaveItem);
 }
 
 export function clearSession() {

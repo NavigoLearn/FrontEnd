@@ -19,6 +19,7 @@ export type RoadmapTypeApi = {
   isPublic: boolean;
   isDraft: boolean;
   data: string;
+  miscData: string;
 };
 
 export type CardTypeApiResponse = {

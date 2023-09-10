@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { setDisplayPageTypeFullScreen } from '@src/store/roadmap-refactor/display/display-manager-full-screen';
 import { useStore } from '@nanostores/react';
 import storeAboutTemporary, {
+  getStoreAboutTemp,
   pushStoreAboutTempChangesToApp,
   setStoreAboutTempDescription,
   setStoreAboutTempName,
@@ -10,7 +11,11 @@ import TextInputStandard from '@components/roadmap/pages-roadmap/editor/editor-p
 import TextareaStandardInput from '@components/roadmap/pages-roadmap/editor/editor-pages/properties-page/TextareaStandardInput';
 import ThemeDisplayer from '@components/roadmap/to-be-organized/about/components/ThemeDisplayer';
 
-const AboutEdit = () => {
+type IAboutEditProps = {
+  callback: () => void;
+};
+
+const AboutEdit = ({ callback }: IAboutEditProps) => {
   const { description, name } = useStore(storeAboutTemporary);
   return (
     <div className='bg-white w-[32rem] h-[33rem]'>
@@ -57,12 +62,14 @@ const AboutEdit = () => {
         <div className='w-[90%] mt-1'>
           <div className='font-roboto-text text-darkBlue'>Theme</div>
         </div>
-        <ThemeDisplayer />
+        <ThemeDisplayer isSelectible initialTheme={getStoreAboutTemp().theme} />
       </div>
       <div className=' mt-12 flex justify-center'>
-        <div className='flex flex-row w-[95%] justify-end'>
+        <div className='flex flex-row w-[90%] justify-end'>
           <button
-            onClick={() => setDisplayPageTypeFullScreen('closed')}
+            onClick={() => {
+              callback();
+            }}
             type='button'
             className='py-1 px-4 mr-2'
           >
@@ -71,10 +78,9 @@ const AboutEdit = () => {
           <button
             type='button'
             onClick={() => {
-              setDisplayPageTypeFullScreen('closed');
-              pushStoreAboutTempChangesToApp();
+              callback();
             }}
-            className='bg-[#3361D8] text-white px-4 py-1 rounded-md text-base w-44 font-roboto-text'
+            className='bg-[#3361D8] text-white px-7 py-1 rounded-md text-base font-roboto-text'
           >
             Save
           </button>

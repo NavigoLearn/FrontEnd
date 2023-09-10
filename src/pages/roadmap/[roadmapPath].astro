@@ -4,13 +4,15 @@ import RoadmapWithNotifications from '@src/components/roadmap/RoadmapWithNotific
 import PagesDisplayManager from '@components/roadmap/pages-roadmap/PagesDisplayManager';
 import { RoadmapTypeApi } from '../../types/explore_old/card';
 import RequestManager from '../../components/misc/RequestManager';
-import FullScreenTabManager from '@src/components/roadmap/pages-roadmap/FullScreenTabManager';
+import FullScreenPopupManager from '../../components/roadmap/pages-roadmap/FullScreenPopupManager';
 
 const { roadmapPath } = Astro.params;
 // here we should get the roadmap-roadmap-data for the actual roadmap_static
 const isCreate = roadmapPath === 'create';
 // parse number at the end of the id
-const id = roadmapPath.match(/\d+/g)?.[0];
+const id = roadmapPath.match(/(\d+)(?!.*\d)/)?.[0];
+
+
 
 let roadmap: RoadmapTypeApi;
 let title = 'Create a roadmap';
@@ -19,9 +21,10 @@ let url = `https://navigolearn.com/roadmap/create`;
 let type = 'article';
 
 // if id is not a number, redirect to explore
-// if (!!id && !!isCreate) {
-//   return Astro.redirect('/explore');
-// }
+if (!!id && !!isCreate) {
+    throw new Error('Invalid roadmap path no id no create wtf ur doin mate?');
+}
+
 
 if (typeof id === 'string') {
   // fetches roadmapData from api
@@ -29,11 +32,12 @@ if (typeof id === 'string') {
   const requestResponseJson = await response.json();
   roadmap = requestResponseJson.data;
   // decodes the roadmap-roadmap-data field from base64 to json
+    if (!roadmap) {
+        throw new Error('Roadmap not found');
+    }
   roadmap.data = JSON.parse(atob(roadmap.data));
+  roadmap.miscData= JSON.parse(atob(roadmap.miscData));
 
-  if (!roadmap) {
-    return Astro.redirect('/explore');
-  }
 
   const formattedName =
     (roadmap?.name || 'untitled')
@@ -66,7 +70,7 @@ if (typeof id === 'string') {
   excludeFooter={true}
 >
   <RequestManager client:load />
-  <FullScreenTabManager client:load isCreate={isCreate} />
+  <FullScreenPopupManager client:load isCreate={isCreate} />
 
   <div class='h-[calc(100vh-64px)] md:mt-0 relative w-full'>
     <!-- offset from nav reduced from total screen size -->

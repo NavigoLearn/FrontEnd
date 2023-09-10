@@ -1,11 +1,10 @@
 import React from 'react';
+import { useStore } from '@nanostores/react';
+import storeRoadmapAbout from '@store/roadmap-refactor/roadmap-data/misc-data/roadmap-about';
 
 const Title = () => {
-  return (
-    <div className='text-xl font-semibold text-darkBlue '>
-      AI and Data Science Roadmap
-    </div>
-  );
+  const { name } = useStore(storeRoadmapAbout);
+  return <div className='text-lg font-semibold text-darkBlue '>{name}</div>;
 };
 
 export default Title;

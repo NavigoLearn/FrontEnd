@@ -2,17 +2,21 @@ import {
   buttonsCreateAnonymus,
   buttonsCreateLogged,
 } from '@components/roadmap/navbar-roadmap/parts/buttons/buttons-arrays/buttons-create';
-import { buttonsPublicEdit } from '@components/roadmap/navbar-roadmap/parts/buttons/buttons-arrays/buttons-edit';
-import { buttonsDraft } from '@components/roadmap/navbar-roadmap/parts/buttons/buttons-arrays/buttons-draft';
 import {
+  buttonsDraft,
+  buttonsDraftOwnerView,
+} from '@components/roadmap/navbar-roadmap/parts/buttons/buttons-arrays/buttons-draft';
+import {
+  getIsEditing,
   getRoadmapState,
   getRoadmapStateStore,
 } from '@store/roadmap-refactor/roadmap-data/misc-data/roadmap_state';
 import {
   buttonsPublicAnonymus,
-  buttonsPublicOwner,
-  buttonsPublicVisitor,
-} from '@components/roadmap/navbar-roadmap/parts/buttons/buttons-arrays/buttons-view';
+  buttonsPublicOwnerView,
+  buttonsPublicLoggedVisitor,
+  buttonsPublicOwnerEdit,
+} from '@components/roadmap/navbar-roadmap/parts/buttons/buttons-arrays/buttons-public';
 import { getUserStatus } from '@store/user/user-status';
 import {
   getRoadmapAbout,
@@ -27,19 +31,16 @@ export type INavbarRoadmapButton = {
 function getPublicButtons(isLogged, isOwner): INavbarRoadmapButton[] {
   const state = getRoadmapState();
   const buttons: INavbarRoadmapButton[] = [];
-  console.log('state', state);
-  console.log('isLogged', isLogged);
-  console.log('isOwner', isOwner);
 
   if (!isLogged) {
     buttons.push(...buttonsPublicAnonymus);
   } else if (isLogged && !isOwner) {
-    buttons.push(...buttonsPublicVisitor);
+    buttons.push(...buttonsPublicLoggedVisitor);
   } else if (isLogged && isOwner) {
     if (state === 'edit') {
-      buttons.push(...buttonsPublicEdit);
+      buttons.push(...buttonsPublicOwnerEdit);
     } else if (state === 'view') {
-      buttons.push(...buttonsPublicOwner);
+      buttons.push(...buttonsPublicOwnerView);
     }
   }
   return buttons;
@@ -49,8 +50,14 @@ function getDraftButtons(
   isLogged: boolean,
   isOwner: boolean
 ): INavbarRoadmapButton[] {
+  const editing = getIsEditing();
   const buttons: INavbarRoadmapButton[] = [];
-  buttons.push(...buttonsDraft);
+
+  if (editing) {
+    buttons.push(...buttonsDraft);
+  } else {
+    buttons.push(...buttonsDraftOwnerView);
+  }
   return buttons;
 }
 
@@ -73,9 +80,9 @@ function getViewButtons(
 ): INavbarRoadmapButton[] {
   const buttons: INavbarRoadmapButton[] = [];
   if (isLogged && isOwner) {
-    buttons.push(...buttonsPublicOwner);
+    buttons.push(...buttonsPublicOwnerView);
   } else if (isLogged && !isOwner) {
-    buttons.push(...buttonsPublicVisitor);
+    buttons.push(...buttonsPublicLoggedVisitor);
   } else if (!isLogged) {
     buttons.push(...buttonsCreateAnonymus);
   } else {
@@ -113,10 +120,8 @@ export function getNavbarRoadmapButtons(): INavbarRoadmapButton[] {
   const { isLogged, userId } = getUserStatus();
   const { ownerId } = getRoadmapAbout();
 
-  console.log('isLogged', ownerId, userId);
   const isOwner = userId === ownerId;
   const roadmapType = getRoadmapType();
-  console.log('roadmapType', roadmapType);
 
   if (roadmapType === 'create') {
     buttons.push(...getCreateButtons(isLogged, isOwner));

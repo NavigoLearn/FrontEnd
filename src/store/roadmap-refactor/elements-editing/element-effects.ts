@@ -12,6 +12,7 @@ import {
   effectOpacity30,
   effectOpacity60,
 } from '@src/to-be-organized/nodeview/effects';
+import { getHideProgress } from '@store/roadmap-refactor/roadmap-data/misc-data/roadmap_state';
 
 export type IEffectsStatuses =
   | 'mark-as-progress'
@@ -60,22 +61,36 @@ export const dynamicEffectsMapper: HashMapWithKeys<
   },
   'mark-as-completed': {
     effectName: 'mark-as-completed',
-    effectApply: (divRef) => effectOpacity30(divRef),
+    effectApply: (divRef) => {
+      if (getHideProgress()) return;
+      effectOpacity30(divRef);
+    },
     effectLayer: 10,
   },
   'mark-as-progress': {
     effectName: 'mark-as-progress',
-    effectApply: (divRef) => effectOpacity100(divRef),
+    effectApply: (divRef) => {
+      if (getHideProgress()) return;
+      effectOpacity100(divRef);
+    },
     effectLayer: 10,
   },
   'mark-as-skipped': {
     effectName: 'mark-as-skipped',
-    effectApply: (divRef) => effectOpacity60(divRef),
+    effectApply: (divRef) => {
+      if (getHideProgress()) return;
+      effectOpacity60(divRef);
+    },
+
     effectLayer: 10,
   },
   'mark-as-status': {
     effectName: 'mark-as-status',
-    effectApply: (divRef) => effectOpacity100(divRef),
+    effectApply: (divRef) => {
+      if (getHideProgress()) return;
+      effectOpacity100(divRef);
+    },
+
     effectLayer: 10,
   },
 };

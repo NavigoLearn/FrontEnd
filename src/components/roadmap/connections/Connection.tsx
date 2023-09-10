@@ -7,6 +7,7 @@ import { getConnectionPositionCoords } from '@src/typescript/roadmap_ref/node/co
 import { useTriggerRerender } from '@hooks/useTriggerRerender';
 import { addConnectionTrigger } from '@store/roadmap-refactor/render/rerender-trigger-connections';
 import { setSelectedConnectionForConnectionId } from '@components/roadmap/connections/connection-editing/connection-store';
+import { getIsEditing } from '@store/roadmap-refactor/roadmap-data/misc-data/roadmap_state';
 
 const Connection = ({ connId }: { connId: string }) => {
   const rerender = useTriggerRerender();
@@ -67,6 +68,7 @@ const Connection = ({ connId }: { connId: string }) => {
         fill='transparent'
         pointerEvents='visible'
         onClick={(e) => {
+          if (!getIsEditing()) return;
           setSelectedConnectionForConnectionId(connId);
           e.stopPropagation();
         }}

@@ -6,7 +6,11 @@ export type IDisplayPageTypeFullScreen =
   | 'closed'
   | 'get-started'
   | 'reset-roadmap'
-  | 'setup-screen';
+  | 'setup-screen'
+  | 'convert-to-draft'
+  | 'delete-roadmap'
+  | 'save-changes'
+  | 'cancel-changes';
 
 const displayManagerStoreFullScreen = atom({
   type: 'closed',
