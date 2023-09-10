@@ -12,6 +12,6 @@ const { id } = Astro.params;
   }}
 >
   <div>
-    <Profile client:load />
+    <Profile id={id} client:load />
   </div>
 </Base>
