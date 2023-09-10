@@ -6,7 +6,7 @@ export type CardRoadmapTypeApi = {
   readonly description: string;
   readonly topic: ISortBy;
   readonly isPublic: boolean;
-  readonly isDraft: boolean;
+  readonly isDraft: 1 | 0;
   readonly createdAt: Date;
   readonly updatedAt: Date;
 

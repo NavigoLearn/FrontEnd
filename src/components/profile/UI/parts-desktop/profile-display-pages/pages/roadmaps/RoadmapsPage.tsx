@@ -43,9 +43,16 @@ const RoadmapsPage = () => {
         </button>
       </div>
       <div className='grid-cols-2 grid gap-5 w-[660px] mt-7'>
-        {ProfileRoadmaps.map((card: CardRoadmapTypeApi, i) => {
-          // eslint-disable-next-line react/no-array-index-key
-          return <Card data={card} key={i} />;
+        {ProfileRoadmaps.map((card: CardRoadmapTypeApi) => {
+          console.log(card.isDraft);
+          if (card.isDraft === 1 && drafts === true) {
+            return <Card data={card} key={card.id} />;
+          }
+          if (card.isDraft === 0 && drafts === false) {
+            return <Card data={card} key={card.id} />;
+          }
+          return null;
+          // return <Card data={card} key={card.id} />;
         })}
       </div>
     </div>

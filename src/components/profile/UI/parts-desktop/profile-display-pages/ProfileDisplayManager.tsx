@@ -2,12 +2,14 @@ import React from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import {
   getProfilePage,
+  getProfilePageEditing,
   storeProfilePages,
 } from '@components/profile/stores/store-profile-pages';
-import ProfilePage from '@components/profile/UI/parts-desktop/profile-display-pages/pages/profile/ProfilePage';
 import ActivityPage from '@components/profile/UI/parts-desktop/profile-display-pages/pages/activity/ActivityPage';
 import RoadmapsPage from '@components/profile/UI/parts-desktop/profile-display-pages/pages/roadmaps/RoadmapsPage';
 import { useStore } from '@nanostores/react';
+import ProfilePageView from './pages/profile/ProfilePageView';
+import ProfilePageManager from './pages/profile/ProfilePageManager';
 
 type IAnimationWrapperProps = {
   id: string;
@@ -23,13 +25,14 @@ const AnimationWrapper = ({ id, children }: IAnimationWrapperProps) => {
 const ProfileDisplayManager = () => {
   useStore(storeProfilePages);
   const page = getProfilePage();
+  const isEditing = getProfilePageEditing();
 
   return (
     <div className=' w-[750px] monitor:w-[900px] '>
       <AnimatePresence>
         {page === 'profile' && (
           <AnimationWrapper id={page}>
-            <ProfilePage />
+            <ProfilePageManager />
           </AnimationWrapper>
         )}
         {page === 'roadmaps' && (

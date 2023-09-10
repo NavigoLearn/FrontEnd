@@ -9,19 +9,37 @@ export const profilePagesArray: IProfilePages[] = [
 ];
 export const storeProfilePages = atom({
   currentPage: 'profile',
+  isEditing: false,
 } as {
   currentPage: IProfilePages;
+  isEditing: boolean;
 });
 
 export function setProfilePage(page: IProfilePages) {
-  storeProfilePages.set({ currentPage: page });
+  const originalStore = storeProfilePages.get();
+  storeProfilePages.set({
+    ...originalStore,
+    currentPage: page,
+  });
 }
 
 export function getProfilePage() {
   return storeProfilePages.get().currentPage;
 }
 
-const setProfileInfoId = (id: number) => {
+export function setProfilePageEditing(isEditing: boolean) {
+  const originalStore = storeProfilePages.get();
+  storeProfilePages.set({
+    ...originalStore,
+    isEditing,
+  });
+}
+
+export function getProfilePageEditing() {
+  return storeProfilePages.get().isEditing;
+}
+
+export const setProfileInfoId = (id: number) => {
   profileDataStore.set({
     ...profileDataStore.get(),
     data: {

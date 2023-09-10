@@ -4,14 +4,17 @@ import {
   profileDataStore,
   fetchAndSetProfileData,
 } from '../stores/store-profile-data';
-import { setProfilePage, storeProfilePages } from '../stores/store-profile-pages';
+import {
+  setProfilePage,
+  storeProfilePages,
+} from '../stores/store-profile-pages';
 
 const useProfileData = () => {
-  const { currentPage } = useStore(storeProfilePages);
+  // const { currentPage } = useStore(storeProfilePages);
 
   useEffect(() => {
     fetchAndSetProfileData();
-  }, [currentPage]);
+  }, []);
 };
 
 export default useProfileData;
