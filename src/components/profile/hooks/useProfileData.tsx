@@ -9,11 +9,11 @@ import {
   storeProfilePages,
 } from '../stores/store-profile-pages';
 
-const useProfileData = () => {
+const useProfileData = (id) => {
   // const { currentPage } = useStore(storeProfilePages);
 
   useEffect(() => {
-    fetchAndSetProfileData();
+    fetchAndSetProfileData(id);
   }, []);
 };
 
