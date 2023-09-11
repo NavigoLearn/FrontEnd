@@ -32,7 +32,7 @@ const ProfilePageView = () => {
           <ProfilePicture src={getProfileInfoAvatar()} />
         )}
       </div>
-      <section className='flex flex-col gap-3 mt-16'>
+      <section className='flex flex-col gap-5 mt-16'>
         <div>
           <div className='text-secondary font-roboto-text'>Name</div>
           <div>
@@ -47,7 +47,7 @@ const ProfilePageView = () => {
             )}
           </div>
         </div>
-        <div>
+        <div className='break-words w-96'>
           <div className='text-secondary font-roboto-text'>Github</div>
           <div>
             {getProfileDataLoading() ? (
@@ -55,13 +55,18 @@ const ProfilePageView = () => {
                 loading...
               </div>
             ) : (
-              <div className='text-lg font-roboto-text text-darkBlue'>
+              <a
+                href={getProfileInfoGithubUrl()}
+                className='text-lg font-roboto-text text-darkBlue'
+                target='_blank'
+                rel='noopener noreferrer'
+              >
                 {getProfileInfoGithubUrl() || 'No github yet'}
-              </div>
+              </a>
             )}
           </div>
         </div>
-        <div>
+        <div className='break-words w-96'>
           <div className='text-secondary font-roboto-text'>Website</div>
           <div>
             {getProfileDataLoading() ? (
@@ -69,9 +74,14 @@ const ProfilePageView = () => {
                 loading...
               </div>
             ) : (
-              <div className='text-lg font-roboto-text text-darkBlue'>
+              <a
+                href={getProfileInfoWebsiteUrl()}
+                className='text-lg font-roboto-text text-darkBlue'
+                target='_blank'
+                rel='noopener noreferrer'
+              >
                 {getProfileInfoWebsiteUrl() || 'No website yet'}
-              </div>
+              </a>
             )}
           </div>
         </div>
@@ -83,7 +93,7 @@ const ProfilePageView = () => {
                 loading...
               </div>
             ) : (
-              <div className='text-lg font-roboto-text text-darkBlue'>
+              <div className='text-lg font-roboto-text text-darkBlue break-words whitespace-pre-line w-96'>
                 {getProfileInfoBio() || 'No bio yet'}
               </div>
             )}

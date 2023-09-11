@@ -57,7 +57,7 @@ import {
   setRoadmapAboutOwnerId,
   setRoadmapId,
 } from '@store/roadmap-refactor/roadmap-data/misc-data/roadmap-about';
-import { checkIfSessionExists } from '@src/typescript/roadmap_ref/history/restoreSession';
+import { checkIfSessionExists } from '@src/typescript/roadmap_ref/caching/restoreSession';
 import { setDisplayPageTypeFullScreen } from '@store/roadmap-refactor/display/display-manager-full-screen';
 import { setRoadmapViewFromAPI } from '@store/roadmap-refactor/roadmap-data/roadmap-view';
 import { fetchUserData } from '@src/api-wrapper/user/user';
