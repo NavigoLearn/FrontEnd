@@ -8,8 +8,8 @@ import useProfileData from '../hooks/useProfileData';
 import { profileDataStore } from '../stores/store-profile-data';
 import { getStoreAboutTemp } from '@src/components/roadmap/to-be-organized/about/stores/store-about-temp';
 
-const ProfileDesktop = () => {
-  useProfileData();
+const ProfileDesktop = (id) => {
+  useProfileData(id);
 
   return (
     <div className='w-full flex justify-center mt-20 '>
