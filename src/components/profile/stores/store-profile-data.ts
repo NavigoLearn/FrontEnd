@@ -15,7 +15,7 @@ import { DefaultProfileAdapter } from '../profile/adapter';
 export const profileDataStore = atom({
   loading: true,
   data: {} as UserData,
-  ProfileRoadmaps: {} as CardRoadmapTypeApi[],
+  profileRoadmaps: {} as CardRoadmapTypeApi[],
   ownProfile: false,
 });
 
@@ -75,7 +75,7 @@ export async function fetchAndSetProfileData(id) {
   profileDataStore.set({
     ...profileDataStore.get(),
     data: adaptedData.data,
-    ProfileRoadmaps: adaptedRoadmaps,
+    profileRoadmaps: adaptedRoadmaps,
   });
 
   setProfileDataLoaded();
