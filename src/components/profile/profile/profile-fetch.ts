@@ -29,3 +29,27 @@ export const fetchProfileData = errorHandlerDecorator(
     return dataJson;
   }
 );
+
+export const fetchPostProfileData = errorHandlerDecorator(
+  async (
+    name: string,
+    githubUrl: string,
+    websiteUrl: string,
+    bio: string
+  ): Promise<any> => {
+    // fetches from the api the user's profile data
+    const fetchRoute = `/api/users`;
+    const response = await fetch(fetchRoute, {
+      method: 'POST',
+      body: JSON.stringify({
+        name,
+        githubUrl,
+        websiteUrl,
+        bio,
+      }),
+      credentials: 'include',
+    });
+    const dataJson: any = await response.json();
+    return dataJson;
+  }
+);
