@@ -9,6 +9,7 @@ type ICardProps = {
 
 // Usage
 const Card = ({ data }: ICardProps) => {
+  console.log(data);
   return (
     <div
       className={`w-80 h-48 border-2 border-black hover:border-primary hover:border-opacity-30 border-opacity-10 rounded-md relative${tailwindTransitionClass}`}

@@ -9,7 +9,7 @@ export type generalInfo = {
 
 export type ProfileInfo = {
   readonly id: number;
-  readonly avatar: string | null;
+  avatar: string | null;
   readonly quote: string | null;
   readonly name: string;
   readonly githubUrl: string | null;

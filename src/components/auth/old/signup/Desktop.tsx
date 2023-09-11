@@ -5,7 +5,7 @@ import {
   handleGoogleLogin,
   handleGitHubLogin,
 } from '@components/auth/old/socialAuth';
-import { postSignUpData } from '../../../../api-wrapper/user/user';
+import { postSignUpData } from '../../../../api-wrapper/user/routes-user';
 
 // Aici trebuie rescrise testele pentru ca name field a fost sters din register
 const DesktopSignUp = () => {

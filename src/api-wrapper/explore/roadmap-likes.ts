@@ -1,6 +1,6 @@
 import { errorHandlerDecorator } from '@src/typescript/error-handler';
 
-export const likeCardFetch = errorHandlerDecorator(
+export const fetchLikeCard = errorHandlerDecorator(
   async (id: number): Promise<boolean> => {
     const fetchSource = `/api/roadmaps/${id}/like`;
     const response = await fetch(fetchSource, {
@@ -8,10 +8,10 @@ export const likeCardFetch = errorHandlerDecorator(
       credentials: 'include',
     });
     return response.status === 200;
-  },
+  }
 );
 
-export const dislikeCardFetch = errorHandlerDecorator(
+export const fetchDislikeCard = errorHandlerDecorator(
   async (id: number): Promise<boolean> => {
     const fetchSource = `/api/roadmaps/${id}/dislike`;
     const response = await fetch(fetchSource, {
@@ -19,10 +19,10 @@ export const dislikeCardFetch = errorHandlerDecorator(
       credentials: 'include',
     });
     return response.status === 200;
-  },
+  }
 );
 
-export const removeRatingCardFetch = errorHandlerDecorator(
+export const fetchRemoveLike = errorHandlerDecorator(
   async (id: number): Promise<boolean> => {
     const fetchSource = `/api/roadmaps/${id}/like`;
     const res = await fetch(fetchSource, {
@@ -30,5 +30,5 @@ export const removeRatingCardFetch = errorHandlerDecorator(
       credentials: 'include',
     });
     return res.status === 200;
-  },
+  }
 );

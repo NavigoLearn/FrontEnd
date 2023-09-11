@@ -4,6 +4,7 @@ import {
   RoadmapTypeApiExplore,
 } from '@src/types/explore/card';
 import { getLoggedUserId } from '@src/store/user/logged-user';
+import { DEFAULT_OWNER_AVATAR } from '@store/roadmap-refactor/roadmap-data/misc-data/roadmap-owner-data';
 import {
   fetchProfileData,
   fetchRoadmapCardsProfile,
@@ -49,6 +50,11 @@ export function getProfileDataLoading() {
 
 const adapter = new DefaultProfileAdapter();
 
+function checkProfileForDefaults(adaptedData: ProfileDataReponse) {
+  if (!adaptedData.data.profileInfo.avatar) {
+    adaptedData.data.profileInfo.avatar = DEFAULT_OWNER_AVATAR;
+  }
+}
 export async function fetchAndSetProfileData(id) {
   setProfileDataLoading();
   const urlId = id.id.id === null ? '1' : id.id.id;
@@ -63,6 +69,8 @@ export async function fetchAndSetProfileData(id) {
 
   const adaptedData = adapter.adapt(rawData);
   const adaptedRoadmaps = adapter.adaptRoadmaps(rawProfileRoadmaps);
+
+  checkProfileForDefaults(adaptedData);
 
   profileDataStore.set({
     ...profileDataStore.get(),

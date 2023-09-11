@@ -18,6 +18,7 @@ export type IRoadmapApi = {
   createdAt: string;
   updatedAt: string;
   isPublic: boolean;
+  isLiked: -1 | 0 | 1;
   isDraft: boolean;
   data: string;
   miscData: string;
