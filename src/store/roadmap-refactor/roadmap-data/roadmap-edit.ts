@@ -2,7 +2,7 @@ import { atom } from 'nanostores';
 import { IRoadmap } from '@type/roadmap/stores/IRoadmap';
 import { roadmapSelector } from '@store/roadmap-refactor/roadmap-data/roadmap-selector';
 import { emptyRoadmap } from '@store/roadmap-refactor/roadmap-data/params/base-roadmap';
-import { RoadmapTypeApi } from '@type/explore_old/card';
+import { IRoadmapApi } from '@type/explore_old/card';
 import { isRoadmapType } from '@type/roadmap/old/typecheckers';
 import { setRoadmapViewStore } from '@store/roadmap-refactor/roadmap-data/roadmap-view';
 
@@ -17,7 +17,7 @@ export const getRoadmapEdit = () => {
   return roadmapEdit.get();
 };
 
-export function setRoadmapEditFromAPI(roadmapData: RoadmapTypeApi) {
+export function setRoadmapEditFromAPI(roadmapData: IRoadmapApi) {
   if (isRoadmapType(roadmapData.data)) {
     // @ts-ignore
     const roadmap: IRoadmap = roadmapData.data;

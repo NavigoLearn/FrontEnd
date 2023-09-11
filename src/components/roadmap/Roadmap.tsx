@@ -36,7 +36,7 @@ import renderConnectionsStore from '@store/roadmap-refactor/render/rendered-conn
 import { closeEditorProtocol } from '@src/to-be-organized/nodeview/actions-manager';
 import SnappingLinesRenderer from '@components/roadmap/to-be-organized/SnappingLinesRenderer';
 import { addKeyListeners } from '@src/typescript/roadmap_ref/key-shortcuts';
-import { RoadmapTypeApi } from '@type/explore_old/card';
+import { IRoadmapApi } from '@type/explore_old/card';
 import {
   enableRoadmapInteractions,
   setRoadmapDisableDragAndZoom,
@@ -60,6 +60,15 @@ import {
 import { checkIfSessionExists } from '@src/typescript/roadmap_ref/history/restoreSession';
 import { setDisplayPageTypeFullScreen } from '@store/roadmap-refactor/display/display-manager-full-screen';
 import { setRoadmapViewFromAPI } from '@store/roadmap-refactor/roadmap-data/roadmap-view';
+import { fetchUserData } from '@src/api-wrapper/user/user';
+import {
+  adapterUserDataToRoadmapOwnerData,
+  setRoadmapOwnerData,
+} from '@store/roadmap-refactor/roadmap-data/misc-data/roadmap-owner-data';
+import {
+  adapterRoadmapToStatistics,
+  setRoadmapStatistics,
+} from '@store/roadmap-refactor/roadmap-data/misc-data/roadmap-statistics';
 
 export function initialRoadmapProtocolAfterLoad() {
   setRoadmapIsLoaded();
@@ -71,7 +80,7 @@ export function initialRoadmapProtocolAfterLoad() {
 }
 
 export function checkAndSetInitialRoadmapType(
-  roadmap: RoadmapTypeApi,
+  roadmap: IRoadmapApi,
   pageId: string
 ) {
   const isCreate = pageId === 'create'; // parameter to determine if we are in the create mode
@@ -126,7 +135,7 @@ function initializeChunkRerendering() {
   });
 }
 
-function initializeRoadmapAboutData(roadmap?: RoadmapTypeApi) {
+function initializeRoadmapAboutData(roadmap?: IRoadmapApi) {
   const type = getRoadmapType();
   if (type === 'create') {
     setRoadmapAboutName(DEFAULT_NAME);
@@ -160,7 +169,7 @@ type IHandleRoadmapDataStatus =
   | 'error';
 
 function handleRoadmapRenderingData(
-  roadmap?: RoadmapTypeApi
+  roadmap?: IRoadmapApi
 ): IHandleRoadmapDataStatus {
   const type = getRoadmapType();
   console.log('type', type, roadmap);
@@ -200,12 +209,27 @@ function handleRoadmapAfterLoadInitialization(
   }
 }
 
+async function handleRoadmapUserData(roadmap?: IRoadmapApi) {
+  if (!roadmap) return;
+
+  const ownerId = roadmap.userId;
+  const ownerResponse = await fetchUserData(ownerId);
+  const { data: userData } = ownerResponse;
+  setRoadmapOwnerData(adapterUserDataToRoadmapOwnerData(userData));
+}
+
+function handleSetDifferentRoadmapStores(roadmap: IRoadmapApi) {
+  if (!roadmap) return;
+  handleRoadmapUserData(roadmap);
+  setRoadmapStatistics(adapterRoadmapToStatistics(roadmap));
+}
+
 const Roadmap = ({
   pageId,
   roadmap,
 }: {
   pageId: string;
-  roadmap: RoadmapTypeApi;
+  roadmap: IRoadmapApi;
 }) => {
   useScrollHidden();
   const { roadmapState } = useStore(roadmapStateStore);
@@ -224,6 +248,8 @@ const Roadmap = ({
     checkAndSetInitialRoadmapType(roadmap, pageId);
     initializeRoadmapTypeData();
     initializeRoadmapAboutData(roadmap); // all the misc data about the roadmap like title, desc, id etc
+    handleSetDifferentRoadmapStores(roadmap);
+
     const dataRetrievalStatus = handleRoadmapRenderingData(roadmap); // .data from api
     handleRoadmapAfterLoadInitialization(dataRetrievalStatus);
   }, []);

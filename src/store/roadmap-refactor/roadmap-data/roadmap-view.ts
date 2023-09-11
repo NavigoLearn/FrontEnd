@@ -1,7 +1,7 @@
 import { atom } from 'nanostores';
 import { IRoadmap } from '@type/roadmap/stores/IRoadmap';
 import { setRoadmapSelector } from '@store/roadmap-refactor/roadmap-data/roadmap-selector';
-import { RoadmapTypeApi } from '@type/explore_old/card';
+import { IRoadmapApi } from '@type/explore_old/card';
 import { isRoadmapType } from '@type/roadmap/old/typecheckers';
 
 export const roadmapView = atom({
@@ -16,7 +16,7 @@ export function setRoadmapViewStore(roadmap: IRoadmap) {
   roadmapView.set({ ...roadmap });
 }
 
-export function setRoadmapViewFromAPI(roadmapData: RoadmapTypeApi) {
+export function setRoadmapViewFromAPI(roadmapData: IRoadmapApi) {
   if (isRoadmapType(roadmapData.data)) {
     // @ts-ignore
     const roadmap: IRoadmap = roadmapData.data;

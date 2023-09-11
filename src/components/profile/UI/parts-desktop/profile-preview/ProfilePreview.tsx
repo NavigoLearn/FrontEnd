@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
 import HumanSvg from '@components/profile/UI/parts-desktop/profile-preview/components/HumanSvg';
-import useProfileData from '@src/components/profile/hooks/useProfileData';
-import { useStore, useStore } from '@nanostores/react';
+import { useStore } from '@nanostores/react';
 import {
   profileDataStore,
   getProfileDataLoading,
@@ -11,7 +10,6 @@ import {
   getProfileInfoFollowerCount,
   getProfileInfoFollowingCount,
   getProfileInfoName,
-  setProfilePage,
 } from '@src/components/profile/stores/store-profile-pages';
 
 const ProfilePreview = () => {

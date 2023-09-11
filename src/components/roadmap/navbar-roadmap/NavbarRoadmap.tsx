@@ -4,9 +4,15 @@ import Title from '@components/roadmap/navbar-roadmap/parts/Title';
 import ButtonsManager from '@components/roadmap/navbar-roadmap/parts/ButtonsManager';
 import { useIsLoaded } from '@hooks/useIsLoaded';
 import RoadmapStats from '@components/roadmap/navbar-roadmap/parts/RoadmapStats';
+import { useStore } from '@nanostores/react';
+import roadmapAbout, {
+  getRoadmapType,
+} from '@store/roadmap-refactor/roadmap-data/misc-data/roadmap-about';
+import storeRoadmapAbout from '@store/roadmap-refactor/roadmap-data/misc-data/roadmap-about';
 
 const NavbarRoadmap = () => {
   const loaded = useIsLoaded();
+  const { roadmapType } = useStore(storeRoadmapAbout);
 
   return (
     <div className='hidden md:block sticky top-0 z-[20]'>
@@ -23,7 +29,7 @@ const NavbarRoadmap = () => {
             </div>
             <div className='w-full h-full absolute flex justify-end pointer-events-none items-center'>
               <div className='pointer-events-auto h-full'>
-                <RoadmapStats />
+                {roadmapType === 'public' && <RoadmapStats />}
               </div>
             </div>
           </>

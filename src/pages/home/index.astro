@@ -1,6 +1,6 @@
 ---
 import Base from '@layouts/Base.astro';
-import PageViewCollection from '../../components/home/PageViewCollection';
+import Home from "../../components/home/Home";
 ---
 
 <Base
@@ -8,6 +8,8 @@ import PageViewCollection from '../../components/home/PageViewCollection';
     title: 'Home',
   }}
 >
-  <PageViewCollection page='Home' client:load />
-  <div class='w-96 h-96 bg-amber-200 hover:bg-amber-600'></div>
+    <div>
+       <Home client:load />
+    </div>
+
 </Base>

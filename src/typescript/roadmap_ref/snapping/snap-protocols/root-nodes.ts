@@ -23,7 +23,10 @@ export function snapRootNodeProtocol(
     dragX,
     dragY
   );
-  const externalAnchors = getRenderedRootNodesExternalAnchorsPositions([draggedNodeId]);
+
+  const externalAnchors = getRenderedRootNodesExternalAnchorsPositions([
+    draggedNodeId,
+  ]);
   const snapPolynomials: ISnapPolynomialObject[] =
     generateSnapPolynomials(externalAnchors);
 

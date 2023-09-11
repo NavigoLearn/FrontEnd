@@ -8,11 +8,12 @@ export type CardType = {
   id: string;
 };
 
-export type RoadmapTypeApi = {
+export type IRoadmapApi = {
   id: string;
   userId: string;
   name: string;
-  likes: string;
+  likeCount: string;
+  viewCount: string;
   description: string;
   createdAt: string;
   updatedAt: string;
@@ -20,12 +21,6 @@ export type RoadmapTypeApi = {
   isDraft: boolean;
   data: string;
   miscData: string;
-};
-
-export type CardTypeApiResponse = {
-  type: 'roadmaps';
-  userId: string;
-  roadmaps: RoadmapTypeApiExplore[];
 };
 
 export type RoadmapTypeApiExplore = {
@@ -36,6 +31,12 @@ export type RoadmapTypeApiExplore = {
   isLiked: boolean;
   ownerName: string;
   ownerId: string;
+};
+
+export type CardTypeApiResponse = {
+  type: 'roadmaps';
+  userId: string;
+  roadmaps: RoadmapTypeApiExplore[];
 };
 
 export type CardTypeApiResponseExplore = {

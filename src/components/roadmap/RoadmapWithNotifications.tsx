@@ -1,6 +1,6 @@
 import React from 'react';
 import Roadmap from '@components/roadmap/Roadmap';
-import { RoadmapTypeApi } from '@src/types/explore_old/card';
+import { IRoadmapApi } from '@src/types/explore_old/card';
 import { NotificationProvider } from './to-be-organized/notifications/NotificationLogic';
 
 const RoadmapWithNotifications = ({
@@ -8,7 +8,7 @@ const RoadmapWithNotifications = ({
   roadmap,
 }: {
   pageId: string;
-  roadmap: RoadmapTypeApi;
+  roadmap: IRoadmapApi;
 }) => {
   return (
     <NotificationProvider>

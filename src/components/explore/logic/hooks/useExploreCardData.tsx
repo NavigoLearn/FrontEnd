@@ -5,7 +5,6 @@ import {
   fetchAndSetRoadmapCardsExplore,
 } from '@components/explore/stores/explore-cards-store';
 import { useEffect } from 'react';
-import { deepCopy } from '@src/typescript/roadmap_ref/utils';
 
 export function useExploreCardData() {
   const { params } = useStore(exploreQueryStore);

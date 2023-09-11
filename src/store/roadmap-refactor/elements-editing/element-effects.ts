@@ -81,7 +81,6 @@ export const dynamicEffectsMapper: HashMapWithKeys<
       if (getHideProgress()) return;
       effectOpacity60(divRef);
     },
-
     effectLayer: 10,
   },
   'mark-as-status': {
@@ -90,10 +89,10 @@ export const dynamicEffectsMapper: HashMapWithKeys<
       if (getHideProgress()) return;
       effectOpacity100(divRef);
     },
-
     effectLayer: 10,
   },
 };
+
 export const elementEffects = atom({} as HashMap<IEffectsPossible[]>);
 
 export function setElementEffects(id: string, effects: IEffectsPossible[]) {

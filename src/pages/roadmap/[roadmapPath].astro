@@ -2,9 +2,12 @@
 import RoadmapLayout from '@layouts/RoadmapLayout.astro';
 import RoadmapWithNotifications from '@src/components/roadmap/RoadmapWithNotifications';
 import PagesDisplayManager from '@components/roadmap/pages-roadmap/PagesDisplayManager';
-import { RoadmapTypeApi } from '../../types/explore_old/card';
+import { IRoadmapApi } from '../../types/explore_old/card';
 import RequestManager from '../../components/misc/RequestManager';
 import FullScreenPopupManager from '../../components/roadmap/pages-roadmap/FullScreenPopupManager';
+import {adapterRoadmapToStatistics} from "../../store/roadmap-refactor/roadmap-data/misc-data/roadmap-statistics";
+import {setRoadmapStatistics} from "../../store/roadmap-refactor/roadmap-data/misc-data/roadmap-statistics";
+import {adapterRoadmapToStatistics} from "../../store/roadmap-refactor/roadmap-data/misc-data/roadmap-statistics";
 
 const { roadmapPath } = Astro.params;
 // here we should get the roadmap-roadmap-data for the actual roadmap_static
@@ -14,7 +17,7 @@ const id = roadmapPath.match(/(\d+)(?!.*\d)/)?.[0];
 
 
 
-let roadmap: RoadmapTypeApi;
+let roadmap: IRoadmapApi;
 let title = 'Create a roadmap';
 let description = 'Create a roadmap to share your knowledge with the world!';
 let url = `https://navigolearn.com/roadmap/create`;
@@ -37,7 +40,6 @@ if (typeof id === 'string') {
     }
   roadmap.data = JSON.parse(atob(roadmap.data));
   roadmap.miscData= JSON.parse(atob(roadmap.miscData));
-
 
   const formattedName =
     (roadmap?.name || 'untitled')

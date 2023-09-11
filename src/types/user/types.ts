@@ -12,8 +12,8 @@ export type User = {
 };
 
 export type UserResponse = {
-  userId: string;
-  profilePictureUrl: string;
+  id: string;
+  avatar: string;
   name: string;
   followerCount: string;
   followingCount: string;
