@@ -29,7 +29,7 @@ const Home = () => {
     // Adjust damping and stiffness based on the distance
     const maxDistance = 10; // Adjust this value as needed
     const damping = 5 + 10 * (distance / maxDistance); // Increase damping as distance increases
-    const stiffness = 300 + 1000 * (distance / maxDistance); // Increase stiffness as distance increases
+    const stiffness = 500 + 1000 * (distance / maxDistance); // Increase stiffness as distance increases
 
     return { damping, stiffness };
   };
@@ -85,7 +85,7 @@ const Home = () => {
           y: state.y,
         }}
         transition={springConfig}
-        className='bg-purple-400 flex justify-center items-center'
+        className='bg-red-400 flex justify-center items-center'
         onClick={() => {
           setState((prev) => ({ ...prev, x: prev.x + 1 }));
         }}
@@ -104,7 +104,7 @@ const Home = () => {
           y: state.y,
         }}
         transition={springConfig}
-        className='bg-gray-400 flex justify-center items-center'
+        className='bg-red-400 flex justify-center items-center'
         onClick={() => {
           setState((prev) => ({ ...prev, x: prev.x + 1 }));
         }}
@@ -123,7 +123,7 @@ const Home = () => {
           y: state.y,
         }}
         transition={springConfig}
-        className='bg-blue-400 flex justify-center items-center'
+        className='bg-red-400 flex justify-center items-center'
         onClick={() => {
           setState((prev) => ({ ...prev, x: prev.x + 1 }));
         }}
@@ -142,7 +142,7 @@ const Home = () => {
           y: state.y,
         }}
         transition={springConfig}
-        className='bg-yellow-400 flex justify-center items-center'
+        className='bg-red-400 flex justify-center items-center'
         onClick={() => {
           setState((prev) => ({ ...prev, x: prev.x + 1 }));
         }}
@@ -161,26 +161,7 @@ const Home = () => {
           y: state.y,
         }}
         transition={springConfig}
-        className='bg-green-400 flex justify-center items-center'
-        onClick={() => {
-          setState((prev) => ({ ...prev, x: prev.x + 1 }));
-        }}
-      />
-      <motion.div
-        initial={{ x: 0, y: 0 }}
-        style={{
-          width: '4rem',
-          height: '4rem',
-          x: xMotionValue,
-          y: yMotionValue,
-        }}
-        ref={divRef}
-        animate={{
-          x: state.x,
-          y: state.y,
-        }}
-        transition={springConfig}
-        className='bg-pink-400 flex justify-center items-center'
+        className='bg-red-400 flex justify-center items-center'
         onClick={() => {
           setState((prev) => ({ ...prev, x: prev.x + 1 }));
         }}
