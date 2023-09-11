@@ -57,10 +57,14 @@ import {
   setRoadmapAboutOwnerId,
   setRoadmapId,
 } from '@store/roadmap-refactor/roadmap-data/misc-data/roadmap-about';
-import { checkIfSessionExists } from '@src/typescript/roadmap_ref/caching/restoreSession';
+import {
+  saveSession,
+  restoreSession,
+  checkIfSessionExists,
+} from '@src/typescript/roadmap_ref/caching/restoreSession';
 import { setDisplayPageTypeFullScreen } from '@store/roadmap-refactor/display/display-manager-full-screen';
 import { setRoadmapViewFromAPI } from '@store/roadmap-refactor/roadmap-data/roadmap-view';
-import { fetchUserData } from '@src/api-wrapper/user/user';
+import { fetchUserData } from '@src/api-wrapper/user/routes-user';
 import {
   adapterUserDataToRoadmapOwnerData,
   setRoadmapOwnerData,
@@ -154,10 +158,10 @@ function initializeRoadmapAboutData(roadmap?: IRoadmapApi) {
   }
 }
 
-function handleRoadmapSessionRestoration() {
-  return false;
+async function handleRoadmapSessionRestoration() {
   if (checkIfSessionExists()) {
-    console.log('restoring session');
+    await restoreSession();
+    return true;
   }
   return false;
 }
@@ -168,16 +172,13 @@ type IHandleRoadmapDataStatus =
   | 'retrieved-from-api'
   | 'error';
 
-function handleRoadmapRenderingData(
+async function handleRoadmapRenderingData(
   roadmap?: IRoadmapApi
-): IHandleRoadmapDataStatus {
+): Promise<IHandleRoadmapDataStatus> {
   const type = getRoadmapType();
-  console.log('type', type, roadmap);
   if (type === 'create') {
-    const restoredFromCache = handleRoadmapSessionRestoration();
-
+    const restoredFromCache = await handleRoadmapSessionRestoration();
     if (restoredFromCache) {
-      initialRoadmapProtocolAfterLoad();
       return 'restored';
     }
     // otherwise the initialization triggers from the setup screen
@@ -224,6 +225,13 @@ function handleSetDifferentRoadmapStores(roadmap: IRoadmapApi) {
   setRoadmapStatistics(adapterRoadmapToStatistics(roadmap));
 }
 
+function handleSessionSaving() {
+  setTimeout(() => {
+    saveSession();
+    handleSessionSaving();
+  }, 5000);
+}
+
 const Roadmap = ({
   pageId,
   roadmap,
@@ -250,8 +258,12 @@ const Roadmap = ({
     initializeRoadmapAboutData(roadmap); // all the misc data about the roadmap like title, desc, id etc
     handleSetDifferentRoadmapStores(roadmap);
 
-    const dataRetrievalStatus = handleRoadmapRenderingData(roadmap); // .data from api
-    handleRoadmapAfterLoadInitialization(dataRetrievalStatus);
+    handleRoadmapRenderingData(roadmap).then((dataRetrievalStatus) => {
+      handleRoadmapAfterLoadInitialization(dataRetrievalStatus);
+      if (getRoadmapType() === 'create') {
+        handleSessionSaving();
+      }
+    });
   }, []);
 
   useEffectAfterLoad(() => {

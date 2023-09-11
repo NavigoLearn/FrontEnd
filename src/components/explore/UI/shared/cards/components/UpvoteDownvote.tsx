@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import UpvoteSvg from '@components/explore/UI/shared/cards/components/UpvoteSvg';
 import {
-  dislikeCardFetch,
-  likeCardFetch,
-  removeRatingCardFetch,
+  fetchDislikeCard,
+  fetchLikeCard,
+  fetchRemoveLike,
 } from '@src/api-wrapper/explore/roadmap-likes';
 import { getUserStatus } from '@store/user/user-status';
 
@@ -48,7 +48,7 @@ const UpvoteDownvote = ({
 
     if (!upvote && !downvote) {
       setVotes(upvotes);
-      removeRatingCardFetch(roadmapId)
+      fetchRemoveLike(roadmapId)
         .catch((err) => {
           console.log(err);
           setFromVoteState();
@@ -61,7 +61,7 @@ const UpvoteDownvote = ({
         });
     } else if (upvote) {
       setVotes(upvotes + 1);
-      likeCardFetch(roadmapId)
+      fetchLikeCard(roadmapId)
         .catch((err) => {
           console.log(err);
           setFromVoteState();
@@ -74,7 +74,7 @@ const UpvoteDownvote = ({
         });
     } else if (downvote) {
       setVotes(upvotes - 1);
-      dislikeCardFetch(roadmapId)
+      fetchDislikeCard(roadmapId)
         .catch((err) => {
           console.log(err);
           setFromVoteState();
