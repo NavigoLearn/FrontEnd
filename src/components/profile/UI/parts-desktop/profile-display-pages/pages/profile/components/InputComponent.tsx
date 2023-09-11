@@ -5,13 +5,26 @@ type IInputComponentProps = {
   value: string;
   editable: boolean;
   callback: (value: string) => void;
+  hasLimit?: boolean;
 };
+
 const InputComponent = ({
   label,
   value,
   editable,
   callback,
+  hasLimit,
 }: IInputComponentProps) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    let inputValue = e.target.value;
+
+    if (hasLimit && inputValue.length > 30) {
+      inputValue = inputValue.slice(0, 30);
+    }
+
+    callback(inputValue);
+  };
+
   return (
     <div className='relative'>
       <input
@@ -22,15 +35,17 @@ const InputComponent = ({
         }`}
         value={value}
         placeholder={label}
-        onChange={(e) => {
-          callback(e.target.value);
-        }}
+        onChange={handleChange}
       />
       <span className='px-3  bg-white absolute -top-3 left-5 text-placeholder text-sm font-roboto-text'>
         {label}
       </span>
     </div>
   );
+};
+
+InputComponent.defaultProps = {
+  hasLimit: false,
 };
 
 export default InputComponent;

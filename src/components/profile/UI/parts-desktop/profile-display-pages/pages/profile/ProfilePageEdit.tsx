@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { getProfileDataLoading } from '@src/components/profile/stores/store-profile-data';
 import {
   getProfileInfoAvatar,
@@ -6,12 +6,32 @@ import {
   getProfileInfoGithubUrl,
   getProfileInfoName,
   getProfileInfoWebsiteUrl,
+  setProfileInfoBio,
+  setProfileInfoGithubUrl,
+  setProfileInfoName,
+  setProfileInfoWebsiteUrl,
+  setProfilePageEditing,
 } from '@src/components/profile/stores/store-profile-pages';
+import { afterEventLoop } from '@src/typescript/utils/misc';
+import { fetchPostProfileData } from '@src/components/profile/profile/profile-fetch';
 import ProfilePicture from './components/ProfilePicture';
 import InputComponent from './components/InputComponent';
 import TextareaComponent from './components/TextareaComponent';
 
 const ProfilePageEdit = () => {
+  const [name, setName] = useState(getProfileInfoName());
+  const [githubUrl, setGithubUrl] = useState(getProfileInfoGithubUrl());
+  const [websiteUrl, setWebsiteUrl] = useState(getProfileInfoWebsiteUrl());
+  const [bio, setBio] = useState(getProfileInfoBio());
+  const handleSave = () => {
+    setProfileInfoName(name);
+    setProfileInfoGithubUrl(githubUrl);
+    setProfileInfoWebsiteUrl(websiteUrl);
+    setProfileInfoBio(bio);
+    setProfilePageEditing(false);
+    fetchPostProfileData(name, githubUrl, websiteUrl, bio);
+  };
+
   return (
     <div>
       <div className='mt-7'>
@@ -26,31 +46,39 @@ const ProfilePageEdit = () => {
       <section className='flex flex-col gap-7 mt-16'>
         <InputComponent
           label='Name'
-          value={getProfileInfoName() || 'No name yet'}
+          value={name}
           editable
-          callback={() => null}
+          callback={(value) => setName(value)}
+          hasLimit
         />
         <InputComponent
           label='Github'
-          value={getProfileInfoGithubUrl() || 'No github yet'}
+          value={githubUrl}
           editable
-          callback={() => null}
+          callback={(value) => setGithubUrl(value)}
         />
         <InputComponent
           label='Website'
-          value={getProfileInfoWebsiteUrl() || 'No website yet'}
+          value={websiteUrl}
           editable
-          callback={() => null}
+          callback={(value) => setWebsiteUrl(value)}
         />
       </section>
       <section className='flex flex-col gap-3 mt-10'>
         <TextareaComponent
           label='Bio'
-          value={getProfileInfoBio() || 'No bio yet'}
+          value={bio}
           editable
-          callback={() => null}
+          callback={(value) => setBio(value)}
         />
       </section>
+      <button
+        className='text-lg font-roboto-text text-darkBlue ml-2 mt-1'
+        type='button'
+        onClick={() => handleSave()}
+      >
+        Save
+      </button>
     </div>
   );
 };

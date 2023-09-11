@@ -29,3 +29,32 @@ export const fetchProfileData = errorHandlerDecorator(
     return dataJson;
   }
 );
+
+export const fetchPostProfileData = errorHandlerDecorator(
+  async (
+    name: string,
+    githubUrl: string,
+    websiteUrl: string,
+    bio: string
+  ): Promise<any> => {
+    // fetches from the api the user's profile data
+    console.log(name);
+    console.log(githubUrl);
+    console.log(websiteUrl);
+    console.log(bio);
+    const fetchRoute = `/api/users`;
+    const response = await fetch(fetchRoute, {
+      method: 'POST',
+      body: JSON.stringify({
+        name,
+        githubUrl,
+        websiteUrl,
+        bio,
+      }),
+      credentials: 'include',
+    });
+    const dataJson: any = await response.json();
+    console.log(dataJson);
+    return dataJson;
+  }
+);
