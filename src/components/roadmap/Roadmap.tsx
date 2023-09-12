@@ -1,5 +1,7 @@
 import React from 'react';
-import { createAndSetRoadmapClassic } from '@src/typescript/roadmap_ref/roadmap-templates/classic';
+import {
+  createAndSetRoadmapClassic,
+} from '@src/typescript/roadmap_ref/roadmap-templates/classic';
 import renderNodesStore from '@store/roadmap-refactor/render/rendered-nodes';
 import {
   getChunkRerenderTrigger,
@@ -42,7 +44,6 @@ import ElementsDisplayManager from '@components/roadmap/elements-display/Element
 import { afterEventLoop } from '@src/typescript/utils/misc';
 import { clearSelectedConnection } from '@components/roadmap/connections/connection-editing/connection-store';
 import { setEditingState } from '@store/roadmap-refactor/editing/editing-state';
-import { setRoadmapEditFromAPI } from '@store/roadmap-refactor/roadmap-data/roadmap-edit';
 import {
   setRoadmapType,
   getRoadmapType,
@@ -69,8 +70,6 @@ import {
   adapterRoadmapToStatistics,
   setRoadmapStatistics,
 } from '@store/roadmap-refactor/roadmap-data/misc-data/roadmap-statistics';
-import { handleDeleteRootNotification } from '@src/to-be-organized/nodeview/notification-handler';
-import { getDeleteRootNodeNotification } from '@src/to-be-organized/nodeview/notification-store';
 
 export function initialRoadmapProtocolAfterLoad() {
   setRoadmapIsLoaded();
@@ -181,6 +180,7 @@ async function handleRoadmapRenderingData(
     }
     // otherwise the initialization triggers from the setup screen
     createAndSetRoadmapClassic(); // also handles setting the roadmap data in the store
+    // createGrid();
     return 'factory-created';
   }
   if (type === 'draft' || type === 'public') {

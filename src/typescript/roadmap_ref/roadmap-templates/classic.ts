@@ -83,3 +83,47 @@ export function factoryRoadmapFirstAttempt() {
   appendRootNodeId(node0.id);
   appendRootNodeId(node1.id);
 }
+
+export function createGrid() {
+  let lastnode = factoryNodeClassicCustomizable(0, 0, 500, 500, 0);
+  injectRoadmapGlobalRootNodeId(lastnode.id);
+
+  // define bounds
+  const xMin = 0;
+  const yMin = 0;
+  const width = 2000;
+  const height = 2000;
+  const distance = 200;
+
+  // create nodes
+  for (let x = xMin; x < xMin + width; x += distance) {
+    for (let y = yMin; y < yMin + height; y += distance) {
+      const node = factoryNodeClassicCustomizable(x, y, 90, 90, x+y*width);
+      const connection = factoryConnection(lastnode, node);
+      appendRootNodeId(node.id);
+      appendChildNodeId(lastnode, node.id);
+      injectParentData(node, lastnode.id);
+
+      // create subnodes
+      const subNode0 = factorySubNode(node.id, 20, 20, -20, -20);
+      const subNode1 = factorySubNode(node.id, 20, 20, +20, +20);
+      const subNode2 = factorySubNode(node.id, 20, 20, +20, -20);
+      const subNode3 = factorySubNode(node.id, 20, 20, -20, +20);
+
+
+      appendSubNodeId(node, subNode0.id);
+      appendSubNodeId(node, subNode1.id);
+      appendSubNodeId(node, subNode2.id);
+      appendSubNodeId(node, subNode3.id);
+
+      injectRoadmapNode(subNode0);
+      injectRoadmapNode(subNode1);
+      injectRoadmapNode(subNode2);
+      injectRoadmapNode(subNode3);
+
+      injectRoadmapNode(node);
+      injectRoadmapConnection(connection);
+      lastnode = node;
+    }
+  }
+}

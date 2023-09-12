@@ -37,8 +37,9 @@ if (typeof id === 'string') {
     if (!roadmap) {
         throw new Error('Roadmap not found');
     }
-  roadmap.data = JSON.parse(atob(roadmap.data));
-  roadmap.miscData= JSON.parse(atob(roadmap.miscData));
+
+  roadmap.data = JSON.parse(Buffer.from(roadmap.data, 'base64').toString());
+  roadmap.miscData= JSON.parse(Buffer.from(roadmap.miscData, 'base64').toString());
 
   const formattedName =
     (roadmap?.name || 'untitled')
