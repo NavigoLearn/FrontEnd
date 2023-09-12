@@ -9,6 +9,7 @@ type ITextInputStandard = {
   onChange: (value: string) => void;
   h: string;
   w: string;
+  characterLimit?: number;
 };
 
 const TextInputStandard = ({
@@ -18,6 +19,7 @@ const TextInputStandard = ({
   onChange,
   h,
   w,
+  characterLimit,
 }: ITextInputStandard) => {
   return (
     <div className='relative'>
@@ -32,6 +34,15 @@ const TextInputStandard = ({
         }}
         onChange={(e) => {
           const newValue = e.target.value;
+
+          // Check the character limit
+          if (
+            characterLimit !== undefined &&
+            newValue.length > characterLimit
+          ) {
+            return; // Don't update the value if it exceeds the character limit
+          }
+
           onChange(newValue);
         }}
       />
@@ -40,6 +51,10 @@ const TextInputStandard = ({
       </div>
     </div>
   );
+};
+
+TextInputStandard.defaultProps = {
+  characterLimit: undefined,
 };
 
 export default TextInputStandard;

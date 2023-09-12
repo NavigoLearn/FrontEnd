@@ -11,10 +11,12 @@ const StandardTextDisplay = ({ label, value, h, w }: IStandardTextDisplay) => {
   return (
     <div className='relative'>
       <div
-        className='text-darkBlue font-roboto-text font-medium text-lg rounded-lg transition-all duration-300 '
+        className='text-darkBlue font-roboto-text font-medium text-lg rounded-lg transition-all duration-300 break-words whitespace-pre-line'
         style={{
           height: `${h}`,
           width: `${w}`,
+          maxHeight: '20rem',
+          overflowY: 'auto',
         }}
       >
         {value}
