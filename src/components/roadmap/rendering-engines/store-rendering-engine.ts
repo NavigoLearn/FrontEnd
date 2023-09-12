@@ -2,7 +2,7 @@ import { atom } from 'nanostores';
 
 type IRendering = 'classic' | 'optimized';
 export const storeRenderingEngine = atom({
-  renderingType: 'classic',
+  renderingType: 'optimized',
 } as {
   renderingType: IRendering;
 });

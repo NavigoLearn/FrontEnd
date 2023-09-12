@@ -19,6 +19,7 @@ export const calculateComponentsPositions = (
   const position: ICoords = { x: 0, y: 0 };
 
   const { x, y, width } = component;
+
   let componentHeight = component.height;
   if (divRef.current) {
     componentHeight = divRef.current.clientHeight;

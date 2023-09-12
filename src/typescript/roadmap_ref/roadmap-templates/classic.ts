@@ -149,17 +149,21 @@ export function factoryRoadmapFirstAttempt() {
 export function createGrid() {
   let lastnode = factoryNodeClassicCustomizable(0, 0, 500, 500, 0);
   injectRoadmapGlobalRootNodeId(lastnode.id);
+  console.log('lastnode', lastnode);
 
   // define bounds
   const xMin = 0;
   const yMin = 0;
-  const width = 2000;
-  const height = 2000;
+  const width = 1000;
+  const height = 1000;
   const distance = 200;
+
+  let count = 0;
 
   // create nodes
   for (let x = xMin; x < xMin + width; x += distance) {
     for (let y = yMin; y < yMin + height; y += distance) {
+      count += 5;
       const node = factoryNodeClassicCustomizable(x, y, 90, 90, x + y * width);
       const connection = factoryConnection(lastnode, node);
       appendRootNodeId(node.id);
@@ -187,4 +191,5 @@ export function createGrid() {
       lastnode = node;
     }
   }
+  console.log('count', count);
 }

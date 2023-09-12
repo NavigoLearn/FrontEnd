@@ -163,6 +163,7 @@ function initializeRoadmapAboutData(roadmap?: IRoadmapApi) {
 }
 
 async function handleRoadmapSessionRestoration() {
+  return false;
   if (checkIfSessionExists()) {
     await restoreSession();
     return true;
@@ -186,9 +187,9 @@ async function handleRoadmapRenderingData(
       return 'restored';
     }
     // otherwise the initialization triggers from the setup screen
-    const node0 = createAndSetRoadmapClassic(); // also handles setting the roadmap data in the store
-    addTemplateFromNode(node0);
-    // createGrid();
+    // const node0 = createAndSetRoadmapClassic(); // also handles setting the roadmap data in the store
+    // addTemplateFromNode(node0);
+    createGrid();
     return 'factory-created';
   }
   if (type === 'draft' || type === 'public') {
@@ -267,7 +268,7 @@ const Roadmap = ({
     handleRoadmapRenderingData(roadmap).then((dataRetrievalStatus) => {
       handleRoadmapAfterLoadInitialization(dataRetrievalStatus);
       if (getRoadmapType() === 'create') {
-        handleSessionSaving();
+        // handleSessionSaving();
       }
     });
   }, []);

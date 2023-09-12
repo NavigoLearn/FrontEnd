@@ -12,8 +12,7 @@ const RenderingEngine = ({
   nodesIds,
   connectionsIds,
 }: IRenderingEngineNodesProps) => {
-  let { renderingType } = useStore(storeRenderingEngine);
-  renderingType = 'classic';
+  const { renderingType } = useStore(storeRenderingEngine);
   return (
     <>
       {renderingType === 'classic' && (

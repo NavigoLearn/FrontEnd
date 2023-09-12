@@ -22,7 +22,10 @@ import {
 import { useIsLoaded } from '@hooks/useIsLoaded';
 import { setElementDiv } from '@store/roadmap-refactor/elements-editing/elements-divs';
 import { NodeClass } from '@src/typescript/roadmap_ref/node/core/core';
-import { getIsEditing } from '@store/roadmap-refactor/roadmap-data/misc-data/roadmap_state';
+import {
+  getIsEditable,
+  getIsEditing,
+} from '@store/roadmap-refactor/roadmap-data/misc-data/roadmap_state';
 import {
   selectNodeColorFromScheme,
   selectNodeColorTextBorder,
@@ -38,6 +41,7 @@ import { triggerAllConnectionsRerender } from '@src/typescript/roadmap_ref/rende
 import { useStateTimed } from '@hooks/useStateTimed';
 import { deleteAllSnappings } from '@store/roadmap-refactor/render/snapping-lines';
 import { useNotification } from '@src/components/roadmap/to-be-organized/notifications/NotificationLogic';
+import OComponentRenderer from '@components/roadmap/rendering-engines/optimized/components/OComponentRenderer';
 
 interface NodeViewProps {
   nodeId: string;
@@ -72,8 +76,7 @@ const ONodeRenderer: React.FC<NodeViewProps> = ({ nodeId, centerOffset }) => {
   }
 
   useEffect(() => {
-    // setElementEffectsInitialEmpty(nodeId);
-    // setElementDiv(nodeId, nodeRectRef.current);
+    setElementEffectsInitialEmpty(nodeId);
   }, []);
 
   useEffect(() => {
@@ -81,15 +84,6 @@ const ONodeRenderer: React.FC<NodeViewProps> = ({ nodeId, centerOffset }) => {
     setTriggerRender(node.id, rerender);
   }, []);
 
-  const borderColor = selectNodeColorTextBorder(
-    getColorThemeFromRoadmap(),
-    colorType
-  );
-
-  const borderStyle =
-    borderColor === 'none'
-      ? '2px solid transparent'
-      : `2px solid #${borderColor}`;
   const applyStyle = () => {
     // if (!nodeRectRef.current) return;
     // const element = nodeRectRef.current;
@@ -122,6 +116,8 @@ const ONodeRenderer: React.FC<NodeViewProps> = ({ nodeId, centerOffset }) => {
         height={height}
         fill='white'
         opacity='1'
+        stroke={}
+        stroke
         onClick={(event) => {
           event.stopPropagation();
           getOnClickAction(nodeId)();
@@ -134,8 +130,17 @@ const ONodeRenderer: React.FC<NodeViewProps> = ({ nodeId, centerOffset }) => {
           event.stopPropagation();
           getOnMouseOutAction(nodeId)();
         }}
-        // ... other SVG-specific props
       />
+      {getEditingState() === 'nodes' &&
+        node.components.map((component) => {
+          return (
+            <OComponentRenderer
+              key={component.id}
+              component={component}
+              parentNode={node}
+            />
+          );
+        })}
       {subNodeIds &&
         subNodeIds.map((subNodeId) => {
           // the div is used to position the subNode in the center of the current node

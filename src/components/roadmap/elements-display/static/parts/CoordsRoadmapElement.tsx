@@ -28,24 +28,24 @@ const CoordsRoadmapElement = () => {
         >
           Recenter
         </button>
-        {/* <button */}
-        {/*  type='button' */}
-        {/*  className='mt-6 font-roboto-text text-md text-secondary pointer-events-auto hover:text-primary' */}
-        {/*  onClick={() => { */}
-        {/*    setRenderingType('optimized'); */}
-        {/*  }} */}
-        {/* > */}
-        {/*  Optimized */}
-        {/* </button> */}
-        {/* <button */}
-        {/*  type='button' */}
-        {/*  className='mt-6 font-roboto-text text-md text-secondary pointer-events-auto hover:text-primary' */}
-        {/*  onClick={() => { */}
-        {/*    setRenderingType('classic'); */}
-        {/*  }} */}
-        {/* > */}
-        {/*  Classic */}
-        {/* </button> */}
+        <button
+          type='button'
+          className='mt-6 font-roboto-text text-md text-secondary pointer-events-auto hover:text-primary'
+          onClick={() => {
+            setRenderingType('optimized');
+          }}
+        >
+          Optimized
+        </button>
+        <button
+          type='button'
+          className='mt-6 font-roboto-text text-md text-secondary pointer-events-auto hover:text-primary'
+          onClick={() => {
+            setRenderingType('classic');
+          }}
+        >
+          Classic
+        </button>
       </div>
     </div>
   );
