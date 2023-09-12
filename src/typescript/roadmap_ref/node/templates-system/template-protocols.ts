@@ -35,6 +35,7 @@ export const factoryTemplateFromNode = (node: NodeClass): TemplateNode => {
 };
 
 export const addTemplateFromNode = (node: NodeClass) => {
+  console.log('addTemplateFromNode');
   const template = factoryTemplateFromNode(node);
   appendTemplate(template);
 };
