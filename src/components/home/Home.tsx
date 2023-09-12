@@ -5,6 +5,12 @@ const Home = () => {
   const [state, setState, stateRef] = useStateAndRef(0);
   const divRef = useRef(null);
 
+  useEffect(() => {
+    window.location.href = '/explore';
+  }, []); 
+
+  function MyComponent() {
+
   const func = useCallback(() => {
     console.log('state', state);
   }, []);
