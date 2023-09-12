@@ -1,8 +1,11 @@
 import { IRoadmap } from '@type/roadmap/stores/IRoadmap';
-import roadmapStateStore from '@store/roadmap-refactor/roadmap-data/misc-data/roadmap_state';
 import { errorHandlerDecorator } from '@src/typescript/error-handler';
-import { storeRoadmapPostPayload } from '@src/api-wrapper/roadmap/stores/roadmap-payload';
-import { getRoadmapId } from '@store/roadmap-refactor/roadmap-data/misc-data/roadmap-about';
+import {
+  storeRoadmapPostPayload,
+} from '@src/api-wrapper/roadmap/stores/roadmap-payload';
+import {
+  getRoadmapId,
+} from '@store/roadmap-refactor/roadmap-data/misc-data/roadmap-about';
 
 export const fetchRoadmap = async (id: string) => {
   // fetches roadmapData from api
@@ -43,9 +46,7 @@ export const postRoadmapData = errorHandlerDecorator(async () => {
       'Content-Type': 'application/json',
     },
   });
-  const responseJson = await response.json();
-
-  return responseJson;
+  return await response.json();
 });
 
 export const fetchDeleteRoadmap = async () => {
@@ -59,11 +60,10 @@ export const fetchDeleteRoadmap = async () => {
 
 export const fetchRoadmapMiniById = async (id: string) => {
   // fetches roadmapData from api
-  const response = await fetch(`/api/roadmaps/${id}/mini`, {
+  return await fetch(`/api/roadmaps/${id}/mini`, {
     method: 'GET',
     credentials: 'include',
   }).then((res) => res.json());
-  return response;
 };
 
 export const fetchUpdateRoadmapIsDraft = async (isDraft: boolean) => {
@@ -80,3 +80,18 @@ export const fetchUpdateRoadmapIsDraft = async (isDraft: boolean) => {
   }).then((res) => res);
   return response.json();
 };
+
+export const fetchUpdateRoadmapVersion = async (version: string) => {
+    const id = getRoadmapId();
+    const response = await fetch(`/api/roadmaps/${id}/version`, {
+        method: 'POST',
+        credentials: 'include',
+        body: JSON.stringify({
+          version,
+        }),
+        headers: {
+        'Content-Type': 'application/json',
+        },
+    });
+    return response.json();
+}

@@ -13,7 +13,6 @@ import { getIsCreate } from '@store/roadmap-refactor/roadmap-data/misc-data/road
 export const inferAndSetNodeDraggability = (node: NodeClass) => {
   const editing = getIsEditing();
 
-  console.log('editing', editing);
   if (editing) {
     setElementDraggable(node.id, true);
   } else {

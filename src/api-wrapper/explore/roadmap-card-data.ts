@@ -1,5 +1,5 @@
 import { errorHandlerDecorator } from '@src/typescript/error-handler';
-import { CardRoadmapTypeApi, RoadmapTypeApiExplore } from '@type/explore/card';
+import { RoadmapTypeApiExplore } from '@type/explore/card';
 import { ISearchParams } from '@components/explore/stores/explore-query-store';
 
 function parameterBuilder(params: ISearchParams) {
@@ -15,7 +15,7 @@ function parameterBuilder(params: ISearchParams) {
     result += '&';
   }
 
-  if (params.topic !== 'All') {
+  if (params.topic !== 'all') {
     result += `topic=${params.topic.toLowerCase()}`;
     paramCount += 1;
   }

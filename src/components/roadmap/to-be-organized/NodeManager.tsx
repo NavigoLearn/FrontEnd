@@ -3,6 +3,7 @@ import { useTriggerRerender } from '@hooks/useTriggerRerender';
 import NodeRenderer from '@src/to-be-organized/nodeview/NodeRenderer';
 import { setTriggerRender } from '@store/roadmap-refactor/render/rerender-triggers-nodes';
 import { getNodeByIdRoadmapSelector } from '@src/typescript/roadmap_ref/roadmap-data/services/get';
+import { handleDeleteRootNotification } from '@src/to-be-organized/nodeview/notification-handler';
 
 export type NodeManagerProps = {
   nodeId: string;

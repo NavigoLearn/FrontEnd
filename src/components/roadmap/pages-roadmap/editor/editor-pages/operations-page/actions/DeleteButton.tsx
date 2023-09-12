@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { tailwindTransitionClass } from '@src/UI-library/tailwind-utils';
 import TrashIconCustomizable from '@src/UI-library/svg-components/trash/TrashIconCustomizable';
+import { getDeleteRootNodeNotification } from '@src/to-be-organized/nodeview/notification-store';
 
 type IDeleteButtonProps = {
   callback: () => void;
@@ -11,6 +12,7 @@ type IDeleteButtonProps = {
 
 const DeleteButton = ({ callback, text, src, space }: IDeleteButtonProps) => {
   const [mouseOver, setMouseOver] = useState(false);
+
   return (
     <div className='flex gap-1 items-center'>
       {src && (

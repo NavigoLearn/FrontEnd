@@ -12,6 +12,7 @@ export type IBackendRoadmapFormat = {
   isDraft: boolean;
   createdAt?: string;
   updatedAt?: string;
+  version: string;
   data: string; // base64 encoded json
   miscData: string; // base64 encoded json
 };
@@ -26,6 +27,7 @@ export function setPostRoadmapPayloadFromExistingStores() {
     isDraft: false,
     createdAt: new Date().toISOString(),
     updatedAt: new Date().toISOString(),
+    version: '1.0.0',
     data: btoa(JSON.stringify(getRoadmapSelector())),
 
     miscData: btoa(JSON.stringify(getRoadmapSelector().data)),
