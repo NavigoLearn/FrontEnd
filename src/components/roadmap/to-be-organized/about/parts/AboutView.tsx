@@ -47,7 +47,7 @@ const AboutView = ({ callback }: IAboutViewProps) => {
             label='Description'
             value={description}
             h=''
-            w='full'
+            w='100%'
           />
         </div>
       </div>

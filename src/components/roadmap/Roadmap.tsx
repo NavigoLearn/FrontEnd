@@ -73,6 +73,8 @@ import {
   adapterRoadmapToStatistics,
   setRoadmapStatistics,
 } from '@store/roadmap-refactor/roadmap-data/misc-data/roadmap-statistics';
+import { handleDeleteRootNotification } from '@src/to-be-organized/nodeview/notification-handler';
+import { getDeleteRootNodeNotification } from '@src/to-be-organized/nodeview/notification-store';
 
 export function initialRoadmapProtocolAfterLoad() {
   setRoadmapIsLoaded();

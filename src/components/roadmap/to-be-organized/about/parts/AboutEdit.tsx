@@ -10,6 +10,7 @@ import storeAboutTemporary, {
 import TextInputStandard from '@components/roadmap/pages-roadmap/editor/editor-pages/properties-page/TextInputStandard';
 import TextareaStandardInput from '@components/roadmap/pages-roadmap/editor/editor-pages/properties-page/TextareaStandardInput';
 import ThemeDisplayer from '@components/roadmap/to-be-organized/about/components/ThemeDisplayer';
+import { DEFAULT_ROADMAP_TITLE_MAX_LENGTH } from './character-limits';
 
 type IAboutEditProps = {
   callback: () => void;
@@ -43,6 +44,7 @@ const AboutEdit = ({ callback }: IAboutEditProps) => {
             }}
             h='40px'
             w='100%'
+            characterLimit={DEFAULT_ROADMAP_TITLE_MAX_LENGTH}
           />
         </div>
         <div className='w-[95%] mt-5'>

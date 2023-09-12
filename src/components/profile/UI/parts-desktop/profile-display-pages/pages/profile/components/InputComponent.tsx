@@ -1,4 +1,5 @@
 import React from 'react';
+import { PROFILE_NAME_MAX_LENGTH } from '@src/components/roadmap/to-be-organized/about/parts/character-limits';
 
 type IInputComponentProps = {
   label: string;
@@ -18,8 +19,8 @@ const InputComponent = ({
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     let inputValue = e.target.value;
 
-    if (hasLimit && inputValue.length > 30) {
-      inputValue = inputValue.slice(0, 30);
+    if (hasLimit && inputValue.length > PROFILE_NAME_MAX_LENGTH) {
+      inputValue = inputValue.slice(0, PROFILE_NAME_MAX_LENGTH);
     }
 
     callback(inputValue);

@@ -61,6 +61,16 @@ import { triggerAllConnectionsRerender } from '@src/typescript/roadmap_ref/rende
 import { useStateTimed } from '@hooks/useStateTimed';
 import { deleteAllSnappings } from '@store/roadmap-refactor/render/snapping-lines';
 import { useNotification } from '@src/components/roadmap/to-be-organized/notifications/NotificationLogic';
+import { get } from 'http';
+import {
+  handleDeleteRootNotification,
+  handleNotification,
+} from './notification-handler';
+import {
+  getDeleteRootNodeNotification,
+  setDeleteRootNodeNotificationFalse,
+  setDeleteRootNodeNotificationTrue,
+} from './notification-store';
 
 interface NodeViewProps {
   nodeId: string;
@@ -68,7 +78,7 @@ interface NodeViewProps {
   divSizeCallback?: (divRef: React.MutableRefObject<HTMLDivElement>) => void; //
 }
 
-let firstNotification = true;
+const firstNotification = true;
 
 const NodeRenderer: React.FC<NodeViewProps> = ({
   nodeId,
@@ -222,13 +232,6 @@ const NodeRenderer: React.FC<NodeViewProps> = ({
 
     const { addNotification } = useNotification();
 
-    const handleNotification = () => {
-      if (firstNotification) {
-        firstNotification = false;
-        addNotification('tip', 'Hold shift to drag the entire tree of nodes');
-      }
-    };
-
     return (
       <>
         {!editing && !getHideProgress() && (
@@ -243,14 +246,19 @@ const NodeRenderer: React.FC<NodeViewProps> = ({
             }}
           />
         )}
+        {isCurrentlyDragged && handleNotification(addNotification)}
         <div
           className={`drop-shadow-md rounded-lg transition-allNoTransform duration-200 absolute `}
           id={`div${nodeId}`}
           ref={nodeDivRef}
           onClick={(event) => {
-            // handleNotification();
             event.stopPropagation();
             getOnClickAction(nodeId)();
+            if (nodeId === '0') {
+              setDeleteRootNodeNotificationTrue();
+            } else {
+              setDeleteRootNodeNotificationFalse();
+            }
           }}
           onMouseOver={(event) => {
             event.stopPropagation();
