@@ -1,6 +1,7 @@
 ---
 import Base from '@layouts/Base.astro';
 import Home from "../../components/home/Home";
+Astro.redirect('/explore')
 ---
 
 <Base
@@ -11,5 +12,4 @@ import Home from "../../components/home/Home";
     <div>
        <Home client:load />
     </div>
-
 </Base>

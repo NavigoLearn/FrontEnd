@@ -40,7 +40,7 @@ const ResetRoadmapPopup = ({ closeCallback }: IAuthPopupProps) => {
           className={`font-medium font-roboto-text bg-white rounded-md text-lg text-darkBlue hover:text-white hover:bg-darkBlue px-3 py-1${tailwindTransitionClass}`}
           onClick={() => {
             closeCallback();
-            clearSession()
+            clearSession();
             resetRoadmapCreate();
             createAndSetRoadmapClassic();
             initialRoadmapProtocolAfterLoad();
