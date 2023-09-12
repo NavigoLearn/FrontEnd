@@ -71,6 +71,7 @@ import {
 } from '@store/roadmap-refactor/roadmap-data/misc-data/roadmap-statistics';
 import { handleDeleteRootNotification } from '@src/to-be-organized/nodeview/notification-handler';
 import { getDeleteRootNodeNotification } from '@src/to-be-organized/nodeview/notification-store';
+import RenderingEngine from '@components/roadmap/rendering-engines/RenderingEngine';
 
 export function initialRoadmapProtocolAfterLoad() {
   setRoadmapIsLoaded();
@@ -302,20 +303,11 @@ const Roadmap = ({
         className='bg-backgroundRoadmap pointer-events-auto'
       >
         <g id='rootGroup'>
-          <g id='rootGroupConnections'>
-            <ConnectionsRenderer connectionsIds={connectionsIds} />
-          </g>
-          <g id='rootGroupNodes'>
-            {firstRenderDone &&
-              nodesIds.map((id) => {
-                // gets the roadmap-roadmap-data
-                return <NodeManager key={id} nodeId={id} />;
-              })}
-          </g>
           {firstRenderDone && (
-            <g id='rootGroupSnappingLines'>
-              <SnappingLinesRenderer />
-            </g>
+            <RenderingEngine
+              nodesIds={nodesIds}
+              connectionsIds={connectionsIds}
+            />
           )}
         </g>
       </svg>

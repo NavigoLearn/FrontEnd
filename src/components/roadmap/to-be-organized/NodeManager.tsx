@@ -16,8 +16,6 @@ const NodeManager = ({ nodeId }: NodeManagerProps) => {
   const node = getNodeByIdRoadmapSelector(nodeId);
   const { data } = node;
 
-  console.log('rerendered node manager');
-
   function setForeignObjectSize(rootDivRef) {
     if (!rootDivRef) return;
     if (!rootDivRef.current) return;

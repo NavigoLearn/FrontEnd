@@ -61,13 +61,8 @@ import { triggerAllConnectionsRerender } from '@src/typescript/roadmap_ref/rende
 import { useStateTimed } from '@hooks/useStateTimed';
 import { deleteAllSnappings } from '@store/roadmap-refactor/render/snapping-lines';
 import { useNotification } from '@src/components/roadmap/to-be-organized/notifications/NotificationLogic';
-import { get } from 'http';
+import { handleNotification } from './notification-handler';
 import {
-  handleDeleteRootNotification,
-  handleNotification,
-} from './notification-handler';
-import {
-  getDeleteRootNodeNotification,
   setDeleteRootNodeNotificationFalse,
   setDeleteRootNodeNotificationTrue,
 } from './notification-store';
