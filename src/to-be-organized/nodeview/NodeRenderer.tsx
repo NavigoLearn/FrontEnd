@@ -206,6 +206,7 @@ const NodeRenderer: React.FC<NodeViewProps> = ({
     };
 
     afterEventLoop(() => {
+      if (!nodeDivRef.current) return;
       // runs all the effects after the node is rendered
       applyStyle();
       loaded && !getIsEditing() && appendNodeMarkAsDone(node);

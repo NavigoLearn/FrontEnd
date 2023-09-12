@@ -1,8 +1,5 @@
-import React, { useEffect, useRef, useState } from 'react';
-import {
-  factoryRoadmapFirstAttempt,
-  createAndSetRoadmapClassic,
-} from '@src/typescript/roadmap_ref/roadmap-templates/classic';
+import React from 'react';
+import { createAndSetRoadmapClassic } from '@src/typescript/roadmap_ref/roadmap-templates/classic';
 import renderNodesStore from '@store/roadmap-refactor/render/rendered-nodes';
 import {
   getChunkRerenderTrigger,
@@ -16,7 +13,6 @@ import roadmapStateStore, {
   setRoadmapIsLoaded,
   setRoadmapState,
   setHasStarterTab,
-  getRoadmapState,
 } from '@store/roadmap-refactor/roadmap-data/misc-data/roadmap_state';
 import {
   disableRoadmapDragZoomAnd,
@@ -247,7 +243,6 @@ const Roadmap = ({
   const firstRenderDone = useIsLoaded();
 
   useEffectAfterLoad(() => {
-    console.log('Roadmap loaded', roadmap);
     // rendering and interactivity initializations
     initializeChunkRerendering();
     initializeRoadmapInteractions();

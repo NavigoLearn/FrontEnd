@@ -17,6 +17,7 @@ const NodeManager = ({ nodeId }: NodeManagerProps) => {
 
   function setForeignObjectSize(rootDivRef) {
     if (!rootDivRef) return;
+    if (!rootDivRef.current) return;
     // updates the size of the foreignObject to match the size of the div for draggability and movement purposes
     const width = `${rootDivRef.current.offsetWidth}`;
     const height = `${rootDivRef.current.offsetHeight}`;
