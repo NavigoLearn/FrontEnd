@@ -66,7 +66,7 @@ const ExploreDesktop = () => {
                   setExploreQuery({
                     query: '',
                   });
-                  setExploreQueryTopic('All');
+                  setExploreQueryTopic('all');
                 }}
                 className='py-1 px-3 border-2 border-primary font-roboto-text font-medium text-primary rounded-lg mb-6 hover:bg-primary hover:text-white transition-all'
               >

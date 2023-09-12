@@ -2,8 +2,8 @@ import { atom } from 'nanostores';
 
 export type ISortBy = 'Likes' | 'Views' | 'New';
 export type IPerPage = 15 | 30 | 50;
-export type ITopicOptions = 'Programming' | 'Math' | 'Physics' | 'Biology';
-export type ITopicParam = 'All' | ITopicOptions;
+export type ITopicOptions = 'programming' | 'math' | 'physics' | 'biology';
+export type ITopicParam = 'all' | ITopicOptions;
 
 export type ISearchParams = {
   query: string;
@@ -16,11 +16,11 @@ export type ISearchParams = {
 export const sortByOptions: ISortBy[] = ['Likes', 'Views', 'New'];
 export const perPageOptions: IPerPage[] = [15, 30, 50];
 export const topicOptions: ITopicParam[] = [
-  'All',
-  'Programming',
-  'Math',
-  'Physics',
-  'Biology',
+  'all',
+  'programming',
+  'math',
+  'physics',
+  'biology',
 ];
 
 export const exploreQueryStore = atom({
