@@ -211,16 +211,17 @@ const NodeRenderer: React.FC<NodeViewProps> = ({
     };
 
     const applyStyle = () => {
+      if (!nodeDivRef.current) return;
       const element = nodeDivRef.current;
       Object.assign(element.style, style);
     };
 
     afterEventLoop(() => {
-      if (!nodeDivRef.current) return;
       // runs all the effects after the node is rendered
       applyStyle();
       loaded && !getIsEditing() && appendNodeMarkAsDone(node);
       getIsEditing() && deleteStatusEffectAll(nodeId);
+      if (!nodeDivRef.current) return;
       loaded && applyElementEffects(nodeId, nodeDivRef.current);
     });
 
