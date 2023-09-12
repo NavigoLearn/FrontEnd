@@ -77,6 +77,7 @@ export function createAndSetRoadmapDevTest() {
 export function createAndSetRoadmapClassic() {
   const node0 = factoryNodeClassicCustomizable(0, 0, 200, 50, 0);
   injectRoadmapGlobalRootNodeId(node0.id);
+  node0.name = 'Basic node';
   const node1 = factoryNodeClassicCustomizable(0, 150, 200, 50, 1);
   const node2 = factoryNodeClassicCustomizable(0, 300, 200, 50, 2);
   const node3 = factoryNodeClassicCustomizable(300, 300, 200, 50, 3);
@@ -112,6 +113,7 @@ export function createAndSetRoadmapClassic() {
   appendRootNodeId(node2.id);
   appendRootNodeId(node3.id);
   appendRootNodeId(node4.id);
+  return node0;
 }
 
 export function factoryRoadmapFirstAttempt() {
@@ -158,7 +160,7 @@ export function createGrid() {
   // create nodes
   for (let x = xMin; x < xMin + width; x += distance) {
     for (let y = yMin; y < yMin + height; y += distance) {
-      const node = factoryNodeClassicCustomizable(x, y, 90, 90, x+y*width);
+      const node = factoryNodeClassicCustomizable(x, y, 90, 90, x + y * width);
       const connection = factoryConnection(lastnode, node);
       appendRootNodeId(node.id);
       appendChildNodeId(lastnode, node.id);
@@ -169,7 +171,6 @@ export function createGrid() {
       const subNode1 = factorySubNode(node.id, 20, 20, +20, +20);
       const subNode2 = factorySubNode(node.id, 20, 20, +20, -20);
       const subNode3 = factorySubNode(node.id, 20, 20, -20, +20);
-
 
       appendSubNodeId(node, subNode0.id);
       appendSubNodeId(node, subNode1.id);
