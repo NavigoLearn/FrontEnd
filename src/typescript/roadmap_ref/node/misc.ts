@@ -10,13 +10,7 @@ export function nodeNameSyncer(nodeId: string, newValue: string) {
   if (newValue.length < MAX_NAME_LENGTH) {
     node.name = clippedValue;
   }
-  if (node.components.length === 1) {
-    const oldText = node.components[0].text;
-    if (!(oldText.length > clippedValue.length)) {
-      node.components[0].text = newValue;
-      triggerNodeRerender(nodeId);
-    }
-  }
+
   // @ts-ignore
   const oldTitleText = node.attachments[0].components[0].titleText;
   if (!(oldTitleText.length > clippedValue.length)) {

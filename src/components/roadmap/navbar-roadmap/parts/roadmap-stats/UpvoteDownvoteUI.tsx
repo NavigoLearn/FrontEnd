@@ -19,9 +19,6 @@ const UpvoteDownvoteUI = ({
   const upvote = voteState === 'upvote';
   const downvote = voteState === 'downvote';
 
-  console.log('upvote', upvote);
-  console.log('downvote', downvote);
-
   return (
     <div className='flex items-center'>
       <UpvoteSvg

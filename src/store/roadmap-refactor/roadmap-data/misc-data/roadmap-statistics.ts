@@ -28,7 +28,11 @@ export function setRoadmapStatisticsLikes(newLikes: number) {
 
 export function setRoadmapStatisticsDownvote() {
   const store = storeRoadmapStatistics.get();
-  storeRoadmapStatistics.set({ ...store, likes: store.likes - 1 });
+  let decremented = store.likes - 1;
+  if (store.isLiked === 1) {
+    decremented = store.likes - 2;
+  }
+  storeRoadmapStatistics.set({ ...store, likes: decremented });
 }
 
 export function setRoadmapStatisticsVoteState(newVoteState: -1 | 0 | 1) {
@@ -38,7 +42,11 @@ export function setRoadmapStatisticsVoteState(newVoteState: -1 | 0 | 1) {
 
 export function setRoadmapStatisticsUpvote() {
   const store = storeRoadmapStatistics.get();
-  storeRoadmapStatistics.set({ ...store, likes: store.likes + 1 });
+  let incremented = store.likes + 1;
+  if (store.isLiked === -1) {
+    incremented = store.likes + 2;
+  }
+  storeRoadmapStatistics.set({ ...store, likes: incremented });
 }
 
 export function setRoadmapStatisticsLoaded(newLoaded: boolean) {
