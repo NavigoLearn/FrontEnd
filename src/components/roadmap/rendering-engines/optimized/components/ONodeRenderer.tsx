@@ -1,47 +1,50 @@
 /* eslint-disable no-shadow */
 /* eslint-disable react/prop-types */
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
+import {
+  getOnMouseOutActionEdit,
+  getOnClickAction,
+  getOnMouseOutAction,
+  getOnMouseOverAction,
+} from '@src/to-be-organized/nodeview/actions-manager';
 import { afterEventLoop } from '@src/typescript/utils/misc';
 import { useTriggerRerender } from '@hooks/useTriggerRerender';
 import {
   setTriggerRender,
   triggerNodeRerender,
 } from '@store/roadmap-refactor/render/rerender-triggers-nodes';
-import { getNodeByIdRoadmapSelector } from '@src/typescript/roadmap_ref/roadmap-data/services/get';
 import {
-  getOnClickAction,
-  getOnMouseOutAction,
-  getOnMouseOutActionEdit,
-  getOnMouseOverAction,
-} from '@src/to-be-organized/nodeview/actions-manager';
+  getNodeAdjacentNodesIds,
+  getNodeByIdRoadmapSelector,
+  getRootNodesIds,
+} from '@src/typescript/roadmap_ref/roadmap-data/services/get';
 import {
-  appendStatusEffect,
-  setElementEffectsInitialEmpty,
   getElementHasEffect,
+  setElementEffectsInitialEmpty,
 } from '@store/roadmap-refactor/elements-editing/element-effects';
 import { useIsLoaded } from '@hooks/useIsLoaded';
-import { setElementDiv } from '@store/roadmap-refactor/elements-editing/elements-divs';
-import { NodeClass } from '@src/typescript/roadmap_ref/node/core/core';
-import {
-  getIsEditable,
-  getIsEditing,
-} from '@store/roadmap-refactor/roadmap-data/misc-data/roadmap_state';
+import { getEditingState } from '@store/roadmap-refactor/editing/editing-state';
+import OComponentRenderer from '@components/roadmap/rendering-engines/optimized/components/OComponentRenderer';
 import {
   selectNodeColorFromScheme,
   selectNodeColorTextBorder,
 } from '@src/typescript/roadmap_ref/node/core/factories/data-mutation/services';
 import { getColorThemeFromRoadmap } from '@components/roadmap/pages-roadmap/setup-screen/theme-controler';
-import ConnectionAnchorsRenderer from '@components/roadmap/connections/connection-editing/ConnectionAnchorsRenderer';
-import { useStore } from '@nanostores/react';
-import draggableElements, {
-  getElementIsDraggable,
-} from '@store/roadmap-refactor/elements-editing/draggable-elements';
-import { getEditingState } from '@store/roadmap-refactor/editing/editing-state';
+import { AnimatePresence, motion } from 'framer-motion';
+import DraggingResizeElement from '@src/to-be-organized/DraggingResizeElement';
+import {
+  mutateNodeHeightWhileKeepingCenter,
+  mutateNodeWidthWhileKeepingCenter,
+} from '@src/typescript/roadmap_ref/node/core/data-mutation/mutate';
 import { triggerAllConnectionsRerender } from '@src/typescript/roadmap_ref/render/dragging';
+import { snapNodeWidthHeight } from '@src/typescript/roadmap_ref/snapping/old/core';
+import { getElementIsDraggable } from '@store/roadmap-refactor/elements-editing/draggable-elements';
 import { useStateTimed } from '@hooks/useStateTimed';
 import { deleteAllSnappings } from '@store/roadmap-refactor/render/snapping-lines';
-import { useNotification } from '@src/components/roadmap/to-be-organized/notifications/NotificationLogic';
-import OComponentRenderer from '@components/roadmap/rendering-engines/optimized/components/OComponentRenderer';
+import {
+  setDeleteRootNodeNotificationFalse,
+  setDeleteRootNodeNotificationTrue,
+} from '@src/to-be-organized/nodeview/notification-store';
 
 interface NodeViewProps {
   nodeId: string;
@@ -80,7 +83,6 @@ const ONodeRenderer: React.FC<NodeViewProps> = ({ nodeId, centerOffset }) => {
   }, []);
 
   useEffect(() => {
-    if (node.flags.renderedOnRoadmapFlag) return;
     setTriggerRender(node.id, rerender);
   }, []);
 
@@ -109,28 +111,118 @@ const ONodeRenderer: React.FC<NodeViewProps> = ({ nodeId, centerOffset }) => {
     ? node.data.coords.y
     : calculatedOffsetCoords.y + coords.y;
 
+  const colorTheme = useMemo(() => {
+    return getColorThemeFromRoadmap();
+  }, []);
+
+  const borderColor = selectNodeColorTextBorder(colorTheme, colorType);
+  const nodeColor = selectNodeColorFromScheme(colorTheme, colorType);
+
+  const isDraggable = getElementIsDraggable(nodeId);
+  const isCurrentlyDragged = getElementHasEffect(nodeId, 'dragging-recursive');
+
+  const [mouseOver, setMouseOver] = useState(false);
+  const [resizing, setResizing] = useStateTimed(false, 500, () => {
+    deleteAllSnappings();
+  });
+
+  // console.log('rerender node', isDraggable, !isCurrentlyDragged);
+
+  const rectRef = useRef(null);
   return (
     <g transform={`translate(${x}, ${y})`}>
       <rect
+        className='transition-allNoTransform duration-200'
         width={width}
         height={height}
-        fill='white'
+        ref={rectRef}
+        fill={`${nodeColor}`}
         opacity='1'
-        stroke={}
-        stroke
+        stroke={`${borderColor}`}
+        strokeWidth='2px'
+        rx='7px'
+        ry='7px'
+        filter='url(#shadow)'
         onClick={(event) => {
           event.stopPropagation();
           getOnClickAction(nodeId)();
+          if (nodeId === '0') {
+            setDeleteRootNodeNotificationTrue();
+          } else {
+            setDeleteRootNodeNotificationFalse();
+          }
         }}
         onMouseOver={(event) => {
           event.stopPropagation();
           getOnMouseOverAction(nodeId)();
+          setMouseOver(true);
+          triggerNodeRerender(nodeId);
+          console.log('mouse over');
+        }}
+        onMouseLeave={() => {
+          getOnMouseOutActionEdit(nodeId)();
+          setMouseOver(false);
+          console.log('mouse leave');
         }}
         onMouseOut={(event) => {
           event.stopPropagation();
           getOnMouseOutAction(nodeId)();
+          setMouseOver(false);
+          console.log('mouse out');
         }}
       />
+
+      {isDraggable && !isCurrentlyDragged && (mouseOver || resizing) && (
+        <foreignObject
+          width={width + 30}
+          height={height + 30}
+          className='pointer-events-none relative'
+          x={-15}
+          y={-15}
+        >
+          <AnimatePresence>
+            <motion.div
+              className='pointer-events-none left-[15px] top-[15px] absolute'
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.2 }}
+            >
+              <DraggingResizeElement
+                style={{
+                  width,
+                  height,
+                }}
+                heightCallback={(height) => {
+                  mutateNodeHeightWhileKeepingCenter(node, height);
+                  triggerNodeRerender(nodeId);
+                  triggerAllConnectionsRerender();
+                }}
+                widthCallback={(width) => {
+                  mutateNodeWidthWhileKeepingCenter(node, width);
+                  triggerNodeRerender(nodeId);
+                  triggerAllConnectionsRerender();
+                }}
+                snappingCallback={(width, height) => {
+                  setResizing(true);
+                  const rootNode = node.flags.renderedOnRoadmapFlag;
+                  const nodesToSnapTo = rootNode
+                    ? getRootNodesIds()
+                    : getNodeAdjacentNodesIds(nodeId);
+                  // snapping node corners ( ͡° ͜ʖ ͡°) so width and height will also snap I hope
+                  const { width: newWidth, height: newHeight } =
+                    snapNodeWidthHeight(node.id, nodesToSnapTo, width, height);
+                  return {
+                    width: newWidth,
+                    height: newHeight,
+                  };
+                }}
+              />
+            </motion.div>
+          </AnimatePresence>
+        </foreignObject>
+      )}
+
       {getEditingState() === 'nodes' &&
         node.components.map((component) => {
           return (

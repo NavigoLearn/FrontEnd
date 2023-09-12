@@ -14,6 +14,17 @@ const RenderingEngineOptimized = ({
 }: IRenderingEngineClassicProps) => {
   return (
     <>
+      {/* <filter id='shadow' x='-50%' y='-50%' width='200%' height='200%'> */}
+      {/*  <feGaussianBlur in='SourceAlpha' stdDeviation='2' /> */}
+      {/*  <feOffset dx='2' dy='2' result='offsetblur' /> */}
+      {/*  <feFlood floodColor='black' result='color' /> */}
+      {/*  <feComposite in2='offsetblur' operator='in' /> */}
+      {/*  <feComposite in2='SourceAlpha' operator='in' /> */}
+      {/*  <feMerge> */}
+      {/*    <feMergeNode in='offsetblur' /> */}
+      {/*    <feMergeNode in='SourceGraphic' /> */}
+      {/*  </feMerge> */}
+      {/* </filter> */}
       <g id='rootGroupConnections'>
         <ConnectionsRenderer connectionsIds={connectionsIds} />
       </g>

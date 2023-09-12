@@ -153,22 +153,15 @@ const DraggingResizeElement = ({
   return (
     <div
       ref={wrapperDiv}
-      className=' top-[-1.5px] left-[-1.5px] absolute pointer-events-auto border-2 border-primary'
+      className=' top-[-1.5px] left-[-1.5px] absolute pointer-events-none border-2 border-primary'
     >
       <div
-        onMouseOverCapture={(e) => {}}
         onMouseDownCapture={(e) => {
           handleMouseDown(e, 'top');
-          e.stopPropagation();
         }}
-        onClick={(e) => {
-          e.stopPropagation();
-          // prevents clicking from opening editor
-        }}
-        className='absolute -top-2 cursor-ns-resize w-full h-2 left-0 '
+        className='absolute top-2 cursor-ns-resize w-full h-2 left-0 pointer-events-auto bg-amber-300 '
       />
       <div
-        onMouseOverCapture={(e) => {}}
         onMouseDownCapture={(e) => {
           handleMouseDown(e, 'bottom');
           e.stopPropagation();
@@ -180,7 +173,6 @@ const DraggingResizeElement = ({
         className='absolute -bottom-2 left-0 cursor-ns-resize w-full h-2 '
       />
       <div
-        onMouseOverCapture={(e) => {}}
         onMouseDownCapture={(e) => {
           handleMouseDown(e, 'left');
           e.stopPropagation();
@@ -192,7 +184,6 @@ const DraggingResizeElement = ({
         className='absolute top-0 -left-2 cursor-ew-resize w-2 h-full '
       />
       <div
-        onMouseOverCapture={(e) => {}}
         onMouseDownCapture={(e) => {
           handleMouseDown(e, 'right');
           e.stopPropagation();
@@ -204,7 +195,6 @@ const DraggingResizeElement = ({
         className='absolute top-0 -right-2 cursor-ew-resize w-2 h-full '
       />
       <div
-        onMouseOverCapture={(e) => {}}
         onMouseDownCapture={(e) => {
           handleMouseDown(e, 'top-left'); // Param for top left
           e.stopPropagation();
@@ -216,7 +206,6 @@ const DraggingResizeElement = ({
         className={`absolute -top-1.5 -left-1.5 cursor-nwse-resize  ${vertexStyle}`}
       />
       <div
-        onMouseOverCapture={(e) => {}}
         onMouseDownCapture={(e) => {
           handleMouseDown(e, 'top-right'); // Param for top right
           e.stopPropagation();
@@ -228,7 +217,6 @@ const DraggingResizeElement = ({
         className={`absolute -top-1.5 -right-1.5 cursor-nesw-resize  ${vertexStyle}`}
       />
       <div
-        onMouseOverCapture={(e) => {}}
         onMouseDownCapture={(e) => {
           handleMouseDown(e, 'bottom-left'); // Param for bottom left
           e.stopPropagation();
@@ -240,7 +228,6 @@ const DraggingResizeElement = ({
         className={`absolute -bottom-1.5 -left-1.5 cursor-nesw-resize  ${vertexStyle}`}
       />
       <div
-        onMouseOverCapture={(e) => {}}
         onMouseDownCapture={(e) => {
           handleMouseDown(e, 'bottom-right'); // Param for bottom right
           e.stopPropagation();

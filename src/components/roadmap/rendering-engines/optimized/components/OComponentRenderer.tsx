@@ -46,6 +46,7 @@ const OComponentRenderer = ({
   return (
     <g transform={`translate(${position.x},${position.y})`}>
       <text
+        className='pointer-events-none'
         ref={divRef}
         key={component.id}
         id={`text${id}`}
