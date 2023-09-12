@@ -14,6 +14,66 @@ import {
 } from '@src/typescript/roadmap_ref/node/core/data-mutation/append';
 import { injectParentData } from '@src/typescript/roadmap_ref/node/core/factories/data-mutation/inject';
 
+export function createAndSetRoadmapDevTest() {
+  const nodesPerRow = 5;
+  const nodesPerColumn = 5;
+  const nodesPerRowOffset = 100;
+  const nodesPerColumnOffset = 100;
+  const nodesWidth = 200;
+  const nodesHeight = 50;
+  for (let i = 0; i < nodesPerRow; i++) {
+    for (let j = 0; j < nodesPerColumn; j++) {
+      const node = factoryNodeClassicCustomizable(
+        i * nodesPerRowOffset,
+        j * nodesPerColumnOffset,
+        nodesWidth,
+        nodesHeight,
+        i * nodesPerRow + j
+      );
+      injectRoadmapNode(node);
+      appendRootNodeId(node.id);
+    }
+  }
+
+  const node0 = factoryNodeClassicCustomizable(0, 0, 200, 50, 0);
+  injectRoadmapGlobalRootNodeId(node0.id);
+  const node1 = factoryNodeClassicCustomizable(0, 150, 200, 50, 1);
+  const node2 = factoryNodeClassicCustomizable(0, 300, 200, 50, 2);
+  const node3 = factoryNodeClassicCustomizable(300, 300, 200, 50, 3);
+  const node4 = factoryNodeClassicCustomizable(-300, 300, 200, 50, 4);
+  const connection0 = factoryConnection(node0, node1);
+  const connection1 = factoryConnection(node1, node2);
+  const connection2 = factoryConnection(node2, node3);
+  const connection3 = factoryConnection(node2, node4);
+
+  injectParentData(node1, node0.id);
+  injectParentData(node2, node1.id);
+  injectParentData(node3, node2.id);
+  injectParentData(node4, node2.id);
+
+  appendChildNodeId(node0, node1.id);
+  appendChildNodeId(node1, node2.id);
+  appendChildNodeId(node2, node3.id);
+  appendChildNodeId(node2, node4.id);
+
+  injectRoadmapNode(node0);
+  injectRoadmapNode(node1);
+  injectRoadmapNode(node2);
+  injectRoadmapNode(node3);
+  injectRoadmapNode(node4);
+
+  injectRoadmapConnection(connection0);
+  injectRoadmapConnection(connection1);
+  injectRoadmapConnection(connection2);
+  injectRoadmapConnection(connection3);
+
+  appendRootNodeId(node0.id);
+  appendRootNodeId(node1.id);
+  appendRootNodeId(node2.id);
+  appendRootNodeId(node3.id);
+  appendRootNodeId(node4.id);
+}
+
 export function createAndSetRoadmapClassic() {
   const node0 = factoryNodeClassicCustomizable(0, 0, 200, 50, 0);
   injectRoadmapGlobalRootNodeId(node0.id);

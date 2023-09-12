@@ -15,7 +15,7 @@ const RenderingEngineOptimized = ({
   return (
     <>
       <g id='rootGroupConnections'>
-        <ConnectionsRenderer connectionsIds={connectionsIds} />
+        {/* <ConnectionsRenderer connectionsIds={connectionsIds} /> */}
       </g>
       <g id='rootGroupNodes'>
         {nodesIds.map((id) => {
