@@ -4,6 +4,7 @@ import storeRoadmapAbout, {
   DEFAULT_NAME,
 } from '@store/roadmap-refactor/roadmap-data/misc-data/roadmap-about';
 import { getRoadmapSelector } from '@store/roadmap-refactor/roadmap-data/roadmap-selector';
+import { encodeBase64 } from '@src/typescript/utils/misc';
 
 export type IBackendRoadmapFormat = {
   name: string;
@@ -28,9 +29,8 @@ export function setPostRoadmapPayloadFromExistingStores() {
     createdAt: new Date().toISOString(),
     updatedAt: new Date().toISOString(),
     version: '1.0.0',
-    data: btoa(JSON.stringify(getRoadmapSelector())),
-
-    miscData: btoa(JSON.stringify(getRoadmapSelector().data)),
+    data: encodeBase64(JSON.stringify(getRoadmapSelector())),
+    miscData: encodeBase64(JSON.stringify(getRoadmapSelector().data)),
   };
   storeRoadmapPostPayload.set({ ...roadmapPayload });
 }

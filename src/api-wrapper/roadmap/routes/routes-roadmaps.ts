@@ -6,6 +6,7 @@ import {
 import {
   getRoadmapId,
 } from '@store/roadmap-refactor/roadmap-data/misc-data/roadmap-about';
+import { decodeBase64, encodeBase64 } from '@src/typescript/utils/misc';
 
 export const fetchRoadmap = async (id: string) => {
   // fetches roadmapData from api
@@ -14,7 +15,7 @@ export const fetchRoadmap = async (id: string) => {
     credentials: 'include',
   }).then((res) => res.json());
   // decodes the roadmap-roadmap-data field from base64 to json
-  response.data = JSON.parse(atob(response.data));
+  response.data = JSON.parse(decodeBase64(response.data));
   return response;
 };
 
@@ -24,7 +25,7 @@ export const fetchUpdateRoadmapData = async (roadmap: IRoadmap) => {
     method: 'POST',
     credentials: 'include',
     body: JSON.stringify({
-      data: btoa(JSON.stringify(roadmap)),
+      data: encodeBase64(JSON.stringify(roadmap)),
     }),
     headers: {
       'Content-Type': 'application/json',

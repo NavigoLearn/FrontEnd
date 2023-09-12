@@ -1,10 +1,11 @@
 ---
+import { decodeBase64 } from '@src/typescript/utils/misc';
 import RoadmapLayout from '@layouts/RoadmapLayout.astro';
 import RoadmapWithNotifications from '@src/components/roadmap/RoadmapWithNotifications';
 import PagesDisplayManager from '@components/roadmap/pages-roadmap/PagesDisplayManager';
-import { IRoadmapApi } from '../../types/explore_old/card';
-import RequestManager from '../../components/misc/RequestManager';
-import FullScreenPopupManager from '../../components/roadmap/pages-roadmap/FullScreenPopupManager';
+import { IRoadmapApi } from '@src/types/explore_old/card';
+import RequestManager from '@src/components/misc/RequestManager';
+import FullScreenPopupManager from '@src/components/roadmap/pages-roadmap/FullScreenPopupManager';
 
 const { roadmapPath } = Astro.params;
 // here we should get the roadmap-roadmap-data for the actual roadmap_static
@@ -37,8 +38,9 @@ if (typeof id === 'string') {
     if (!roadmap) {
         throw new Error('Roadmap not found');
     }
-  roadmap.data = JSON.parse(atob(roadmap.data));
-  roadmap.miscData= JSON.parse(atob(roadmap.miscData));
+
+  roadmap.data = JSON.parse(decodeBase64(roadmap.data));
+  roadmap.miscData= JSON.parse(decodeBase64(roadmap.miscData));
 
   const formattedName =
     (roadmap?.name || 'untitled')

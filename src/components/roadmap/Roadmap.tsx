@@ -1,5 +1,8 @@
 import React from 'react';
-import { createAndSetRoadmapClassic } from '@src/typescript/roadmap_ref/roadmap-templates/classic';
+import {
+  createAndSetRoadmapClassic,
+  createGrid,
+} from '@src/typescript/roadmap_ref/roadmap-templates/classic';
 import renderNodesStore from '@store/roadmap-refactor/render/rendered-nodes';
 import {
   getChunkRerenderTrigger,
@@ -181,7 +184,8 @@ async function handleRoadmapRenderingData(
       return 'restored';
     }
     // otherwise the initialization triggers from the setup screen
-    createAndSetRoadmapClassic(); // also handles setting the roadmap data in the store
+    // createAndSetRoadmapClassic(); // also handles setting the roadmap data in the store
+    createGrid();
     return 'factory-created';
   }
   if (type === 'draft' || type === 'public') {
