@@ -5,9 +5,6 @@ import PagesDisplayManager from '@components/roadmap/pages-roadmap/PagesDisplayM
 import { IRoadmapApi } from '../../types/explore_old/card';
 import RequestManager from '../../components/misc/RequestManager';
 import FullScreenPopupManager from '../../components/roadmap/pages-roadmap/FullScreenPopupManager';
-import {adapterRoadmapToStatistics} from "../../store/roadmap-refactor/roadmap-data/misc-data/roadmap-statistics";
-import {setRoadmapStatistics} from "../../store/roadmap-refactor/roadmap-data/misc-data/roadmap-statistics";
-import {adapterRoadmapToStatistics} from "../../store/roadmap-refactor/roadmap-data/misc-data/roadmap-statistics";
 
 const { roadmapPath } = Astro.params;
 // here we should get the roadmap-roadmap-data for the actual roadmap_static
@@ -31,7 +28,9 @@ if (!!id && !!isCreate) {
 
 if (typeof id === 'string') {
   // fetches roadmapData from api
-  const response = await fetch(`${Astro.site}api/roadmaps/${id}`);
+  const response = await fetch(`${Astro.site}api/roadmaps/${id}`, {
+    headers: Astro.request.headers,
+  });
   const requestResponseJson = await response.json();
   roadmap = requestResponseJson.data;
   // decodes the roadmap-roadmap-data field from base64 to json

@@ -1,13 +1,8 @@
 import { atom } from 'nanostores';
-import {
-  fetchAndSetRoadmapCardsExplore,
-  setCardsLoaded,
-  setCardsLoading,
-} from '@components/explore/stores/explore-cards-store';
 
 export type ISortBy = 'Likes' | 'Views' | 'New';
 export type IPerPage = 15 | 30 | 50;
-export type ITopicOptions = 'programming' | 'math' | 'physics' | 'biology';
+export type ITopicOptions = 'Programming' | 'Math' | 'Physics' | 'Biology';
 export type ITopicParam = 'All' | ITopicOptions;
 
 export type ISearchParams = {
@@ -22,10 +17,10 @@ export const sortByOptions: ISortBy[] = ['Likes', 'Views', 'New'];
 export const perPageOptions: IPerPage[] = [15, 30, 50];
 export const topicOptions: ITopicParam[] = [
   'All',
-  'programming',
-  'math',
-  'physics',
-  'biology',
+  'Programming',
+  'Math',
+  'Physics',
+  'Biology',
 ];
 
 export const exploreQueryStore = atom({

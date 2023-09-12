@@ -5,7 +5,7 @@ import {
   handleGoogleLogin,
   handleGitHubLogin,
 } from '@components/auth/old/socialAuth';
-import { handleLocalLogin } from '../../../../api-wrapper/user/user';
+import { handleLocalLogin } from '../../../../api-wrapper/user/routes-user';
 
 const MobileLogin = () => {
   useEffect(() => {

@@ -19,6 +19,9 @@ jobs:
         with:
           node-version: '18'
 
+      - name: Set up JQ
+        run: sudo apt-get install jq
+
       - name: Install dependencies
         run: npm ci
 
@@ -26,17 +29,21 @@ jobs:
         run: npm run build
 
       - name: Generate version number
-        id: vars
-        run: echo ::set-output name=version::$(date +%y.%m.%d-%s)
+        id: version
+        run: echo "version=$(date +%y.%m.%d-%s)" >> $GITHUB_ENV
+
+      - name: Get package.json version
+        id: package_version
+        run: echo "package_version=$(jq -r '.version' package.json)" >> $GITHUB_ENV
 
       - name: Create Release
         id: create_release
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.PAT }}
+        uses: ncipollo/release-action@v1
         with:
-          tag_name: ${{ steps.vars.outputs.version }}
-          release_name: Release ${{ steps.vars.outputs.version }}
-          body: Release based on commit ${{ github.sha }}
+          token: ${{ secrets.PAT }}
+          generateReleaseNotes: true
+          name: Release ${{ env.version }}
+          tag: ${{ env.package_version }}
+          commit: prod
           draft: false
           prerelease: false

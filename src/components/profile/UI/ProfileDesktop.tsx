@@ -1,12 +1,8 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import ProfilePreview from '@components/profile/UI/parts-desktop/profile-preview/ProfilePreview';
 import ProfileButtonManager from '@components/profile/UI/parts-desktop/profile-buttons/ProfileButtonManager';
 import ProfileDisplayManager from '@components/profile/UI/parts-desktop/profile-display-pages/ProfileDisplayManager';
-import { getLoggedUserId } from '@src/store/user/logged-user';
-import { useStore } from '@nanostores/react';
 import useProfileData from '../hooks/useProfileData';
-import { profileDataStore } from '../stores/store-profile-data';
-import { getStoreAboutTemp } from '@src/components/roadmap/to-be-organized/about/stores/store-about-temp';
 
 const ProfileDesktop = (id) => {
   useProfileData(id);

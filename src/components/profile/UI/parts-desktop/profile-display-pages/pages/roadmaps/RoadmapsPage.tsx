@@ -11,7 +11,7 @@ import { get } from 'http';
 
 const RoadmapsPage = () => {
   const [drafts, setDrafts] = useState(false);
-  const { loading, ProfileRoadmaps } = useStore(profileDataStore);
+  const { loading, profileRoadmaps } = useStore(profileDataStore);
 
   if (loading)
     return (
@@ -20,6 +20,7 @@ const RoadmapsPage = () => {
       </div>
     );
 
+  console.log(profileRoadmaps);
   return (
     <div className='mt-5 ml-10'>
       {getOwnProfile() && (
@@ -50,16 +51,14 @@ const RoadmapsPage = () => {
         </div>
       )}
       <div className='grid-cols-2 grid gap-5 w-[660px] mt-7'>
-        {ProfileRoadmaps.map((card: CardRoadmapTypeApi) => {
-          console.log(card.isDraft);
-          if (card.isDraft === 1 && drafts === true && getOwnProfile()) {
+        {profileRoadmaps.map((card: CardRoadmapTypeApi) => {
+          if (card.isDraft && drafts === true && getOwnProfile()) {
             return <Card data={card} key={card.id} />;
           }
-          if (card.isDraft === 0 && drafts === false) {
+          if (!card.isDraft && drafts === false) {
             return <Card data={card} key={card.id} />;
           }
           return null;
-          // return <Card data={card} key={card.id} />;
         })}
       </div>
     </div>
