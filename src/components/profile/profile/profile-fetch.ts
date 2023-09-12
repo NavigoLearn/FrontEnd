@@ -33,10 +33,6 @@ export const fetchPostProfileData = errorHandlerDecorator(
     bio: string
   ): Promise<any> => {
     // fetches from the api the user's profile data
-    console.log(name);
-    console.log(githubUrl);
-    console.log(websiteUrl);
-    console.log(bio);
     const fetchRoute = `/api/users`;
     const response = await fetch(fetchRoute, {
       method: 'POST',
@@ -49,10 +45,9 @@ export const fetchPostProfileData = errorHandlerDecorator(
       credentials: 'include',
       headers: {
         'Content-Type': 'application/json',
-      }
+      },
     });
     const dataJson: any = await response.json();
-    console.log(dataJson);
     return dataJson;
   }
 );

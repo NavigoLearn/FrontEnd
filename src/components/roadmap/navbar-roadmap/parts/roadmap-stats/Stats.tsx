@@ -30,7 +30,6 @@ const Stats = () => {
   };
   const voteState = matcher[isLiked];
   const intId = parseInt(id, 10);
-  console.log('voteState', voteState, isLiked, getRoadmapLikes());
 
   return (
     <div className='flex gap-6 items-center'>

@@ -247,6 +247,7 @@ const Roadmap = ({
   const firstRenderDone = useIsLoaded();
 
   useEffectAfterLoad(() => {
+    console.log('Roadmap loaded', roadmap);
     // rendering and interactivity initializations
     initializeChunkRerendering();
     initializeRoadmapInteractions();
