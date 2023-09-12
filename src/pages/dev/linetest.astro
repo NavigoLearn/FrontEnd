@@ -1,0 +1,78 @@
+<svg class='h-screen w-full'>
+  <defs>
+    <!--<linearGradient-->
+    <!--  id='b'-->
+    <!--  gradientUnits='objectBoundingBox'-->
+    <!--  x1='0'-->
+    <!--  y1='1'-->
+    <!--  x2='1'-->
+    <!--  y2='1'-->
+    <!--&gt;-->
+    <!--  <stop offset='0' stop-color='#AA00AA00'> </stop>-->
+    <!--  <stop offset='.4' stop-color='#AA00AA'> </stop>-->
+    <!--  <stop offset='.6' stop-color='#AA00AA'> </stop>-->
+    <!--  <stop offset='1' stop-color='#AA00AA00'></stop>-->
+    <!--  <animate-->
+    <!--    attributeName='x1'-->
+    <!--    dur='2s'-->
+    <!--    from='-0.25'-->
+    <!--    to='1.0'-->
+    <!--    repeatCount='indefinite'></animate>-->
+    <!--  <animate-->
+    <!--    attributeName='x2'-->
+    <!--    dur='2s'-->
+    <!--    from='0'-->
+    <!--    to='1.25'-->
+    <!--    repeatCount='indefinite'></animate>-->
+    <!--</linearGradient>-->
+    <!--<linearGradient-->
+    <!--  id='b90'-->
+    <!--  gradientUnits='objectBoundingBox'-->
+    <!--  x1='1'-->
+    <!--  y1='0'-->
+    <!--  x2='1'-->
+    <!--  y2='1'-->
+    <!--&gt;-->
+    <!--  <stop offset='0' stop-color='#AA00AA00'> </stop>-->
+    <!--  <stop offset='.4' stop-color='#AA00AA'> </stop>-->
+    <!--  <stop offset='.6' stop-color='#AA00AA'> </stop>-->
+    <!--  <stop offset='1' stop-color='#AA00AA00'></stop>-->
+    <!--  <animate-->
+    <!--    attributeName='y1'-->
+    <!--    dur='2s'-->
+    <!--    from='-0.25'-->
+    <!--    to='1.0'-->
+    <!--    repeatCount='indefinite'></animate>-->
+    <!--  <animate-->
+    <!--    attributeName='y2'-->
+    <!--    dur='2s'-->
+    <!--    from='0'-->
+    <!--    to='1.25'-->
+    <!--    repeatCount='indefinite'></animate>-->
+    <!--</linearGradient>-->
+
+    <pattern id='test' width='1' height='1' patternUnits='objectBoundingBox'>
+      <rect fill='#EE00EE' width='100%' height='100%'></rect>
+      <rect fill='url(#b)' width='100%' height='100%'></rect>
+    </pattern>
+
+    <pattern id='test90' width='1' height='1' patternUnits='objectBoundingBox'>
+      <rect fill='#EE00EE' width='100%' height='100%'></rect>
+      <rect fill='url(#b90)' width='100%' height='100%'></rect>
+    </pattern>
+  </defs>
+
+  <path
+    class='dashed-line animate-flowingDash stroke-3 stroke-primary fill-none pointer-events-none'
+    d='M0,0 Q100,100,400,100 L500,100'></path>
+  <path
+    class='dashed-line animate-flowingDash stroke-3 stroke-primary fill-none pointer-events-none'
+    d='M0,150 L500,150'></path>
+  <!--<rect x='0' y='250' width='500' height='3' fill='url(#test)'></rect>-->
+  <!--<rect x='600' y='0' width='3' height='300' fill='url(#test90)'></rect>-->
+
+  <!--<path-->
+  <!--  stroke='url(#test)'-->
+  <!--  class='stroke-3 fill-none'-->
+  <!--  d='M0,400 Q100,300,400,300 L500,300'></path>-->
+</svg>

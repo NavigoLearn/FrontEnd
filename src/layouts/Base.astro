@@ -1,45 +1,77 @@
 ---
 import Navbar from '@components/navbar/Navbar';
-import Error from '../components/roadmap/top-bar/Error';
 import Footer from '@layouts/Footer.astro';
 import RequestManager from '../components/misc/RequestManager';
 import DataCollectionManager from '../components/misc/DataCollectionManager';
+import { NotificationProvider } from '@src/components/roadmap/to-be-organized/notifications/NotificationLogic';
+
+import '@fontsource/kanit';
+import '@fontsource/oxygen';
+import { PageMeta } from '../types/misc/PageMeta';
+import BasePopupManager from '../components/shared/BasePopupManager';
 
 export interface Props {
-  title: string;
-  meta?: PageMeta; // TODO: - add meta tags
+  metadata?: PageMeta;
   excludeFooter?: boolean;
 }
 
-const { title, excludeFooter } = Astro.props;
-
-import '@fontsource/kanit';
-import '@fontsource/roboto';
-import '@fontsource/oxygen';
-import { PageMeta } from '../types/misc/PageMeta';
+const { metadata, excludeFooter } = Astro.props;
 ---
 
-<html lang='en' class="overflow-x-hidden">
+<NotificationProvider>
+<html lang='en' class='overflow-x-hidden'>
   <head>
     <meta charset='UTF-8' />
     <meta name='viewport' content='width=device-width' />
     <link rel='preconnect' href='https://fonts.googleapis.com' />
     <link rel='preconnect' href='https://fonts.gstatic.com' crossorigin />
     <meta name='generator' content={Astro.generator} />
-    <title>NavigoLearn | {title}</title>
+    <title>{metadata?.title || 'Unknown Page'} | NavigoLearn</title>
+    <meta
+      name='description'
+      content={metadata?.description ||
+        'NavigoLearn is an community-driven platform for learning and teaching programming languages.'}
+    />
+    <meta name='theme-color' content={metadata?.['theme-color'] || '#3361D8'} />
+    <meta property='og:title' content={metadata?.title || 'Unknown Page'} />
+    <meta
+      property='og:description'
+      content={metadata?.description ||
+        'NavigoLearn is an community-driven platform for learning and teaching programming languages.'}
+    />
+    <meta property='og:type' content={metadata?.type || 'website'} />
+    <meta
+      property='og:url'
+      content={metadata?.url || 'https://navigolearn.com'}
+    />
+    <meta property='og:locale' content={metadata?.locale || 'en_US'} />
+    <meta
+      property='og:site_name'
+      content={metadata?.site_name || 'NavigoLearn'}
+    />
+    <meta property='og:image' content={metadata?.image || ''} />
+    <link rel='preconnect' href='https://fonts.googleapis.com' />
+    <link rel='preconnect' href='https://fonts.gstatic.com' crossorigin />
+    <link
+      href='https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap'
+      rel='stylesheet'
+    />
   </head>
+
   <body class='bg-background relative w-full min-h-screen'>
-    <DataCollectionManager client:load />
     <RequestManager client:load />
     <Navbar client:load />
+    <BasePopupManager client:load />
 
     <slot />
-    
-    {!excludeFooter && <div class='h-32'><Footer /></div>}
-    <div
-      class='fixed top-[100px] flex justify-center w-full h-10 pointer-events-none'
-    >
-      <Error client:load />
-    </div>
+
+    {
+      !excludeFooter && false && (
+        <div class='h-32'>
+          <Footer />
+        </div>
+      )
+    }
   </body>
 </html>
+</NotificationProvider>

@@ -4,6 +4,11 @@
     "experimentalDecorators": true,
     "jsx": "react-jsx",
     "jsxImportSource": "react",
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "es6"
+    ],
     "baseUrl": ".",
     "paths": {
       "@src/*": [
@@ -25,7 +30,7 @@
         "src/store/*"
       ],
       "@typescript/*": [
-        "src/typescript/*"
+        "src/typescript-infrastructure/*"
       ],
       "@type/*": [
         "src/types/*"
@@ -35,13 +40,13 @@
       ],
       "@hooks/*": [
         "src/hooks/*"
-      ]
+      ],
     }
   },
   "include": [
     "src/**/*",
     ".eslintrcworka.cjs",
-    "__tests__/unit/**/*"
+    "__tests__/unit/**/*",
   ],
   "exclude": [
     "node_modules",

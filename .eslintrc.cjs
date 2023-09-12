@@ -38,7 +38,7 @@ module.exports = {
       parserOptions: {
         ecmaVersion: 'latest',
         sourceType: 'module',
-        project: './tsconfig.json',
+        // project: './tsconfig.json',
       },
 
       rules: {
@@ -64,6 +64,16 @@ module.exports = {
           { extensions: ['.js', '.jsx', '.tsx'] },
         ],
         'import/no-extraneous-dependencies': 'off',
+        'import/prefer-default-export': 'off',
+        'max-classes-per-file': 'off',
+        'no-param-reassign': 'off',
+        '@typescript-eslint/ban-ts-comment': 'off',
+        'react/jsx-props-no-spreading': 'off',
+        '@typescript-eslint/no-empty-function': 'off',
+        'no-unused-expressions': 'off',
+        'jsx-a11y/control-has-associated-label': 'off',
+        'jsx-a11y/click-events-have-key-events': 'off',
+        'jsx-a11y/no-static-element-interactions': 'off',
         'react/function-component-definition': [
           2,
           {

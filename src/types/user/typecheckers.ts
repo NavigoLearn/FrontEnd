@@ -1,5 +1,4 @@
 import { User } from '@type/user/types';
-import { NodeInfoStore } from '@type/roadmap/nodes';
 
 export const a = 1;
 export const checkIsTypeUser = (obj: any): obj is User => {

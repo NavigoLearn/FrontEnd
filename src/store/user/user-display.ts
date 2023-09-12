@@ -1,8 +1,8 @@
 import { atom } from 'nanostores';
 import { User, UserResponse } from '@type/user/types';
 import { checkIsTypeUser } from '@type/user/typecheckers';
-import { processUserUrlPic } from '@typescript/user/misc';
-import { fetchUserData } from '../../api-wrapper/user/user';
+import { processUserUrlPic } from '@src/typescript/user/misc';
+import { fetchUserData } from '../../api-wrapper/user/routes-user';
 
 const generateUserBoilerplate = (): User => ({
   userId: '',
@@ -22,7 +22,7 @@ const parseResponse = (response: UserResponse): User => {
   if (!checkIsTypeUser(response)) {
     throw new Error('Response is not of type User');
   }
-  // parses some of the response properties to the correct type
+  // parses some of the response properties-page to the correct type
   const parsedResponse: User = { ...response };
   parsedResponse.followerCount = parseInt(response.followerCount, 10);
   parsedResponse.followingCount = parseInt(response.followingCount, 10);

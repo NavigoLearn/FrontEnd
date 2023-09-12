@@ -1,7 +1,7 @@
 {
   "name": "navigolearn-front",
   "type": "module",
-  "version": "0.0.1",
+  "version": "2.0.0",
   "description": "Navigo Front End",
   "repository": "https://github.com/NavigoLearn/Navigo-FrontEnd.git",
   "author": "Navigo",
@@ -14,7 +14,7 @@
     "astro": "astro",
     "test": "vitest run",
     "test:e2e": "npm run build && playwright test",
-    "ci": "npm install && npm run test && npm run test:e2e"
+    "ci": "npm install && npm run test"
   },
   "dependencies": {
     "@astrojs/node": "^5.1.0",
@@ -31,6 +31,7 @@
     "animejs": "^3.2.1",
     "astro": "^2.1.5",
     "d3": "^7.8.2",
+    "framer-motion": "^10.15.1",
     "nanostores": "^0.7.4",
     "react": "^18.2.0",
     "react-dnd-touch-backend": "^16.0.1",

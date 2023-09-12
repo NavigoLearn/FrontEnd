@@ -1,7 +1,7 @@
-import { errorHandlerDecorator } from '@typescript/error-handler';
+import { errorHandlerDecorator } from '@src/typescript/error-handler';
 
-export const likeCardFetch = errorHandlerDecorator(
-  async (id: string): Promise<boolean> => {
+export const fetchLikeCard = errorHandlerDecorator(
+  async (id: number): Promise<boolean> => {
     const fetchSource = `/api/roadmaps/${id}/like`;
     const response = await fetch(fetchSource, {
       method: 'GET',
@@ -11,8 +11,19 @@ export const likeCardFetch = errorHandlerDecorator(
   }
 );
 
-export const unlikeCardFetch = errorHandlerDecorator(
-  async (id: string): Promise<boolean> => {
+export const fetchDislikeCard = errorHandlerDecorator(
+  async (id: number): Promise<boolean> => {
+    const fetchSource = `/api/roadmaps/${id}/dislike`;
+    const response = await fetch(fetchSource, {
+      method: 'GET',
+      credentials: 'include',
+    });
+    return response.status === 200;
+  }
+);
+
+export const fetchRemoveLike = errorHandlerDecorator(
+  async (id: number): Promise<boolean> => {
     const fetchSource = `/api/roadmaps/${id}/like`;
     const res = await fetch(fetchSource, {
       method: 'DELETE',

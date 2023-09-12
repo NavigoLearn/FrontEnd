@@ -1,4 +1,4 @@
-import { addNewError } from '@store/roadmap/error-list';
+import { addNewError } from '@store/roadmap-refactor/popups/error-list';
 
 type ErrorTypes =
   | 'RootRemove'

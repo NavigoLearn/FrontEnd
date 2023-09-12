@@ -4,7 +4,11 @@ import Feedback from '@components/feedback/Feedback';
 import PageViewCollection from '../../components/home/PageViewCollection';
 ---
 
-<Base title='Feedback'>
+<Base metadata={{
+    title: 'Feedback',
+    description: 'Here you can leave feedback for the site. We appreciate all feedback you can give us.',
+    url: 'https://navigolearn.com/feedback',
+}}>
   <PageViewCollection page='Feedback' client:load />
   <Feedback client:load />
 </Base>

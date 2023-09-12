@@ -1,0 +1,19 @@
+<svg width="41" height="27" viewBox="0 0 41 27" fill="none" xmlns="http://www.w3.org/2000/svg">
+<line x1="30.3796" y1="14.6746" x2="36.3796" y2="21.6746" stroke="black" stroke-opacity="0.6"/>
+<line x1="22.3796" y1="4.6746" x2="28.3796" y2="11.6746" stroke="black" stroke-opacity="0.6"/>
+<line x1="20.3536" y1="4.35355" x2="13.3536" y2="11.3536" stroke="black" stroke-opacity="0.6"/>
+<line x1="11.3796" y1="14.3254" x2="5.37963" y2="21.3254" stroke="black" stroke-opacity="0.6"/>
+<line x1="13.3796" y1="14.6746" x2="19.3796" y2="21.6746" stroke="black" stroke-opacity="0.6"/>
+<circle cx="21.5" cy="3.5" r="3.5" fill="white"/>
+<circle cx="21.5" cy="3.5" r="3.125" stroke="black" stroke-opacity="0.6" stroke-width="0.75"/>
+<circle cx="37.5" cy="23.5" r="3.5" fill="white"/>
+<circle cx="37.5" cy="23.5" r="3.125" stroke="black" stroke-opacity="0.6" stroke-width="0.75"/>
+<circle cx="29.5" cy="13.5" r="3.5" fill="white"/>
+<circle cx="29.5" cy="13.5" r="3.125" stroke="black" stroke-opacity="0.6" stroke-width="0.75"/>
+<circle cx="12.5" cy="13.5" r="3.5" fill="white"/>
+<circle cx="12.5" cy="13.5" r="3.125" stroke="black" stroke-opacity="0.6" stroke-width="0.75"/>
+<circle cx="20.5" cy="23.5" r="3.5" fill="white"/>
+<circle cx="20.5" cy="23.5" r="3.125" stroke="black" stroke-opacity="0.6" stroke-width="0.75"/>
+<circle cx="3.5" cy="23.5" r="3.5" fill="white"/>
+<circle cx="3.5" cy="23.5" r="3.125" stroke="black" stroke-opacity="0.6" stroke-width="0.75"/>
+</svg>

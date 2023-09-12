@@ -1,8 +1,7 @@
 import React, { useEffect } from 'react';
 import { setProfileMini } from '@store/user/logged-user';
-import { setVisitorId } from '@store/roadmap/data/roadmap-visit-data';
-import { setIsLogged, setLoaded } from '@store/user/user-status';
-import { fetchGetMiniProfileData } from '../../api-wrapper/user/user';
+import { setIsLogged, setLoaded, setVisitorId } from '@store/user/user-status';
+import { fetchGetMiniProfileData } from '../../api-wrapper/user/routes-user';
 
 const RequestManager = () => {
   useEffect(() => {
@@ -20,14 +19,11 @@ const RequestManager = () => {
       }
 
       if (res === 'Error') return;
-      setProfileMini(res?.profilePictureUrl, res?.userId, res?.name);
-      setVisitorId(res?.userId);
+      const { avatar, name, id } = res.data;
+      setProfileMini(avatar, id, name);
+      setVisitorId(id);
       setIsLogged(true);
     });
-    // if (document.cookie.includes('token')) {
-    //   setIsLogged(true);
-    // }
-    // setLoaded(true);
   }, []);
 };
 

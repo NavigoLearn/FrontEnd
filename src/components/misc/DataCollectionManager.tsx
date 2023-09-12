@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState, useRef } from 'react';
+import { useEffect, useMemo, useRef } from 'react';
 import { AnalyticsBrowser } from '@segment/analytics-next';
 import { useStore } from '@nanostores/react';
 import analyticsStore, { emptyDispatchedEvents } from '@store/misc/analytics';
@@ -88,7 +88,7 @@ const DataCollectionManager = () => {
   useEffect(() => {
     if (dispatchedEvents.length === 0) return;
     dispatchedEvents.forEach((event) => {
-      triggerEvents(event, analytics);
+      // triggerEvents(event, analytics);
       // user has blocker or something
     });
     emptyDispatchedEvents();

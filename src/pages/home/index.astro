@@ -1,24 +1,15 @@
 ---
 import Base from '@layouts/Base.astro';
-import PageViewCollection from '../../components/home/PageViewCollection';
-import FirstSection from '@components/home/desktop/FirstSection.astro';
-import SecondSection from '@components/home/desktop/SecondSection.astro';
-import ThirdSection from '@components/home/desktop/ThirdSection.astro';
-import FirstSectionM from '@components/home/mobile/FirstSectionM.astro';
-import SecondSectionM from '@components/home/mobile/SecondSectionM.astro';
-import ThirdSectionM from '@components/home/mobile/ThirdSectionM.astro';
+import Home from "../../components/home/Home";
 ---
 
-<Base title='Home'>
-  <PageViewCollection page='Home' client:load />
-  <div class='hidden mobile-landing:block'>
-    <FirstSection />
-    <SecondSection />
-    <ThirdSection />
-  </div>
-  <div class='mobile-landing:hidden'>
-    <FirstSectionM />
-    <SecondSectionM />
-    <ThirdSectionM />
-  </div>
+<Base
+  metadata={{
+    title: 'Home',
+  }}
+>
+    <div>
+       <Home client:load />
+    </div>
+
 </Base>

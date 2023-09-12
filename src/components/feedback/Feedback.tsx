@@ -1,6 +1,4 @@
-import React, { useState, useEffect } from 'react';
-import DesktopFeedback from '@components/feedback/desktop/Desktop';
-import { dispatchAnalyticsEvent } from '@store/misc/analytics';
+import React, { useEffect, useState } from 'react';
 
 const Feedback = () => {
   const [isDesktop, setIsDesktop] = useState(undefined);
@@ -20,9 +18,7 @@ const Feedback = () => {
   return (
     <div>
       {typeof isDesktop === 'undefined' ? null : (
-        <div>
-          <DesktopFeedback />
-        </div>
+        <div>{/* <DesktopFeedback /> */}</div>
       )}
     </div>
   );

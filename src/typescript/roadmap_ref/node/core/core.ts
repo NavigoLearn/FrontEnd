@@ -1,89 +1,41 @@
-import { IColorSchemaFields } from '@type/roadmap/node/colors';
-import { selectNodeColorScheme } from '@typescript/roadmap_ref/node/core/factories/injectors/services';
-import {
-  defaultColorSchemaOption,
-  defaultNodeHeight,
-  defaultNodeOpacity,
-  defaultNodeWidth,
-} from '@typescript/roadmap_ref/node/core/factories/params/default-params';
-import { IAttachmentObject } from '@type/roadmap/node/attachments';
-import { IComponentsObject } from '@type/roadmap/node/components';
+import { INodeProperties } from '@type/roadmap/node/core-types';
+import { Flags } from '@src/typescript/roadmap_ref/node/core/flags';
+
+import { ActionsClass } from '@src/typescript/roadmap_ref/node/core/actions/core';
+import { DraggingBehavior } from '@src/typescript/roadmap_ref/dragging/core';
+import { Data } from '@src/typescript/roadmap_ref/node/core/data';
+import { IAttachmentObject } from '@type/roadmap/node/attachments-types';
+import { IComponentObject } from '@type/roadmap/node/components-types';
+
+export type INodeTemplates = 'classic' | 'link';
 
 export class NodeClass {
-  components: ({
-    id: string;
-  } & IComponentsObject)[] = []; // title, description, button and anything inside the node
-  properties: Properties = new Properties(); // properties of the node itself
-  nestedNodesIds: string[] = []; // reference to other NodeClasses from the roadmap
-  attachments: {
-    id: string;
-    attachment: IAttachmentObject;
-  }[] = []; // special components that are much more customizable and special, meant for any kind of interraction
-  actions: Actions; // the actions that are set on the node
-  availableActions: {}; // the actions that can be set on the node
+  components: IComponentObject[] = []; // title, description, button and anything inside the node
+
+  data: Data = new Data(); // properties-page of the node itself
+
+  subNodeIds: string[] = []; // reference to other NodeClasses from the roadmap
+
+  attachments: IAttachmentObject[] = []; // special reusable-components-page that are much more customizable and special, meant for any kind of interraction
+
+  actions: ActionsClass = new ActionsClass(); // the operations-page that are set on the node
+
   draggingBehavior: DraggingBehavior; // the dragging behavior of the node
-  flags: Flags; // flags to indificate different behaviors of the node
-  data: any; // data related to parents, connection stuff in general
-  constructor() {}
-}
 
-// Represents the Component class
-export class ComponentNode {
-  x: number;
-  y: number;
-  width: number;
-  height: number;
-  constructor(x: number, y: number, width: number, height: number) {
-    this.x = x;
-    this.y = y;
-    this.width = width;
-    this.height = height;
+  connections: string[] = []; // connections to other nodes-page
+
+  flags: Flags = new Flags(); // flags to indicate different behaviors of the node
+
+  id = '0';
+
+  name = 'Node';
+
+  // @ts-ignore
+  properties: INodeProperties = {
+    // used if there is dynamically injected data
+  }; // roadmap-data related to parents, connection stuff and misc things I couldn't find a place general
+
+  constructor(id?) {
+    if (id) this.id = id;
   }
 }
-
-// Represents the Properties class
-class Properties {
-  color: IColorSchemaFields;
-  width: number;
-  height: number;
-  opacity: number;
-
-  constructor() {
-    this.color = selectNodeColorScheme(defaultColorSchemaOption);
-    this.width = defaultNodeWidth;
-    this.height = defaultNodeHeight;
-    this.opacity = defaultNodeOpacity;
-  }
-}
-
-// Represents the Attachment class
-function getAttachment(type: string) {
-  // returns the type of attachment
-}
-// Represents the Actions class
-class Actions {
-  onClick: Function = () => {};
-  onHover: Function = () => {};
-
-  constructor() {}
-}
-
-// Represents the DraggingBehavior class
-class DraggingBehavior {
-  limitation: string;
-
-  constructor() {}
-}
-
-// Represents the Flags class
-class Flags {
-  connFlag: boolean = false;
-  nestedFlag: boolean = false;
-  chunkFlag: boolean = false;
-  connectionPivotFlag: boolean = false;
-  markAsDoneBehaviorFlag: boolean = false;
-
-  constructor() {}
-}
-
-// Represents the Button class

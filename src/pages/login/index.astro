@@ -1,10 +1,16 @@
 ---
 import Base from '@layouts/Base.astro';
-import Login from '@components/auth/login/Login';
+import Login from '../../components/auth/old/login/Login';
 import PageViewCollection from '../../components/home/PageViewCollection';
 ---
 
-<Base title='Login'>
+<Base
+  metadata={{
+    title: 'Login',
+    description: 'Login to your account',
+    url: 'https://navigolearn.com/login',
+  }}
+>
   <PageViewCollection page='Login' client:load />
   <div class='h-min-full flex justify-center items-center bg-background mb-20'>
     <Login client:load />

@@ -1,21 +1,3 @@
-import { factoryTabAttachment } from '@typescript/roadmap_ref/node/attachments/factory';
-import { IAttachmentOptions } from '@type/roadmap/node/attachments';
+import { AttachmentTab } from '@src/typescript/roadmap_ref/node/attachments/tab/core';
 
-export class Attachment {
-  type: IAttachmentOptions;
-  constructor(type: IAttachmentOptions) {
-    this.type = type;
-    if (type === 'Tab') {
-      factoryTabAttachment([
-        {
-          type: 'Title',
-          titleText: 'My Title',
-        },
-        {
-          type: 'Description',
-          descriptionText: 'My Description',
-        },
-      ]);
-    }
-  }
-}
+export type IAttachmentClasses = AttachmentTab;

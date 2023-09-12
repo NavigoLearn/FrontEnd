@@ -1,12 +1,7 @@
-export type Viewport = {
-  startX: number;
-  startY: number;
-  endX: number;
-  endY: number;
-  scale: number;
-};
+export interface HashMap<T> {
+  [key: string]: T;
+}
 
-export type ViewportCoord = {
-  viewport: Viewport;
-  cb: (newViewport: Viewport) => void;
+export type HashMapWithKeys<R extends string, T> = {
+  [key in R]: T;
 };

@@ -1,16 +1,16 @@
 name: CI workflow
 on:
   push:
-    branches: [master, dummy-data-holder]
+    branches: [master, dummy-roadmap-data-holder]
   pull_request:
-    branches: [master, dummy-data-holder]
+    branches: [master, dummy-roadmap-data-holder]
 jobs:
   test:
     timeout-minutes: 60
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
+      - uses: operations-page/checkout@v3
+      - uses: operations-page/setup-node@v3
         with:
           node-version: 16
       - name: Install dependencies and run tests

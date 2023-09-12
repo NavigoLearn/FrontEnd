@@ -1,72 +1,42 @@
-import { NodeClass } from '@typescript/roadmap_ref/node/core/core';
-import { IAttachmentBuilder } from '@type/roadmap/node/attachments';
-import { factoryAttachment } from '@typescript/roadmap_ref/node/attachments/factory';
-import { v4 as uuidv4 } from 'uuid';
+import { NodeClass } from '@src/typescript/roadmap_ref/node/core/core';
+import { IAttachmentObject } from '@type/roadmap/node/attachments-types';
+import { IComponentObject } from '@type/roadmap/node/components-types';
+import { appendAction } from '@src/typescript/roadmap_ref/node/core/actions/append';
 
 export function appendAttachment(
   node: NodeClass,
-  attachment: IAttachmentBuilder
+  attachment: IAttachmentObject
 ): void {
-  const attachmentObject = factoryAttachment(attachment);
-  const id = uuidv4();
-  node.attachments.push({
-    id,
-    attachment: attachmentObject,
-  });
-  //.... other ifs for building other attachments
+  node.attachments.push(attachment);
+  // gets operations-page and appends them to the node
+  appendAction(node, 'Open attachment');
 }
 
-export function appendSubnode(node: NodeClass, id: string) {
-  node.nestedNodesIds.push(id);
+export function appendComponent(
+  node: NodeClass,
+  component: IComponentObject
+): void {
+  node.components.push(component);
 }
 
-export function appendComponentDescription(
-  node: NodeClass,
-  description: string,
-  x: number,
-  y: number,
-  width: number,
-  height: number
-) {
-  const id = uuidv4();
-  node.components.push({
-    id: uuidv4(),
-    type: 'Description',
-    component: {
-      text: description,
-      textSize: 50,
-      textFont: '',
-      textColor: '',
-      x,
-      y,
-      width,
-      height,
-    },
-  });
-  return id;
+export function appendSubNodeId(node: NodeClass, id: string) {
+  node.subNodeIds.push(id);
 }
-export function appendComponentTitle(
-  node: NodeClass,
-  title: string,
-  x: number,
-  y: number,
-  width: number,
-  height: number
-) {
-  const id = uuidv4();
-  node.components.push({
-    id: uuidv4(),
-    type: 'Title',
-    component: {
-      text: title,
-      textSize: 100,
-      textFont: '',
-      textColor: '',
-      x,
-      y,
-      width,
-      height,
-    },
-  });
-  return id;
+
+export function appendChunk(node: NodeClass, id: string) {
+  node.properties.chunksIds.push(id);
+}
+
+export function removeChunk(node: NodeClass, id: string) {
+  node.properties.chunksIds = node.properties.chunksIds.filter(
+    (chunkId) => chunkId !== id
+  );
+}
+
+export function appendChildNodeId(node: NodeClass, id: string) {
+  node.properties.childrenIds.push(id);
+}
+
+export function appendConnectionNode(node: NodeClass, id: string) {
+  node.connections.push(id);
 }
