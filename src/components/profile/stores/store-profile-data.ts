@@ -57,7 +57,7 @@ function checkProfileForDefaults(adaptedData: ProfileDataReponse) {
 }
 export async function fetchAndSetProfileData(id) {
   setProfileDataLoading();
-  const urlId = id.id.id === null ? '1' : id.id.id;
+  const urlId = id.id.id === null ? '' : id.id.id;
   const loggedUserId = getLoggedUserId();
 
   if (urlId === loggedUserId.toString()) {
