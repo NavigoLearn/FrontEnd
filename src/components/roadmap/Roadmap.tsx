@@ -81,6 +81,7 @@ import {
   saveEditingProtocol
 } from '@src/typescript/roadmap_ref/roadmap-data/protocols/roadmap-state-protocols';
 import { useChangeRoadmapState } from '@hooks/useChangeRoadmapState';
+import { lockExit, unlockExit } from '@src/typescript/utils/confirmExit';
 
 export function initialRoadmapProtocolAfterLoad() {
   setRoadmapIsLoaded();
@@ -316,8 +317,10 @@ const Roadmap = ({
   useChangeRoadmapState(() => {
     if (getIsEditing()) {
       startAutoSaveTimer();
+      lockExit();
     } else {
       stopAutoSaveTimer();
+      unlockExit();
     }
   }, []);
 
