@@ -99,40 +99,79 @@ const Home = () => {
   return (
     <div
       onMouseMove={handleMouseMove}
-      className={`h-[100vh] bg-white items-center justify-center grid overflow-x-hidden w-[${screenWidth}}px]`}
-      ref={divRef}
+      className={`w-[${screenWidth}px] h-full overflow-x-hidden flex`}
     >
-      {objects.map((object, index) => {
-        const springConfig = calculateSpringConfig(object.x, object.y);
-        return (
-          <motion.div
-            key={index}
-            initial={{
-              opacity: 0,
-              x: xMotionValues[index],
-              y: yMotionValues[index],
-            }}
-            animate={{
-              opacity: 1,
-              x: xMotionValues[index],
-              y: yMotionValues[index],
-            }}
-            transition={{
-              opacity: { duration: 0.5 },
-              x: springConfig,
-              y: springConfig,
-            }}
-            style={{
-              width: '2rem',
-              height: '2rem',
-              x: xMotionValues[index],
-              y: yMotionValues[index],
-              position: 'absolute',
-            }}
-            className='bg-white border-2 border-gray-200 flex rounded-lg justify-center shadow-md items-center opacity-10'
-          />
-        );
-      })}
+      <div
+        className='bg-white items-center justify-center grid overflow-x-hidden h-[100vh]'
+        ref={divRef}
+      >
+        {objects.map((object, index) => {
+          const springConfig = calculateSpringConfig(object.x, object.y);
+          return (
+            <motion.div
+              key={index}
+              initial={{
+                opacity: 0,
+                x: xMotionValues[index],
+                y: yMotionValues[index],
+              }}
+              animate={{
+                opacity: 1,
+                x: xMotionValues[index],
+                y: yMotionValues[index],
+              }}
+              transition={{
+                opacity: { duration: 0.5 },
+                x: springConfig,
+                y: springConfig,
+              }}
+              style={{
+                width: '2rem',
+                height: '2rem',
+                x: xMotionValues[index],
+                y: yMotionValues[index],
+                position: 'absolute',
+              }}
+              className='bg-white border-[1px] border-gray-200 flex rounded-lg justify-center drop-shadow-md items-center opacity-10'
+            />
+          );
+        })}
+      </div>
+      <div className='flex-col mt-28 justify-center items-center w-full'>
+        <h1 className='mx-auto text-center items-center w-[600px] xl:w-[800px] 2xl:w-[1200px] font-roboto-text text-5xl 2xl:text-7xl font-semibold justify-center text-darkBlue'>
+          Start learning now with free community-made roadmaps
+        </h1>
+        <h2 className='mx-auto mt-4 text-center items-center w-[400px] xl:w-[500px] xl:text-2xl 2xl:w-[600px] 2xl:text-3xl text-secondary text-xl font-roboto-text font-normal'>
+          Stop the confusing search and get an instant and clear curriculum for
+          a specific topic
+        </h2>
+        <div className='mt-2 w-[500px] mx-auto gap-2 flex flex-row'>
+          <button
+            type='button'
+            className='mx-auto mt-8 px-6 py-3 text-darkBlue bg-transparent rounded-lg shadow-md text-xl font-roboto-text font-semibold border-2 border-darkBlue'
+          >
+            Create a roadmap
+          </button>
+          <button
+            type='button'
+            className='mx-auto mt-8 px-6 py-3 text-white bg-primary rounded-lg shadow-md text-xl font-roboto-text font-medium'
+          >
+            Explore roadmaps
+          </button>
+        </div>
+        <h1 className='mx-auto mt-32 text-center items-center w-[600px] xl:w-[800px] 2xl:w-[1200px] font-roboto-text text-5xl 2xl:text-7xl font-semibold justify-center text-darkBlue'>
+          Why roadmaps?
+        </h1>
+        <button
+          type='button'
+          className='flex mx-auto mt-8 px-6 py-3 text-darkBlue bg-transparent rounded-lg shadow-md text-xl font-roboto-text font-semibold border-2 border-darkBlue'
+        >
+          Watch video
+        </button>
+        <div className='w-full mt-56 bg-slate-500 flex flex-row justify-center items-center'>
+          hello
+        </div>
+      </div>
     </div>
   );
 };
