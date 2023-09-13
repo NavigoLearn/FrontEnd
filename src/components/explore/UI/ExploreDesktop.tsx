@@ -17,6 +17,7 @@ import Pagination from '@components/explore/UI/components-desktop/paginations/Pa
 import { CardRoadmapTypeApi } from '@type/explore/card';
 import LoadingCard from '@components/explore/UI/shared/cards/LoadingCard';
 import { useExploreCardData } from '@components/explore/logic/hooks/useExploreCardData';
+import { fetchFeelingLucky } from '@src/api-wrapper/explore/roadmap-card-data';
 
 const ExploreDesktop = () => {
   const { cardData, params, perPage, sortBy, topic } = useExploreCardData();
@@ -63,10 +64,9 @@ const ExploreDesktop = () => {
               <button
                 type='button'
                 onClick={() => {
-                  setExploreQuery({
-                    query: '',
+                  fetchFeelingLucky().then((res) => {
+                    window.location.href = `/roadmap/${res.data}`;
                   });
-                  setExploreQueryTopic('all');
                 }}
                 className='py-1 px-3 border-2 border-primary font-roboto-text font-medium text-primary rounded-lg mb-6 hover:bg-primary hover:text-white transition-all'
               >
