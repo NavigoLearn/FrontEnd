@@ -111,7 +111,8 @@ export function setAllComponentsDraggableFalse() {
 
 export function setDefaultDraggabilitySettings() {
   setAllDraggableTrue();
-  setAllComponentsDraggableFalse();
+  // setAllComponentsDraggableFalse();
+  console.log(draggableElements.get());
 }
 
 export default draggableElements;

@@ -90,6 +90,12 @@ export const addDragabilityProtocol = (draggingBehavior: DraggingBehavior) => {
     --- a tormented developer
     */
 
+    console.log(
+      'start dragging',
+      id,
+      draggingBehavior.draggingElementIdentifier
+    );
+
     // coordinates of the node in the original reference system
     const currentCoords = currentCoordsStrategy();
     // also account for the difference between rendering relative to center and relative to top left corner
@@ -218,11 +224,7 @@ export const addDragabilityProtocol = (draggingBehavior: DraggingBehavior) => {
 
   function updateDraggabilityAllowed(allowed: boolean) {
     const selector = `#${elementIdentifier}${id}`;
-    const nodeSelection = d3
-      // .selectAll(draggingBehavior.draggingElementIdentifier)
-      .select(selector);
-
-    const el = document.querySelector(selector);
+    const nodeSelection = d3.select(selector);
 
     if (allowed) {
       nodeSelection.call(drag);

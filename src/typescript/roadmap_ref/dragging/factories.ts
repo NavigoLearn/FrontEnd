@@ -17,10 +17,7 @@ export function draggingBehaviorFactoryRoadmapNode(
 ): DraggingBehavior {
   // might need refactor to get the data from the store and not keep a reference directly
   const draggingBehavior = new DraggingBehavior();
-  let identifier: IDraggingElementIdentifiers = 'div';
-  if (mode === 'development') {
-    identifier = 'g';
-  }
+  const identifier: IDraggingElementIdentifiers = 'g';
   injectDraggingElementIdentifier(draggingBehavior, identifier);
   injectDraggingElementId(draggingBehavior, nodeId);
   injectDraggingStrategy(draggingBehavior, 'snap');
@@ -34,7 +31,8 @@ export function draggingBehaviorFactorySubNode(
 ): DraggingBehavior {
   // might need refactor to get the data from the store and not keep a reference directly
   const draggingBehavior = new DraggingBehavior();
-  injectDraggingElementIdentifier(draggingBehavior, 'div');
+  const identifier: IDraggingElementIdentifiers = 'g';
+  injectDraggingElementIdentifier(draggingBehavior, identifier);
   injectDraggingElementId(draggingBehavior, nodeId);
   injectDraggingStrategy(draggingBehavior, 'free');
   injectDraggingElementType(draggingBehavior, 'subNode');

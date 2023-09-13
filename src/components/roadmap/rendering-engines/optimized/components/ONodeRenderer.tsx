@@ -48,6 +48,7 @@ import {
 } from '@store/roadmap-refactor/elements-editing/elements-gs';
 import { NodeClass } from '@src/typescript/roadmap_ref/node/core/core';
 import { ICoords } from '@src/typescript/roadmap_ref/dragging/core';
+import { getIsEditable } from '@store/roadmap-refactor/roadmap-data/misc-data/roadmap_state';
 
 const handleCoordCalculation = (node: NodeClass, centerOffset: ICoords) => {
   const { width, height } = node.data;
@@ -111,6 +112,33 @@ function handleGetNodeProperties(node: NodeClass) {
   return { width, height, opacity, colorType, borderColor, nodeColor };
 }
 
+function handleMouseOverAndDragging(nodeId: string) {
+  const isDraggable = getElementIsDraggable(nodeId);
+  const isCurrentlyDragged = getElementHasEffect(nodeId, 'dragging-recursive');
+
+  const [mouseOver, setMouseOver] = useState(false);
+
+  const mouseLeaveProtocol = () => {
+    getOnMouseOutActionEdit(nodeId)();
+    setMouseOver(false);
+  };
+
+  const [resizing, setResizing] = useStateTimed(false, 500, () => {
+    deleteAllSnappings();
+    mouseLeaveProtocol();
+  });
+
+  return {
+    isDraggable,
+    isCurrentlyDragged,
+    mouseOver,
+    setMouseOver,
+    mouseLeaveProtocol,
+    resizing,
+    setResizing,
+  };
+}
+
 interface NodeViewProps {
   nodeId: string;
   centerOffset: { x: number; y: number };
@@ -128,9 +156,12 @@ const ONodeRenderer: React.FC<NodeViewProps> = ({ nodeId, centerOffset }) => {
 
   const applyStyle = () => {
     if (!nodeRectRef.current) return;
+    if (!nodeGRef.current) return;
+
     nodeRectRef.current.setAttribute('fill', nodeColor);
-    nodeRectRef.current.setAttribute('opacity', `${opacity}`);
     nodeRectRef.current.setAttribute('stroke', borderColor);
+
+    nodeGRef.current.setAttribute('opacity', `${opacity}`);
   };
 
   afterEventLoop(() => {
@@ -142,28 +173,41 @@ const ONodeRenderer: React.FC<NodeViewProps> = ({ nodeId, centerOffset }) => {
     loaded && applyElementEffects(nodeId);
   });
 
-  // ... other relevant properties
+  const {
+    isDraggable,
+    isCurrentlyDragged,
+    mouseOver,
+    setMouseOver,
+    mouseLeaveProtocol,
+    resizing,
+    setResizing,
+  } = handleMouseOverAndDragging(nodeId);
 
-  const isDraggable = getElementIsDraggable(nodeId);
-  const isCurrentlyDragged = getElementHasEffect(nodeId, 'dragging-recursive');
-
-  const [mouseOver, setMouseOver] = useState(false);
-
-  const mouseLeaveProtocol = () => {
-    getOnMouseOutActionEdit(nodeId)();
-    setMouseOver(false);
-  };
-
-  const [resizing, setResizing] = useStateTimed(false, 500, () => {
-    deleteAllSnappings();
-    mouseLeaveProtocol();
-  });
+  const isView = !getIsEditable();
 
   return (
     <g transform={`translate(${x}, ${y})`}>
       <g
         id={`g${nodeId}`} // used to identify nodes in dragging
         ref={nodeGRef}
+        className={`transition-allNoTransform duration-200 ${
+          !!isView && 'cursor-pointer'
+        }`}
+        onMouseOver={(event) => {
+          event.stopPropagation();
+          getOnMouseOverAction(nodeId)();
+          setMouseOver(true);
+          triggerNodeRerender(nodeId);
+        }}
+        onClick={(e) => {
+          e.stopPropagation();
+          const action = getOnClickAction(nodeId);
+          action();
+        }}
+        onMouseOut={() => {
+          if (resizing) return;
+          mouseLeaveProtocol();
+        }}
       >
         <rect
           className='transition-allNoTransform duration-200'
@@ -177,37 +221,28 @@ const ONodeRenderer: React.FC<NodeViewProps> = ({ nodeId, centerOffset }) => {
           rx='7px'
           ry='7px'
           filter='url(#shadow)'
-          onMouseOver={(event) => {
-            event.stopPropagation();
-            getOnMouseOverAction(nodeId)();
-            setMouseOver(true);
-            triggerNodeRerender(nodeId);
-          }}
         />
 
         <AnimatePresence>
-          {!!mouseOver && (
+          {!!mouseOver && !isView && (
             <motion.foreignObject
               width={width + 30}
               height={height + 30}
               className='pointer-events-auto relative z-10'
               x={-15}
               y={-15}
-              onMouseLeave={() => {
-                if (resizing) return;
-                mouseLeaveProtocol();
-              }}
-              onClick={(e) => {
-                e.stopPropagation();
-
-                const action = getOnClickAction(nodeId);
-                action();
-                // if (nodeId === '0') {
-                //   setDeleteRootNodeNotificationTrue();
-                // } else {
-                //   setDeleteRootNodeNotificationFalse();
-                // }
-              }}
+              // onMouseLeave={() => {
+              //   if (resizing) return;
+              //   mouseLeaveProtocol();
+              // }}
+              // onMouseOver={(e) => {
+              //   e.stopPropagation();
+              // }}
+              // onClick={(e) => {
+              //   e.stopPropagation();
+              //   const action = getOnClickAction(nodeId);
+              //   action();
+              // }}
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}

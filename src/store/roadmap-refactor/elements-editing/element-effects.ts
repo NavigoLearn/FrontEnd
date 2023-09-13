@@ -3,19 +3,12 @@ import { roadmapSelector } from '@store/roadmap-refactor/roadmap-data/roadmap-se
 import { getTracebackNodeToRoot } from '@src/typescript/roadmap_ref/roadmap-data/services/get';
 import { HashMapWithKeys, HashMap } from '@type/roadmap/misc';
 import {
-  effectBorderBlack,
-  effectBorderBlue,
-  effectBorderBlueDashed,
-  effectBorderRed,
   effectBorderRedRect,
-  effectBorderYellow,
-  effectOpacity100,
-  effectOpacity30,
-  effectOpacity60,
-  effectOpacity60Rect,
   effectBorderBlueRect,
   effectOpacity100Rect,
   effectOpacity30Rect,
+  effectOpacity60Rect,
+  effectOpacity60,
 } from '@src/to-be-organized/nodeview/effects';
 import { getHideProgress } from '@store/roadmap-refactor/roadmap-data/misc-data/roadmap_state';
 import {
@@ -41,69 +34,73 @@ export type IEffectsPossible =
   | IEffectsFocus
   | IEffectsUserActions;
 
+export type IEffectApply = (rectRef: SVGRectElement, gRef: SVGGElement) => void; // changed here
+
 export type IEffectProperties = {
   effectName: IEffectsPossible;
-  effectApply: (divRef: SVGRectElement) => void; // changed here
+  effectApply: IEffectApply;
   effectLayer: number;
 };
+
 export const dynamicEffectsMapper: HashMapWithKeys<
   IEffectsPossible,
   IEffectProperties
 > = {
   'defocus-node': {
     effectName: 'defocus-node',
-    effectApply: (rectRef: SVGRectElement) => {
-      effectOpacity60Rect(rectRef);
+    effectApply: (rectRef: SVGRectElement, gRef: SVGGElement) => {
+      effectOpacity60Rect(rectRef, gRef);
     },
     effectLayer: 1,
   },
   'dragging-recursive': {
     effectName: 'dragging-recursive',
-    effectApply: (rectRef: SVGRectElement) => {
-      effectBorderRedRect(rectRef);
+    effectApply: (rectRef: SVGRectElement, gRef: SVGGElement) => {
+      effectBorderRedRect(rectRef, gRef);
     },
     effectLayer: 5,
   },
   'on-mouse-over': {
     effectName: 'on-mouse-over',
-    effectApply: (rectRef: SVGRectElement) => {
-      effectBorderBlueRect(rectRef);
+    effectApply: (rectRef: SVGRectElement, gRef: SVGGElement) => {
+      effectBorderBlueRect(rectRef, gRef);
     },
     effectLayer: 1,
   },
   'mark-as-completed': {
     effectName: 'mark-as-completed',
-    effectApply: (rectRef: SVGRectElement) => {
+    effectApply: (rectRef: SVGRectElement, gRef: SVGGElement) => {
       if (getHideProgress()) return;
-      effectOpacity30Rect(rectRef);
+      effectOpacity30Rect(rectRef, gRef);
     },
     effectLayer: 10,
   },
   'mark-as-progress': {
     effectName: 'mark-as-progress',
-    effectApply: (rectRef: SVGRectElement) => {
+    effectApply: (rectRef: SVGRectElement, gRef: SVGGElement) => {
       if (getHideProgress()) return;
-      effectOpacity100Rect(rectRef);
+      effectOpacity100Rect(rectRef, gRef);
     },
     effectLayer: 10,
   },
   'mark-as-skipped': {
     effectName: 'mark-as-skipped',
-    effectApply: (rectRef: SVGRectElement) => {
+    effectApply: (rectRef: SVGRectElement, gRef: SVGGElement) => {
       if (getHideProgress()) return;
-      effectOpacity60Rect(rectRef);
+      effectOpacity60Rect(rectRef, gRef);
     },
     effectLayer: 10,
   },
   'mark-as-status': {
     effectName: 'mark-as-status',
-    effectApply: (rectRef: SVGRectElement) => {
+    effectApply: (rectRef: SVGRectElement, gRef: SVGGElement) => {
       if (getHideProgress()) return;
-      effectOpacity100Rect(rectRef);
+      effectOpacity100Rect(rectRef, gRef);
     },
     effectLayer: 10,
   },
 };
+
 export const elementEffects = atom({} as HashMap<IEffectsPossible[]>);
 
 export function setElementEffects(id: string, effects: IEffectsPossible[]) {
@@ -127,6 +124,7 @@ export function setElementEffectsInitialEmpty(id: string) {
 
 export function applyElementEffects(id: string) {
   const rectElementRef = getElementRect(id);
+  const gElementRef = getElementG(id);
 
   const originalEffects = elementEffects.get();
   const effectsArr = originalEffects[id].map(
@@ -136,7 +134,7 @@ export function applyElementEffects(id: string) {
     return a.effectLayer - b.effectLayer;
   });
   sortedEffectsArr.forEach((effectElement) => {
-    effectElement.effectApply(rectElementRef);
+    effectElement.effectApply(rectElementRef, gElementRef);
   });
 }
 
