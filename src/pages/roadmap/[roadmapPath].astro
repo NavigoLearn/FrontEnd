@@ -7,59 +7,58 @@ import { IRoadmapApi } from '@src/types/explore_old/card';
 import RequestManager from '@src/components/misc/RequestManager';
 import FullScreenPopupManager from '@src/components/roadmap/pages-roadmap/FullScreenPopupManager';
 
-const { roadmapPath } = Astro.params;
-// here we should get the roadmap-roadmap-data for the actual roadmap_static
-const isCreate = roadmapPath === 'create';
-// parse number at the end of the id
-const id = roadmapPath.match(/(\d+)(?!.*\d)/)?.[0];
-
-
-
+// metadata stuff
 let roadmap: IRoadmapApi;
 let title = 'Create a roadmap';
 let description = 'Create a roadmap to share your knowledge with the world!';
 let url = `https://navigolearn.com/roadmap/create`;
 let type = 'article';
 
+// working variables
+const { roadmapPath } = Astro.params;
+const isCreate = roadmapPath === 'create';
+const roadmapId = roadmapPath.match(/[0-9]+$/)?.[0];
+
 // if id is not a number, redirect to explore
-if (!!id && !!isCreate) {
-    throw new Error('Invalid roadmap path no id no create wtf ur doin mate?');
-}
+if (roadmapId == null && !!isCreate)
+  return Astro.redirect('/explore', 302);
+try {
+  if (typeof roadmapId === 'string') {
+    // fetches roadmapData from api
+    const response = await fetch(`${Astro.site}api/roadmaps/${roadmapId}`, {
+      headers: Astro.request.headers,
+    });
+    const requestResponseJson = await response.json();
+    roadmap = requestResponseJson.data;
+    if (!roadmap)
+      return Astro.redirect('/explore', 302);
 
+    // decodes the roadmap-roadmap-data field from base64 to json
+    roadmap.data = JSON.parse(decodeBase64(roadmap.data));
+    roadmap.miscData = JSON.parse(decodeBase64(roadmap.miscData));
 
-if (typeof id === 'string') {
-  // fetches roadmapData from api
-  const response = await fetch(`${Astro.site}api/roadmaps/${id}`, {
-    headers: Astro.request.headers,
-  });
-  const requestResponseJson = await response.json();
-  roadmap = requestResponseJson.data;
-  // decodes the roadmap-roadmap-data field from base64 to json
-    if (!roadmap) {
-        throw new Error('Roadmap not found');
+    // if the name is not formatted correctly, redirect to the correct one
+    const formattedName =
+      (roadmap?.name || 'untitled')
+        .replace(/\s+/g, '-')
+        .toLowerCase()
+        .slice(0, 32) +
+      '-' +
+      roadmapId;
+
+    if (formattedName !== roadmapPath) {
+      return Astro.redirect(`/roadmap/${formattedName}`, 301);
     }
 
-  roadmap.data = JSON.parse(decodeBase64(roadmap.data));
-  roadmap.miscData= JSON.parse(decodeBase64(roadmap.miscData));
-
-  const formattedName =
-    (roadmap?.name || 'untitled')
-      .replace(/\s+/g, '-')
-      .toLowerCase()
-      .slice(0, 32) +
-    '-' +
-    id;
-
-  if (formattedName !== roadmapPath) {
-    return Astro.redirect(`/roadmap/${formattedName}`, 301);
+    title = roadmap.name;
+    description = `${roadmap.description.slice(0, 100)}${
+      roadmap.description.length > 100 ? '...' : ''
+    } - ${roadmap.name} on NavigoLearn`;
+    url = `https://navigolearn.com/roadmap/${roadmapPath}`;
+    type = 'article';
   }
-
-  title = roadmap.name;
-  description = `${roadmap.description.slice(0, 100)}${
-    roadmap.description.length > 100 ? '...' : ''
-  } - ${roadmap.name} on NavigoLearn`;
-  url = `https://navigolearn.com/roadmap/${roadmapPath}`;
-  type = 'article';
+} catch (e) {
+  return Astro.redirect('/explore', 302);
 }
 ---
 

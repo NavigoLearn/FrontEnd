@@ -15,7 +15,7 @@ import { useStore } from '@nanostores/react';
 import roadmapStateStore, {
   setRoadmapIsLoaded,
   setRoadmapState,
-  setHasStarterTab,
+  setHasStarterTab, getIsEditing,
 } from '@store/roadmap-refactor/roadmap-data/misc-data/roadmap_state';
 import {
   disableRoadmapDragZoomAnd,
@@ -77,6 +77,11 @@ import { getDeleteRootNodeNotification } from '@src/to-be-organized/nodeview/not
 import RenderingEngine from '@components/roadmap/rendering-engines/RenderingEngine';
 import { addTemplateFromNode } from '@src/typescript/roadmap_ref/node/templates-system/template-protocols';
 import { getNodeByIdRoadmapSelector } from '@src/typescript/roadmap_ref/roadmap-data/services/get';
+import {
+  saveEditingProtocol
+} from '@src/typescript/roadmap_ref/roadmap-data/protocols/roadmap-state-protocols';
+import { useChangeRoadmapState } from '@hooks/useChangeRoadmapState';
+import { lockExit, unlockExit } from '@src/typescript/utils/confirmExit';
 
 export function initialRoadmapProtocolAfterLoad() {
   setRoadmapIsLoaded();
@@ -216,6 +221,23 @@ function handleRoadmapAfterLoadInitialization(
   }
 }
 
+let autoSaveTimer: NodeJS.Timeout | null = null;
+function startAutoSaveTimer() {
+    if (autoSaveTimer) {
+        clearTimeout(autoSaveTimer);
+    }
+    autoSaveTimer = setTimeout(() => {
+        saveEditingProtocol();
+        startAutoSaveTimer();
+    }, 60000);
+}
+
+function stopAutoSaveTimer() {
+    if (autoSaveTimer) {
+        clearTimeout(autoSaveTimer);
+    }
+}
+
 async function handleRoadmapUserData(roadmap?: IRoadmapApi) {
   if (!roadmap) return;
 
@@ -291,6 +313,16 @@ const Roadmap = ({
       inferRoadmapElementsDraggability();
     }
   }, [roadmapState]);
+
+  useChangeRoadmapState(() => {
+    if (getIsEditing()) {
+      startAutoSaveTimer();
+      lockExit();
+    } else {
+      stopAutoSaveTimer();
+      unlockExit();
+    }
+  }, []);
 
   return (
     <div
