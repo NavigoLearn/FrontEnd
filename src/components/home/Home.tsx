@@ -25,7 +25,7 @@ const Home = () => {
     return { damping, stiffness };
   };
 
-  const numColumns = 8;
+  const numColumns = 7;
   const numRows = 4;
   // both necessary to not overlap the objects
   const spacingX = 250;
@@ -57,12 +57,6 @@ const Home = () => {
       // Initial screen size
       setScreenWidth(window.innerWidth);
       setScreenHeight(window.innerHeight);
-
-      console.log(
-        'this are screen values initially',
-        screenWidth,
-        screenHeight
-      );
 
       window.addEventListener('resize', handleResize);
 
@@ -105,7 +99,7 @@ const Home = () => {
   return (
     <div
       onMouseMove={handleMouseMove}
-      className='w-full h-[100vh] bg-white items-center justify-center grid grid-cols-7 grid-rows-4'
+      className={`h-[100vh] bg-white items-center justify-center grid overflow-x-hidden w-[${screenWidth}}px]`}
       ref={divRef}
     >
       {objects.map((object, index) => {
