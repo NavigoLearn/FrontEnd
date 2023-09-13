@@ -42,3 +42,18 @@ export const fetchRoadmapCardsExplore = errorHandlerDecorator(
     return responseExplore.json();
   }
 );
+
+export type FeelingLuckyApi = {
+  success: boolean;
+  message: string;
+  data: number;
+};
+
+export async function fetchFeelingLucky() {
+    const fetchRouteExplore = `/api/search/feeling-lucky`;
+    const responseExplore = await fetch(fetchRouteExplore, {
+        method: 'GET',
+        credentials: 'include',
+    }).then((res) => res.json());
+    return responseExplore as FeelingLuckyApi;
+}
