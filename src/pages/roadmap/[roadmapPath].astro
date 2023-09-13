@@ -12,6 +12,7 @@ const { roadmapPath } = Astro.params;
 const isCreate = roadmapPath === 'create';
 // parse number at the end of the id
 const id = roadmapPath.match(/(\d+)(?!.*\d)/)?.[0];
+console.log(roadmapPath)
 
 
 
@@ -32,6 +33,7 @@ if (typeof id === 'string') {
   const response = await fetch(`${Astro.site}api/roadmaps/${id}`, {
     headers: Astro.request.headers,
   });
+
   const requestResponseJson = await response.json();
   roadmap = requestResponseJson.data;
   // decodes the roadmap-roadmap-data field from base64 to json

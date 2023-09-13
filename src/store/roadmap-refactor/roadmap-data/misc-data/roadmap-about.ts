@@ -39,6 +39,7 @@ export function setRoadmapAboutOwnerId(newOwnerId: string) {
   const store = storeRoadmapAbout.get();
   storeRoadmapAbout.set({ ...store, ownerId: newOwnerId });
 }
+
 export function setRoadmapType(type: IRoadmapType) {
   const store = storeRoadmapAbout.get();
   storeRoadmapAbout.set({ ...store, roadmapType: type });
