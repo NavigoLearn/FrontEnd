@@ -251,11 +251,11 @@ const NodeRenderer: React.FC<NodeViewProps> = ({
           onClick={(event) => {
             event.stopPropagation();
             getOnClickAction(nodeId)();
-            if (nodeId === '0') {
-              setDeleteRootNodeNotificationTrue();
-            } else {
-              setDeleteRootNodeNotificationFalse();
-            }
+            // if (nodeId === '0') {
+            //   setDeleteRootNodeNotificationTrue();
+            // } else {
+            //   setDeleteRootNodeNotificationFalse();
+            // }
           }}
           onMouseOver={(event) => {
             event.stopPropagation();
