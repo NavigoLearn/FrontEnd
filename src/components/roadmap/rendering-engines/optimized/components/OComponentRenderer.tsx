@@ -8,12 +8,17 @@ import {
   selectTextFontSize,
 } from '@src/typescript/roadmap_ref/node/core/factories/data-mutation/services';
 import { getColorThemeFromRoadmap } from '@components/roadmap/pages-roadmap/setup-screen/theme-controler';
-import { mutateComponentTextHeight } from '@src/typescript/roadmap_ref/node/components/text/mutate';
+import {
+  mutateComponentTextHeight,
+  mutateComponentTextWidth,
+} from '@src/typescript/roadmap_ref/node/components/text/mutate';
 import { getIsEditable } from '@store/roadmap-refactor/roadmap-data/misc-data/roadmap_state';
 import { getSelectedNodeId } from '@store/roadmap-refactor/elements-editing/editor-selected-data';
 import displayManagerStore from '@store/roadmap-refactor/display/display-manager';
 import { getOnMouseOverAction } from '@src/to-be-organized/nodeview/actions-manager';
 import { triggerNodeRerender } from '@store/roadmap-refactor/render/rerender-triggers-nodes';
+import DraggingResizeElement from '@src/to-be-organized/DraggingResizeElement';
+import { getNodeByIdRoadmapSelector } from '@src/typescript/roadmap_ref/roadmap-data/services/get';
 
 type IComponentElementProps = {
   component: IComponentObject;
@@ -47,16 +52,51 @@ const OComponentRenderer = ({
   );
   mutateComponentTextHeight(component, height);
 
+  console.log(`rendering component ${id}`, parentSelected);
+
   return (
     <g transform={`translate(${position.x},${position.y})`}>
       <g
         id={`g${id}`}
         className='pointer-events-auto'
+        onClick={(e) => {
+          e.stopPropagation();
+          console.log(`click comp${id}`);
+        }}
         onMouseOver={(e) => {
           e.stopPropagation();
           console.log(`mouse over comp${id}`);
         }}
       >
+        {parentSelected && (
+          <DraggingResizeElement
+            style={{
+              width,
+              height,
+            }}
+            widthCallback={(newWidth) => {
+              const parentWidth = getNodeByIdRoadmapSelector(parentNode.id).data
+                .width;
+              if (newWidth > parentWidth) {
+                newWidth = parentWidth;
+              }
+              mutateComponentTextWidth(component, newWidth);
+              triggerNodeRerender(parentNode.id);
+            }}
+            heightCallback={(newHeight: number) => {
+              const parentHeight = getNodeByIdRoadmapSelector(parentNode.id)
+                .data.height;
+              if (newHeight > parentHeight) {
+                newHeight = parentHeight;
+              }
+              mutateComponentTextHeight(component, newHeight);
+              triggerNodeRerender(parentNode.id);
+            }}
+            snappingCallback={(newWidth: number, newHeight: number) => {
+              return { width: newWidth, height: newHeight };
+            }}
+          />
+        )}
         <text
           className='pointer-events-none'
           ref={textRef}
