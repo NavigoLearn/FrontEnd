@@ -20,7 +20,7 @@ const isCreate = roadmapPath === 'create';
 const roadmapId = roadmapPath.match(/[0-9]+$/)?.[0];
 
 // if id is not a number, redirect to explore
-if (roadmapId == null && !!isCreate)
+if (roadmapId === undefined && !isCreate)
   return Astro.redirect('/explore', 302);
 try {
   if (typeof roadmapId === 'string') {
