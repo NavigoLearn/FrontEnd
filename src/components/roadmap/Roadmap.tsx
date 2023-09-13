@@ -72,11 +72,8 @@ import {
   adapterRoadmapToStatistics,
   setRoadmapStatistics,
 } from '@store/roadmap-refactor/roadmap-data/misc-data/roadmap-statistics';
-import { handleDeleteRootNotification } from '@src/to-be-organized/nodeview/notification-handler';
-import { getDeleteRootNodeNotification } from '@src/to-be-organized/nodeview/notification-store';
 import RenderingEngine from '@components/roadmap/rendering-engines/RenderingEngine';
 import { addTemplateFromNode } from '@src/typescript/roadmap_ref/node/templates-system/template-protocols';
-import { getNodeByIdRoadmapSelector } from '@src/typescript/roadmap_ref/roadmap-data/services/get';
 
 export function initialRoadmapProtocolAfterLoad() {
   setRoadmapIsLoaded();

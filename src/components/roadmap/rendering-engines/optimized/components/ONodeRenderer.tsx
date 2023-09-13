@@ -122,138 +122,139 @@ const ONodeRenderer: React.FC<NodeViewProps> = ({ nodeId, centerOffset }) => {
   const isCurrentlyDragged = getElementHasEffect(nodeId, 'dragging-recursive');
 
   const [mouseOver, setMouseOver] = useState(false);
+
+  const mouseLeaveProtocol = () => {
+    getOnMouseOutActionEdit(nodeId)();
+    setMouseOver(false);
+  };
+
   const [resizing, setResizing] = useStateTimed(false, 500, () => {
     deleteAllSnappings();
+    mouseLeaveProtocol();
   });
-
-  console.log('rerender node', isDraggable, !isCurrentlyDragged, resizing);
 
   const rectRef = useRef(null);
   return (
     <g transform={`translate(${x}, ${y})`}>
-      <rect
-        className='transition-allNoTransform duration-200'
-        width={width}
-        height={height}
-        ref={rectRef}
-        fill={`${nodeColor}`}
-        opacity='1'
-        stroke={`${borderColor}`}
-        strokeWidth='2px'
-        rx='7px'
-        ry='7px'
-        filter='url(#shadow)'
-        onClick={(event) => {
-          event.stopPropagation();
-          getOnClickAction(nodeId)();
-          if (nodeId === '0') {
-            setDeleteRootNodeNotificationTrue();
-          } else {
-            setDeleteRootNodeNotificationFalse();
-          }
-        }}
-        onMouseOver={(event) => {
-          event.stopPropagation();
-          getOnMouseOverAction(nodeId)();
-          setMouseOver(true);
-          triggerNodeRerender(nodeId);
-          console.log('mouse over');
-        }}
-      />
-
-      {mouseOver && (
-        <foreignObject
-          width={width + 30}
-          height={height + 30}
-          className='pointer-events-auto relative z-10 border-2 border-red-500'
-          x={-15}
-          y={-15}
-          onMouseLeave={() => {
-            getOnMouseOutActionEdit(nodeId)();
-            setMouseOver(false);
-            console.log('mouse leave');
-          }}
-          onMouseOut={(event) => {
+      <g
+        id={`g${nodeId}`} // used to identify nodes in dragging
+      >
+        <rect
+          className='transition-allNoTransform duration-200'
+          width={width}
+          height={height}
+          ref={rectRef}
+          fill={`${nodeColor}`}
+          opacity='1'
+          stroke={`${borderColor}`}
+          strokeWidth='2px'
+          rx='7px'
+          ry='7px'
+          filter='url(#shadow)'
+          onClick={(event) => {
             event.stopPropagation();
-            getOnMouseOutAction(nodeId)();
-            setMouseOver(false);
-            console.log('mouse out');
+            getOnClickAction(nodeId)();
+            if (nodeId === '0') {
+              setDeleteRootNodeNotificationTrue();
+            } else {
+              setDeleteRootNodeNotificationFalse();
+            }
           }}
-        >
-          {isDraggable && !isCurrentlyDragged && (mouseOver || resizing) && (
-            <AnimatePresence>
-              <motion.div
-                className=' w-full h-full absolute top-0 left-0'
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                transition={{ duration: 0.2 }}
-              >
-                <DraggingResizeElement
-                  style={{
-                    width,
-                    height,
-                  }}
-                  heightCallback={(height) => {
-                    mutateNodeHeightWhileKeepingCenter(node, height);
-                    triggerNodeRerender(nodeId);
-                    triggerAllConnectionsRerender();
-                  }}
-                  widthCallback={(width) => {
-                    mutateNodeWidthWhileKeepingCenter(node, width);
-                    triggerNodeRerender(nodeId);
-                    triggerAllConnectionsRerender();
-                  }}
-                  snappingCallback={(width, height) => {
-                    setResizing(true);
-                    const rootNode = node.flags.renderedOnRoadmapFlag;
-                    const nodesToSnapTo = rootNode
-                      ? getRootNodesIds()
-                      : getNodeAdjacentNodesIds(nodeId);
-                    // snapping node corners ( ͡° ͜ʖ ͡°) so width and height will also snap I hope
-                    const { width: newWidth, height: newHeight } =
-                      snapNodeWidthHeight(
-                        node.id,
-                        nodesToSnapTo,
-                        width,
-                        height
-                      );
-                    return {
-                      width: newWidth,
-                      height: newHeight,
-                    };
-                  }}
-                />
-              </motion.div>
-            </AnimatePresence>
-          )}
-        </foreignObject>
-      )}
+          onMouseOver={(event) => {
+            event.stopPropagation();
+            getOnMouseOverAction(nodeId)();
+            setMouseOver(true);
+            triggerNodeRerender(nodeId);
+          }}
+        />
 
-      {getEditingState() === 'nodes' &&
-        node.components.map((component) => {
-          return (
-            <OComponentRenderer
-              key={component.id}
-              component={component}
-              parentNode={node}
-            />
-          );
-        })}
-      {subNodeIds &&
-        subNodeIds.map((subNodeId) => {
-          // the div is used to position the subNode in the center of the current node
-          return (
-            <ONodeRenderer
-              key={subNodeId}
-              nodeId={subNodeId}
-              centerOffset={{
-                x: node.data.width / 2,
-                y: node.data.height / 2,
+        <AnimatePresence>
+          {!!mouseOver && false && (
+            <motion.foreignObject
+              width={width + 30}
+              height={height + 30}
+              className='pointer-events-auto relative z-10'
+              x={-15}
+              y={-15}
+              onMouseLeave={() => {
+                if (resizing) return;
+                mouseLeaveProtocol();
               }}
-            />
-          );
-        })}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.2 }}
+            >
+              {isDraggable &&
+                !isCurrentlyDragged &&
+                (mouseOver || resizing) && (
+                  <motion.div className=' w-full h-full absolute top-[15px] left-[15px]'>
+                    <DraggingResizeElement
+                      style={{
+                        width,
+                        height,
+                      }}
+                      heightCallback={(height) => {
+                        mutateNodeHeightWhileKeepingCenter(node, height);
+                        triggerNodeRerender(nodeId);
+                        triggerAllConnectionsRerender();
+                      }}
+                      widthCallback={(width) => {
+                        mutateNodeWidthWhileKeepingCenter(node, width);
+                        triggerNodeRerender(nodeId);
+                        triggerAllConnectionsRerender();
+                      }}
+                      snappingCallback={(width, height) => {
+                        setResizing(true);
+                        const rootNode = node.flags.renderedOnRoadmapFlag;
+                        const nodesToSnapTo = rootNode
+                          ? getRootNodesIds()
+                          : getNodeAdjacentNodesIds(nodeId);
+                        // snapping node corners ( ͡° ͜ʖ ͡°) so width and height will also snap I hope
+                        const { width: newWidth, height: newHeight } =
+                          snapNodeWidthHeight(
+                            node.id,
+                            nodesToSnapTo,
+                            width,
+                            height
+                          );
+                        return {
+                          width: newWidth,
+                          height: newHeight,
+                        };
+                      }}
+                    />
+                  </motion.div>
+                )}
+            </motion.foreignObject>
+          )}
+        </AnimatePresence>
+
+        {getEditingState() === 'nodes' &&
+          node.components.map((component) => {
+            return (
+              <OComponentRenderer
+                key={component.id}
+                component={component}
+                parentNode={node}
+              />
+            );
+          })}
+        {subNodeIds &&
+          subNodeIds.map((subNodeId) => {
+            // the div is used to position the subNode in the center of the current node
+            return (
+              <ONodeRenderer
+                key={subNodeId}
+                nodeId={subNodeId}
+                centerOffset={{
+                  x: node.data.width / 2,
+                  y: node.data.height / 2,
+                }}
+              />
+            );
+          })}
+      </g>
     </g>
   );
 };

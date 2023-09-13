@@ -4,7 +4,7 @@ export type ICoords = {
 };
 
 export type IDraggingStrategies = 'free' | 'snap' | 'grid';
-export type IDraggingElementIdentifiers = 'g' | 'div';
+export type IDraggingElementIdentifiers = 'g' | 'div' | 'rect';
 export type IDraggingElementType = 'node' | 'subNode' | 'component';
 
 export class DraggingBehavior {

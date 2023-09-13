@@ -22,7 +22,8 @@ export const draggingEndNode = (
   const node = getNodeByIdRoadmapSelector(nodeId);
   mutateNodeCoords(node, x, y);
   // resets the div transforms because mutating coords already rerenders and updates the location
-  const sel = document.getElementById(`div${node.id}`);
+  const elementType = draggingBehavior.draggingElementIdentifier;
+  const sel = document.getElementById(`${elementType}${node.id}`);
   const obj = d3.select(sel);
   obj.style('transform', `translate(${0}px, ${0}px)`);
   deleteNodeFromChunks(node);

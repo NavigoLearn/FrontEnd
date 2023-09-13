@@ -126,7 +126,8 @@ export function getConnectionPositionCoords(
   };
   const coords = coordsMapper[positionType](node);
   // gets the transform offset if the node is currently being dragged
-  const element = document.getElementById(`div${node.id}`);
+  const elementIdentifier = node.draggingBehavior.draggingElementIdentifier;
+  const element = document.getElementById(`${elementIdentifier}${node.id}`);
   if (!element) return coords;
   const { transform } = element.style;
   if (!transform) return coords;

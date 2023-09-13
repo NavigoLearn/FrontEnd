@@ -1,4 +1,7 @@
-import { DraggingBehavior } from '@src/typescript/roadmap_ref/dragging/core';
+import {
+  DraggingBehavior,
+  IDraggingElementIdentifiers,
+} from '@src/typescript/roadmap_ref/dragging/core';
 import {
   injectDraggingElementId,
   injectDraggingElementIdentifier,
@@ -7,12 +10,18 @@ import {
   injectDraggingStrategy,
 } from '@src/typescript/roadmap_ref/dragging/inject';
 
+const mode = import.meta.env.MODE;
+
 export function draggingBehaviorFactoryRoadmapNode(
   nodeId: string
 ): DraggingBehavior {
   // might need refactor to get the data from the store and not keep a reference directly
   const draggingBehavior = new DraggingBehavior();
-  injectDraggingElementIdentifier(draggingBehavior, 'div');
+  let identifier: IDraggingElementIdentifiers = 'div';
+  if (mode === 'development') {
+    identifier = 'g';
+  }
+  injectDraggingElementIdentifier(draggingBehavior, identifier);
   injectDraggingElementId(draggingBehavior, nodeId);
   injectDraggingStrategy(draggingBehavior, 'snap');
   injectDraggingElementType(draggingBehavior, 'node');

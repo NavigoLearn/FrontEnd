@@ -1,6 +1,6 @@
 import { NodeClass } from '@src/typescript/roadmap_ref/node/core/core';
 import { getIsEditing } from '@store/roadmap-refactor/roadmap-data/misc-data/roadmap_state';
-import {
+import draggableElements, {
   getElementIsDraggable,
   setAllDraggableFalse,
   setDefaultDraggabilitySettings,

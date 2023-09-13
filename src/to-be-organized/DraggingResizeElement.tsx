@@ -153,13 +153,17 @@ const DraggingResizeElement = ({
   return (
     <div
       ref={wrapperDiv}
-      className=' top-[-1.5px] left-[-1.5px] absolute pointer-events-none border-2 border-primary'
+      className=' top-[-1.5px] left-[-1.5px] absolute  border-2 border-primary'
     >
       <div
         onMouseDownCapture={(e) => {
           handleMouseDown(e, 'top');
+          e.stopPropagation();
         }}
-        className='absolute top-2 cursor-ns-resize w-full h-2 left-0 pointer-events-auto bg-amber-300 '
+        onClick={(e) => {
+          e.stopPropagation();
+        }}
+        className='absolute -top-2 cursor-ns-resize w-full h-2 left-0 pointer-events-auto'
       />
       <div
         onMouseDownCapture={(e) => {
@@ -168,7 +172,6 @@ const DraggingResizeElement = ({
         }}
         onClick={(e) => {
           e.stopPropagation();
-          // prevents clicking from opening editor
         }}
         className='absolute -bottom-2 left-0 cursor-ns-resize w-full h-2 '
       />

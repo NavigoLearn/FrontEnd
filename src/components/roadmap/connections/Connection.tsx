@@ -19,6 +19,7 @@ const Connection = ({ connId }: { connId: string }) => {
   const connection = getConnectionByIdRoadmapSelector(connId);
   const startNode = getNodeByIdRoadmapSelector(connection.from);
   const endNode = getNodeByIdRoadmapSelector(connection.to);
+
   const { x: startX, y: startY } = getConnectionPositionCoords(
     startNode,
     connection.positionFrom

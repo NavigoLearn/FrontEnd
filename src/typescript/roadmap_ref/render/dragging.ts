@@ -172,7 +172,10 @@ export const addDragabilityProtocol = (draggingBehavior: DraggingBehavior) => {
 
     // update connections here
     draggingBehavior.draggingElementType === 'node' &&
-      triggerAllConnectionsRerender();
+      (() => {
+        triggerAllConnectionsRerender();
+        console.log('triggerAllConnectionsRerender');
+      })();
   }
 
   function endDragging() {
@@ -215,11 +218,15 @@ export const addDragabilityProtocol = (draggingBehavior: DraggingBehavior) => {
     });
 
   function updateDraggabilityAllowed(allowed: boolean) {
+    const selector = `#${elementIdentifier}${id}`;
     const nodeSelection = d3
-      .selectAll(draggingBehavior.draggingElementIdentifier)
-      .select(`#${elementIdentifier}${id}`);
+      // .selectAll(draggingBehavior.draggingElementIdentifier)
+      .select(selector);
+
+    const el = document.querySelector(selector);
 
     if (allowed) {
+      console.log('updateDraggabilityAllowed', nodeSelection);
       nodeSelection.call(drag);
     } else {
       nodeSelection.on('.drag', null);
