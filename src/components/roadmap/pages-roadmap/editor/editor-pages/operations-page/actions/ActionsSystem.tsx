@@ -153,17 +153,17 @@ const ActionsSystem = () => {
             dropdown === 'apply-template' ? 'z-20' : 'z-0'
           }`}
         >
-          <DropdownWhiteSelect
-            dropdownName='Apply template'
-            options={[...templatesJSONApplyTemplate]}
-            dropdownCallback={(hasOpened) => {
-              if (hasOpened) {
-                setOperationsDropdown('apply-template');
-              } else {
-                setOperationsDropdown('none');
-              }
-            }}
-          />
+          {/* <DropdownWhiteSelect */}
+          {/*  dropdownName='Apply template' */}
+          {/*  options={[...templatesJSONApplyTemplate]} */}
+          {/*  dropdownCallback={(hasOpened) => { */}
+          {/*    if (hasOpened) { */}
+          {/*      setOperationsDropdown('apply-template'); */}
+          {/*    } else { */}
+          {/*      setOperationsDropdown('none'); */}
+          {/*    } */}
+          {/*  }} */}
+          {/* /> */}
         </div>
         <DeleteButton
           callback={() => {
