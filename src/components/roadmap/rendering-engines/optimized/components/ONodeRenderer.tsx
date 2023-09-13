@@ -231,18 +231,6 @@ const ONodeRenderer: React.FC<NodeViewProps> = ({ nodeId, centerOffset }) => {
               className='pointer-events-auto relative z-10'
               x={-15}
               y={-15}
-              // onMouseLeave={() => {
-              //   if (resizing) return;
-              //   mouseLeaveProtocol();
-              // }}
-              // onMouseOver={(e) => {
-              //   e.stopPropagation();
-              // }}
-              // onClick={(e) => {
-              //   e.stopPropagation();
-              //   const action = getOnClickAction(nodeId);
-              //   action();
-              // }}
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
