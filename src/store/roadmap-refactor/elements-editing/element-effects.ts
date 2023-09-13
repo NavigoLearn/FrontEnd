@@ -7,12 +7,21 @@ import {
   effectBorderBlue,
   effectBorderBlueDashed,
   effectBorderRed,
+  effectBorderRedRect,
   effectBorderYellow,
   effectOpacity100,
   effectOpacity30,
   effectOpacity60,
+  effectOpacity60Rect,
+  effectBorderBlueRect,
+  effectOpacity100Rect,
+  effectOpacity30Rect,
 } from '@src/to-be-organized/nodeview/effects';
 import { getHideProgress } from '@store/roadmap-refactor/roadmap-data/misc-data/roadmap_state';
+import {
+  getElementG,
+  getElementRect,
+} from '@store/roadmap-refactor/elements-editing/elements-gs';
 
 export type IEffectsStatuses =
   | 'mark-as-progress'
@@ -34,65 +43,67 @@ export type IEffectsPossible =
 
 export type IEffectProperties = {
   effectName: IEffectsPossible;
-  effectApply: (divRef: HTMLDivElement) => void;
+  effectApply: (divRef: SVGRectElement) => void; // changed here
   effectLayer: number;
 };
-
 export const dynamicEffectsMapper: HashMapWithKeys<
   IEffectsPossible,
   IEffectProperties
 > = {
   'defocus-node': {
     effectName: 'defocus-node',
-    effectApply: (divRef) => effectOpacity60(divRef),
+    effectApply: (rectRef: SVGRectElement) => {
+      effectOpacity60Rect(rectRef);
+    },
     effectLayer: 1,
   },
   'dragging-recursive': {
     effectName: 'dragging-recursive',
-    effectApply: effectBorderRed,
+    effectApply: (rectRef: SVGRectElement) => {
+      effectBorderRedRect(rectRef);
+    },
     effectLayer: 5,
   },
   'on-mouse-over': {
     effectName: 'on-mouse-over',
-    effectApply: (divRef) => {
-      // effectBorderBlue(divRef);
+    effectApply: (rectRef: SVGRectElement) => {
+      effectBorderBlueRect(rectRef);
     },
     effectLayer: 1,
   },
   'mark-as-completed': {
     effectName: 'mark-as-completed',
-    effectApply: (divRef) => {
+    effectApply: (rectRef: SVGRectElement) => {
       if (getHideProgress()) return;
-      effectOpacity30(divRef);
+      effectOpacity30Rect(rectRef);
     },
     effectLayer: 10,
   },
   'mark-as-progress': {
     effectName: 'mark-as-progress',
-    effectApply: (divRef) => {
+    effectApply: (rectRef: SVGRectElement) => {
       if (getHideProgress()) return;
-      effectOpacity100(divRef);
+      effectOpacity100Rect(rectRef);
     },
     effectLayer: 10,
   },
   'mark-as-skipped': {
     effectName: 'mark-as-skipped',
-    effectApply: (divRef) => {
+    effectApply: (rectRef: SVGRectElement) => {
       if (getHideProgress()) return;
-      effectOpacity60(divRef);
+      effectOpacity60Rect(rectRef);
     },
     effectLayer: 10,
   },
   'mark-as-status': {
     effectName: 'mark-as-status',
-    effectApply: (divRef) => {
+    effectApply: (rectRef: SVGRectElement) => {
       if (getHideProgress()) return;
-      effectOpacity100(divRef);
+      effectOpacity100Rect(rectRef);
     },
     effectLayer: 10,
   },
 };
-
 export const elementEffects = atom({} as HashMap<IEffectsPossible[]>);
 
 export function setElementEffects(id: string, effects: IEffectsPossible[]) {
@@ -114,7 +125,9 @@ export function setElementEffectsInitialEmpty(id: string) {
   });
 }
 
-export function applyElementEffects(id: string, divElementRef: HTMLDivElement) {
+export function applyElementEffects(id: string) {
+  const rectElementRef = getElementRect(id);
+
   const originalEffects = elementEffects.get();
   const effectsArr = originalEffects[id].map(
     (effectElement) => dynamicEffectsMapper[effectElement]
@@ -123,7 +136,7 @@ export function applyElementEffects(id: string, divElementRef: HTMLDivElement) {
     return a.effectLayer - b.effectLayer;
   });
   sortedEffectsArr.forEach((effectElement) => {
-    effectElement.effectApply(divElementRef);
+    effectElement.effectApply(rectElementRef);
   });
 }
 

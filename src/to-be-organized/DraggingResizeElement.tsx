@@ -153,7 +153,7 @@ const DraggingResizeElement = ({
   return (
     <div
       ref={wrapperDiv}
-      className=' top-[-1.5px] left-[-1.5px] absolute  border-2 border-primary'
+      className='pointer-events-none top-[-1.5px] left-[-1.5px] absolute border-2 border-primary'
     >
       <div
         onMouseDownCapture={(e) => {
@@ -173,7 +173,7 @@ const DraggingResizeElement = ({
         onClick={(e) => {
           e.stopPropagation();
         }}
-        className='absolute -bottom-2 left-0 cursor-ns-resize w-full h-2 '
+        className='absolute -bottom-2 left-0 cursor-ns-resize w-full h-2 pointer-events-auto '
       />
       <div
         onMouseDownCapture={(e) => {
@@ -184,7 +184,7 @@ const DraggingResizeElement = ({
           e.stopPropagation();
           // prevents clicking from opening editor
         }}
-        className='absolute top-0 -left-2 cursor-ew-resize w-2 h-full '
+        className='absolute top-0 -left-2 cursor-ew-resize w-2 h-full pointer-events-auto'
       />
       <div
         onMouseDownCapture={(e) => {
@@ -195,7 +195,7 @@ const DraggingResizeElement = ({
           e.stopPropagation();
           // prevents clicking from opening editor
         }}
-        className='absolute top-0 -right-2 cursor-ew-resize w-2 h-full '
+        className='absolute top-0 -right-2 cursor-ew-resize w-2 h-full pointer-events-auto '
       />
       <div
         onMouseDownCapture={(e) => {
@@ -206,7 +206,7 @@ const DraggingResizeElement = ({
           e.stopPropagation();
           // prevents clicking from opening editor
         }}
-        className={`absolute -top-1.5 -left-1.5 cursor-nwse-resize  ${vertexStyle}`}
+        className={`absolute -top-1.5 -left-1.5 cursor-nwse-resize  ${vertexStyle} pointer-events-auto`}
       />
       <div
         onMouseDownCapture={(e) => {
@@ -217,7 +217,7 @@ const DraggingResizeElement = ({
           e.stopPropagation();
           // prevents clicking from opening editor
         }}
-        className={`absolute -top-1.5 -right-1.5 cursor-nesw-resize  ${vertexStyle}`}
+        className={`absolute -top-1.5 -right-1.5 cursor-nesw-resize ${vertexStyle} pointer-events-auto`}
       />
       <div
         onMouseDownCapture={(e) => {
@@ -228,7 +228,7 @@ const DraggingResizeElement = ({
           e.stopPropagation();
           // prevents clicking from opening editor
         }}
-        className={`absolute -bottom-1.5 -left-1.5 cursor-nesw-resize  ${vertexStyle}`}
+        className={`absolute -bottom-1.5 -left-1.5 cursor-nesw-resize ${vertexStyle} pointer-events-auto`}
       />
       <div
         onMouseDownCapture={(e) => {
@@ -239,7 +239,7 @@ const DraggingResizeElement = ({
           e.stopPropagation();
           // prevents clicking from opening editor
         }}
-        className={`absolute -bottom-1.5 -right-1.5 cursor-nwse-resize  ${vertexStyle}`}
+        className={`absolute -bottom-1.5 -right-1.5 cursor-nwse-resize ${vertexStyle} pointer-events-auto`}
       />
     </div>
   );

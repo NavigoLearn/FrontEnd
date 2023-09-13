@@ -174,7 +174,6 @@ export const addDragabilityProtocol = (draggingBehavior: DraggingBehavior) => {
     draggingBehavior.draggingElementType === 'node' &&
       (() => {
         triggerAllConnectionsRerender();
-        console.log('triggerAllConnectionsRerender');
       })();
   }
 
@@ -226,7 +225,6 @@ export const addDragabilityProtocol = (draggingBehavior: DraggingBehavior) => {
     const el = document.querySelector(selector);
 
     if (allowed) {
-      console.log('updateDraggabilityAllowed', nodeSelection);
       nodeSelection.call(drag);
     } else {
       nodeSelection.on('.drag', null);

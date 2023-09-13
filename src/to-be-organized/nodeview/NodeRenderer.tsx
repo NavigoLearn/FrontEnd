@@ -34,7 +34,7 @@ import {
   getElementHasEffect,
 } from '@store/roadmap-refactor/elements-editing/element-effects';
 import { useIsLoaded } from '@hooks/useIsLoaded';
-import { setElementDiv } from '@store/roadmap-refactor/elements-editing/elements-divs';
+import { setElementG } from '@store/roadmap-refactor/elements-editing/elements-gs';
 import { NodeClass } from '@src/typescript/roadmap_ref/node/core/core';
 import {
   getHideProgress,
@@ -124,7 +124,7 @@ const NodeRenderer: React.FC<NodeViewProps> = ({
 
     useEffect(() => {
       setElementEffectsInitialEmpty(nodeId);
-      setElementDiv(nodeId, nodeDivRef.current);
+      setElementG(nodeId, nodeDivRef.current);
     }, []);
 
     useEffect(() => {

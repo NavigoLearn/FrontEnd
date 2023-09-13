@@ -21,6 +21,7 @@ import {
 import {
   getElementHasEffect,
   setElementEffectsInitialEmpty,
+  applyElementEffects,
 } from '@store/roadmap-refactor/elements-editing/element-effects';
 import { useIsLoaded } from '@hooks/useIsLoaded';
 import { getEditingState } from '@store/roadmap-refactor/editing/editing-state';
@@ -42,9 +43,73 @@ import { getElementIsDraggable } from '@store/roadmap-refactor/elements-editing/
 import { useStateTimed } from '@hooks/useStateTimed';
 import { deleteAllSnappings } from '@store/roadmap-refactor/render/snapping-lines';
 import {
-  setDeleteRootNodeNotificationFalse,
-  setDeleteRootNodeNotificationTrue,
-} from '@src/to-be-organized/nodeview/notification-store';
+  setElementG,
+  setElementRect,
+} from '@store/roadmap-refactor/elements-editing/elements-gs';
+import { NodeClass } from '@src/typescript/roadmap_ref/node/core/core';
+import { ICoords } from '@src/typescript/roadmap_ref/dragging/core';
+
+const handleCoordCalculation = (node: NodeClass, centerOffset: ICoords) => {
+  const { width, height } = node.data;
+  const { subNodeFlag } = node.flags;
+  const isOnRoadmap = node.flags.renderedOnRoadmapFlag;
+
+  const coords = {
+    x: subNodeFlag ? node.data.coords.x : 0,
+    y: subNodeFlag ? node.data.coords.y : 0,
+  };
+
+  const centeringOffsetCoords = {
+    x: centerOffset.x - width / 2,
+    y: centerOffset.y - height / 2,
+  };
+
+  if (node.flags.renderedOnRoadmapFlag) {
+    // we dont center the nodes rendered directly on the roadmap
+    centeringOffsetCoords.x = 0;
+    centeringOffsetCoords.y = 0;
+  }
+
+  const x = isOnRoadmap
+    ? node.data.coords.x
+    : centeringOffsetCoords.x + coords.x;
+  const y = isOnRoadmap
+    ? node.data.coords.y
+    : centeringOffsetCoords.y + coords.y;
+
+  return { x, y };
+};
+
+const useHandleNodeInitialization = (node: NodeClass) => {
+  const nodeId = node.id;
+
+  const nodeGRef = useRef<SVGGElement>(null);
+  const nodeRectRef = useRef<SVGRectElement>(null);
+  const rerender = useTriggerRerender();
+
+  useEffect(() => {
+    setElementEffectsInitialEmpty(nodeId);
+    setElementG(nodeId, nodeGRef.current);
+    setElementRect(nodeId, nodeRectRef.current);
+  }, []);
+
+  useEffect(() => {
+    setTriggerRender(node.id, rerender);
+  }, []);
+
+  return { nodeGRef, nodeRectRef };
+};
+
+function handleGetNodeProperties(node: NodeClass) {
+  const { width, height, opacity, colorType } = node.data;
+  const colorTheme = useMemo(() => {
+    return getColorThemeFromRoadmap();
+  }, []);
+  const borderColor = selectNodeColorTextBorder(colorTheme, colorType);
+  const nodeColor = selectNodeColorFromScheme(colorTheme, colorType);
+
+  return { width, height, opacity, colorType, borderColor, nodeColor };
+}
 
 interface NodeViewProps {
   nodeId: string;
@@ -52,44 +117,20 @@ interface NodeViewProps {
 }
 
 const ONodeRenderer: React.FC<NodeViewProps> = ({ nodeId, centerOffset }) => {
-  const rerender = useTriggerRerender();
-  const loaded = useIsLoaded();
   const node = getNodeByIdRoadmapSelector(nodeId);
-  const { width, height, opacity, colorType } = node.data;
-  node.data.center.x = width / 2;
-  const { subNodeIds } = node;
-  // Function to render each subnode
+  const loaded = useIsLoaded();
 
-  const { flags } = node;
-  const { subNodeFlag } = flags;
+  const { x, y } = handleCoordCalculation(node, centerOffset);
+  const { nodeGRef, nodeRectRef } = useHandleNodeInitialization(node);
 
-  const coords = {
-    x: subNodeFlag ? node.data.coords.x : 0,
-    y: subNodeFlag ? node.data.coords.y : 0,
-  };
-
-  const calculatedOffsetCoords = {
-    x: centerOffset.x - width / 2,
-    y: centerOffset.y - height / 2,
-  };
-
-  if (node.flags.renderedOnRoadmapFlag) {
-    calculatedOffsetCoords.x = 0;
-    calculatedOffsetCoords.y = 0;
-  }
-
-  useEffect(() => {
-    setElementEffectsInitialEmpty(nodeId);
-  }, []);
-
-  useEffect(() => {
-    setTriggerRender(node.id, rerender);
-  }, []);
+  const { width, height, opacity, borderColor, nodeColor } =
+    handleGetNodeProperties(node);
 
   const applyStyle = () => {
-    // if (!nodeRectRef.current) return;
-    // const element = nodeRectRef.current;
-    // Object.assign(element.style, style);
+    if (!nodeRectRef.current) return;
+    nodeRectRef.current.setAttribute('fill', nodeColor);
+    nodeRectRef.current.setAttribute('opacity', `${opacity}`);
+    nodeRectRef.current.setAttribute('stroke', borderColor);
   };
 
   afterEventLoop(() => {
@@ -97,26 +138,11 @@ const ONodeRenderer: React.FC<NodeViewProps> = ({ nodeId, centerOffset }) => {
     applyStyle();
     // loaded && !getIsEditing() && appendNodeMarkAsDone(node);
     // getIsEditing() && deleteStatusEffectAll(nodeId);
-    // if (!nodeDivRef.current) return;
-    // loaded && applyElementEffects(nodeId, nodeDivRef.current);
+    if (!nodeRectRef.current) return;
+    loaded && applyElementEffects(nodeId);
   });
 
   // ... other relevant properties
-  const isOnRoadmap = node.flags.renderedOnRoadmapFlag;
-
-  const x = isOnRoadmap
-    ? node.data.coords.x
-    : calculatedOffsetCoords.x + coords.x;
-  const y = isOnRoadmap
-    ? node.data.coords.y
-    : calculatedOffsetCoords.y + coords.y;
-
-  const colorTheme = useMemo(() => {
-    return getColorThemeFromRoadmap();
-  }, []);
-
-  const borderColor = selectNodeColorTextBorder(colorTheme, colorType);
-  const nodeColor = selectNodeColorFromScheme(colorTheme, colorType);
 
   const isDraggable = getElementIsDraggable(nodeId);
   const isCurrentlyDragged = getElementHasEffect(nodeId, 'dragging-recursive');
@@ -133,17 +159,17 @@ const ONodeRenderer: React.FC<NodeViewProps> = ({ nodeId, centerOffset }) => {
     mouseLeaveProtocol();
   });
 
-  const rectRef = useRef(null);
   return (
     <g transform={`translate(${x}, ${y})`}>
       <g
         id={`g${nodeId}`} // used to identify nodes in dragging
+        ref={nodeGRef}
       >
         <rect
           className='transition-allNoTransform duration-200'
           width={width}
           height={height}
-          ref={rectRef}
+          ref={nodeRectRef}
           fill={`${nodeColor}`}
           opacity='1'
           stroke={`${borderColor}`}
@@ -151,15 +177,6 @@ const ONodeRenderer: React.FC<NodeViewProps> = ({ nodeId, centerOffset }) => {
           rx='7px'
           ry='7px'
           filter='url(#shadow)'
-          onClick={(event) => {
-            event.stopPropagation();
-            getOnClickAction(nodeId)();
-            if (nodeId === '0') {
-              setDeleteRootNodeNotificationTrue();
-            } else {
-              setDeleteRootNodeNotificationFalse();
-            }
-          }}
           onMouseOver={(event) => {
             event.stopPropagation();
             getOnMouseOverAction(nodeId)();
@@ -169,7 +186,7 @@ const ONodeRenderer: React.FC<NodeViewProps> = ({ nodeId, centerOffset }) => {
         />
 
         <AnimatePresence>
-          {!!mouseOver && false && (
+          {!!mouseOver && (
             <motion.foreignObject
               width={width + 30}
               height={height + 30}
@@ -180,6 +197,17 @@ const ONodeRenderer: React.FC<NodeViewProps> = ({ nodeId, centerOffset }) => {
                 if (resizing) return;
                 mouseLeaveProtocol();
               }}
+              onClick={(e) => {
+                e.stopPropagation();
+
+                const action = getOnClickAction(nodeId);
+                action();
+                // if (nodeId === '0') {
+                //   setDeleteRootNodeNotificationTrue();
+                // } else {
+                //   setDeleteRootNodeNotificationFalse();
+                // }
+              }}
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
@@ -188,7 +216,7 @@ const ONodeRenderer: React.FC<NodeViewProps> = ({ nodeId, centerOffset }) => {
               {isDraggable &&
                 !isCurrentlyDragged &&
                 (mouseOver || resizing) && (
-                  <motion.div className=' w-full h-full absolute top-[15px] left-[15px]'>
+                  <motion.div className='pointer-events-none w-full h-full absolute top-[15px] left-[15px]'>
                     <DraggingResizeElement
                       style={{
                         width,
@@ -240,8 +268,8 @@ const ONodeRenderer: React.FC<NodeViewProps> = ({ nodeId, centerOffset }) => {
               />
             );
           })}
-        {subNodeIds &&
-          subNodeIds.map((subNodeId) => {
+        {node.subNodeIds &&
+          node.subNodeIds.map((subNodeId) => {
             // the div is used to position the subNode in the center of the current node
             return (
               <ONodeRenderer

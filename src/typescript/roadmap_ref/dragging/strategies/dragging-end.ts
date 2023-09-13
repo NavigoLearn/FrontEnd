@@ -10,7 +10,7 @@ import * as d3 from 'd3';
 import { afterEventLoop } from '@src/typescript/utils/misc';
 import { getComponentById } from '@src/typescript/roadmap_ref/node/core/data-get/components';
 import { mutateComponentCoords } from '@src/typescript/roadmap_ref/node/components/mutate';
-import { getElementDiv } from '@store/roadmap-refactor/elements-editing/elements-divs';
+import { getElementG } from '@store/roadmap-refactor/elements-editing/elements-gs';
 import { getTransformXY } from '@src/typescript/roadmap_ref/render/coord-calc';
 
 export const draggingEndNode = (
@@ -21,7 +21,7 @@ export const draggingEndNode = (
   const nodeId = draggingBehavior.draggingElementId;
   const node = getNodeByIdRoadmapSelector(nodeId);
   mutateNodeCoords(node, x, y);
-  // resets the div transforms because mutating coords already rerenders and updates the location
+  // resets the element transforms because mutating coords already rerenders and updates the location
   const elementType = draggingBehavior.draggingElementIdentifier;
   const sel = document.getElementById(`${elementType}${node.id}`);
   const obj = d3.select(sel);
@@ -40,8 +40,9 @@ export const draggingEndSubNode = (
   const nodeId = draggingBehavior.draggingElementId;
   const node = getNodeByIdRoadmapSelector(nodeId);
   mutateNodeCoords(node, x, y);
-  // resets the div transforms because mutating coords already rerenders and updates the location
-  const sel = document.getElementById(`div${node.id}`);
+
+  const elementType = draggingBehavior.draggingElementIdentifier;
+  const sel = document.getElementById(`${elementType}${node.id}`);
   const obj = d3.select(sel);
   triggerNodeRerender(node.id);
   afterEventLoop(() => {
@@ -59,8 +60,9 @@ export const draggingEndComponent = (
   const node = getNodeByIdRoadmapSelector(nodeId);
   const component = getComponentById(node, componentId);
   mutateComponentCoords(component, x, y);
-  // resets the div transforms because mutating coords already rerenders and updates the location
-  const sel = document.getElementById(`div${component.id}`);
+
+  const elementType = draggingBehavior.draggingElementIdentifier;
+  const sel = document.getElementById(`${elementType}${node.id}`);
   const obj = d3.select(sel);
   obj.style('transform', `translate(${0}px, ${0}px)`);
   triggerNodeRerender(node.id);
@@ -71,15 +73,15 @@ export const draggingEndNodeTransformBased = (
 ) => {
   const nodeId = draggingBehavior.draggingElementId;
   const node = getNodeByIdRoadmapSelector(nodeId);
-  const { transform } = getElementDiv(nodeId).style;
+  const { transform } = getElementG(nodeId).style;
   const { x: offsetX, y: offsetY } = getTransformXY(transform);
   mutateNodeCoords(
     node,
     node.data.coords.x + offsetX,
     node.data.coords.y + offsetY
   );
-  // resets the div transforms because mutating coords already rerenders and updates the location
-  const sel = document.getElementById(`div${node.id}`);
+  const elementType = draggingBehavior.draggingElementIdentifier;
+  const sel = document.getElementById(`${elementType}${node.id}`);
   const obj = d3.select(sel);
   obj.style('transform', `translate(${0}px, ${0}px)`);
   deleteNodeFromChunks(node);
