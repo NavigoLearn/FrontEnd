@@ -7,9 +7,7 @@ const Home = () => {
 
   useEffect(() => {
     window.location.href = '/explore';
-  }, []); 
-
-  function MyComponent() {
+  }, []);
 
   const func = useCallback(() => {
     console.log('state', state);
