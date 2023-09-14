@@ -25,7 +25,7 @@ import {
 } from '@store/roadmap-refactor/elements-editing/element-effects';
 import { useIsLoaded } from '@hooks/useIsLoaded';
 import { getEditingState } from '@store/roadmap-refactor/editing/editing-state';
-import OComponentRenderer from '@components/roadmap/rendering-engines/optimized/components/OComponentRenderer';
+import ComponentRendererNative from '@components/roadmap/rendering-engines/optimized/components/ComponentRendererNative';
 import {
   selectNodeColorFromScheme,
   selectNodeColorTextBorder,
@@ -144,7 +144,10 @@ interface NodeViewProps {
   centerOffset: { x: number; y: number };
 }
 
-const ONodeRenderer: React.FC<NodeViewProps> = ({ nodeId, centerOffset }) => {
+const NodeRendererNative: React.FC<NodeViewProps> = ({
+  nodeId,
+  centerOffset,
+}) => {
   const node = getNodeByIdRoadmapSelector(nodeId);
   const loaded = useIsLoaded();
 
@@ -287,7 +290,7 @@ const ONodeRenderer: React.FC<NodeViewProps> = ({ nodeId, centerOffset }) => {
         {getEditingState() === 'nodes' &&
           node.components.map((component) => {
             return (
-              <OComponentRenderer
+              <ComponentRendererNative
                 key={component.id}
                 component={component}
                 parentNode={node}
@@ -298,7 +301,7 @@ const ONodeRenderer: React.FC<NodeViewProps> = ({ nodeId, centerOffset }) => {
           node.subNodeIds.map((subNodeId) => {
             // the div is used to position the subNode in the center of the current node
             return (
-              <ONodeRenderer
+              <NodeRendererNative
                 key={subNodeId}
                 nodeId={subNodeId}
                 centerOffset={{
@@ -312,4 +315,4 @@ const ONodeRenderer: React.FC<NodeViewProps> = ({ nodeId, centerOffset }) => {
     </g>
   );
 };
-export default ONodeRenderer;
+export default NodeRendererNative;

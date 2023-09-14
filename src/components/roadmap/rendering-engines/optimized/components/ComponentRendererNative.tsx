@@ -101,7 +101,7 @@ type IComponentElementProps = {
   parentNode: NodeClass;
 };
 
-const OComponentRenderer = ({
+const ComponentRendererNative = ({
   component,
   parentNode,
 }: IComponentElementProps) => {
@@ -124,7 +124,10 @@ const OComponentRenderer = ({
   const { position, height, width } = calculateComponentsPositions(
     component,
     parentNode,
-    textRef
+    {
+      type: 'native-elements',
+      textRef,
+    }
   );
 
   const adjustedWidth = width + 10;
@@ -214,4 +217,4 @@ const OComponentRenderer = ({
   );
 };
 
-export default OComponentRenderer;
+export default ComponentRendererNative;

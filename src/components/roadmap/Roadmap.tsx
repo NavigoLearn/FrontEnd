@@ -74,6 +74,7 @@ import {
 } from '@store/roadmap-refactor/roadmap-data/misc-data/roadmap-statistics';
 import RenderingEngine from '@components/roadmap/rendering-engines/RenderingEngine';
 import { addTemplateFromNode } from '@src/typescript/roadmap_ref/node/templates-system/template-protocols';
+import { storeRenderingEngine } from '@components/roadmap/rendering-engines/store-rendering-engine';
 
 export function initialRoadmapProtocolAfterLoad() {
   setRoadmapIsLoaded();
@@ -184,9 +185,9 @@ async function handleRoadmapRenderingData(
       return 'restored';
     }
     // otherwise the initialization triggers from the setup screen
-    // const node0 = createAndSetRoadmapClassic(); // also handles setting the roadmap data in the store
-    // addTemplateFromNode(node0);
-    createGrid();
+    const node0 = createAndSetRoadmapClassic(); // also handles setting the roadmap data in the store
+    addTemplateFromNode(node0);
+    // createGrid();
     return 'factory-created';
   }
   if (type === 'draft' || type === 'public') {
@@ -245,7 +246,7 @@ const Roadmap = ({
 }) => {
   useScrollHidden();
   const { roadmapState } = useStore(roadmapStateStore);
-
+  const { renderingEngineType } = useStore(storeRenderingEngine);
   const { nodesIds } = useStore(renderNodesStore);
   const { connections: connectionsIds } = useStore(renderConnectionsStore);
   const firstRenderDone = useIsLoaded();
@@ -276,7 +277,7 @@ const Roadmap = ({
   }, []);
 
   useEffectAfterLoad(() => {
-    if (firstRenderDone && nodesIds.length > 0) {
+    if (nodesIds.length > 0) {
       // because when a node gets out of chunk it is unloaded from the screen and then loaded again
       // when it is loaded again, the previous draggability is lost and needs to be reapplied
       applyRoadmapElementsRechunkedDraggability();
@@ -284,11 +285,11 @@ const Roadmap = ({
   }, [nodesIds]);
 
   useEffectAfterLoad(() => {
-    if (firstRenderDone && nodesIds.length > 0) {
+    if (nodesIds.length > 0) {
       // because when you switch between edit and view dragability needs to be changed
       inferRoadmapElementsDraggability();
     }
-  }, [roadmapState]);
+  }, [roadmapState, renderingEngineType]);
 
   return (
     <div

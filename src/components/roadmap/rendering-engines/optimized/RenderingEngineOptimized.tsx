@@ -1,5 +1,5 @@
 import React from 'react';
-import ONodeRenderer from '@components/roadmap/rendering-engines/optimized/components/ONodeRenderer';
+import NodeRendererNative from '@components/roadmap/rendering-engines/optimized/components/NodeRendererNative';
 import ConnectionsRenderer from '@components/roadmap/connections/ConnectionsRenderer';
 import SnappingLinesRenderer from '@components/roadmap/to-be-organized/SnappingLinesRenderer';
 
@@ -38,7 +38,7 @@ const RenderingEngineOptimized = ({
         {nodesIds.map((id) => {
           // gets the roadmap-roadmap-data
           return (
-            <ONodeRenderer
+            <NodeRendererNative
               key={id}
               centerOffset={{
                 x: 0,

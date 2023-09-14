@@ -66,7 +66,6 @@ export const propagateDraggingToChildrenNodes = (
 export const addDragabilityProtocol = (draggingBehavior: DraggingBehavior) => {
   // refactored dragability with dragging behavior and generalized
   const id = draggingBehavior.draggingElementId;
-  const elementIdentifier = getRenderingEngineDraggingElementIdentifier();
 
   const offset = { x: 0, y: 0 };
   const newPos = { x: 0, y: 0 };
@@ -88,12 +87,6 @@ export const addDragabilityProtocol = (draggingBehavior: DraggingBehavior) => {
     DO NOT CHANGE SUBJECT AND IF YOU DO, MAY GOD HAVE MERCY ON YOUR SOUL
     --- a tormented developer
     */
-
-    console.log(
-      'start dragging',
-      id,
-      getRenderingEngineDraggingElementIdentifier()
-    );
 
     // coordinates of the node in the original reference system
     const currentCoords = currentCoordsStrategy();
@@ -155,6 +148,8 @@ export const addDragabilityProtocol = (draggingBehavior: DraggingBehavior) => {
 
     // we temporarily update the position to emulate the dragging, which will then be applied to the actual element
     // after its finished
+
+    const elementIdentifier = getRenderingEngineDraggingElementIdentifier();
     const sel = document.getElementById(`${elementIdentifier}${id}`);
     const obj = d3.select(sel);
 
@@ -222,6 +217,7 @@ export const addDragabilityProtocol = (draggingBehavior: DraggingBehavior) => {
     });
 
   function updateDraggabilityAllowed(allowed: boolean) {
+    const elementIdentifier = getRenderingEngineDraggingElementIdentifier();
     const selector = `#${elementIdentifier}${id}`;
     const nodeSelection = d3.select(selector);
 

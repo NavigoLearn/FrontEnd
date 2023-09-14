@@ -30,7 +30,7 @@ type IComponentElementProps = {
   parentNode: NodeClass;
 };
 
-const ComponentRenderer = ({
+const ComponentRendererForeign = ({
   component,
   parentNode,
 }: IComponentElementProps) => {
@@ -54,7 +54,7 @@ const ComponentRenderer = ({
     parentNode,
     {
       type: 'foreign-object',
-      textRef: divRef,
+      divRef,
     }
   );
   mutateComponentTextHeight(component, height);
@@ -102,6 +102,7 @@ const ComponentRenderer = ({
             mutateComponentTextHeight(component, newHeight);
             triggerNodeRerender(parentNode.id);
           }}
+          onlyXaxis
           snappingCallback={(newWidth: number, newHeight: number) => {
             return { width: newWidth, height: newHeight };
           }}
@@ -119,7 +120,7 @@ export const componentsRenderer = (node: NodeClass) => {
     <div className='components-container select-none'>
       {components.map((component, index) => {
         return (
-          <ComponentRenderer
+          <ComponentRendererForeign
             key={component.id}
             component={component}
             parentNode={node}

@@ -78,7 +78,7 @@ interface NodeViewProps {
 
 const firstNotification = true;
 
-const NodeRenderer: React.FC<NodeViewProps> = ({
+const NodeRendererForeign: React.FC<NodeViewProps> = ({
   nodeId,
   centerOffset,
   divSizeCallback,
@@ -191,8 +191,8 @@ const NodeRenderer: React.FC<NodeViewProps> = ({
 
     const borderStyle =
       borderColor === 'none'
-        ? '2px solid transparent'
-        : `2px solid #${borderColor}`;
+        ? `2px solid ${color}`
+        : `2px solid ${borderColor}`;
 
     const style = {
       // color: textColor,
@@ -345,7 +345,7 @@ const NodeRenderer: React.FC<NodeViewProps> = ({
             subNodeIds.map((subNodeId) => {
               // the div is used to position the subNode in the center of the current node
               return (
-                <NodeRenderer
+                <NodeRendererForeign
                   key={subNodeId}
                   nodeId={subNodeId}
                   centerOffset={{
@@ -363,4 +363,4 @@ const NodeRenderer: React.FC<NodeViewProps> = ({
   // @ts-ignore
   return renderNode(nodeId);
 };
-export default NodeRenderer;
+export default NodeRendererForeign;

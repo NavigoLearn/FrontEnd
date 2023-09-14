@@ -33,7 +33,7 @@ function getComponentHeight(params: IParams, component: ComponentText): number {
   if (params.type === 'foreign-object') {
     const divRef = params.divRef as React.RefObject<HTMLDivElement>;
     if (divRef.current) {
-      componentHeight = divRef.current.offsetHeight;
+      componentHeight = divRef.current.clientHeight;
     }
   }
   if (params.type === 'native-elements') {

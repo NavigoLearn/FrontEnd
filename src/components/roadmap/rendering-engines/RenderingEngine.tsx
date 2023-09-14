@@ -13,6 +13,7 @@ const RenderingEngine = ({
   connectionsIds,
 }: IRenderingEngineNodesProps) => {
   const { renderingEngineType } = useStore(storeRenderingEngine);
+
   return (
     <>
       {renderingEngineType === 'foreign-object' && (

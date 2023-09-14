@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import { useTriggerRerender } from '@hooks/useTriggerRerender';
-import NodeRenderer from '@src/to-be-organized/nodeview/NodeRenderer';
+import NodeRendererForeign from '@src/to-be-organized/nodeview/NodeRendererForeign';
 import { setTriggerRender } from '@store/roadmap-refactor/render/rerender-triggers-nodes';
 import { getNodeByIdRoadmapSelector } from '@src/typescript/roadmap_ref/roadmap-data/services/get';
 import { handleDeleteRootNotification } from '@src/to-be-organized/nodeview/notification-handler';
@@ -33,7 +33,7 @@ const NodeManager = ({ nodeId }: NodeManagerProps) => {
   const renderNode = () => {
     const { id } = node;
     return (
-      <NodeRenderer
+      <NodeRendererForeign
         nodeId={id}
         centerOffset={{
           x: 0,
