@@ -337,7 +337,7 @@ const NodeRenderer: React.FC<NodeViewProps> = ({
             />
           )}
 
-          {getEditingState() === 'nodes' && <>{componentsRenderer(node)}</>}
+          {/* {getEditingState() === 'nodes' && <>{componentsRenderer(node)}</>} */}
           {subNodeIds &&
             subNodeIds.map((subNodeId) => {
               // the div is used to position the subNode in the center of the current node

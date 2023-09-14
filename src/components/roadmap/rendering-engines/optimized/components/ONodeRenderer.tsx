@@ -184,6 +184,9 @@ const ONodeRenderer: React.FC<NodeViewProps> = ({ nodeId, centerOffset }) => {
   } = handleMouseOverAndDragging(nodeId);
 
   const isView = !getIsEditable();
+  // accounting for border pixels
+  const adjustedWidth = width + 4;
+  const adjustedHeight = height + 4;
 
   return (
     <g transform={`translate(${x}, ${y})`}>
@@ -226,8 +229,8 @@ const ONodeRenderer: React.FC<NodeViewProps> = ({ nodeId, centerOffset }) => {
         <AnimatePresence>
           {!!mouseOver && !isView && (
             <motion.foreignObject
-              width={width + 10}
-              height={height + 10}
+              width={adjustedWidth + 10}
+              height={adjustedHeight + 10}
               className='pointer-events-auto relative z-10'
               x={-5}
               y={-5}
@@ -239,11 +242,11 @@ const ONodeRenderer: React.FC<NodeViewProps> = ({ nodeId, centerOffset }) => {
               {isDraggable &&
                 !isCurrentlyDragged &&
                 (mouseOver || resizing) && (
-                  <motion.div className='pointer-events-none w-full h-full absolute top-[6px] left-[6px]'>
+                  <motion.div className='pointer-events-none w-full h-full absolute top-[5px] left-[5px]'>
                     <DraggingResizeElement
                       style={{
-                        width,
-                        height,
+                        width: adjustedWidth,
+                        height: adjustedHeight,
                       }}
                       heightCallback={(height) => {
                         mutateNodeHeightWhileKeepingCenter(node, height);

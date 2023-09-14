@@ -5,7 +5,7 @@ export const colorThemes: IColorThemes = {
     primary: {
       nodeColor: '#ffffff',
       textColor: 'rgb(0,0,0,0.6)',
-      borderColor: '#e1e1e1',
+      borderColor: '#ffffff',
     },
     secondary: {
       nodeColor: '#1A1B50',
