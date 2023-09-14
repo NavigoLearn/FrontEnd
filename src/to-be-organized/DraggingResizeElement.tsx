@@ -19,12 +19,14 @@ type IDraggingSizeWrapperProps = {
     width: number,
     height: number
   ) => { width: number; height: number };
+  onlyXaxis?: boolean;
 };
 const DraggingResizeElement = ({
   style,
   widthCallback,
   heightCallback,
   snappingCallback,
+  onlyXaxis,
 }: IDraggingSizeWrapperProps) => {
   const wrapperDiv = useRef(null);
   const startPos = useRef({ x: 0, y: 0 });
@@ -149,6 +151,7 @@ const DraggingResizeElement = ({
   // -1.5px accounts for the borders of the node and the resize div
 
   const vertexStyle = ' w-3 h-3 bg-white border-2 border-primary ';
+  const onlyX = !!onlyXaxis;
 
   return (
     <div
@@ -163,7 +166,9 @@ const DraggingResizeElement = ({
         onClick={(e) => {
           e.stopPropagation();
         }}
-        className='absolute -top-2 cursor-ns-resize w-full h-2 left-0 pointer-events-auto'
+        className={`absolute -top-2 cursor-ns-resize w-full h-2 left-0 ${
+          onlyX ? 'pointer-events-none' : 'pointer-events-auto'
+        }`}
       />
       <div
         onMouseDownCapture={(e) => {
@@ -173,7 +178,9 @@ const DraggingResizeElement = ({
         onClick={(e) => {
           e.stopPropagation();
         }}
-        className='absolute -bottom-2 left-0 cursor-ns-resize w-full h-2 pointer-events-auto '
+        className={`absolute -bottom-2 left-0 cursor-ns-resize w-full h-2  ${
+          onlyX ? 'pointer-events-none' : 'pointer-events-auto'
+        } `}
       />
       <div
         onMouseDownCapture={(e) => {
@@ -197,52 +204,85 @@ const DraggingResizeElement = ({
         }}
         className='absolute top-0 -right-2 cursor-ew-resize w-2 h-full pointer-events-auto '
       />
-      <div
-        onMouseDownCapture={(e) => {
-          handleMouseDown(e, 'top-left'); // Param for top left
-          e.stopPropagation();
-        }}
-        onClick={(e) => {
-          e.stopPropagation();
-          // prevents clicking from opening editor
-        }}
-        className={`absolute -top-1.5 -left-1.5 cursor-nwse-resize  ${vertexStyle} pointer-events-auto`}
-      />
-      <div
-        onMouseDownCapture={(e) => {
-          handleMouseDown(e, 'top-right'); // Param for top right
-          e.stopPropagation();
-        }}
-        onClick={(e) => {
-          e.stopPropagation();
-          // prevents clicking from opening editor
-        }}
-        className={`absolute -top-1.5 -right-1.5 cursor-nesw-resize ${vertexStyle} pointer-events-auto`}
-      />
-      <div
-        onMouseDownCapture={(e) => {
-          handleMouseDown(e, 'bottom-left'); // Param for bottom left
-          e.stopPropagation();
-        }}
-        onClick={(e) => {
-          e.stopPropagation();
-          // prevents clicking from opening editor
-        }}
-        className={`absolute -bottom-1.5 -left-1.5 cursor-nesw-resize ${vertexStyle} pointer-events-auto`}
-      />
-      <div
-        onMouseDownCapture={(e) => {
-          handleMouseDown(e, 'bottom-right'); // Param for bottom right
-          e.stopPropagation();
-        }}
-        onClick={(e) => {
-          e.stopPropagation();
-          // prevents clicking from opening editor
-        }}
-        className={`absolute -bottom-1.5 -right-1.5 cursor-nwse-resize ${vertexStyle} pointer-events-auto`}
-      />
+      {onlyX && (
+        <>
+          <div
+            onMouseDownCapture={(e) => {
+              handleMouseDown(e, 'right');
+              e.stopPropagation();
+            }}
+            onClick={(e) => {
+              e.stopPropagation();
+            }}
+            className={`absolute top-1/2 -translate-y-1/2 -right-1.5 cursor-w-resize  ${vertexStyle} pointer-events-auto`}
+          />
+
+          <div
+            onMouseDownCapture={(e) => {
+              handleMouseDown(e, 'left');
+              e.stopPropagation();
+            }}
+            onClick={(e) => {
+              e.stopPropagation();
+            }}
+            className={`absolute top-1/2 -translate-y-1/2 -left-1.5 cursor-e-resize  ${vertexStyle} pointer-events-auto`}
+          />
+        </>
+      )}
+      {!onlyX && (
+        <>
+          <div
+            onMouseDownCapture={(e) => {
+              handleMouseDown(e, 'top-left'); // Param for top left
+              e.stopPropagation();
+            }}
+            onClick={(e) => {
+              e.stopPropagation();
+              // prevents clicking from opening editor
+            }}
+            className={`absolute -top-1.5 -left-1.5 cursor-nwse-resize  ${vertexStyle} pointer-events-auto`}
+          />
+          <div
+            onMouseDownCapture={(e) => {
+              handleMouseDown(e, 'top-right'); // Param for top right
+              e.stopPropagation();
+            }}
+            onClick={(e) => {
+              e.stopPropagation();
+              // prevents clicking from opening editor
+            }}
+            className={`absolute -top-1.5 -right-1.5 cursor-nesw-resize ${vertexStyle} pointer-events-auto`}
+          />
+          <div
+            onMouseDownCapture={(e) => {
+              handleMouseDown(e, 'bottom-left'); // Param for bottom left
+              e.stopPropagation();
+            }}
+            onClick={(e) => {
+              e.stopPropagation();
+              // prevents clicking from opening editor
+            }}
+            className={`absolute -bottom-1.5 -left-1.5 cursor-nesw-resize ${vertexStyle} pointer-events-auto`}
+          />
+          <div
+            onMouseDownCapture={(e) => {
+              handleMouseDown(e, 'bottom-right'); // Param for bottom right
+              e.stopPropagation();
+            }}
+            onClick={(e) => {
+              e.stopPropagation();
+              // prevents clicking from opening editor
+            }}
+            className={`absolute -bottom-1.5 -right-1.5 cursor-nwse-resize ${vertexStyle} pointer-events-auto`}
+          />
+        </>
+      )}
     </div>
   );
+};
+
+DraggingResizeElement.defaultProps = {
+  onlyXaxis: false,
 };
 
 export default DraggingResizeElement;

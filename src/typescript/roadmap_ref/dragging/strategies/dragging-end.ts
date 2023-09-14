@@ -62,7 +62,7 @@ export const draggingEndComponent = (
   mutateComponentCoords(component, x, y);
 
   const elementType = draggingBehavior.draggingElementIdentifier;
-  const sel = document.getElementById(`${elementType}${node.id}`);
+  const sel = document.getElementById(`${elementType}${component.id}`);
   const obj = d3.select(sel);
   obj.style('transform', `translate(${0}px, ${0}px)`);
   triggerNodeRerender(node.id);

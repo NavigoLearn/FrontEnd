@@ -226,11 +226,11 @@ const ONodeRenderer: React.FC<NodeViewProps> = ({ nodeId, centerOffset }) => {
         <AnimatePresence>
           {!!mouseOver && !isView && (
             <motion.foreignObject
-              width={width + 30}
-              height={height + 30}
+              width={width + 10}
+              height={height + 10}
               className='pointer-events-auto relative z-10'
-              x={-15}
-              y={-15}
+              x={-5}
+              y={-5}
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
@@ -239,7 +239,7 @@ const ONodeRenderer: React.FC<NodeViewProps> = ({ nodeId, centerOffset }) => {
               {isDraggable &&
                 !isCurrentlyDragged &&
                 (mouseOver || resizing) && (
-                  <motion.div className='pointer-events-none w-full h-full absolute top-[15px] left-[15px]'>
+                  <motion.div className='pointer-events-none w-full h-full absolute top-[6px] left-[6px]'>
                     <DraggingResizeElement
                       style={{
                         width,

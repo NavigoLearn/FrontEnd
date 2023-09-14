@@ -13,7 +13,7 @@ export const calcCenter = (componentProperties) => {
 export const calculateComponentsPositions = (
   component: ComponentText,
   node: NodeClass,
-  divRef: React.RefObject<HTMLDivElement>
+  textRef: React.RefObject<SVGTextElement>
 ) => {
   const { components, data } = node;
   const position: ICoords = { x: 0, y: 0 };
@@ -21,8 +21,8 @@ export const calculateComponentsPositions = (
   const { x, y, width } = component;
 
   let componentHeight = component.height;
-  if (divRef.current) {
-    componentHeight = divRef.current.clientHeight;
+  if (textRef.current) {
+    componentHeight = textRef.current.getBBox().height;
   }
 
   const newX = x - component.width / 2 + data.width / 2;
