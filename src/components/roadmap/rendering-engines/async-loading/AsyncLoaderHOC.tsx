@@ -1,14 +1,28 @@
 import React, { useState, useEffect } from 'react';
-import { getAsyncDelay } from '@components/roadmap/rendering-engines/async-loading/store-async-loading';
+import {
+  decrementAsyncDelay,
+  getAsyncDelay,
+  getAsyncDelayNoSideEffects,
+} from '@components/roadmap/rendering-engines/async-loading/store-async-loading';
+import useStateAndRef from '@hooks/useStateAndRef';
 
 export default (WrappedComponent: React.FC<any>) => {
   const hocComponent = (props) => {
-    const [load, setLoad] = useState(false);
+    const [load, setLoad, ref] = useStateAndRef(false);
     useEffect(() => {
-      const timeout = getAsyncDelay();
-      setTimeout(() => {
+      const timeoutTime = getAsyncDelay();
+      const timeout = setTimeout(() => {
         setLoad(true);
-      }, timeout);
+      }, timeoutTime);
+      return () => {
+        clearTimeout(timeout);
+        if (ref.current === false) {
+          console.log('unmounted before load', getAsyncDelayNoSideEffects());
+          decrementAsyncDelay();
+        } else {
+          console.log('unmounted after load');
+        }
+      };
     }, []);
     return load && <WrappedComponent {...props} />;
   };

@@ -12,6 +12,7 @@ const ConnectionsRenderer = ({
   return (
     <>
       {connectionsIds.map((connectionId) => {
+        return null;
         return (
           <g id={`g${connectionId}`} key={connectionId}>
             <Connection key={connectionId} connId={connectionId} />

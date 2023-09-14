@@ -1,5 +1,4 @@
 import { atom } from 'nanostores';
-import { IDraggingElementIdentifiers } from '@src/typescript/roadmap_ref/dragging/core';
 
 export const storeRenderingEngine = atom({
   asyncDelay: 0,
@@ -16,15 +15,30 @@ function resetAsyncDelay() {
     clearTimeout(currentTimeout);
   }
   const timeout = setTimeout(() => {
+    console.log(
+      'resetting asyncDelay _______________________',
+      storeRenderingEngine.get().asyncDelay
+    );
     storeRenderingEngine.set({
       asyncDelay: 0,
       timeout: null,
     });
-  }, 100);
+  }, 1000);
   storeRenderingEngine.get().timeout = timeout;
 }
+
+export const getAsyncDelayNoSideEffects = () => {
+  return storeRenderingEngine.get().asyncDelay;
+};
+
 export const getAsyncDelay = () => {
   storeRenderingEngine.get().asyncDelay += 15;
+  console.log('asyncDelay', storeRenderingEngine.get().asyncDelay);
   resetAsyncDelay();
   return storeRenderingEngine.get().asyncDelay;
+};
+
+export const decrementAsyncDelay = () => {
+  storeRenderingEngine.get().asyncDelay -= 15;
+  console.log('asyncDelay at decrement', storeRenderingEngine.get().asyncDelay);
 };
