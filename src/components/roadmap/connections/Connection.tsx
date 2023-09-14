@@ -8,6 +8,7 @@ import { useTriggerRerender } from '@hooks/useTriggerRerender';
 import { addConnectionTrigger } from '@store/roadmap-refactor/render/rerender-trigger-connections';
 import { setSelectedConnectionForConnectionId } from '@components/roadmap/connections/connection-editing/connection-store';
 import { getIsEditing } from '@store/roadmap-refactor/roadmap-data/misc-data/roadmap_state';
+import AsyncLoaderHOC from '@components/roadmap/rendering-engines/async-loading/AsyncLoaderHOC';
 
 const Connection = ({ connId }: { connId: string }) => {
   const rerender = useTriggerRerender();
@@ -80,4 +81,4 @@ const Connection = ({ connId }: { connId: string }) => {
   );
 };
 
-export default Connection;
+export default AsyncLoaderHOC(Connection);

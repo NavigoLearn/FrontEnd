@@ -33,28 +33,32 @@ export const applyRoadmapElementsInitialDraggability = () => {
   });
 };
 
+export function handleDragabilityRecalculationOnChunking(node: NodeClass) {
+  const elementIsDraggable = getElementIsDraggable(node.id);
+  if (typeof elementIsDraggable === 'undefined') {
+    // element never existed before
+    addDragabilityProtocol(node.draggingBehavior);
+    node.components.forEach((component) => {
+      addDragabilityProtocol(component.draggingBehavior);
+    });
+    inferAndSetNodeDraggability(node);
+  } else {
+    // element existed but was erased bcz of chunking and now it was added again
+    addDragabilityProtocol(node.draggingBehavior);
+    node.components.forEach((component) => {
+      const componentIsDraggable = getElementIsDraggable(component.id);
+      addDragabilityProtocol(component.draggingBehavior);
+      setElementDraggable(component.id, componentIsDraggable);
+    });
+    setElementDraggable(node.id, elementIsDraggable);
+  }
+}
+
 export const applyRoadmapElementsRechunkedDraggability = () => {
   const nodes = getAllRenderedNodes();
 
   Object.values(nodes).forEach((node) => {
-    const elementIsDraggable = getElementIsDraggable(node.id);
-    if (typeof elementIsDraggable === 'undefined') {
-      // element never existed before
-      addDragabilityProtocol(node.draggingBehavior);
-      node.components.forEach((component) => {
-        addDragabilityProtocol(component.draggingBehavior);
-      });
-      inferAndSetNodeDraggability(node);
-    } else {
-      // element existed but was erased bcz of chunking and now it was added again
-      addDragabilityProtocol(node.draggingBehavior);
-      node.components.forEach((component) => {
-        const componentIsDraggable = getElementIsDraggable(component.id);
-        addDragabilityProtocol(component.draggingBehavior);
-        setElementDraggable(component.id, componentIsDraggable);
-      });
-      setElementDraggable(node.id, elementIsDraggable);
-    }
+    handleDragabilityRecalculationOnChunking(node);
   });
 };
 

@@ -4,6 +4,7 @@ import NodeRendererForeign from '@src/to-be-organized/nodeview/NodeRendererForei
 import { setTriggerRender } from '@store/roadmap-refactor/render/rerender-triggers-nodes';
 import { getNodeByIdRoadmapSelector } from '@src/typescript/roadmap_ref/roadmap-data/services/get';
 import { handleDeleteRootNotification } from '@src/to-be-organized/nodeview/notification-handler';
+import AsyncLoaderHOC from '@components/roadmap/rendering-engines/async-loading/AsyncLoaderHOC';
 
 export type NodeManagerProps = {
   nodeId: string;
@@ -61,4 +62,4 @@ const NodeManager = ({ nodeId }: NodeManagerProps) => {
   );
 };
 
-export default NodeManager;
+export default AsyncLoaderHOC(NodeManager);

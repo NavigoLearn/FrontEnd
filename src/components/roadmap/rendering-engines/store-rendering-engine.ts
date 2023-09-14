@@ -8,7 +8,7 @@ export const IRenderingEnginesArray: IRenderingEngines[] = [
 ];
 
 export const storeRenderingEngine = atom({
-  renderingEngineType: 'native-elements',
+  renderingEngineType: 'foreign-object',
 } as {
   renderingEngineType: IRenderingEngines;
 });

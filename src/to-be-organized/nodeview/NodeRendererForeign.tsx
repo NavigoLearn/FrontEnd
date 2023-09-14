@@ -64,6 +64,8 @@ import { triggerAllConnectionsRerender } from '@src/typescript/roadmap_ref/rende
 import { useStateTimed } from '@hooks/useStateTimed';
 import { deleteAllSnappings } from '@store/roadmap-refactor/render/snapping-lines';
 import { useNotification } from '@src/components/roadmap/to-be-organized/notifications/NotificationLogic';
+import AsyncLoaderHOC from '@components/roadmap/rendering-engines/async-loading/AsyncLoaderHOC';
+import { handleDragabilityRecalculationOnChunking } from '@src/typescript/roadmap_ref/dragging/misc';
 import { handleNotification } from './notification-handler';
 import {
   setDeleteRootNodeNotificationFalse,
@@ -131,6 +133,10 @@ const NodeRendererForeign: React.FC<NodeViewProps> = ({
     useEffect(() => {
       if (node.flags.renderedOnRoadmapFlag) return;
       setTriggerRender(node.id, rerender);
+    }, []);
+
+    useEffect(() => {
+      // handleDragabilityRecalculationOnChunking(node);
     }, []);
 
     const [mouseOver, setMouseOver] = useState(false);

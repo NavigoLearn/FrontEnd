@@ -2,6 +2,7 @@ import React from 'react';
 import {
   createAndSetRoadmapClassic,
   createGrid,
+  createGridSimple,
 } from '@src/typescript/roadmap_ref/roadmap-templates/classic';
 import renderNodesStore from '@store/roadmap-refactor/render/rendered-nodes';
 import {
@@ -280,7 +281,11 @@ const Roadmap = ({
     if (nodesIds.length > 0) {
       // because when a node gets out of chunk it is unloaded from the screen and then loaded again
       // when it is loaded again, the previous draggability is lost and needs to be reapplied
-      applyRoadmapElementsRechunkedDraggability();
+      //
+      //
+      // moved this into the node itself because it becomes a blocking task for big roadmaps
+      //
+      // applyRoadmapElementsRechunkedDraggability();
     }
   }, [nodesIds]);
 
