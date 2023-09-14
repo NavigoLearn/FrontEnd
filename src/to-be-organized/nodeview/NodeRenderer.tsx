@@ -34,7 +34,10 @@ import {
   getElementHasEffect,
 } from '@store/roadmap-refactor/elements-editing/element-effects';
 import { useIsLoaded } from '@hooks/useIsLoaded';
-import { setElementG } from '@store/roadmap-refactor/elements-editing/elements-gs';
+import {
+  setElementDiv,
+  setElementG,
+} from '@store/roadmap-refactor/elements-editing/elements-gs';
 import { NodeClass } from '@src/typescript/roadmap_ref/node/core/core';
 import {
   getHideProgress,
@@ -124,7 +127,7 @@ const NodeRenderer: React.FC<NodeViewProps> = ({
 
     useEffect(() => {
       setElementEffectsInitialEmpty(nodeId);
-      setElementG(nodeId, nodeDivRef.current);
+      setElementDiv(nodeId, nodeDivRef.current);
     }, []);
 
     useEffect(() => {
@@ -217,7 +220,7 @@ const NodeRenderer: React.FC<NodeViewProps> = ({
       loaded && !getIsEditing() && appendNodeMarkAsDone(node);
       getIsEditing() && deleteStatusEffectAll(nodeId);
       if (!nodeDivRef.current) return;
-      loaded && applyElementEffects(nodeId, nodeDivRef.current);
+      loaded && applyElementEffects(nodeId);
     });
 
     const isDraggable = getElementIsDraggable(nodeId);
@@ -245,7 +248,7 @@ const NodeRenderer: React.FC<NodeViewProps> = ({
         )}
         {isCurrentlyDragged && handleNotification(addNotification)}
         <div
-          className={`drop-shadow-md rounded-lg transition-allNoTransform duration-200 absolute `}
+          className='rounded-lg transition-allNoTransform duration-200 absolute'
           id={`div${nodeId}`}
           ref={nodeDivRef}
           onClick={(event) => {
@@ -337,7 +340,7 @@ const NodeRenderer: React.FC<NodeViewProps> = ({
             />
           )}
 
-          {/* {getEditingState() === 'nodes' && <>{componentsRenderer(node)}</>} */}
+          {getEditingState() === 'nodes' && <>{componentsRenderer(node)}</>}
           {subNodeIds &&
             subNodeIds.map((subNodeId) => {
               // the div is used to position the subNode in the center of the current node

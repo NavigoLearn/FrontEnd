@@ -6,10 +6,7 @@ import {
   injectComponentParentNodeId,
 } from '@src/typescript/roadmap_ref/node/components/text/inject';
 import { draggingBehaviorFactoryComponents } from '@src/typescript/roadmap_ref/dragging/factories';
-import {
-  injectDraggingElementIdentifier,
-  injectDraggingStrategy,
-} from '@src/typescript/roadmap_ref/dragging/inject';
+import { injectDraggingStrategy } from '@src/typescript/roadmap_ref/dragging/inject';
 
 export type IComponentClasses = ComponentText;
 
@@ -21,7 +18,6 @@ export function addDraggingBehaviorComponentProtocol(
     parentNodeId,
     component.id
   );
-  injectDraggingElementIdentifier(draggingBehavior, 'g');
   injectComponentDraggingBehavior(component, draggingBehavior);
   injectDraggingStrategy(draggingBehavior, 'snap');
 }

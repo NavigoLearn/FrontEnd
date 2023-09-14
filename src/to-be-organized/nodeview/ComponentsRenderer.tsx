@@ -36,7 +36,7 @@ const ComponentRenderer = ({
 }: IComponentElementProps) => {
   const { id, type, textSize, textWeight, text } = component;
   const { colorType } = parentNode.data;
-  const divRef = useRef(null);
+  const divRef = useRef<HTMLDivElement>(null);
   // text color is based on the node color
   const theme = getColorThemeFromRoadmap();
   const parentSelected =
@@ -52,7 +52,10 @@ const ComponentRenderer = ({
   const { position, height, width } = calculateComponentsPositions(
     component,
     parentNode,
-    divRef
+    {
+      type: 'foreign-object',
+      textRef: divRef,
+    }
   );
   mutateComponentTextHeight(component, height);
 
@@ -105,7 +108,6 @@ const ComponentRenderer = ({
         />
       )}
       {type === 'Text' && <h1 className='text-center select-none'>{text}</h1>}
-      {/* Add more conditions for other component types */}
     </div>
   );
 };

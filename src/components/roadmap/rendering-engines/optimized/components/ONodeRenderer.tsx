@@ -223,7 +223,7 @@ const ONodeRenderer: React.FC<NodeViewProps> = ({ nodeId, centerOffset }) => {
           strokeWidth='2px'
           rx='7px'
           ry='7px'
-          filter='url(#shadow)'
+          filter='url(#hadow)'
         />
 
         <AnimatePresence>

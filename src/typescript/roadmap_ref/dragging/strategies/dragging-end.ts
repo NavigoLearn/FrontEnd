@@ -12,6 +12,7 @@ import { getComponentById } from '@src/typescript/roadmap_ref/node/core/data-get
 import { mutateComponentCoords } from '@src/typescript/roadmap_ref/node/components/mutate';
 import { getElementG } from '@store/roadmap-refactor/elements-editing/elements-gs';
 import { getTransformXY } from '@src/typescript/roadmap_ref/render/coord-calc';
+import { getRenderingEngineDraggingElementIdentifier } from '@components/roadmap/rendering-engines/store-rendering-engine';
 
 export const draggingEndNode = (
   draggingBehavior: DraggingBehavior,
@@ -22,7 +23,7 @@ export const draggingEndNode = (
   const node = getNodeByIdRoadmapSelector(nodeId);
   mutateNodeCoords(node, x, y);
   // resets the element transforms because mutating coords already rerenders and updates the location
-  const elementType = draggingBehavior.draggingElementIdentifier;
+  const elementType = getRenderingEngineDraggingElementIdentifier();
   const sel = document.getElementById(`${elementType}${node.id}`);
   const obj = d3.select(sel);
   obj.style('transform', `translate(${0}px, ${0}px)`);
@@ -41,7 +42,7 @@ export const draggingEndSubNode = (
   const node = getNodeByIdRoadmapSelector(nodeId);
   mutateNodeCoords(node, x, y);
 
-  const elementType = draggingBehavior.draggingElementIdentifier;
+  const elementType = getRenderingEngineDraggingElementIdentifier();
   const sel = document.getElementById(`${elementType}${node.id}`);
   const obj = d3.select(sel);
   triggerNodeRerender(node.id);
@@ -61,7 +62,7 @@ export const draggingEndComponent = (
   const component = getComponentById(node, componentId);
   mutateComponentCoords(component, x, y);
 
-  const elementType = draggingBehavior.draggingElementIdentifier;
+  const elementType = getRenderingEngineDraggingElementIdentifier();
   const sel = document.getElementById(`${elementType}${component.id}`);
   const obj = d3.select(sel);
   obj.style('transform', `translate(${0}px, ${0}px)`);
@@ -80,7 +81,7 @@ export const draggingEndNodeTransformBased = (
     node.data.coords.x + offsetX,
     node.data.coords.y + offsetY
   );
-  const elementType = draggingBehavior.draggingElementIdentifier;
+  const elementType = getRenderingEngineDraggingElementIdentifier();
   const sel = document.getElementById(`${elementType}${node.id}`);
   const obj = d3.select(sel);
   obj.style('transform', `translate(${0}px, ${0}px)`);

@@ -1,24 +1,16 @@
-import {
-  DraggingBehavior,
-  IDraggingElementIdentifiers,
-} from '@src/typescript/roadmap_ref/dragging/core';
+import { DraggingBehavior } from '@src/typescript/roadmap_ref/dragging/core';
 import {
   injectDraggingElementId,
-  injectDraggingElementIdentifier,
   injectDraggingElementType,
   injectDraggingParentNodeId,
   injectDraggingStrategy,
 } from '@src/typescript/roadmap_ref/dragging/inject';
-
-const mode = import.meta.env.MODE;
 
 export function draggingBehaviorFactoryRoadmapNode(
   nodeId: string
 ): DraggingBehavior {
   // might need refactor to get the data from the store and not keep a reference directly
   const draggingBehavior = new DraggingBehavior();
-  const identifier: IDraggingElementIdentifiers = 'g';
-  injectDraggingElementIdentifier(draggingBehavior, identifier);
   injectDraggingElementId(draggingBehavior, nodeId);
   injectDraggingStrategy(draggingBehavior, 'snap');
   injectDraggingElementType(draggingBehavior, 'node');
@@ -31,8 +23,6 @@ export function draggingBehaviorFactorySubNode(
 ): DraggingBehavior {
   // might need refactor to get the data from the store and not keep a reference directly
   const draggingBehavior = new DraggingBehavior();
-  const identifier: IDraggingElementIdentifiers = 'g';
-  injectDraggingElementIdentifier(draggingBehavior, identifier);
   injectDraggingElementId(draggingBehavior, nodeId);
   injectDraggingStrategy(draggingBehavior, 'free');
   injectDraggingElementType(draggingBehavior, 'subNode');
@@ -46,7 +36,6 @@ export function draggingBehaviorFactoryComponents(
 ): DraggingBehavior {
   // might need refactor to get the data from the store and not keep a reference directly
   const draggingBehavior = new DraggingBehavior();
-  injectDraggingElementIdentifier(draggingBehavior, 'div');
   injectDraggingElementId(draggingBehavior, componentId);
   injectDraggingStrategy(draggingBehavior, 'free');
   injectDraggingElementType(draggingBehavior, 'component');

@@ -140,8 +140,8 @@ export function getOnMouseOverAction(nodeId: string): () => void {
 
 export function getOnMouseOutActionView(nodeId): () => void {
   return () => {
-    const div = getElementG(nodeId);
-    effectBorderTransparent(div);
+    // const div = getElementG(nodeId);
+    // effectBorderTransparent(div);
   };
 }
 

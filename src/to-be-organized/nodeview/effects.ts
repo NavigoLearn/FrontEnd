@@ -1,11 +1,11 @@
-export const effectOpacity60 = (divElementRef: HTMLDivElement) => {
+export const effectOpacity60ForeignDiv = (divElementRef: HTMLDivElement) => {
   divElementRef.style.opacity = '0.6';
 };
-export const effectOpacity30 = (divElementRef: HTMLDivElement) => {
+export const effectOpacity30ForeignDiv = (divElementRef: HTMLDivElement) => {
   divElementRef.style.opacity = '0.3';
 };
 
-export const effectOpacity100 = (divElementRef: HTMLDivElement) => {
+export const effectOpacity100ForeignDiv = (divElementRef: HTMLDivElement) => {
   divElementRef.style.opacity = '1';
 };
 
@@ -20,7 +20,7 @@ export const effectBorderTransparent = (divElementRef: HTMLDivElement) => {
 export const effectBorderBlueDashed = (divElementRef: HTMLDivElement) => {
   divElementRef.style.border = '2px dashed blue';
 };
-export const effectBorderBlue = (divElementRef: HTMLDivElement) => {
+export const effectBorderBlueForeignDiv = (divElementRef: HTMLDivElement) => {
   divElementRef.style.border = '2px solid blue';
 };
 
@@ -28,55 +28,31 @@ export const effectBorderYellow = (divElementRef: HTMLDivElement) => {
   divElementRef.style.border = '2px solid yellow';
 };
 
-export const effectBorderRed = (divElementRef: HTMLDivElement) => {
+export const effectBorderRedForeignDiv = (divElementRef: HTMLDivElement) => {
   divElementRef.style.border = '2px solid red';
 };
 
-export const effectOpacity60Rect = (
+export const effectOpacity60Native = (
   rectElementRef: SVGRectElement,
   gRef: SVGGElement
 ) => {
   gRef.setAttribute('opacity', '0.6');
 };
-export const effectOpacity30Rect = (
+
+export const effectOpacity30Native = (
   rectElementRef: SVGRectElement,
   gRef: SVGGElement
 ) => {
   rectElementRef.setAttribute('opacity', '0.3');
 };
-export const effectOpacity100Rect = (
+export const effectOpacity100Native = (
   rectElementRef: SVGRectElement,
   gRef: SVGGElement
 ) => {
   rectElementRef.setAttribute('opacity', '1');
 };
 
-export const effectBorderBlackRect = (
-  rectElementRef: SVGRectElement,
-  gRef: SVGGElement
-) => {
-  rectElementRef.setAttribute('stroke', 'black');
-  rectElementRef.setAttribute('stroke-width', '2');
-};
-
-export const effectBorderTransparentRect = (
-  rectElementRef: SVGRectElement,
-  gRef: SVGGElement
-) => {
-  rectElementRef.setAttribute('stroke', 'transparent');
-  rectElementRef.setAttribute('stroke-width', '2');
-};
-
-export const effectBorderBlueDashedRect = (
-  rectElementRef: SVGRectElement,
-  gRef: SVGGElement
-) => {
-  rectElementRef.setAttribute('stroke', 'blue');
-  rectElementRef.setAttribute('stroke-width', '2');
-  rectElementRef.setAttribute('stroke-dasharray', '4,4');
-};
-
-export const effectBorderBlueRect = (
+export const effectBorderBlueNative = (
   rectElementRef: SVGRectElement,
   gRef: SVGGElement
 ) => {
@@ -84,15 +60,7 @@ export const effectBorderBlueRect = (
   rectElementRef.setAttribute('stroke-width', '2');
 };
 
-export const effectBorderYellowRect = (
-  rectElementRef: SVGRectElement,
-  gRef: SVGGElement
-) => {
-  rectElementRef.setAttribute('stroke', 'yellow');
-  rectElementRef.setAttribute('stroke-width', '2');
-};
-
-export const effectBorderRedRect = (
+export const effectBorderRedNative = (
   rectElementRef: SVGRectElement,
   gRef: SVGGElement
 ) => {

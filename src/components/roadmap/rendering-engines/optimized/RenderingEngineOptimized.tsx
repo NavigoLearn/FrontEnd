@@ -30,6 +30,7 @@ const RenderingEngineOptimized = ({
           <feMergeNode in='SourceGraphic' />
         </feMerge>
       </filter>
+
       <g id='rootGroupConnections'>
         <ConnectionsRenderer connectionsIds={connectionsIds} />
       </g>

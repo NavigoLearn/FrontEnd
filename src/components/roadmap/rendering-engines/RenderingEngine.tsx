@@ -12,16 +12,16 @@ const RenderingEngine = ({
   nodesIds,
   connectionsIds,
 }: IRenderingEngineNodesProps) => {
-  const { renderingType } = useStore(storeRenderingEngine);
+  const { renderingEngineType } = useStore(storeRenderingEngine);
   return (
     <>
-      {renderingType === 'classic' && (
+      {renderingEngineType === 'foreign-object' && (
         <RenderingEngineClassic
           nodesIds={nodesIds}
           connectionsIds={connectionsIds}
         />
       )}
-      {renderingType === 'optimized' && (
+      {renderingEngineType === 'native-elements' && (
         <RenderingEngineOptimized
           nodesIds={nodesIds}
           connectionsIds={connectionsIds}

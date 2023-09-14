@@ -1,16 +1,30 @@
 import { atom } from 'nanostores';
+import { IDraggingElementIdentifiers } from '@src/typescript/roadmap_ref/dragging/core';
 
-type IRendering = 'classic' | 'optimized';
+export type IRenderingEngines = 'foreign-object' | 'native-elements';
+export const IRenderingEnginesArray: IRenderingEngines[] = [
+  'native-elements',
+  'foreign-object',
+];
+
 export const storeRenderingEngine = atom({
-  renderingType: 'optimized',
+  renderingEngineType: 'native-elements',
 } as {
-  renderingType: IRendering;
+  renderingEngineType: IRenderingEngines;
 });
 
-export const setRenderingType = (type: IRendering) => {
-  storeRenderingEngine.set({ renderingType: type });
+export const setRenderingEngineType = (type: IRenderingEngines) => {
+  storeRenderingEngine.set({ renderingEngineType: type });
 };
 
-export const getRenderingType = () => {
-  return storeRenderingEngine.get().renderingType;
+export const getRenderingEngineType = () => {
+  return storeRenderingEngine.get().renderingEngineType;
+};
+
+export const getRenderingEngineDraggingElementIdentifier = () => {
+  const mapper: Record<IRenderingEngines, IDraggingElementIdentifiers> = {
+    'foreign-object': 'div',
+    'native-elements': 'g',
+  };
+  return mapper[getRenderingEngineType()];
 };
