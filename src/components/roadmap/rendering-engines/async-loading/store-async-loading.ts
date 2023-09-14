@@ -35,6 +35,11 @@ export const getAsyncDelay = () => {
 };
 
 export const decrementAsyncDelay = () => {
-  storeRenderingEngine.get().asyncDelay -= BASE_DELAY;
+  const currentDelay = storeRenderingEngine.get().asyncDelay;
+  if (currentDelay < 0) {
+    storeRenderingEngine.get().asyncDelay = 0;
+  } else {
+    storeRenderingEngine.get().asyncDelay -= BASE_DELAY;
+  }
   console.log('asyncDelay at decrement', storeRenderingEngine.get().asyncDelay);
 };

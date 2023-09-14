@@ -136,7 +136,7 @@ const NodeRendererForeign: React.FC<NodeViewProps> = ({
     }, []);
 
     useEffect(() => {
-      // handleDragabilityRecalculationOnChunking(node);
+      handleDragabilityRecalculationOnChunking(node);
     }, []);
 
     const [mouseOver, setMouseOver] = useState(false);
@@ -252,17 +252,17 @@ const NodeRendererForeign: React.FC<NodeViewProps> = ({
         )}
         {isCurrentlyDragged && handleNotification(addNotification)}
         <div
-          className='rounded-lg transition-allNoTransform duration-200 absolute'
+          className='rounded-lg shadow-lg transition-allNoTransform duration-200 absolute'
           id={`div${nodeId}`}
           ref={nodeDivRef}
           onClick={(event) => {
             event.stopPropagation();
             getOnClickAction(nodeId)();
-            if (nodeId === '0') {
-              setDeleteRootNodeNotificationTrue();
-            } else {
-              setDeleteRootNodeNotificationFalse();
-            }
+            // if (nodeId === '0') {
+            //   setDeleteRootNodeNotificationTrue();
+            // } else {
+            //   setDeleteRootNodeNotificationFalse();
+            // }
           }}
           onMouseOver={(event) => {
             event.stopPropagation();

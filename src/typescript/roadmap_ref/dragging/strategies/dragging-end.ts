@@ -10,7 +10,10 @@ import * as d3 from 'd3';
 import { afterEventLoop } from '@src/typescript/utils/misc';
 import { getComponentById } from '@src/typescript/roadmap_ref/node/core/data-get/components';
 import { mutateComponentCoords } from '@src/typescript/roadmap_ref/node/components/mutate';
-import { getElementG } from '@store/roadmap-refactor/elements-editing/elements-gs';
+import {
+  getElementDiv,
+  getElementG,
+} from '@store/roadmap-refactor/elements-editing/elements-gs';
 import { getTransformXY } from '@src/typescript/roadmap_ref/render/coord-calc';
 import { getRenderingEngineDraggingElementIdentifier } from '@components/roadmap/rendering-engines/store-rendering-engine';
 
@@ -74,7 +77,15 @@ export const draggingEndNodeTransformBased = (
 ) => {
   const nodeId = draggingBehavior.draggingElementId;
   const node = getNodeByIdRoadmapSelector(nodeId);
-  const { transform } = getElementG(nodeId).style;
+  const elementIdentifier = getRenderingEngineDraggingElementIdentifier();
+  let transform;
+  if (elementIdentifier === 'div') {
+    transform = getElementDiv(nodeId).style.transform;
+  }
+  if (elementIdentifier === 'g') {
+    transform = getElementG(nodeId).style.transform;
+  }
+
   const { x: offsetX, y: offsetY } = getTransformXY(transform);
   mutateNodeCoords(
     node,

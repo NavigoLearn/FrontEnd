@@ -2,7 +2,6 @@ import React from 'react';
 import {
   createAndSetRoadmapClassic,
   createGrid,
-  createGridSimple,
 } from '@src/typescript/roadmap_ref/roadmap-templates/classic';
 import renderNodesStore from '@store/roadmap-refactor/render/rendered-nodes';
 import {
@@ -17,6 +16,7 @@ import roadmapStateStore, {
   setRoadmapIsLoaded,
   setRoadmapState,
   setHasStarterTab,
+  getIsEditing,
 } from '@store/roadmap-refactor/roadmap-data/misc-data/roadmap_state';
 import {
   disableRoadmapDragZoomAnd,
@@ -75,6 +75,10 @@ import {
 } from '@store/roadmap-refactor/roadmap-data/misc-data/roadmap-statistics';
 import RenderingEngine from '@components/roadmap/rendering-engines/RenderingEngine';
 import { addTemplateFromNode } from '@src/typescript/roadmap_ref/node/templates-system/template-protocols';
+import { getNodeByIdRoadmapSelector } from '@src/typescript/roadmap_ref/roadmap-data/services/get';
+import { saveEditingProtocol } from '@src/typescript/roadmap_ref/roadmap-data/protocols/roadmap-state-protocols';
+import { useChangeRoadmapState } from '@hooks/useChangeRoadmapState';
+import { lockExit, unlockExit } from '@src/typescript/utils/confirmExit';
 import { storeRenderingEngine } from '@components/roadmap/rendering-engines/store-rendering-engine';
 
 export function initialRoadmapProtocolAfterLoad() {
@@ -216,6 +220,23 @@ function handleRoadmapAfterLoadInitialization(
   }
 }
 
+let autoSaveTimer: NodeJS.Timeout | null = null;
+function startAutoSaveTimer() {
+  if (autoSaveTimer) {
+    clearTimeout(autoSaveTimer);
+  }
+  autoSaveTimer = setTimeout(() => {
+    saveEditingProtocol();
+    startAutoSaveTimer();
+  }, 60000);
+}
+
+function stopAutoSaveTimer() {
+  if (autoSaveTimer) {
+    clearTimeout(autoSaveTimer);
+  }
+}
+
 async function handleRoadmapUserData(roadmap?: IRoadmapApi) {
   if (!roadmap) return;
 
@@ -267,7 +288,7 @@ const Roadmap = ({
     handleRoadmapRenderingData(roadmap).then((dataRetrievalStatus) => {
       handleRoadmapAfterLoadInitialization(dataRetrievalStatus);
       if (getRoadmapType() === 'create') {
-        // handleSessionSaving();
+        handleSessionSaving();
       }
     });
   }, []);
@@ -278,7 +299,7 @@ const Roadmap = ({
   }, []);
 
   useEffectAfterLoad(() => {
-    if (nodesIds.length > 0) {
+    if (firstRenderDone && nodesIds.length > 0) {
       // because when a node gets out of chunk it is unloaded from the screen and then loaded again
       // when it is loaded again, the previous draggability is lost and needs to be reapplied
       //
@@ -290,11 +311,21 @@ const Roadmap = ({
   }, [nodesIds]);
 
   useEffectAfterLoad(() => {
-    if (nodesIds.length > 0) {
+    if (firstRenderDone && nodesIds.length > 0) {
       // because when you switch between edit and view dragability needs to be changed
       inferRoadmapElementsDraggability();
     }
   }, [roadmapState, renderingEngineType]);
+
+  useChangeRoadmapState(() => {
+    if (getIsEditing()) {
+      startAutoSaveTimer();
+      lockExit();
+    } else {
+      stopAutoSaveTimer();
+      unlockExit();
+    }
+  }, []);
 
   return (
     <div

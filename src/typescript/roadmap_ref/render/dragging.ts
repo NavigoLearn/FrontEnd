@@ -181,6 +181,7 @@ export const addDragabilityProtocol = (draggingBehavior: DraggingBehavior) => {
     // chunk recalculations are integrated in the coordinates setter strategy
     draggingEndStrategy(newPos.x, newPos.y);
     deleteAllSnappings();
+    console.log('dragging end children traceback', isRecursive);
     if (isRecursive) {
       draggingEndChildrenTraceback(draggingBehavior);
       const children = getChildrenRenderedTraceback(id);

@@ -89,7 +89,6 @@ const ActionsSystem = () => {
   const { selectedNodeId } = useStore(editorSelectedData);
   const node = getNodeByIdRoadmapSelector(selectedNodeId);
   const { dropdown } = useStore(operationsStore);
-  const { addNotification } = useNotification();
   const isRoot = getDeleteRootNodeNotification();
 
   const rawTemplates = getRoadmapTemplatesArray();
@@ -130,7 +129,11 @@ const ActionsSystem = () => {
             }}
           />
         </div>
-        <div className={isRoot ? 'pointer-events-none opacity-50' : ''}>
+        <div
+          className={
+            isRoot ? 'pointer-events-none opacity-50' : ' pointer-events-auto'
+          }
+        >
           <DeleteButton
             callback={() => {
               deleteProtocolNodeFromRoadmap(node);
@@ -150,17 +153,17 @@ const ActionsSystem = () => {
             dropdown === 'apply-template' ? 'z-20' : 'z-0'
           }`}
         >
-          <DropdownWhiteSelect
-            dropdownName='Apply template'
-            options={[...templatesJSONApplyTemplate]}
-            dropdownCallback={(hasOpened) => {
-              if (hasOpened) {
-                setOperationsDropdown('apply-template');
-              } else {
-                setOperationsDropdown('none');
-              }
-            }}
-          />
+          {/* <DropdownWhiteSelect */}
+          {/*  dropdownName='Apply template' */}
+          {/*  options={[...templatesJSONApplyTemplate]} */}
+          {/*  dropdownCallback={(hasOpened) => { */}
+          {/*    if (hasOpened) { */}
+          {/*      setOperationsDropdown('apply-template'); */}
+          {/*    } else { */}
+          {/*      setOperationsDropdown('none'); */}
+          {/*    } */}
+          {/*  }} */}
+          {/* /> */}
         </div>
         <DeleteButton
           callback={() => {

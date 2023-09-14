@@ -11,6 +11,7 @@ import TextInputStandard from '@components/roadmap/pages-roadmap/editor/editor-p
 import TextareaStandardInput from '@components/roadmap/pages-roadmap/editor/editor-pages/properties-page/TextareaStandardInput';
 import ThemeDisplayer from '@components/roadmap/to-be-organized/about/components/ThemeDisplayer';
 import { DEFAULT_ROADMAP_TITLE_MAX_LENGTH } from './character-limits';
+import exit from '../../../../../../public/editor/close.svg';
 
 type IAboutEditProps = {
   callback: () => void;
@@ -26,11 +27,7 @@ const AboutEdit = ({ callback }: IAboutEditProps) => {
           type='button'
           onClick={() => setDisplayPageTypeFullScreen('closed')}
         >
-          <img
-            src='/public/editor/close.svg'
-            alt='exitButton'
-            className='w-7 h-7'
-          />
+          <img src={exit} alt='exitButton' className='w-7 h-7' />
         </button>
       </div>
       <div className='flex justify-center w-full flex-col items-center h-52 mt-2'>

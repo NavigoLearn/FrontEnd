@@ -1,8 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import {
   decrementAsyncDelay,
   getAsyncDelay,
-  getAsyncDelayNoSideEffects,
 } from '@components/roadmap/rendering-engines/async-loading/store-async-loading';
 import useStateAndRef from '@hooks/useStateAndRef';
 
