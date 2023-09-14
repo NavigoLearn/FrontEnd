@@ -1,45 +1,50 @@
 import { atom } from 'nanostores';
 
 export const storeRenderingEngine = atom({
-  asyncDelay: 0,
-  timeout: null,
+  asyncDelay: 15,
+  showNode: new Map<() => void, () => void>(),
 } as {
   asyncDelay: number;
-  timeout: any;
+  showNode: Map<() => void, () => void>;
 });
 
-const BASE_DELAY = 10;
-function resetAsyncDelay() {
-  // clear current timeout
-  const currentTimeout = storeRenderingEngine.get().timeout;
-  if (currentTimeout) {
-    clearTimeout(currentTimeout);
-  }
-  const timeout = setTimeout(() => {
+function setAsyncLoadTimeout() {
+  const { asyncDelay, showNode } = storeRenderingEngine.get();
+  setTimeout(setAsyncLoadTimeout, asyncDelay);
+  if (showNode.size !== 0) {
+    const firstKey = showNode.keys().next().value;
+    const node = showNode.get(firstKey);
+    if (node) {
+      node();
+      showNode.delete(firstKey);
+    }
+
     storeRenderingEngine.set({
-      asyncDelay: 0,
-      timeout: null,
+      asyncDelay,
+      showNode
     });
-  }, 500);
-  storeRenderingEngine.get().timeout = timeout;
+  }
 }
 
-export const getAsyncDelayNoSideEffects = () => {
-  return storeRenderingEngine.get().asyncDelay;
-};
+let started = false;
 
-export const getAsyncDelay = () => {
-  storeRenderingEngine.get().asyncDelay += BASE_DELAY;
-  resetAsyncDelay();
-  return storeRenderingEngine.get().asyncDelay;
-};
+export function insertNodeToRender(setLoaded: () => void) {
+  const store = storeRenderingEngine.get();
 
-export const decrementAsyncDelay = () => {
-  const currentDelay = storeRenderingEngine.get().asyncDelay;
-  if (currentDelay < 0) {
-    storeRenderingEngine.get().asyncDelay = 0;
-  } else {
-    storeRenderingEngine.get().asyncDelay -= BASE_DELAY;
+  if (!started) {
+    started = true;
+    setTimeout(setAsyncLoadTimeout, store.asyncDelay);
   }
-  console.log('asyncDelay at decrement', storeRenderingEngine.get().asyncDelay);
-};
+
+  const showNode = store.showNode.set(setLoaded, setLoaded);
+
+  storeRenderingEngine.set({...store, showNode});
+}
+
+export function removeNodeToRender(setLoaded: () => void) {
+  const store = storeRenderingEngine.get();
+  const showNode = store.showNode;
+  showNode.delete(setLoaded);
+
+  storeRenderingEngine.set({...store, showNode});
+}
