@@ -76,8 +76,6 @@ interface NodeViewProps {
   divSizeCallback?: (divRef: React.MutableRefObject<HTMLDivElement>) => void; //
 }
 
-const firstNotification = true;
-
 const NodeRendererForeign: React.FC<NodeViewProps> = ({
   nodeId,
   centerOffset,
