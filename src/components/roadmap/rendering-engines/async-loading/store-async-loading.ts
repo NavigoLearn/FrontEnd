@@ -8,6 +8,7 @@ export const storeRenderingEngine = atom({
   timeout: any;
 });
 
+const BASE_DELAY = 10;
 function resetAsyncDelay() {
   // clear current timeout
   const currentTimeout = storeRenderingEngine.get().timeout;
@@ -15,15 +16,11 @@ function resetAsyncDelay() {
     clearTimeout(currentTimeout);
   }
   const timeout = setTimeout(() => {
-    console.log(
-      'resetting asyncDelay _______________________',
-      storeRenderingEngine.get().asyncDelay
-    );
     storeRenderingEngine.set({
       asyncDelay: 0,
       timeout: null,
     });
-  }, 1000);
+  }, 500);
   storeRenderingEngine.get().timeout = timeout;
 }
 
@@ -32,13 +29,12 @@ export const getAsyncDelayNoSideEffects = () => {
 };
 
 export const getAsyncDelay = () => {
-  storeRenderingEngine.get().asyncDelay += 15;
-  console.log('asyncDelay', storeRenderingEngine.get().asyncDelay);
+  storeRenderingEngine.get().asyncDelay += BASE_DELAY;
   resetAsyncDelay();
   return storeRenderingEngine.get().asyncDelay;
 };
 
 export const decrementAsyncDelay = () => {
-  storeRenderingEngine.get().asyncDelay -= 15;
+  storeRenderingEngine.get().asyncDelay -= BASE_DELAY;
   console.log('asyncDelay at decrement', storeRenderingEngine.get().asyncDelay);
 };

@@ -17,10 +17,7 @@ export default (WrappedComponent: React.FC<any>) => {
       return () => {
         clearTimeout(timeout);
         if (ref.current === false) {
-          console.log('unmounted before load', getAsyncDelayNoSideEffects());
           decrementAsyncDelay();
-        } else {
-          console.log('unmounted after load');
         }
       };
     }, []);
