@@ -142,7 +142,7 @@ export function mutateNodesIds(nodes: HashMap<NodeClass>, baseNodeId: string) {
   };
 }
 
-export function appendSubNodesToRoadmap(
+export function appendSubNodesTemplateToRoadmap(
   nodes: HashMap<NodeClass>,
   baseNodeId: string
 ) {
@@ -209,7 +209,7 @@ export function addChildTemplateToRoadmap(
     template.baseNodeId
   );
 
-  appendSubNodesToRoadmap(newNodes, template.baseNodeId);
+  appendSubNodesTemplateToRoadmap(newNodes, newBaseId);
   const parentNode = getNodeByIdRoadmapSelector(parentNodeId);
   appendNodeTemplateBase(parentNode, deepCopy(newNodes[newBaseId]));
 }
@@ -229,16 +229,26 @@ export function applyTemplateToNode(targetNodeId: string, templateId: string) {
   );
   const roadmap = getRoadmapSelector();
 
-  appendSubNodesToRoadmap(newNodes, template.baseNodeId);
+  appendSubNodesTemplateToRoadmap(newNodes, newBaseId);
 
   const targetNode: NodeClass = deepCopy(
     getNodeByIdRoadmapSelector(targetNodeId)
   );
 
   const queue = []; // deletes all subnodes without deleting target node+
-  targetNode.subNodeIds.forEach((subNodeId) => {
-    queue.push(subNodeId);
-  });
+  const auxQueue = [targetNode];
+  while (auxQueue.length > 0) {
+    const node = auxQueue.shift();
+    node.subNodeIds.forEach((id) => {
+      const subNode = roadmap.nodes[id];
+      auxQueue.push(subNode);
+      queue.push(id);
+    });
+  }
+
+  if (queue.includes(targetNode.id)) {
+    throw new Error('Target node is a subnode of itself, something is wrong');
+  }
 
   while (queue.length > 0) {
     const subNodeId = queue.shift();
@@ -249,21 +259,29 @@ export function applyTemplateToNode(targetNodeId: string, templateId: string) {
     deleteNodeFromRoadmapNodes(subNodeId);
   }
 
+  // we change the id of target node because it will trigger "fresh" workflows in NodeRenderer and
+  // will have less bugs overall since it is completely decoupled from previous node
+
+  //
+  // deleteNodeFromChunks(targetNode);
+  // deleteNodeFromRootNodes(targetNode);
+  // deleteNodeFromRoadmapNodes(targetNodeId);
+  // deleteNodeFromRoadmapNodes(targetNode.id);
+  //
   applyTemplateToNewNode(targetNode, deepCopy(newNodes[newBaseId]));
+  // const newId = injectNewId(targetNode, newBaseId);
+  //
+  // addDraggingBehaviorNodeProtocol(targetNode);
+  // appendNodeToChunks(targetNode);
+  // appendRootNodeId(newId);
+  // appendNodeToRoadmapNodes(targetNode);
+  //
+  // const connectionsIds = targetNode.connections;
+  // const connections = connectionsIds.map((id) => roadmap.connections[id]);
+  // mutateConnectionsIds(connections, targetNodeId, newId);
 
-  deleteNodeFromChunks(targetNode);
-  deleteNodeFromRootNodes(targetNode);
-  deleteNodeFromRoadmapNodes(targetNodeId);
-
-  const newId = injectNewId(targetNode, newBaseId);
-  addDraggingBehaviorNodeProtocol(targetNode);
-  appendNodeToChunks(targetNode);
-  appendRootNodeId(newId);
-  appendNodeToRoadmapNodes(targetNode);
-
-  const connectionsIds = targetNode.connections;
-  const connections = connectionsIds.map((id) => roadmap.connections[id]);
-  mutateConnectionsIds(connections, targetNodeId, newId);
-
-  triggerChunkRerender();
+  injectRoadmapNode(targetNode);
+  triggerNodeRerender(targetNodeId);
+  console.log('template applied', targetNode);
+  console.log(getRoadmapSelector());
 }

@@ -321,13 +321,14 @@ const Roadmap = ({
     const type = getRoadmapType();
     const exist = type === 'public' || type === 'draft';
     if (getIsEditing() && exist) {
-      startAutoSaveTimer();
+      // startAutoSaveTimer();
       // lockExit();
     } else {
       stopAutoSaveTimer();
       unlockExit();
     }
   }, [roadmapState]);
+  console.log('rendered nodes ids', nodesIds);
 
   return (
     <div

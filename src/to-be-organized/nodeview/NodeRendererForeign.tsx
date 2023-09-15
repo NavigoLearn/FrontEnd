@@ -121,17 +121,15 @@ const NodeRendererForeign: React.FC<NodeViewProps> = ({
       }, 0);
 
     useEffect(() => {
+      // node can change when you apply a template
       setElementEffectsInitialEmpty(nodeId);
       setElementDiv(nodeId, nodeDivRef.current);
-    }, []);
+      handleDragabilityRecalculationOnChunking(node);
+    }, [node]);
 
     useEffect(() => {
       if (node.flags.renderedOnRoadmapFlag) return;
       setTriggerRender(node.id, rerender);
-    }, []);
-
-    useEffect(() => {
-      handleDragabilityRecalculationOnChunking(node);
     }, []);
 
     const [mouseOver, setMouseOver] = useState(false);
@@ -230,9 +228,6 @@ const NodeRendererForeign: React.FC<NodeViewProps> = ({
     );
 
     const { addNotification } = useNotification();
-
-    const adjustedWidth = width + 1; // adjusted for border
-    const adjustedHeight = height + 1; // adjusted for border
 
     return (
       <>
