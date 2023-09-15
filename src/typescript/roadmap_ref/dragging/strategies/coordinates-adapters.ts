@@ -1,5 +1,6 @@
 import { getScaleSafari } from '@store/roadmap-refactor/misc/scale-safari-store';
 import { DraggingBehavior } from '@src/typescript/roadmap_ref/dragging/core';
+import { getRenderingEngineType } from '@components/roadmap/rendering-engines/store-rendering-engine';
 
 export const coordinatesAdapterStandardStrategy = (x: number, y: number) => {
   return {
@@ -12,8 +13,11 @@ export const coordinatesAdapterScaledStrategy = (x: number, y: number) => {
   // adapting x and y to the scale of the editor
   // since the positions are modified similar to a vector, we only need to normalize that vector to get the correct position
 
+  const engine = getRenderingEngineType();
   let scale = getScaleSafari(); // deprecated after new engine but might still be useful
-  scale = 1;
+  if (engine === 'native-elements') {
+    scale = 1;
+  }
   const newX = x / scale;
   const newY = y / scale;
 

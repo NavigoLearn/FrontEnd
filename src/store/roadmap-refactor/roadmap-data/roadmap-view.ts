@@ -27,3 +27,7 @@ export function setRoadmapViewFromAPI(roadmapData: IRoadmapApi) {
     throw new Error('Roadmap roadmap-roadmap-data is not of type Roadmap');
   }
 }
+
+export function getRoadmapView() {
+  return roadmapView.get();
+}

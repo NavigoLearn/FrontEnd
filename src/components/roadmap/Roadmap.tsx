@@ -1,7 +1,6 @@
 import React from 'react';
 import {
   createAndSetRoadmapClassic,
-  createGrid,
 } from '@src/typescript/roadmap_ref/roadmap-templates/classic';
 import renderNodesStore from '@store/roadmap-refactor/render/rendered-nodes';
 import {
@@ -10,7 +9,6 @@ import {
   triggerChunkRerender,
 } from '@store/roadmap-refactor/render/rendered-chunks';
 import { useScrollHidden } from '@hooks/useScrollHidden';
-import NodeManager from '@components/roadmap/to-be-organized/NodeManager';
 import { useStore } from '@nanostores/react';
 import roadmapStateStore, {
   setRoadmapIsLoaded,
@@ -26,15 +24,12 @@ import { recalculateChunks } from '@src/typescript/roadmap_ref/render/chunks';
 import { triggerRecenterRoadmap } from '@store/roadmap-refactor/misc/misc-params-store';
 import { useIsLoaded } from '@hooks/useIsLoaded';
 import {
-  applyRoadmapElementsRechunkedDraggability,
   applyRoadmapElementsInitialDraggability,
   inferRoadmapElementsDraggability,
 } from '@src/typescript/roadmap_ref/dragging/misc';
 import { useEffectAfterLoad } from '@hooks/useEffectAfterLoad';
-import ConnectionsRenderer from '@components/roadmap/connections/ConnectionsRenderer';
 import renderConnectionsStore from '@store/roadmap-refactor/render/rendered-connections';
 import { closeEditorProtocol } from '@src/to-be-organized/nodeview/actions-manager';
-import SnappingLinesRenderer from '@components/roadmap/to-be-organized/SnappingLinesRenderer';
 import { addKeyListeners } from '@src/typescript/roadmap_ref/key-shortcuts';
 import { IRoadmapApi } from '@type/explore_old/card';
 import {
@@ -46,7 +41,6 @@ import ElementsDisplayManager from '@components/roadmap/elements-display/Element
 import { afterEventLoop } from '@src/typescript/utils/misc';
 import { clearSelectedConnection } from '@components/roadmap/connections/connection-editing/connection-store';
 import { setEditingState } from '@store/roadmap-refactor/editing/editing-state';
-import { setRoadmapEditFromAPI } from '@store/roadmap-refactor/roadmap-data/roadmap-edit';
 import {
   setRoadmapType,
   getRoadmapType,
@@ -75,10 +69,8 @@ import {
 } from '@store/roadmap-refactor/roadmap-data/misc-data/roadmap-statistics';
 import RenderingEngine from '@components/roadmap/rendering-engines/RenderingEngine';
 import { addTemplateFromNode } from '@src/typescript/roadmap_ref/node/templates-system/template-protocols';
-import { getNodeByIdRoadmapSelector } from '@src/typescript/roadmap_ref/roadmap-data/services/get';
 import {
   autosaveEditingProtocol,
-  saveEditingProtocol,
 } from '@src/typescript/roadmap_ref/roadmap-data/protocols/roadmap-state-protocols';
 import { useChangeRoadmapState } from '@hooks/useChangeRoadmapState';
 import { lockExit, unlockExit } from '@src/typescript/utils/confirmExit';
@@ -193,9 +185,9 @@ async function handleRoadmapRenderingData(
       return 'restored';
     }
     // otherwise the initialization triggers from the setup screen
-    // const node0 = createAndSetRoadmapClassic(); // also handles setting the roadmap data in the store
-    // addTemplateFromNode(node0);
-    createGrid();
+    const node0 = createAndSetRoadmapClassic(); // also handles setting the roadmap data in the store
+    addTemplateFromNode(node0);
+    // createGrid();
     return 'factory-created';
   }
   if (type === 'draft' || type === 'public') {
@@ -321,14 +313,16 @@ const Roadmap = ({
   }, [roadmapState, renderingEngineType]);
 
   useChangeRoadmapState(() => {
-    if (getIsEditing()) {
+    const type = getRoadmapType();
+    const exist = type === 'public' || type === 'draft';
+    if (getIsEditing() && exist) {
       startAutoSaveTimer();
       lockExit();
     } else {
       stopAutoSaveTimer();
       unlockExit();
     }
-  }, []);
+  }, [roadmapState]);
 
   return (
     <div
