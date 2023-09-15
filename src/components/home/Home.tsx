@@ -99,10 +99,10 @@ const Home = () => {
   return (
     <div
       onMouseMove={handleMouseMove}
-      className='max-w-screen h-full overflow-x-hidden flex'
+      className='max-w-screen h-full overflow-x-hidden flex relative'
     >
       <div
-        className='bg-white items-center justify-center grid overflow-x-hidden h-[100vh] z-[-1] max-w-screen]'
+        className='bg-white items-center justify-center grid overflow-x-hidden h-[100vh] z-[-1] max-w-screen'
         ref={divRef}
       >
         {objects.map((object, index) => {
