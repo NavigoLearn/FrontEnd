@@ -316,7 +316,6 @@ export function appendStatusEffect(id: string, status: IEffectsStatuses) {
 export function defocusAllNodesExceptBlacklist(blackListed: string[]) {
   const originalEffects = elementEffects.get();
   const nodes = Object.keys(getRoadmapSelector().nodes);
-  console.log(nodes);
   nodes.forEach((id) => {
     if (blackListed.includes(id)) {
       deleteElementEffect(originalEffects, id, 'defocus-node');
@@ -324,7 +323,6 @@ export function defocusAllNodesExceptBlacklist(blackListed: string[]) {
       try {
         originalEffects[id].push('defocus-node');
       } catch (e) {
-        console.log('error in defaocus eff', id, nodes);
         throw new Error(`Error in defocusAllNodesExceptBlacklist: ${e}`);
       }
     }

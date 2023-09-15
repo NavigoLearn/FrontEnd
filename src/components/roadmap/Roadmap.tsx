@@ -328,7 +328,6 @@ const Roadmap = ({
       unlockExit();
     }
   }, [roadmapState]);
-  console.log('rendered nodes ids', nodesIds);
 
   return (
     <div
