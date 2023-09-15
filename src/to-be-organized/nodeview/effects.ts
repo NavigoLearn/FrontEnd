@@ -20,6 +20,11 @@ export const effectBorderTransparent = (divElementRef: HTMLDivElement) => {
 export const effectBorderBlueDashed = (divElementRef: HTMLDivElement) => {
   divElementRef.style.border = '2px dashed blue';
 };
+
+export const effectBorderAnimated = (divElementRef: HTMLDivElement) => {
+  divElementRef.style.animation = 'dash 2s infinite linear';
+};
+
 export const effectBorderBlueForeignDiv = (divElementRef: HTMLDivElement) => {
   divElementRef.style.border = '2px solid blue';
 };

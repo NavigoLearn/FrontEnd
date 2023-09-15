@@ -1,6 +1,7 @@
 /* eslint-disable no-shadow */
 /* eslint-disable react/prop-types */
 import React, { useEffect, useRef, useState } from 'react';
+import { useStateWithSideEffects } from '@hooks/useStateWithSideEffects';
 import { motion, AnimatePresence } from 'framer-motion';
 import { afterEventLoop } from '@src/typescript/utils/misc';
 import { componentsRenderer } from '@src/to-be-organized/nodeview/ComponentsRenderer';
@@ -32,6 +33,7 @@ import {
   deleteStatusEffectAll,
   getElementEffects,
   getElementHasEffect,
+  removeHighlightNodeEffects,
 } from '@store/roadmap-refactor/elements-editing/element-effects';
 import { useIsLoaded } from '@hooks/useIsLoaded';
 import {
@@ -65,6 +67,7 @@ import { useStateTimed } from '@hooks/useStateTimed';
 import { deleteAllSnappings } from '@store/roadmap-refactor/render/snapping-lines';
 import { useNotification } from '@src/components/roadmap/to-be-organized/notifications/NotificationLogic';
 import { handleDragabilityRecalculationOnChunking } from '@src/typescript/roadmap_ref/dragging/misc';
+import DragSvg from '@src/UI-library/svg-components/DragSvg';
 import { handleNotification } from './notification-handler';
 
 interface NodeViewProps {
@@ -136,7 +139,14 @@ const NodeRendererForeign: React.FC<NodeViewProps> = ({
       setTriggerRender(node.id, rerender);
     }, []);
 
-    const [mouseOver, setMouseOver] = useState(false);
+    const [mouseOver, setMouseOver] = useStateWithSideEffects(
+      false,
+      (newState) => {
+        if (getElementHasEffect(nodeId, 'highlight-node')) {
+          removeHighlightNodeEffects(nodeId);
+        }
+      }
+    );
     const [resizing, setResizing] = useStateTimed(false, 500, () => {
       deleteAllSnappings();
     });
@@ -233,23 +243,33 @@ const NodeRendererForeign: React.FC<NodeViewProps> = ({
 
     const { addNotification } = useNotification();
 
+    const cursor = isCurrentlyDragged ? 'cursor-grab' : 'cursor-pointer';
     return (
       <>
+        {getElementHasEffect(nodeId, 'highlight-node') && (
+          <div className='z-10  left-1/2 -translate-x-1/2 w-20 h-20 absolute select-none -top-16'>
+            <div className='w-full h-full flex justify-center items-center'>
+              <DragSvg size={50} />
+            </div>
+          </div>
+        )}
         {!editing && !getHideProgress() && (
           <div
-            className={`w-full z-10 h-3 left-0 top-0 rounded-t-lg absolute  select-none ${getStatusCircleStyle(
+            className={` z-10 h-3 left-0 top-0 rounded-t-lg absolute select-none ${getStatusCircleStyle(
               node
             )}`}
             style={{
               opacity: 1,
               top: `${calculatedOffsetCoords.y + coords.y - 3}px`,
               left: `${calculatedOffsetCoords.x + coords.x}px`,
+              width: `${width}px`,
+              height: `${height}px`,
             }}
           />
         )}
         {isCurrentlyDragged && handleNotification(addNotification)}
         <div
-          className='rounded-lg shadow-lg transition-allNoTransform duration-200 absolute'
+          className={`rounded-lg shadow-lg transition-allNoTransform duration-200 absolute ${cursor}`}
           id={`div${nodeId}`}
           ref={nodeDivRef}
           onClick={(event) => {

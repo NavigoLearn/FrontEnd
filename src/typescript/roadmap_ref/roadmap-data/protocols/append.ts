@@ -215,6 +215,7 @@ export function addChildTemplateToRoadmap(
   appendSubNodesTemplateToRoadmap(newNodes, newBaseId);
   const parentNode = getNodeByIdRoadmapSelector(parentNodeId);
   appendNodeTemplateBase(parentNode, deepCopy(newNodes[newBaseId]));
+  return newBaseId;
 }
 
 export function appendNodeToRoadmapNodes(node: NodeClass) {
