@@ -113,10 +113,10 @@ export function calculateRenderedChunks(
   const viewport = calculateViewportCoordinates(transform);
   // expand the viewport to include the chunks that are partially visible
   const expandedViewport = {
-    startX: viewport.startX - chunkSize / 2,
-    startY: viewport.startY - chunkSize / 2,
-    endX: viewport.endX + chunkSize,
-    endY: viewport.endY + chunkSize,
+    startX: viewport.startX - chunkSize / 4,
+    startY: viewport.startY - chunkSize / 4,
+    endX: viewport.endX + chunkSize / 4,
+    endY: viewport.endY + chunkSize / 4,
   };
   // we calculate the chunks present on the passed viewport
   const firstChunkCoordX = Math.floor(expandedViewport.startX / chunkSize);

@@ -30,12 +30,8 @@ import {
   deleteElementEffectNoStoreParam,
 } from '@store/roadmap-refactor/elements-editing/element-effects';
 import { triggerAllNodesRerender } from '@store/roadmap-refactor/render/rerender-triggers-nodes';
-import { getElementDiv } from '@store/roadmap-refactor/elements-editing/elements-divs';
-import {
-  effectBorderBlack,
-  effectBorderBlue,
-  effectBorderTransparent,
-} from '@src/to-be-organized/nodeview/effects';
+import { getElementG } from '@store/roadmap-refactor/elements-editing/elements-gs';
+import { effectBorderTransparent } from '@src/to-be-organized/nodeview/effects';
 import { triggerMoveRoadmapTo } from '@store/roadmap-refactor/misc/misc-params-store';
 import { HashMapWithKeys } from '@type/roadmap/misc';
 import { IActionTypes } from '@src/typescript/roadmap_ref/node/core/actions/core';
@@ -45,7 +41,7 @@ import { setEditingState } from '@store/roadmap-refactor/editing/editing-state';
 import { clearSelectedConnection } from '@components/roadmap/connections/connection-editing/connection-store';
 
 export function getOnMouseOutActionEdit(nodeId): () => void {
-  const div = getElementDiv(nodeId);
+  const div = getElementG(nodeId);
   return () => {
     deleteElementEffectNoStoreParam(nodeId, 'on-mouse-over');
   };
@@ -124,14 +120,14 @@ export function getOnClickAction(nodeId: string): () => void {
 
 export function getOnMouseOverActionEdit(nodeId): () => void {
   return () => {
-    appendElementEffect(nodeId, 'on-mouse-over');
+    // appendElementEffect(nodeId, 'on-mouse-over');
   };
 }
 
 export function getOnMouseOverActionView(nodeId): () => void {
   return () => {
-    const div = getElementDiv(nodeId);
-    effectBorderBlue(div);
+    const div = getElementG(nodeId);
+    // effectBorderBlue(div);
   };
 }
 
@@ -144,8 +140,8 @@ export function getOnMouseOverAction(nodeId: string): () => void {
 
 export function getOnMouseOutActionView(nodeId): () => void {
   return () => {
-    const div = getElementDiv(nodeId);
-    effectBorderTransparent(div);
+    // const div = getElementG(nodeId);
+    // effectBorderTransparent(div);
   };
 }
 

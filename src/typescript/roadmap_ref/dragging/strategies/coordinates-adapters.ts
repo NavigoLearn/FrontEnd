@@ -11,7 +11,9 @@ export const coordinatesAdapterStandardStrategy = (x: number, y: number) => {
 export const coordinatesAdapterScaledStrategy = (x: number, y: number) => {
   // adapting x and y to the scale of the editor
   // since the positions are modified similar to a vector, we only need to normalize that vector to get the correct position
-  const scale = getScaleSafari();
+
+  let scale = getScaleSafari(); // deprecated after new engine but might still be useful
+  scale = 1;
   const newX = x / scale;
   const newY = y / scale;
 

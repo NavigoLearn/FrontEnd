@@ -34,7 +34,10 @@ import {
   getElementHasEffect,
 } from '@store/roadmap-refactor/elements-editing/element-effects';
 import { useIsLoaded } from '@hooks/useIsLoaded';
-import { setElementDiv } from '@store/roadmap-refactor/elements-editing/elements-divs';
+import {
+  setElementDiv,
+  setElementG,
+} from '@store/roadmap-refactor/elements-editing/elements-gs';
 import { NodeClass } from '@src/typescript/roadmap_ref/node/core/core';
 import {
   getHideProgress,
@@ -61,6 +64,8 @@ import { triggerAllConnectionsRerender } from '@src/typescript/roadmap_ref/rende
 import { useStateTimed } from '@hooks/useStateTimed';
 import { deleteAllSnappings } from '@store/roadmap-refactor/render/snapping-lines';
 import { useNotification } from '@src/components/roadmap/to-be-organized/notifications/NotificationLogic';
+import AsyncLoaderHOC from '@components/roadmap/rendering-engines/async-loading/AsyncLoaderHOC';
+import { handleDragabilityRecalculationOnChunking } from '@src/typescript/roadmap_ref/dragging/misc';
 import { handleNotification } from './notification-handler';
 import {
   setDeleteRootNodeNotificationFalse,
@@ -73,9 +78,7 @@ interface NodeViewProps {
   divSizeCallback?: (divRef: React.MutableRefObject<HTMLDivElement>) => void; //
 }
 
-const firstNotification = true;
-
-const NodeRenderer: React.FC<NodeViewProps> = ({
+const NodeRendererForeign: React.FC<NodeViewProps> = ({
   nodeId,
   centerOffset,
   divSizeCallback,
@@ -130,6 +133,10 @@ const NodeRenderer: React.FC<NodeViewProps> = ({
     useEffect(() => {
       if (node.flags.renderedOnRoadmapFlag) return;
       setTriggerRender(node.id, rerender);
+    }, []);
+
+    useEffect(() => {
+      handleDragabilityRecalculationOnChunking(node);
     }, []);
 
     const [mouseOver, setMouseOver] = useState(false);
@@ -188,8 +195,8 @@ const NodeRenderer: React.FC<NodeViewProps> = ({
 
     const borderStyle =
       borderColor === 'none'
-        ? '2px solid transparent'
-        : `2px solid #${borderColor}`;
+        ? `2px solid ${color}`
+        : `2px solid ${borderColor}`;
 
     const style = {
       // color: textColor,
@@ -217,7 +224,7 @@ const NodeRenderer: React.FC<NodeViewProps> = ({
       loaded && !getIsEditing() && appendNodeMarkAsDone(node);
       getIsEditing() && deleteStatusEffectAll(nodeId);
       if (!nodeDivRef.current) return;
-      loaded && applyElementEffects(nodeId, nodeDivRef.current);
+      loaded && applyElementEffects(nodeId);
     });
 
     const isDraggable = getElementIsDraggable(nodeId);
@@ -245,7 +252,7 @@ const NodeRenderer: React.FC<NodeViewProps> = ({
         )}
         {isCurrentlyDragged && handleNotification(addNotification)}
         <div
-          className={`drop-shadow-md rounded-lg transition-allNoTransform duration-200 absolute `}
+          className='rounded-lg shadow-lg transition-allNoTransform duration-200 absolute'
           id={`div${nodeId}`}
           ref={nodeDivRef}
           onClick={(event) => {
@@ -342,7 +349,7 @@ const NodeRenderer: React.FC<NodeViewProps> = ({
             subNodeIds.map((subNodeId) => {
               // the div is used to position the subNode in the center of the current node
               return (
-                <NodeRenderer
+                <NodeRendererForeign
                   key={subNodeId}
                   nodeId={subNodeId}
                   centerOffset={{
@@ -360,4 +367,4 @@ const NodeRenderer: React.FC<NodeViewProps> = ({
   // @ts-ignore
   return renderNode(nodeId);
 };
-export default NodeRenderer;
+export default NodeRendererForeign;

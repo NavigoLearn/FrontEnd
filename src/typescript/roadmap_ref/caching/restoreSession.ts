@@ -1,19 +1,11 @@
-import { hashData } from '@src/typescript/utils/hashData';
-import {
-  getRoadmapState,
-  getRoadmapStateStore,
-  IRoadmapStateStore,
-} from '@store/roadmap-refactor/roadmap-data/misc-data/roadmap_state';
 import { IRoadmap } from '@type/roadmap/stores/IRoadmap';
-import { getRoadmapEdit } from '@store/roadmap-refactor/roadmap-data/roadmap-edit';
 import { getRoadmapSelector } from '@store/roadmap-refactor/roadmap-data/roadmap-selector';
 import { setRoadmapCreate } from '@store/roadmap-refactor/roadmap-data/roadmap-create';
+import { getRoadmapId } from '@store/roadmap-refactor/roadmap-data/misc-data/roadmap-about';
 
 export type SaveItem = {
   data: IRoadmap;
 };
-
-const id = 'create';
 
 export async function saveSession() {
   const data = getRoadmapSelector() as IRoadmap;
@@ -22,59 +14,55 @@ export async function saveSession() {
   };
   // convert to json
   const roadmapData = JSON.stringify(saveItem);
-  // hash the json
-  const hash = await hashData(roadmapData);
-  const versionHistory = localStorage.getItem(`${id}-roadmapVersionHistory`);
-  localStorage.setItem(`${id}-roadmapVersionHistory`, JSON.stringify([hash]));
-  localStorage.setItem(hash, roadmapData);
+
+  // check if it fits in local storage
+  if (roadmapData.length > 5000000) {
+    // eslint-disable-next-line no-console
+    console.log('Roadmap is too big to save in local storage');
+    // eslint-disable-next-line no-console
+    console.log('Roadmap size: ', roadmapData.length / 1000000, 'MB');
+    return;
+  }
+
+  localStorage.setItem(`sessionSaved`, JSON.stringify(roadmapData));
+  localStorage.setItem(`lastRoadmapEdited`, getRoadmapId());
 }
 
-export async function restoreSession() {
-  const versionHistory = localStorage.getItem(`${id}-roadmapVersionHistory`);
+export function restoreSession() {
+  const versionHistory = localStorage.getItem(`sessionSaved`);
+  const lastRoadmapEdited = localStorage.getItem(`lastRoadmapEdited`);
+  const currentRoadmapId = getRoadmapId();
   // if there is no version history, return
   if (versionHistory === null) {
-    return null;
+    return false;
   }
 
-  const parsedVersionHistory = JSON.parse(versionHistory);
-  if (parsedVersionHistory.length === 0) {
-    return null;
+  if (lastRoadmapEdited !== currentRoadmapId) {
+    return false;
   }
 
-  const lastHash = parsedVersionHistory[parsedVersionHistory.length - 1];
-  const lastData = localStorage.getItem(lastHash);
-  if (lastData === null) {
-    return null;
-    console.log('lastData is null !!!!');
-  }
-
-  const hash = await hashData(lastData);
-  const roadmapData = JSON.parse(lastData).data;
-  console.log('restoring session', roadmapData);
+  const roadmapData = JSON.parse(versionHistory).data;
   setRoadmapCreate(roadmapData);
-  return {
-    done: true,
-  };
+
+  return true;
 }
 
 export function clearSession() {
-  const versionHistory = localStorage.getItem(`${id}-roadmapVersionHistory`);
-  if (versionHistory === null) {
-    return null;
+  const versionHistory = localStorage.getItem(`sessionSaved`);
+  const lastRoadmapEdited = localStorage.getItem(`lastRoadmapEdited`);
+  if (versionHistory === null || lastRoadmapEdited === null) {
+    return false;
   }
-  const parsedVersionHistory = JSON.parse(versionHistory);
-  parsedVersionHistory.forEach((hash: string) => {
-    localStorage.removeItem(hash);
-  });
-  localStorage.removeItem(`${id}-roadmapVersionHistory`);
+  localStorage.removeItem(`sessionSaved`);
+  localStorage.removeItem(`lastRoadmapEdited`);
+
   return true;
 }
 
 export function checkIfSessionExists() {
-  const versionHistory = localStorage.getItem(`${id}-roadmapVersionHistory`);
-  if (versionHistory === null) {
-    return false;
-  }
-  const parsedVersionHistory = JSON.parse(versionHistory);
-  return parsedVersionHistory.length !== 0;
+  const versionHistory = localStorage.getItem(`sessionSaved`);
+  const lastRoadmapEdited = localStorage.getItem(`lastRoadmapEdited`);
+  const currentRoadmapId = getRoadmapId();
+
+  return versionHistory !== null && lastRoadmapEdited === currentRoadmapId;
 }

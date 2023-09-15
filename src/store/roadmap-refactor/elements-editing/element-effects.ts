@@ -3,16 +3,24 @@ import { roadmapSelector } from '@store/roadmap-refactor/roadmap-data/roadmap-se
 import { getTracebackNodeToRoot } from '@src/typescript/roadmap_ref/roadmap-data/services/get';
 import { HashMapWithKeys, HashMap } from '@type/roadmap/misc';
 import {
-  effectBorderBlack,
-  effectBorderBlue,
-  effectBorderBlueDashed,
-  effectBorderRed,
-  effectBorderYellow,
-  effectOpacity100,
-  effectOpacity30,
-  effectOpacity60,
+  effectBorderRedNative,
+  effectBorderBlueNative,
+  effectOpacity100Native,
+  effectOpacity30Native,
+  effectOpacity60Native,
+  effectOpacity60ForeignDiv,
+  effectBorderRedForeignDiv,
+  effectBorderBlueForeignDiv,
+  effectOpacity100ForeignDiv,
+  effectOpacity30ForeignDiv,
 } from '@src/to-be-organized/nodeview/effects';
 import { getHideProgress } from '@store/roadmap-refactor/roadmap-data/misc-data/roadmap_state';
+import {
+  getElementG,
+  getElementRect,
+  getElementDiv,
+} from '@store/roadmap-refactor/elements-editing/elements-gs';
+import { getRenderingEngineType } from '@components/roadmap/rendering-engines/store-rendering-engine';
 
 export type IEffectsStatuses =
   | 'mark-as-progress'
@@ -32,62 +40,138 @@ export type IEffectsPossible =
   | IEffectsFocus
   | IEffectsUserActions;
 
-export type IEffectProperties = {
+export type IEffectApplyNativeSvg = (
+  rectRef: SVGRectElement,
+  gRef: SVGGElement
+) => void; // changed here
+
+export type IEffectApplyForeignObject = (divRef: HTMLDivElement) => void; // changed here
+
+export type IEffectPropertiesForeignObjects = {
   effectName: IEffectsPossible;
-  effectApply: (divRef: HTMLDivElement) => void;
+  effectApply: IEffectApplyForeignObject;
   effectLayer: number;
 };
 
-export const dynamicEffectsMapper: HashMapWithKeys<
+export type IEffectPropertiesNativeElements = {
+  effectName: IEffectsPossible;
+  effectApply: IEffectApplyNativeSvg;
+  effectLayer: number;
+};
+
+export const dynamicEffectsMapperNativeSvgElements: HashMapWithKeys<
   IEffectsPossible,
-  IEffectProperties
+  IEffectPropertiesNativeElements
 > = {
   'defocus-node': {
     effectName: 'defocus-node',
-    effectApply: (divRef) => effectOpacity60(divRef),
+    effectApply: (rectRef: SVGRectElement, gRef: SVGGElement) => {
+      effectOpacity60Native(rectRef, gRef);
+    },
     effectLayer: 1,
   },
   'dragging-recursive': {
     effectName: 'dragging-recursive',
-    effectApply: effectBorderRed,
+    effectApply: (rectRef: SVGRectElement, gRef: SVGGElement) => {
+      effectBorderRedNative(rectRef, gRef);
+    },
+    effectLayer: 5,
+  },
+  'on-mouse-over': {
+    effectName: 'on-mouse-over',
+    effectApply: (rectRef: SVGRectElement, gRef: SVGGElement) => {
+      effectBorderBlueNative(rectRef, gRef);
+    },
+    effectLayer: 1,
+  },
+  'mark-as-completed': {
+    effectName: 'mark-as-completed',
+    effectApply: (rectRef: SVGRectElement, gRef: SVGGElement) => {
+      if (getHideProgress()) return;
+      effectOpacity30Native(rectRef, gRef);
+    },
+    effectLayer: 10,
+  },
+  'mark-as-progress': {
+    effectName: 'mark-as-progress',
+    effectApply: (rectRef: SVGRectElement, gRef: SVGGElement) => {
+      if (getHideProgress()) return;
+      effectOpacity100Native(rectRef, gRef);
+    },
+    effectLayer: 10,
+  },
+  'mark-as-skipped': {
+    effectName: 'mark-as-skipped',
+    effectApply: (rectRef: SVGRectElement, gRef: SVGGElement) => {
+      if (getHideProgress()) return;
+      effectOpacity60Native(rectRef, gRef);
+    },
+    effectLayer: 10,
+  },
+  'mark-as-status': {
+    effectName: 'mark-as-status',
+    effectApply: (rectRef: SVGRectElement, gRef: SVGGElement) => {
+      if (getHideProgress()) return;
+      effectOpacity100Native(rectRef, gRef);
+    },
+    effectLayer: 10,
+  },
+};
+
+export const dynamicEffectsMapperForeignObjectElements: HashMapWithKeys<
+  IEffectsPossible,
+  IEffectPropertiesForeignObjects
+> = {
+  'defocus-node': {
+    effectName: 'defocus-node',
+    effectApply: (divRef) => {
+      effectOpacity60ForeignDiv(divRef);
+    },
+    effectLayer: 1,
+  },
+  'dragging-recursive': {
+    effectName: 'dragging-recursive',
+    effectApply: (divRef) => {
+      effectBorderRedForeignDiv(divRef);
+    },
     effectLayer: 5,
   },
   'on-mouse-over': {
     effectName: 'on-mouse-over',
     effectApply: (divRef) => {
-      // effectBorderBlue(divRef);
+      effectBorderBlueForeignDiv(divRef);
     },
     effectLayer: 1,
   },
   'mark-as-completed': {
     effectName: 'mark-as-completed',
     effectApply: (divRef) => {
-      if (getHideProgress()) return;
-      effectOpacity30(divRef);
+      if (divRef) return;
+      effectOpacity30ForeignDiv(divRef);
     },
     effectLayer: 10,
   },
   'mark-as-progress': {
     effectName: 'mark-as-progress',
     effectApply: (divRef) => {
-      if (getHideProgress()) return;
-      effectOpacity100(divRef);
+      if (divRef) return;
+      effectOpacity100ForeignDiv(divRef);
     },
     effectLayer: 10,
   },
   'mark-as-skipped': {
     effectName: 'mark-as-skipped',
     effectApply: (divRef) => {
-      if (getHideProgress()) return;
-      effectOpacity60(divRef);
+      if (divRef) return;
+      effectOpacity60ForeignDiv(divRef);
     },
     effectLayer: 10,
   },
   'mark-as-status': {
     effectName: 'mark-as-status',
     effectApply: (divRef) => {
-      if (getHideProgress()) return;
-      effectOpacity100(divRef);
+      if (divRef) return;
+      effectOpacity100ForeignDiv(divRef);
     },
     effectLayer: 10,
   },
@@ -114,17 +198,47 @@ export function setElementEffectsInitialEmpty(id: string) {
   });
 }
 
-export function applyElementEffects(id: string, divElementRef: HTMLDivElement) {
+function applyElementEffectsForeignObject(id: string) {
   const originalEffects = elementEffects.get();
   const effectsArr = originalEffects[id].map(
-    (effectElement) => dynamicEffectsMapper[effectElement]
+    (effectElement) => dynamicEffectsMapperForeignObjectElements[effectElement]
   );
   const sortedEffectsArr = effectsArr.sort((a, b) => {
     return a.effectLayer - b.effectLayer;
   });
+  const divElementRef = getElementDiv(id);
+
   sortedEffectsArr.forEach((effectElement) => {
     effectElement.effectApply(divElementRef);
   });
+}
+
+function applyElementEffectsNativeSvg(id: string) {
+  const originalEffects = elementEffects.get();
+  const effectsArr = originalEffects[id].map(
+    (effectElement) => dynamicEffectsMapperNativeSvgElements[effectElement]
+  );
+  const sortedEffectsArr = effectsArr.sort((a, b) => {
+    return a.effectLayer - b.effectLayer;
+  });
+
+  const rectElementRef = getElementRect(id);
+  const gElementRef = getElementG(id);
+
+  sortedEffectsArr.forEach((effectElement) => {
+    effectElement.effectApply(rectElementRef, gElementRef);
+  });
+}
+
+export function applyElementEffects(id: string) {
+  const engine = getRenderingEngineType();
+
+  if (engine === 'native-elements') {
+    applyElementEffectsNativeSvg(id);
+  }
+  if (engine === 'foreign-object') {
+    applyElementEffectsForeignObject(id);
+  }
 }
 
 export function deleteElementEffect(

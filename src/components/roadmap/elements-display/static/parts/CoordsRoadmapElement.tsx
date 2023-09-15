@@ -2,7 +2,7 @@ import React from 'react';
 import viewportCoord from '@store/roadmap-refactor/misc/viewport-coords-store';
 import { useStore } from '@nanostores/react';
 import { triggerRecenterRoadmap } from '@store/roadmap-refactor/misc/misc-params-store';
-import { setRenderingType } from '@components/roadmap/rendering-engines/store-rendering-engine';
+import { setRenderingEngineType } from '@components/roadmap/rendering-engines/store-rendering-engine';
 
 const CoordsRoadmapElement = () => {
   const { startX, startY, scale } = useStore(viewportCoord);
@@ -28,24 +28,24 @@ const CoordsRoadmapElement = () => {
         >
           Recenter
         </button>
-        {/* <button */}
-        {/*  type='button' */}
-        {/*  className='mt-6 font-roboto-text text-md text-secondary pointer-events-auto hover:text-primary' */}
-        {/*  onClick={() => { */}
-        {/*    setRenderingType('optimized'); */}
-        {/*  }} */}
-        {/* > */}
-        {/*  Optimized */}
-        {/* </button> */}
-        {/* <button */}
-        {/*  type='button' */}
-        {/*  className='mt-6 font-roboto-text text-md text-secondary pointer-events-auto hover:text-primary' */}
-        {/*  onClick={() => { */}
-        {/*    setRenderingType('classic'); */}
-        {/*  }} */}
-        {/* > */}
-        {/*  Classic */}
-        {/* </button> */}
+        <button
+          type='button'
+          className='mt-6 font-roboto-text text-md text-secondary pointer-events-auto hover:text-primary'
+          onClick={() => {
+            setRenderingEngineType('native-elements');
+          }}
+        >
+          Optimized
+        </button>
+        <button
+          type='button'
+          className='mt-6 font-roboto-text text-md text-secondary pointer-events-auto hover:text-primary'
+          onClick={() => {
+            setRenderingEngineType('foreign-object');
+          }}
+        >
+          Classic
+        </button>
       </div>
     </div>
   );
