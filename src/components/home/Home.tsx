@@ -2,6 +2,9 @@
 /* eslint-disable react/react-in-jsx-scope */
 import { useState, useEffect, useRef } from 'react';
 import { motion, useMotionValue } from 'framer-motion';
+import MiddleSection from './MiddleSection';
+import BottomSection from './BottomSection';
+import ScrollingElement from './ScrollingElement';
 
 const Home = () => {
   const divRef = useRef(null);
@@ -11,9 +14,6 @@ const Home = () => {
   // Calculate offsets based on screen dimensions
   const offsetX = screenWidth >= 1200 ? 50 : 200; // Adjust these values as needed
   const offsetY = screenHeight >= 800 ? -500 : -400; // Adjust these values as needed
-
-  console.log(screenWidth, screenHeight);
-  console.log(offsetX, offsetY);
 
   // actual animation "feel"
   const calculateSpringConfig = (x, y) => {
@@ -99,10 +99,10 @@ const Home = () => {
   return (
     <div
       onMouseMove={handleMouseMove}
-      className={`w-[${screenWidth}px] h-full overflow-x-hidden flex`}
+      className='max-w-screen h-full overflow-x-hidden flex'
     >
       <div
-        className='bg-white items-center justify-center grid overflow-x-hidden h-[100vh]'
+        className='bg-white items-center justify-center grid overflow-x-hidden h-[100vh] z-[-1] max-w-screen]'
         ref={divRef}
       >
         {objects.map((object, index) => {
@@ -132,7 +132,7 @@ const Home = () => {
                 y: yMotionValues[index],
                 position: 'absolute',
               }}
-              className='bg-white border-[1px] border-gray-200 flex rounded-lg justify-center drop-shadow-md items-center opacity-10'
+              className='bg-red-500 border-[1px] border-gray-200 flex rounded-lg justify-center drop-shadow-md items-center opacity-10'
             />
           );
         })}
@@ -146,31 +146,24 @@ const Home = () => {
           a specific topic
         </h2>
         <div className='mt-2 w-[500px] mx-auto gap-2 flex flex-row'>
-          <button
+          <a
             type='button'
+            href='/roadmaps/create'
             className='mx-auto mt-8 px-6 py-3 text-darkBlue bg-transparent rounded-lg shadow-md text-xl font-roboto-text font-semibold border-2 border-darkBlue'
           >
             Create a roadmap
-          </button>
-          <button
+          </a>
+          <a
             type='button'
+            href='/explore'
             className='mx-auto mt-8 px-6 py-3 text-white bg-primary rounded-lg shadow-md text-xl font-roboto-text font-medium'
           >
             Explore roadmaps
-          </button>
+          </a>
         </div>
-        <h1 className='mx-auto mt-32 text-center items-center w-[600px] xl:w-[800px] 2xl:w-[1200px] font-roboto-text text-5xl 2xl:text-7xl font-semibold justify-center text-darkBlue'>
-          Why roadmaps?
-        </h1>
-        <button
-          type='button'
-          className='flex mx-auto mt-8 px-6 py-3 text-darkBlue bg-transparent rounded-lg shadow-md text-xl font-roboto-text font-semibold border-2 border-darkBlue'
-        >
-          Watch video
-        </button>
-        <div className='w-full mt-56 bg-slate-500 flex flex-row justify-center items-center'>
-          hello
-        </div>
+        <MiddleSection />
+        <BottomSection />
+        <ScrollingElement />
       </div>
     </div>
   );
