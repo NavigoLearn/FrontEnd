@@ -1,7 +1,7 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React from 'react';
 import {
-  factoryRoadmapFirstAttempt,
   createAndSetRoadmapClassic,
+  createGrid,
 } from '@src/typescript/roadmap_ref/roadmap-templates/classic';
 import renderNodesStore from '@store/roadmap-refactor/render/rendered-nodes';
 import {
@@ -16,7 +16,7 @@ import roadmapStateStore, {
   setRoadmapIsLoaded,
   setRoadmapState,
   setHasStarterTab,
-  getRoadmapState,
+  getIsEditing,
 } from '@store/roadmap-refactor/roadmap-data/misc-data/roadmap_state';
 import {
   disableRoadmapDragZoomAnd,
@@ -57,10 +57,14 @@ import {
   setRoadmapAboutOwnerId,
   setRoadmapId,
 } from '@store/roadmap-refactor/roadmap-data/misc-data/roadmap-about';
-import { checkIfSessionExists } from '@src/typescript/roadmap_ref/caching/restoreSession';
+import {
+  saveSession,
+  restoreSession,
+  checkIfSessionExists,
+} from '@src/typescript/roadmap_ref/caching/restoreSession';
 import { setDisplayPageTypeFullScreen } from '@store/roadmap-refactor/display/display-manager-full-screen';
 import { setRoadmapViewFromAPI } from '@store/roadmap-refactor/roadmap-data/roadmap-view';
-import { fetchUserData } from '@src/api-wrapper/user/user';
+import { fetchUserData } from '@src/api-wrapper/user/routes-user';
 import {
   adapterUserDataToRoadmapOwnerData,
   setRoadmapOwnerData,
@@ -69,6 +73,13 @@ import {
   adapterRoadmapToStatistics,
   setRoadmapStatistics,
 } from '@store/roadmap-refactor/roadmap-data/misc-data/roadmap-statistics';
+import RenderingEngine from '@components/roadmap/rendering-engines/RenderingEngine';
+import { useChangeRoadmapState } from '@hooks/useChangeRoadmapState';
+import { lockExit, unlockExit } from '@src/typescript/utils/confirmExit';
+import { storeRenderingEngine } from '@components/roadmap/rendering-engines/store-rendering-engine';
+import { fetchUpdateRoadmapData } from '@src/api-wrapper/roadmap/routes/routes-roadmaps';
+import { getRoadmapSelector } from '@store/roadmap-refactor/roadmap-data/roadmap-selector';
+import { addTemplateFromNode } from '@src/typescript/roadmap_ref/node/templates-system/template-protocols';
 
 export function initialRoadmapProtocolAfterLoad() {
   setRoadmapIsLoaded();
@@ -154,10 +165,11 @@ function initializeRoadmapAboutData(roadmap?: IRoadmapApi) {
   }
 }
 
-function handleRoadmapSessionRestoration() {
+async function handleRoadmapSessionRestoration() {
   return false;
   if (checkIfSessionExists()) {
-    console.log('restoring session');
+    await restoreSession();
+    return true;
   }
   return false;
 }
@@ -168,20 +180,19 @@ type IHandleRoadmapDataStatus =
   | 'retrieved-from-api'
   | 'error';
 
-function handleRoadmapRenderingData(
+async function handleRoadmapRenderingData(
   roadmap?: IRoadmapApi
-): IHandleRoadmapDataStatus {
+): Promise<IHandleRoadmapDataStatus> {
   const type = getRoadmapType();
-  console.log('type', type, roadmap);
   if (type === 'create') {
-    const restoredFromCache = handleRoadmapSessionRestoration();
-
+    const restoredFromCache = await handleRoadmapSessionRestoration();
     if (restoredFromCache) {
-      initialRoadmapProtocolAfterLoad();
       return 'restored';
     }
     // otherwise the initialization triggers from the setup screen
-    createAndSetRoadmapClassic(); // also handles setting the roadmap data in the store
+    const node0 = createAndSetRoadmapClassic(); // also handles setting the roadmap data in the store
+    addTemplateFromNode(node0);
+    // createGrid();
     return 'factory-created';
   }
   if (type === 'draft' || type === 'public') {
@@ -209,6 +220,23 @@ function handleRoadmapAfterLoadInitialization(
   }
 }
 
+let autoSaveTimer: NodeJS.Timeout | null = null;
+function startAutoSaveTimer() {
+  if (autoSaveTimer) {
+    clearTimeout(autoSaveTimer);
+  }
+  autoSaveTimer = setTimeout(() => {
+    fetchUpdateRoadmapData(getRoadmapSelector()); // sends the roadmap as update to the server
+    startAutoSaveTimer();
+  }, 60000);
+}
+
+function stopAutoSaveTimer() {
+  if (autoSaveTimer) {
+    clearTimeout(autoSaveTimer);
+  }
+}
+
 async function handleRoadmapUserData(roadmap?: IRoadmapApi) {
   if (!roadmap) return;
 
@@ -224,6 +252,13 @@ function handleSetDifferentRoadmapStores(roadmap: IRoadmapApi) {
   setRoadmapStatistics(adapterRoadmapToStatistics(roadmap));
 }
 
+function handleSessionSaving() {
+  setTimeout(() => {
+    saveSession();
+    handleSessionSaving();
+  }, 5000);
+}
+
 const Roadmap = ({
   pageId,
   roadmap,
@@ -233,7 +268,7 @@ const Roadmap = ({
 }) => {
   useScrollHidden();
   const { roadmapState } = useStore(roadmapStateStore);
-
+  const { renderingEngineType } = useStore(storeRenderingEngine);
   const { nodesIds } = useStore(renderNodesStore);
   const { connections: connectionsIds } = useStore(renderConnectionsStore);
   const firstRenderDone = useIsLoaded();
@@ -250,8 +285,12 @@ const Roadmap = ({
     initializeRoadmapAboutData(roadmap); // all the misc data about the roadmap like title, desc, id etc
     handleSetDifferentRoadmapStores(roadmap);
 
-    const dataRetrievalStatus = handleRoadmapRenderingData(roadmap); // .data from api
-    handleRoadmapAfterLoadInitialization(dataRetrievalStatus);
+    handleRoadmapRenderingData(roadmap).then((dataRetrievalStatus) => {
+      handleRoadmapAfterLoadInitialization(dataRetrievalStatus);
+      if (getRoadmapType() === 'create') {
+        handleSessionSaving();
+      }
+    });
   }, []);
 
   useEffectAfterLoad(() => {
@@ -263,7 +302,11 @@ const Roadmap = ({
     if (firstRenderDone && nodesIds.length > 0) {
       // because when a node gets out of chunk it is unloaded from the screen and then loaded again
       // when it is loaded again, the previous draggability is lost and needs to be reapplied
-      applyRoadmapElementsRechunkedDraggability();
+      //
+      //
+      // moved this into the node itself because it becomes a blocking task for big roadmaps
+      //
+      // applyRoadmapElementsRechunkedDraggability();
     }
   }, [nodesIds]);
 
@@ -271,6 +314,18 @@ const Roadmap = ({
     if (firstRenderDone && nodesIds.length > 0) {
       // because when you switch between edit and view dragability needs to be changed
       inferRoadmapElementsDraggability();
+    }
+  }, [roadmapState, renderingEngineType]);
+
+  useChangeRoadmapState(() => {
+    const type = getRoadmapType();
+    const exist = type === 'public' || type === 'draft';
+    if (getIsEditing() && exist) {
+      // startAutoSaveTimer();
+      // lockExit();
+    } else {
+      stopAutoSaveTimer();
+      unlockExit();
     }
   }, [roadmapState]);
 
@@ -292,20 +347,11 @@ const Roadmap = ({
         className='bg-backgroundRoadmap pointer-events-auto'
       >
         <g id='rootGroup'>
-          <g id='rootGroupConnections'>
-            <ConnectionsRenderer connectionsIds={connectionsIds} />
-          </g>
-          <g id='rootGroupNodes'>
-            {firstRenderDone &&
-              nodesIds.map((id) => {
-                // gets the roadmap-roadmap-data
-                return <NodeManager key={id} nodeId={id} />;
-              })}
-          </g>
           {firstRenderDone && (
-            <g id='rootGroupSnappingLines'>
-              <SnappingLinesRenderer />
-            </g>
+            <RenderingEngine
+              nodesIds={nodesIds}
+              connectionsIds={connectionsIds}
+            />
           )}
         </g>
       </svg>

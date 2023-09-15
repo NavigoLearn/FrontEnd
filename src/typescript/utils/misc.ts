@@ -7,3 +7,15 @@ export function afterEventLoop(callback: () => void) {
 export function getRandomId() {
   return uuidv4();
 }
+
+export function decodeBase64(str: string) {
+  if (typeof Buffer === 'undefined') return atob(str);
+
+  return Buffer.from(str, 'base64').toString();
+}
+
+export function encodeBase64(str: string) {
+  if (typeof Buffer === 'undefined') return btoa(str);
+
+  return Buffer.from(str).toString('base64');
+}

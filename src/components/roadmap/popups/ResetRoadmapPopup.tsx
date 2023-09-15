@@ -4,6 +4,9 @@ import { tailwindTransitionClass } from '@src/UI-library/tailwind-utils';
 import { resetRoadmapCreate } from '@store/roadmap-refactor/roadmap-data/roadmap-create';
 import { createAndSetRoadmapClassic } from '@src/typescript/roadmap_ref/roadmap-templates/classic';
 import { initialRoadmapProtocolAfterLoad } from '@components/roadmap/Roadmap';
+import {
+  clearSession
+} from '@src/typescript/roadmap_ref/caching/restoreSession';
 
 type IAuthPopupProps = {
   closeCallback: () => void;
@@ -37,6 +40,7 @@ const ResetRoadmapPopup = ({ closeCallback }: IAuthPopupProps) => {
           className={`font-medium font-roboto-text bg-white rounded-md text-lg text-darkBlue hover:text-white hover:bg-darkBlue px-3 py-1${tailwindTransitionClass}`}
           onClick={() => {
             closeCallback();
+            clearSession();
             resetRoadmapCreate();
             createAndSetRoadmapClassic();
             initialRoadmapProtocolAfterLoad();

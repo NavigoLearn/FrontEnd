@@ -4,13 +4,11 @@ export type ICoords = {
 };
 
 export type IDraggingStrategies = 'free' | 'snap' | 'grid';
-export type IDraggingElementIdentifiers = 'g' | 'div';
+export type IDraggingElementIdentifiers = 'g' | 'div' | 'rect';
 export type IDraggingElementType = 'node' | 'subNode' | 'component';
 
 export class DraggingBehavior {
   // how it works:
-
-  draggingElementIdentifier: IDraggingElementIdentifiers; // the type of the element node that is dragged eg div, group, h1, svg, etc
 
   draggingElementId: string; // the id of the element node that is dragged
 

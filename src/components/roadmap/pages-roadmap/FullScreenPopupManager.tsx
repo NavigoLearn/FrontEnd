@@ -43,9 +43,9 @@ const FullScreenPopupManager = () => {
         <div className='h-[100%] w-[100%] bg-[#1A1B504D] absolute top-0 z-30 flex justify-center items-center'>
           <GeneralPopup
             actionCallback={() => {
-              fetchDeleteRoadmap();
-              // eslint-disable-next-line no-restricted-globals
-              location.href = '/explore';
+              fetchDeleteRoadmap().then(() => {
+                window.location.href = '/explore';
+              });
             }}
             buttonType='red'
             name='Delete roadmap'

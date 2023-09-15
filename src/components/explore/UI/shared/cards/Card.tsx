@@ -22,6 +22,7 @@ const Card = ({ data }: ICardProps) => {
           type='button'
           onClick={() => {
             console.log('clicked and went to profile');
+            location.href = `/profile/${data.userId}`;
           }}
           className=' flex gap-2 items-center'
         >

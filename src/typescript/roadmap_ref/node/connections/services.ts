@@ -5,6 +5,7 @@ import {
 } from '@src/typescript/roadmap_ref/node/connections/core';
 import { HashMapWithKeys } from '@type/roadmap/misc';
 import { getTransformXY } from '@src/typescript/roadmap_ref/render/coord-calc';
+import { getRenderingEngineDraggingElementIdentifier } from '@components/roadmap/rendering-engines/store-rendering-engine';
 
 type ICoord = {
   x: number;
@@ -126,7 +127,8 @@ export function getConnectionPositionCoords(
   };
   const coords = coordsMapper[positionType](node);
   // gets the transform offset if the node is currently being dragged
-  const element = document.getElementById(`div${node.id}`);
+  const elementIdentifier = getRenderingEngineDraggingElementIdentifier();
+  const element = document.getElementById(`${elementIdentifier}${node.id}`);
   if (!element) return coords;
   const { transform } = element.style;
   if (!transform) return coords;

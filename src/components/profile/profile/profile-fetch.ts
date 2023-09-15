@@ -1,8 +1,4 @@
 import { errorHandlerDecorator } from '@src/typescript/error-handler';
-import {
-  CardRoadmapTypeApi,
-  RoadmapTypeApiExplore,
-} from '@src/types/explore/card';
 
 export const fetchRoadmapCardsProfile = errorHandlerDecorator(
   async (id: string): Promise<any> => {
@@ -25,8 +21,7 @@ export const fetchProfileData = errorHandlerDecorator(
       method: 'GET',
       credentials: 'include',
     });
-    const dataJson: any = await response.json();
-    return dataJson;
+    return await response.json();
   }
 );
 
@@ -38,10 +33,6 @@ export const fetchPostProfileData = errorHandlerDecorator(
     bio: string
   ): Promise<any> => {
     // fetches from the api the user's profile data
-    console.log(name);
-    console.log(githubUrl);
-    console.log(websiteUrl);
-    console.log(bio);
     const fetchRoute = `/api/users`;
     const response = await fetch(fetchRoute, {
       method: 'POST',
@@ -52,9 +43,11 @@ export const fetchPostProfileData = errorHandlerDecorator(
         bio,
       }),
       credentials: 'include',
+      headers: {
+        'Content-Type': 'application/json',
+      },
     });
     const dataJson: any = await response.json();
-    console.log(dataJson);
     return dataJson;
   }
 );

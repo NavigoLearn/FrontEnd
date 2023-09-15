@@ -22,6 +22,13 @@ import {
   setOperationsDropdown,
 } from '@components/roadmap/pages-roadmap/editor/editor-pages/operations-page/stores/operations-store';
 import { TemplateNode } from '@src/typescript/roadmap_ref/node/templates-system/template-core';
+import {
+  getDeleteRootNodeNotification,
+  setDeleteRootNodeNotificationFalse,
+  setDeleteRootNodeNotificationTrue,
+} from '@src/to-be-organized/nodeview/notification-store';
+import { handleDeleteRootNotification } from '@src/to-be-organized/nodeview/notification-handler';
+import { useNotification } from '@src/components/roadmap/to-be-organized/notifications/NotificationLogic';
 import DropdownPlusSelection from '../../../reusable-components/DropdownPlusSelection';
 
 type IOption = {
@@ -82,6 +89,7 @@ const ActionsSystem = () => {
   const { selectedNodeId } = useStore(editorSelectedData);
   const node = getNodeByIdRoadmapSelector(selectedNodeId);
   const { dropdown } = useStore(operationsStore);
+  const isRoot = getDeleteRootNodeNotification();
 
   const rawTemplates = getRoadmapTemplatesArray();
   const templatesJSONAddChild = formatTemplatesAddChild(rawTemplates, node.id);
@@ -121,14 +129,21 @@ const ActionsSystem = () => {
             }}
           />
         </div>
-        <DeleteButton
-          callback={() => {
-            deleteProtocolNodeFromRoadmap(node);
-            closeEditorProtocol();
-          }}
-          text='Delete Node'
-          space
-        />
+        <div
+          className={
+            isRoot ? 'pointer-events-none opacity-50' : ' pointer-events-auto'
+          }
+        >
+          <DeleteButton
+            callback={() => {
+              deleteProtocolNodeFromRoadmap(node);
+              closeEditorProtocol();
+            }}
+            text='Delete Node'
+            space
+          />
+        </div>
+
         <hr className='absolute w-full bottom-0' />
       </div>
 

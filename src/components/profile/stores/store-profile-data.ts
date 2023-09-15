@@ -4,6 +4,7 @@ import {
   RoadmapTypeApiExplore,
 } from '@src/types/explore/card';
 import { getLoggedUserId } from '@src/store/user/logged-user';
+import { DEFAULT_OWNER_AVATAR } from '@store/roadmap-refactor/roadmap-data/misc-data/roadmap-owner-data';
 import {
   fetchProfileData,
   fetchRoadmapCardsProfile,
@@ -14,7 +15,7 @@ import { DefaultProfileAdapter } from '../profile/adapter';
 export const profileDataStore = atom({
   loading: true,
   data: {} as UserData,
-  ProfileRoadmaps: {} as CardRoadmapTypeApi[],
+  profileRoadmaps: {} as CardRoadmapTypeApi[],
   ownProfile: false,
 });
 
@@ -49,13 +50,23 @@ export function getProfileDataLoading() {
 
 const adapter = new DefaultProfileAdapter();
 
+function checkProfileForDefaults(adaptedData: ProfileDataReponse) {
+  if (!adaptedData.data.profileInfo.avatar) {
+    adaptedData.data.profileInfo.avatar = DEFAULT_OWNER_AVATAR;
+  }
+}
 export async function fetchAndSetProfileData(id) {
   setProfileDataLoading();
-  const urlId = id.id.id === null ? '1' : id.id.id;
+  let urlId = id.id.id === null ? '' : id.id.id;
   const loggedUserId = getLoggedUserId();
 
   if (urlId === loggedUserId.toString()) {
     setOwnProfile(true);
+  }
+
+  if (urlId === '') {
+    setOwnProfile(true);
+    urlId = loggedUserId.toString();
   }
 
   const rawData = await fetchProfileData(urlId);
@@ -64,10 +75,12 @@ export async function fetchAndSetProfileData(id) {
   const adaptedData = adapter.adapt(rawData);
   const adaptedRoadmaps = adapter.adaptRoadmaps(rawProfileRoadmaps);
 
+  checkProfileForDefaults(adaptedData);
+
   profileDataStore.set({
     ...profileDataStore.get(),
     data: adaptedData.data,
-    ProfileRoadmaps: adaptedRoadmaps,
+    profileRoadmaps: adaptedRoadmaps,
   });
 
   setProfileDataLoaded();

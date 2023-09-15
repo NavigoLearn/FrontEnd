@@ -19,10 +19,10 @@ const ProfilePreview = () => {
     <div className='relative flex items-center gap-3'>
       <section>
         <img
+          className='rounded-full w-8 h-8 monitor:w-10 monitor:h-10'
           src={getProfileDataLoading() ? '' : getProfileInfoAvatar()}
           alt='profilePic'
         />
-        <div className='rounded-full w-8 h-8 monitor:w-10 monitor:h-10 bg-gray-300' />
       </section>
       {getProfileDataLoading() ? (
         <div className='text-sm font-roboto-text text-darkBlue'>loading...</div>

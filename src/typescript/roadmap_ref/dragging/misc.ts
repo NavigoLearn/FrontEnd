@@ -1,6 +1,6 @@
 import { NodeClass } from '@src/typescript/roadmap_ref/node/core/core';
 import { getIsEditing } from '@store/roadmap-refactor/roadmap-data/misc-data/roadmap_state';
-import {
+import draggableElements, {
   getElementIsDraggable,
   setAllDraggableFalse,
   setDefaultDraggabilitySettings,
@@ -13,7 +13,6 @@ import { getIsCreate } from '@store/roadmap-refactor/roadmap-data/misc-data/road
 export const inferAndSetNodeDraggability = (node: NodeClass) => {
   const editing = getIsEditing();
 
-  console.log('editing', editing);
   if (editing) {
     setElementDraggable(node.id, true);
   } else {
@@ -34,28 +33,32 @@ export const applyRoadmapElementsInitialDraggability = () => {
   });
 };
 
+export function handleDragabilityRecalculationOnChunking(node: NodeClass) {
+  const elementIsDraggable = getElementIsDraggable(node.id);
+  if (typeof elementIsDraggable === 'undefined') {
+    // element never existed before
+    addDragabilityProtocol(node.draggingBehavior);
+    node.components.forEach((component) => {
+      addDragabilityProtocol(component.draggingBehavior);
+    });
+    inferAndSetNodeDraggability(node);
+  } else {
+    // element existed but was erased bcz of chunking and now it was added again
+    addDragabilityProtocol(node.draggingBehavior);
+    node.components.forEach((component) => {
+      const componentIsDraggable = getElementIsDraggable(component.id);
+      addDragabilityProtocol(component.draggingBehavior);
+      setElementDraggable(component.id, componentIsDraggable);
+    });
+    setElementDraggable(node.id, elementIsDraggable);
+  }
+}
+
 export const applyRoadmapElementsRechunkedDraggability = () => {
   const nodes = getAllRenderedNodes();
 
   Object.values(nodes).forEach((node) => {
-    const elementIsDraggable = getElementIsDraggable(node.id);
-    if (typeof elementIsDraggable === 'undefined') {
-      // element never existed before
-      addDragabilityProtocol(node.draggingBehavior);
-      node.components.forEach((component) => {
-        addDragabilityProtocol(component.draggingBehavior);
-      });
-      inferAndSetNodeDraggability(node);
-    } else {
-      // element existed but was erased bcz of chunking and now it was added again
-      addDragabilityProtocol(node.draggingBehavior);
-      node.components.forEach((component) => {
-        const componentIsDraggable = getElementIsDraggable(component.id);
-        addDragabilityProtocol(component.draggingBehavior);
-        setElementDraggable(component.id, componentIsDraggable);
-      });
-      setElementDraggable(node.id, elementIsDraggable);
-    }
+    handleDragabilityRecalculationOnChunking(node);
   });
 };
 

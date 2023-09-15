@@ -11,6 +11,7 @@ import {
   toggleProgressView,
 } from '@store/roadmap-refactor/roadmap-data/misc-data/roadmap_state';
 import { triggerAllNodesRerender } from '@store/roadmap-refactor/render/rerender-triggers-nodes';
+import { clearSession } from '@src/typescript/roadmap_ref/caching/restoreSession';
 
 export type IButtonsRoadmapNavbarOptions =
   | 'get-started'
@@ -41,6 +42,7 @@ const buttonsMapper: Record<IButtonsRoadmapNavbarOptions, IButtonProperties> = {
     name: 'Reset roadmap',
     callback: () => {
       setDisplayPageTypeFullScreen('reset-roadmap');
+      clearSession();
     },
   },
   about: {
@@ -59,12 +61,14 @@ const buttonsMapper: Record<IButtonsRoadmapNavbarOptions, IButtonProperties> = {
     name: 'Publish',
     callback: () => {
       publishRoadmapProtocol(false);
+      clearSession();
     },
   },
   'save-as-draft': {
     name: 'Save as draft',
     callback: () => {
       publishRoadmapProtocol(true);
+      clearSession();
     },
   },
   'convert-to-draft': {

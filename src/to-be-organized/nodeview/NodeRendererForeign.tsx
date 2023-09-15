@@ -34,7 +34,10 @@ import {
   getElementHasEffect,
 } from '@store/roadmap-refactor/elements-editing/element-effects';
 import { useIsLoaded } from '@hooks/useIsLoaded';
-import { setElementDiv } from '@store/roadmap-refactor/elements-editing/elements-divs';
+import {
+  setElementDiv,
+  setElementG,
+} from '@store/roadmap-refactor/elements-editing/elements-gs';
 import { NodeClass } from '@src/typescript/roadmap_ref/node/core/core';
 import {
   getHideProgress,
@@ -61,6 +64,8 @@ import { triggerAllConnectionsRerender } from '@src/typescript/roadmap_ref/rende
 import { useStateTimed } from '@hooks/useStateTimed';
 import { deleteAllSnappings } from '@store/roadmap-refactor/render/snapping-lines';
 import { useNotification } from '@src/components/roadmap/to-be-organized/notifications/NotificationLogic';
+import { handleDragabilityRecalculationOnChunking } from '@src/typescript/roadmap_ref/dragging/misc';
+import { handleNotification } from './notification-handler';
 
 interface NodeViewProps {
   nodeId: string;
@@ -68,9 +73,7 @@ interface NodeViewProps {
   divSizeCallback?: (divRef: React.MutableRefObject<HTMLDivElement>) => void; //
 }
 
-let firstNotification = true;
-
-const NodeRenderer: React.FC<NodeViewProps> = ({
+const NodeRendererForeign: React.FC<NodeViewProps> = ({
   nodeId,
   centerOffset,
   divSizeCallback,
@@ -118,9 +121,15 @@ const NodeRenderer: React.FC<NodeViewProps> = ({
       }, 0);
 
     useEffect(() => {
+      // node can change when you apply a template
       setElementEffectsInitialEmpty(nodeId);
       setElementDiv(nodeId, nodeDivRef.current);
-    }, []);
+      handleDragabilityRecalculationOnChunking(node);
+
+      if (loaded) {
+        triggerAllConnectionsRerender();
+      }
+    }, [node]);
 
     useEffect(() => {
       if (node.flags.renderedOnRoadmapFlag) return;
@@ -183,8 +192,8 @@ const NodeRenderer: React.FC<NodeViewProps> = ({
 
     const borderStyle =
       borderColor === 'none'
-        ? '2px solid transparent'
-        : `2px solid #${borderColor}`;
+        ? `2px solid ${color}`
+        : `2px solid ${borderColor}`;
 
     const style = {
       // color: textColor,
@@ -201,6 +210,7 @@ const NodeRenderer: React.FC<NodeViewProps> = ({
     };
 
     const applyStyle = () => {
+      if (!nodeDivRef.current) return;
       const element = nodeDivRef.current;
       Object.assign(element.style, style);
     };
@@ -210,7 +220,8 @@ const NodeRenderer: React.FC<NodeViewProps> = ({
       applyStyle();
       loaded && !getIsEditing() && appendNodeMarkAsDone(node);
       getIsEditing() && deleteStatusEffectAll(nodeId);
-      loaded && applyElementEffects(nodeId, nodeDivRef.current);
+      if (!nodeDivRef.current) return;
+      loaded && applyElementEffects(nodeId);
     });
 
     const isDraggable = getElementIsDraggable(nodeId);
@@ -221,13 +232,6 @@ const NodeRenderer: React.FC<NodeViewProps> = ({
     );
 
     const { addNotification } = useNotification();
-
-    const handleNotification = () => {
-      if (firstNotification) {
-        firstNotification = false;
-        addNotification('tip', 'Hold shift to drag the entire tree of nodes');
-      }
-    };
 
     return (
       <>
@@ -243,14 +247,19 @@ const NodeRenderer: React.FC<NodeViewProps> = ({
             }}
           />
         )}
+        {isCurrentlyDragged && handleNotification(addNotification)}
         <div
-          className={`drop-shadow-md rounded-lg transition-allNoTransform duration-200 absolute `}
+          className='rounded-lg shadow-lg transition-allNoTransform duration-200 absolute'
           id={`div${nodeId}`}
           ref={nodeDivRef}
           onClick={(event) => {
-            // handleNotification();
             event.stopPropagation();
             getOnClickAction(nodeId)();
+            // if (nodeId === '0') {
+            //   setDeleteRootNodeNotificationTrue();
+            // } else {
+            //   setDeleteRootNodeNotificationFalse();
+            // }
           }}
           onMouseOver={(event) => {
             event.stopPropagation();
@@ -337,7 +346,7 @@ const NodeRenderer: React.FC<NodeViewProps> = ({
             subNodeIds.map((subNodeId) => {
               // the div is used to position the subNode in the center of the current node
               return (
-                <NodeRenderer
+                <NodeRendererForeign
                   key={subNodeId}
                   nodeId={subNodeId}
                   centerOffset={{
@@ -355,4 +364,4 @@ const NodeRenderer: React.FC<NodeViewProps> = ({
   // @ts-ignore
   return renderNode(nodeId);
 };
-export default NodeRenderer;
+export default NodeRendererForeign;

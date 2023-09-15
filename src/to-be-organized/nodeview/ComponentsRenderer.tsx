@@ -30,13 +30,13 @@ type IComponentElementProps = {
   parentNode: NodeClass;
 };
 
-const ComponentRenderer = ({
+const ComponentRendererForeign = ({
   component,
   parentNode,
 }: IComponentElementProps) => {
   const { id, type, textSize, textWeight, text } = component;
   const { colorType } = parentNode.data;
-  const divRef = useRef(null);
+  const divRef = useRef<HTMLDivElement>(null);
   // text color is based on the node color
   const theme = getColorThemeFromRoadmap();
   const parentSelected =
@@ -52,7 +52,10 @@ const ComponentRenderer = ({
   const { position, height, width } = calculateComponentsPositions(
     component,
     parentNode,
-    divRef
+    {
+      type: 'foreign-object',
+      divRef,
+    }
   );
   mutateComponentTextHeight(component, height);
 
@@ -99,13 +102,13 @@ const ComponentRenderer = ({
             mutateComponentTextHeight(component, newHeight);
             triggerNodeRerender(parentNode.id);
           }}
+          onlyXaxis
           snappingCallback={(newWidth: number, newHeight: number) => {
             return { width: newWidth, height: newHeight };
           }}
         />
       )}
       {type === 'Text' && <h1 className='text-center select-none'>{text}</h1>}
-      {/* Add more conditions for other component types */}
     </div>
   );
 };
@@ -117,7 +120,7 @@ export const componentsRenderer = (node: NodeClass) => {
     <div className='components-container select-none'>
       {components.map((component, index) => {
         return (
-          <ComponentRenderer
+          <ComponentRendererForeign
             key={component.id}
             component={component}
             parentNode={node}
