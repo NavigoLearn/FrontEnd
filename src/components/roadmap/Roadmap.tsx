@@ -74,12 +74,11 @@ import {
   setRoadmapStatistics,
 } from '@store/roadmap-refactor/roadmap-data/misc-data/roadmap-statistics';
 import RenderingEngine from '@components/roadmap/rendering-engines/RenderingEngine';
-import { addTemplateFromNode } from '@src/typescript/roadmap_ref/node/templates-system/template-protocols';
-import { getNodeByIdRoadmapSelector } from '@src/typescript/roadmap_ref/roadmap-data/services/get';
-import { saveEditingProtocol } from '@src/typescript/roadmap_ref/roadmap-data/protocols/roadmap-state-protocols';
 import { useChangeRoadmapState } from '@hooks/useChangeRoadmapState';
 import { lockExit, unlockExit } from '@src/typescript/utils/confirmExit';
 import { storeRenderingEngine } from '@components/roadmap/rendering-engines/store-rendering-engine';
+import { fetchUpdateRoadmapData } from '@src/api-wrapper/roadmap/routes/routes-roadmaps';
+import { getRoadmapSelector } from '@store/roadmap-refactor/roadmap-data/roadmap-selector';
 
 export function initialRoadmapProtocolAfterLoad() {
   setRoadmapIsLoaded();
@@ -226,7 +225,7 @@ function startAutoSaveTimer() {
     clearTimeout(autoSaveTimer);
   }
   autoSaveTimer = setTimeout(() => {
-    saveEditingProtocol();
+    fetchUpdateRoadmapData(getRoadmapSelector()); // sends the roadmap as update to the server
     startAutoSaveTimer();
   }, 60000);
 }

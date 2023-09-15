@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import {
-  insertNodeToRender, removeNodeToRender,
+  insertNodeToRender,
+  removeNodeToRender,
 } from '@components/roadmap/rendering-engines/async-loading/store-async-loading';
 import useStateAndRef from '@hooks/useStateAndRef';
 
@@ -10,7 +11,7 @@ export default (WrappedComponent: React.FC<any>) => {
     useEffect(() => {
       const setLoadFn = () => {
         setLoad(true);
-      }
+      };
 
       insertNodeToRender(setLoadFn);
 
@@ -20,7 +21,7 @@ export default (WrappedComponent: React.FC<any>) => {
         if (!ref.current) {
           removeNodeToRender(setLoadFn);
         }
-      }
+      };
     }, []);
     return load && <WrappedComponent {...props} />;
   };

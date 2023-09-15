@@ -6,6 +6,7 @@ import {
   setRoadmapViewStore,
 } from '@store/roadmap-refactor/roadmap-data/roadmap-view';
 import {
+  getRoadmapSelector,
   roadmapSelector,
   setRoadmapSelector,
 } from '@store/roadmap-refactor/roadmap-data/roadmap-selector';
@@ -44,7 +45,7 @@ export function cancelEditingProtocol() {
 export function saveEditingProtocol() {
   transferEditToRoadmap(); //  transfers the changes to the static roadmap
   setRoadmapState('view');
-  fetchUpdateRoadmapData(roadmapSelector.get()); // sends the roadmap as update to the server
+  fetchUpdateRoadmapData(getRoadmapSelector()); // sends the roadmap as update to the server
   setAllDraggableFalse();
   triggerChunkRerender();
   setDisplayPageType('closed');
