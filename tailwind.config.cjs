@@ -32,7 +32,7 @@ module.exports = {
         placeholder: 'rgb(0,0,0,0.3)',
         darkBlue: '#1A1B50',
         secondaryDarkBlue: 'rgba(26,27,80,0.7)',
-        lightBlue: '#3361D8'
+        lightBlue: '#3361D8',
       },
       fontFamily: {
         'kanit-text': ['"Kanit"'],

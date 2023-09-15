@@ -17,10 +17,8 @@ const DesktopNavbar = () => {
       const navbar = document.querySelector('nav');
       if (navbar) {
         if (window.scrollY > 0) {
-          navbar.classList.add('bg-white');
           navbar.classList.add('shadow-standard');
         } else {
-          navbar.classList.remove('bg-white');
           navbar.classList.remove('shadow-standard');
         }
       }
