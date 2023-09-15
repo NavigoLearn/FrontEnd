@@ -121,17 +121,19 @@ const NodeRendererForeign: React.FC<NodeViewProps> = ({
       }, 0);
 
     useEffect(() => {
+      // node can change when you apply a template
       setElementEffectsInitialEmpty(nodeId);
       setElementDiv(nodeId, nodeDivRef.current);
-    }, []);
+      handleDragabilityRecalculationOnChunking(node);
+
+      if (loaded) {
+        triggerAllConnectionsRerender();
+      }
+    }, [node]);
 
     useEffect(() => {
       if (node.flags.renderedOnRoadmapFlag) return;
       setTriggerRender(node.id, rerender);
-    }, []);
-
-    useEffect(() => {
-      handleDragabilityRecalculationOnChunking(node);
     }, []);
 
     const [mouseOver, setMouseOver] = useState(false);
