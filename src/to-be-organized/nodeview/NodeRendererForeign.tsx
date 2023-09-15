@@ -30,14 +30,10 @@ import {
   applyElementEffects,
   setElementEffectsInitialEmpty,
   deleteStatusEffectAll,
-  getElementEffects,
   getElementHasEffect,
 } from '@store/roadmap-refactor/elements-editing/element-effects';
 import { useIsLoaded } from '@hooks/useIsLoaded';
-import {
-  setElementDiv,
-  setElementG,
-} from '@store/roadmap-refactor/elements-editing/elements-gs';
+import { setElementDiv } from '@store/roadmap-refactor/elements-editing/elements-gs';
 import { NodeClass } from '@src/typescript/roadmap_ref/node/core/core';
 import {
   getHideProgress,
@@ -84,10 +80,9 @@ const NodeRendererForeign: React.FC<NodeViewProps> = ({
   const childNodeId = useStore(selectedNodeIdChild);
   const parentNodeId = useStore(selectedNodeIdParent);
   const currentConnection = useStore(selectedConnectionId);
-  const { scale } = useStore(scaleSafariStore);
+  const { scale, isSafari } = useStore(scaleSafariStore);
 
   const renderNode = (nodeId: string, isSubNode: boolean) => {
-    console.log('isSubNode', isSubNode);
     const loaded = useIsLoaded();
     const node = getNodeByIdRoadmapSelector(nodeId);
     const { width, height, opacity, colorType } = node.data;
@@ -226,16 +221,13 @@ const NodeRendererForeign: React.FC<NodeViewProps> = ({
     });
 
     const isDraggable = getElementIsDraggable(nodeId);
-    const isRoot = node.flags.renderedOnRoadmapFlag;
+    // const isRoot = node.flags.renderedOnRoadmapFlag;
     const isCurrentlyDragged = getElementHasEffect(
       nodeId,
       'dragging-recursive'
     );
 
     const { addNotification } = useNotification();
-
-    // safari fix
-    const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
 
     return (
       <div
