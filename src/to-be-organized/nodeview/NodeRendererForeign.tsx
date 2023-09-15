@@ -62,6 +62,7 @@ import { useNotification } from '@src/components/roadmap/to-be-organized/notific
 import { handleDragabilityRecalculationOnChunking } from '@src/typescript/roadmap_ref/dragging/misc';
 import DragSvg from '@src/UI-library/svg-components/DragSvg';
 import scaleSafariStore from '@store/roadmap-refactor/misc/scale-safari-store';
+import { useStateWithSideEffects } from '@hooks/useStateWithSideEffects';
 import { handleNotification } from './notification-handler';
 
 interface NodeViewProps {
@@ -208,10 +209,10 @@ const NodeRendererForeign: React.FC<NodeViewProps> = ({
         color.slice(3, 5),
         16
       )}, ${parseInt(color.slice(5, 7), 16)}, ${bgOpacity})`, // assuming color is in #RRGGBB format
-      width: `${width}px`,
-      height: `${height}px`,
-      top: `${calculatedOffsetCoords.y + coords.y}px`,
-      left: `${calculatedOffsetCoords.x + coords.x}px`,
+      width,
+      height,
+      top: calculatedOffsetCoords.y + coords.y,
+      left: calculatedOffsetCoords.x + coords.x,
       opacity: `${getNodeOpacity(node)}`,
       border: borderStyle,
     };
