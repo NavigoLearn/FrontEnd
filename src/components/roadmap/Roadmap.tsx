@@ -76,7 +76,10 @@ import {
 import RenderingEngine from '@components/roadmap/rendering-engines/RenderingEngine';
 import { addTemplateFromNode } from '@src/typescript/roadmap_ref/node/templates-system/template-protocols';
 import { getNodeByIdRoadmapSelector } from '@src/typescript/roadmap_ref/roadmap-data/services/get';
-import { saveEditingProtocol } from '@src/typescript/roadmap_ref/roadmap-data/protocols/roadmap-state-protocols';
+import {
+  autosaveEditingProtocol,
+  saveEditingProtocol,
+} from '@src/typescript/roadmap_ref/roadmap-data/protocols/roadmap-state-protocols';
 import { useChangeRoadmapState } from '@hooks/useChangeRoadmapState';
 import { lockExit, unlockExit } from '@src/typescript/utils/confirmExit';
 import { storeRenderingEngine } from '@components/roadmap/rendering-engines/store-rendering-engine';
@@ -226,7 +229,7 @@ function startAutoSaveTimer() {
     clearTimeout(autoSaveTimer);
   }
   autoSaveTimer = setTimeout(() => {
-    saveEditingProtocol();
+    autosaveEditingProtocol();
     startAutoSaveTimer();
   }, 60000);
 }
