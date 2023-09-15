@@ -231,6 +231,9 @@ const NodeRendererForeign: React.FC<NodeViewProps> = ({
 
     const { addNotification } = useNotification();
 
+    const adjustedWidth = width + 1; // adjusted for border
+    const adjustedHeight = height + 1; // adjusted for border
+
     return (
       <>
         {!editing && !getHideProgress() && (

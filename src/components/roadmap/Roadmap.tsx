@@ -322,7 +322,7 @@ const Roadmap = ({
     const exist = type === 'public' || type === 'draft';
     if (getIsEditing() && exist) {
       startAutoSaveTimer();
-      lockExit();
+      // lockExit();
     } else {
       stopAutoSaveTimer();
       unlockExit();

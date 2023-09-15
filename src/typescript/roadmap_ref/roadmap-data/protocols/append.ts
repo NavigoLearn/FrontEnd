@@ -121,12 +121,14 @@ export function mutateNodesIds(nodes: HashMap<NodeClass>, baseNodeId: string) {
     });
 
     if (node.flags.subNodeFlag) {
+      // binding current parent to the new subnode id
       const parent = nodes[node.properties.nestedWithin];
       const newIdIndex = parent.subNodeIds.indexOf(oldId);
       parent.subNodeIds[newIdIndex] = node.id;
     }
 
     node.subNodeIds.forEach((subNodeId) => {
+      // binding subnodes to new parent id
       const subNode = nodes[subNodeId];
       subNode.properties.nestedWithin = node.id;
       queue.push(subNode);
