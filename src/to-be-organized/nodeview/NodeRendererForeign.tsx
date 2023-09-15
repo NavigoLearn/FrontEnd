@@ -253,19 +253,6 @@ const NodeRendererForeign: React.FC<NodeViewProps> = ({
             </div>
           </div>
         )}
-        {!editing && !getHideProgress() && (
-          <div
-            className={` z-10 h-3 left-0 top-0 rounded-t-lg absolute select-none ${getStatusCircleStyle(
-              node
-            )}`}
-            style={{
-              opacity: 1,
-              top: `${calculatedOffsetCoords.y + coords.y - 3}px`,
-              left: `${calculatedOffsetCoords.x + coords.x}px`,
-              width: `${width}px`,
-            }}
-          />
-        )}
         {isCurrentlyDragged && handleNotification(addNotification)}
         <div
           className={`rounded-lg shadow-lg transition-allNoTransform duration-200 absolute ${cursor}`}
@@ -361,6 +348,20 @@ const NodeRendererForeign: React.FC<NodeViewProps> = ({
           )}
 
           {getEditingState() === 'nodes' && <>{componentsRenderer(node)}</>}
+
+          {!editing && !getHideProgress() && (
+            <div
+              className={`h-3 left-0 top-0 rounded-t-lg absolute select-none ${getStatusCircleStyle(
+                node
+              )}`}
+              style={{
+                opacity: 1,
+                // top: `${calculatedOffsetCoords.y + coords.y - 3}px`,
+                // left: `${calculatedOffsetCoords.x + coords.x}px`,
+                width: `${width}px`,
+              }}
+            />
+          )}
           {subNodeIds &&
             subNodeIds.map((subNodeId) => {
               // the div is used to position the subNode in the center of the current node
