@@ -28,7 +28,7 @@ export type IEffectsStatuses =
   | 'mark-as-skipped'
   | 'mark-as-status';
 
-export type IEffectsFocus = 'defocus-node';
+export type IEffectsFocus = 'defocus-node' | 'highlight-node';
 
 export type IEffectsDragging = 'dragging-recursive';
 
@@ -63,6 +63,13 @@ export const dynamicEffectsMapperNativeSvgElements: HashMapWithKeys<
   IEffectsPossible,
   IEffectPropertiesNativeElements
 > = {
+  'highlight-node': {
+    effectName: 'highlight-node',
+    effectApply: (rectRef: SVGRectElement, gRef: SVGGElement) => {
+      // effectOpacity100Native(rectRef, gRef);
+    },
+    effectLayer: 1,
+  },
   'defocus-node': {
     effectName: 'defocus-node',
     effectApply: (rectRef: SVGRectElement, gRef: SVGGElement) => {
@@ -122,6 +129,13 @@ export const dynamicEffectsMapperForeignObjectElements: HashMapWithKeys<
   IEffectsPossible,
   IEffectPropertiesForeignObjects
 > = {
+  'highlight-node': {
+    effectName: 'highlight-node',
+    effectApply: (divRef) => {
+      // effectOpacity100ForeignDiv(divRef);
+    },
+    effectLayer: 10,
+  },
   'defocus-node': {
     effectName: 'defocus-node',
     effectApply: (divRef) => {
@@ -413,4 +427,12 @@ export function getElementHasEffect(id: string, effect: IEffectsPossible) {
 export function getElementEffects(id: string) {
   const originalEffects = elementEffects.get();
   return originalEffects[id];
+}
+
+export function highlightNode(id: string) {
+  const originalEffects = elementEffects.get();
+  appendElementEffect(id, 'on-mouse-over');
+  elementEffects.set({
+    ...originalEffects,
+  });
 }

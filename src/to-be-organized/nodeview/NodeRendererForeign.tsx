@@ -231,11 +231,12 @@ const NodeRendererForeign: React.FC<NodeViewProps> = ({
 
     const { addNotification } = useNotification();
 
+    const cursor = isCurrentlyDragged ? 'cursor-grab' : 'cursor-pointer';
     return (
       <>
         {!editing && !getHideProgress() && (
           <div
-            className={`w-full z-10 h-3 left-0 top-0 rounded-t-lg absolute  select-none ${getStatusCircleStyle(
+            className={`w-full z-10 h-3 left-0 top-0 rounded-t-lg absolute select-none ${getStatusCircleStyle(
               node
             )}`}
             style={{
@@ -247,7 +248,7 @@ const NodeRendererForeign: React.FC<NodeViewProps> = ({
         )}
         {isCurrentlyDragged && handleNotification(addNotification)}
         <div
-          className='rounded-lg shadow-lg transition-allNoTransform duration-200 absolute'
+          className={`rounded-lg shadow-lg transition-allNoTransform duration-200 absolute ${cursor}`}
           id={`div${nodeId}`}
           ref={nodeDivRef}
           onClick={(event) => {
