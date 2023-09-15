@@ -1,5 +1,8 @@
 import { atom } from 'nanostores';
-import { roadmapSelector } from '@store/roadmap-refactor/roadmap-data/roadmap-selector';
+import {
+  getRoadmapSelector,
+  roadmapSelector,
+} from '@store/roadmap-refactor/roadmap-data/roadmap-selector';
 import { getTracebackNodeToRoot } from '@src/typescript/roadmap_ref/roadmap-data/services/get';
 import { HashMapWithKeys, HashMap } from '@type/roadmap/misc';
 import {
@@ -326,12 +329,16 @@ export function appendStatusEffect(id: string, status: IEffectsStatuses) {
 
 export function defocusAllNodesExceptBlacklist(blackListed: string[]) {
   const originalEffects = elementEffects.get();
-  const nodes = Object.keys(roadmapSelector.get().nodes);
+  const nodes = Object.keys(getRoadmapSelector().nodes);
   nodes.forEach((id) => {
     if (blackListed.includes(id)) {
       deleteElementEffect(originalEffects, id, 'defocus-node');
     } else {
-      originalEffects[id].push('defocus-node');
+      try {
+        originalEffects[id].push('defocus-node');
+      } catch (e) {
+        throw new Error(`Error in defocusAllNodesExceptBlacklist: ${e}`);
+      }
     }
   });
 }
