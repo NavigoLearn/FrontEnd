@@ -180,7 +180,7 @@ const Home = () => {
         })}
       </div>
       <div className='flex-col mt-28 justify-center items-center w-full'>
-        <h1 className='mx-auto text-center items-center w-[600px] xl:w-[800px] 2xl:w-[1200px] font-roboto-text text-5xl 2xl:text-7xl font-semibold justify-center text-darkBlue'>
+        <h1 className='mx-auto rounded-lg border-b-2 border-darkBlue bg-background p-1 text-center items-center w-[650px] xl:w-[650px] 2xl:w-[950px] font-roboto-text text-5xl 2xl:text-7xl font-semibold justify-center text-darkBlue'>
           Start learning now with free community-made roadmaps
         </h1>
         <h2 className='mx-auto mt-4 text-center items-center w-[400px] xl:w-[500px] xl:text-2xl 2xl:w-[600px] 2xl:text-3xl text-secondary text-xl font-roboto-text font-normal'>
