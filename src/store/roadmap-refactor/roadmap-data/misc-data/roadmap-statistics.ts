@@ -59,7 +59,6 @@ export function adapterRoadmapToStatistics(
 ): IRoadmapStatistics {
   const { likeCount, viewCount, isLiked } = roadmap;
 
-  console.log('likeCount', likeCount, isLiked, roadmap);
   const loaded = true;
   return {
     likes: parseInt(likeCount, 10),

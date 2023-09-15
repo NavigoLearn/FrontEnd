@@ -92,8 +92,6 @@ export function setDraggableElementForNodeWithId(id: string) {
     setElementDraggable(draggableId, true);
   });
   setElementDraggable(id, true);
-
-  console.log('draggableIds', draggableElements.get());
 }
 
 export function setAllComponentsDraggableFalse() {

@@ -31,6 +31,7 @@ import {
   setElementEffectsInitialEmpty,
   deleteStatusEffectAll,
   getElementHasEffect,
+  removeHighlightNodeEffects,
 } from '@store/roadmap-refactor/elements-editing/element-effects';
 import { useIsLoaded } from '@hooks/useIsLoaded';
 import { setElementDiv } from '@store/roadmap-refactor/elements-editing/elements-gs';
@@ -59,6 +60,7 @@ import { useStateTimed } from '@hooks/useStateTimed';
 import { deleteAllSnappings } from '@store/roadmap-refactor/render/snapping-lines';
 import { useNotification } from '@src/components/roadmap/to-be-organized/notifications/NotificationLogic';
 import { handleDragabilityRecalculationOnChunking } from '@src/typescript/roadmap_ref/dragging/misc';
+import DragSvg from '@src/UI-library/svg-components/DragSvg';
 import scaleSafariStore from '@store/roadmap-refactor/misc/scale-safari-store';
 import { handleNotification } from './notification-handler';
 
@@ -119,20 +121,29 @@ const NodeRendererForeign: React.FC<NodeViewProps> = ({
       }, 0);
 
     useEffect(() => {
+      // node can change when you apply a template
       setElementEffectsInitialEmpty(nodeId);
       setElementDiv(nodeId, nodeDivRef.current);
-    }, []);
+      handleDragabilityRecalculationOnChunking(node);
+
+      if (loaded) {
+        triggerAllConnectionsRerender();
+      }
+    }, [node]);
 
     useEffect(() => {
       if (node.flags.renderedOnRoadmapFlag) return;
       setTriggerRender(node.id, rerender);
     }, []);
 
-    useEffect(() => {
-      handleDragabilityRecalculationOnChunking(node);
-    }, []);
-
-    const [mouseOver, setMouseOver] = useState(false);
+    const [mouseOver, setMouseOver] = useStateWithSideEffects(
+      false,
+      (newState) => {
+        if (getElementHasEffect(nodeId, 'highlight-node')) {
+          removeHighlightNodeEffects(nodeId);
+        }
+      }
+    );
     const [resizing, setResizing] = useStateTimed(false, 500, () => {
       deleteAllSnappings();
     });
@@ -229,6 +240,7 @@ const NodeRendererForeign: React.FC<NodeViewProps> = ({
 
     const { addNotification } = useNotification();
 
+    const cursor = isCurrentlyDragged ? 'cursor-grab' : 'cursor-pointer';
     return (
       <div
         className={isSafari && !isSubNode ? 'fixed origin-center' : ''}
@@ -236,21 +248,30 @@ const NodeRendererForeign: React.FC<NodeViewProps> = ({
           transform: `scale(${isSafari && !isSubNode ? scale : 1})`,
         }}
       >
+        {getElementHasEffect(nodeId, 'highlight-node') && (
+          <div className='z-10  left-1/2 -translate-x-1/2 w-20 h-20 absolute select-none -top-16'>
+            <div className='w-full h-full flex justify-center items-center'>
+              <DragSvg size={50} />
+            </div>
+          </div>
+        )}
         {!editing && !getHideProgress() && (
           <div
-            className={`w-full z-10 h-3 left-0 top-0 rounded-t-lg absolute select-none ${getStatusCircleStyle(
+            className={` z-10 h-3 left-0 top-0 rounded-t-lg absolute select-none ${getStatusCircleStyle(
               node
             )}`}
             style={{
               opacity: 1,
               top: `${calculatedOffsetCoords.y + coords.y - 3}px`,
               left: `${calculatedOffsetCoords.x + coords.x}px`,
+              width: `${width}px`,
+              height: `${height}px`,
             }}
           />
         )}
         {isCurrentlyDragged && handleNotification(addNotification)}
         <div
-          className='rounded-lg shadow-lg transition-allNoTransform duration-200 absolute'
+          className={`rounded-lg shadow-lg transition-allNoTransform duration-200 absolute ${cursor}`}
           id={`div${nodeId}`}
           ref={nodeDivRef}
           onClick={(event) => {

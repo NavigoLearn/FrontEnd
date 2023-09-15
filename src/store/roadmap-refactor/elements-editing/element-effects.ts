@@ -1,5 +1,8 @@
 import { atom } from 'nanostores';
-import { roadmapSelector } from '@store/roadmap-refactor/roadmap-data/roadmap-selector';
+import {
+  getRoadmapSelector,
+  roadmapSelector,
+} from '@store/roadmap-refactor/roadmap-data/roadmap-selector';
 import { getTracebackNodeToRoot } from '@src/typescript/roadmap_ref/roadmap-data/services/get';
 import { HashMapWithKeys, HashMap } from '@type/roadmap/misc';
 import {
@@ -21,6 +24,7 @@ import {
   getElementDiv,
 } from '@store/roadmap-refactor/elements-editing/elements-gs';
 import { getRenderingEngineType } from '@components/roadmap/rendering-engines/store-rendering-engine';
+import { triggerAllNodesRerender } from '@store/roadmap-refactor/render/rerender-triggers-nodes';
 
 export type IEffectsStatuses =
   | 'mark-as-progress'
@@ -28,7 +32,7 @@ export type IEffectsStatuses =
   | 'mark-as-skipped'
   | 'mark-as-status';
 
-export type IEffectsFocus = 'defocus-node';
+export type IEffectsFocus = 'defocus-node' | 'highlight-node';
 
 export type IEffectsDragging = 'dragging-recursive';
 
@@ -63,6 +67,13 @@ export const dynamicEffectsMapperNativeSvgElements: HashMapWithKeys<
   IEffectsPossible,
   IEffectPropertiesNativeElements
 > = {
+  'highlight-node': {
+    effectName: 'highlight-node',
+    effectApply: (rectRef: SVGRectElement, gRef: SVGGElement) => {
+      // effectOpacity100Native(rectRef, gRef);
+    },
+    effectLayer: 1,
+  },
   'defocus-node': {
     effectName: 'defocus-node',
     effectApply: (rectRef: SVGRectElement, gRef: SVGGElement) => {
@@ -122,6 +133,13 @@ export const dynamicEffectsMapperForeignObjectElements: HashMapWithKeys<
   IEffectsPossible,
   IEffectPropertiesForeignObjects
 > = {
+  'highlight-node': {
+    effectName: 'highlight-node',
+    effectApply: (divRef) => {
+      effectBorderBlueForeignDiv(divRef);
+    },
+    effectLayer: 10,
+  },
   'defocus-node': {
     effectName: 'defocus-node',
     effectApply: (divRef) => {
@@ -312,12 +330,33 @@ export function appendStatusEffect(id: string, status: IEffectsStatuses) {
 
 export function defocusAllNodesExceptBlacklist(blackListed: string[]) {
   const originalEffects = elementEffects.get();
-  const nodes = Object.keys(roadmapSelector.get().nodes);
+  const nodes = Object.keys(getRoadmapSelector().nodes);
   nodes.forEach((id) => {
     if (blackListed.includes(id)) {
       deleteElementEffect(originalEffects, id, 'defocus-node');
     } else {
-      originalEffects[id].push('defocus-node');
+      try {
+        originalEffects[id].push('defocus-node');
+      } catch (e) {
+        throw new Error(`Error in defocusAllNodesExceptBlacklist: ${e}`);
+      }
+    }
+  });
+}
+
+export function defocusAllRootNodesExceptBlacklist(blackListed: string[]) {
+  const originalEffects = elementEffects.get();
+  const nodes = getRoadmapSelector().rootNodesIds;
+
+  nodes.forEach((id) => {
+    if (blackListed.includes(id)) {
+      deleteElementEffect(originalEffects, id, 'defocus-node');
+    } else {
+      try {
+        originalEffects[id].push('defocus-node');
+      } catch (e) {
+        throw new Error(`Error in defocusAllNodesExceptBlacklist: ${e}`);
+      }
     }
   });
 }
@@ -413,4 +452,15 @@ export function getElementHasEffect(id: string, effect: IEffectsPossible) {
 export function getElementEffects(id: string) {
   const originalEffects = elementEffects.get();
   return originalEffects[id];
+}
+
+export function highlightNodeEffects(id: string) {
+  defocusAllRootNodesExceptBlacklist([id]);
+  appendElementEffect(id, 'highlight-node');
+}
+
+export function removeHighlightNodeEffects(id: string) {
+  clearAllDefocusEffects();
+  deleteElementEffectNoStoreParam(id, 'highlight-node');
+  triggerAllNodesRerender();
 }
