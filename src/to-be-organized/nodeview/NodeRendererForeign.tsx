@@ -1,6 +1,6 @@
 /* eslint-disable no-shadow */
 /* eslint-disable react/prop-types */
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { afterEventLoop } from '@src/typescript/utils/misc';
 import { componentsRenderer } from '@src/to-be-organized/nodeview/ComponentsRenderer';
@@ -62,6 +62,7 @@ import { useNotification } from '@src/components/roadmap/to-be-organized/notific
 import { handleDragabilityRecalculationOnChunking } from '@src/typescript/roadmap_ref/dragging/misc';
 import DragSvg from '@src/UI-library/svg-components/DragSvg';
 import scaleSafariStore from '@store/roadmap-refactor/misc/scale-safari-store';
+import { useStateWithSideEffects } from '@hooks/useStateWithSideEffects';
 import { handleNotification } from './notification-handler';
 
 interface NodeViewProps {
@@ -136,14 +137,11 @@ const NodeRendererForeign: React.FC<NodeViewProps> = ({
       setTriggerRender(node.id, rerender);
     }, []);
 
-    const [mouseOver, setMouseOver] = useStateWithSideEffects(
-      false,
-      (newState) => {
-        if (getElementHasEffect(nodeId, 'highlight-node')) {
-          removeHighlightNodeEffects(nodeId);
-        }
+    const [mouseOver, setMouseOver] = useStateWithSideEffects(false, () => {
+      if (getElementHasEffect(nodeId, 'highlight-node')) {
+        removeHighlightNodeEffects(nodeId);
       }
-    );
+    });
     const [resizing, setResizing] = useStateTimed(false, 500, () => {
       deleteAllSnappings();
     });
@@ -208,10 +206,10 @@ const NodeRendererForeign: React.FC<NodeViewProps> = ({
         color.slice(3, 5),
         16
       )}, ${parseInt(color.slice(5, 7), 16)}, ${bgOpacity})`, // assuming color is in #RRGGBB format
-      width: `${width}px`,
-      height: `${height}px`,
-      top: `${calculatedOffsetCoords.y + coords.y}px`,
-      left: `${calculatedOffsetCoords.x + coords.x}px`,
+      width,
+      height,
+      top: calculatedOffsetCoords.y + coords.y,
+      left: calculatedOffsetCoords.x + coords.x,
       opacity: `${getNodeOpacity(node)}`,
       border: borderStyle,
     };
@@ -254,20 +252,6 @@ const NodeRendererForeign: React.FC<NodeViewProps> = ({
               <DragSvg size={50} />
             </div>
           </div>
-        )}
-        {!editing && !getHideProgress() && (
-          <div
-            className={` z-10 h-3 left-0 top-0 rounded-t-lg absolute select-none ${getStatusCircleStyle(
-              node
-            )}`}
-            style={{
-              opacity: 1,
-              top: `${calculatedOffsetCoords.y + coords.y - 3}px`,
-              left: `${calculatedOffsetCoords.x + coords.x}px`,
-              width: `${width}px`,
-              height: `${height}px`,
-            }}
-          />
         )}
         {isCurrentlyDragged && handleNotification(addNotification)}
         <div
@@ -364,6 +348,20 @@ const NodeRendererForeign: React.FC<NodeViewProps> = ({
           )}
 
           {getEditingState() === 'nodes' && <>{componentsRenderer(node)}</>}
+
+          {!editing && !getHideProgress() && (
+            <div
+              className={`h-3 left-0 top-0 rounded-t-lg absolute select-none ${getStatusCircleStyle(
+                node
+              )}`}
+              style={{
+                opacity: 1,
+                // top: `${calculatedOffsetCoords.y + coords.y - 3}px`,
+                // left: `${calculatedOffsetCoords.x + coords.x}px`,
+                width: `${width}px`,
+              }}
+            />
+          )}
           {subNodeIds &&
             subNodeIds.map((subNodeId) => {
               // the div is used to position the subNode in the center of the current node
