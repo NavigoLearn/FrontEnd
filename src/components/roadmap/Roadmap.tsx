@@ -79,6 +79,7 @@ import { lockExit, unlockExit } from '@src/typescript/utils/confirmExit';
 import { storeRenderingEngine } from '@components/roadmap/rendering-engines/store-rendering-engine';
 import { fetchUpdateRoadmapData } from '@src/api-wrapper/roadmap/routes/routes-roadmaps';
 import { getRoadmapSelector } from '@store/roadmap-refactor/roadmap-data/roadmap-selector';
+import { addTemplateFromNode } from '@src/typescript/roadmap_ref/node/templates-system/template-protocols';
 
 export function initialRoadmapProtocolAfterLoad() {
   setRoadmapIsLoaded();
@@ -189,9 +190,9 @@ async function handleRoadmapRenderingData(
       return 'restored';
     }
     // otherwise the initialization triggers from the setup screen
-    // const node0 = createAndSetRoadmapClassic(); // also handles setting the roadmap data in the store
-    // addTemplateFromNode(node0);
-    createGrid();
+    const node0 = createAndSetRoadmapClassic(); // also handles setting the roadmap data in the store
+    addTemplateFromNode(node0);
+    // createGrid();
     return 'factory-created';
   }
   if (type === 'draft' || type === 'public') {
@@ -317,14 +318,16 @@ const Roadmap = ({
   }, [roadmapState, renderingEngineType]);
 
   useChangeRoadmapState(() => {
-    if (getIsEditing()) {
+    const type = getRoadmapType();
+    const exist = type === 'public' || type === 'draft';
+    if (getIsEditing() && exist) {
       startAutoSaveTimer();
       lockExit();
     } else {
       stopAutoSaveTimer();
       unlockExit();
     }
-  }, []);
+  }, [roadmapState]);
 
   return (
     <div

@@ -2,7 +2,7 @@ import { deepCopy } from '@src/typescript/roadmap_ref/utils';
 import { triggerChunkRerender } from '@store/roadmap-refactor/render/rendered-chunks';
 import { setRoadmapEditStore } from '@store/roadmap-refactor/roadmap-data/roadmap-edit';
 import {
-  roadmapView,
+  getRoadmapView,
   setRoadmapViewStore,
 } from '@store/roadmap-refactor/roadmap-data/roadmap-view';
 import {
@@ -18,6 +18,7 @@ import { setDisplayPageType } from '@store/roadmap-refactor/display/display-mana
 import { removeAllEffects } from '@store/roadmap-refactor/elements-editing/element-effects';
 import { fetchUpdateRoadmapData } from '@src/api-wrapper/roadmap/routes/routes-roadmaps';
 import { setRoadmapState } from '@store/roadmap-refactor/roadmap-data/misc-data/roadmap_state';
+import { getRoadmapViews } from '@store/roadmap-refactor/roadmap-data/misc-data/roadmap-statistics';
 
 export function enterEditingModeProtocol() {
   const deepCopyRoadmap = deepCopy(roadmapSelector.get());
@@ -35,8 +36,10 @@ export function transferEditToRoadmap() {
 }
 export function cancelEditingProtocol() {
   // does not transfer changes from elements-editing roadmap to real roadmap
-  setRoadmapSelector(roadmapView.get());
+  const roadmapView = getRoadmapView();
+  setRoadmapSelector(roadmapView);
   setRoadmapState('view');
+  fetchUpdateRoadmapData(roadmapView); // sends the roadmap as update to the server
   setAllDraggableFalse();
   triggerChunkRerender(); // we call it in order to have the correct node ids in the renderStore for nodes-page
   setDisplayPageType('closed');
