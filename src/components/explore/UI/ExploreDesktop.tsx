@@ -76,7 +76,7 @@ const ExploreDesktop = () => {
 
             <div className='monitor:w-[1400px] landing-min:w-[1100px] grid  grid-cols-2 landing-min:grid-cols-3 monitor:grid-cols-4 gap-y-6 '>
               {/* eslint-disable-next-line no-nested-ternary */}
-              {!!cardData && !cardData.loading ? (
+              {cardData && !cardData.loading ? (
                 cardData.cards.length === 0 ? (
                   <div className='text-2xl font-kanit-text text-darkBlue font-semibold mt-10'>
                     No results found

@@ -11,11 +11,12 @@ import {
   cancelEditingProtocol,
   saveEditingProtocol,
 } from '@src/typescript/roadmap_ref/roadmap-data/protocols/roadmap-state-protocols';
+import { getDomainFromUrl } from '@src/typescript/utils/urlUtils';
 import SetupScreen from './setup-screen/SetupScreen';
 import AboutRenderer from '../to-be-organized/about/AboutRenderer';
 
 const FullScreenPopupManager = () => {
-  const { type } = useStore(displayManagerStoreFullScreen);
+  const { type, additionalData } = useStore(displayManagerStoreFullScreen);
 
   return (
     <>
@@ -77,6 +78,22 @@ const FullScreenPopupManager = () => {
             name='Cancel changes'
             heroText='You are about to cancel all the changes'
             smallText='This will cancel all the changes you made during edit mode'
+          />
+        </div>
+      )}
+      {type === 'unsafe-link' && (
+        <div className='h-[100%] w-[100%] bg-[#1A1B504D] absolute top-0 z-30 flex justify-center items-center'>
+          <GeneralPopup
+            actionCallback={() => {
+              window.open(additionalData, '_blank');
+            }}
+            buttonType='darkblue'
+            name='Continue to external link'
+            heroText='Unknown link'
+            previewContent={additionalData}
+            smallText={`Website hosted at ${getDomainFromUrl(
+              additionalData
+            )} is not verified by NavigoLearn. Proceed at your own risk.`}
           />
         </div>
       )}
