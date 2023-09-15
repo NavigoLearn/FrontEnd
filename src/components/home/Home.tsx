@@ -25,8 +25,8 @@ const Home = () => {
     return { damping, stiffness };
   };
 
-  const numColumns = 7;
-  const numRows = 4;
+  const numColumns = 10;
+  const numRows = 6;
   // both necessary to not overlap the objects
   const spacingX = 250;
   const spacingY = 250;
@@ -132,7 +132,7 @@ const Home = () => {
                 y: yMotionValues[index],
                 position: 'absolute',
               }}
-              className='bg-red-500 border-[1px] border-gray-200 flex rounded-lg justify-center drop-shadow-md items-center opacity-10'
+              className='bg-white border-[1px] border-gray-200 flex rounded-lg justify-center drop-shadow-md items-center opacity-10'
             />
           );
         })}
