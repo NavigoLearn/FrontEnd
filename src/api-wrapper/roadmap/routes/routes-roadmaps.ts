@@ -1,11 +1,7 @@
 import { IRoadmap } from '@type/roadmap/stores/IRoadmap';
 import { errorHandlerDecorator } from '@src/typescript/error-handler';
-import {
-  storeRoadmapPostPayload,
-} from '@src/api-wrapper/roadmap/stores/roadmap-payload';
-import {
-  getRoadmapId,
-} from '@store/roadmap-refactor/roadmap-data/misc-data/roadmap-about';
+import { storeRoadmapPostPayload } from '@src/api-wrapper/roadmap/stores/roadmap-payload';
+import { getRoadmapId } from '@store/roadmap-refactor/roadmap-data/misc-data/roadmap-about';
 import { decodeBase64, encodeBase64 } from '@src/typescript/utils/misc';
 
 export const fetchRoadmap = async (id: string) => {
@@ -21,6 +17,7 @@ export const fetchRoadmap = async (id: string) => {
 
 export const fetchUpdateRoadmapData = async (roadmap: IRoadmap) => {
   const id = getRoadmapId();
+  if (!id) return; // on create page
   const response = await fetch(`/api/roadmaps/${id}/data`, {
     method: 'POST',
     credentials: 'include',
@@ -83,16 +80,16 @@ export const fetchUpdateRoadmapIsDraft = async (isDraft: boolean) => {
 };
 
 export const fetchUpdateRoadmapVersion = async (version: string) => {
-    const id = getRoadmapId();
-    const response = await fetch(`/api/roadmaps/${id}/version`, {
-        method: 'POST',
-        credentials: 'include',
-        body: JSON.stringify({
-          version,
-        }),
-        headers: {
-        'Content-Type': 'application/json',
-        },
-    });
-    return response.json();
-}
+  const id = getRoadmapId();
+  const response = await fetch(`/api/roadmaps/${id}/version`, {
+    method: 'POST',
+    credentials: 'include',
+    body: JSON.stringify({
+      version,
+    }),
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  });
+  return response.json();
+};

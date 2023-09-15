@@ -1,8 +1,7 @@
 /* eslint-disable no-shadow */
 /* eslint-disable react/prop-types */
 import React, { useEffect, useRef, useState } from 'react';
-import { useStateWithSideEffects } from '@hooks/useStateWithSideEffects';
-import { motion, AnimatePresence } from 'framer-motion';
+import { AnimatePresence, motion } from 'framer-motion';
 import { afterEventLoop } from '@src/typescript/utils/misc';
 import { componentsRenderer } from '@src/to-be-organized/nodeview/ComponentsRenderer';
 import { useTriggerRerender } from '@hooks/useTriggerRerender';
@@ -31,15 +30,11 @@ import {
   applyElementEffects,
   setElementEffectsInitialEmpty,
   deleteStatusEffectAll,
-  getElementEffects,
   getElementHasEffect,
   removeHighlightNodeEffects,
 } from '@store/roadmap-refactor/elements-editing/element-effects';
 import { useIsLoaded } from '@hooks/useIsLoaded';
-import {
-  setElementDiv,
-  setElementG,
-} from '@store/roadmap-refactor/elements-editing/elements-gs';
+import { setElementDiv } from '@store/roadmap-refactor/elements-editing/elements-gs';
 import { NodeClass } from '@src/typescript/roadmap_ref/node/core/core';
 import {
   getHideProgress,
@@ -58,9 +53,7 @@ import {
 import { getColorThemeFromRoadmap } from '@components/roadmap/pages-roadmap/setup-screen/theme-controler';
 import ConnectionAnchorsRenderer from '@components/roadmap/connections/connection-editing/ConnectionAnchorsRenderer';
 import { useStore } from '@nanostores/react';
-import draggableElements, {
-  getElementIsDraggable,
-} from '@store/roadmap-refactor/elements-editing/draggable-elements';
+import { getElementIsDraggable } from '@store/roadmap-refactor/elements-editing/draggable-elements';
 import { getEditingState } from '@store/roadmap-refactor/editing/editing-state';
 import { triggerAllConnectionsRerender } from '@src/typescript/roadmap_ref/render/dragging';
 import { useStateTimed } from '@hooks/useStateTimed';
@@ -68,26 +61,30 @@ import { deleteAllSnappings } from '@store/roadmap-refactor/render/snapping-line
 import { useNotification } from '@src/components/roadmap/to-be-organized/notifications/NotificationLogic';
 import { handleDragabilityRecalculationOnChunking } from '@src/typescript/roadmap_ref/dragging/misc';
 import DragSvg from '@src/UI-library/svg-components/DragSvg';
+import scaleSafariStore from '@store/roadmap-refactor/misc/scale-safari-store';
 import { handleNotification } from './notification-handler';
 
 interface NodeViewProps {
   nodeId: string;
   centerOffset: { x: number; y: number };
   divSizeCallback?: (divRef: React.MutableRefObject<HTMLDivElement>) => void; //
+  isSubNode?: boolean;
 }
 
 const NodeRendererForeign: React.FC<NodeViewProps> = ({
   nodeId,
   centerOffset,
   divSizeCallback,
+  isSubNode = false,
 }) => {
   const nodeDivRef = useRef<HTMLDivElement>(null);
   const rerender = useTriggerRerender();
   const childNodeId = useStore(selectedNodeIdChild);
   const parentNodeId = useStore(selectedNodeIdParent);
   const currentConnection = useStore(selectedConnectionId);
+  const { scale, isSafari } = useStore(scaleSafariStore);
 
-  const renderNode = (nodeId: string) => {
+  const renderNode = (nodeId: string, isSubNode: boolean) => {
     const loaded = useIsLoaded();
     const node = getNodeByIdRoadmapSelector(nodeId);
     const { width, height, opacity, colorType } = node.data;
@@ -235,7 +232,7 @@ const NodeRendererForeign: React.FC<NodeViewProps> = ({
     });
 
     const isDraggable = getElementIsDraggable(nodeId);
-    const isRoot = node.flags.renderedOnRoadmapFlag;
+    // const isRoot = node.flags.renderedOnRoadmapFlag;
     const isCurrentlyDragged = getElementHasEffect(
       nodeId,
       'dragging-recursive'
@@ -245,7 +242,12 @@ const NodeRendererForeign: React.FC<NodeViewProps> = ({
 
     const cursor = isCurrentlyDragged ? 'cursor-grab' : 'cursor-pointer';
     return (
-      <>
+      <div
+        className={isSafari && !isSubNode ? 'fixed origin-center' : ''}
+        style={{
+          transform: `scale(${isSafari && !isSubNode ? scale : 1})`,
+        }}
+      >
         {getElementHasEffect(nodeId, 'highlight-node') && (
           <div className='z-10  left-1/2 -translate-x-1/2 w-20 h-20 absolute select-none -top-16'>
             <div className='w-full h-full flex justify-center items-center'>
@@ -373,15 +375,16 @@ const NodeRendererForeign: React.FC<NodeViewProps> = ({
                     x: node.data.width / 2,
                     y: node.data.height / 2,
                   }}
+                  isSubNode
                 />
               );
             })}
         </div>
-      </>
+      </div>
     );
   };
 
   // @ts-ignore
-  return renderNode(nodeId);
+  return renderNode(nodeId, isSubNode);
 };
 export default NodeRendererForeign;

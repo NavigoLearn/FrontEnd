@@ -5,9 +5,6 @@ import ButtonsManager from '@components/roadmap/navbar-roadmap/parts/ButtonsMana
 import { useIsLoaded } from '@hooks/useIsLoaded';
 import RoadmapStats from '@components/roadmap/navbar-roadmap/parts/RoadmapStats';
 import { useStore } from '@nanostores/react';
-import roadmapAbout, {
-  getRoadmapType,
-} from '@store/roadmap-refactor/roadmap-data/misc-data/roadmap-about';
 import storeRoadmapAbout from '@store/roadmap-refactor/roadmap-data/misc-data/roadmap-about';
 
 const NavbarRoadmap = () => {
@@ -16,7 +13,7 @@ const NavbarRoadmap = () => {
 
   return (
     <div className='hidden md:block sticky top-0 z-[20]'>
-      <nav className='bg-transparent border-b-2 border-b-gray-200 relative flex w-full h-16 z-10  items-center transition-all  duration-300 select-none'>
+      <nav className='bg-white border-b-2 border-b-gray-200 relative flex w-full h-16 z-10  items-center transition-all  duration-300 select-none'>
         {loaded && (
           <>
             <BackArrow />

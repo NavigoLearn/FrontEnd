@@ -56,6 +56,12 @@ export function saveEditingProtocol() {
   // here there should be a request to the server with the new saved roadmap json
 }
 
+export function autosaveEditingProtocol() {
+  transferEditToRoadmap(); //  transfers the changes to the static roadmap
+  fetchUpdateRoadmapData(roadmapSelector.get()); // sends the roadmap as update to the server
+  // here there should be a request to the server with the new saved roadmap json
+}
+
 export function capStringLen(str: string, len: number) {
   if (str.length > len) {
     return `${str.slice(0, len)}`;
