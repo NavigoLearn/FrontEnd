@@ -24,6 +24,7 @@ import {
   getElementDiv,
 } from '@store/roadmap-refactor/elements-editing/elements-gs';
 import { getRenderingEngineType } from '@components/roadmap/rendering-engines/store-rendering-engine';
+import { triggerAllNodesRerender } from '@store/roadmap-refactor/render/rerender-triggers-nodes';
 
 export type IEffectsStatuses =
   | 'mark-as-progress'
@@ -135,7 +136,7 @@ export const dynamicEffectsMapperForeignObjectElements: HashMapWithKeys<
   'highlight-node': {
     effectName: 'highlight-node',
     effectApply: (divRef) => {
-      // effectOpacity100ForeignDiv(divRef);
+      effectBorderBlueForeignDiv(divRef);
     },
     effectLayer: 10,
   },
@@ -343,6 +344,23 @@ export function defocusAllNodesExceptBlacklist(blackListed: string[]) {
   });
 }
 
+export function defocusAllRootNodesExceptBlacklist(blackListed: string[]) {
+  const originalEffects = elementEffects.get();
+  const nodes = getRoadmapSelector().rootNodesIds;
+
+  nodes.forEach((id) => {
+    if (blackListed.includes(id)) {
+      deleteElementEffect(originalEffects, id, 'defocus-node');
+    } else {
+      try {
+        originalEffects[id].push('defocus-node');
+      } catch (e) {
+        throw new Error(`Error in defocusAllNodesExceptBlacklist: ${e}`);
+      }
+    }
+  });
+}
+
 export function setEditorOpenEffect(nodeId: string) {
   // applies opacity 60 to all nodes-page except the one with the id
   const originalEffects = elementEffects.get();
@@ -436,10 +454,13 @@ export function getElementEffects(id: string) {
   return originalEffects[id];
 }
 
-export function highlightNode(id: string) {
-  const originalEffects = elementEffects.get();
-  appendElementEffect(id, 'on-mouse-over');
-  elementEffects.set({
-    ...originalEffects,
-  });
+export function highlightNodeEffects(id: string) {
+  defocusAllRootNodesExceptBlacklist([id]);
+  appendElementEffect(id, 'highlight-node');
+}
+
+export function removeHighlightNodeEffects(id: string) {
+  clearAllDefocusEffects();
+  deleteElementEffectNoStoreParam(id, 'highlight-node');
+  triggerAllNodesRerender();
 }

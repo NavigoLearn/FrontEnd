@@ -47,16 +47,21 @@ export function getOnMouseOutActionEdit(nodeId): () => void {
   };
 }
 
-export function moveRoadmapToNode(nodeId: string) {
+export function moveRoadmapToNode(nodeId: string, editorClosed?: boolean) {
   const node = getNodeByIdRoadmapSelector(nodeId);
   const { coords, width, height } = node.data;
 
   const scale = getScaleSafari();
   const viewport = getViewport();
 
-  // 500 accounts for editor width
+  const editorOffsetX = editorClosed ? 0 : 500;
+
   const wOffsetX =
-    (viewport.endX - viewport.startX - 500 / scale + node.data.width / 2) / 2;
+    (viewport.endX -
+      viewport.startX -
+      editorOffsetX / scale +
+      node.data.width / 2) /
+    2;
   const wOffsetY = (viewport.endY - viewport.startY) / 2;
 
   const { x, y } = getNodeAbsoluteCoordsCenter(nodeId);
