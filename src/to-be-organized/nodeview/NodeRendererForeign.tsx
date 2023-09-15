@@ -1,6 +1,6 @@
 /* eslint-disable no-shadow */
 /* eslint-disable react/prop-types */
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { afterEventLoop } from '@src/typescript/utils/misc';
 import { componentsRenderer } from '@src/to-be-organized/nodeview/ComponentsRenderer';
@@ -137,14 +137,11 @@ const NodeRendererForeign: React.FC<NodeViewProps> = ({
       setTriggerRender(node.id, rerender);
     }, []);
 
-    const [mouseOver, setMouseOver] = useStateWithSideEffects(
-      false,
-      (newState) => {
-        if (getElementHasEffect(nodeId, 'highlight-node')) {
-          removeHighlightNodeEffects(nodeId);
-        }
+    const [mouseOver, setMouseOver] = useStateWithSideEffects(false, () => {
+      if (getElementHasEffect(nodeId, 'highlight-node')) {
+        removeHighlightNodeEffects(nodeId);
       }
-    );
+    });
     const [resizing, setResizing] = useStateTimed(false, 500, () => {
       deleteAllSnappings();
     });
@@ -266,7 +263,6 @@ const NodeRendererForeign: React.FC<NodeViewProps> = ({
               top: `${calculatedOffsetCoords.y + coords.y - 3}px`,
               left: `${calculatedOffsetCoords.x + coords.x}px`,
               width: `${width}px`,
-              height: `${height}px`,
             }}
           />
         )}
