@@ -171,7 +171,7 @@ function initializeRoadmapAboutData(roadmap?: IRoadmapApi) {
 async function handleRoadmapSessionRestoration() {
   return false;
   if (checkIfSessionExists()) {
-    await restoreSession();
+    restoreSession();
     return true;
   }
   return false;

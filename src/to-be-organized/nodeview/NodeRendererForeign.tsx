@@ -1,7 +1,7 @@
 /* eslint-disable no-shadow */
 /* eslint-disable react/prop-types */
 import React, { useEffect, useRef, useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { AnimatePresence, motion } from 'framer-motion';
 import { afterEventLoop } from '@src/typescript/utils/misc';
 import { componentsRenderer } from '@src/to-be-organized/nodeview/ComponentsRenderer';
 import { useTriggerRerender } from '@hooks/useTriggerRerender';
@@ -56,40 +56,38 @@ import {
 import { getColorThemeFromRoadmap } from '@components/roadmap/pages-roadmap/setup-screen/theme-controler';
 import ConnectionAnchorsRenderer from '@components/roadmap/connections/connection-editing/ConnectionAnchorsRenderer';
 import { useStore } from '@nanostores/react';
-import draggableElements, {
-  getElementIsDraggable,
-} from '@store/roadmap-refactor/elements-editing/draggable-elements';
+import { getElementIsDraggable } from '@store/roadmap-refactor/elements-editing/draggable-elements';
 import { getEditingState } from '@store/roadmap-refactor/editing/editing-state';
 import { triggerAllConnectionsRerender } from '@src/typescript/roadmap_ref/render/dragging';
 import { useStateTimed } from '@hooks/useStateTimed';
 import { deleteAllSnappings } from '@store/roadmap-refactor/render/snapping-lines';
 import { useNotification } from '@src/components/roadmap/to-be-organized/notifications/NotificationLogic';
-import AsyncLoaderHOC from '@components/roadmap/rendering-engines/async-loading/AsyncLoaderHOC';
 import { handleDragabilityRecalculationOnChunking } from '@src/typescript/roadmap_ref/dragging/misc';
+import scaleSafariStore from '@store/roadmap-refactor/misc/scale-safari-store';
 import { handleNotification } from './notification-handler';
-import {
-  setDeleteRootNodeNotificationFalse,
-  setDeleteRootNodeNotificationTrue,
-} from './notification-store';
 
 interface NodeViewProps {
   nodeId: string;
   centerOffset: { x: number; y: number };
   divSizeCallback?: (divRef: React.MutableRefObject<HTMLDivElement>) => void; //
+  isSubNode?: boolean;
 }
 
 const NodeRendererForeign: React.FC<NodeViewProps> = ({
   nodeId,
   centerOffset,
   divSizeCallback,
+  isSubNode = false,
 }) => {
   const nodeDivRef = useRef<HTMLDivElement>(null);
   const rerender = useTriggerRerender();
   const childNodeId = useStore(selectedNodeIdChild);
   const parentNodeId = useStore(selectedNodeIdParent);
   const currentConnection = useStore(selectedConnectionId);
+  const { scale } = useStore(scaleSafariStore);
 
-  const renderNode = (nodeId: string) => {
+  const renderNode = (nodeId: string, isSubNode: boolean) => {
+    console.log('isSubNode', isSubNode);
     const loaded = useIsLoaded();
     const node = getNodeByIdRoadmapSelector(nodeId);
     const { width, height, opacity, colorType } = node.data;
@@ -236,11 +234,19 @@ const NodeRendererForeign: React.FC<NodeViewProps> = ({
 
     const { addNotification } = useNotification();
 
+    // safari fix
+    const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+
     return (
-      <>
+      <div
+        className={isSafari && !isSubNode ? 'fixed origin-center' : ''}
+        style={{
+          transform: `scale(${isSafari && !isSubNode ? scale : 1})`,
+        }}
+      >
         {!editing && !getHideProgress() && (
           <div
-            className={`w-full z-10 h-3 left-0 top-0 rounded-t-lg absolute  select-none ${getStatusCircleStyle(
+            className={`w-full z-10 h-3 left-0 top-0 rounded-t-lg absolute select-none ${getStatusCircleStyle(
               node
             )}`}
             style={{
@@ -356,15 +362,16 @@ const NodeRendererForeign: React.FC<NodeViewProps> = ({
                     x: node.data.width / 2,
                     y: node.data.height / 2,
                   }}
+                  isSubNode
                 />
               );
             })}
         </div>
-      </>
+      </div>
     );
   };
 
   // @ts-ignore
-  return renderNode(nodeId);
+  return renderNode(nodeId, isSubNode);
 };
 export default NodeRendererForeign;
