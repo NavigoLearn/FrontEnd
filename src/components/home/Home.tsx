@@ -45,7 +45,9 @@ const Home = () => {
         columnIndex * spacingX + offsetX + (Math.random() - 0.5) * 100 - 400;
       const y =
         rowIndex * spacingY + offsetY + (Math.random() - 0.5) * 100 - 500;
-      objects.push({ x, y });
+      const sinOffset = Math.random() * Math.PI * 2; // Offset between 0 and 2π
+      const cosOffset = Math.random() * Math.PI * 2;
+      objects.push({ x, y, sinOffset, cosOffset });
     }
   }
 
@@ -54,6 +56,7 @@ const Home = () => {
 
   useEffect(() => {
     let animationFrameId = null;
+    let time = 0;
 
     const animate = () => {
       // Calculate the distance from the center of the screen
@@ -65,8 +68,12 @@ const Home = () => {
       const distanceY = y - screenCenterY;
 
       objects.forEach((object, index) => {
+        const floatingEffect = 20;
         const targetX = distanceX / 6 + object.x;
-        const targetY = distanceY / 6 + object.y;
+        const targetY =
+          distanceY / 6 +
+          object.y +
+          Math.sin(object.sinOffset + time) * floatingEffect;
 
         const newx = lerp(xMotionValues[index].get(), targetX, 0.1);
         const newy = lerp(yMotionValues[index].get(), targetY, 0.1);
@@ -75,6 +82,7 @@ const Home = () => {
         yMotionValues[index].set(newy);
       });
 
+      time += 0.01;
       animationFrameId = requestAnimationFrame(animate);
     };
 
