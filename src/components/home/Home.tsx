@@ -6,8 +6,14 @@ import MiddleSection from './MiddleSection';
 import BottomSection from './BottomSection';
 import ScrollingElement from './ScrollingElement';
 
+// Define a lerp function
+const lerp = (current: number, target: number, speed: number): number => {
+  return current + speed * (target - current);
+};
+
 const Home = () => {
   const divRef = useRef(null);
+  const mousePosition = useRef({ x: 0, y: 0 });
   const [screenWidth, setScreenWidth] = useState(0);
   const [screenHeight, setScreenHeight] = useState(0);
 
@@ -25,24 +31,67 @@ const Home = () => {
     return { damping, stiffness };
   };
 
-  const numColumns = 10;
-  const numRows = 6;
+  const numColumns = 20;
+  const numRows = 9;
   // both necessary to not overlap the objects
-  const spacingX = 250;
-  const spacingY = 250;
+  const spacingX = 200;
+  const spacingY = 200;
 
   // create an array of objects with x and y coordinates
   const objects = [];
   for (let rowIndex = 0; rowIndex < numRows; rowIndex += 1) {
     for (let columnIndex = 0; columnIndex < numColumns; columnIndex += 1) {
-      const x = columnIndex * spacingX + offsetX + (Math.random() - 0.5) * 100;
-      const y = rowIndex * spacingY + offsetY + (Math.random() - 0.5) * 100; // - value to start from the top
+      const x =
+        columnIndex * spacingX + offsetX + (Math.random() - 0.5) * 100 - 400;
+      const y =
+        rowIndex * spacingY + offsetY + (Math.random() - 0.5) * 100 - 500;
       objects.push({ x, y });
     }
   }
 
   const xMotionValues = objects.map(() => useMotionValue(0));
   const yMotionValues = objects.map(() => useMotionValue(0));
+
+  useEffect(() => {
+    let animationFrameId = null;
+
+    const animate = () => {
+      // Calculate the distance from the center of the screen
+      const screenCenterX = window.innerWidth / 2;
+      const screenCenterY = window.innerHeight / 2;
+
+      const { x, y } = mousePosition.current;
+      const distanceX = x - screenCenterX;
+      const distanceY = y - screenCenterY;
+
+      objects.forEach((object, index) => {
+        const targetX = distanceX / 6 + object.x;
+        const targetY = distanceY / 6 + object.y;
+
+        const newx = lerp(xMotionValues[index].get(), targetX, 0.1);
+        const newy = lerp(yMotionValues[index].get(), targetY, 0.1);
+
+        xMotionValues[index].set(newx);
+        yMotionValues[index].set(newy);
+      });
+
+      animationFrameId = requestAnimationFrame(animate);
+    };
+
+    animate();
+
+    return () => {
+      cancelAnimationFrame(animationFrameId);
+    };
+  }, []);
+
+  // animation logic - update the mouse position
+  const handleMouseMove = (e) => {
+    mousePosition.current = {
+      x: e.clientX,
+      y: e.clientY,
+    };
+  };
 
   // eslint-disable-next-line consistent-return
   useEffect(() => {
@@ -80,21 +129,6 @@ const Home = () => {
       }, index * 100); // You can adjust the delay duration as needed
     });
   }, [objects, xMotionValues, yMotionValues]);
-
-  // animation logic
-  const handleMouseMove = (e) => {
-    const { clientX, clientY } = e;
-    const offsetLeft = divRef.current?.offsetLeft || 0;
-    const offsetTop = divRef.current?.offsetTop || 0;
-
-    objects.forEach((object, index) => {
-      // divide by 16 to get rem values *better for screens with different sizes*
-      const x = (clientX - offsetLeft - 160) / 16 + object.x;
-      const y = (clientY - offsetTop - 160) / 16 + object.y;
-      xMotionValues[index].set(x);
-      yMotionValues[index].set(y);
-    });
-  };
 
   return (
     <div
