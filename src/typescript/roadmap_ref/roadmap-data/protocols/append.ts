@@ -53,7 +53,10 @@ import {
   recalculateNodeChunks,
 } from '@src/typescript/roadmap_ref/node/core/calculations/general';
 import { afterEventLoop, getRandomId } from '@src/typescript/utils/misc';
-import { addDragabilityProtocol } from '@src/typescript/roadmap_ref/render/dragging';
+import {
+  addDragabilityProtocol,
+  triggerAllConnectionsRerender,
+} from '@src/typescript/roadmap_ref/render/dragging';
 import { addDraggingBehaviorComponentProtocol } from '@src/typescript/roadmap_ref/node/components/text/factories';
 import { mutateConnectionsIds } from '@src/typescript/roadmap_ref/roadmap-data/services/mutate';
 import {
@@ -229,8 +232,6 @@ export function applyTemplateToNode(targetNodeId: string, templateId: string) {
   );
   const roadmap = getRoadmapSelector();
 
-  appendSubNodesTemplateToRoadmap(newNodes, newBaseId);
-
   const targetNode: NodeClass = deepCopy(
     getNodeByIdRoadmapSelector(targetNodeId)
   );
@@ -246,42 +247,28 @@ export function applyTemplateToNode(targetNodeId: string, templateId: string) {
     });
   }
 
-  if (queue.includes(targetNode.id)) {
-    throw new Error('Target node is a subnode of itself, something is wrong');
-  }
-
+  console.log(deepCopy(queue), deepCopy(roadmap.nodes));
   while (queue.length > 0) {
     const subNodeId = queue.shift();
-    const subNode = roadmap.nodes[subNodeId];
-    subNode.subNodeIds.forEach((id) => {
-      queue.push(id);
-    });
     deleteNodeFromRoadmapNodes(subNodeId);
   }
 
-  // we change the id of target node because it will trigger "fresh" workflows in NodeRenderer and
-  // will have less bugs overall since it is completely decoupled from previous node
-
-  //
-  // deleteNodeFromChunks(targetNode);
-  // deleteNodeFromRootNodes(targetNode);
-  // deleteNodeFromRoadmapNodes(targetNodeId);
-  // deleteNodeFromRoadmapNodes(targetNode.id);
-  //
   applyTemplateToNewNode(targetNode, deepCopy(newNodes[newBaseId]));
-  // const newId = injectNewId(targetNode, newBaseId);
-  //
-  // addDraggingBehaviorNodeProtocol(targetNode);
-  // appendNodeToChunks(targetNode);
-  // appendRootNodeId(newId);
-  // appendNodeToRoadmapNodes(targetNode);
-  //
-  // const connectionsIds = targetNode.connections;
-  // const connections = connectionsIds.map((id) => roadmap.connections[id]);
-  // mutateConnectionsIds(connections, targetNodeId, newId);
+
+  // because we essentially transfer ownership of the subnodes and components to a new node and
+  // we have to take into account the ids
+  targetNode.subNodeIds.forEach((id) => {
+    const subNode = newNodes[id];
+    subNode.properties.nestedWithin = targetNodeId;
+  });
+
+  targetNode.components.forEach((component) => {
+    component.parentNodeId = targetNodeId;
+    addDraggingBehaviorComponentProtocol(component, targetNodeId);
+  });
+
+  appendSubNodesTemplateToRoadmap(newNodes, newBaseId);
 
   injectRoadmapNode(targetNode);
   triggerNodeRerender(targetNodeId);
-  console.log('template applied', targetNode);
-  console.log(getRoadmapSelector());
 }

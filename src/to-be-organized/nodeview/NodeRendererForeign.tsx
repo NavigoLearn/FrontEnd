@@ -125,6 +125,10 @@ const NodeRendererForeign: React.FC<NodeViewProps> = ({
       setElementEffectsInitialEmpty(nodeId);
       setElementDiv(nodeId, nodeDivRef.current);
       handleDragabilityRecalculationOnChunking(node);
+
+      if (loaded) {
+        triggerAllConnectionsRerender();
+      }
     }, [node]);
 
     useEffect(() => {
