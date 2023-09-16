@@ -74,6 +74,7 @@ const TextWeightComponent = ({
             </div>
           </label>
         ))}
+        <div className='border-l border-rgb(0,0,0,0.6) mx-2' />
       </div>
     </div>
   );

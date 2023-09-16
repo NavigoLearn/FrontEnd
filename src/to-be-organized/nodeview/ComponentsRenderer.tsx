@@ -6,6 +6,7 @@ import {
   selectNodeColorText,
   selectTextFontWeight,
   selectTextFontSize,
+  transformOpacity,
 } from '@src/typescript/roadmap_ref/node/core/factories/data-mutation/services';
 import { getColorThemeFromRoadmap } from '@components/roadmap/pages-roadmap/setup-screen/theme-controler';
 import DraggingResizeElement from '@src/to-be-organized/DraggingResizeElement';
@@ -34,7 +35,7 @@ const ComponentRenderer = ({
   component,
   parentNode,
 }: IComponentElementProps) => {
-  const { id, type, textSize, textWeight, text } = component;
+  const { id, type, textSize, textWeight, text, opacity } = component;
   const { colorType } = parentNode.data;
   const divRef = useRef(null);
   // text color is based on the node color
@@ -49,11 +50,14 @@ const ComponentRenderer = ({
 
   const fontSizeSelect = selectTextFontSize(textSize);
 
+  const opacityFiltered = transformOpacity(opacity);
+
   const { position, height, width } = calculateComponentsPositions(
     component,
     parentNode,
     divRef
   );
+
   mutateComponentTextHeight(component, height);
 
   return (
@@ -65,12 +69,12 @@ const ComponentRenderer = ({
         parentSelected && 'border-opacity-100'
       } transition-allNoTransform`}
       style={{
-        color: textColor,
+        color: `${textColor.slice(0, -1)},${opacityFiltered})`,
         fontSize: fontSizeSelect,
         fontWeight: textWeightSelect,
         textAlign: 'center',
         width: `${width}px`,
-        // height: `${height}px`,
+        height: `${height}px`,
         top: `${position.y}px`,
         left: `${position.x}px`,
       }}

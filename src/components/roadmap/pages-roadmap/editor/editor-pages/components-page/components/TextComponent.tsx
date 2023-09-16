@@ -8,11 +8,14 @@ import {
 import {
   mutateComponentTextText,
   mutateComponentTextWidth,
+  mutateComponentTextOpacity,
 } from '@src/typescript/roadmap_ref/node/components/text/mutate';
 import { useTriggerRerender } from '@hooks/useTriggerRerender';
 import { NodeClass } from '@src/typescript/roadmap_ref/node/core/core';
 import { triggerNodeRerender } from '@store/roadmap-refactor/render/rerender-triggers-nodes';
 import TrashIcon from '@src/UI-library/svg-components/trash/TrashIcon';
+import DraggableInput from '@src/UI-library/DraggableInput';
+import { triggerRerenderEditor } from '@src/store/roadmap-refactor/elements-editing/editor-selected-data';
 import TextSizeComponent from '../text-controler/TextSizeComponent';
 import TextWeightComponent from '../text-controler/TextWeightComponent';
 import TextInputStandard from '../../properties-page/TextInputStandard';
@@ -83,6 +86,22 @@ const TextComponent = ({ node, id, name }: TitleComponentProps) => {
         <div className='flex flex-row ml-1.5'>
           <TextSizeComponent component={titleComponent} nodeId={node.id} />
           <TextWeightComponent component={titleComponent} nodeId={node.id} />
+          <div className='h-8 mt-4'>
+            <DraggableInput
+              name='Opacity'
+              value={titleComponent.opacity}
+              onChange={(value) => {
+                let displayedValue = parseInt(value, 10);
+                if (checkInvalidInput(value)) return;
+                if (displayedValue < 0) displayedValue = 0;
+                if (displayedValue > 100) displayedValue = 100;
+
+                mutateComponentTextOpacity(titleComponent, displayedValue);
+                triggerRerenderEditor();
+                triggerNodeRerender(node.id);
+              }}
+            />
+          </div>
         </div>
       )}
     </div>

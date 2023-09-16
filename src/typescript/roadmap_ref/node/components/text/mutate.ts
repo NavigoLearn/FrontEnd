@@ -4,6 +4,8 @@ import {
   ITextSizeModes,
   ITextWidthModes,
 } from '@src/types/roadmap/node/components-types';
+import { getLastOpacity, setLastOpacity } from '@src/to-be-organized/components-store';
+import { get } from 'http';
 
 export function mutateComponentTextWidth(
   component: ComponentText,
@@ -38,7 +40,6 @@ export function mutateComponentTextSize(
   textSize: keyof ITextSizeModes
 ) {
   component.textSize = textSize;
-  console.log(component.textSize);
 }
 
 export function mutateComponentTextWeight(
@@ -46,5 +47,21 @@ export function mutateComponentTextWeight(
   textWeight: keyof ITextWidthModes
 ) {
   component.textWeight = textWeight;
-  console.log(component.textWeight);
+}
+
+export function mutateComponentTextOpacity(
+  component: ComponentText,
+  opacity: number
+) {
+  component.opacity = opacity;
+  setLastOpacity(opacity);
+}
+
+export function mutateAllComponentsTextOpacity(
+  components: ComponentText[],
+  opacity: number
+) {
+  components.forEach((component) => {
+    mutateComponentTextOpacity(component, opacity);
+  });
 }

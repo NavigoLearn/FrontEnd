@@ -7,30 +7,29 @@ const Home = () => {
 
   useEffect(() => {
     window.location.href = '/explore';
-  }, []); 
-
-  function MyComponent() {
-
-  const func = useCallback(() => {
-    console.log('state', state);
   }, []);
 
-  useEffect(() => {
-    document.addEventListener('click', func);
-  }, [state]);
+  const MyComponent = () => {
+    const func = useCallback(() => {
+      console.log('state', state);
+    }, []);
 
-  return (
-    <div>
-      <div
-        ref={divRef}
-        className='w-32 h-32 bg-red-400 '
-        onClick={() => {
-          setState((prev) => prev + 1);
-        }}
-      />
-      home page
-    </div>
-  );
+    useEffect(() => {
+      document.addEventListener('click', func);
+    }, [state]);
+
+    return (
+      <div>
+        <div
+          ref={divRef}
+          className='w-32 h-32 bg-red-400 '
+          onClick={() => {
+            setState((prev) => prev + 1);
+          }}
+        />
+        home page
+      </div>
+    );
+  };
 };
-
 export default Home;
