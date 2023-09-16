@@ -2,6 +2,7 @@ export const effectOpacity60ForeignDiv = (divElementRef: HTMLDivElement) => {
   divElementRef.style.opacity = '0.6';
 };
 export const effectOpacity30ForeignDiv = (divElementRef: HTMLDivElement) => {
+  console.log('effectOpacity30ForeignDiv');
   divElementRef.style.opacity = '0.3';
 };
 

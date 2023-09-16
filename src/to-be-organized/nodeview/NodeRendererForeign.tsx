@@ -222,8 +222,8 @@ const NodeRendererForeign: React.FC<NodeViewProps> = ({
     afterEventLoop(() => {
       // runs all the effects after the node is rendered
       applyStyle();
-      loaded && !getIsEditing() && appendNodeMarkAsDone(node);
       getIsEditing() && deleteStatusEffectAll(nodeId);
+      loaded && !getIsEditing() && appendNodeMarkAsDone(node);
       if (!nodeDivRef.current) return;
       loaded && applyElementEffects(nodeId);
     });
