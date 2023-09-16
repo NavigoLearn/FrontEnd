@@ -63,6 +63,7 @@ import { handleDragabilityRecalculationOnChunking } from '@src/typescript/roadma
 import DragSvg from '@src/UI-library/svg-components/DragSvg';
 import scaleSafariStore from '@store/roadmap-refactor/misc/scale-safari-store';
 import { useStateWithSideEffects } from '@hooks/useStateWithSideEffects';
+import { getRoadmapNodeProgress } from '@store/roadmap-refactor/roadmap-data/misc-data/roadmap-progress';
 import { handleNotification } from './notification-handler';
 
 interface NodeViewProps {
@@ -153,9 +154,7 @@ const NodeRendererForeign: React.FC<NodeViewProps> = ({
     function appendNodeMarkAsDone(node: NodeClass) {
       if (editing) return;
       if (node.properties.markAsDone !== undefined) {
-        // adds proper effects
-        const attachment = node.attachments[0];
-        const { status } = attachment;
+        const status = getRoadmapNodeProgress(nodeId);
         if (status === 'Completed') {
           appendStatusEffect(nodeId, 'mark-as-completed');
         }
@@ -171,7 +170,7 @@ const NodeRendererForeign: React.FC<NodeViewProps> = ({
       }
     }
 
-    function getStatusCircleStyle(node: NodeClass) {
+    function getStatusBarColor(node: NodeClass) {
       const statusCircleBgColor = {
         Status: 'bg-transparent',
         'In Progress': 'bg-yellow-400',
@@ -179,7 +178,7 @@ const NodeRendererForeign: React.FC<NodeViewProps> = ({
         Skip: 'bg-gray-400',
       };
       const attachment = node.attachments[0];
-      const { status } = attachment;
+      const status = getRoadmapNodeProgress(nodeId);
       return statusCircleBgColor[status];
     }
 
@@ -239,6 +238,9 @@ const NodeRendererForeign: React.FC<NodeViewProps> = ({
     const { addNotification } = useNotification();
 
     const cursor = isCurrentlyDragged ? 'cursor-grab' : 'cursor-pointer';
+
+    isCurrentlyDragged && handleNotification(addNotification);
+
     return (
       <div
         className={isSafari && !isSubNode ? 'fixed origin-center' : ''}
@@ -253,7 +255,7 @@ const NodeRendererForeign: React.FC<NodeViewProps> = ({
             </div>
           </div>
         )}
-        {isCurrentlyDragged && handleNotification(addNotification)}
+
         <div
           className={`rounded-lg shadow-lg transition-allNoTransform duration-200 absolute ${cursor}`}
           id={`div${nodeId}`}
@@ -351,13 +353,11 @@ const NodeRendererForeign: React.FC<NodeViewProps> = ({
 
           {!editing && !getHideProgress() && (
             <div
-              className={`h-3 left-0 top-0 rounded-t-lg absolute select-none ${getStatusCircleStyle(
+              className={`h-[10px] left-[-2px] top-[-2px] rounded-t-lg absolute select-none ${getStatusBarColor(
                 node
               )}`}
               style={{
                 opacity: 1,
-                // top: `${calculatedOffsetCoords.y + coords.y - 3}px`,
-                // left: `${calculatedOffsetCoords.x + coords.x}px`,
                 width: `${width}px`,
               }}
             />

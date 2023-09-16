@@ -25,15 +25,11 @@ export const attachmentTabStatusArray: IAttachmentTabStatus[] = [
 
 export class AttachmentTab extends Attachment {
   // contains strictly the reusable-components-page specific to a tab-tab-page
-
-  status: IAttachmentTabStatus;
-
   components: IAttachmentTabComponentProperties[] = [];
 
   constructor() {
     super();
     this.id = generateId();
     this.type = 'Tab';
-    this.status = 'Status';
   }
 }
