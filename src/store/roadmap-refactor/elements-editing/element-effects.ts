@@ -99,6 +99,7 @@ export const dynamicEffectsMapperNativeSvgElements: HashMapWithKeys<
     effectName: 'mark-as-completed',
     effectApply: (rectRef: SVGRectElement, gRef: SVGGElement) => {
       if (getHideProgress()) return;
+
       effectOpacity30Native(rectRef, gRef);
     },
     effectLayer: 10,
@@ -164,7 +165,8 @@ export const dynamicEffectsMapperForeignObjectElements: HashMapWithKeys<
   'mark-as-completed': {
     effectName: 'mark-as-completed',
     effectApply: (divRef) => {
-      if (divRef) return;
+      if (!divRef) return;
+
       effectOpacity30ForeignDiv(divRef);
     },
     effectLayer: 10,
@@ -172,7 +174,7 @@ export const dynamicEffectsMapperForeignObjectElements: HashMapWithKeys<
   'mark-as-progress': {
     effectName: 'mark-as-progress',
     effectApply: (divRef) => {
-      if (divRef) return;
+      if (!divRef) return;
       effectOpacity100ForeignDiv(divRef);
     },
     effectLayer: 10,
@@ -180,7 +182,7 @@ export const dynamicEffectsMapperForeignObjectElements: HashMapWithKeys<
   'mark-as-skipped': {
     effectName: 'mark-as-skipped',
     effectApply: (divRef) => {
-      if (divRef) return;
+      if (!divRef) return;
       effectOpacity60ForeignDiv(divRef);
     },
     effectLayer: 10,
@@ -188,7 +190,7 @@ export const dynamicEffectsMapperForeignObjectElements: HashMapWithKeys<
   'mark-as-status': {
     effectName: 'mark-as-status',
     effectApply: (divRef) => {
-      if (divRef) return;
+      if (!divRef) return;
       effectOpacity100ForeignDiv(divRef);
     },
     effectLayer: 10,

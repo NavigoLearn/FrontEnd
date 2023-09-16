@@ -5,13 +5,17 @@ import {
   attachmentTabStatusArray,
 } from '@src/typescript/roadmap_ref/node/attachments/tab/core';
 import { tailwindTransitionClass } from '@src/UI-library/tailwind-utils';
-import { mutateAttachmentTabStatus } from '@src/typescript/roadmap_ref/node/attachments/tab/mutate';
 import complete from '@assets/completed-status.svg';
 import inProgress from '@assets/progress-status.svg';
 import skip from '@assets/skip-status.svg';
 import { injectMarkAsDone } from '@src/typescript/roadmap_ref/node/core/data-mutation/inject';
 import { getNodeByIdRoadmapSelector } from '@src/typescript/roadmap_ref/roadmap-data/services/get';
 import { triggerNodeRerender } from '@store/roadmap-refactor/render/rerender-triggers-nodes';
+import {
+  getRoadmapNodeProgress,
+  setRoadmapNodeProgress,
+  setRoadmapNodeProgressAndFetchUpdate,
+} from '@store/roadmap-refactor/roadmap-data/misc-data/roadmap-progress';
 
 type IStatusDropdownProps = {
   attachment: AttachmentTab;
@@ -27,7 +31,7 @@ const iconMap = {
 
 const StatusDropdown = ({ attachment, nodeId }: IStatusDropdownProps) => {
   const [dropdown, setDropdown] = useState(false);
-  const { status } = attachment;
+  const status = getRoadmapNodeProgress(nodeId);
 
   return (
     <div
@@ -76,7 +80,8 @@ const StatusDropdown = ({ attachment, nodeId }: IStatusDropdownProps) => {
                 <button
                   type='button'
                   onClick={() => {
-                    mutateAttachmentTabStatus(attachment, actionName);
+                    setRoadmapNodeProgressAndFetchUpdate(nodeId, actionName);
+
                     if (actionName === 'Completed' || actionName === 'Skip') {
                       injectMarkAsDone(
                         getNodeByIdRoadmapSelector(nodeId),

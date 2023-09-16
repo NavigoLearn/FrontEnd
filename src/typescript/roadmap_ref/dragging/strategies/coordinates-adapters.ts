@@ -18,6 +18,7 @@ export const coordinatesAdapterScaledStrategy = (x: number, y: number) => {
   if (engine === 'native-elements') {
     scale = 1;
   }
+
   const newX = x / scale;
   const newY = y / scale;
 
@@ -40,7 +41,7 @@ export const getCoordinatesAdapterStrategyFactory = (
 ): ICoordinatesAdapterStrategy => {
   const { draggingElementType } = draggingBehavior;
   if (draggingElementType === 'node') {
-    return coordinatesAdapterStandardStrategy;
+    return coordinatesAdapterScaledStrategy;
   }
 
   if (draggingElementType === 'subNode') {

@@ -21,8 +21,7 @@ const ButtonActions = ({ selectedButton }: IButtonActions) => {
                   ? 'text-darkBlue'
                   : 'text-placeholderBlack'
               }`}
-            >
-              
+            />
           </div>
         );
       })}

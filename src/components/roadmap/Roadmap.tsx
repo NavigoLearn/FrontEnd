@@ -1,6 +1,7 @@
 import React from 'react';
 import {
-  createAndSetRoadmapClassic,
+  createAndSetRoadmapClassicRefactored,
+  createGrid,
 } from '@src/typescript/roadmap_ref/roadmap-templates/classic';
 import renderNodesStore from '@store/roadmap-refactor/render/rendered-nodes';
 import {
@@ -15,6 +16,7 @@ import roadmapStateStore, {
   setRoadmapState,
   setHasStarterTab,
   getIsEditing,
+  getIsEditable,
 } from '@store/roadmap-refactor/roadmap-data/misc-data/roadmap_state';
 import {
   disableRoadmapDragZoomAnd,
@@ -69,12 +71,17 @@ import {
 } from '@store/roadmap-refactor/roadmap-data/misc-data/roadmap-statistics';
 import RenderingEngine from '@components/roadmap/rendering-engines/RenderingEngine';
 import { addTemplateFromNode } from '@src/typescript/roadmap_ref/node/templates-system/template-protocols';
-import {
-  autosaveEditingProtocol,
-} from '@src/typescript/roadmap_ref/roadmap-data/protocols/roadmap-state-protocols';
+import { autosaveEditingProtocol } from '@src/typescript/roadmap_ref/roadmap-data/protocols/roadmap-state-protocols';
 import { useChangeRoadmapState } from '@hooks/useChangeRoadmapState';
 import { lockExit, unlockExit } from '@src/typescript/utils/confirmExit';
 import { storeRenderingEngine } from '@components/roadmap/rendering-engines/store-rendering-engine';
+import { fetchGetRoadmapProgress } from '@src/api-wrapper/roadmap/routes/routes-roadmaps';
+import {
+  getRoadmapNodeProgress,
+  setRoadmapProgress,
+} from '@store/roadmap-refactor/roadmap-data/misc-data/roadmap-progress';
+import { getAllRenderedNodes } from '@src/typescript/roadmap_ref/roadmap-data/protocols/get';
+import { IAttachmentTabStatus } from '@src/typescript/roadmap_ref/node/attachments/tab/core';
 
 export function initialRoadmapProtocolAfterLoad() {
   setRoadmapIsLoaded();
@@ -185,7 +192,7 @@ async function handleRoadmapRenderingData(
       return 'restored';
     }
     // otherwise the initialization triggers from the setup screen
-    const node0 = createAndSetRoadmapClassic(); // also handles setting the roadmap data in the store
+    const node0 = createAndSetRoadmapClassicRefactored(); // also handles setting the roadmap data in the store
     addTemplateFromNode(node0);
     // createGrid();
     return 'factory-created';
@@ -244,6 +251,13 @@ async function handleRoadmapUserData(roadmap?: IRoadmapApi) {
 function handleSetDifferentRoadmapStores(roadmap: IRoadmapApi) {
   if (!roadmap) return;
   handleRoadmapUserData(roadmap);
+  fetchGetRoadmapProgress().then((res) => {
+    if (!res) {
+      console.warn('roadmap progress not found');
+      return;
+    }
+    setRoadmapProgress(res.data);
+  });
   setRoadmapStatistics(adapterRoadmapToStatistics(roadmap));
 }
 
@@ -253,7 +267,6 @@ function handleSessionSaving() {
     handleSessionSaving();
   }, 5000);
 }
-
 const Roadmap = ({
   pageId,
   roadmap,
