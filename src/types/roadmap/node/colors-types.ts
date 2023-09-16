@@ -2,6 +2,7 @@ export type IColorTheme = {
   nodeColor: string;
   textColor: string;
   borderColor: string;
+  defaultOpacity: number;
 };
 
 export type IColorThemesFields = {

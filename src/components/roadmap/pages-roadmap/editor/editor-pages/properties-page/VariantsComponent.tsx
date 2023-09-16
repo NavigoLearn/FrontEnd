@@ -10,8 +10,14 @@ import { triggerRerenderEditor } from '@src/store/roadmap-refactor/elements-edit
 import {
   selectNodeColorText,
   selectNodeColorTextBorder,
+  selectNodeDefaultOpacity,
 } from '@src/typescript/roadmap_ref/node/core/factories/data-mutation/services';
 import { deepCopy } from '@src/typescript/roadmap_ref/utils';
+import {
+  mutateComponentTextOpacity,
+  mutateAllComponentsTextOpacity,
+} from '@src/typescript/roadmap_ref/node/components/text/mutate';
+import { getComponentTextById } from '@src/typescript/roadmap_ref/node/core/data-get/components';
 import { getCurrentRoadmap } from '../../../setup-screen/roadmap-funtions';
 
 type IVariantsComponentProps = {
@@ -31,6 +37,11 @@ const VariantsComponent = ({
     <div className='flex flex-row'>
       {Object.keys(themeDetails).map((colorKey: IColorThemesColors, index) => {
         const borderColor = selectNodeColorTextBorder(selectedTheme, colorKey);
+        const defaultOpacity = selectNodeDefaultOpacity(
+          selectedTheme,
+          colorKey
+        );
+        console.log(defaultOpacity);
 
         const borderStyle =
           borderColor === 'none'
@@ -66,6 +77,8 @@ const VariantsComponent = ({
               border: borderStyle,
             }}
             onClick={() => {
+              // console.log(node.components, defaultOpacity);
+              mutateAllComponentsTextOpacity(node.components, defaultOpacity);
               mutateNodeColorAndRerender(node, colorKey);
               triggerRerenderEditor();
             }}
