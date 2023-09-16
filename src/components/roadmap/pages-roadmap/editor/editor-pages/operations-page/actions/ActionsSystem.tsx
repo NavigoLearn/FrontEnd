@@ -1,3 +1,7 @@
+import {
+  moveRoadmapToNode,
+  closeEditorProtocol,
+} from '@src/to-be-organized/nodeview/actions-manager';
 import React from 'react';
 import DropdownWhiteAddCleaner from '@components/roadmap/pages-roadmap/editor/reusable-components/DropdownWhiteAddCleaner';
 import {
@@ -16,19 +20,14 @@ import {
   deleteProtocolNodeFromRoadmapRecursive,
 } from '@src/typescript/roadmap_ref/roadmap-data/protocols/delete';
 import DropdownWhiteSelect from '@components/roadmap/pages-roadmap/editor/reusable-components/DropdownWhiteSelect';
-import { closeEditorProtocol } from '@src/to-be-organized/nodeview/actions-manager';
 import {
   operationsStore,
   setOperationsDropdown,
 } from '@components/roadmap/pages-roadmap/editor/editor-pages/operations-page/stores/operations-store';
 import { TemplateNode } from '@src/typescript/roadmap_ref/node/templates-system/template-core';
-import {
-  getDeleteRootNodeNotification,
-  setDeleteRootNodeNotificationFalse,
-  setDeleteRootNodeNotificationTrue,
-} from '@src/to-be-organized/nodeview/notification-store';
-import { handleDeleteRootNotification } from '@src/to-be-organized/nodeview/notification-handler';
-import { useNotification } from '@src/components/roadmap/to-be-organized/notifications/NotificationLogic';
+import { getDeleteRootNodeNotification } from '@src/to-be-organized/nodeview/notification-store';
+import { highlightNodeEffects } from '@store/roadmap-refactor/elements-editing/element-effects';
+import { afterEventLoop } from '@src/typescript/utils/misc';
 import DropdownPlusSelection from '../../../reusable-components/DropdownPlusSelection';
 
 type IOption = {
@@ -49,7 +48,9 @@ function formatTemplatesAddChild(
       id: template.id,
       name: template.name,
       callback: () => {
-        addChildTemplateToRoadmap(parentId, template.id);
+        const id = addChildTemplateToRoadmap(parentId, template.id);
+        highlightNodeEffects(id);
+        moveRoadmapToNode(id, true);
       },
       tooltip: `This template has ${
         Object.keys(template.roadmapImage.nodes).length
@@ -153,17 +154,17 @@ const ActionsSystem = () => {
             dropdown === 'apply-template' ? 'z-20' : 'z-0'
           }`}
         >
-          {/* <DropdownWhiteSelect */}
-          {/*  dropdownName='Apply template' */}
-          {/*  options={[...templatesJSONApplyTemplate]} */}
-          {/*  dropdownCallback={(hasOpened) => { */}
-          {/*    if (hasOpened) { */}
-          {/*      setOperationsDropdown('apply-template'); */}
-          {/*    } else { */}
-          {/*      setOperationsDropdown('none'); */}
-          {/*    } */}
-          {/*  }} */}
-          {/* /> */}
+          <DropdownWhiteSelect
+            dropdownName='Apply template'
+            options={[...templatesJSONApplyTemplate]}
+            dropdownCallback={(hasOpened) => {
+              if (hasOpened) {
+                setOperationsDropdown('apply-template');
+              } else {
+                setOperationsDropdown('none');
+              }
+            }}
+          />
         </div>
         <DeleteButton
           callback={() => {

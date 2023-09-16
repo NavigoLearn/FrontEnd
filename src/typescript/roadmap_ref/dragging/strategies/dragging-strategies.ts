@@ -13,8 +13,6 @@ import renderNodesStore from '@store/roadmap-refactor/render/rendered-nodes';
 import { getComponentById } from '@src/typescript/roadmap_ref/node/core/data-get/components';
 import { setSnappings } from '@store/roadmap-refactor/render/snapping-lines';
 import { snapCoordsToPositions } from '@src/typescript/roadmap_ref/snapping/old/core';
-import { getNodeCornerPositions } from '@src/typescript/roadmap_ref/snapping/old/generate-positions';
-import { throttle } from '@src/typescript/roadmap_ref/render/chunks';
 import { snapRootNodeProtocol } from '@src/typescript/roadmap_ref/snapping/snap-protocols/root-nodes';
 import { snapSubNodeProtocol } from '@src/typescript/roadmap_ref/snapping/snap-protocols/sub-nodes';
 import { snapComponentProtocol } from '@src/typescript/roadmap_ref/snapping/snap-protocols/components';

@@ -35,6 +35,7 @@ export const mutateNodeWidth = triggerHubListeners(
   'mutateNodeWidth',
   triggerCenterRecalculationDecorator((node: NodeClass, width: number) => {
     node.data.width = width;
+    node.data.center.x = width / 2;
   })
 );
 

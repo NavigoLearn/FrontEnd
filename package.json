@@ -33,6 +33,7 @@
     "d3": "^7.8.2",
     "framer-motion": "^10.15.1",
     "nanostores": "^0.7.4",
+    "parse-domain": "^7.0.1",
     "react": "^18.2.0",
     "react-dnd-touch-backend": "^16.0.1",
     "react-dom": "^18.2.0",

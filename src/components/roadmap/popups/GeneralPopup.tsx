@@ -13,13 +13,16 @@ type IAuthPopupProps = {
   name: string;
   heroText: string;
   smallText: string;
+  previewContent?: HTMLElement | string;
 };
+
 const GeneralPopup = ({
   actionCallback,
   buttonType,
   name,
   heroText,
   smallText,
+  previewContent,
 }: IAuthPopupProps) => {
   const matchButtonColor = (buttonColorMatcher: IButtonColor) => {
     switch (buttonColorMatcher) {
@@ -40,8 +43,15 @@ const GeneralPopup = ({
       <h2 className='text-lg font-medium font-roboto-text  w-full flex justify-center mt-10 text-center px-2'>
         {heroText}
       </h2>
+      {previewContent && (
+        <div className='flex justify-center mt-2 w-full'>
+          <span className='p-2 text-sm font-roboto-text bg-backgroundRoadmap text-darkBlue text-center w-5/6 rounded-xl truncate text-ellipsis'>
+            {previewContent}
+          </span>
+        </div>
+      )}
       <div className='flex justify-center mt-2 w-full'>
-        <span className='text-sm font-roboto-text text-placeholder text-center w-3/4 '>
+        <span className='text-sm font-roboto-text text-placeholder text-center w-5/6 '>
           {smallText}
         </span>
       </div>
@@ -71,6 +81,10 @@ const GeneralPopup = ({
       </section>
     </div>
   );
+};
+
+GeneralPopup.defaultProps = {
+  previewContent: undefined,
 };
 
 export default GeneralPopup;

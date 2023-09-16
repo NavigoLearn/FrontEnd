@@ -17,6 +17,7 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { useClickOutside } from '@hooks/useClickOutside';
 import linkpop from '@assets/linkpop.svg';
 import TrashIcon from '@src/UI-library/svg-components/trash/TrashIcon';
+import { openRoadmapLink } from '@src/typescript/utils/urlUtils';
 
 type IResourceAttachmentProps = {
   component: IAttachmentTabBulletListProperties;
@@ -51,7 +52,11 @@ export const ResourceAttachmentView = ({
               isLastItem ? '' : 'border-t border-gray-300'
             }`}
           >
-            <a href={item.linkURL} className='px-9 my-2 flex flex-row gap-2'>
+            <button
+              type='button'
+              onClick={() => openRoadmapLink(item.linkURL)}
+              className='px-9 my-2 flex flex-row gap-2'
+            >
               <div className='text-darkBlue text-lg font-semibold'>
                 {item.text}
               </div>
@@ -60,7 +65,7 @@ export const ResourceAttachmentView = ({
                 alt='pressLinkButton'
                 className='w-5 h-5 mt-1'
               />
-            </a>
+            </button>
           </div>
         );
       })}

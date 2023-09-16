@@ -30,12 +30,8 @@ import {
   deleteElementEffectNoStoreParam,
 } from '@store/roadmap-refactor/elements-editing/element-effects';
 import { triggerAllNodesRerender } from '@store/roadmap-refactor/render/rerender-triggers-nodes';
-import { getElementDiv } from '@store/roadmap-refactor/elements-editing/elements-divs';
-import {
-  effectBorderBlack,
-  effectBorderBlue,
-  effectBorderTransparent,
-} from '@src/to-be-organized/nodeview/effects';
+import { getElementG } from '@store/roadmap-refactor/elements-editing/elements-gs';
+import { effectBorderTransparent } from '@src/to-be-organized/nodeview/effects';
 import { triggerMoveRoadmapTo } from '@store/roadmap-refactor/misc/misc-params-store';
 import { HashMapWithKeys } from '@type/roadmap/misc';
 import { IActionTypes } from '@src/typescript/roadmap_ref/node/core/actions/core';
@@ -45,22 +41,27 @@ import { setEditingState } from '@store/roadmap-refactor/editing/editing-state';
 import { clearSelectedConnection } from '@components/roadmap/connections/connection-editing/connection-store';
 
 export function getOnMouseOutActionEdit(nodeId): () => void {
-  const div = getElementDiv(nodeId);
+  const div = getElementG(nodeId);
   return () => {
     deleteElementEffectNoStoreParam(nodeId, 'on-mouse-over');
   };
 }
 
-export function moveRoadmapToNode(nodeId: string) {
+export function moveRoadmapToNode(nodeId: string, editorClosed?: boolean) {
   const node = getNodeByIdRoadmapSelector(nodeId);
   const { coords, width, height } = node.data;
 
   const scale = getScaleSafari();
   const viewport = getViewport();
 
-  // 500 accounts for editor width
+  const editorOffsetX = editorClosed ? 0 : 500;
+
   const wOffsetX =
-    (viewport.endX - viewport.startX - 500 / scale + node.data.width / 2) / 2;
+    (viewport.endX -
+      viewport.startX -
+      editorOffsetX / scale +
+      node.data.width / 2) /
+    2;
   const wOffsetY = (viewport.endY - viewport.startY) / 2;
 
   const { x, y } = getNodeAbsoluteCoordsCenter(nodeId);
@@ -124,14 +125,14 @@ export function getOnClickAction(nodeId: string): () => void {
 
 export function getOnMouseOverActionEdit(nodeId): () => void {
   return () => {
-    appendElementEffect(nodeId, 'on-mouse-over');
+    // appendElementEffect(nodeId, 'on-mouse-over');
   };
 }
 
 export function getOnMouseOverActionView(nodeId): () => void {
   return () => {
-    const div = getElementDiv(nodeId);
-    effectBorderBlue(div);
+    const div = getElementG(nodeId);
+    // effectBorderBlue(div);
   };
 }
 
@@ -144,8 +145,8 @@ export function getOnMouseOverAction(nodeId: string): () => void {
 
 export function getOnMouseOutActionView(nodeId): () => void {
   return () => {
-    const div = getElementDiv(nodeId);
-    effectBorderTransparent(div);
+    // const div = getElementG(nodeId);
+    // effectBorderTransparent(div);
   };
 }
 

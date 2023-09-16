@@ -146,6 +146,36 @@ export function factoryRoadmapFirstAttempt() {
   appendRootNodeId(node1.id);
 }
 
+export function createGridSimple() {
+  let lastnode = factoryNodeClassicCustomizable(0, 0, 500, 500, 0);
+  injectRoadmapGlobalRootNodeId(lastnode.id);
+
+  // define bounds
+  const xMin = 0;
+  const yMin = 0;
+  const width = 5000;
+  const height = 5000;
+  const distance = 200;
+
+  let count = 0;
+
+  // create nodes
+  for (let x = xMin; x < xMin + width; x += distance) {
+    for (let y = yMin; y < yMin + height; y += distance) {
+      count += 1;
+      const node = factoryNodeClassicCustomizable(x, y, 90, 90, x + y * width);
+      const connection = factoryConnection(lastnode, node);
+      appendRootNodeId(node.id);
+      appendChildNodeId(lastnode, node.id);
+      injectParentData(node, lastnode.id);
+      injectRoadmapNode(node);
+      injectRoadmapConnection(connection);
+      lastnode = node;
+    }
+  }
+  console.log('count', count);
+}
+
 export function createGrid() {
   let lastnode = factoryNodeClassicCustomizable(0, 0, 500, 500, 0);
   injectRoadmapGlobalRootNodeId(lastnode.id);
@@ -157,9 +187,12 @@ export function createGrid() {
   const height = 2000;
   const distance = 200;
 
+  let count = 0;
+
   // create nodes
   for (let x = xMin; x < xMin + width; x += distance) {
     for (let y = yMin; y < yMin + height; y += distance) {
+      count += 5;
       const node = factoryNodeClassicCustomizable(x, y, 90, 90, x + y * width);
       const connection = factoryConnection(lastnode, node);
       appendRootNodeId(node.id);
@@ -187,4 +220,5 @@ export function createGrid() {
       lastnode = node;
     }
   }
+  console.log('count', count);
 }

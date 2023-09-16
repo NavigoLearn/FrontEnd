@@ -23,9 +23,8 @@ import { getChildrenRenderedTraceback } from '@src/typescript/roadmap_ref/roadma
 import renderedConnections from '@store/roadmap-refactor/render/rendered-connections';
 import { getShift } from '@store/roadmap-refactor/misc/key-press-store';
 import { triggerNodeRerender } from '@store/roadmap-refactor/render/rerender-triggers-nodes';
-import { deepCopy } from '@src/typescript/roadmap_ref/utils';
 import { throttle } from '@src/typescript/roadmap_ref/render/chunks';
-import { afterEventLoop } from '@src/typescript/utils/misc';
+import { getRenderingEngineDraggingElementIdentifier } from '@components/roadmap/rendering-engines/store-rendering-engine';
 
 export const triggerNodeConnectionsRerender = (nodeId: string) => {
   const node = getNodeByIdRoadmapSelector(nodeId);
@@ -55,7 +54,7 @@ export const propagateDraggingToChildrenNodes = (
     const child = getNodeByIdRoadmapSelector(childId);
     const { id } = child;
 
-    const elementIdentifier = draggingBehavior.draggingElementIdentifier;
+    const elementIdentifier = getRenderingEngineDraggingElementIdentifier();
 
     const sel = document.getElementById(`${elementIdentifier}${id}`);
     const obj = d3.select(sel);
@@ -67,7 +66,6 @@ export const propagateDraggingToChildrenNodes = (
 export const addDragabilityProtocol = (draggingBehavior: DraggingBehavior) => {
   // refactored dragability with dragging behavior and generalized
   const id = draggingBehavior.draggingElementId;
-  const elementIdentifier = draggingBehavior.draggingElementIdentifier;
 
   const offset = { x: 0, y: 0 };
   const newPos = { x: 0, y: 0 };
@@ -150,6 +148,8 @@ export const addDragabilityProtocol = (draggingBehavior: DraggingBehavior) => {
 
     // we temporarily update the position to emulate the dragging, which will then be applied to the actual element
     // after its finished
+
+    const elementIdentifier = getRenderingEngineDraggingElementIdentifier();
     const sel = document.getElementById(`${elementIdentifier}${id}`);
     const obj = d3.select(sel);
 
@@ -172,13 +172,16 @@ export const addDragabilityProtocol = (draggingBehavior: DraggingBehavior) => {
 
     // update connections here
     draggingBehavior.draggingElementType === 'node' &&
-      triggerAllConnectionsRerender();
+      (() => {
+        triggerAllConnectionsRerender();
+      })();
   }
 
   function endDragging() {
     // chunk recalculations are integrated in the coordinates setter strategy
     draggingEndStrategy(newPos.x, newPos.y);
     deleteAllSnappings();
+
     if (isRecursive) {
       draggingEndChildrenTraceback(draggingBehavior);
       const children = getChildrenRenderedTraceback(id);
@@ -215,9 +218,9 @@ export const addDragabilityProtocol = (draggingBehavior: DraggingBehavior) => {
     });
 
   function updateDraggabilityAllowed(allowed: boolean) {
-    const nodeSelection = d3
-      .selectAll(draggingBehavior.draggingElementIdentifier)
-      .select(`#${elementIdentifier}${id}`);
+    const elementIdentifier = getRenderingEngineDraggingElementIdentifier();
+    const selector = `#${elementIdentifier}${id}`;
+    const nodeSelection = d3.select(selector);
 
     if (allowed) {
       nodeSelection.call(drag);
