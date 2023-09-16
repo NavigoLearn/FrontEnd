@@ -14,7 +14,7 @@ import {
 } from '@components/explore/stores/explore-query-store';
 import Card from '@components/explore/UI/shared/cards/Card';
 import Pagination from '@components/explore/UI/components-desktop/paginations/Pagination';
-import { CardRoadmapTypeApi } from '@type/explore/card';
+import { ICardRoadmapTypeApi } from '@type/explore/card';
 import LoadingCard from '@components/explore/UI/shared/cards/LoadingCard';
 import { useExploreCardData } from '@components/explore/logic/hooks/useExploreCardData';
 import { fetchFeelingLucky } from '@src/api-wrapper/explore/roadmap-card-data';
@@ -82,7 +82,7 @@ const ExploreDesktop = () => {
                     No results found
                   </div>
                 ) : (
-                  cardData.cards.map((card: CardRoadmapTypeApi, i) => {
+                  cardData.cards.map((card: ICardRoadmapTypeApi, i) => {
                     // eslint-disable-next-line react/no-array-index-key
                     return <Card data={card} key={i} />;
                   })

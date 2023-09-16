@@ -1,24 +1,25 @@
 import React from 'react';
-import {
-  getProfilePage,
-  profilePagesArray,
-  setProfilePage,
-  storeProfilePages,
-} from '@components/profile/stores/store-profile-pages';
-import ProfileButton from '@components/profile/UI/parts-desktop/profile-buttons/components/ProfileButton';
 import { useStore } from '@nanostores/react';
+import {
+  storeSelectedProfilePage,
+  profilePagesArray,
+  getProfilePage,
+  setProfilePage,
+} from '@components/profile/stores/store-selected-profile-page';
+import ProfileButtonM from '@components/profile/UI/parts-mobile/profile-buttons/components/ProfileButtonM';
 
-const ProfileButtonManager = () => {
-  useStore(storeProfilePages);
+const ProfileButtonsManagerM = () => {
+  useStore(storeSelectedProfilePage);
   function firstLetterUpperCase(str: string) {
     return str.charAt(0).toUpperCase() + str.slice(1);
   }
+
   return (
-    <div className='flex flex-col gap-1'>
+    <div className='flex justify-center items-center gap-5 mt-3'>
       {profilePagesArray.map((page) => {
         const selected = page === getProfilePage();
         return (
-          <ProfileButton
+          <ProfileButtonM
             selected={selected}
             key={page}
             name={firstLetterUpperCase(page)}
@@ -32,4 +33,4 @@ const ProfileButtonManager = () => {
   );
 };
 
-export default ProfileButtonManager;
+export default ProfileButtonsManagerM;

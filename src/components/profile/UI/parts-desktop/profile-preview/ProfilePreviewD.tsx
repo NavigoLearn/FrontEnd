@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import HumanSvg from '@components/profile/UI/parts-desktop/profile-preview/components/HumanSvg';
 import { useStore } from '@nanostores/react';
 import {
-  profileDataStore,
+  storeProfileData,
   getProfileDataLoading,
 } from '@src/components/profile/stores/store-profile-data';
 import {
@@ -10,10 +10,10 @@ import {
   getProfileInfoFollowerCount,
   getProfileInfoFollowingCount,
   getProfileInfoName,
-} from '@src/components/profile/stores/store-profile-pages';
+} from '@components/profile/stores/store-selected-profile-page';
 
-const ProfilePreview = () => {
-  const { loading } = useStore(profileDataStore);
+const ProfilePreviewD = () => {
+  const { loading } = useStore(storeProfileData);
 
   return (
     <div className='relative flex items-center gap-3'>
@@ -57,4 +57,4 @@ const ProfilePreview = () => {
   );
 };
 
-export default ProfilePreview;
+export default ProfilePreviewD;

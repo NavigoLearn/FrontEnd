@@ -1,13 +1,15 @@
 import { atom } from 'nanostores';
-import { profileDataStore } from './store-profile-data';
+import { storeProfileData } from './store-profile-data';
 
 type IProfilePages = 'profile' | 'activity' | 'roadmaps';
+
 export const profilePagesArray: IProfilePages[] = [
   'profile',
   'activity',
   'roadmaps',
 ];
-export const storeProfilePages = atom({
+
+export const storeSelectedProfilePage = atom({
   currentPage: 'profile',
   isEditing: false,
 } as {
@@ -16,36 +18,36 @@ export const storeProfilePages = atom({
 });
 
 export function setProfilePage(page: IProfilePages) {
-  const originalStore = storeProfilePages.get();
-  storeProfilePages.set({
+  const originalStore = storeSelectedProfilePage.get();
+  storeSelectedProfilePage.set({
     ...originalStore,
     currentPage: page,
   });
 }
 
 export function getProfilePage() {
-  return storeProfilePages.get().currentPage;
+  return storeSelectedProfilePage.get().currentPage;
 }
 
 export function setProfilePageEditing(isEditing: boolean) {
-  const originalStore = storeProfilePages.get();
-  storeProfilePages.set({
+  const originalStore = storeSelectedProfilePage.get();
+  storeSelectedProfilePage.set({
     ...originalStore,
     isEditing,
   });
 }
 
 export function getProfilePageEditing() {
-  return storeProfilePages.get().isEditing;
+  return storeSelectedProfilePage.get().isEditing;
 }
 
 export const setProfileInfoId = (id: number) => {
-  profileDataStore.set({
-    ...profileDataStore.get(),
+  storeProfileData.set({
+    ...storeProfileData.get(),
     data: {
-      ...profileDataStore.get().data,
+      ...storeProfileData.get().data,
       profileInfo: {
-        ...profileDataStore.get().data.profileInfo,
+        ...storeProfileData.get().data.profileInfo,
         id,
       },
     },
@@ -53,16 +55,16 @@ export const setProfileInfoId = (id: number) => {
 };
 
 export const getProfileInfoId = () => {
-  return profileDataStore.get().data.profileInfo.id;
+  return storeProfileData.get().data.profileInfo.id;
 };
 
 export const setProfileInfoAvatar = (avatar: string | null) => {
-  profileDataStore.set({
-    ...profileDataStore.get(),
+  storeProfileData.set({
+    ...storeProfileData.get(),
     data: {
-      ...profileDataStore.get().data,
+      ...storeProfileData.get().data,
       profileInfo: {
-        ...profileDataStore.get().data.profileInfo,
+        ...storeProfileData.get().data.profileInfo,
         avatar,
       },
     },
@@ -70,16 +72,16 @@ export const setProfileInfoAvatar = (avatar: string | null) => {
 };
 
 export const getProfileInfoAvatar = () => {
-  return profileDataStore.get().data.profileInfo.avatar;
+  return storeProfileData.get().data.profileInfo.avatar;
 };
 
 export const setProfileInfoName = (name: string) => {
-  profileDataStore.set({
-    ...profileDataStore.get(),
+  storeProfileData.set({
+    ...storeProfileData.get(),
     data: {
-      ...profileDataStore.get().data,
+      ...storeProfileData.get().data,
       profileInfo: {
-        ...profileDataStore.get().data.profileInfo,
+        ...storeProfileData.get().data.profileInfo,
         name,
       },
     },
@@ -87,16 +89,16 @@ export const setProfileInfoName = (name: string) => {
 };
 
 export const getProfileInfoName = () => {
-  return profileDataStore.get().data.profileInfo.name;
+  return storeProfileData.get().data.profileInfo.name;
 };
 
 export const setProfileInfoBio = (bio: string | null) => {
-  profileDataStore.set({
-    ...profileDataStore.get(),
+  storeProfileData.set({
+    ...storeProfileData.get(),
     data: {
-      ...profileDataStore.get().data,
+      ...storeProfileData.get().data,
       profileInfo: {
-        ...profileDataStore.get().data.profileInfo,
+        ...storeProfileData.get().data.profileInfo,
         bio,
       },
     },
@@ -104,16 +106,16 @@ export const setProfileInfoBio = (bio: string | null) => {
 };
 
 export const getProfileInfoBio = () => {
-  return profileDataStore.get().data.profileInfo.bio;
+  return storeProfileData.get().data.profileInfo.bio;
 };
 
 export const setProfileInfoQuote = (quote: string | null) => {
-  profileDataStore.set({
-    ...profileDataStore.get(),
+  storeProfileData.set({
+    ...storeProfileData.get(),
     data: {
-      ...profileDataStore.get().data,
+      ...storeProfileData.get().data,
       profileInfo: {
-        ...profileDataStore.get().data.profileInfo,
+        ...storeProfileData.get().data.profileInfo,
         quote,
       },
     },
@@ -121,16 +123,16 @@ export const setProfileInfoQuote = (quote: string | null) => {
 };
 
 export const getProfileInfoQuote = () => {
-  return profileDataStore.get().data.profileInfo.quote;
+  return storeProfileData.get().data.profileInfo.quote;
 };
 
 export const setProfileInfoWebsiteUrl = (websiteUrl: string | null) => {
-  profileDataStore.set({
-    ...profileDataStore.get(),
+  storeProfileData.set({
+    ...storeProfileData.get(),
     data: {
-      ...profileDataStore.get().data,
+      ...storeProfileData.get().data,
       profileInfo: {
-        ...profileDataStore.get().data.profileInfo,
+        ...storeProfileData.get().data.profileInfo,
         websiteUrl,
       },
     },
@@ -138,16 +140,16 @@ export const setProfileInfoWebsiteUrl = (websiteUrl: string | null) => {
 };
 
 export const getProfileInfoWebsiteUrl = () => {
-  return profileDataStore.get().data.profileInfo.websiteUrl;
+  return storeProfileData.get().data.profileInfo.websiteUrl;
 };
 
 export const setProfileInfoGithubUrl = (githubUrl: string | null) => {
-  profileDataStore.set({
-    ...profileDataStore.get(),
+  storeProfileData.set({
+    ...storeProfileData.get(),
     data: {
-      ...profileDataStore.get().data,
+      ...storeProfileData.get().data,
       profileInfo: {
-        ...profileDataStore.get().data.profileInfo,
+        ...storeProfileData.get().data.profileInfo,
         githubUrl,
       },
     },
@@ -155,16 +157,16 @@ export const setProfileInfoGithubUrl = (githubUrl: string | null) => {
 };
 
 export const getProfileInfoGithubUrl = () => {
-  return profileDataStore.get().data.profileInfo.githubUrl;
+  return storeProfileData.get().data.profileInfo.githubUrl;
 };
 
 export const setProfileInfoRoadmapsCount = (roadmapsCount: number) => {
-  profileDataStore.set({
-    ...profileDataStore.get(),
+  storeProfileData.set({
+    ...storeProfileData.get(),
     data: {
-      ...profileDataStore.get().data,
+      ...storeProfileData.get().data,
       activityInfo: {
-        ...profileDataStore.get().data.activityInfo,
+        ...storeProfileData.get().data.activityInfo,
         roadmapsCount,
       },
     },
@@ -172,16 +174,16 @@ export const setProfileInfoRoadmapsCount = (roadmapsCount: number) => {
 };
 
 export const getProfileInfoRoadmapsCount = () => {
-  return profileDataStore.get().data.activityInfo.roadmapsCount;
+  return storeProfileData.get().data.activityInfo.roadmapsCount;
 };
 
 export const setProfileInfoRoadmapsViews = (roadmapsViews: number) => {
-  profileDataStore.set({
-    ...profileDataStore.get(),
+  storeProfileData.set({
+    ...storeProfileData.get(),
     data: {
-      ...profileDataStore.get().data,
+      ...storeProfileData.get().data,
       activityInfo: {
-        ...profileDataStore.get().data.activityInfo,
+        ...storeProfileData.get().data.activityInfo,
         roadmapsViews,
       },
     },
@@ -189,16 +191,16 @@ export const setProfileInfoRoadmapsViews = (roadmapsViews: number) => {
 };
 
 export const getProfileInfoRoadmapsViews = () => {
-  return profileDataStore.get().data.activityInfo.roadmapsViews;
+  return storeProfileData.get().data.activityInfo.roadmapsViews;
 };
 
 export const setProfileInfoRoadmapsLikes = (roadmapsLikes: number) => {
-  profileDataStore.set({
-    ...profileDataStore.get(),
+  storeProfileData.set({
+    ...storeProfileData.get(),
     data: {
-      ...profileDataStore.get().data,
+      ...storeProfileData.get().data,
       activityInfo: {
-        ...profileDataStore.get().data.activityInfo,
+        ...storeProfileData.get().data.activityInfo,
         roadmapsLikes,
       },
     },
@@ -206,16 +208,16 @@ export const setProfileInfoRoadmapsLikes = (roadmapsLikes: number) => {
 };
 
 export const getProfileInfoRoadmapsLikes = () => {
-  return profileDataStore.get().data.activityInfo.roadmapsLikes;
+  return storeProfileData.get().data.activityInfo.roadmapsLikes;
 };
 
 export const setProfileInfoFollowerCount = (followerCount: number) => {
-  profileDataStore.set({
-    ...profileDataStore.get(),
+  storeProfileData.set({
+    ...storeProfileData.get(),
     data: {
-      ...profileDataStore.get().data,
+      ...storeProfileData.get().data,
       generalInfo: {
-        ...profileDataStore.get().data.generalInfo,
+        ...storeProfileData.get().data.generalInfo,
         followerCount,
       },
     },
@@ -223,16 +225,16 @@ export const setProfileInfoFollowerCount = (followerCount: number) => {
 };
 
 export const getProfileInfoFollowerCount = () => {
-  return profileDataStore.get().data.generalInfo.followerCount;
+  return storeProfileData.get().data.generalInfo.followerCount;
 };
 
 export const setProfileInfoFollowingCount = (followingCount: number) => {
-  profileDataStore.set({
-    ...profileDataStore.get(),
+  storeProfileData.set({
+    ...storeProfileData.get(),
     data: {
-      ...profileDataStore.get().data,
+      ...storeProfileData.get().data,
       generalInfo: {
-        ...profileDataStore.get().data.generalInfo,
+        ...storeProfileData.get().data.generalInfo,
         followingCount,
       },
     },
@@ -240,16 +242,16 @@ export const setProfileInfoFollowingCount = (followingCount: number) => {
 };
 
 export const getProfileInfoFollowingCount = () => {
-  return profileDataStore.get().data.generalInfo.followingCount;
+  return storeProfileData.get().data.generalInfo.followingCount;
 };
 
 export const setProfileInfoGithubLinked = (githubLinked: boolean) => {
-  profileDataStore.set({
-    ...profileDataStore.get(),
+  storeProfileData.set({
+    ...storeProfileData.get(),
     data: {
-      ...profileDataStore.get().data,
+      ...storeProfileData.get().data,
       generalInfo: {
-        ...profileDataStore.get().data.generalInfo,
+        ...storeProfileData.get().data.generalInfo,
         githubLinked,
       },
     },
@@ -257,16 +259,16 @@ export const setProfileInfoGithubLinked = (githubLinked: boolean) => {
 };
 
 export const getProfileInfoGithubLinked = () => {
-  return profileDataStore.get().data.generalInfo.githubLinked;
+  return storeProfileData.get().data.generalInfo.githubLinked;
 };
 
 export const setProfileInfoGoogleLinked = (googleLinked: boolean) => {
-  profileDataStore.set({
-    ...profileDataStore.get(),
+  storeProfileData.set({
+    ...storeProfileData.get(),
     data: {
-      ...profileDataStore.get().data,
+      ...storeProfileData.get().data,
       generalInfo: {
-        ...profileDataStore.get().data.generalInfo,
+        ...storeProfileData.get().data.generalInfo,
         googleLinked,
       },
     },
@@ -274,20 +276,20 @@ export const setProfileInfoGoogleLinked = (googleLinked: boolean) => {
 };
 
 export const getProfileInfoGoogleLinked = () => {
-  return profileDataStore.get().data.generalInfo.googleLinked;
+  return storeProfileData.get().data.generalInfo.googleLinked;
 };
 
 export const getProfileInfoCreatedAt = () => {
-  return profileDataStore.get().data.generalInfo.createdAt;
+  return storeProfileData.get().data.generalInfo.createdAt;
 };
 
 export const setProfileInfoIsFollowing = (isFollowing: boolean) => {
-  profileDataStore.set({
-    ...profileDataStore.get(),
+  storeProfileData.set({
+    ...storeProfileData.get(),
     data: {
-      ...profileDataStore.get().data,
+      ...storeProfileData.get().data,
       generalInfo: {
-        ...profileDataStore.get().data.generalInfo,
+        ...storeProfileData.get().data.generalInfo,
         isFollowing,
       },
     },
@@ -295,5 +297,5 @@ export const setProfileInfoIsFollowing = (isFollowing: boolean) => {
 };
 
 export const getProfileInfoIsFollowing = () => {
-  return profileDataStore.get().data.generalInfo.isFollowing;
+  return storeProfileData.get().data.generalInfo.isFollowing;
 };
