@@ -47,7 +47,6 @@ const ResetRoadmapPopup = ({ closeCallback }: IAuthPopupProps) => {
             deleteAllRenderedConnections();
             resetRoadmapCreate();
             createAndSetRoadmapClassicRefactored(true);
-            console.log(deepCopy(getRoadmapSelector()));
             initialRoadmapProtocolAfterLoad();
           }}
         >

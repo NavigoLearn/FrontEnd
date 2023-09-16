@@ -205,7 +205,6 @@ export function createGridSimple() {
       lastnode = node;
     }
   }
-  console.log('count', count);
 }
 
 export function createGrid() {

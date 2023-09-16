@@ -42,7 +42,6 @@ function extendNodeIdsForConnection(nodeIds, roadmap: IRoadmap) {
   const extendedNodeIds = [...nodeIds];
   nodeIds.forEach((nodeId) => {
     const node = roadmap.nodes[nodeId];
-    console.log(node);
     if (node.connections !== undefined) {
       node.connections.forEach((connectionId) => {
         const connection = roadmap.connections[connectionId];

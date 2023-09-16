@@ -6,8 +6,8 @@ import {
 import {
   getScaleSafari,
   setScaleSafari,
+  setScaleSafariNoSideEffects,
 } from '@store/roadmap-refactor/misc/scale-safari-store';
-import { setDisplayTitlesFalse } from '@store/roadmap/sidebar/displayTitle';
 import { throttle } from '@src/typescript/roadmap_ref/render/chunks';
 import {
   getNodeByIdRoadmapSelector,
@@ -37,18 +37,13 @@ export const enableRoadmapZoomDragAndRecenter = (
   const svg = d3.select(`#${rootSvgId}`);
   const rootGroup = d3.select(`#${rootGroupId}`);
 
-  const setTitlesDisplay = throttle(() => {
-    setDisplayTitlesFalse();
-  }, 400);
-
   function zoomed() {
     rerender();
     this.zoomTransform = d3.zoomIdentity;
     const zoomTransform = d3.zoomTransform(this);
     rootGroup.attr('transform', zoomTransform);
 
-    setScaleSafari(zoomTransform.k);
-    setTitlesDisplay();
+    setScaleSafariNoSideEffects(zoomTransform.k);
   }
 
   const zoom = d3

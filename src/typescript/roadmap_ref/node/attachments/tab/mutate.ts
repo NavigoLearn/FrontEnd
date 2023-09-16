@@ -35,13 +35,6 @@ export function mutateAttachmentTabName(
   attachment.name = name;
 }
 
-export function mutateAttachmentTabStatus(
-  attachment: AttachmentTab,
-  status: IAttachmentTabStatus
-) {
-  attachment.status = status;
-}
-
 export function mutateAttachmentTabBulletListItemText(
   bulletList: IAttachmentTabBulletListProperties,
   id: string,

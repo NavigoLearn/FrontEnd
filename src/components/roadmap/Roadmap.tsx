@@ -16,6 +16,7 @@ import roadmapStateStore, {
   setRoadmapState,
   setHasStarterTab,
   getIsEditing,
+  getIsEditable,
 } from '@store/roadmap-refactor/roadmap-data/misc-data/roadmap_state';
 import {
   disableRoadmapDragZoomAnd,
@@ -74,6 +75,13 @@ import { autosaveEditingProtocol } from '@src/typescript/roadmap_ref/roadmap-dat
 import { useChangeRoadmapState } from '@hooks/useChangeRoadmapState';
 import { lockExit, unlockExit } from '@src/typescript/utils/confirmExit';
 import { storeRenderingEngine } from '@components/roadmap/rendering-engines/store-rendering-engine';
+import { fetchGetRoadmapProgress } from '@src/api-wrapper/roadmap/routes/routes-roadmaps';
+import {
+  getRoadmapNodeProgress,
+  setRoadmapProgress,
+} from '@store/roadmap-refactor/roadmap-data/misc-data/roadmap-progress';
+import { getAllRenderedNodes } from '@src/typescript/roadmap_ref/roadmap-data/protocols/get';
+import { IAttachmentTabStatus } from '@src/typescript/roadmap_ref/node/attachments/tab/core';
 
 export function initialRoadmapProtocolAfterLoad() {
   setRoadmapIsLoaded();
@@ -184,9 +192,9 @@ async function handleRoadmapRenderingData(
       return 'restored';
     }
     // otherwise the initialization triggers from the setup screen
-    // const node0 = createAndSetRoadmapClassicRefactored(); // also handles setting the roadmap data in the store
-    // addTemplateFromNode(node0);
-    createGrid();
+    const node0 = createAndSetRoadmapClassicRefactored(); // also handles setting the roadmap data in the store
+    addTemplateFromNode(node0);
+    // createGrid();
     return 'factory-created';
   }
   if (type === 'draft' || type === 'public') {
@@ -243,6 +251,13 @@ async function handleRoadmapUserData(roadmap?: IRoadmapApi) {
 function handleSetDifferentRoadmapStores(roadmap: IRoadmapApi) {
   if (!roadmap) return;
   handleRoadmapUserData(roadmap);
+  fetchGetRoadmapProgress().then((res) => {
+    if (!res) {
+      console.warn('roadmap progress not found');
+      return;
+    }
+    setRoadmapProgress(res.data);
+  });
   setRoadmapStatistics(adapterRoadmapToStatistics(roadmap));
 }
 
@@ -252,7 +267,6 @@ function handleSessionSaving() {
     handleSessionSaving();
   }, 5000);
 }
-
 const Roadmap = ({
   pageId,
   roadmap,
@@ -266,8 +280,6 @@ const Roadmap = ({
   const { nodesIds } = useStore(renderNodesStore);
   const { connections: connectionsIds } = useStore(renderConnectionsStore);
   const firstRenderDone = useIsLoaded();
-
-  console.log('rendering engine type', connectionsIds, nodesIds);
 
   useEffectAfterLoad(() => {
     // rendering and interactivity initializations
