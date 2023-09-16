@@ -11,7 +11,7 @@ import {
   setProfileInfoName,
   setProfileInfoWebsiteUrl,
   setProfilePageEditing,
-} from '@src/components/profile/stores/store-profile-pages';
+} from '@components/profile/stores/store-selected-profile-page';
 import { afterEventLoop } from '@src/typescript/utils/misc';
 import { fetchPostProfileData } from '@src/components/profile/profile/profile-fetch';
 import ProfilePicture from './components/ProfilePicture';

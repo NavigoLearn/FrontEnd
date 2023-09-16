@@ -5,7 +5,7 @@ type IProfilePageButtonProps = {
   callback: () => void;
   selected: boolean;
 };
-const ProfileButton = ({
+const ProfileButtonD = ({
   name,
   callback,
   selected,
@@ -30,4 +30,4 @@ const ProfileButton = ({
   );
 };
 
-export default ProfileButton;
+export default ProfileButtonD;

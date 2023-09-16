@@ -5,12 +5,12 @@ import {
   getProfileInfoRoadmapsCount,
   getProfileInfoRoadmapsLikes,
   getProfileInfoRoadmapsViews,
-} from '@src/components/profile/stores/store-profile-pages';
+} from '@components/profile/stores/store-selected-profile-page';
 // import { useStore } from '@nanostores/react';
 // import { profileDataStore } from '@src/components/profile/stores/store-profile-data';
 import { getProfileDataLoading } from '@src/components/profile/stores/store-profile-data';
 
-const ActivityPage = () => {
+const ActivityPageD = () => {
   if (getProfileDataLoading())
     return (
       <div className='text-2xl ml-14 mt-6 font-roboto-text text-darkBlue'>
@@ -45,4 +45,4 @@ const ActivityPage = () => {
   );
 };
 
-export default ActivityPage;
+export default ActivityPageD;
