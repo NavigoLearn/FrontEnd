@@ -1,35 +1,52 @@
 import React from 'react';
-import play from '@assets/play.svg';
+import { Play } from '@src/components/home/icons/HomeIcons';
 import versatile from '@assets/versatile.svg';
 import infinite from '@assets/infinite.svg';
 import intuitive from '@assets/intuitive.svg';
 import NodesAnimation from '@src/components/home/animated/NodesAnimation';
-import { motion } from 'framer-motion';
+import { motion, useAnimation } from 'framer-motion';
 
 const MiddleSection = () => {
   const fadeInUp = {
     hidden: { opacity: 0, y: 20 },
     visible: { opacity: 1, y: 0 },
   };
+
+  const [fillPlay, setFillPlay] = React.useState('#fff');
+  const [fillCircle, setFillCircle] = React.useState('#1A1B50');
+
+  const handleButtonHover = () => {
+    setFillPlay(fillPlay === '#fff' ? '#1A1B50' : '#fff');
+    setFillCircle(fillCircle === '#1A1B50' ? '#fff' : '#1A1B50');
+  };
+
   return (
     <div>
-      <h1 className='mx-auto mt-32 text-center items-center w-[600px] xl:w-[800px] 2xl:w-[1200px] font-roboto-text text-5xl 2xl:text-7xl font-semibold justify-center text-darkBlue'>
+      <h1 className='mx-auto mt-56 text-center items-center w-[600px] xl:w-[600px] font-roboto-text text-5xl font-semibold justify-center text-darkBlue'>
         Why roadmaps?
       </h1>
-      <button
+      <motion.button
         type='button'
-        className='flex mx-auto mt-8 px-8 py-2 text-darkBlue bg-transparent rounded-lg shadow-md text-xl font-roboto-text font-semibold border-2 border-darkBlue text-center items-center'
+        className='flex mx-auto mt-8 px-8 py-1 text-darkBlue bg-transparent rounded-lg shadow-md text-xl font-roboto-text font-semibold border-2 border-darkBlue text-center items-center'
+        whileHover={{
+          scale: 1.05,
+          backgroundColor: '#1A1B50',
+          color: '#fff',
+          transition: { duration: 0.2 },
+        }}
+        onHoverStart={handleButtonHover}
+        onHoverEnd={handleButtonHover}
       >
-        <img src={play} alt='play' className='w-8 mr-6' />
+        <Play fillCircle={fillCircle} fillPlay={fillPlay} />
         Watch video
-      </button>
+      </motion.button>
       <motion.div
-        className='flex flex-row gap-20 justify-center'
+        className='flex flex-row gap-20 justify-center -translate-y-32'
         initial='hidden'
         animate='visible'
         variants={fadeInUp}
       >
-        <div className='absolute -translate-x-[200%]'>
+        <div className='absolute -translate-x-[180%] 2xl:-translate-x-[230%]'>
           <NodesAnimation
             width={200}
             height={200}
@@ -51,7 +68,7 @@ const MiddleSection = () => {
             strokeOpacity={1}
           />
         </div>
-        <div className='absolute translate-x-[150%]'>
+        <div className='absolute translate-x-[150%] 2xl:translate-x-[200%]'>
           <NodesAnimation
             width={200}
             height={200}
