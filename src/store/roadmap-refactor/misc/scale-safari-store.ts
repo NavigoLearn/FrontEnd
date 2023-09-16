@@ -16,6 +16,10 @@ if (typeof window !== 'undefined') {
   });
 }
 
+export function setScaleSafariNoSideEffects(scale: number) {
+  scaleSafariStore.get().scale = scale;
+}
+
 export function setScaleSafari(scale: number) {
   const originalViewport = scaleSafariStore.get();
   if (scale !== originalViewport.scale) {

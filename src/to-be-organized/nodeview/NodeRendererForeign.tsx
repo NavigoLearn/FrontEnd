@@ -195,7 +195,7 @@ const NodeRendererForeign: React.FC<NodeViewProps> = ({
     );
 
     const borderStyle =
-      borderColor === 'none'
+      borderColor === '#none'
         ? `2px solid ${color}`
         : `2px solid ${borderColor}`;
 
