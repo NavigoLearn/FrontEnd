@@ -8,8 +8,6 @@ import {
   ITextSizeModes,
 } from '@src/types/roadmap/node/components-types';
 import { textWidthModes, textSizeModes } from '../../font-parameters';
-import { mutateNodeOpacity } from '../../data-mutation/mutate';
-import { mutateComponentTextOpacity } from '../../../components/text/mutate';
 
 export function selectNodeColorFromScheme(
   colorTheme: IColorThemesOptions,

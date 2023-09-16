@@ -4,9 +4,9 @@ import { roadmapSelector } from '@store/roadmap-refactor/roadmap-data/roadmap-se
 import { emptyRoadmap } from '@store/roadmap-refactor/roadmap-data/params/base-roadmap';
 import { IRoadmapApi } from '@type/explore_old/card';
 import { isRoadmapType } from '@type/roadmap/old/typecheckers';
-import { setRoadmapViewStore } from '@store/roadmap-refactor/roadmap-data/roadmap-view';
+import { deepCopy } from '@src/typescript/roadmap_ref/utils';
 
-export const roadmapEdit = atom(emptyRoadmap);
+export const roadmapEdit = atom(deepCopy(emptyRoadmap));
 
 export const setRoadmapEditStore = (roadmap: IRoadmap) => {
   roadmapSelector.set({ ...roadmap });
@@ -28,7 +28,3 @@ export function setRoadmapEditFromAPI(roadmapData: IRoadmapApi) {
     throw new Error('Roadmap roadmap-roadmap-data is not of type Roadmap');
   }
 }
-
-export const resetRoadmapEdit = () => {
-  setRoadmapEditStore(emptyRoadmap);
-};

@@ -2,8 +2,9 @@ import { atom } from 'nanostores';
 import { IRoadmap } from '@type/roadmap/stores/IRoadmap';
 import { roadmapSelector } from '@store/roadmap-refactor/roadmap-data/roadmap-selector';
 import { emptyRoadmap } from '@store/roadmap-refactor/roadmap-data/params/base-roadmap';
+import { deepCopy } from '@src/typescript/roadmap_ref/utils';
 
-export const roadmapCreate = atom(emptyRoadmap);
+export const roadmapCreate = atom(deepCopy(emptyRoadmap));
 
 export const setRoadmapCreate = (roadmap: IRoadmap) => {
   roadmapCreate.set({ ...roadmap });

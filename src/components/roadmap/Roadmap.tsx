@@ -1,6 +1,7 @@
 import React from 'react';
 import {
-  createAndSetRoadmapClassic,
+  createAndSetRoadmapClassicRefactored,
+  createGrid,
 } from '@src/typescript/roadmap_ref/roadmap-templates/classic';
 import renderNodesStore from '@store/roadmap-refactor/render/rendered-nodes';
 import {
@@ -69,9 +70,7 @@ import {
 } from '@store/roadmap-refactor/roadmap-data/misc-data/roadmap-statistics';
 import RenderingEngine from '@components/roadmap/rendering-engines/RenderingEngine';
 import { addTemplateFromNode } from '@src/typescript/roadmap_ref/node/templates-system/template-protocols';
-import {
-  autosaveEditingProtocol,
-} from '@src/typescript/roadmap_ref/roadmap-data/protocols/roadmap-state-protocols';
+import { autosaveEditingProtocol } from '@src/typescript/roadmap_ref/roadmap-data/protocols/roadmap-state-protocols';
 import { useChangeRoadmapState } from '@hooks/useChangeRoadmapState';
 import { lockExit, unlockExit } from '@src/typescript/utils/confirmExit';
 import { storeRenderingEngine } from '@components/roadmap/rendering-engines/store-rendering-engine';
@@ -185,9 +184,9 @@ async function handleRoadmapRenderingData(
       return 'restored';
     }
     // otherwise the initialization triggers from the setup screen
-    const node0 = createAndSetRoadmapClassic(); // also handles setting the roadmap data in the store
-    addTemplateFromNode(node0);
-    // createGrid();
+    // const node0 = createAndSetRoadmapClassicRefactored(); // also handles setting the roadmap data in the store
+    // addTemplateFromNode(node0);
+    createGrid();
     return 'factory-created';
   }
   if (type === 'draft' || type === 'public') {
@@ -267,6 +266,8 @@ const Roadmap = ({
   const { nodesIds } = useStore(renderNodesStore);
   const { connections: connectionsIds } = useStore(renderConnectionsStore);
   const firstRenderDone = useIsLoaded();
+
+  console.log('rendering engine type', connectionsIds, nodesIds);
 
   useEffectAfterLoad(() => {
     // rendering and interactivity initializations

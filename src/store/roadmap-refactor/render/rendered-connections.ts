@@ -33,4 +33,8 @@ export function getConnections() {
   return renderConnectionsStore.get().connections;
 }
 
+export function deleteAllRenderedConnections() {
+  renderConnectionsStore.set({ connections: [] });
+}
+
 export default renderConnectionsStore;

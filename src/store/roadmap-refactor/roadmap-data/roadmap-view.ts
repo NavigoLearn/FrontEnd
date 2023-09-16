@@ -3,13 +3,10 @@ import { IRoadmap } from '@type/roadmap/stores/IRoadmap';
 import { setRoadmapSelector } from '@store/roadmap-refactor/roadmap-data/roadmap-selector';
 import { IRoadmapApi } from '@type/explore_old/card';
 import { isRoadmapType } from '@type/roadmap/old/typecheckers';
+import { emptyRoadmap } from '@store/roadmap-refactor/roadmap-data/params/base-roadmap';
+import { deepCopy } from '@src/typescript/roadmap_ref/utils';
 
-export const roadmapView = atom({
-  rootNodesIds: [],
-  nodes: {},
-  connections: {},
-  chunks: {},
-} as IRoadmap);
+export const roadmapView = atom(deepCopy(emptyRoadmap));
 
 export function setRoadmapViewStore(roadmap: IRoadmap) {
   setRoadmapSelector(roadmap);

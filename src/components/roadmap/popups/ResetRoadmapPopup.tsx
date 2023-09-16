@@ -2,11 +2,13 @@ import React, { useEffect, useState } from 'react';
 import { CLOSE_SVG_SRC } from '@src/to-be-organized/svg-params';
 import { tailwindTransitionClass } from '@src/UI-library/tailwind-utils';
 import { resetRoadmapCreate } from '@store/roadmap-refactor/roadmap-data/roadmap-create';
-import { createAndSetRoadmapClassic } from '@src/typescript/roadmap_ref/roadmap-templates/classic';
+import { createAndSetRoadmapClassicRefactored } from '@src/typescript/roadmap_ref/roadmap-templates/classic';
 import { initialRoadmapProtocolAfterLoad } from '@components/roadmap/Roadmap';
-import {
-  clearSession
-} from '@src/typescript/roadmap_ref/caching/restoreSession';
+import { clearSession } from '@src/typescript/roadmap_ref/caching/restoreSession';
+import { getRoadmapSelector } from '@src/typescript/roadmap_ref/roadmap-data/services/get';
+import { deepCopy } from '@src/typescript/roadmap_ref/utils';
+import { deleteAllRenderedNodes } from '@store/roadmap-refactor/render/rendered-nodes';
+import { deleteAllRenderedConnections } from '@store/roadmap-refactor/render/rendered-connections';
 
 type IAuthPopupProps = {
   closeCallback: () => void;
@@ -41,8 +43,11 @@ const ResetRoadmapPopup = ({ closeCallback }: IAuthPopupProps) => {
           onClick={() => {
             closeCallback();
             clearSession();
+            deleteAllRenderedNodes();
+            deleteAllRenderedConnections();
             resetRoadmapCreate();
-            createAndSetRoadmapClassic();
+            createAndSetRoadmapClassicRefactored(true);
+            console.log(deepCopy(getRoadmapSelector()));
             initialRoadmapProtocolAfterLoad();
           }}
         >

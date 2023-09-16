@@ -12,7 +12,11 @@ import {
   appendChildNodeId,
   appendSubNodeId,
 } from '@src/typescript/roadmap_ref/node/core/data-mutation/append';
-import { injectParentData } from '@src/typescript/roadmap_ref/node/core/factories/data-mutation/inject';
+import {
+  injectNewRandomId,
+  injectParentData,
+} from '@src/typescript/roadmap_ref/node/core/factories/data-mutation/inject';
+import { getRandomId } from '@src/typescript/utils/misc';
 
 export function createAndSetRoadmapDevTest() {
   const nodesPerRow = 5;
@@ -72,50 +76,78 @@ export function createAndSetRoadmapDevTest() {
   appendRootNodeId(node2.id);
   appendRootNodeId(node3.id);
   appendRootNodeId(node4.id);
-}
 
-export function createAndSetRoadmapClassic() {
-  const node0 = factoryNodeClassicCustomizable(0, 0, 200, 50, 0);
-  injectRoadmapGlobalRootNodeId(node0.id);
-  node0.name = 'Basic node';
-  const node1 = factoryNodeClassicCustomizable(0, 150, 200, 50, 1);
-  const node2 = factoryNodeClassicCustomizable(0, 300, 200, 50, 2);
-  const node3 = factoryNodeClassicCustomizable(300, 300, 200, 50, 3);
-  const node4 = factoryNodeClassicCustomizable(-300, 300, 200, 50, 4);
-  const connection0 = factoryConnection(node0, node1);
-  const connection1 = factoryConnection(node1, node2);
-  const connection2 = factoryConnection(node2, node3);
-  const connection3 = factoryConnection(node2, node4);
-
-  injectParentData(node1, node0.id);
-  injectParentData(node2, node1.id);
-  injectParentData(node3, node2.id);
-  injectParentData(node4, node2.id);
-
-  appendChildNodeId(node0, node1.id);
-  appendChildNodeId(node1, node2.id);
-  appendChildNodeId(node2, node3.id);
-  appendChildNodeId(node2, node4.id);
-
-  injectRoadmapNode(node0);
-  injectRoadmapNode(node1);
-  injectRoadmapNode(node2);
-  injectRoadmapNode(node3);
-  injectRoadmapNode(node4);
-
-  injectRoadmapConnection(connection0);
-  injectRoadmapConnection(connection1);
-  injectRoadmapConnection(connection2);
-  injectRoadmapConnection(connection3);
-
-  appendRootNodeId(node0.id);
-  appendRootNodeId(node1.id);
-  appendRootNodeId(node2.id);
-  appendRootNodeId(node3.id);
-  appendRootNodeId(node4.id);
   return node0;
 }
+export function createAndSetRoadmapClassicRefactored(randomIds?: boolean) {
+  const nodeCoords = [
+    {
+      x: 0,
+      y: 0,
+      width: 200,
+      height: 50,
+      Id: randomIds ? getRandomId() : 0,
+      name: 'Basic node',
+    },
+    { x: 0, y: 150, width: 200, height: 50, Id: randomIds ? getRandomId() : 1 },
+    { x: 0, y: 300, width: 200, height: 50, Id: randomIds ? getRandomId() : 2 },
+    {
+      x: 300,
+      y: 300,
+      width: 200,
+      height: 50,
+      Id: randomIds ? getRandomId() : 3,
+    },
+    {
+      x: -300,
+      y: 300,
+      width: 200,
+      height: 50,
+      Id: randomIds ? getRandomId() : 4,
+    },
+  ];
 
+  const connections = [
+    [0, 1],
+    [1, 2],
+    [2, 3],
+    [2, 4],
+  ];
+
+  const nodes = nodeCoords.map(({ x, y, width, height, Id, name }) => {
+    const node = factoryNodeClassicCustomizable(x, y, width, height, Id);
+    if (name) node.name = name;
+    return node;
+  });
+
+  const connectionObjs = connections.map(([from, to]) =>
+    factoryConnection(nodes[from], nodes[to])
+  );
+
+  injectRoadmapGlobalRootNodeId(nodes[0].id);
+
+  nodes.forEach((node, index) => {
+    if (index > 0) {
+      const parentIndex = connections.find(([_, to]) => to === index)[0];
+      injectParentData(node, nodes[parentIndex].id);
+      injectRoadmapNode(node);
+      appendRootNodeId(node.id);
+    }
+  });
+
+  connections.forEach(([from, to]) => {
+    appendChildNodeId(nodes[from], nodes[to].id);
+  });
+
+  connectionObjs.forEach((connection) => {
+    injectRoadmapConnection(connection);
+  });
+
+  injectRoadmapNode(nodes[0]);
+  appendRootNodeId(nodes[0].id);
+
+  return nodes[0];
+}
 export function factoryRoadmapFirstAttempt() {
   const node0 = factoryNodeClassicCustomizable(0, 0, 500, 500);
   injectRoadmapGlobalRootNodeId(node0.id);
