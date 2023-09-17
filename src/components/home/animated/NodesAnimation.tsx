@@ -44,9 +44,9 @@ const NodesAnimation = ({
         y1={y1}
         y2={y2}
         d='M4 2H75'
-        stroke='#1A1B50'
+        stroke='#3361D8'
         strokeOpacity={strokeOpacity}
-        strokeWidth='3'
+        strokeWidth='2'
         strokeDasharray='2 6'
         strokeLinecap='round'
       >

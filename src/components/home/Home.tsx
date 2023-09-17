@@ -1,6 +1,4 @@
-/* eslint-disable react/no-array-index-key */
-/* eslint-disable react/react-in-jsx-scope */
-import { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { motion, useMotionValue } from 'framer-motion';
 import MiddleSection from './MiddleSection';
 import BottomSection from './BottomSection';
@@ -12,42 +10,54 @@ const lerp = (current: number, target: number, speed: number): number => {
 };
 
 const Home = () => {
+  const [scrollY, setScrollY] = useState(0);
+  const [pointerEvents, setPointerEvents] = useState('pointer-events-none');
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrollY(window.scrollY);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  useEffect(() => {
+    if (scrollY > 1800) {
+      setPointerEvents('pointer-events-auto');
+    } else {
+      setPointerEvents('pointer-events-none');
+    }
+  }, [scrollY]);
+
   const divRef = useRef(null);
   const mousePosition = useRef({ x: 0, y: 0 });
-  const [screenWidth, setScreenWidth] = useState(0);
-  const [screenHeight, setScreenHeight] = useState(0);
 
-  // Calculate offsets based on screen dimensions
-  const offsetX = screenWidth >= 1200 ? 50 : 200; // Adjust these values as needed
-  const offsetY = screenHeight >= 800 ? -500 : -400; // Adjust these values as needed
-
-  // actual animation "feel"
-  const calculateSpringConfig = (x, y) => {
-    const distance = Math.sqrt(x * x + y * y);
-    const maxDistance = 10;
-    const damping = 0.2 * (distance / maxDistance);
-    const stiffness = 1000 * (distance / maxDistance);
-
-    return { damping, stiffness };
-  };
-
-  const numColumns = 20;
-  const numRows = 9;
   // both necessary to not overlap the objects
-  const spacingX = 200;
-  const spacingY = 200;
+  const SPACING_X = 150;
+  const SPACING_Y = 150;
+
+  const X_MIN = -200; // buffer area of 200px
+  const Y_MIN = -200;
+  const X_MAX = 2120; // 1920 + 200
+  const Y_MAX = 1280; // 1080 + 200
+  const RANDOM_OFFSET = 0.5;
 
   // create an array of objects with x and y coordinates
-  const objects = [];
-  for (let rowIndex = 0; rowIndex < numRows; rowIndex += 1) {
-    for (let columnIndex = 0; columnIndex < numColumns; columnIndex += 1) {
-      const x =
-        columnIndex * spacingX + offsetX + (Math.random() - 0.5) * 100 - 400;
-      const y =
-        rowIndex * spacingY + offsetY + (Math.random() - 0.5) * 100 - 500;
+  const objects = [] as {
+    targetX: number;
+    targetY: number;
+    sinOffset: number;
+    cosOffset: number;
+  }[];
+  for (let x = X_MIN; x < X_MAX; x += SPACING_X) {
+    for (let y = Y_MIN; y < Y_MAX; y += SPACING_Y) {
+      const targetX = x + Math.random() * RANDOM_OFFSET * SPACING_X;
+      const targetY = y + Math.random() * RANDOM_OFFSET * SPACING_Y;
       const sinOffset = Math.random() * Math.PI * 2; // Offset between 0 and 2π
       const cosOffset = Math.random() * Math.PI * 2;
-      objects.push({ x, y, sinOffset, cosOffset });
+      objects.push({ targetX, targetY, sinOffset, cosOffset });
     }
   }
 
@@ -56,33 +66,33 @@ const Home = () => {
 
   useEffect(() => {
     let animationFrameId = null;
-    let time = 0;
+    let TIME = 0;
 
     const animate = () => {
       // Calculate the distance from the center of the screen
-      const screenCenterX = window.innerWidth / 2;
-      const screenCenterY = window.innerHeight / 2;
+      const SCREEN_CENTER_X = 1920 / 2;
+      const SCREEN_CENTER_Y = 1080 / 2;
 
       const { x, y } = mousePosition.current;
-      const distanceX = x - screenCenterX;
-      const distanceY = y - screenCenterY;
+      const DISTANCE_X = x - SCREEN_CENTER_X;
+      const DISTANCE_Y = y - SCREEN_CENTER_Y;
 
       objects.forEach((object, index) => {
         const floatingEffect = 20;
-        const targetX = distanceX / 6 + object.x;
+        const targetX = DISTANCE_X / 6 + object.targetX;
         const targetY =
-          distanceY / 6 +
-          object.y +
-          Math.sin(object.sinOffset + time) * floatingEffect;
+          DISTANCE_Y / 6 +
+          object.targetY +
+          Math.sin(object.sinOffset + TIME) * floatingEffect;
 
-        const newx = lerp(xMotionValues[index].get(), targetX, 0.1);
-        const newy = lerp(yMotionValues[index].get(), targetY, 0.1);
+        const newX = lerp(xMotionValues[index].get(), targetX, 0.1);
+        const newY = lerp(yMotionValues[index].get(), targetY, 0.1);
 
-        xMotionValues[index].set(newx);
-        yMotionValues[index].set(newy);
+        xMotionValues[index].set(newX);
+        yMotionValues[index].set(newY);
       });
 
-      time += 0.01;
+      TIME += 0.01;
       animationFrameId = requestAnimationFrame(animate);
     };
 
@@ -101,86 +111,84 @@ const Home = () => {
     };
   };
 
-  // eslint-disable-next-line consistent-return
-  useEffect(() => {
-    // Check if window is defined (client-side)
-    if (typeof window !== 'undefined') {
-      // Update screen dimensions when the window is resized
-      const handleResize = () => {
-        setScreenWidth(window.innerWidth);
-        setScreenHeight(window.innerHeight);
-      };
-
-      // Initial screen size
-      setScreenWidth(window.innerWidth);
-      setScreenHeight(window.innerHeight);
-
-      window.addEventListener('resize', handleResize);
-
-      return () => {
-        window.removeEventListener('resize', handleResize);
-      };
-    }
-  }, []); // Empty dependency array to run this effect only once on mount
-
   useEffect(() => {
     objects.forEach((object, index) => {
-      xMotionValues[index].set(object.x);
-      yMotionValues[index].set(object.y);
+      xMotionValues[index].set(object.targetX);
+      yMotionValues[index].set(object.targetY);
     });
 
-    // After the initial render, set the opacity to 1 for all objects
     objects.forEach((object, index) => {
       setTimeout(() => {
-        xMotionValues[index].set(object.x);
-        yMotionValues[index].set(object.y);
-      }, index * 100); // You can adjust the delay duration as needed
+        xMotionValues[index].set(object.targetX);
+        yMotionValues[index].set(object.targetY);
+      }, index * 100);
     });
   }, [objects, xMotionValues, yMotionValues]);
 
   return (
     <div
       onMouseMove={handleMouseMove}
-      className='max-w-screen h-full overflow-x-hidden flex relative'
+      className='overflow-x-hidden relative flex items-center justify-center'
     >
-      <div
-        className='bg-white items-center justify-center grid overflow-x-hidden h-[100vh] z-[-1] max-w-screen'
+      <svg
+        viewBox='0 0 1920 1080'
+        className='bg-white z-[-1] absolute top-0 mx-auto w-screen max-w-[1920px] h-screen max-h-[1080px] overflow-x-hidden'
         ref={divRef}
       >
-        {objects.map((object, index) => {
-          const springConfig = calculateSpringConfig(object.x, object.y);
-          return (
-            <motion.div
-              key={index}
-              initial={{
-                opacity: 0,
-                x: xMotionValues[index],
-                y: yMotionValues[index],
-              }}
-              animate={{
-                opacity: 1,
-                x: xMotionValues[index],
-                y: yMotionValues[index],
-              }}
-              transition={{
-                opacity: { duration: 0.5 },
-                x: springConfig,
-                y: springConfig,
-              }}
-              style={{
-                width: '2rem',
-                height: '2rem',
-                x: xMotionValues[index],
-                y: yMotionValues[index],
-                position: 'absolute',
-              }}
-              className='bg-white border-[1px] border-gray-200 flex rounded-lg justify-center drop-shadow-md items-center opacity-10'
+        <defs>
+          <radialGradient
+            id='fadeout'
+            cx='50%'
+            cy='50%'
+            r='50%'
+            fx='50%'
+            fy='50%'
+          >
+            <stop offset='60%' style={{ stopColor: 'white', stopOpacity: 1 }} />
+            <stop
+              offset='100%'
+              style={{ stopColor: 'black', stopOpacity: 1 }}
             />
-          );
-        })}
-      </div>
+          </radialGradient>
+          <mask id='mask'>
+            <rect
+              width='1920'
+              height='1080'
+              fill='url(#fadeout)'
+              rx='200'
+              ry='200'
+            />
+          </mask>
+        </defs>
+
+        {/* <rect mask='url(#mask)' x='0' y='0' width='100%' height='100%' />  debugging shit */}
+
+        <g mask='url(#mask)' x='0' y='0' width='1920px' height='1080px'>
+          {objects.map((object, index) => {
+            return (
+              <motion.rect
+                key={index}
+                x={xMotionValues[index]}
+                y={yMotionValues[index]}
+                style={{
+                  width: '2rem',
+                  height: '2rem',
+                  x: xMotionValues[index],
+                  y: yMotionValues[index],
+                  rx: 4,
+                  ry: 4,
+                }}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                className='fill-white stroke-slate-200 border-[1px] flex rounded-lg justify-center drop-shadow-md items-center'
+              />
+            );
+          })}
+        </g>
+      </svg>
+
       <div className='flex-col mt-28 justify-center items-center w-full'>
-        <h1 className='mx-auto rounded-lg border-b-2 border-darkBlue bg-background p-1 text-center items-center w-[650px] xl:w-[650px] 2xl:w-[950px] font-roboto-text text-5xl 2xl:text-7xl font-semibold justify-center text-darkBlue'>
+        <h1 className='mx-auto rounded-lg border-b-2 border-darkBlue bg-background p-1 text-center items-center w-[650px] xl:w-[650px] 2xl:w-[850px] font-roboto-text text-5xl font-semibold justify-center text-darkBlue'>
           Start learning now with free community-made roadmaps
         </h1>
         <h2 className='mx-auto mt-4 text-center items-center w-[400px] xl:w-[500px] xl:text-2xl 2xl:w-[600px] 2xl:text-3xl text-secondary text-xl font-roboto-text font-normal'>
@@ -188,24 +196,40 @@ const Home = () => {
           a specific topic
         </h2>
         <div className='mt-2 w-[500px] mx-auto gap-2 flex flex-row'>
-          <a
+          <motion.a
             type='button'
             href='/roadmaps/create'
-            className='mx-auto mt-8 px-6 py-3 text-darkBlue bg-transparent rounded-lg shadow-md text-xl font-roboto-text font-semibold border-2 border-darkBlue'
+            className='mx-auto mt-8 px-5 py-2 text-darkBlue bg-transparent rounded-lg shadow-md text-xl font-roboto-text font-semibold border-2 border-darkBlue'
+            whileHover={{
+              backgroundColor: '#1A1B50',
+              color: '#fff',
+              scale: 1.05,
+              transition: { duration: 0.2 },
+            }}
           >
             Create a roadmap
-          </a>
-          <a
+          </motion.a>
+          <motion.a
             type='button'
             href='/explore'
-            className='mx-auto mt-8 px-6 py-3 text-white bg-primary rounded-lg shadow-md text-xl font-roboto-text font-medium'
+            className='mx-auto mt-8 px-5 py-2 text-white bg-primary rounded-lg shadow-md text-xl font-roboto-text font-medium'
+            whileHover={{
+              backgroundColor: '#1A1B50',
+              color: '#fff',
+              scale: 1.05,
+              transition: { duration: 0.2 },
+            }}
           >
             Explore roadmaps
-          </a>
+          </motion.a>
         </div>
         <MiddleSection />
         <BottomSection />
-        <ScrollingElement />
+        {scrollY > 800 && (
+          <div className={`${pointerEvents}`}>
+            <ScrollingElement />
+          </div>
+        )}
       </div>
     </div>
   );
