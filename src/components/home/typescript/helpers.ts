@@ -2,23 +2,29 @@ export interface ParallaxObject {
   targetX: number;
   targetY: number;
   sinOffset: number;
-  cosOffset: number;
 }
 
-export const SPACING_X = 150;
-export const SPACING_Y = 150;
-export const X_MIN = -200;
-export const Y_MIN = -200;
-export const X_MAX = 2120;
-export const Y_MAX = 1280;
+export const SPACING_X = 250;
+export const SPACING_Y = 250;
+export const X_MIN = -500;
+export const Y_MIN = -500;
+export const X_MAX = 2420;
+export const Y_MAX = 1580;
 export const RANDOM_OFFSET = 0.5;
+export const MAX_MOVE_PER_FRAME = 100;
 
 export const lerp = (
   current: number,
   target: number,
   speed: number
 ): number => {
-  return current + speed * (target - current);
+  let diff = speed * (target - current);
+
+  if (Math.abs(diff) > MAX_MOVE_PER_FRAME) {
+    diff = MAX_MOVE_PER_FRAME * Math.sign(diff);
+  }
+
+  return current + diff;
 };
 
 export const generateObjects = (): ParallaxObject[] => {
@@ -28,8 +34,7 @@ export const generateObjects = (): ParallaxObject[] => {
       const targetX = x + Math.random() * RANDOM_OFFSET * SPACING_X;
       const targetY = y + Math.random() * RANDOM_OFFSET * SPACING_Y;
       const sinOffset = Math.random() * Math.PI * 2; // Offset between 0 and 2π
-      const cosOffset = Math.random() * Math.PI * 2;
-      objects.push({ targetX, targetY, sinOffset, cosOffset });
+      objects.push({ targetX, targetY, sinOffset });
     }
   }
   return objects;
