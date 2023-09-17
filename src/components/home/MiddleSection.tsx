@@ -51,7 +51,7 @@ const MiddleSection = () => {
           boxShadow: '0px 0px 128px 64px rgba(255, 255, 255, 1)',
         }}
       >
-        <h1 className='mx-auto z-20 text-center items-center w-[600px] xl:w-[600px] font-roboto-text text-5xl font-semibold justify-center text-darkBlue'>
+        <h1 className='mx-auto text-center items-center w-[600px] xl:w-[600px] font-roboto-text text-5xl font-semibold justify-center text-darkBlue'>
           Why roadmaps?
         </h1>
         <motion.button
