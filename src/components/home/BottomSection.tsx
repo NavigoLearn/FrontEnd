@@ -140,7 +140,7 @@ const BottomSection = () => {
         animate={displaySection}
         transition={{ duration: 0.5 }}
         variants={{
-          hidden: { opacity: 1, x: -160 },
+          hidden: { opacity: 1, x: -40 },
           visible: { opacity: 1, x: 0 },
         }}
       >
@@ -170,7 +170,7 @@ const BottomSection = () => {
         <motion.a
           type='button'
           href='/roadmaps/create'
-          className='mt-8 bg-primary text-white font-roboto-text font-medium text-xl px-10 py-1 rounded-md shadow-md'
+          className='mt-8 bg-primary text-white font-roboto-text font-medium text-xl px-10 py-1 rounded-md'
           whileHover={{
             backgroundColor: '#1A1B50',
             color: '#fff',
