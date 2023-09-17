@@ -115,7 +115,7 @@ const BottomSection = () => {
       if (root.current) {
         const { top } = root.current.getBoundingClientRect();
         setDisplaySection(
-          top - window.innerHeight * (3 / 7) <= 0 ? 'visible' : 'hidden'
+          top - window.innerHeight * (5 / 8) <= 0 ? 'visible' : 'hidden'
         );
       }
     };
@@ -130,10 +130,20 @@ const BottomSection = () => {
       className='w-full mt-56 flex flex-row items-center justify-center gap-20'
       initial='hidden'
       animate={displaySection}
+      transition={{ duration: 0.25 }}
       variants={fadeInUpAnim}
       ref={root}
     >
-      <div className='flex flex-col items-start mb-auto'>
+      <motion.div
+        className='flex flex-col items-start mb-auto'
+        initial={{ opacity: 1 }}
+        animate={fadeInUpAnim}
+        transition={{ duration: 0.5 }}
+        variants={{
+          hidden: { opacity: 1, x: -640 },
+          visible: { opacity: 1, x: 0 },
+        }}
+      >
         <div className='flex flex-row items-center justify-center gap-4'>
           <div className='w-8 h-8 2xl:w-12 2xl:h-12 rounded-full border border-placeholderBlack items-center justify-center flex'>
             <div className='w-7 h-7 2xl:w-11 2xl:h-11 rounded-full border border-placeholderBlack items-center justify-center flex'>
@@ -170,7 +180,7 @@ const BottomSection = () => {
         >
           Try tool
         </motion.a>
-      </div>
+      </motion.div>
       <div className='flex flex-col'>
         <motion.div
           style={{

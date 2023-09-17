@@ -41,6 +41,7 @@ const MiddleSection = () => {
     <motion.div
       initial={{ opacity: 0 }}
       animate={fadeInUp}
+      transition={{ duration: 0.5 }}
       variants={fadeInUpAnim}
       ref={root}
     >
