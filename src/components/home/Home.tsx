@@ -189,7 +189,7 @@ const Home = () => {
                 ry='4'
                 width='6rem'
                 height='2rem'
-                className='fill-white stroke-slate-200 border-[1px] flex rounded-lg justify-center items-center'
+                className='fill-white drop-shadow-md stroke-slate-200 border-[1px] flex rounded-lg justify-center items-center'
               />
             );
           })}
