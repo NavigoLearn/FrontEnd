@@ -24,6 +24,14 @@ const Home = () => {
     let animationFrameId = null;
     let TIME = 0;
 
+    if (mousePosition.current.x === 0 && mousePosition.current.y === 0) {
+      const [x, y] = screenCenter();
+      mousePosition.current = {
+        x,
+        y,
+      };
+    }
+
     const animate = () => {
       // Calculate the distance from the center of the screen
       const [SCREEN_CENTER_X, SCREEN_CENTER_Y] = screenCenter();
