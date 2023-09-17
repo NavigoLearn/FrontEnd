@@ -1,5 +1,5 @@
-import React, { MouseEvent, useEffect, useRef } from 'react';
-import { motion, useMotionValue } from 'framer-motion';
+import React, { MouseEvent, useEffect, useRef, useState } from 'react';
+import { motion } from 'framer-motion';
 import {
   generateObjects,
   lerp,
@@ -13,12 +13,9 @@ import ScrollingElement from './ScrollingElement';
 const Home = () => {
   const divRef = useRef(null);
   const mousePosition = useRef({ x: 0, y: 0 });
-
-  // create an array of objects with x and y coordinates
-  const objects = generateObjects();
-
-  const xMotionValues = objects.map(() => useMotionValue(0));
-  const yMotionValues = objects.map(() => useMotionValue(0));
+  const originalParallaxNodes = generateObjects();
+  const [parallaxNodes, setParallaxNodes] = useState(originalParallaxNodes);
+  const viewCoords = useRef({ x: 0, y: 0 });
 
   useEffect(() => {
     let animationFrameId = null;
@@ -33,29 +30,21 @@ const Home = () => {
     }
 
     const animate = () => {
-      // Calculate the distance from the center of the screen
-      const [SCREEN_CENTER_X, SCREEN_CENTER_Y] = screenCenter();
+      setParallaxNodes(
+        parallaxNodes.map((node) => {
+          const floatingEffect = 25;
 
-      const { x, y } = mousePosition.current;
-      const DISTANCE_X = x - SCREEN_CENTER_X;
-      const DISTANCE_Y = y - SCREEN_CENTER_Y;
+          const targetY =
+            node.targetY + Math.sin(node.sinOffset + TIME) * floatingEffect;
 
-      objects.forEach((object, index) => {
-        const floatingEffect = 20;
-        const targetX = DISTANCE_X / 6 + object.targetX;
-        const targetY =
-          DISTANCE_Y / 6 +
-          object.targetY +
-          Math.sin(object.sinOffset + TIME) * floatingEffect;
+          return {
+            ...node,
+            targetY,
+          };
+        })
+      );
 
-        const newX = lerp(xMotionValues[index].get(), targetX, 0.1);
-        const newY = lerp(yMotionValues[index].get(), targetY, 0.1);
-
-        xMotionValues[index].set(newX);
-        yMotionValues[index].set(newY);
-      });
-
-      TIME += 0.01;
+      TIME += 0.02;
       animationFrameId = requestAnimationFrame(animate);
     };
 
@@ -66,6 +55,32 @@ const Home = () => {
     };
   }, []);
 
+  useEffect(() => {
+    let animationFrameId = null;
+
+    function animate() {
+      // Calculate the distance from the center of the screen
+      const [SCREEN_CENTER_X, SCREEN_CENTER_Y] = screenCenter();
+
+      const { x, y } = mousePosition.current;
+      const DISTANCE_X = ((x - SCREEN_CENTER_X) / SCREEN_CENTER_X) * 1920;
+      const DISTANCE_Y = ((y - SCREEN_CENTER_Y) / SCREEN_CENTER_Y) * 1080;
+
+      viewCoords.current = {
+        x: lerp(viewCoords.current.x, DISTANCE_X / 10, 0.2),
+        y: lerp(viewCoords.current.y, DISTANCE_Y / 10, 0.2),
+      };
+
+      animationFrameId = requestAnimationFrame(animate);
+    }
+
+    animate();
+
+    return () => {
+      cancelAnimationFrame(animationFrameId);
+    };
+  }, [viewCoords]);
+
   // animation logic - update the mouse position
   const handleMouseMove = (e: MouseEvent) => {
     mousePosition.current = {
@@ -74,28 +89,16 @@ const Home = () => {
     };
   };
 
-  useEffect(() => {
-    objects.forEach((object, index) => {
-      xMotionValues[index].set(object.targetX);
-      yMotionValues[index].set(object.targetY);
-    });
-
-    objects.forEach((object, index) => {
-      setTimeout(() => {
-        xMotionValues[index].set(object.targetX);
-        yMotionValues[index].set(object.targetY);
-      }, index * 100);
-    });
-  }, [objects, xMotionValues, yMotionValues]);
-
   return (
     <div
       onMouseMove={handleMouseMove}
       className='overflow-x-hidden relative flex items-center justify-center'
     >
-      <svg
+      <motion.svg
         viewBox='0 0 1920 1080'
         className='bg-white z-[-1] absolute top-0 mx-auto w-screen max-w-[1920px] h-screen max-h-[1080px] overflow-x-hidden'
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1, transition: { duration: 0.5 } }}
         ref={divRef}
       >
         <defs>
@@ -164,32 +167,37 @@ const Home = () => {
         </defs>
         {/* debugging mask */}
         {/* <rect mask='url(#mask)' x='0' y='0' width='100%' height='100%' /> */}
-        <g mask='url(#mask)' x='0' y='0' width='1920px' height='1080px'>
-          {objects.map((_, index) => {
+        <motion.g
+          mask='url(#mask)'
+          x='0'
+          y='0'
+          style={{
+            translateX: viewCoords.current.x,
+            translateY: viewCoords.current.y,
+          }}
+          animate={{ transition: { duration: 0.2 } }}
+          width='1920px'
+          height='1080px'
+        >
+          {parallaxNodes.map((nodes) => {
             return (
-              <motion.rect
+              <rect
                 key={uuidv4()}
-                x={xMotionValues[index]}
-                y={yMotionValues[index]}
+                x={nodes.targetX}
+                y={nodes.targetY}
                 rx='4'
                 ry='4'
-                style={{
-                  width: '6rem',
-                  height: '2rem',
-                  x: xMotionValues[index],
-                  y: yMotionValues[index],
-                }}
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
+                width='6rem'
+                height='2rem'
                 className='fill-white stroke-slate-200 border-[1px] flex rounded-lg justify-center drop-shadow-md items-center'
               />
             );
           })}
-        </g>
-      </svg>
+        </motion.g>
+      </motion.svg>
 
       <div className='flex-col mt-28 justify-center items-center w-full'>
-        <h1 className='mx-auto rounded-lg border-b-2 border-darkBlue bg-background p-1 text-center items-center w-[650px] xl:w-[650px] 2xl:w-[850px] font-roboto-text text-5xl font-semibold justify-center text-darkBlue'>
+        <h1 className='mx-auto rounded-lg border-b-2 border-darkBlue bg-background p-1 text-center items-center w-[650px] xl:w-[650px] 2xl:w-[650px] font-roboto-text text-5xl font-semibold justify-center text-darkBlue'>
           Start learning now with free community-made roadmaps
         </h1>
         <h2 className='mx-auto mt-4 text-center items-center w-[400px] xl:w-[500px] xl:text-2xl 2xl:w-[600px] 2xl:text-3xl text-secondary text-xl font-roboto-text font-normal'>

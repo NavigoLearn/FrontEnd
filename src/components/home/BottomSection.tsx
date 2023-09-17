@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import homeedit from '@assets/homeedit.svg';
 import { motion, useAnimation } from 'framer-motion';
 import {
@@ -11,7 +11,7 @@ import NodesAnimationSmall from './animated/NodesAnimationSmall';
 const BottomSection = () => {
   const [selectedButton, setSelectedButton] = useState(null);
   const [primaryNodeText, setPrimaryNodeText] = useState('Primary node');
-  const [primaryNodeOpacity, setPrimaryNodeOpacity] = useState(1);
+  // const [primaryNodeOpacity, setPrimaryNodeOpacity] = useState(1);
   const [secondaryNodesOpacity, setSecondaryNodesOpacity] = useState(1);
   const [interiorNodeOpacity, setInteriorNodeOpacity] = useState(0); // State for interior node opacity
   const [interiorNodeText, setInteriorNodeText] = useState(
@@ -152,7 +152,7 @@ const BottomSection = () => {
           className='bg-[#F4F4F5] border border-darkBlue lg:w-[600px] 2xl:w-[900px] 2xl:h-96 lg:h-56 rounded-md flex justify-center items-center font-semibold'
         >
           <div className='flex flex-row items-center'>
-            <div className='flex flex-col items-center translate-y-4 md:translate-y-8 lg:translate-x-2'>
+            <div className='z-10 flex flex-col items-center translate-y-4 md:translate-y-8 lg:translate-x-2'>
               <motion.div
                 className={`py-1 lg:px-4 2xl:px-8 2xl:text-lg lg:text-xs text-sm rounded-md shadow-lg ${secondaryNodeColor} font-roboto-text`}
                 initial={{ opacity: 1 }}
@@ -168,7 +168,7 @@ const BottomSection = () => {
                 {secondaryNodeText}
               </motion.div>
             </div>
-            <div className='flex flex-col translate-y-8 md:translate-y-14'>
+            <div className='flex flex-col translate-y-8 md:translate-y-14 z-[0]'>
               <NodesAnimationSmall />
               <div className='-translate-y-6 md:-translate-y-10'>
                 <NodesAnimationSmall y1={0} y2={-32} />

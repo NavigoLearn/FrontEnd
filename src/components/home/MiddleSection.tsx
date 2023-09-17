@@ -22,7 +22,7 @@ const MiddleSection = () => {
 
   return (
     <div>
-      <h1 className='mx-auto mt-56 text-center items-center w-[600px] xl:w-[600px] font-roboto-text text-5xl font-semibold justify-center text-darkBlue'>
+      <h1 className='mx-auto z-20 mt-56 text-center items-center w-[600px] xl:w-[600px] font-roboto-text text-5xl font-semibold justify-center text-darkBlue'>
         Why roadmaps?
       </h1>
       <motion.button
@@ -41,41 +41,53 @@ const MiddleSection = () => {
         Watch video
       </motion.button>
       <motion.div
-        className='flex flex-row gap-20 justify-center -translate-y-32'
+        className='flex flex-row gap-20 justify-center -translate-y-32 mt-2 z-10'
         initial='hidden'
         animate='visible'
         variants={fadeInUp}
       >
-        <div className='absolute -translate-x-[180%] 2xl:-translate-x-[230%]'>
+        <div className='absolute -translate-x-[100%] 2xl:-translate-x-[130%]'>
           <NodesAnimation
-            width={200}
+            width={300}
             height={200}
             y1={0}
-            y2={-300}
-            x1={0}
-            x2={200}
-            strokeOpacity={1}
-          />
-        </div>
-        <div className='absolute translate-x-[45%]'>
-          <NodesAnimation
-            width={200}
-            height={200}
-            y1={0}
-            y2={-300}
-            x1={0}
+            y2={150}
+            x1={150}
             x2={0}
             strokeOpacity={1}
           />
         </div>
-        <div className='absolute translate-x-[150%] 2xl:translate-x-[200%]'>
+        <div className='absolute z-[-1]'>
+          <div>
+            <div
+              style={{
+                position: 'absolute',
+                top: 0,
+                left: 0,
+                right: 0,
+                bottom: '50%',
+                background: 'linear-gradient(to bottom, white, white, #FFF0)',
+              }}
+            />
+            <NodesAnimation
+              width={200}
+              height={200}
+              y1={0}
+              y2={150}
+              x1={0}
+              x2={0}
+              strokeOpacity={1}
+            />
+          </div>
+        </div>
+        <div className='absolute translate-x-[100%] 2xl:translate-x-[130%]'>
           <NodesAnimation
-            width={200}
+            width={300}
             height={200}
-            x1={100}
-            x2={-100}
+            x1={0}
+            x2={150}
             y1={0}
-            y2={-300}
+            y2={150}
             strokeOpacity={1}
           />
         </div>
