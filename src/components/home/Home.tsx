@@ -174,7 +174,7 @@ const Home = () => {
                 rx='4'
                 ry='4'
                 style={{
-                  width: '2rem',
+                  width: '6rem',
                   height: '2rem',
                   x: xMotionValues[index],
                   y: yMotionValues[index],
