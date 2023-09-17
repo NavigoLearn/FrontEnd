@@ -13,8 +13,7 @@ import ScrollingElement from './ScrollingElement';
 const Home = () => {
   const divRef = useRef(null);
   const mousePosition = useRef({ x: 0, y: 0 });
-  const originalParallaxNodes = generateObjects();
-  const [parallaxNodes, setParallaxNodes] = useState(originalParallaxNodes);
+  const [parallaxNodes, setParallaxNodes] = useState(generateObjects());
   const viewCoords = useRef({ x: 0, y: 0 });
 
   useEffect(() => {
@@ -88,6 +87,8 @@ const Home = () => {
       y: e.clientY,
     };
   };
+
+  console;
 
   return (
     <div
