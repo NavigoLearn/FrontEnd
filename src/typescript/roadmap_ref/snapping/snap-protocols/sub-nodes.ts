@@ -10,7 +10,7 @@ import {
 import { ISnapPolynomialObject } from '@src/typescript/roadmap_ref/snapping/snapping-types';
 import { generateSnapPolynomials } from '@src/typescript/roadmap_ref/snapping/polynomial-generators/generate-polynomials';
 import { calculateAnchorsDeltasXToPolynomials } from '@src/typescript/roadmap_ref/snapping/snapping-processing/process-x-snappings';
-import { evaluateDeltas } from '@src/typescript/roadmap_ref/snapping/evaluators/evaluate-deltas';
+import { getSmallestOutOfAllDeltas } from '@src/typescript/roadmap_ref/snapping/evaluators/evaluate-deltas';
 import { setSnappings } from '@store/roadmap-refactor/render/snapping-lines';
 import {
   getNodeAbsoluteCoordsCenter,
@@ -64,9 +64,9 @@ export function snapSubNodeProtocol(
 
   // takes the minimum/s from deltas
   const { smallestDelta: smallestDeltaX, snapCoordinates: snapCoordinatesX } =
-    evaluateDeltas(deltasX);
+    getSmallestOutOfAllDeltas(deltasX);
   const { smallestDelta: smallestDeltaY, snapCoordinates: snapCoordinatesY } =
-    evaluateDeltas(deltasY);
+    getSmallestOutOfAllDeltas(deltasY);
 
   const snapCoordinatesXAdjusted = snapCoordinatesX.map((snapCoordinate) => {
     snapCoordinate.startX -= smallestDeltaX.delta;

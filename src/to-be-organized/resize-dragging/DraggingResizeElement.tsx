@@ -1,11 +1,11 @@
 import React, { useEffect, useRef } from 'react';
-import { handleResizeMouseDown } from '@src/to-be-organized/resize-dragging/mouse-logic';
+import { handleResizeMouseDown } from '@src/to-be-organized/resize-dragging/mouse-protocols';
 import { NodeClass } from '@src/typescript/roadmap_ref/node/core/core';
 import {
   IMouseDragDirection,
   setResizeElementRef,
   setResizeIsResizing,
-} from '@src/to-be-organized/resize-dragging/stores';
+} from '@src/to-be-organized/resize-dragging/stores-resize';
 
 type IDraggingSizeWrapperProps = {
   style: {

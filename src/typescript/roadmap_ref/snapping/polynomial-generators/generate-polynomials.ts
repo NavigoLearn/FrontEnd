@@ -3,7 +3,10 @@ import {
   IPolynomialFunction,
   ISnapPolynomialObject,
 } from '@src/typescript/roadmap_ref/snapping/snapping-types';
-import { deepCopy } from '@src/typescript/roadmap_ref/utils';
+import {
+  ICoordsCustom,
+  typeAssertICoordsCustom,
+} from '@src/typescript/roadmap_ref/snapping/anchors-generators/generate-resizing-anchors';
 
 function generateHorizontalSnapPolynomialFunction(
   anchor: ICoords
@@ -21,7 +24,7 @@ function generateVerticalSnapPolynomialFunction(
   };
 }
 
-function generateSnapPolynomial(anchor: ICoords) {
+function generateSnapPolynomial(anchor: ICoords | ICoordsCustom) {
   const polynomials: ISnapPolynomialObject[] = [
     {
       polynomial: generateHorizontalSnapPolynomialFunction(anchor),
@@ -44,6 +47,17 @@ function generateSnapPolynomial(anchor: ICoords) {
       polynomialOrigins: [anchor],
     },
   ];
+
+  if (typeAssertICoordsCustom(anchor)) {
+    if (!anchor.snapOnX) {
+      polynomials.splice(1, 1);
+    }
+
+    if (!anchor.snapOnY) {
+      polynomials.splice(0, 1);
+    }
+  }
+
   return polynomials;
 }
 
@@ -84,7 +98,9 @@ export function checkIfPolynomialExists(
   };
 }
 
-export function generateSnapPolynomials(externalAnchors: ICoords[]) {
+export function generateSnapPolynomials(
+  externalAnchors: (ICoordsCustom | ICoords)[]
+) {
   const snapPolynomials: ISnapPolynomialObject[] = [];
   for (let i = 0; i < externalAnchors.length; i += 1) {
     const polynomials = generateSnapPolynomial(externalAnchors[i]);

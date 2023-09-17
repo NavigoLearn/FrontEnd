@@ -1,7 +1,7 @@
 import {
   IElementType,
   IMouseDragDirection,
-} from '@src/to-be-organized/resize-dragging/stores';
+} from '@src/to-be-organized/resize-dragging/stores-resize';
 import { getResizeNodeCallbacks } from '@src/typescript/roadmap_ref/node/core/data-mutation/mutate-resize';
 import { NodeClass } from '@src/typescript/roadmap_ref/node/core/core';
 

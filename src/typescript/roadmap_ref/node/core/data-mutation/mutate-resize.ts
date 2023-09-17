@@ -1,10 +1,12 @@
 import {
   IMouseDragDirection,
-  getResizeInitialSize,
   getPrevDeltaField,
   setPrevDeltaField,
   IMouseDirectionBase,
-} from '@src/to-be-organized/resize-dragging/stores';
+  getResizeInitialSize,
+  getResizeInitialMouseCoords,
+  getResizeInitialElementCoords,
+} from '@src/to-be-organized/resize-dragging/stores-resize';
 import {
   mutateNodeCoordX,
   mutateNodeCoordY,
@@ -18,6 +20,77 @@ import {
   MINIMUM_NODE_WIDTH,
 } from '@src/typescript/roadmap_ref/node/core/factories/params/default-params';
 import { getAlt, getShift } from '@store/roadmap-refactor/misc/key-press-store';
+
+export function getNodeAnchors(width, heigh, x, y) {
+  const anchors = {
+    top: {
+      x: x + width / 2,
+      y,
+    },
+    bottom: {
+      x: x + width / 2,
+      y: y + heigh,
+    },
+    left: {
+      x,
+      y: y + heigh / 2,
+    },
+    right: {
+      x: x + width,
+      y: y + heigh / 2,
+    },
+  };
+  return anchors;
+}
+export function mutateNodeHeightBottomDy(node: NodeClass, dy: number) {
+  const { data } = node;
+  let newHeight = data.height + dy;
+
+  if (newHeight < MINIMUM_NODE_HEIGHT) {
+    newHeight = MINIMUM_NODE_HEIGHT;
+    dy = newHeight - data.height;
+  }
+  !getIsRootNode(node.id) && mutateNodeCoordY(node, data.coords.y - dy);
+  mutateNodeHeight(node, newHeight);
+}
+
+export function mutateNodeHeightTopDy(node: NodeClass, dy: number) {
+  const { data } = node;
+  let newHeight = data.height + dy;
+
+  if (newHeight < MINIMUM_NODE_HEIGHT) {
+    newHeight = MINIMUM_NODE_HEIGHT;
+    dy = newHeight - data.height;
+  }
+  getIsRootNode(node.id) && mutateNodeCoordY(node, data.coords.y - dy);
+  mutateNodeHeight(node, newHeight);
+}
+
+export function mutateNodeWidthLeftDx(node: NodeClass, dx: number) {
+  const { data } = node;
+  let newWidth = data.width + dx;
+
+  if (newWidth < MINIMUM_NODE_WIDTH) {
+    newWidth = MINIMUM_NODE_WIDTH;
+    dx = newWidth - data.width;
+  }
+
+  getIsRootNode(node.id) && mutateNodeCoordX(node, data.coords.x - dx);
+  mutateNodeWidth(node, newWidth);
+}
+
+export function mutateNodeWidthRightDx(node: NodeClass, dx: number) {
+  const { data } = node;
+  let newWidth = data.width + dx;
+
+  if (newWidth < MINIMUM_NODE_WIDTH) {
+    newWidth = MINIMUM_NODE_WIDTH;
+    dx = newWidth - data.width;
+  }
+
+  !getIsRootNode(node.id) && mutateNodeCoordX(node, data.coords.x - dx);
+  mutateNodeWidth(node, newWidth);
+}
 
 function mutateNodeHeightBottom(node: NodeClass, deltaTopY: number) {
   const { data } = node;
@@ -37,13 +110,36 @@ function mutateNodeHeightBottom(node: NodeClass, deltaTopY: number) {
 
 export function mutateNodeHeightTop(node: NodeClass, deltaTopY: number) {
   const { data } = node;
-  let dy = deltaTopY - getPrevDeltaField('top');
-  let newHeight = data.height + dy;
+  const { width: currentWidth, height: currentHeight } = data;
+  const { height: originalHeight, width: originalWidth } =
+    getResizeInitialSize();
+  const { x: originalX, y: originalY } = getResizeInitialElementCoords();
+
+  const originalTopAnchor = getNodeAnchors(
+    originalWidth,
+    originalHeight,
+    originalX,
+    originalY
+  ).top;
+
+  const currentTopAnchor = getNodeAnchors(
+    currentWidth,
+    currentHeight,
+    data.coords.x,
+    data.coords.y
+  ).top;
+
+  console.log('originalTopAnchor', originalTopAnchor);
+  console.log('currentTopAnchor', currentTopAnchor);
+  console.log('deltaTopY', deltaTopY);
+
+  let newHeight =
+    originalHeight + currentTopAnchor.y - originalTopAnchor.y + deltaTopY;
+
+  const dy = newHeight - data.height;
 
   if (newHeight < MINIMUM_NODE_HEIGHT) {
     newHeight = MINIMUM_NODE_HEIGHT;
-    dy = newHeight - data.height;
-    deltaTopY = dy + getPrevDeltaField('top');
   }
   setPrevDeltaField('top', deltaTopY);
 
@@ -133,7 +229,7 @@ export function getResizeNodeCallbacks(direction: IMouseDragDirection) {
   const mapper: Record<IMouseDragDirection, IMutateFunction> = {
     top: (node, deltaXMouse, deltaYMouse) => {
       mutateNodeHeightTop(node, deltaYMouse);
-      handleResizeMirrorCallbacks(node, 'top', deltaXMouse, deltaYMouse);
+      // handleResizeMirrorCallbacks(node, 'top', deltaXMouse, deltaYMouse);
     },
     bottom: (node, deltaXMouse, deltaYMouse) => {
       mutateNodeHeightBottom(node, deltaYMouse);

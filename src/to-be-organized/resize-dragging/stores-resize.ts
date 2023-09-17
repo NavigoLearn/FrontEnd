@@ -90,7 +90,8 @@ export function getPrevDeltaField(direction: IMouseDirectionBase) {
 }
 
 export const storeResizeData = atom({
-  initialCoords: {},
+  initialMouseCoords: {},
+  initialElementCoords: {},
   initialSize: {},
   mouseAnchor: 'top',
   isReflective: false,
@@ -99,7 +100,8 @@ export const storeResizeData = atom({
   mouseMoveHandler: null,
   setIsResizing: null,
 } as {
-  initialCoords: ICoords;
+  initialMouseCoords: ICoords;
+  initialElementCoords: ICoords;
   initialSize: ISize;
   mouseAnchor: IMouseDragDirection;
   isReflective: boolean;
@@ -109,14 +111,24 @@ export const storeResizeData = atom({
   setIsResizing: () => void;
 });
 
-export const setResizeInitialCoords = (coords: ICoords) => {
+export const setResizeInitialMouseCoords = (coords: ICoords) => {
   const newStore = storeResizeData.get();
-  newStore.initialCoords = coords;
+  newStore.initialMouseCoords = coords;
   storeResizeData.set({ ...newStore });
 };
 
-export const getResizeInitialCoords = () => {
-  return storeResizeData.get().initialCoords;
+export const getResizeInitialMouseCoords = () => {
+  return storeResizeData.get().initialMouseCoords;
+};
+
+export const setResizeInitialElementCoords = (coords: ICoords) => {
+  const newStore = storeResizeData.get();
+  newStore.initialElementCoords = coords;
+  storeResizeData.set({ ...newStore });
+};
+
+export const getResizeInitialElementCoords = () => {
+  return storeResizeData.get().initialElementCoords;
 };
 
 export const setResizeMouseAnchor = (anchor: IMouseDragDirection) => {
@@ -193,7 +205,11 @@ export const getResizeIsResizingCallback = () => {
 
 export const resetResizeAllStoresToDefault = () => {
   storeResizeData.set({
-    initialCoords: {
+    initialElementCoords: {
+      x: 0,
+      y: 0,
+    },
+    initialMouseCoords: {
       x: 0,
       y: 0,
     },

@@ -1,9 +1,9 @@
 import {
   getResizeElementRef,
   getResizeMouseAnchor,
-  getResizeInitialCoords,
+  getResizeInitialMouseCoords,
   IMouseDragDirection,
-  setResizeInitialCoords,
+  setResizeInitialMouseCoords,
   setResizeMouseAnchor,
   getResizeElementType,
   setResizeMouseMoveHandler,
@@ -13,7 +13,8 @@ import {
   resetResizeAllStoresToDefault,
   setMouseCoords,
   getMouseCoords,
-} from '@src/to-be-organized/resize-dragging/stores';
+  setResizeInitialElementCoords,
+} from '@src/to-be-organized/resize-dragging/stores-resize';
 import { getResizeCallback } from '@src/to-be-organized/resize-dragging/resize-logic';
 import {
   getRoadmapDisableInteractions,
@@ -21,18 +22,19 @@ import {
 } from '@store/roadmap-refactor/roadmap-data/roadmap-functions-utils';
 import { throttle } from '@src/typescript/roadmap_ref/render/chunks';
 import { getScaleSafari } from '@store/roadmap-refactor/misc/scale-safari-store';
-import { MINIMUM_NODE_HEIGHT } from '@src/typescript/roadmap_ref/node/core/factories/params/default-params';
 import { HashMapWithKeys } from '@type/roadmap/misc';
 import { triggerNodeRerender } from '@store/roadmap-refactor/render/rerender-triggers-nodes';
 import {
   subscribeToAlt,
   unSubscribeToAlt,
 } from '@store/roadmap-refactor/misc/key-press-store';
+import { triggerNodeConnectionsRerender } from '@src/typescript/roadmap_ref/render/dragging';
+import { snapResizingRootNodeProtocol } from '@src/typescript/roadmap_ref/snapping/snap-protocols/resizing-root-nodes';
 
 type IDeltaCalc = (eventY, startY) => number;
 
 function calculateDeltaY(e, direction: IMouseDragDirection): number {
-  const { y } = getResizeInitialCoords();
+  const { y } = getResizeInitialMouseCoords();
   const directionMapper: HashMapWithKeys<
     IMouseDragDirection,
     IMouseDragDirection | 'null'
@@ -64,7 +66,7 @@ function calculateDeltaY(e, direction: IMouseDragDirection): number {
 }
 
 function calculateDeltaX(e, direction: IMouseDragDirection): number {
-  const { x } = getResizeInitialCoords();
+  const { x } = getResizeInitialMouseCoords();
   const directionMapper: HashMapWithKeys<
     IMouseDragDirection,
     IMouseDragDirection | 'null'
@@ -121,9 +123,10 @@ const handleMouseMove = throttle(() => {
 
   getResizeIsResizingCallback()();
   resizeCallback(deltaX, deltaY); // we resized the node
-  // we snap the node here ( ͡° ͜ʖ ͡°)
+  snapResizingRootNodeProtocol(elementRef, direction);
 
   triggerNodeRerender(elementRef.id);
+  triggerNodeConnectionsRerender(elementRef.id);
 }, 1000 / 60);
 
 const handleMouseUp = (e) => {
@@ -146,10 +149,17 @@ export const handleResizeMouseDown = (
 ) => {
   getRoadmapDisableInteractions()();
 
-  setResizeInitialCoords({
+  setResizeInitialMouseCoords({
     x: mouseDownEvent.pageX,
     y: mouseDownEvent.pageY,
   });
+
+  const elementRef = getResizeElementRef();
+  setResizeInitialElementCoords({
+    x: elementRef.data.coords.x,
+    y: elementRef.data.coords.y,
+  });
+
   setResizeInitialSize({
     width: getResizeElementRef().data.width,
     height: getResizeElementRef().data.height,
