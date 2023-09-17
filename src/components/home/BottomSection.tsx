@@ -140,7 +140,7 @@ const BottomSection = () => {
         animate={displaySection}
         transition={{ duration: 0.5 }}
         variants={{
-          hidden: { opacity: 1, x: -640 },
+          hidden: { opacity: 1, x: -160 },
           visible: { opacity: 1, x: 0 },
         }}
       >
