@@ -54,14 +54,37 @@ const Card = ({ data }: ICardProps) => {
         />
         <button
           type='button'
-          onClick={() => {
-            const link = `/roadmap/${data.name
-              .replace(/\s+/g, '-')
-              .toLowerCase()
-              .slice(0, 32)}-${data.id}`;
+          onClick={(e) => {
+            // Check if it's a middle mouse button click (button value 1)
+            if (e.button === 1) {
+              // Prevent the default behavior of the middle mouse button
+              e.preventDefault();
 
-            console.log('clicked and went to roadmap ', link);
-            location.href = link;
+              // Get the link
+              const link = `/roadmap/${data.name
+                .replace(/\s+/g, '-')
+                .toLowerCase()
+                .slice(0, 32)}-${data.id}`;
+
+              console.log(
+                'Middle mouse clicked and opened in a new tab: ',
+                link
+              );
+
+              // Open the link in a new tab/window
+              window.open(link, '_blank');
+            } else {
+              // Handle the left click behavior here
+              const link = `/roadmap/${data.name
+                .replace(/\s+/g, '-')
+                .toLowerCase()
+                .slice(0, 32)}-${data.id}`;
+
+              console.log('Left mouse clicked and went to roadmap ', link);
+
+              // Redirect to the link
+              location.href = link;
+            }
           }}
           className={`font-roboto-text text-primary px-3 py-1 rounded-sm text-sm font-medium bg-transparent hover:bg-primary hover:text-white ${tailwindTransitionClass}`}
         >

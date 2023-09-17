@@ -10,7 +10,7 @@ import storeAboutTemporary, {
 import TextInputStandard from '@components/roadmap/pages-roadmap/editor/editor-pages/properties-page/TextInputStandard';
 import TextareaStandardInput from '@components/roadmap/pages-roadmap/editor/editor-pages/properties-page/TextareaStandardInput';
 import ThemeDisplayer from '@components/roadmap/to-be-organized/about/components/ThemeDisplayer';
-import { DEFAULT_ROADMAP_TITLE_MAX_LENGTH } from './character-limits';
+import { DEFAULT_ROADMAP_TITLE_MAX_LENGTH } from '@src/typescript/roadmap_ref/node/components/text/text-params';
 import exit from '../../../../../../public/editor/close.svg';
 
 type IAboutEditProps = {

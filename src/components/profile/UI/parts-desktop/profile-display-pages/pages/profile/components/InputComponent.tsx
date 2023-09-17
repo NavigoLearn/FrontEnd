@@ -1,5 +1,5 @@
 import React from 'react';
-import { PROFILE_NAME_MAX_LENGTH } from '@src/components/roadmap/to-be-organized/about/parts/character-limits';
+import { PROFILE_NAME_MAX_LENGTH } from '@src/typescript/roadmap_ref/node/components/text/text-params';
 
 type IInputComponentProps = {
   label: string;

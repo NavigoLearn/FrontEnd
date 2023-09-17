@@ -56,15 +56,15 @@ export const ResourceAttachmentView = ({
             <button
               type='button'
               onClick={() => openRoadmapLink(item.linkURL)}
-              className='px-9 my-2 flex flex-row gap-2'
+              className='px-9 my-2 flex flex-row items-center gap-12'
             >
-              <div className='text-darkBlue text-lg font-semibold'>
+              <div className='text-darkBlue text-lg font-semibold w-96 text-start break-words'>
                 {item.text}
               </div>
               <img
                 src={linkpop}
                 alt='pressLinkButton'
-                className='w-5 h-5 mt-1'
+                className='w-6 h-6 mt-1'
               />
             </button>
           </div>

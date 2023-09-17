@@ -18,6 +18,7 @@ import { ICardRoadmapTypeApi } from '@type/explore/card';
 import LoadingCard from '@components/explore/UI/shared/cards/LoadingCard';
 import { useExploreCardData } from '@components/explore/logic/hooks/useExploreCardData';
 import { fetchFeelingLucky } from '@src/api-wrapper/explore/roadmap-card-data';
+import { NAVBAR_SEARCH_RESULT_MAX_LENGTH } from '@src/typescript/roadmap_ref/node/components/text/text-params';
 
 const ExploreDesktop = () => {
   const { cardData, params, perPage, sortBy, topic } = useExploreCardData();
@@ -57,9 +58,20 @@ const ExploreDesktop = () => {
           </div>
           <div className=' landing-min:w-[1100px] monitor:w-[1400px] '>
             <div className='monitor:w-[1360px]  landing-min:w-[1050px] h-24   flex justify-between items-end  '>
-              <div className='text-3xl font-kanit-text  text-darkBlue font-semibold mb-6'>
+              <div className='text-3xl font-kanit-text text-darkBlue font-semibold mb-6'>
                 {cardData.total} results{' '}
-                {params.query !== '' && `for '${params.query}'`}
+                {params.query !== '' && (
+                  <span>
+                    for &apos;
+                    {params.query.length > NAVBAR_SEARCH_RESULT_MAX_LENGTH
+                      ? `${params.query.slice(
+                          0,
+                          NAVBAR_SEARCH_RESULT_MAX_LENGTH
+                        )}...`
+                      : params.query}
+                    &apos;
+                  </span>
+                )}
               </div>
               <button
                 type='button'
