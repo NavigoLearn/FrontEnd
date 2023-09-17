@@ -30,36 +30,38 @@ const ScrollingElement = () => {
       <div className='h-[150vh] w-screen' ref={trigger} />
       <div className='w-screen fixed top-[20vh] mx-auto justify-center text-center flex flex-col gap-36 mb-12'>
         <motion.h2
-          className={`text-secondary font-roboto-text font-normal text-xl ${
-            isFirstSectionVisible
-              ? 'pointer-events-auto'
-              : 'pointer-events-none'
-          }`}
-          initial={{ opacity: 0, y: 20 }}
-          animate={isFirstSectionVisible ? { opacity: 1, y: 0 } : {}}
+          className='text-secondary font-roboto-text font-normal text-xl'
+          initial={{ opacity: 0, y: 20, display: 'none' }}
+          animate={isFirstSectionVisible ? 'visible' : 'hidden'}
+          variants={{
+            hidden: { opacity: 0, y: 20, transitionEnd: { display: 'none' } },
+            visible: { opacity: 1, y: 0, display: 'block' },
+          }}
           transition={{ duration: 0.5 }}
         >
           And remember...
         </motion.h2>
-        <div
-          className={`flex flex-col gap-2 ${
-            isSecondSectionVisible
-              ? 'pointer-events-auto'
-              : 'pointer-events-none'
-          }`}
-        >
+        <div className='flex flex-col gap-2'>
           <motion.h1
             className='text-darkBlue font-roboto-text text-3xl font-semibold'
-            initial={{ opacity: 0, y: 20 }}
-            animate={isSecondSectionVisible ? { opacity: 1, y: 0 } : {}}
+            initial={{ opacity: 0, y: 20, display: 'none' }}
+            animate={isSecondSectionVisible ? 'visible' : 'hidden'}
+            variants={{
+              hidden: { opacity: 0, y: 20, transitionEnd: { display: 'none' } },
+              visible: { opacity: 1, y: 0, display: 'block' },
+            }}
             transition={{ duration: 0.5 }}
           >
             The journey of 1000 miles starts with one roadmap
           </motion.h1>
           <motion.h2
             className='text-4xl text-secondary font-roboto-text font-normal'
-            initial={{ opacity: 0, y: 20 }}
-            animate={isSecondSectionVisible ? { opacity: 1, y: 0 } : {}}
+            initial={{ opacity: 0, y: 20, display: 'none' }}
+            animate={isSecondSectionVisible ? 'visible' : 'hidden'}
+            variants={{
+              hidden: { opacity: 0, y: 20, transitionEnd: { display: 'none' } },
+              visible: { opacity: 1, y: 0, display: 'block' },
+            }}
             transition={{ duration: 0.5 }}
           >
             Start yours today
@@ -67,8 +69,12 @@ const ScrollingElement = () => {
         </div>
         <motion.div
           className='w-[500px] mx-auto gap-2 flex flex-row'
-          initial={{ opacity: 0, y: 20 }}
-          animate={isSecondSectionVisible ? { opacity: 1, y: 0 } : {}}
+          initial={{ opacity: 0, y: 20, display: 'none' }}
+          animate={isSecondSectionVisible ? 'visible' : 'hidden'}
+          variants={{
+            hidden: { opacity: 0, y: 20, transitionEnd: { display: 'none' } },
+            visible: { opacity: 1, y: 0, display: 'flex' },
+          }}
           transition={{ duration: 0.5 }}
         >
           <motion.a
