@@ -5,6 +5,7 @@ import { IRoadmapApi } from '@type/explore_old/card';
 import { isRoadmapType } from '@type/roadmap/old/typecheckers';
 import { emptyRoadmap } from '@store/roadmap-refactor/roadmap-data/params/base-roadmap';
 import { deepCopy } from '@src/typescript/roadmap_ref/utils';
+import { roadmapAdapterDecorator } from './adapter-decorator-roadmap';
 
 export const roadmapView = atom(deepCopy(emptyRoadmap));
 
@@ -13,17 +14,20 @@ export function setRoadmapViewStore(roadmap: IRoadmap) {
   roadmapView.set({ ...roadmap });
 }
 
-export function setRoadmapViewFromAPI(roadmapData: IRoadmapApi) {
-  if (isRoadmapType(roadmapData.data)) {
-    // @ts-ignore
-    const roadmap: IRoadmap = roadmapData.data;
-    // @ts-ignore
-    roadmap.data = roadmapData.miscData;
-    setRoadmapViewStore(roadmap);
-  } else {
-    throw new Error('Roadmap roadmap-roadmap-data is not of type Roadmap');
+export const setRoadmapViewFromAPI = roadmapAdapterDecorator(
+  (roadmapData: IRoadmapApi) => {
+    console.log('setRoadmapViewFromAPI', roadmapData);
+    if (isRoadmapType(roadmapData.data)) {
+      // @ts-ignore
+      const roadmap: IRoadmap = roadmapData.data;
+      // @ts-ignore
+      roadmap.data = roadmapData.miscData;
+      setRoadmapViewStore(roadmap);
+    } else {
+      throw new Error('Roadmap roadmap-roadmap-data is not of type Roadmap');
+    }
   }
-}
+);
 
 export function getRoadmapView() {
   return roadmapView.get();
