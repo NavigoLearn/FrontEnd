@@ -95,29 +95,67 @@ const Home = () => {
             id='fadeout'
             cx='50%'
             cy='50%'
-            r='50%'
+            r='65%'
             fx='50%'
             fy='50%'
+            spreadMethod='pad'
           >
-            <stop offset='60%' style={{ stopColor: 'white', stopOpacity: 1 }} />
+            <stop offset='0%' style={{ stopColor: 'white', stopOpacity: 1 }} />
+            <stop offset='90%' style={{ stopColor: 'white', stopOpacity: 1 }} />
             <stop
               offset='100%'
               style={{ stopColor: 'black', stopOpacity: 1 }}
             />
           </radialGradient>
+          <linearGradient
+            id='left-to-middle-to-right'
+            x1='0%'
+            y1='0%'
+            x2='100%'
+            y2='0%'
+          >
+            <stop offset='0%' style={{ stopColor: 'black', stopOpacity: 1 }} />
+            <stop offset='15%' style={{ stopColor: 'black', stopOpacity: 0 }} />
+            <stop offset='85%' style={{ stopColor: 'black', stopOpacity: 0 }} />
+            <stop
+              offset='100%'
+              style={{ stopColor: 'black', stopOpacity: 1 }}
+            />
+          </linearGradient>
+          <linearGradient
+            id='top-to-middle-to-bottom'
+            x1='0%'
+            y1='0%'
+            x2='0%'
+            y2='100%'
+          >
+            <stop offset='0%' style={{ stopColor: 'black', stopOpacity: 1 }} />
+            <stop offset='15%' style={{ stopColor: 'black', stopOpacity: 0 }} />
+            <stop offset='85%' style={{ stopColor: 'black', stopOpacity: 0 }} />
+            <stop
+              offset='100%'
+              style={{ stopColor: 'black', stopOpacity: 1 }}
+            />
+          </linearGradient>
           <mask id='mask'>
+            <rect width='1920' height='1080' fill='white' />
+            <rect width='1920' height='1080' fill='url(#fadeout)' />
+
             <rect
               width='1920'
               height='1080'
-              fill='url(#fadeout)'
-              rx='200'
-              ry='200'
+              fill='url(#left-to-middle-to-right)'
+            />
+
+            <rect
+              width='1920'
+              height='1080'
+              fill='url(#top-to-middle-to-bottom)'
             />
           </mask>
         </defs>
-
-        {/* <rect mask='url(#mask)' x='0' y='0' width='100%' height='100%' />  debugging shit */}
-
+        {/* debugging mask */}
+        {/* <rect mask='url(#mask)' x='0' y='0' width='100%' height='100%' /> */}
         <g mask='url(#mask)' x='0' y='0' width='1920px' height='1080px'>
           {objects.map((_, index) => {
             return (
