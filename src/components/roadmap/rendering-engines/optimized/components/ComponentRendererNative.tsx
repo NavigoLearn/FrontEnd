@@ -16,7 +16,7 @@ import { getIsEditable } from '@store/roadmap-refactor/roadmap-data/misc-data/ro
 import { getSelectedNodeId } from '@store/roadmap-refactor/elements-editing/editor-selected-data';
 import displayManagerStore from '@store/roadmap-refactor/display/display-manager';
 import { triggerNodeRerender } from '@store/roadmap-refactor/render/rerender-triggers-nodes';
-import DraggingResizeElement from '@src/to-be-organized/DraggingResizeElement';
+import DraggingResizeElement from '@src/to-be-organized/resize-dragging/DraggingResizeElement';
 import { getNodeByIdRoadmapSelector } from '@src/typescript/roadmap_ref/roadmap-data/services/get';
 import { AnimatePresence, motion } from 'framer-motion';
 

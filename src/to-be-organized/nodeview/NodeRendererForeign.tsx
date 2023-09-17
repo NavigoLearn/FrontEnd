@@ -40,7 +40,7 @@ import {
   getHideProgress,
   getIsEditing,
 } from '@store/roadmap-refactor/roadmap-data/misc-data/roadmap_state';
-import DraggingResizeElement from '@src/to-be-organized/DraggingResizeElement';
+import DraggingResizeElement from '@src/to-be-organized/resize-dragging/DraggingResizeElement';
 import {
   mutateNodeHeightWhileKeepingCenter,
   mutateNodeWidthWhileKeepingCenter,
@@ -301,34 +301,9 @@ const NodeRendererForeign: React.FC<NodeViewProps> = ({
                     width,
                     height,
                   }}
-                  heightCallback={(height) => {
-                    mutateNodeHeightWhileKeepingCenter(node, height);
-                    triggerNodeRerender(nodeId);
-                    triggerAllConnectionsRerender();
-                  }}
-                  widthCallback={(width) => {
-                    mutateNodeWidthWhileKeepingCenter(node, width);
-                    triggerNodeRerender(nodeId);
-                    triggerAllConnectionsRerender();
-                  }}
-                  snappingCallback={(width, height) => {
+                  element={node}
+                  setResizeCallback={() => {
                     setResizing(true);
-                    const rootNode = node.flags.renderedOnRoadmapFlag;
-                    const nodesToSnapTo = rootNode
-                      ? getRootNodesIds()
-                      : getNodeAdjacentNodesIds(nodeId);
-                    // snapping node corners ( ͡° ͜ʖ ͡°) so width and height will also snap I hope
-                    const { width: newWidth, height: newHeight } =
-                      snapNodeWidthHeight(
-                        node.id,
-                        nodesToSnapTo,
-                        width,
-                        height
-                      );
-                    return {
-                      width: newWidth,
-                      height: newHeight,
-                    };
                   }}
                 />
               </motion.div>

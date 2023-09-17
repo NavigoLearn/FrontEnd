@@ -12,6 +12,10 @@ import {
   getIsRootNode,
   getNodeByIdRoadmapSelector,
 } from '@src/typescript/roadmap_ref/roadmap-data/services/get';
+import {
+  MINIMUM_NODE_HEIGHT,
+  MINIMUM_NODE_WIDTH,
+} from '@src/typescript/roadmap_ref/node/core/factories/params/default-params';
 
 export function mutateNodeOpacity(node: NodeClass, opacity: number) {
   node.data.opacity = opacity;
