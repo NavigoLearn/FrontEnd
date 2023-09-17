@@ -137,7 +137,7 @@ const BottomSection = () => {
       <motion.div
         className='flex flex-col items-start mb-auto'
         initial={{ opacity: 1 }}
-        animate={fadeInUpAnim}
+        animate={displaySection}
         transition={{ duration: 0.5 }}
         variants={{
           hidden: { opacity: 1, x: -640 },
