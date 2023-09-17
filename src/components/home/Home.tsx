@@ -1,65 +1,21 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { MouseEvent, useEffect, useRef } from 'react';
 import { motion, useMotionValue } from 'framer-motion';
+import {
+  generateObjects,
+  lerp,
+  screenCenter,
+} from '@components/home/typescript/helpers';
+import { v4 as uuidv4 } from 'uuid';
 import MiddleSection from './MiddleSection';
 import BottomSection from './BottomSection';
 import ScrollingElement from './ScrollingElement';
 
-// Define a lerp function
-const lerp = (current: number, target: number, speed: number): number => {
-  return current + speed * (target - current);
-};
-
 const Home = () => {
-  const [scrollY, setScrollY] = useState(0);
-  const [pointerEvents, setPointerEvents] = useState('pointer-events-none');
-
-  useEffect(() => {
-    const handleScroll = () => {
-      setScrollY(window.scrollY);
-    };
-
-    window.addEventListener('scroll', handleScroll);
-
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
-
-  useEffect(() => {
-    if (scrollY > 1800) {
-      setPointerEvents('pointer-events-auto');
-    } else {
-      setPointerEvents('pointer-events-none');
-    }
-  }, [scrollY]);
-
   const divRef = useRef(null);
   const mousePosition = useRef({ x: 0, y: 0 });
 
-  // both necessary to not overlap the objects
-  const SPACING_X = 150;
-  const SPACING_Y = 150;
-
-  const X_MIN = -200; // buffer area of 200px
-  const Y_MIN = -200;
-  const X_MAX = 2120; // 1920 + 200
-  const Y_MAX = 1280; // 1080 + 200
-  const RANDOM_OFFSET = 0.5;
-
   // create an array of objects with x and y coordinates
-  const objects = [] as {
-    targetX: number;
-    targetY: number;
-    sinOffset: number;
-    cosOffset: number;
-  }[];
-  for (let x = X_MIN; x < X_MAX; x += SPACING_X) {
-    for (let y = Y_MIN; y < Y_MAX; y += SPACING_Y) {
-      const targetX = x + Math.random() * RANDOM_OFFSET * SPACING_X;
-      const targetY = y + Math.random() * RANDOM_OFFSET * SPACING_Y;
-      const sinOffset = Math.random() * Math.PI * 2; // Offset between 0 and 2π
-      const cosOffset = Math.random() * Math.PI * 2;
-      objects.push({ targetX, targetY, sinOffset, cosOffset });
-    }
-  }
+  const objects = generateObjects();
 
   const xMotionValues = objects.map(() => useMotionValue(0));
   const yMotionValues = objects.map(() => useMotionValue(0));
@@ -68,10 +24,17 @@ const Home = () => {
     let animationFrameId = null;
     let TIME = 0;
 
+    if (mousePosition.current.x === 0 && mousePosition.current.y === 0) {
+      const [x, y] = screenCenter();
+      mousePosition.current = {
+        x,
+        y,
+      };
+    }
+
     const animate = () => {
       // Calculate the distance from the center of the screen
-      const SCREEN_CENTER_X = 1920 / 2;
-      const SCREEN_CENTER_Y = 1080 / 2;
+      const [SCREEN_CENTER_X, SCREEN_CENTER_Y] = screenCenter();
 
       const { x, y } = mousePosition.current;
       const DISTANCE_X = x - SCREEN_CENTER_X;
@@ -104,7 +67,7 @@ const Home = () => {
   }, []);
 
   // animation logic - update the mouse position
-  const handleMouseMove = (e) => {
+  const handleMouseMove = (e: MouseEvent) => {
     mousePosition.current = {
       x: e.clientX,
       y: e.clientY,
@@ -140,43 +103,81 @@ const Home = () => {
             id='fadeout'
             cx='50%'
             cy='50%'
-            r='50%'
+            r='65%'
             fx='50%'
             fy='50%'
+            spreadMethod='pad'
           >
-            <stop offset='60%' style={{ stopColor: 'white', stopOpacity: 1 }} />
+            <stop offset='0%' style={{ stopColor: 'white', stopOpacity: 1 }} />
+            <stop offset='90%' style={{ stopColor: 'white', stopOpacity: 1 }} />
             <stop
               offset='100%'
               style={{ stopColor: 'black', stopOpacity: 1 }}
             />
           </radialGradient>
+          <linearGradient
+            id='left-to-middle-to-right'
+            x1='0%'
+            y1='0%'
+            x2='100%'
+            y2='0%'
+          >
+            <stop offset='0%' style={{ stopColor: 'black', stopOpacity: 1 }} />
+            <stop offset='15%' style={{ stopColor: 'black', stopOpacity: 0 }} />
+            <stop offset='85%' style={{ stopColor: 'black', stopOpacity: 0 }} />
+            <stop
+              offset='100%'
+              style={{ stopColor: 'black', stopOpacity: 1 }}
+            />
+          </linearGradient>
+          <linearGradient
+            id='top-to-middle-to-bottom'
+            x1='0%'
+            y1='0%'
+            x2='0%'
+            y2='100%'
+          >
+            <stop offset='0%' style={{ stopColor: 'black', stopOpacity: 1 }} />
+            <stop offset='15%' style={{ stopColor: 'black', stopOpacity: 0 }} />
+            <stop offset='85%' style={{ stopColor: 'black', stopOpacity: 0 }} />
+            <stop
+              offset='100%'
+              style={{ stopColor: 'black', stopOpacity: 1 }}
+            />
+          </linearGradient>
           <mask id='mask'>
+            <rect width='1920' height='1080' fill='white' />
+            <rect width='1920' height='1080' fill='url(#fadeout)' />
+
             <rect
               width='1920'
               height='1080'
-              fill='url(#fadeout)'
-              rx='200'
-              ry='200'
+              fill='url(#left-to-middle-to-right)'
+            />
+
+            <rect
+              width='1920'
+              height='1080'
+              fill='url(#top-to-middle-to-bottom)'
             />
           </mask>
         </defs>
-
-        {/* <rect mask='url(#mask)' x='0' y='0' width='100%' height='100%' />  debugging shit */}
-
+        {/* debugging mask */}
+        {/* <rect mask='url(#mask)' x='0' y='0' width='100%' height='100%' /> */}
         <g mask='url(#mask)' x='0' y='0' width='1920px' height='1080px'>
-          {objects.map((object, index) => {
+          {objects.map((_, index) => {
             return (
               <motion.rect
-                key={index}
+                key={uuidv4()}
                 x={xMotionValues[index]}
                 y={yMotionValues[index]}
+                rx='4'
+                ry='4'
                 style={{
-                  width: '2rem',
+                  width: '6rem',
                   height: '2rem',
                   x: xMotionValues[index],
                   y: yMotionValues[index],
-                  rx: 4,
-                  ry: 4,
                 }}
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
@@ -225,11 +226,7 @@ const Home = () => {
         </div>
         <MiddleSection />
         <BottomSection />
-        {scrollY > 800 && (
-          <div className={`${pointerEvents}`}>
-            <ScrollingElement />
-          </div>
-        )}
+        <ScrollingElement />
       </div>
     </div>
   );

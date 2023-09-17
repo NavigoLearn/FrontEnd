@@ -1,21 +1,17 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { motion, useAnimation } from 'framer-motion';
 
 const ScrollingElement = () => {
   const [isFirstSectionVisible, setIsFirstSectionVisible] = useState(false);
   const [isSecondSectionVisible, setIsSecondSectionVisible] = useState(false);
-  const objectRef = useRef(null);
+  const trigger = useRef(null);
   const controls = useAnimation();
 
   const handleScroll = () => {
-    const yOffset = window.scrollY;
-    let beginH = Number.MAX_VALUE;
-    let endH = Number.MAX_VALUE;
-    if (objectRef.current) {
-      beginH = objectRef.current.getBoundingClientRect().top;
-      endH =
-        objectRef.current.getBoundingClientRect().top + window.innerHeight / 2;
-    }
+    if (!trigger.current) return;
+    const beginH = trigger.current.getBoundingClientRect().top;
+    const endH =
+      trigger.current.getBoundingClientRect().top + window.innerHeight / 2;
 
     setIsFirstSectionVisible(beginH <= 0);
 
@@ -31,12 +27,16 @@ const ScrollingElement = () => {
 
   return (
     <>
-      <div className='h-[150vh] w-screen' ref={objectRef} />
+      <div className='h-[150vh] w-screen' ref={trigger} />
       <div className='w-screen fixed top-[20vh] mx-auto justify-center text-center flex flex-col gap-36 mb-12'>
         <motion.h2
           className='text-secondary font-roboto-text font-normal text-xl'
-          initial={{ opacity: 0, y: 20 }}
-          animate={isFirstSectionVisible ? { opacity: 1, y: 0 } : {}}
+          initial={{ opacity: 0, y: 20, display: 'none' }}
+          animate={isFirstSectionVisible ? 'visible' : 'hidden'}
+          variants={{
+            hidden: { opacity: 0, y: 20, transitionEnd: { display: 'none' } },
+            visible: { opacity: 1, y: 0, display: 'block' },
+          }}
           transition={{ duration: 0.5 }}
         >
           And remember...
@@ -44,16 +44,24 @@ const ScrollingElement = () => {
         <div className='flex flex-col gap-2'>
           <motion.h1
             className='text-darkBlue font-roboto-text text-3xl font-semibold'
-            initial={{ opacity: 0, y: 20 }}
-            animate={isSecondSectionVisible ? { opacity: 1, y: 0 } : {}}
+            initial={{ opacity: 0, y: 20, display: 'none' }}
+            animate={isSecondSectionVisible ? 'visible' : 'hidden'}
+            variants={{
+              hidden: { opacity: 0, y: 20, transitionEnd: { display: 'none' } },
+              visible: { opacity: 1, y: 0, display: 'block' },
+            }}
             transition={{ duration: 0.5 }}
           >
             The journey of 1000 miles starts with one roadmap
           </motion.h1>
           <motion.h2
             className='text-4xl text-secondary font-roboto-text font-normal'
-            initial={{ opacity: 0, y: 20 }}
-            animate={isSecondSectionVisible ? { opacity: 1, y: 0 } : {}}
+            initial={{ opacity: 0, y: 20, display: 'none' }}
+            animate={isSecondSectionVisible ? 'visible' : 'hidden'}
+            variants={{
+              hidden: { opacity: 0, y: 20, transitionEnd: { display: 'none' } },
+              visible: { opacity: 1, y: 0, display: 'block' },
+            }}
             transition={{ duration: 0.5 }}
           >
             Start yours today
@@ -61,8 +69,12 @@ const ScrollingElement = () => {
         </div>
         <motion.div
           className='w-[500px] mx-auto gap-2 flex flex-row'
-          initial={{ opacity: 0, y: 20 }}
-          animate={isSecondSectionVisible ? { opacity: 1, y: 0 } : {}}
+          initial={{ opacity: 0, y: 20, display: 'none' }}
+          animate={isSecondSectionVisible ? 'visible' : 'hidden'}
+          variants={{
+            hidden: { opacity: 0, y: 20, transitionEnd: { display: 'none' } },
+            visible: { opacity: 1, y: 0, display: 'flex' },
+          }}
           transition={{ duration: 0.5 }}
         >
           <motion.a
