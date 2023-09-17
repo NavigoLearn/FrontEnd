@@ -3,7 +3,6 @@ import React, { MouseEvent, useEffect, useRef, useState } from 'react';
 import { motion } from 'framer-motion';
 import {
   generateObjects,
-  getRandomAnglesInRadians,
   lerp,
   screenCenter,
 } from '@components/home/typescript/helpers';
@@ -11,11 +10,14 @@ import MiddleSection from './MiddleSection';
 import BottomSection from './BottomSection';
 import ScrollingElement from './ScrollingElement';
 
+const sinTable = new Array(720)
+  .fill(0)
+  .map((_, i) => Math.sin((i * Math.PI) / 180));
+
 const Home = () => {
   const divRef = useRef(null);
   const mousePosition = useRef({ x: 0, y: 0 });
   const [parallaxNodes, setParallaxNodes] = useState(generateObjects());
-  const sinOffsets = getRandomAnglesInRadians();
   const viewCoords = useRef({ x: 0, y: 0 });
 
   useEffect(() => {
@@ -32,21 +34,20 @@ const Home = () => {
     }
 
     const animate = () => {
-      const sinOffsetsWithTime = sinOffsets.map((offset) => {
-        return Math.sin(offset + TIME) * floatingEffect;
-      });
       setParallaxNodes(
         parallaxNodes.map((node) => {
-          const targetY = node.targetY + sinOffsetsWithTime[node.sinOffset];
+          const sinIndex = Math.floor(node.sinOffset + TIME) % 720;
+          const targetY = node.targetY + sinTable[sinIndex] * floatingEffect;
 
           return {
             ...node,
             targetY,
+            sinOffset: sinIndex,
           };
         })
       );
 
-      TIME += 0.02;
+      TIME += 1;
       animationFrameId = requestAnimationFrame(animate);
     };
 
