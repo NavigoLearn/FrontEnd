@@ -1,44 +1,32 @@
 import { DraggingBehavior } from '@src/typescript/roadmap_ref/dragging/core';
-import {
-  getComponentMovedAnchorsPositions,
-  getSubNodeMovedAnchorsPositions,
-} from '@src/typescript/roadmap_ref/snapping/anchors-generators/generate-element-anchors';
-import {
-  getComponentsExternalAnchorsPositions,
-  getSubNodeExternalAnchorsPositions,
-} from '@src/typescript/roadmap_ref/snapping/anchors-generators/generate-external-anchors';
+import { getNodeMovedAnchorsPositions } from '@src/typescript/roadmap_ref/snapping/anchors-generators/generate-element-anchors';
+import { getRenderedRootNodesExternalAnchorsPositions } from '@src/typescript/roadmap_ref/snapping/anchors-generators/generate-external-anchors';
 import { ISnapPolynomialObject } from '@src/typescript/roadmap_ref/snapping/snapping-types';
 import { generateSnapPolynomials } from '@src/typescript/roadmap_ref/snapping/polynomial-generators/generate-polynomials';
-import { calculateAnchorsDeltasXToPolynomials } from '@src/typescript/roadmap_ref/snapping/snapping-processing/process-x-snappings';
+import { calculateAnchorsDeltasToPolynomials } from '@src/typescript/roadmap_ref/snapping/snapping-processing/process-x-snappings';
 import { getSmallestOutOfAllDeltas } from '@src/typescript/roadmap_ref/snapping/evaluators/evaluate-deltas';
 import { setSnappings } from '@store/roadmap-refactor/render/snapping-lines';
-import {
-  getNodeAbsoluteCoordsCenter,
-  getNodeByIdRoadmapSelector,
-} from '@src/typescript/roadmap_ref/roadmap-data/services/get';
-import { transformSnapCoordsInAbsolute } from '@src/typescript/roadmap_ref/snapping/data-transform/transform-coords-snap';
-import { getComponentById } from '@src/typescript/roadmap_ref/node/core/data-get/components';
 
-export function snapComponentProtocol(
+export function snapRootNodeProtocol(
   dragX: number,
   dragY: number,
   draggingBehavior: DraggingBehavior
 ) {
-  const draggedComponentId = draggingBehavior.draggingElementId;
-  const parentId = draggingBehavior.additionalData.parentNodeId;
-  const parentNode = getNodeByIdRoadmapSelector(parentId);
-  const component = getComponentById(parentNode, draggedComponentId);
-
-  const elementAnchors = getComponentMovedAnchorsPositions(
-    component,
+  // gigachad math polynomials based solution
+  /* think of the lines for snapping as polynomials. Here all those lines are built as a function of x and y
+  Those functions are evaluated for the current drag position, calculating how many x and y units are needed to snap
+  to that function ( remember the function are lines from external points )
+   */
+  const draggedNodeId = draggingBehavior.draggingElementId;
+  const elementAnchors = getNodeMovedAnchorsPositions(
+    draggedNodeId,
     dragX,
     dragY
   );
 
-  const externalAnchors = getComponentsExternalAnchorsPositions(
-    parentId,
-    draggedComponentId
-  );
+  const externalAnchors = getRenderedRootNodesExternalAnchorsPositions([
+    draggedNodeId,
+  ]);
   const snapPolynomials: ISnapPolynomialObject[] =
     generateSnapPolynomials(externalAnchors);
 
@@ -50,12 +38,12 @@ export function snapComponentProtocol(
   );
 
   // gets the distance between anchors and the calculated polynomials
-  const deltasX = calculateAnchorsDeltasXToPolynomials(
+  const deltasX = calculateAnchorsDeltasToPolynomials(
     snapPolynomialsX,
     elementAnchors
   );
 
-  const deltasY = calculateAnchorsDeltasXToPolynomials(
+  const deltasY = calculateAnchorsDeltasToPolynomials(
     snapPolynomialsY,
     elementAnchors
   );
@@ -89,12 +77,7 @@ export function snapComponentProtocol(
     ...snapCoordinatesXAdjusted,
     ...snapCoordinatesYAdjusted,
   ];
-
-  const adjustedSnappingLinesCoords = transformSnapCoordsInAbsolute(
-    parentId,
-    snappingLinesCoords
-  );
-  setSnappings(adjustedSnappingLinesCoords);
+  setSnappings(snappingLinesCoords);
 
   return {
     x: appliedX,

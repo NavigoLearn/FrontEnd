@@ -1,1 +1,1 @@
-export const BASE_SNAPPING_DISTANCE = 5;
+export const BASE_SNAPPING_DISTANCE = 15;

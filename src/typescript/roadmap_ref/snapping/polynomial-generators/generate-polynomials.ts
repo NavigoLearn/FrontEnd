@@ -24,7 +24,7 @@ function generateVerticalSnapPolynomialFunction(
   };
 }
 
-function generateSnapPolynomial(anchor: ICoords | ICoordsCustom) {
+function generateSnapPolynomial(anchor: ICoords) {
   const polynomials: ISnapPolynomialObject[] = [
     {
       polynomial: generateHorizontalSnapPolynomialFunction(anchor),
@@ -47,16 +47,6 @@ function generateSnapPolynomial(anchor: ICoords | ICoordsCustom) {
       polynomialOrigins: [anchor],
     },
   ];
-
-  if (typeAssertICoordsCustom(anchor)) {
-    if (!anchor.snapOnX) {
-      polynomials.splice(1, 1);
-    }
-
-    if (!anchor.snapOnY) {
-      polynomials.splice(0, 1);
-    }
-  }
 
   return polynomials;
 }

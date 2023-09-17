@@ -29,7 +29,7 @@ import {
   unSubscribeToAlt,
 } from '@store/roadmap-refactor/misc/key-press-store';
 import { triggerNodeConnectionsRerender } from '@src/typescript/roadmap_ref/render/dragging';
-import { snapResizingRootNodeProtocol } from '@src/typescript/roadmap_ref/snapping/snap-protocols/resizing-root-nodes';
+import { snapResizingRootNodeProtocol } from '@src/typescript/roadmap_ref/snapping/snap-protocols/snap-root-nodes-resize';
 
 type IDeltaCalc = (eventY, startY) => number;
 
@@ -124,6 +124,7 @@ const handleMouseMove = throttle(() => {
   getResizeIsResizingCallback()();
   resizeCallback(deltaX, deltaY); // we resized the node
   snapResizingRootNodeProtocol(elementRef, direction);
+  console.log('rerendering after snapping wiidth');
 
   triggerNodeRerender(elementRef.id);
   triggerNodeConnectionsRerender(elementRef.id);

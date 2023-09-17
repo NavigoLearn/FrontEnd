@@ -264,6 +264,11 @@ const NodeRendererForeign: React.FC<NodeViewProps> = ({
           ref={nodeDivRef}
           onClick={(event) => {
             event.stopPropagation();
+            if (resizing || isCurrentlyDragged) {
+              return;
+            }
+            console.log('not resizing');
+
             getOnClickAction(nodeId)();
             // if (nodeId === '0') {
             //   setDeleteRootNodeNotificationTrue();

@@ -68,9 +68,9 @@ const ComponentRendererForeign = ({
       ref={divRef}
       key={component.id}
       id={`div${id}`}
-      className={`absolute flex justify-center items-center select-none pointer-events-auto ${
-        parentSelected && 'border-opacity-100'
-      } transition-allNoTransform`}
+      className={`absolute flex justify-center items-center select-none ${
+        parentSelected ? 'pointer-events-auto' : 'pointer-events-none'
+      } ${parentSelected && 'border-opacity-100'} transition-allNoTransform`}
       style={{
         color: `${textColor.slice(0, -1)},${opacityFiltered})`,
         fontSize: fontSizeSelect,
@@ -82,36 +82,15 @@ const ComponentRendererForeign = ({
         left: `${position.x}px`,
       }}
     >
-      {parentSelected && (
-        <DraggingResizeElement
-          style={{
-            width,
-            height,
-          }}
-          widthCallback={(newWidth) => {
-            const parentWidth = getNodeByIdRoadmapSelector(parentNode.id).data
-              .width;
-            if (newWidth > parentWidth) {
-              newWidth = parentWidth;
-            }
-            mutateComponentTextWidth(component, newWidth);
-            triggerNodeRerender(parentNode.id);
-          }}
-          heightCallback={(newHeight: number) => {
-            const parentHeight = getNodeByIdRoadmapSelector(parentNode.id).data
-              .height;
-            if (newHeight > parentHeight) {
-              newHeight = parentHeight;
-            }
-            mutateComponentTextHeight(component, newHeight);
-            triggerNodeRerender(parentNode.id);
-          }}
-          onlyXaxis
-          snappingCallback={(newWidth: number, newHeight: number) => {
-            return { width: newWidth, height: newHeight };
-          }}
-        />
-      )}
+      {/* {parentSelected && ( */}
+      {/*  <DraggingResizeElement */}
+      {/*    style={{ */}
+      {/*      width, */}
+      {/*      height, */}
+      {/*    }} */}
+      {/*    onlyXaxis */}
+      {/*  /> */}
+      {/* )} */}
       {type === 'Text' && <h1 className='text-center select-none'>{text}</h1>}
     </div>
   );

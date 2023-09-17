@@ -13,9 +13,9 @@ import renderNodesStore from '@store/roadmap-refactor/render/rendered-nodes';
 import { getComponentById } from '@src/typescript/roadmap_ref/node/core/data-get/components';
 import { setSnappings } from '@store/roadmap-refactor/render/snapping-lines';
 import { snapCoordsToPositions } from '@src/typescript/roadmap_ref/snapping/old/core';
-import { snapRootNodeProtocol } from '@src/typescript/roadmap_ref/snapping/snap-protocols/root-nodes';
-import { snapSubNodeProtocol } from '@src/typescript/roadmap_ref/snapping/snap-protocols/sub-nodes';
-import { snapComponentProtocol } from '@src/typescript/roadmap_ref/snapping/snap-protocols/components';
+import { snapRootNodeProtocol } from '@src/typescript/roadmap_ref/snapping/snap-protocols/snap-root-nodes-drag';
+import { snapSubNodeProtocol } from '@src/typescript/roadmap_ref/snapping/snap-protocols/snap-sub-nodes-drag';
+import { snapComponentProtocol } from '@src/typescript/roadmap_ref/snapping/snap-protocols/snap-components-drag';
 
 export const draggingStrategyFree = (draggingBehavior, newX, newY) => {
   return {
