@@ -88,8 +88,6 @@ const Home = () => {
     };
   };
 
-  console;
-
   return (
     <div
       onMouseMove={handleMouseMove}
