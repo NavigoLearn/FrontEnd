@@ -17,6 +17,7 @@ const Home = () => {
   const viewCoords = useRef({ x: 0, y: 0 });
 
   useEffect(() => {
+    const floatingEffect = 25;
     let animationFrameId = null;
     let TIME = 0;
 
@@ -31,8 +32,6 @@ const Home = () => {
     const animate = () => {
       setParallaxNodes(
         parallaxNodes.map((node) => {
-          const floatingEffect = 25;
-
           const targetY =
             node.targetY + Math.sin(node.sinOffset + TIME) * floatingEffect;
 
@@ -66,8 +65,8 @@ const Home = () => {
       const DISTANCE_Y = ((y - SCREEN_CENTER_Y) / SCREEN_CENTER_Y) * 1080;
 
       viewCoords.current = {
-        x: lerp(viewCoords.current.x, DISTANCE_X / 10, 0.2),
-        y: lerp(viewCoords.current.y, DISTANCE_Y / 10, 0.2),
+        x: lerp(viewCoords.current.x, DISTANCE_X / 12, 0.2),
+        y: lerp(viewCoords.current.y, DISTANCE_Y / 12, 0.2),
       };
 
       animationFrameId = requestAnimationFrame(animate);

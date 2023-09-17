@@ -6,11 +6,11 @@ export interface ParallaxObject {
 
 export const SPACING_X = 250;
 export const SPACING_Y = 250;
-export const X_MIN = -500;
-export const Y_MIN = -500;
-export const X_MAX = 2420;
-export const Y_MAX = 1680;
-export const RANDOM_OFFSET = 0.5;
+export const X_MIN = -300;
+export const Y_MIN = -300;
+export const X_MAX = 2220;
+export const Y_MAX = 1480;
+export const RANDOM_OFFSET = 0.7;
 export const MAX_MOVE_PER_FRAME = 100;
 
 export const lerp = (
@@ -27,7 +27,10 @@ export const lerp = (
   return current + diff;
 };
 
+let savedObjects: ParallaxObject[] = [];
 export const generateObjects = (): ParallaxObject[] => {
+  if (savedObjects.length > 0) return savedObjects;
+
   const objects = [];
   for (let x = X_MIN; x < X_MAX; x += SPACING_X) {
     for (let y = Y_MIN; y < Y_MAX; y += SPACING_Y) {
@@ -37,6 +40,9 @@ export const generateObjects = (): ParallaxObject[] => {
       objects.push({ targetX, targetY, sinOffset });
     }
   }
+
+  savedObjects = objects;
+
   return objects;
 };
 
