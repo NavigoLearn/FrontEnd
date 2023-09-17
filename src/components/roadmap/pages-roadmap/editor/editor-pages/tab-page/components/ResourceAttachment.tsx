@@ -18,6 +18,7 @@ import { useClickOutside } from '@hooks/useClickOutside';
 import linkpop from '@assets/linkpop.svg';
 import TrashIcon from '@src/UI-library/svg-components/trash/TrashIcon';
 import { openRoadmapLink } from '@src/typescript/utils/urlUtils';
+import exit from '../../../../../../../../public/editor/close.svg';
 
 type IResourceAttachmentProps = {
   component: IAttachmentTabBulletListProperties;
@@ -76,15 +77,24 @@ export const ResourceAttachmentView = ({
 type IResourceBulletListItemDropdownProps = {
   component: IAttachmentTabBulletListProperties;
   listItem: IAttachmentTabBulletListItem;
+  toggleDropdown: () => void;
 };
 const ResourceBulletListItemDropdown = ({
   component,
   listItem,
+  toggleDropdown,
 }: IResourceBulletListItemDropdownProps) => {
   return (
     <div className='w-full h-full p-4 flex flex-col gap-1 font-roboto-text text-darkBlue'>
+      <button
+        className='w-5 h-5 absolute top-1 right-1'
+        type='button'
+        onClick={() => toggleDropdown()}
+      >
+        <img src={exit} alt='exitBUtton' />
+      </button>
       <input
-        className='border p-1 border-placeholderBlack outline-none rounded-md'
+        className='border p-1 border-placeholderBlack outline-none rounded-md mt-2 mr-2'
         value={listItem.text}
         onChange={(e) => {
           const newValue = e.target.value;
@@ -97,7 +107,7 @@ const ResourceBulletListItemDropdown = ({
         }}
       />
       <input
-        className='border p-1 border-placeholderBlack outline-none rounded-md'
+        className='border p-1 border-placeholderBlack outline-none rounded-md mr-2'
         value={listItem.linkURL}
         onChange={(e) => {
           const newValue = e.target.value;
@@ -122,16 +132,13 @@ const ResourceBulletListItem = ({
   item,
 }: IResourceBulletListItemProps) => {
   const [dropdown, setDropdown] = useState(false);
-
-  const myDiv = useRef(null);
-  useClickOutside(myDiv, () => {
-    setDropdown(false);
-  });
+  const toggleDropdown = () => {
+    setDropdown((prev) => !prev);
+  };
 
   return (
     <div
       key={item.id}
-      ref={myDiv}
       className='w-full flex relative justify-between items-center px-3 mt-1'
     >
       <section>
@@ -189,6 +196,7 @@ const ResourceBulletListItem = ({
             <ResourceBulletListItemDropdown
               component={component}
               listItem={item}
+              toggleDropdown={toggleDropdown}
             />
           </motion.div>
         )}

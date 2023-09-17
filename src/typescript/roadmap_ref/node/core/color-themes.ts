@@ -21,7 +21,7 @@ export const colorThemes: IColorThemes = {
       defaultOpacity: 100,
     },
     Quaternary: {
-      nodeColor: '#B4C6F4',
+      nodeColor: '#E3EDF6',
       textColor: 'rgb(26,27,80)',
       borderColor: '#none',
       defaultOpacity: 100,
