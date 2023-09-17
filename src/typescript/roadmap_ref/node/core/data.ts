@@ -8,7 +8,8 @@ import {
   selectNodeColorText,
 } from '@src/typescript/roadmap_ref/node/core/factories/data-mutation/services';
 import {
-  DEFAULT_COLOR_THEME_OPTION, DEFAULT_NODE_BACKGROUND_OPACITY,
+  DEFAULT_COLOR_THEME_OPTION,
+  DEFAULT_NODE_BACKGROUND_OPACITY,
   DEFAULT_NODE_HEIGHT,
   DEFAULT_NODE_OPACITY,
   DEFAULT_NODE_WIDTH,

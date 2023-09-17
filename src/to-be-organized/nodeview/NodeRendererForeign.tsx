@@ -89,7 +89,7 @@ const NodeRendererForeign: React.FC<NodeViewProps> = ({
   const renderNode = (nodeId: string, isSubNode: boolean) => {
     const loaded = useIsLoaded();
     const node = getNodeByIdRoadmapSelector(nodeId);
-    const { width, height, opacity, colorType } = node.data;
+    const { width, height, opacity, colorType, backgroundOpacity } = node.data;
     node.data.center.x = width / 2;
     const { subNodeIds } = node;
     // Function to render each subnode
@@ -182,7 +182,7 @@ const NodeRendererForeign: React.FC<NodeViewProps> = ({
       return statusCircleBgColor[status];
     }
 
-    const bgOpacity = opacity / 100;
+    const bgOpacity = backgroundOpacity / 100;
 
     const color = selectNodeColorFromScheme(
       getColorThemeFromRoadmap(),
@@ -194,8 +194,15 @@ const NodeRendererForeign: React.FC<NodeViewProps> = ({
       colorType
     );
 
+    const shadowClass =
+      // eslint-disable-next-line no-nested-ternary
+      bgOpacity === 0 ? 'shadow-none' : isSubNode ? 'shadow-md' : 'shadow-lg';
+
     const borderStyle =
-      borderColor === '#none'
+      // eslint-disable-next-line no-nested-ternary
+      bgOpacity === 0
+        ? 'none'
+        : borderColor === '#none'
         ? `2px solid ${color}`
         : `2px solid ${borderColor}`;
 
@@ -257,9 +264,7 @@ const NodeRendererForeign: React.FC<NodeViewProps> = ({
         )}
 
         <div
-          className={`rounded-md  ${
-            !isSubNode ? 'shadow-lg' : 'shadow-sm'
-          } transition-allNoTransform duration-200 absolute ${cursor}`}
+          className={`rounded-md ${shadowClass} transition-allNoTransform duration-200 absolute ${cursor}`}
           id={`div${nodeId}`}
           ref={nodeDivRef}
           onClick={(event) => {

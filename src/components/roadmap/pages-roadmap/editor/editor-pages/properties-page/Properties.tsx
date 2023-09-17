@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import {
-    mutateNodeBackgroundOpacity,
-    mutateNodeCoordX,
-    mutateNodeCoordY,
-    mutateNodeHeight,
-    mutateNodeOnClickAction,
-    mutateNodeOpacity,
-    mutateNodeWidth,
+  mutateNodeBackgroundOpacity,
+  mutateNodeCoordX,
+  mutateNodeCoordY,
+  mutateNodeHeight,
+  mutateNodeOnClickAction,
+  mutateNodeOpacity,
+  mutateNodeWidth,
 } from '@src/typescript/roadmap_ref/node/core/data-mutation/mutate';
 import { useStore } from '@nanostores/react';
 import editorSelectedData, {
@@ -196,7 +196,7 @@ const Properties = () => {
           selectedTheme={getColorThemeFromRoadmap()}
           node={node}
         />
-        <div className='flex flex-row gap-2 mt-2'>
+        <div className='flex flex-row justify-between mr-6'>
           <DraggableInput
             name='Opacity'
             value={data.opacity}
@@ -216,7 +216,7 @@ const Properties = () => {
             sensitivity={1}
           />
           <DraggableInput
-            name='Background Opacity'
+            name='fill-Opacity'
             value={data.backgroundOpacity}
             onChange={(value) => {
               let newValue = parseInt(value, 10);

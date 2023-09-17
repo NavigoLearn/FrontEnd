@@ -109,7 +109,15 @@ function handleGetNodeProperties(node: NodeClass) {
   const borderColor = selectNodeColorTextBorder(colorTheme, colorType);
   const nodeColor = selectNodeColorFromScheme(colorTheme, colorType);
 
-  return { width, height, opacity, colorType, borderColor, nodeColor, backgroundOpacity };
+  return {
+    width,
+    height,
+    opacity,
+    colorType,
+    borderColor,
+    nodeColor,
+    backgroundOpacity,
+  };
 }
 
 function handleMouseOverAndDragging(nodeId: string) {
