@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import homeedit from '@assets/homeedit.svg';
 import { motion, useAnimation } from 'framer-motion';
 import {
@@ -23,7 +23,14 @@ const BottomSection = () => {
   ); // State for secondary node background and text color
   const [secondaryNodeText, setSecondaryNodeText] = useState('Secondary node'); // State for secondary node text
   const [resetTimeout, setResetTimeout] = useState(null); // Reset timer
+  const root = useRef(null);
+  const [displaySection, setDisplaySection] = useState('hidden'); // State for displaying the section [true/false
   const controls = useAnimation(); // Initialize animation controls
+
+  const fadeInUpAnim = {
+    hidden: { opacity: 0, y: 20 },
+    visible: { opacity: 1, y: 0 },
+  };
 
   const resetNodesToDefault = () => {
     setSelectedButton(null);
@@ -103,9 +110,40 @@ const BottomSection = () => {
     startResetTimer();
   };
 
+  useEffect(() => {
+    const handleScroll = () => {
+      if (root.current) {
+        const { top } = root.current.getBoundingClientRect();
+        setDisplaySection(
+          top - window.innerHeight * (5 / 8) <= 0 ? 'visible' : 'hidden'
+        );
+      }
+    };
+
+    handleScroll();
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
   return (
-    <div className='w-full mt-56 flex flex-row items-center justify-center gap-20'>
-      <div className='flex flex-col items-start mb-auto'>
+    <motion.div
+      className='w-full mt-56 flex flex-row items-center justify-center gap-20'
+      initial='hidden'
+      animate={displaySection}
+      transition={{ duration: 0.25 }}
+      variants={fadeInUpAnim}
+      ref={root}
+    >
+      <motion.div
+        className='flex flex-col items-start mb-auto'
+        initial={{ opacity: 1 }}
+        animate={displaySection}
+        transition={{ duration: 0.5 }}
+        variants={{
+          hidden: { opacity: 1, x: -640 },
+          visible: { opacity: 1, x: 0 },
+        }}
+      >
         <div className='flex flex-row items-center justify-center gap-4'>
           <div className='w-8 h-8 2xl:w-12 2xl:h-12 rounded-full border border-placeholderBlack items-center justify-center flex'>
             <div className='w-7 h-7 2xl:w-11 2xl:h-11 rounded-full border border-placeholderBlack items-center justify-center flex'>
@@ -142,7 +180,7 @@ const BottomSection = () => {
         >
           Try tool
         </motion.a>
-      </div>
+      </motion.div>
       <div className='flex flex-col'>
         <motion.div
           style={{
@@ -237,7 +275,7 @@ const BottomSection = () => {
           Also, we allow infinitely recursive editable nodes, just to know
         </h2>
       </div>
-    </div>
+    </motion.div>
   );
 };
 
