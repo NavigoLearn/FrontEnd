@@ -1,17 +1,16 @@
 import { useEffect } from 'react';
 import { useStore } from '@nanostores/react';
 import {
-  profileDataStore,
+  storeProfileData,
   fetchAndSetProfileData,
 } from '../stores/store-profile-data';
 import {
   setProfilePage,
-  storeProfilePages,
-} from '../stores/store-profile-pages';
+  storeSelectedProfilePage,
+} from '../stores/store-selected-profile-page';
 
 const useProfileData = (id) => {
   // const { currentPage } = useStore(storeProfilePages);
-
   useEffect(() => {
     fetchAndSetProfileData(id);
   }, []);

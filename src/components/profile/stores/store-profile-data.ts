@@ -1,51 +1,59 @@
 import { atom } from 'nanostores';
 import {
-  CardRoadmapTypeApi,
+  ICardRoadmapTypeApi,
   RoadmapTypeApiExplore,
 } from '@src/types/explore/card';
 import { getLoggedUserId } from '@src/store/user/logged-user';
 import { DEFAULT_OWNER_AVATAR } from '@store/roadmap-refactor/roadmap-data/misc-data/roadmap-owner-data';
 import {
+  setProfileInfoBio,
+  setProfileInfoGithubUrl,
+  setProfileInfoName,
+  setProfileInfoWebsiteUrl,
+  setProfilePageEditing,
+} from '@components/profile/stores/store-selected-profile-page';
+import {
+  fetchPostProfileData,
   fetchProfileData,
   fetchRoadmapCardsProfile,
 } from '../profile/profile-fetch';
 import { ProfileDataReponse, UserData } from '../profile/profile-data';
 import { DefaultProfileAdapter } from '../profile/adapter';
 
-export const profileDataStore = atom({
+export const storeProfileData = atom({
   loading: true,
   data: {} as UserData,
-  profileRoadmaps: {} as CardRoadmapTypeApi[],
+  profileRoadmaps: {} as ICardRoadmapTypeApi[],
   ownProfile: false,
 });
 
 export function setOwnProfile(ownProfile: boolean) {
-  profileDataStore.set({
-    ...profileDataStore.get(),
+  storeProfileData.set({
+    ...storeProfileData.get(),
     ownProfile,
   });
 }
 
-export function getOwnProfile() {
-  return profileDataStore.get().ownProfile;
+export function getIsOwnerOfProfile() {
+  return storeProfileData.get().ownProfile;
 }
 
 export function setProfileDataLoading() {
-  profileDataStore.set({
-    ...profileDataStore.get(),
+  storeProfileData.set({
+    ...storeProfileData.get(),
     loading: true,
   });
 }
 
 export function setProfileDataLoaded() {
-  profileDataStore.set({
-    ...profileDataStore.get(),
+  storeProfileData.set({
+    ...storeProfileData.get(),
     loading: false,
   });
 }
 
 export function getProfileDataLoading() {
-  return profileDataStore.get().loading;
+  return storeProfileData.get().loading;
 }
 
 const adapter = new DefaultProfileAdapter();
@@ -57,7 +65,7 @@ function checkProfileForDefaults(adaptedData: ProfileDataReponse) {
 }
 export async function fetchAndSetProfileData(id) {
   setProfileDataLoading();
-  let urlId = id.id.id === null ? '' : id.id.id;
+  let urlId = id === null ? '' : id;
   const loggedUserId = getLoggedUserId();
 
   if (urlId === loggedUserId.toString()) {
@@ -77,11 +85,55 @@ export async function fetchAndSetProfileData(id) {
 
   checkProfileForDefaults(adaptedData);
 
-  profileDataStore.set({
-    ...profileDataStore.get(),
+  storeProfileData.set({
+    ...storeProfileData.get(),
     data: adaptedData.data,
     profileRoadmaps: adaptedRoadmaps,
   });
 
   setProfileDataLoaded();
 }
+
+export type IProfileData = {
+  name: string;
+  githubUrl: string;
+  websiteUrl: string;
+  bio: string;
+};
+export const storeProfileTempData = atom({
+  profileData: {} as IProfileData,
+});
+
+export function setProfileTempDataField(field: string, value: string) {
+  storeProfileTempData.set({
+    ...storeProfileTempData.get(),
+    profileData: {
+      ...storeProfileTempData.get().profileData,
+      [field]: value,
+    },
+  });
+}
+
+export const handleTransferProfileToTemp = () => {
+  const { name, githubUrl, websiteUrl, bio } = {
+    ...storeProfileData.get().data.profileInfo,
+  };
+  storeProfileTempData.set({
+    ...storeProfileTempData.get(),
+    profileData: {
+      name,
+      githubUrl,
+      websiteUrl,
+      bio,
+    },
+  });
+};
+export const handleSaveProfileData = (profileData: IProfileData) => {
+  const { name, githubUrl, websiteUrl, bio } = { ...profileData };
+  setProfileInfoName(name);
+  setProfileInfoGithubUrl(githubUrl);
+  setProfileInfoWebsiteUrl(websiteUrl);
+  setProfileInfoBio(bio);
+  setProfilePageEditing(false);
+  fetchPostProfileData(name, githubUrl, websiteUrl, bio);
+};

@@ -1,10 +1,10 @@
 import { atom } from 'nanostores';
-import { CardRoadmapTypeApi } from '@type/explore/card';
+import { ICardRoadmapTypeApi } from '@type/explore/card';
 import { fetchRoadmapCardsExplore } from '@src/api-wrapper/explore/roadmap-card-data';
 import { exploreQueryStore } from '@components/explore/stores/explore-query-store';
 
 export const exploreCardsStore = atom({
-  cards: [] as CardRoadmapTypeApi[],
+  cards: [] as ICardRoadmapTypeApi[],
   total: 0,
   loading: true,
 });

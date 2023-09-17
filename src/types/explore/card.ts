@@ -1,6 +1,6 @@
 import { ISortBy } from '@components/explore/stores/explore-query-store';
 
-export type CardRoadmapTypeApi = {
+export type ICardRoadmapTypeApi = {
   readonly id: number;
   readonly name: string;
   readonly description: string;
@@ -56,6 +56,6 @@ export type FullRoadmapTypeApiResponse = {
 export type RoadmapTypeApiExplore = {
   success: boolean;
   message: string;
-  data: CardRoadmapTypeApi[];
+  data: ICardRoadmapTypeApi[];
   total: number;
 };

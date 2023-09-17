@@ -257,7 +257,9 @@ const NodeRendererForeign: React.FC<NodeViewProps> = ({
         )}
 
         <div
-          className={`rounded-lg shadow-lg transition-allNoTransform duration-200 absolute ${cursor}`}
+          className={`rounded-md  ${
+            !isSubNode ? 'shadow-lg' : 'shadow-sm'
+          } transition-allNoTransform duration-200 absolute ${cursor}`}
           id={`div${nodeId}`}
           ref={nodeDivRef}
           onClick={(event) => {

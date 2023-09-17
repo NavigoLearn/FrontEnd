@@ -11,15 +11,15 @@ import {
   getProfileInfoGithubUrl,
   getProfileInfoName,
   getProfileInfoWebsiteUrl,
-} from '@src/components/profile/stores/store-profile-pages';
+} from '@components/profile/stores/store-selected-profile-page';
 import {
   getProfileDataLoading,
-  profileDataStore,
+  storeProfileData,
 } from '@src/components/profile/stores/store-profile-data';
 import { useStore } from '@nanostores/react';
 
 const ProfilePageView = () => {
-  const { loading } = useStore(profileDataStore);
+  const { loading } = useStore(storeProfileData);
 
   return (
     <div>

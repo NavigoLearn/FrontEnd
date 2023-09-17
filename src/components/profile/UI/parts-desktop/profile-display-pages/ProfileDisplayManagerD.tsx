@@ -3,10 +3,10 @@ import { AnimatePresence, motion } from 'framer-motion';
 import {
   getProfilePage,
   getProfilePageEditing,
-  storeProfilePages,
-} from '@components/profile/stores/store-profile-pages';
-import ActivityPage from '@components/profile/UI/parts-desktop/profile-display-pages/pages/activity/ActivityPage';
-import RoadmapsPage from '@components/profile/UI/parts-desktop/profile-display-pages/pages/roadmaps/RoadmapsPage';
+  storeSelectedProfilePage,
+} from '@components/profile/stores/store-selected-profile-page';
+import ActivityPageD from '@components/profile/UI/parts-desktop/profile-display-pages/pages/activity/ActivityPageD';
+import RoadmapsPageD from '@components/profile/UI/parts-desktop/profile-display-pages/pages/roadmaps/RoadmapsPageD';
 import { useStore } from '@nanostores/react';
 import ProfilePageView from './pages/profile/ProfilePageView';
 import ProfilePageManager from './pages/profile/ProfilePageManager';
@@ -22,8 +22,8 @@ const AnimationWrapper = ({ id, children }: IAnimationWrapperProps) => {
     </motion.div>
   );
 };
-const ProfileDisplayManager = () => {
-  useStore(storeProfilePages);
+const ProfileDisplayManagerD = () => {
+  useStore(storeSelectedProfilePage);
   const page = getProfilePage();
   const isEditing = getProfilePageEditing();
 
@@ -37,12 +37,12 @@ const ProfileDisplayManager = () => {
         )}
         {page === 'roadmaps' && (
           <AnimationWrapper id={page}>
-            <RoadmapsPage />
+            <RoadmapsPageD />
           </AnimationWrapper>
         )}
         {page === 'activity' && (
           <AnimationWrapper id={page}>
-            <ActivityPage />
+            <ActivityPageD />
           </AnimationWrapper>
         )}
       </AnimatePresence>
@@ -50,4 +50,4 @@ const ProfileDisplayManager = () => {
   );
 };
 
-export default ProfileDisplayManager;
+export default ProfileDisplayManagerD;

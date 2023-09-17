@@ -1,17 +1,17 @@
 import React, { useState } from 'react';
 import { useStore } from '@nanostores/react';
 import {
-  profileDataStore,
-  getOwnProfile,
+  storeProfileData,
+  getIsOwnerOfProfile,
   setProfileDataLoading,
 } from '@src/components/profile/stores/store-profile-data';
-import { CardRoadmapTypeApi } from '@src/types/explore/card';
+import { ICardRoadmapTypeApi } from '@src/types/explore/card';
 import Card from '@src/components/explore/UI/shared/cards/Card';
 import { get } from 'http';
 
-const RoadmapsPage = () => {
+const RoadmapsPageD = () => {
   const [drafts, setDrafts] = useState(false);
-  const { loading, profileRoadmaps } = useStore(profileDataStore);
+  const { loading, profileRoadmaps } = useStore(storeProfileData);
 
   if (loading)
     return (
@@ -20,10 +20,9 @@ const RoadmapsPage = () => {
       </div>
     );
 
-  console.log(profileRoadmaps);
   return (
     <div className='mt-5 ml-10'>
-      {getOwnProfile() && (
+      {getIsOwnerOfProfile() && (
         <div className=''>
           <button
             type='button'
@@ -51,8 +50,8 @@ const RoadmapsPage = () => {
         </div>
       )}
       <div className='grid-cols-2 grid gap-5 w-[660px] mt-7'>
-        {profileRoadmaps.map((card: CardRoadmapTypeApi) => {
-          if (card.isDraft && drafts === true && getOwnProfile()) {
+        {profileRoadmaps.map((card: ICardRoadmapTypeApi) => {
+          if (card.isDraft && drafts === true && getIsOwnerOfProfile()) {
             return <Card data={card} key={card.id} />;
           }
           if (!card.isDraft && drafts === false) {
@@ -65,4 +64,4 @@ const RoadmapsPage = () => {
   );
 };
 
-export default RoadmapsPage;
+export default RoadmapsPageD;
