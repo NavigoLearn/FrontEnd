@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import { Play } from '@src/components/home/icons/HomeIcons';
 import versatile from '@assets/versatile.svg';
 import infinite from '@assets/infinite.svg';
@@ -11,6 +11,7 @@ const MiddleSection = () => {
     hidden: { opacity: 0, y: 20 },
     visible: { opacity: 1, y: 0 },
   };
+  const root = useRef(null);
 
   const [fillPlay, setFillPlay] = React.useState('#fff');
   const [fillCircle, setFillCircle] = React.useState('#1A1B50');
@@ -21,27 +22,34 @@ const MiddleSection = () => {
   };
 
   return (
-    <div>
-      <h1 className='mx-auto z-20 mt-56 text-center items-center w-[600px] xl:w-[600px] font-roboto-text text-5xl font-semibold justify-center text-darkBlue'>
-        Why roadmaps?
-      </h1>
-      <motion.button
-        type='button'
-        className='flex mx-auto mt-8 px-8 py-1 text-darkBlue bg-transparent rounded-lg shadow-md text-xl font-roboto-text font-semibold border-2 border-darkBlue text-center items-center'
-        whileHover={{
-          scale: 1.05,
-          backgroundColor: '#1A1B50',
-          color: '#fff',
-          transition: { duration: 0.2 },
+    <div ref={root}>
+      <div
+        className='flex flex-col mx-auto justify-center items-center bg-white mt-56 pt-12 pb-16 w-1/2 rounded-full mb-[-60px]'
+        style={{
+          boxShadow: '0px 0px 128px 64px rgba(255, 255, 255, 1)',
         }}
-        onHoverStart={handleButtonHover}
-        onHoverEnd={handleButtonHover}
       >
-        <Play fillCircle={fillCircle} fillPlay={fillPlay} />
-        Watch video
-      </motion.button>
+        <h1 className='mx-auto z-20 text-center items-center w-[600px] xl:w-[600px] font-roboto-text text-5xl font-semibold justify-center text-darkBlue'>
+          Why roadmaps?
+        </h1>
+        <motion.button
+          type='button'
+          className='flex mx-auto mt-8 px-8 py-1 text-darkBlue bg-transparent rounded-lg shadow-md text-xl font-roboto-text font-semibold border-2 border-darkBlue text-center items-center'
+          whileHover={{
+            scale: 1.05,
+            backgroundColor: '#1A1B50',
+            color: '#fff',
+            transition: { duration: 0.2 },
+          }}
+          onHoverStart={handleButtonHover}
+          onHoverEnd={handleButtonHover}
+        >
+          <Play fillCircle={fillCircle} fillPlay={fillPlay} />
+          Watch video
+        </motion.button>
+      </div>
       <motion.div
-        className='flex flex-row gap-20 justify-center -translate-y-32 mt-2 z-10'
+        className='flex flex-row gap-20 justify-center -translate-y-32 z-10'
         initial='hidden'
         animate='visible'
         variants={fadeInUp}
@@ -57,28 +65,16 @@ const MiddleSection = () => {
             strokeOpacity={1}
           />
         </div>
-        <div className='absolute z-[-1]'>
-          <div>
-            <div
-              style={{
-                position: 'absolute',
-                top: 0,
-                left: 0,
-                right: 0,
-                bottom: '50%',
-                background: 'linear-gradient(to bottom, white, white, #FFF0)',
-              }}
-            />
-            <NodesAnimation
-              width={200}
-              height={200}
-              y1={0}
-              y2={150}
-              x1={0}
-              x2={0}
-              strokeOpacity={1}
-            />
-          </div>
+        <div className='absolute'>
+          <NodesAnimation
+            width={200}
+            height={200}
+            y1={0}
+            y2={150}
+            x1={0}
+            x2={0}
+            strokeOpacity={1}
+          />
         </div>
         <div className='absolute translate-x-[100%] 2xl:translate-x-[130%]'>
           <NodesAnimation

@@ -9,7 +9,7 @@ export const SPACING_Y = 250;
 export const X_MIN = -500;
 export const Y_MIN = -500;
 export const X_MAX = 2420;
-export const Y_MAX = 1580;
+export const Y_MAX = 1680;
 export const RANDOM_OFFSET = 0.5;
 export const MAX_MOVE_PER_FRAME = 100;
 

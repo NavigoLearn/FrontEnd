@@ -149,18 +149,18 @@ const Home = () => {
             />
           </linearGradient>
           <mask id='mask'>
-            <rect width='1920' height='1080' fill='white' />
-            <rect width='1920' height='1080' fill='url(#fadeout)' />
+            <rect width='100%' height='100%' fill='white' />
+            <rect width='100%' height='100%' fill='url(#fadeout)' />
 
             <rect
-              width='1920'
-              height='1080'
+              width='100%'
+              height='100%'
               fill='url(#left-to-middle-to-right)'
             />
 
             <rect
-              width='1920'
-              height='1080'
+              width='100%'
+              height='100%'
               fill='url(#top-to-middle-to-bottom)'
             />
           </mask>
@@ -176,8 +176,8 @@ const Home = () => {
             translateY: viewCoords.current.y,
           }}
           animate={{ transition: { duration: 0.2 } }}
-          width='1920px'
-          height='1080px'
+          width='100%'
+          height='100%'
         >
           {parallaxNodes.map((nodes) => {
             return (
