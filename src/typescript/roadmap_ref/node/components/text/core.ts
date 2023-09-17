@@ -3,7 +3,7 @@ import {
   DEFAULT_TEXT_SIZE,
   DEFAULT_TEXT_WEIGHT,
   DEFAULT_TEXT_OPACITY,
-} from '@src/typescript/roadmap_ref/node/components/text/params';
+} from '@src/typescript/roadmap_ref/node/components/text/text-params';
 import {
   ITextSizeModes,
   ITextWidthModes,
