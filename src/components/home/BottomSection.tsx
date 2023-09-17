@@ -170,7 +170,7 @@ const BottomSection = () => {
         <motion.a
           type='button'
           href='/roadmaps/create'
-          className='mt-8 bg-primary text-white font-roboto-text font-medium text-xl px-10 py-1 rounded-md'
+          className='mt-8 bg-primary text-white font-roboto-text font-medium text-xl px-10 py-1 rounded-md shadow-md'
           whileHover={{
             backgroundColor: '#1A1B50',
             color: '#fff',
