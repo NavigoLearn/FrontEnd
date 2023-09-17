@@ -8,7 +8,7 @@ import {
   selectNodeColorText,
 } from '@src/typescript/roadmap_ref/node/core/factories/data-mutation/services';
 import {
-  DEFAULT_COLOR_THEME_OPTION,
+  DEFAULT_COLOR_THEME_OPTION, DEFAULT_NODE_BACKGROUND_OPACITY,
   DEFAULT_NODE_HEIGHT,
   DEFAULT_NODE_OPACITY,
   DEFAULT_NODE_WIDTH,
@@ -31,6 +31,8 @@ export class Data {
 
   opacity: number;
 
+  backgroundOpacity: number;
+
   center: {
     x: number;
     y: number;
@@ -48,6 +50,7 @@ export class Data {
     this.width = DEFAULT_NODE_WIDTH;
     this.height = DEFAULT_NODE_HEIGHT;
     this.opacity = DEFAULT_NODE_OPACITY;
+    this.backgroundOpacity = DEFAULT_NODE_BACKGROUND_OPACITY;
     this.center = {
       x: 0,
       y: 0,

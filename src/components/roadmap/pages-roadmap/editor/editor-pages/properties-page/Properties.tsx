@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import {
-  mutateNodeCoordX,
-  mutateNodeCoordY,
-  mutateNodeHeight,
-  mutateNodeOnClickAction,
-  mutateNodeOpacity,
-  mutateNodeWidth,
+    mutateNodeBackgroundOpacity,
+    mutateNodeCoordX,
+    mutateNodeCoordY,
+    mutateNodeHeight,
+    mutateNodeOnClickAction,
+    mutateNodeOpacity,
+    mutateNodeWidth,
 } from '@src/typescript/roadmap_ref/node/core/data-mutation/mutate';
 import { useStore } from '@nanostores/react';
 import editorSelectedData, {
@@ -209,6 +210,24 @@ const Properties = () => {
                 newValue = 100;
               }
               mutateNodeOpacity(node, newValue);
+              triggerRerenderEditor();
+              triggerNodeRerender(node.id);
+            }}
+            sensitivity={1}
+          />
+          <DraggableInput
+            name='Background Opacity'
+            value={data.backgroundOpacity}
+            onChange={(value) => {
+              let newValue = parseInt(value, 10);
+              if (checkInvalidInput(value)) return;
+              if (newValue < 0) {
+                newValue = 0;
+              }
+              if (newValue > 100) {
+                newValue = 100;
+              }
+              mutateNodeBackgroundOpacity(node, newValue);
               triggerRerenderEditor();
               triggerNodeRerender(node.id);
             }}

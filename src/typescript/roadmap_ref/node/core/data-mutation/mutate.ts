@@ -16,6 +16,13 @@ import {
 export function mutateNodeOpacity(node: NodeClass, opacity: number) {
   node.data.opacity = opacity;
 }
+
+export function mutateNodeBackgroundOpacity(
+    node: NodeClass,
+    backgroundOpacity: number
+) {
+    node.data.backgroundOpacity = backgroundOpacity;
+}
 export function mutateNodeColorAndRerender(
   node: NodeClass,
   colorType: IColorThemesColors

@@ -85,7 +85,7 @@ const ColoursButton = ({
         </svg>
       </button>
 
-      <h2 className='text-secondary font-semibold text-lg font-roboto-text'>
+      <h2 className='text-secondary font-semibold text-lg font-roboto-text bg-opacity-50'>
         Colours
       </h2>
     </div>
