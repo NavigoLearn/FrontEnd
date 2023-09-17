@@ -226,7 +226,7 @@ const Home = () => {
           <motion.a
             type='button'
             href='/explore'
-            className='mx-auto mt-8 px-5 py-2 text-white bg-primary rounded-lg shadow-md text-xl font-roboto-text font-medium'
+            className='mx-auto mt-8 px-5 py-2 text-white bg-primary rounded-lg text-xl font-roboto-text font-medium'
             whileHover={{
               backgroundColor: '#1A1B50',
               color: '#fff',
