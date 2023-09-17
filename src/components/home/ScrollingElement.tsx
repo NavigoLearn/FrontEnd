@@ -1,21 +1,17 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { motion, useAnimation } from 'framer-motion';
 
 const ScrollingElement = () => {
   const [isFirstSectionVisible, setIsFirstSectionVisible] = useState(false);
   const [isSecondSectionVisible, setIsSecondSectionVisible] = useState(false);
-  const objectRef = useRef(null);
+  const trigger = useRef(null);
   const controls = useAnimation();
 
   const handleScroll = () => {
-    const yOffset = window.scrollY;
-    let beginH = Number.MAX_VALUE;
-    let endH = Number.MAX_VALUE;
-    if (objectRef.current) {
-      beginH = objectRef.current.getBoundingClientRect().top;
-      endH =
-        objectRef.current.getBoundingClientRect().top + window.innerHeight / 2;
-    }
+    if (!trigger.current) return;
+    const beginH = trigger.current.getBoundingClientRect().top;
+    const endH =
+      trigger.current.getBoundingClientRect().top + window.innerHeight / 2;
 
     setIsFirstSectionVisible(beginH <= 0);
 
@@ -31,17 +27,27 @@ const ScrollingElement = () => {
 
   return (
     <>
-      <div className='h-[150vh] w-screen' ref={objectRef} />
+      <div className='h-[150vh] w-screen' ref={trigger} />
       <div className='w-screen fixed top-[20vh] mx-auto justify-center text-center flex flex-col gap-36 mb-12'>
         <motion.h2
-          className='text-secondary font-roboto-text font-normal text-xl'
+          className={`text-secondary font-roboto-text font-normal text-xl ${
+            isFirstSectionVisible
+              ? 'pointer-events-auto'
+              : 'pointer-events-none'
+          }`}
           initial={{ opacity: 0, y: 20 }}
           animate={isFirstSectionVisible ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.5 }}
         >
           And remember...
         </motion.h2>
-        <div className='flex flex-col gap-2'>
+        <div
+          className={`flex flex-col gap-2 ${
+            isSecondSectionVisible
+              ? 'pointer-events-auto'
+              : 'pointer-events-none'
+          }`}
+        >
           <motion.h1
             className='text-darkBlue font-roboto-text text-3xl font-semibold'
             initial={{ opacity: 0, y: 20 }}

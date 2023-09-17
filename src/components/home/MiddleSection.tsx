@@ -4,7 +4,7 @@ import versatile from '@assets/versatile.svg';
 import infinite from '@assets/infinite.svg';
 import intuitive from '@assets/intuitive.svg';
 import NodesAnimation from '@src/components/home/animated/NodesAnimation';
-import { motion, useAnimation } from 'framer-motion';
+import { motion } from 'framer-motion';
 
 const MiddleSection = () => {
   const fadeInUp = {

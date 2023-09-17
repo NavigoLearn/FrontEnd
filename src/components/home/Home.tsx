@@ -1,65 +1,21 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { MouseEvent, useEffect, useRef } from 'react';
 import { motion, useMotionValue } from 'framer-motion';
+import {
+  generateObjects,
+  lerp,
+  screenCenter,
+} from '@components/home/typescript/helpers';
+import { v4 as uuidv4 } from 'uuid';
 import MiddleSection from './MiddleSection';
 import BottomSection from './BottomSection';
 import ScrollingElement from './ScrollingElement';
 
-// Define a lerp function
-const lerp = (current: number, target: number, speed: number): number => {
-  return current + speed * (target - current);
-};
-
 const Home = () => {
-  const [scrollY, setScrollY] = useState(0);
-  const [pointerEvents, setPointerEvents] = useState('pointer-events-none');
-
-  useEffect(() => {
-    const handleScroll = () => {
-      setScrollY(window.scrollY);
-    };
-
-    window.addEventListener('scroll', handleScroll);
-
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
-
-  useEffect(() => {
-    if (scrollY > 1800) {
-      setPointerEvents('pointer-events-auto');
-    } else {
-      setPointerEvents('pointer-events-none');
-    }
-  }, [scrollY]);
-
   const divRef = useRef(null);
   const mousePosition = useRef({ x: 0, y: 0 });
 
-  // both necessary to not overlap the objects
-  const SPACING_X = 150;
-  const SPACING_Y = 150;
-
-  const X_MIN = -200; // buffer area of 200px
-  const Y_MIN = -200;
-  const X_MAX = 2120; // 1920 + 200
-  const Y_MAX = 1280; // 1080 + 200
-  const RANDOM_OFFSET = 0.5;
-
   // create an array of objects with x and y coordinates
-  const objects = [] as {
-    targetX: number;
-    targetY: number;
-    sinOffset: number;
-    cosOffset: number;
-  }[];
-  for (let x = X_MIN; x < X_MAX; x += SPACING_X) {
-    for (let y = Y_MIN; y < Y_MAX; y += SPACING_Y) {
-      const targetX = x + Math.random() * RANDOM_OFFSET * SPACING_X;
-      const targetY = y + Math.random() * RANDOM_OFFSET * SPACING_Y;
-      const sinOffset = Math.random() * Math.PI * 2; // Offset between 0 and 2π
-      const cosOffset = Math.random() * Math.PI * 2;
-      objects.push({ targetX, targetY, sinOffset, cosOffset });
-    }
-  }
+  const objects = generateObjects();
 
   const xMotionValues = objects.map(() => useMotionValue(0));
   const yMotionValues = objects.map(() => useMotionValue(0));
@@ -70,8 +26,7 @@ const Home = () => {
 
     const animate = () => {
       // Calculate the distance from the center of the screen
-      const SCREEN_CENTER_X = 1920 / 2;
-      const SCREEN_CENTER_Y = 1080 / 2;
+      const [SCREEN_CENTER_X, SCREEN_CENTER_Y] = screenCenter();
 
       const { x, y } = mousePosition.current;
       const DISTANCE_X = x - SCREEN_CENTER_X;
@@ -104,7 +59,7 @@ const Home = () => {
   }, []);
 
   // animation logic - update the mouse position
-  const handleMouseMove = (e) => {
+  const handleMouseMove = (e: MouseEvent) => {
     mousePosition.current = {
       x: e.clientX,
       y: e.clientY,
@@ -164,19 +119,19 @@ const Home = () => {
         {/* <rect mask='url(#mask)' x='0' y='0' width='100%' height='100%' />  debugging shit */}
 
         <g mask='url(#mask)' x='0' y='0' width='1920px' height='1080px'>
-          {objects.map((object, index) => {
+          {objects.map((_, index) => {
             return (
               <motion.rect
-                key={index}
+                key={uuidv4()}
                 x={xMotionValues[index]}
                 y={yMotionValues[index]}
+                rx='4'
+                ry='4'
                 style={{
                   width: '2rem',
                   height: '2rem',
                   x: xMotionValues[index],
                   y: yMotionValues[index],
-                  rx: 4,
-                  ry: 4,
                 }}
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
@@ -225,11 +180,7 @@ const Home = () => {
         </div>
         <MiddleSection />
         <BottomSection />
-        {scrollY > 800 && (
-          <div className={`${pointerEvents}`}>
-            <ScrollingElement />
-          </div>
-        )}
+        <ScrollingElement />
       </div>
     </div>
   );
