@@ -1,11 +1,12 @@
+/* eslint-disable react/no-array-index-key */
 import React, { MouseEvent, useEffect, useRef, useState } from 'react';
 import { motion } from 'framer-motion';
 import {
   generateObjects,
+  getRandomAnglesInRadians,
   lerp,
   screenCenter,
 } from '@components/home/typescript/helpers';
-import { v4 as uuidv4 } from 'uuid';
 import MiddleSection from './MiddleSection';
 import BottomSection from './BottomSection';
 import ScrollingElement from './ScrollingElement';
@@ -14,6 +15,7 @@ const Home = () => {
   const divRef = useRef(null);
   const mousePosition = useRef({ x: 0, y: 0 });
   const [parallaxNodes, setParallaxNodes] = useState(generateObjects());
+  const sinOffsets = getRandomAnglesInRadians();
   const viewCoords = useRef({ x: 0, y: 0 });
 
   useEffect(() => {
@@ -30,10 +32,12 @@ const Home = () => {
     }
 
     const animate = () => {
+      const sinOffsetsWithTime = sinOffsets.map((offset) => {
+        return Math.sin(offset + TIME) * floatingEffect;
+      });
       setParallaxNodes(
         parallaxNodes.map((node) => {
-          const targetY =
-            node.targetY + Math.sin(node.sinOffset + TIME) * floatingEffect;
+          const targetY = node.targetY + sinOffsetsWithTime[node.sinOffset];
 
           return {
             ...node,
@@ -177,10 +181,10 @@ const Home = () => {
           width='100%'
           height='100%'
         >
-          {parallaxNodes.map((nodes) => {
+          {parallaxNodes.map((nodes, i) => {
             return (
               <rect
-                key={uuidv4()}
+                key={i}
                 x={nodes.targetX}
                 y={nodes.targetY}
                 rx='4'
