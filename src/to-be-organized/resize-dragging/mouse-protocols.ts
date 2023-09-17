@@ -124,7 +124,6 @@ const handleMouseMove = throttle(() => {
   getResizeIsResizingCallback()();
   resizeCallback(deltaX, deltaY); // we resized the node
   snapResizingRootNodeProtocol(elementRef, direction);
-  console.log('rerendering after snapping wiidth');
 
   triggerNodeRerender(elementRef.id);
   triggerNodeConnectionsRerender(elementRef.id);
@@ -179,7 +178,6 @@ export const handleResizeMouseDown = (
   };
 
   subscribeToAlt(mouseMoveHandler);
-
   setResizeMouseMoveHandler(mouseMoveHandler);
   document.addEventListener('mousemove', mouseMoveHandler);
   document.addEventListener('mouseup', handleMouseUp);
