@@ -7,11 +7,12 @@ import NodesAnimation from '@src/components/home/animated/NodesAnimation';
 import { motion } from 'framer-motion';
 
 const MiddleSection = () => {
-  const fadeInUp = {
+  const fadeInUpAnim = {
     hidden: { opacity: 0, y: 20 },
     visible: { opacity: 1, y: 0 },
   };
   const root = useRef(null);
+  const [fadeInUp, setFadeInUp] = React.useState('hidden');
 
   const [fillPlay, setFillPlay] = React.useState('#fff');
   const [fillCircle, setFillCircle] = React.useState('#1A1B50');
@@ -21,8 +22,28 @@ const MiddleSection = () => {
     setFillCircle(fillCircle === '#1A1B50' ? '#fff' : '#1A1B50');
   };
 
+  useEffect(() => {
+    const handleScroll = () => {
+      if (root.current) {
+        const { top } = root.current.getBoundingClientRect();
+        setFadeInUp(
+          top - window.innerHeight * (3 / 7) <= 0 ? 'visible' : 'hidden'
+        );
+      }
+    };
+
+    handleScroll();
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
   return (
-    <div ref={root}>
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={fadeInUp}
+      variants={fadeInUpAnim}
+      ref={root}
+    >
       <div
         className='flex flex-col mx-auto justify-center items-center bg-white mt-56 pt-12 pb-16 w-1/2 rounded-full mb-[-60px]'
         style={{
@@ -51,8 +72,8 @@ const MiddleSection = () => {
       <motion.div
         className='flex flex-row gap-20 justify-center -translate-y-32 z-10'
         initial='hidden'
-        animate='visible'
-        variants={fadeInUp}
+        animate={fadeInUp}
+        variants={fadeInUpAnim}
       >
         <div className='absolute -translate-x-[100%] 2xl:-translate-x-[130%]'>
           <NodesAnimation
@@ -93,8 +114,8 @@ const MiddleSection = () => {
           <motion.div
             className='border-primary border-t-4 w-72 h-80 2xl:w-96 py-3 px-6 bg-white drop-shadow-md items-center'
             initial='hidden'
-            animate='visible'
-            variants={fadeInUp}
+            animate={fadeInUp}
+            variants={fadeInUpAnim}
           >
             <div className='bg-white border border-primary rounded-full justify-center mx-auto -translate-y-16 items-center flex w-20 h-20'>
               <img
@@ -116,8 +137,8 @@ const MiddleSection = () => {
           <motion.div
             className='border-primary border-t-4 w-72 h-80 2xl:w-96 py-3 px-6 bg-white drop-shadow-md items-center'
             initial='hidden'
-            animate='visible'
-            variants={fadeInUp}
+            animate={fadeInUp}
+            variants={fadeInUpAnim}
           >
             <div className='bg-white border border-primary rounded-full justify-center mx-auto -translate-y-16 items-center flex w-20 h-20'>
               <img
@@ -138,8 +159,8 @@ const MiddleSection = () => {
           <motion.div
             className='border-primary border-t-4 w-72 h-80 2xl:w-96 py-3 px-6 bg-white drop-shadow-md items-center'
             initial='hidden'
-            animate='visible'
-            variants={fadeInUp}
+            animate={fadeInUp}
+            variants={fadeInUpAnim}
           >
             <div className='bg-white border border-primary rounded-full justify-center mx-auto -translate-y-16 items-center flex w-20 h-20'>
               <img
@@ -159,7 +180,7 @@ const MiddleSection = () => {
           </motion.div>
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 };
 
