@@ -14,11 +14,7 @@ import {
   setTriggerRender,
   triggerNodeRerender,
 } from '@store/roadmap-refactor/render/rerender-triggers-nodes';
-import {
-  getNodeAdjacentNodesIds,
-  getNodeByIdRoadmapSelector,
-  getRootNodesIds,
-} from '@src/typescript/roadmap_ref/roadmap-data/services/get';
+import { getNodeByIdRoadmapSelector } from '@src/typescript/roadmap_ref/roadmap-data/services/get';
 import {
   getOnClickAction,
   getOnMouseOutAction,
@@ -40,12 +36,7 @@ import {
   getHideProgress,
   getIsEditing,
 } from '@store/roadmap-refactor/roadmap-data/misc-data/roadmap_state';
-import DraggingResizeElement from '@src/to-be-organized/DraggingResizeElement';
-import {
-  mutateNodeHeightWhileKeepingCenter,
-  mutateNodeWidthWhileKeepingCenter,
-} from '@src/typescript/roadmap_ref/node/core/data-mutation/mutate';
-import { snapNodeWidthHeight } from '@src/typescript/roadmap_ref/snapping/old/core';
+import DraggingResizeElement from '@src/to-be-organized/resize-dragging/DraggingResizeElement';
 import {
   selectNodeColorFromScheme,
   selectNodeColorTextBorder,
@@ -64,6 +55,7 @@ import DragSvg from '@src/UI-library/svg-components/DragSvg';
 import scaleSafariStore from '@store/roadmap-refactor/misc/scale-safari-store';
 import { useStateWithSideEffects } from '@hooks/useStateWithSideEffects';
 import { getRoadmapNodeProgress } from '@store/roadmap-refactor/roadmap-data/misc-data/roadmap-progress';
+import { getResize } from '@src/to-be-organized/resize-dragging/stores-resize-shared-data';
 import { handleNotification } from './notification-handler';
 
 interface NodeViewProps {
@@ -94,8 +86,7 @@ const NodeRendererForeign: React.FC<NodeViewProps> = ({
     const { subNodeIds } = node;
     // Function to render each subnode
 
-    const { flags } = node;
-    const { subNodeFlag } = flags;
+    const { subNodeFlag } = node.flags;
 
     const editing = getIsEditing();
     // the offset for the nodes-page rendered directly on the roadmap is calculated directly
@@ -269,6 +260,10 @@ const NodeRendererForeign: React.FC<NodeViewProps> = ({
           ref={nodeDivRef}
           onClick={(event) => {
             event.stopPropagation();
+            if (resizing || isCurrentlyDragged || getResize()) {
+              return;
+            }
+
             getOnClickAction(nodeId)();
             // if (nodeId === '0') {
             //   setDeleteRootNodeNotificationTrue();
@@ -306,34 +301,9 @@ const NodeRendererForeign: React.FC<NodeViewProps> = ({
                     width,
                     height,
                   }}
-                  heightCallback={(height) => {
-                    mutateNodeHeightWhileKeepingCenter(node, height);
-                    triggerNodeRerender(nodeId);
-                    triggerAllConnectionsRerender();
-                  }}
-                  widthCallback={(width) => {
-                    mutateNodeWidthWhileKeepingCenter(node, width);
-                    triggerNodeRerender(nodeId);
-                    triggerAllConnectionsRerender();
-                  }}
-                  snappingCallback={(width, height) => {
+                  element={node}
+                  setResizeCallback={() => {
                     setResizing(true);
-                    const rootNode = node.flags.renderedOnRoadmapFlag;
-                    const nodesToSnapTo = rootNode
-                      ? getRootNodesIds()
-                      : getNodeAdjacentNodesIds(nodeId);
-                    // snapping node corners ( ͡° ͜ʖ ͡°) so width and height will also snap I hope
-                    const { width: newWidth, height: newHeight } =
-                      snapNodeWidthHeight(
-                        node.id,
-                        nodesToSnapTo,
-                        width,
-                        height
-                      );
-                    return {
-                      width: newWidth,
-                      height: newHeight,
-                    };
                   }}
                 />
               </motion.div>

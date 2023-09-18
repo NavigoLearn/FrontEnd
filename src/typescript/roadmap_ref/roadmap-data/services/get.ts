@@ -1,8 +1,12 @@
 import { roadmapSelector } from '@store/roadmap-refactor/roadmap-data/roadmap-selector';
 import renderNodesStore from '@store/roadmap-refactor/render/rendered-nodes';
 import { ICoords } from '@src/typescript/roadmap_ref/dragging/core';
+import {
+  INodeTemplates,
+  NodeClass,
+} from '@src/typescript/roadmap_ref/node/core/core';
 
-export const getNodeByIdRoadmapSelector = (id: string) => {
+export const getNodeByIdRoadmapSelector = (id: string): NodeClass => {
   return roadmapSelector.get().nodes[id];
 };
 
