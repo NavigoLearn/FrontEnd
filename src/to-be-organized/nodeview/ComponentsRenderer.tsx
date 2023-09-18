@@ -22,6 +22,7 @@ import editorSelectedData, {
   getSelectedNodeId,
 } from '@store/roadmap-refactor/elements-editing/editor-selected-data';
 import displayManagerStore from '@store/roadmap-refactor/display/display-manager';
+import { hexAddAlpha } from '@src/typescript/roadmap_ref/utils';
 
 type IComponentElementProps = {
   component: IComponentObject;
@@ -90,7 +91,7 @@ const ComponentRendererForeign = ({
         parentSelected ? 'pointer-events-auto' : 'pointer-events-none'
       } ${parentSelected && 'border-opacity-100'} transition-allNoTransform`}
       style={{
-        color: `${textColor.slice(0, -1)},${opacityFiltered})`,
+        color: `${hexAddAlpha(textColor, opacityFiltered)}`,
         fontSize: fontSizeSelect,
         fontWeight: textWeightSelect,
         textAlign: 'center',

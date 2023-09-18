@@ -56,6 +56,7 @@ import scaleSafariStore from '@store/roadmap-refactor/misc/scale-safari-store';
 import { useStateWithSideEffects } from '@hooks/useStateWithSideEffects';
 import { getRoadmapNodeProgress } from '@store/roadmap-refactor/roadmap-data/misc-data/roadmap-progress';
 import { getResize } from '@src/to-be-organized/resize-dragging/stores-resize-shared-data';
+import { hexAddAlpha } from '@src/typescript/roadmap_ref/utils';
 import { handleNotification } from './notification-handler';
 
 interface NodeViewProps {
@@ -204,19 +205,13 @@ const NodeRendererForeign: React.FC<NodeViewProps> = ({
       bgOpacity === 0 ? 'shadow-none' : isSubNode ? 'shadow-md' : 'shadow-lg';
 
     const borderStyle =
-      // eslint-disable-next-line no-nested-ternary
-      bgOpacity === 0
-        ? '2px solid transparent'
-        : borderColor === '#none'
-        ? `2px solid ${color}`
-        : `2px solid ${borderColor}`;
+      borderColor === '#none'
+        ? `2px solid transparent`
+        : `2px solid ${hexAddAlpha(borderColor, bgOpacity)}`;
 
     const style = {
       // color: textColor,
-      backgroundColor: `rgba(${parseInt(color.slice(1, 3), 16)}, ${parseInt(
-        color.slice(3, 5),
-        16
-      )}, ${parseInt(color.slice(5, 7), 16)}, ${bgOpacity})`, // assuming color is in #RRGGBB format
+      backgroundColor: hexAddAlpha(color, bgOpacity),
       width,
       height,
       top: calculatedOffsetCoords.y + coords.y,
