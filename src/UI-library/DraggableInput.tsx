@@ -35,20 +35,29 @@ const DraggableInput = ({
     };
 
     const throttledHandleMouseMove = throttle(handleMouseMove, 1000 / 60);
-    document.addEventListener('mousemove', throttledHandleMouseMove);
+
     const handleMouseUp = () => {
       setIsDragging(false);
       document.removeEventListener('mousemove', throttledHandleMouseMove);
       document.body.style.cursor = 'auto';
     };
 
-    document.addEventListener('mouseup', handleMouseUp);
-  }, [isDragging, mouseDownAt]);
+    if (isDragging) {
+      document.addEventListener('mousemove', throttledHandleMouseMove);
+      document.addEventListener('mouseup', handleMouseUp);
+    }
+
+    return () => {
+      document.removeEventListener('mouseup', handleMouseUp);
+      document.removeEventListener('mousemove', throttledHandleMouseMove);
+    };
+  }, [isDragging, mouseDownAt, initialValue, sensitivity, onChange]);
 
   const handleMouseDown = (e) => {
     setIsDragging(true);
     setMouseDownAt(e.clientX);
     setPrevDeltaX(0);
+    setInitialValue(value); // Update initialValue when dragging starts
     document.body.style.cursor = 'ew-resize';
   };
 
@@ -65,7 +74,6 @@ const DraggableInput = ({
     <div
       className={`flex items-center border border-transparent hover:border-gray-300 ${tailwindTransitionClass}`}
     >
-      {/* eslint-disable-next-line jsx-a11y/no-static-element-interactions */}
       <div
         ref={divRef}
         id='draggable-input'
@@ -94,4 +102,5 @@ const DraggableInput = ({
 DraggableInput.defaultProps = {
   sensitivity: 1,
 };
+
 export default DraggableInput;

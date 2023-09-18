@@ -102,14 +102,22 @@ const useHandleNodeInitialization = (node: NodeClass) => {
 };
 
 function handleGetNodeProperties(node: NodeClass) {
-  const { width, height, opacity, colorType } = node.data;
+  const { width, height, opacity, colorType, backgroundOpacity } = node.data;
   const colorTheme = useMemo(() => {
     return getColorThemeFromRoadmap();
   }, []);
   const borderColor = selectNodeColorTextBorder(colorTheme, colorType);
   const nodeColor = selectNodeColorFromScheme(colorTheme, colorType);
 
-  return { width, height, opacity, colorType, borderColor, nodeColor };
+  return {
+    width,
+    height,
+    opacity,
+    colorType,
+    borderColor,
+    nodeColor,
+    backgroundOpacity,
+  };
 }
 
 function handleMouseOverAndDragging(nodeId: string) {
@@ -154,7 +162,7 @@ const NodeRendererNative: React.FC<NodeViewProps> = ({
   const { x, y } = handleCoordCalculation(node, centerOffset);
   const { nodeGRef, nodeRectRef } = useHandleNodeInitialization(node);
 
-  const { width, height, opacity, borderColor, nodeColor } =
+  const { width, height, opacity, borderColor, nodeColor, backgroundOpacity } =
     handleGetNodeProperties(node);
 
   const applyStyle = () => {
@@ -163,7 +171,10 @@ const NodeRendererNative: React.FC<NodeViewProps> = ({
 
     nodeRectRef.current.setAttribute('fill', nodeColor);
     nodeRectRef.current.setAttribute('stroke', borderColor);
-
+    nodeRectRef.current.setAttribute(
+      'fill-opacity',
+      `${backgroundOpacity / 100}`
+    );
     nodeGRef.current.setAttribute('opacity', `${opacity}`);
   };
 
@@ -221,6 +232,7 @@ const NodeRendererNative: React.FC<NodeViewProps> = ({
           height={height}
           ref={nodeRectRef}
           fill={`${nodeColor}`}
+          fillOpacity={`${backgroundOpacity / 100}`}
           opacity='1'
           stroke={`${borderColor}`}
           strokeWidth='2px'

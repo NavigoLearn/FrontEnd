@@ -41,7 +41,7 @@ const VariantsComponent = ({
           selectedTheme,
           colorKey
         );
-        console.log(defaultOpacity);
+        // console.log(defaultOpacity);
 
         const borderStyle =
           borderColor === 'none'
