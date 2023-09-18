@@ -16,7 +16,7 @@ import { getIsEditable } from '@store/roadmap-refactor/roadmap-data/misc-data/ro
 import { getSelectedNodeId } from '@store/roadmap-refactor/elements-editing/editor-selected-data';
 import displayManagerStore from '@store/roadmap-refactor/display/display-manager';
 import { triggerNodeRerender } from '@store/roadmap-refactor/render/rerender-triggers-nodes';
-import DraggingResizeElement from '@src/to-be-organized/DraggingResizeElement';
+import DraggingResizeElement from '@src/to-be-organized/resize-dragging/DraggingResizeElement';
 import { getNodeByIdRoadmapSelector } from '@src/typescript/roadmap_ref/roadmap-data/services/get';
 import { AnimatePresence, motion } from 'framer-motion';
 
@@ -157,36 +157,7 @@ const ComponentRendererNative = ({
               transition={{ duration: 0.2 }}
             >
               <motion.div className='pointer-events-none w-full h-full absolute top-[5px] left-[5px]'>
-                <DraggingResizeElement
-                  style={{
-                    width: adjustedWidth,
-                    height: adjustedHeight,
-                  }}
-                  widthCallback={(newWidth) => {
-                    const parentWidth = getNodeByIdRoadmapSelector(
-                      parentNode.id
-                    ).data.width;
-                    if (newWidth > parentWidth) {
-                      newWidth = parentWidth;
-                    }
-                    mutateComponentTextWidth(component, newWidth);
-                    triggerNodeRerender(parentNode.id);
-                  }}
-                  heightCallback={(newHeight: number) => {
-                    const parentHeight = getNodeByIdRoadmapSelector(
-                      parentNode.id
-                    ).data.height;
-                    if (newHeight > parentHeight) {
-                      newHeight = parentHeight;
-                    }
-                    mutateComponentTextHeight(component, newHeight);
-                    triggerNodeRerender(parentNode.id);
-                  }}
-                  onlyXaxis
-                  snappingCallback={(newWidth: number, newHeight: number) => {
-                    return { width: newWidth, height: newHeight };
-                  }}
-                />
+                {/* dragging */}
               </motion.div>
             </motion.foreignObject>
           )}
