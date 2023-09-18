@@ -40,7 +40,7 @@ const SizingButton = ({
   );
 };
 
-const ColoursButton = ({
+const ColorsButton = ({
   onClick,
   isSelected,
 }: {
@@ -49,7 +49,7 @@ const ColoursButton = ({
 }) => {
   return (
     <div>
-      <button type='button' onClick={onClick} aria-label='Colours'>
+      <button type='button' onClick={onClick} aria-label='Colors'>
         <svg
           width='60'
           height='60'
@@ -86,7 +86,7 @@ const ColoursButton = ({
       </button>
 
       <h2 className='text-secondary font-semibold text-lg font-roboto-text'>
-        Colours
+        Colors
       </h2>
     </div>
   );
@@ -148,4 +148,4 @@ const InteriorButton = ({
   );
 };
 
-export { SizingButton, ColoursButton, InteriorButton };
+export { SizingButton, ColorsButton, InteriorButton };

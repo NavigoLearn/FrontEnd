@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import homeedit from '@assets/homeedit.svg';
 import { motion, useAnimation } from 'framer-motion';
 import {
-  ColoursButton,
+  ColorsButton,
   InteriorButton,
   SizingButton,
 } from './animated/ButtonsNodes';
@@ -84,7 +84,7 @@ const BottomSection = () => {
     setInteriorNodeOpacity(0);
     setInteriorNodeText('Secondary node with sub nodes');
     setSecondaryNodeColor('bg-darkBlue text-white');
-    setSecondaryNodeText('Colours changed');
+    setSecondaryNodeText('Colors changed');
     controls.stop();
     await controls.start({
       height: '32px',
@@ -258,7 +258,7 @@ const BottomSection = () => {
               onClick={handleSizingButton}
               isSelected={selectedButton === 'sizing'}
             />
-            <ColoursButton
+            <ColorsButton
               onClick={handleColorsButton}
               isSelected={selectedButton === 'colors'}
             />
