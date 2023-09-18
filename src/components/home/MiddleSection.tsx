@@ -86,11 +86,12 @@ const MiddleSection = () => {
           />
         </div>
         <div className='absolute'>
+          <div className='absolute bg-white w-full h-1' />
           <NodesAnimation
             width={200}
             height={200}
-            y1={0}
-            y2={150}
+            y1={150}
+            y2={0}
             x1={0}
             x2={0}
             strokeOpacity={1}

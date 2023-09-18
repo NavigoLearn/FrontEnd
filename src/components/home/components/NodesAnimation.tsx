@@ -72,16 +72,20 @@ const NodesAnimation = ({
         >
           <stop offset='0%' stopColor='#3361D8' stopOpacity={1} />
           <stop
-            offset={isStraight ? '30%' : '60%'}
+            offset={isStraight ? '-%' : '60%'}
             stopColor='#3361D8'
-            stopOpacity={1}
+            stopOpacity={isStraight ? 0 : 1}
           />
           <stop
-            offset={isStraight ? '60%' : '90%'}
+            offset={isStraight ? '50%' : '90%'}
             stopColor='#3361D8'
             stopOpacity={0}
           />
-          <stop offset='100%' stopColor='#3361D8' stopOpacity={0} />
+          <stop
+            offset={isStraight ? '100%' : '100%'}
+            stopColor='#3361D8'
+            stopOpacity={isStraight ? 1 : 0}
+          />
         </linearGradient>
       </defs>
       {/* debugging mask */}
@@ -119,7 +123,7 @@ const NodesAnimation = ({
         <line
           x1={(swappedX ? x1 : x2) - 2}
           y1={swappedY ? y1 : y2}
-          x2={(swappedX ? x2 : x1) + 2}
+          x2={swappedX ? x2 : x1}
           y2={swappedY ? y2 : y1}
           stroke={`url(#gradientLine${angle})`}
           strokeOpacity={strokeOpacity}
