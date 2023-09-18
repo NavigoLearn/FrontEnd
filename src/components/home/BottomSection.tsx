@@ -161,7 +161,7 @@ const BottomSection = () => {
         <h2 className='text-darkBlue text-2xl 2xl:text-5xl font-roboto-text font-bold text-start w-[300px] 2xl:w-[550px] mt-6'>
           A fully featured EDITOR for creating roadmaps
         </h2>
-        <p className='text-placeholder text-base 2xl:text-lg font-roboto-text font-medium text-start w-[250px] 2xl:w-[600px] mt-8'>
+        <p className='text-placeholder text-base 2xl:text-lg font-roboto-text font-regular text-start w-[250px] 2xl:w-[600px] mt-8'>
           We wanted to allow as much space for creativity and usefulness as
           possible for the creation of the roadmaps. For that reason we created
           a fully-featured editor allowing granular control and customization
@@ -187,7 +187,7 @@ const BottomSection = () => {
             boxShadow:
               '3px 3px 4px 0px rgba(0, 0, 0, 0.25) inset, -1px -1px 1px 1px rgba(255, 255, 255, 0.10) inset',
           }}
-          className='bg-[#F4F4F5] border border-darkBlue lg:w-[600px] 2xl:w-[900px] 2xl:h-96 lg:h-56 rounded-md flex justify-center items-center font-semibold'
+          className='bg-[#F4F4F5] border border-placeholderBlack lg:w-[600px] 2xl:w-[900px] 2xl:h-96 lg:h-56 rounded-md flex justify-center items-center font-semibold'
         >
           <div className='flex flex-row items-center'>
             <div className='z-10 flex flex-col items-center translate-y-4 md:translate-y-8 lg:translate-x-2'>

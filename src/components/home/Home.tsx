@@ -208,7 +208,7 @@ const Home = () => {
         >
           Start learning now with free community-made roadmaps
         </h1>
-        <h2 className='mx-auto mt-4 text-center items-center w-[400px] xl:w-[500px] xl:text-2xl 2xl:w-[600px] 2xl:text-3xl text-secondary text-xl font-roboto-text font-normal'>
+        <h2 className='mx-auto mt-4 text-center items-center w-[400px] xl:w-[500px] xl:text-lg px-4 2xl:w-[600px] 2xl:text-xl text-secondary text-xl font-roboto-text font-normal'>
           Stop the confusing search and get an instant and clear curriculum for
           a specific topic
         </h2>
