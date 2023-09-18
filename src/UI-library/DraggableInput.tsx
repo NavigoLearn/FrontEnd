@@ -25,13 +25,12 @@ const DraggableInput = ({
 
   useEffect(() => {
     const handleMouseMove = (e) => {
-      if (isDragging) {
-        const deltaX = e.clientX - mouseDownAt;
-        const step = sensitivity; // sensitivity
-        const newValue = initialValue + deltaX;
-        onChange(newValue.toString());
-        setPrevDeltaX(deltaX);
-      }
+      if (!isDragging) return;
+      const deltaX = e.clientX - mouseDownAt;
+      const step = sensitivity; // sensitivity
+      const newValue = initialValue + deltaX;
+      onChange(newValue.toString());
+      setPrevDeltaX(deltaX);
     };
 
     const throttledHandleMouseMove = throttle(handleMouseMove, 1000 / 60);
