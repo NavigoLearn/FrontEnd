@@ -9,14 +9,11 @@ import {
   transformOpacity,
 } from '@src/typescript/roadmap_ref/node/core/factories/data-mutation/services';
 import { getColorThemeFromRoadmap } from '@components/roadmap/pages-roadmap/setup-screen/theme-controler';
-import DraggingResizeNode from '@src/to-be-organized/resize-dragging/DraggingResizeNode';
+import DraggingResizeElement from '@src/to-be-organized/resize-dragging/DraggingResizeElement';
 import {
   mutateComponentTextHeight,
   mutateComponentTextWidth,
 } from '@src/typescript/roadmap_ref/node/components/text/mutate';
-import { triggerNodeRerender } from '@store/roadmap-refactor/render/rerender-triggers-nodes';
-import { tailwindTransitionClass } from '@src/UI-library/tailwind-utils';
-import { getNodeByIdRoadmapSelector } from '@src/typescript/roadmap_ref/roadmap-data/services/get';
 import {
   getIsEditable,
   getIsEditing,
@@ -82,15 +79,17 @@ const ComponentRendererForeign = ({
         left: `${position.x}px`,
       }}
     >
-      {/* {parentSelected && ( */}
-      {/*  <DraggingResizeElement */}
-      {/*    style={{ */}
-      {/*      width, */}
-      {/*      height, */}
-      {/*    }} */}
-      {/*    onlyXaxis */}
-      {/*  /> */}
-      {/* )} */}
+      {parentSelected && (
+        <DraggingResizeElement
+          style={{
+            width,
+            height,
+          }}
+          onlyXaxis
+          element={component}
+          setResizeCallback={() => {}}
+        />
+      )}
       {type === 'Text' && <h1 className='text-center select-none'>{text}</h1>}
     </div>
   );

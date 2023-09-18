@@ -14,7 +14,7 @@ import { NodeClass } from '@src/typescript/roadmap_ref/node/core/core';
 import {
   IMouseDirectionBase,
   IMouseDragDirection,
-} from '@src/to-be-organized/resize-dragging/stores-resize';
+} from '@src/to-be-organized/resize-dragging/stores-resize-node';
 import {
   getResizedNodeAnchorsPositions,
   getResizedSubNodeAnchorsPositions,
@@ -29,7 +29,7 @@ import {
   mutateNodeWidthRightDx,
   mutateNodeWidthXAxis,
   mutateNodeWidthXAxisDx,
-} from '@src/typescript/roadmap_ref/node/core/data-mutation/mutate-resize';
+} from '@src/typescript/roadmap_ref/node/core/data-mutation/mutate-resize-protocols';
 import { getNodeCenterAbsoluteCoords } from '@src/typescript/roadmap_ref/roadmap-data/services/get';
 import { deepCopy } from '@src/typescript/roadmap_ref/utils';
 import { getSubNodeAnchorsPositions } from '@src/typescript/roadmap_ref/snapping/anchors-generators/generate-element-anchors';

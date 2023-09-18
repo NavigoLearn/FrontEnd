@@ -1,12 +1,9 @@
 import {
   IMouseDragDirection,
-  getPrevDeltaField,
-  setPrevDeltaField,
-  IMouseDirectionBase,
-  getResizeInitialSize,
-  getResizeInitialMouseCoords,
+  getResizeNodeInitialSize,
   getResizeInitialElementCoords,
-} from '@src/to-be-organized/resize-dragging/stores-resize';
+  getResizeNodeRef,
+} from '@src/to-be-organized/resize-dragging/stores-resize-node';
 import {
   mutateNodeCoordX,
   mutateNodeCoordY,
@@ -58,7 +55,7 @@ export function mutateNodeHeightBottomDy(node: NodeClass, dy: number) {
 export function mutateNodeWidthXAxisDx(node: NodeClass, dx: number) {
   const { data } = node;
   const { height: originalHeight, width: originalWidth } =
-    getResizeInitialSize();
+    getResizeNodeInitialSize();
 
   let newWidth = data.width + dx * 2;
 
@@ -130,7 +127,7 @@ export function mutateNodeWidthRightDx(node: NodeClass, dx: number) {
 
 function mutateNodeHeightBottom(node: NodeClass, deltaTopY: number) {
   const { height: originalHeight, width: originalWidth } =
-    getResizeInitialSize();
+    getResizeNodeInitialSize();
   const { x: originalX, y: originalY } = getResizeInitialElementCoords();
 
   let newHeight = originalHeight + deltaTopY;
@@ -149,7 +146,7 @@ function mutateNodeHeightBottom(node: NodeClass, deltaTopY: number) {
 
 export function mutateNodeHeightTop(node: NodeClass, deltaTopY: number) {
   const { height: originalHeight, width: originalWidth } =
-    getResizeInitialSize();
+    getResizeNodeInitialSize();
   const { x: originalX, y: originalY } = getResizeInitialElementCoords();
 
   let newHeight = originalHeight + deltaTopY;
@@ -168,7 +165,7 @@ export function mutateNodeHeightTop(node: NodeClass, deltaTopY: number) {
 
 export function mutateNodeHeightYAxis(node: NodeClass, deltaTopY: number) {
   const { height: originalHeight, width: originalWidth } =
-    getResizeInitialSize();
+    getResizeNodeInitialSize();
   const { x: originalX, y: originalY } = getResizeInitialElementCoords();
 
   let newHeight = originalHeight + deltaTopY * 2;
@@ -186,7 +183,7 @@ export function mutateNodeHeightYAxis(node: NodeClass, deltaTopY: number) {
 
 export function mutateNodeWidthLeft(node: NodeClass, deltaLeftX: number) {
   const { height: originalHeight, width: originalWidth } =
-    getResizeInitialSize();
+    getResizeNodeInitialSize();
   const { x: originalX, y: originalY } = getResizeInitialElementCoords();
 
   let newWidth = originalWidth + deltaLeftX;
@@ -205,7 +202,7 @@ export function mutateNodeWidthLeft(node: NodeClass, deltaLeftX: number) {
 
 export function mutateNodeWidthRight(node: NodeClass, deltaX: number) {
   const { height: originalHeight, width: originalWidth } =
-    getResizeInitialSize();
+    getResizeNodeInitialSize();
   const { x: originalX, y: originalY } = getResizeInitialElementCoords();
 
   let newWidth = originalWidth + deltaX;
@@ -224,7 +221,7 @@ export function mutateNodeWidthRight(node: NodeClass, deltaX: number) {
 
 export function mutateNodeWidthXAxis(node: NodeClass, deltaX: number) {
   const { height: originalHeight, width: originalWidth } =
-    getResizeInitialSize();
+    getResizeNodeInitialSize();
   const { x: originalX, y: originalY } = getResizeInitialElementCoords();
 
   let offsetX = deltaX * 2;
@@ -240,74 +237,72 @@ export function mutateNodeWidthXAxis(node: NodeClass, deltaX: number) {
   mutateNodeWidth(node, originalWidth + offsetX);
 }
 
-type IMutateFunction = (
-  node: NodeClass,
-  deltaXMouse: number,
-  deltaYMouse: number
-) => void;
+type IMutateFunction = (deltaXMouse: number, deltaYMouse: number) => void;
 
 export function getResizeNodeCallbacks(direction: IMouseDragDirection) {
+  const node = getResizeNodeRef();
   const mapperAlt: Record<IMouseDragDirection, IMutateFunction> = {
-    top: (node, deltaXMouse, deltaYMouse) => {
+    top: (deltaXMouse, deltaYMouse) => {
       mutateNodeHeightYAxis(node, deltaYMouse);
     },
-    bottom: (node, deltaXMouse, deltaYMouse) => {
+    bottom: (deltaXMouse, deltaYMouse) => {
       mutateNodeHeightYAxis(node, deltaYMouse);
     },
-    left: (node, deltaXMouse, deltaYMouse) => {
+    left: (deltaXMouse, deltaYMouse) => {
       mutateNodeWidthXAxis(node, deltaXMouse);
     },
-    right: (node, deltaXMouse, deltaYMouse) => {
+    right: (deltaXMouse, deltaYMouse) => {
       mutateNodeWidthXAxis(node, deltaXMouse);
     },
-    'bottom-left': (node, deltaXMouse, deltaYMouse) => {
-      mutateNodeHeightYAxis(node, deltaYMouse);
-      mutateNodeWidthXAxis(node, deltaXMouse);
-    },
-    'bottom-right': (node, deltaXMouse, deltaYMouse) => {
+    'bottom-left': (deltaXMouse, deltaYMouse) => {
       mutateNodeHeightYAxis(node, deltaYMouse);
       mutateNodeWidthXAxis(node, deltaXMouse);
     },
-    'top-left': (node, deltaXMouse, deltaYMouse) => {
+    'bottom-right': (deltaXMouse, deltaYMouse) => {
       mutateNodeHeightYAxis(node, deltaYMouse);
       mutateNodeWidthXAxis(node, deltaXMouse);
     },
-    'top-right': (node, deltaXMouse, deltaYMouse) => {
+    'top-left': (deltaXMouse, deltaYMouse) => {
+      mutateNodeHeightYAxis(node, deltaYMouse);
+      mutateNodeWidthXAxis(node, deltaXMouse);
+    },
+    'top-right': (deltaXMouse, deltaYMouse) => {
       mutateNodeHeightYAxis(node, deltaYMouse);
       mutateNodeWidthXAxis(node, deltaXMouse);
     },
   };
 
   const mapperNonAlt: Record<IMouseDragDirection, IMutateFunction> = {
-    top: (node, deltaXMouse, deltaYMouse) => {
+    top: (deltaXMouse, deltaYMouse) => {
       mutateNodeHeightTop(node, deltaYMouse);
     },
-    bottom: (node, deltaXMouse, deltaYMouse) => {
+    bottom: (deltaXMouse, deltaYMouse) => {
       mutateNodeHeightBottom(node, deltaYMouse);
     },
-    left: (node, deltaXMouse, deltaYMouse) => {
+    left: (deltaXMouse, deltaYMouse) => {
       mutateNodeWidthLeft(node, deltaXMouse);
     },
-    right: (node, deltaXMouse, deltaYMouse) => {
+    right: (deltaXMouse, deltaYMouse) => {
       mutateNodeWidthRight(node, deltaXMouse);
     },
-    'bottom-left': (node, deltaXMouse, deltaYMouse) => {
+    'bottom-left': (deltaXMouse, deltaYMouse) => {
       mutateNodeHeightBottom(node, deltaYMouse);
       mutateNodeWidthLeft(node, deltaXMouse);
     },
-    'bottom-right': (node, deltaXMouse, deltaYMouse) => {
+    'bottom-right': (deltaXMouse, deltaYMouse) => {
       mutateNodeHeightBottom(node, deltaYMouse);
       mutateNodeWidthRight(node, deltaXMouse);
     },
-    'top-left': (node, deltaXMouse, deltaYMouse) => {
+    'top-left': (deltaXMouse, deltaYMouse) => {
       mutateNodeHeightTop(node, deltaYMouse);
       mutateNodeWidthLeft(node, deltaXMouse);
     },
-    'top-right': (node, deltaXMouse, deltaYMouse) => {
+    'top-right': (deltaXMouse, deltaYMouse) => {
       mutateNodeHeightTop(node, deltaYMouse);
       mutateNodeWidthRight(node, deltaXMouse);
     },
   };
+
   if (!getAlt()) {
     return mapperNonAlt[direction];
   }

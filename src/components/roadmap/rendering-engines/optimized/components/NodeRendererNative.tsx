@@ -32,7 +32,7 @@ import {
 } from '@src/typescript/roadmap_ref/node/core/factories/data-mutation/services';
 import { getColorThemeFromRoadmap } from '@components/roadmap/pages-roadmap/setup-screen/theme-controler';
 import { AnimatePresence, motion } from 'framer-motion';
-import DraggingResizeNode from '@src/to-be-organized/resize-dragging/DraggingResizeNode';
+import DraggingResizeElement from '@src/to-be-organized/resize-dragging/DraggingResizeElement';
 import {
   mutateNodeHeightWhileKeepingCenter,
   mutateNodeWidthWhileKeepingCenter,
@@ -246,41 +246,7 @@ const NodeRendererNative: React.FC<NodeViewProps> = ({
                 !isCurrentlyDragged &&
                 (mouseOver || resizing) && (
                   <motion.div className='pointer-events-none w-full h-full absolute top-[5px] left-[5px]'>
-                    <DraggingResizeNode
-                      style={{
-                        width: adjustedWidth,
-                        height: adjustedHeight,
-                      }}
-                      heightCallback={(height) => {
-                        mutateNodeHeightWhileKeepingCenter(node, height);
-                        triggerNodeRerender(nodeId);
-                        triggerAllConnectionsRerender();
-                      }}
-                      widthCallback={(width) => {
-                        mutateNodeWidthWhileKeepingCenter(node, width);
-                        triggerNodeRerender(nodeId);
-                        triggerAllConnectionsRerender();
-                      }}
-                      snappingCallback={(width, height) => {
-                        setResizing(true);
-                        const rootNode = node.flags.renderedOnRoadmapFlag;
-                        const nodesToSnapTo = rootNode
-                          ? getRootNodesIds()
-                          : getNodeAdjacentNodesIds(nodeId);
-                        // snapping node corners ( ͡° ͜ʖ ͡°) so width and height will also snap I hope
-                        const { width: newWidth, height: newHeight } =
-                          snapNodeWidthHeight(
-                            node.id,
-                            nodesToSnapTo,
-                            width,
-                            height
-                          );
-                        return {
-                          width: newWidth,
-                          height: newHeight,
-                        };
-                      }}
-                    />
+                    {/* {dragging} */}
                   </motion.div>
                 )}
             </motion.foreignObject>

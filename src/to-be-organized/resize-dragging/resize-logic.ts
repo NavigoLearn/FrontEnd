@@ -1,18 +1,20 @@
-import {
-  IElementType,
-  IMouseDragDirection,
-} from '@src/to-be-organized/resize-dragging/stores-resize';
-import { getResizeNodeCallbacks } from '@src/typescript/roadmap_ref/node/core/data-mutation/mutate-resize';
-import { NodeClass } from '@src/typescript/roadmap_ref/node/core/core';
+import { IMouseDragDirection } from '@src/to-be-organized/resize-dragging/stores-resize-node';
+import { getResizeNodeCallbacks } from '@src/typescript/roadmap_ref/node/core/data-mutation/mutate-resize-protocols';
+import { IElementType } from '@src/to-be-organized/resize-dragging/stores-resize-shared-data';
+import { getResizeComponentCallbacks } from '@src/typescript/roadmap_ref/node/components/mutate-resize-protocols';
 
 export function getResizeCallback(
   direction: IMouseDragDirection,
-  type: IElementType,
-  ref: NodeClass
+  type: IElementType
 ) {
   if (type === 'node') {
     return (deltaXMouse, deltaYMouse) => {
-      getResizeNodeCallbacks(direction)(ref, deltaXMouse, deltaYMouse);
+      getResizeNodeCallbacks(direction)(deltaXMouse, deltaYMouse);
+    };
+  }
+  if (type === 'component') {
+    return (deltaXMouse, deltaYMouse) => {
+      getResizeComponentCallbacks(direction)(deltaXMouse, deltaYMouse);
     };
   }
 

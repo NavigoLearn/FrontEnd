@@ -1,22 +1,22 @@
 import {
-  getResizeElementRef,
-  getResizeMouseAnchor,
-  getResizeInitialMouseCoords,
+  getResizeNodeRef,
   IMouseDragDirection,
+} from '@src/to-be-organized/resize-dragging/stores-resize-node';
+import {
+  getResizeMouseAnchor,
   setResizeInitialMouseCoords,
   setResizeMouseAnchor,
   getResizeElementType,
   setResizeMouseMoveHandler,
   getResizeMouseMoveHandler,
-  setResizeInitialSize,
   getResizeIsResizingCallback,
   resetResizeAllStoresToDefault,
   setMouseCoords,
   getMouseCoords,
-  setResizeInitialElementCoords,
   setResizeFalse,
   setResizeTrue,
-} from '@src/to-be-organized/resize-dragging/stores-resize';
+  IElementType,
+} from '@src/to-be-organized/resize-dragging/stores-resize-shared-data';
 import { getResizeCallback } from '@src/to-be-organized/resize-dragging/resize-logic';
 import {
   getRoadmapDisableInteractions,
@@ -33,71 +33,15 @@ import {
 import { triggerNodeConnectionsRerender } from '@src/typescript/roadmap_ref/render/dragging';
 import { snapResizingNodeProtocol } from '@src/typescript/roadmap_ref/snapping/snap-protocols/snap-nodes-resize';
 import { afterEventLoop } from '@src/typescript/utils/misc';
-
-type IDeltaCalc = (eventY, startY) => number;
-
-function calculateDeltaY(e, direction: IMouseDragDirection): number {
-  const { y } = getResizeInitialMouseCoords();
-  const directionMapper: HashMapWithKeys<
-    IMouseDragDirection,
-    IMouseDragDirection | 'null'
-  > = {
-    top: 'top',
-    bottom: 'bottom',
-    left: 'null',
-    right: 'null',
-    'bottom-left': 'bottom',
-    'bottom-right': 'bottom',
-    'top-left': 'top',
-    'top-right': 'top',
-  };
-
-  const actualDirection = directionMapper[direction];
-
-  const deltasFunctions: HashMapWithKeys<
-    'top' | 'bottom' | 'null',
-    IDeltaCalc
-  > = {
-    top: (eventY, startY) => startY - eventY,
-    bottom: (eventY, startY) => eventY - startY,
-    null: (eventY, startY) => 0,
-  };
-
-  // gets the mouse position Y without the event
-  const deltaY = deltasFunctions[actualDirection](e.pageY, y);
-  return deltaY;
-}
-
-function calculateDeltaX(e, direction: IMouseDragDirection): number {
-  const { x } = getResizeInitialMouseCoords();
-  const directionMapper: HashMapWithKeys<
-    IMouseDragDirection,
-    IMouseDragDirection | 'null'
-  > = {
-    top: 'null',
-    bottom: 'null',
-    left: 'left',
-    right: 'right',
-    'bottom-left': 'left',
-    'bottom-right': 'right',
-    'top-left': 'left',
-    'top-right': 'right',
-  };
-
-  const actualDirection = directionMapper[direction];
-
-  const deltasFunctions: HashMapWithKeys<
-    'left' | 'right' | 'null',
-    IDeltaCalc
-  > = {
-    left: (eventX, startX) => startX - eventX,
-    right: (eventX, startX) => eventX - startX,
-    null: (eventX, startX) => 0,
-  };
-
-  const deltaX = deltasFunctions[actualDirection](e.pageX, x);
-  return deltaX;
-}
+import {
+  calculateDeltaX,
+  calculateDeltaY,
+} from '@src/to-be-organized/resize-dragging/resize-node-mouse-protocols';
+import {
+  getResizeComponentRef,
+  setResizeComponentInitialCoords,
+  setResizeComponentInitialSize,
+} from '@src/to-be-organized/resize-dragging/stores-resize-components';
 
 const handleDeltasFromOriginalPointCalculations = (
   mouseMoveEvent,
@@ -111,11 +55,11 @@ const handleDeltasFromOriginalPointCalculations = (
   return { deltaX, deltaY };
 };
 
-const handleMouseMove = throttle(() => {
+const handleResizeComponentMouseMove = throttle(() => {
   const direction = getResizeMouseAnchor();
-  const type = getResizeElementType();
-  const elementRef = getResizeElementRef();
-  const resizeCallback = getResizeCallback(direction, type, elementRef);
+  const type: IElementType = 'component';
+  const elementRef = getResizeComponentRef();
+  const resizeCallback = getResizeCallback(direction, type);
   const mouseMoveEvent = getMouseCoords();
 
   // gets the delta from the mouse position relative to the place it was mouseDown initially
@@ -125,21 +69,20 @@ const handleMouseMove = throttle(() => {
   );
 
   getResizeIsResizingCallback()();
-  resizeCallback(deltaX, deltaY); // we resized the node
-  snapResizingNodeProtocol(elementRef, direction);
+  resizeCallback(deltaX, deltaY);
 
-  triggerNodeRerender(elementRef.id);
-  triggerNodeConnectionsRerender(elementRef.id);
+  const parentId = elementRef.parentNodeId;
+  triggerNodeRerender(parentId);
 }, 1000 / 60);
 
-const handleMouseUp = (e) => {
+const handleResizeNodeMouseUp = (e) => {
   const moveHandler = getResizeMouseMoveHandler();
   // no idea why that ts error is there
   // @ts-ignore
   unSubscribeToAlt(moveHandler);
   // @ts-ignore
   document.removeEventListener('mousemove', moveHandler);
-  document.removeEventListener('mouseup', handleMouseUp);
+  document.removeEventListener('mouseup', handleResizeNodeMouseUp);
   getRoadmapEnableInteractions()();
   resetResizeAllStoresToDefault();
   window.getSelection().removeAllRanges(); // Deselect any selected text
@@ -151,7 +94,7 @@ const handleMouseUp = (e) => {
   e.stopPropagation();
 };
 
-export const handleResizeMouseDown = (
+export const handleResizeComponentMouseDown = (
   mouseDownEvent,
   direction: IMouseDragDirection
 ) => {
@@ -162,15 +105,15 @@ export const handleResizeMouseDown = (
     y: mouseDownEvent.pageY,
   });
 
-  const elementRef = getResizeElementRef();
-  setResizeInitialElementCoords({
-    x: elementRef.data.coords.x,
-    y: elementRef.data.coords.y,
+  const componentRef = getResizeComponentRef();
+  setResizeComponentInitialCoords({
+    x: componentRef.x,
+    y: componentRef.y,
   });
 
-  setResizeInitialSize({
-    width: getResizeElementRef().data.width,
-    height: getResizeElementRef().data.height,
+  setResizeComponentInitialSize({
+    width: componentRef.width,
+    height: componentRef.height,
   });
 
   setResizeTrue();
@@ -183,11 +126,12 @@ export const handleResizeMouseDown = (
         y: mouseMoveEvent.pageY,
       });
     }
-    handleMouseMove(direction);
+    handleResizeComponentMouseMove(direction);
   };
 
   subscribeToAlt(mouseMoveHandler);
   setResizeMouseMoveHandler(mouseMoveHandler);
+
   document.addEventListener('mousemove', mouseMoveHandler);
-  document.addEventListener('mouseup', handleMouseUp);
+  document.addEventListener('mouseup', handleResizeNodeMouseUp);
 };

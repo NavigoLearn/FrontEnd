@@ -1,11 +1,14 @@
 import React, { useEffect, useRef } from 'react';
-import { handleResizeMouseDown } from '@src/to-be-organized/resize-dragging/mouse-protocols';
+import { handleResizeNodeMouseDown } from '@src/to-be-organized/resize-dragging/resize-node-mouse-protocols';
 import { NodeClass } from '@src/typescript/roadmap_ref/node/core/core';
 import {
   IMouseDragDirection,
-  setResizeElementRef,
-  setResizeIsResizing,
-} from '@src/to-be-organized/resize-dragging/stores-resize';
+  setResizeNodeRef,
+} from '@src/to-be-organized/resize-dragging/stores-resize-node';
+import { IComponentClasses } from '@src/typescript/roadmap_ref/node/components/text/factories';
+import { setResizeComponentRef } from '@src/to-be-organized/resize-dragging/stores-resize-components';
+import { setResizeIsResizing } from '@src/to-be-organized/resize-dragging/stores-resize-shared-data';
+import { handleResizeComponentMouseDown } from '@src/to-be-organized/resize-dragging/resize-component-mouse-protocols';
 
 type IDraggingSizeWrapperProps = {
   style: {
@@ -13,10 +16,17 @@ type IDraggingSizeWrapperProps = {
     height: number;
   };
   onlyXaxis?: boolean;
-  element: NodeClass;
+  element: NodeClass | IComponentClasses;
   setResizeCallback: () => void;
 };
-const DraggingResizeNode = ({
+
+function isNodeClass(element: any): element is NodeClass {
+  const field = 'subNodeIds';
+  console.log('isNodeClass', element, field in element);
+  return 'subNodeIds' in element;
+}
+
+const DraggingResizeElement = ({
   style,
   onlyXaxis,
   element,
@@ -33,9 +43,15 @@ const DraggingResizeNode = ({
   const onlyX = !!onlyXaxis;
 
   function handleResizeMouseDownProtocol(e, direction: IMouseDragDirection) {
-    setResizeElementRef(element);
-    setResizeIsResizing(setResizeCallback);
-    handleResizeMouseDown(e, direction);
+    if (isNodeClass(element)) {
+      console.log('is node class');
+      setResizeNodeRef(element);
+      setResizeIsResizing(setResizeCallback);
+      handleResizeNodeMouseDown(e, direction);
+    } else {
+      setResizeComponentRef(element);
+      handleResizeComponentMouseDown(e, direction);
+    }
   }
 
   return (
@@ -166,8 +182,8 @@ const DraggingResizeNode = ({
   );
 };
 
-DraggingResizeNode.defaultProps = {
+DraggingResizeElement.defaultProps = {
   onlyXaxis: false,
 };
 
-export default DraggingResizeNode;
+export default DraggingResizeElement;
