@@ -11,6 +11,7 @@ export function deepCopy(obj) {
 
 export function donsole(...args) {
   // @ts-ignore
+  // eslint-disable-next-line no-console
   console.log(deepCopy(...args));
 }
 
@@ -22,6 +23,6 @@ export function clipValue(str: string, length: number) {
 export function hexAddAlpha(hex: string, alpha: number) {
   alpha = Math.round(alpha * 255);
   const hexWithoutHash = hex.slice(1);
-  const hexWithAlpha = hexWithoutHash + alpha.toString(16);
+  const hexWithAlpha = hexWithoutHash + alpha.toString(16).padStart(2, '0');
   return `#${hexWithAlpha}`;
 }
