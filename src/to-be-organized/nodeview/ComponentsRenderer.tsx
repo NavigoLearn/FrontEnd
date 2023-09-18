@@ -44,10 +44,10 @@ const ComponentRendererForeign = ({
   // ensure everything is not null
   const id = idData ?? '';
   const type = typeData ?? 'Text';
-  const textSize = textSizeData ?? 16;
-  const textWeight = textWeightData ?? 400;
+  const textSize = textSizeData ?? 'normal';
+  const textWeight = textWeightData ?? 'normal';
   const text = textData ?? '';
-  const opacity = opacityData ?? 1;
+  const opacity = opacityData ?? 100;
 
   const { colorType } = parentNode.data;
   const divRef = useRef<HTMLDivElement>(null);
