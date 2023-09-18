@@ -40,7 +40,7 @@ import {
   getHideProgress,
   getIsEditing,
 } from '@store/roadmap-refactor/roadmap-data/misc-data/roadmap_state';
-import DraggingResizeElement from '@src/to-be-organized/resize-dragging/DraggingResizeElement';
+import DraggingResizeNode from '@src/to-be-organized/resize-dragging/DraggingResizeNode';
 import {
   mutateNodeHeightWhileKeepingCenter,
   mutateNodeWidthWhileKeepingCenter,
@@ -64,6 +64,7 @@ import DragSvg from '@src/UI-library/svg-components/DragSvg';
 import scaleSafariStore from '@store/roadmap-refactor/misc/scale-safari-store';
 import { useStateWithSideEffects } from '@hooks/useStateWithSideEffects';
 import { getRoadmapNodeProgress } from '@store/roadmap-refactor/roadmap-data/misc-data/roadmap-progress';
+import { getResize } from '@src/to-be-organized/resize-dragging/stores-resize';
 import { handleNotification } from './notification-handler';
 
 interface NodeViewProps {
@@ -264,10 +265,9 @@ const NodeRendererForeign: React.FC<NodeViewProps> = ({
           ref={nodeDivRef}
           onClick={(event) => {
             event.stopPropagation();
-            if (resizing || isCurrentlyDragged) {
+            if (resizing || isCurrentlyDragged || getResize()) {
               return;
             }
-            console.log('not resizing');
 
             getOnClickAction(nodeId)();
             // if (nodeId === '0') {
@@ -301,7 +301,7 @@ const NodeRendererForeign: React.FC<NodeViewProps> = ({
                 exit={{ opacity: 0 }}
                 transition={{ duration: 0.2 }}
               >
-                <DraggingResizeElement
+                <DraggingResizeNode
                   style={{
                     width,
                     height,

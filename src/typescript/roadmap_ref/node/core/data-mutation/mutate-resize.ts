@@ -50,7 +50,7 @@ export function mutateNodeHeightBottomDy(node: NodeClass, dy: number) {
     newHeight = MINIMUM_NODE_HEIGHT;
     dy = newHeight - data.height;
   }
-  !getIsRootNode(node.id) && mutateNodeCoordY(node, data.coords.y - dy);
+  !getIsRootNode(node.id) && mutateNodeCoordY(node, data.coords.y + dy / 2);
   getIsRootNode(node.id) && mutateNodeCoordY(node, data.coords.y);
   mutateNodeHeight(node, newHeight);
 }
@@ -96,6 +96,7 @@ export function mutateNodeHeightTopDy(node: NodeClass, dy: number) {
     dy = newHeight - data.height;
   }
   getIsRootNode(node.id) && mutateNodeCoordY(node, data.coords.y - dy);
+  !getIsRootNode(node.id) && mutateNodeCoordY(node, data.coords.y - dy / 2);
   mutateNodeHeight(node, newHeight);
 }
 
@@ -109,6 +110,7 @@ export function mutateNodeWidthLeftDx(node: NodeClass, dx: number) {
   }
 
   getIsRootNode(node.id) && mutateNodeCoordX(node, data.coords.x - dx);
+  !getIsRootNode(node.id) && mutateNodeCoordX(node, data.coords.x - dx / 2);
   mutateNodeWidth(node, newWidth);
 }
 
@@ -121,7 +123,8 @@ export function mutateNodeWidthRightDx(node: NodeClass, dx: number) {
     dx = newWidth - data.width;
   }
 
-  !getIsRootNode(node.id) && mutateNodeCoordX(node, data.coords.x - dx);
+  !getIsRootNode(node.id) && mutateNodeCoordX(node, data.coords.x + dx / 2);
+  getIsRootNode(node.id) && mutateNodeCoordX(node, data.coords.x);
   mutateNodeWidth(node, newWidth);
 }
 
@@ -138,7 +141,7 @@ function mutateNodeHeightBottom(node: NodeClass, deltaTopY: number) {
     offsetY = newHeight - originalHeight;
   }
 
-  !getIsRootNode(node.id) && mutateNodeCoordY(node, originalY - offsetY);
+  !getIsRootNode(node.id) && mutateNodeCoordY(node, originalY + offsetY / 2);
   getIsRootNode(node.id) && mutateNodeCoordY(node, originalY);
 
   mutateNodeHeight(node, originalHeight + offsetY);
@@ -158,7 +161,7 @@ export function mutateNodeHeightTop(node: NodeClass, deltaTopY: number) {
   }
 
   getIsRootNode(node.id) && mutateNodeCoordY(node, originalY - offsetY);
-  !getIsRootNode(node.id) && mutateNodeCoordY(node, originalY);
+  !getIsRootNode(node.id) && mutateNodeCoordY(node, originalY - offsetY / 2);
 
   mutateNodeHeight(node, originalHeight + offsetY);
 }
@@ -177,6 +180,7 @@ export function mutateNodeHeightYAxis(node: NodeClass, deltaTopY: number) {
   }
 
   getIsRootNode(node.id) && mutateNodeCoordY(node, originalY - offsetY / 2);
+  !getIsRootNode(node.id) && mutateNodeCoordY(node, originalY);
   mutateNodeHeight(node, originalHeight + offsetY);
 }
 
@@ -194,7 +198,7 @@ export function mutateNodeWidthLeft(node: NodeClass, deltaLeftX: number) {
   }
 
   getIsRootNode(node.id) && mutateNodeCoordX(node, originalX - offsetX);
-  !getIsRootNode(node.id) && mutateNodeCoordX(node, originalX);
+  !getIsRootNode(node.id) && mutateNodeCoordX(node, originalX - offsetX / 2);
 
   mutateNodeWidth(node, originalWidth + offsetX);
 }
@@ -212,7 +216,7 @@ export function mutateNodeWidthRight(node: NodeClass, deltaX: number) {
     offsetX = newWidth - originalWidth;
   }
 
-  !getIsRootNode(node.id) && mutateNodeCoordX(node, originalX - offsetX);
+  !getIsRootNode(node.id) && mutateNodeCoordX(node, originalX + offsetX / 2);
   getIsRootNode(node.id) && mutateNodeCoordX(node, originalX);
 
   mutateNodeWidth(node, originalWidth + offsetX);

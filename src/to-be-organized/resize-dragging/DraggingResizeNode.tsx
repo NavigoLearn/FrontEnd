@@ -16,7 +16,7 @@ type IDraggingSizeWrapperProps = {
   element: NodeClass;
   setResizeCallback: () => void;
 };
-const DraggingResizeElement = ({
+const DraggingResizeNode = ({
   style,
   onlyXaxis,
   element,
@@ -166,8 +166,8 @@ const DraggingResizeElement = ({
   );
 };
 
-DraggingResizeElement.defaultProps = {
+DraggingResizeNode.defaultProps = {
   onlyXaxis: false,
 };
 
-export default DraggingResizeElement;
+export default DraggingResizeNode;

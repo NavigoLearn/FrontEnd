@@ -32,7 +32,7 @@ import {
 } from '@src/typescript/roadmap_ref/node/core/factories/data-mutation/services';
 import { getColorThemeFromRoadmap } from '@components/roadmap/pages-roadmap/setup-screen/theme-controler';
 import { AnimatePresence, motion } from 'framer-motion';
-import DraggingResizeElement from '@src/to-be-organized/resize-dragging/DraggingResizeElement';
+import DraggingResizeNode from '@src/to-be-organized/resize-dragging/DraggingResizeNode';
 import {
   mutateNodeHeightWhileKeepingCenter,
   mutateNodeWidthWhileKeepingCenter,
@@ -246,7 +246,7 @@ const NodeRendererNative: React.FC<NodeViewProps> = ({
                 !isCurrentlyDragged &&
                 (mouseOver || resizing) && (
                   <motion.div className='pointer-events-none w-full h-full absolute top-[5px] left-[5px]'>
-                    <DraggingResizeElement
+                    <DraggingResizeNode
                       style={{
                         width: adjustedWidth,
                         height: adjustedHeight,

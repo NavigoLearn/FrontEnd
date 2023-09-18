@@ -89,6 +89,20 @@ export function getPrevDeltaField(direction: IMouseDirectionBase) {
   throw new Error('Not valid direction');
 }
 
+export const storeResizeTrue = atom(false);
+
+export function setResizeTrue() {
+  storeResizeTrue.set(true);
+}
+
+export function setResizeFalse() {
+  storeResizeTrue.set(false);
+}
+
+export function getResize() {
+  return storeResizeTrue.get();
+}
+
 export const storeResizeData = atom({
   initialMouseCoords: {},
   initialElementCoords: {},

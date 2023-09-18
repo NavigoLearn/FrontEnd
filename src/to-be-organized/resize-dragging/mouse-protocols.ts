@@ -14,6 +14,8 @@ import {
   setMouseCoords,
   getMouseCoords,
   setResizeInitialElementCoords,
+  setResizeFalse,
+  setResizeTrue,
 } from '@src/to-be-organized/resize-dragging/stores-resize';
 import { getResizeCallback } from '@src/to-be-organized/resize-dragging/resize-logic';
 import {
@@ -29,7 +31,8 @@ import {
   unSubscribeToAlt,
 } from '@store/roadmap-refactor/misc/key-press-store';
 import { triggerNodeConnectionsRerender } from '@src/typescript/roadmap_ref/render/dragging';
-import { snapResizingRootNodeProtocol } from '@src/typescript/roadmap_ref/snapping/snap-protocols/snap-root-nodes-resize';
+import { snapResizingNodeProtocol } from '@src/typescript/roadmap_ref/snapping/snap-protocols/snap-nodes-resize';
+import { afterEventLoop } from '@src/typescript/utils/misc';
 
 type IDeltaCalc = (eventY, startY) => number;
 
@@ -123,7 +126,7 @@ const handleMouseMove = throttle(() => {
 
   getResizeIsResizingCallback()();
   resizeCallback(deltaX, deltaY); // we resized the node
-  snapResizingRootNodeProtocol(elementRef, direction);
+  snapResizingNodeProtocol(elementRef, direction);
 
   triggerNodeRerender(elementRef.id);
   triggerNodeConnectionsRerender(elementRef.id);
@@ -140,6 +143,11 @@ const handleMouseUp = (e) => {
   getRoadmapEnableInteractions()();
   resetResizeAllStoresToDefault();
   window.getSelection().removeAllRanges(); // Deselect any selected text
+
+  afterEventLoop(() => {
+    setResizeFalse();
+  });
+
   e.stopPropagation();
 };
 
@@ -165,6 +173,7 @@ export const handleResizeMouseDown = (
     height: getResizeElementRef().data.height,
   });
 
+  setResizeTrue();
   setResizeMouseAnchor(direction);
 
   const mouseMoveHandler = (mouseMoveEvent?) => {

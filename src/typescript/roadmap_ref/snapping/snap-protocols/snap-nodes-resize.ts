@@ -1,4 +1,7 @@
-import { getRenderedRootNodesExternalAnchorsPositions } from '@src/typescript/roadmap_ref/snapping/anchors-generators/generate-external-anchors';
+import {
+  getRenderedRootNodesExternalAnchorsPositions,
+  getSubNodeExternalAnchorsPositions,
+} from '@src/typescript/roadmap_ref/snapping/anchors-generators/generate-external-anchors';
 import {
   ISnapDelta,
   ISnapPolynomialObject,
@@ -12,7 +15,10 @@ import {
   IMouseDirectionBase,
   IMouseDragDirection,
 } from '@src/to-be-organized/resize-dragging/stores-resize';
-import { getResizedNodeAnchorsPositions } from '@src/typescript/roadmap_ref/snapping/anchors-generators/generate-resizing-anchors';
+import {
+  getResizedNodeAnchorsPositions,
+  getResizedSubNodeAnchorsPositions,
+} from '@src/typescript/roadmap_ref/snapping/anchors-generators/generate-resizing-anchors';
 import { getAlt } from '@store/roadmap-refactor/misc/key-press-store';
 import {
   mutateNodeHeightBottomDy,
@@ -26,6 +32,8 @@ import {
 } from '@src/typescript/roadmap_ref/node/core/data-mutation/mutate-resize';
 import { getNodeCenterAbsoluteCoords } from '@src/typescript/roadmap_ref/roadmap-data/services/get';
 import { deepCopy } from '@src/typescript/roadmap_ref/utils';
+import { getSubNodeAnchorsPositions } from '@src/typescript/roadmap_ref/snapping/anchors-generators/generate-element-anchors';
+import { transformSnapCoordsInAbsolute } from '@src/typescript/roadmap_ref/snapping/data-transform/transform-coords-snap';
 
 const getAnchorsDirections = (direction: IMouseDragDirection) => {
   const directions: IMouseDirectionBase[] = [];
@@ -97,8 +105,18 @@ const getAnchorsDirections = (direction: IMouseDragDirection) => {
 
 function snappingIsLeftOfCenter(node: NodeClass, smallestDeltaY: ISnapDelta) {
   const { snappedElementAnchor } = smallestDeltaY;
-  const nodeCoordsAbs = getNodeCenterAbsoluteCoords(node.id);
-  if (nodeCoordsAbs.x < snappedElementAnchor.x) {
+  const isSubNode = !node.flags.renderedOnRoadmapFlag;
+  let nodeCoords;
+  if (!isSubNode) {
+    nodeCoords = getNodeCenterAbsoluteCoords(node.id);
+  } else {
+    nodeCoords = {
+      x: node.data.coords.x,
+      y: node.data.coords.y,
+    };
+  }
+
+  if (nodeCoords.x < snappedElementAnchor.x) {
     return true;
   }
   return false;
@@ -106,8 +124,17 @@ function snappingIsLeftOfCenter(node: NodeClass, smallestDeltaY: ISnapDelta) {
 
 function snappingIsAboveCenter(node: NodeClass, smallestDeltaY: ISnapDelta) {
   const { snappedElementAnchor } = smallestDeltaY;
-  const nodeCoordsAbs = getNodeCenterAbsoluteCoords(node.id);
-  if (nodeCoordsAbs.y < snappedElementAnchor.y) {
+  const isSubNode = !node.flags.renderedOnRoadmapFlag;
+  let nodeCoords;
+  if (!isSubNode) {
+    nodeCoords = getNodeCenterAbsoluteCoords(node.id);
+  } else {
+    nodeCoords = {
+      x: node.data.coords.x,
+      y: node.data.coords.y,
+    };
+  }
+  if (nodeCoords.y < snappedElementAnchor.y) {
     return true;
   }
   return false;
@@ -281,6 +308,7 @@ export function handleNodeResizingProtocol(
   smallestDeltaX: ISnapDelta,
   smallestDeltaY: ISnapDelta
 ) {
+  // return null;
   if (direction === 'top') {
     handleTopDirectionSnapping(node, smallestDeltaY);
   }
@@ -309,20 +337,37 @@ export function handleNodeResizingProtocol(
   }
 }
 
-export function snapResizingRootNodeProtocol(
+export function snapResizingNodeProtocol(
   node: NodeClass,
   direction: IMouseDragDirection
 ) {
+  const isSubNode = !node.flags.renderedOnRoadmapFlag;
   const resizedNodeId = node.id;
 
-  const elementAnchors = getResizedNodeAnchorsPositions(
-    resizedNodeId,
-    getAnchorsDirections(direction)
-  );
+  let elementAnchors = [];
 
-  const externalAnchors = getRenderedRootNodesExternalAnchorsPositions([
-    resizedNodeId,
-  ]);
+  if (isSubNode) {
+    elementAnchors = getResizedSubNodeAnchorsPositions(
+      resizedNodeId,
+      getAnchorsDirections(direction)
+    );
+  } else {
+    elementAnchors = getResizedNodeAnchorsPositions(
+      resizedNodeId,
+      getAnchorsDirections(direction)
+    );
+  }
+
+  let externalAnchors = [];
+  if (!isSubNode) {
+    externalAnchors = getRenderedRootNodesExternalAnchorsPositions([
+      resizedNodeId,
+    ]);
+  } else {
+    externalAnchors = getSubNodeExternalAnchorsPositions(resizedNodeId, [
+      resizedNodeId,
+    ]);
+  }
 
   const snapPolynomials: ISnapPolynomialObject[] =
     generateSnapPolynomials(externalAnchors);
@@ -373,6 +418,7 @@ export function snapResizingRootNodeProtocol(
   if (smallestDeltaY !== null) {
     deltaY = smallestDeltaY;
   }
+
   handleNodeResizingProtocol(node, direction, deltaX, deltaY);
 
   const snappingLinesCoords = [
@@ -380,5 +426,15 @@ export function snapResizingRootNodeProtocol(
     ...snapCoordinatesYAdjusted,
   ];
 
-  setSnappings(snappingLinesCoords);
+  if (isSubNode) {
+    let adjustedSnappingLinesCoords = [];
+    const parentId = node.properties.nestedWithin;
+    adjustedSnappingLinesCoords = transformSnapCoordsInAbsolute(
+      parentId,
+      snappingLinesCoords
+    );
+    setSnappings(adjustedSnappingLinesCoords);
+  } else {
+    setSnappings(snappingLinesCoords);
+  }
 }
