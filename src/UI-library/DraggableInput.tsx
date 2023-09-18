@@ -7,6 +7,7 @@ type IDisplayProperty = {
   value: number;
   onChange: (value: string) => void;
   sensitivity?: number;
+  defaultValue: number;
 };
 
 const DraggableInput = ({
@@ -14,7 +15,10 @@ const DraggableInput = ({
   value,
   onChange,
   sensitivity,
+  defaultValue,
 }: IDisplayProperty) => {
+  value ??= defaultValue;
+
   const [isDragging, setIsDragging] = useState(false);
   const [mouseDownAt, setMouseDownAt] = useState(0);
   const [prevDeltaX, setPrevDeltaX] = useState(0);

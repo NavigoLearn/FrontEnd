@@ -32,7 +32,23 @@ const ComponentRendererForeign = ({
   component,
   parentNode,
 }: IComponentElementProps) => {
-  const { id, type, textSize, textWeight, text, opacity } = component;
+  const {
+    id: idData,
+    type: typeData,
+    textSize: textSizeData,
+    textWeight: textWeightData,
+    text: textData,
+    opacity: opacityData,
+  } = component;
+
+  // ensure everything is not null
+  const id = idData ?? '';
+  const type = typeData ?? 'Text';
+  const textSize = textSizeData ?? 16;
+  const textWeight = textWeightData ?? 400;
+  const text = textData ?? '';
+  const opacity = opacityData ?? 1;
+
   const { colorType } = parentNode.data;
   const divRef = useRef<HTMLDivElement>(null);
   // text color is based on the node color
@@ -49,14 +65,19 @@ const ComponentRendererForeign = ({
 
   const opacityFiltered = transformOpacity(opacity);
 
-  const { position, height, width } = calculateComponentsPositions(
-    component,
-    parentNode,
-    {
-      type: 'foreign-object',
-      divRef,
-    }
-  );
+  const {
+    position: positionData,
+    height: heightData,
+    width: widthData,
+  } = calculateComponentsPositions(component, parentNode, {
+    type: 'foreign-object',
+    divRef,
+  });
+
+  // ensure values are not null
+  const position = positionData ?? { x: 0, y: 0 };
+  const width = widthData ?? 150;
+  const height = heightData ?? 50;
 
   mutateComponentTextHeight(component, height);
 
