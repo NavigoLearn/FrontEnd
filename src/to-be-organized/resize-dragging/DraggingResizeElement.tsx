@@ -22,7 +22,6 @@ type IDraggingSizeWrapperProps = {
 
 function isNodeClass(element: any): element is NodeClass {
   const field = 'subNodeIds';
-  console.log('isNodeClass', element, field in element);
   return 'subNodeIds' in element;
 }
 
@@ -44,7 +43,6 @@ const DraggingResizeElement = ({
 
   function handleResizeMouseDownProtocol(e, direction: IMouseDragDirection) {
     if (isNodeClass(element)) {
-      console.log('is node class');
       setResizeNodeRef(element);
       setResizeIsResizing(setResizeCallback);
       handleResizeNodeMouseDown(e, direction);
