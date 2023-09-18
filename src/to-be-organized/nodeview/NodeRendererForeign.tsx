@@ -233,11 +233,11 @@ const NodeRendererForeign: React.FC<NodeViewProps> = ({
       'dragging-recursive'
     );
 
-    const { addNotification } = useNotification();
+    // const { addNotification } = useNotification();
 
     const cursor = isCurrentlyDragged ? 'cursor-grab' : 'cursor-pointer';
 
-    isCurrentlyDragged && handleNotification(addNotification);
+    // isCurrentlyDragged && handleNotification(addNotification);
 
     return (
       <div
