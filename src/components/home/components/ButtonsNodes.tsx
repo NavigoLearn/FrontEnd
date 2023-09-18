@@ -4,12 +4,16 @@ const SizingButton = ({
   onClick,
   isSelected,
 }: {
-  onClick: () => void;
+  onClick: (arg: string) => void;
   isSelected: boolean;
 }) => {
   return (
     <div>
-      <button type='button' onClick={onClick} aria-label='Sizing'>
+      <button
+        type='button'
+        onClick={() => onClick('sizing')}
+        aria-label='Sizing'
+      >
         <svg
           width='60'
           height='60'
@@ -44,12 +48,16 @@ const ColorsButton = ({
   onClick,
   isSelected,
 }: {
-  onClick: () => void;
+  onClick: (arg: string) => void;
   isSelected: boolean;
 }) => {
   return (
     <div>
-      <button type='button' onClick={onClick} aria-label='Colors'>
+      <button
+        type='button'
+        onClick={() => onClick('colors')}
+        aria-label='Colors'
+      >
         <svg
           width='60'
           height='60'
@@ -96,12 +104,16 @@ const InteriorButton = ({
   onClick,
   isSelected,
 }: {
-  onClick: () => void;
+  onClick: (arg: string) => void;
   isSelected: boolean;
 }) => {
   return (
     <div>
-      <button type='button' onClick={onClick} aria-label='Interior'>
+      <button
+        type='button'
+        onClick={() => onClick('interior')}
+        aria-label='Interior'
+      >
         <svg
           width='60'
           height='60'

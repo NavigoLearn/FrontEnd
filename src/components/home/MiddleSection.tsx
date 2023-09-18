@@ -1,9 +1,7 @@
 import React, { useEffect, useRef } from 'react';
-import { Play } from '@src/components/home/icons/HomeIcons';
-import versatile from '@assets/versatile.svg';
-import infinite from '@assets/infinite.svg';
-import intuitive from '@assets/intuitive.svg';
-import NodesAnimation from '@src/components/home/animated/NodesAnimation';
+import { Play } from '@components/home/icons/HomeIcons';
+import NodesAnimation from '@components/home/components/NodesAnimation';
+import Cards from '@components/home/components/Cards';
 import { motion } from 'framer-motion';
 
 const MiddleSection = () => {
