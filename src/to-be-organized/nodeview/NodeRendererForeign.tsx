@@ -192,15 +192,12 @@ const NodeRendererForeign: React.FC<NodeViewProps> = ({
 
     const borderStyle =
       borderColor === '#none'
-        ? `2px solid ${hexAddAlpha(color, bgOpacity)}`
+        ? `2px solid transparent`
         : `2px solid ${hexAddAlpha(borderColor, bgOpacity)}`;
 
     const style = {
       // color: textColor,
-      backgroundColor: `rgba(${parseInt(color.slice(1, 3), 16)}, ${parseInt(
-        color.slice(3, 5),
-        16
-      )}, ${parseInt(color.slice(5, 7), 16)}, ${bgOpacity})`, // assuming color is in #RRGGBB format
+      backgroundColor: hexAddAlpha(color, bgOpacity),
       width,
       height,
       top: calculatedOffsetCoords.y + coords.y,
