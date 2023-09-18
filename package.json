@@ -44,6 +44,7 @@
     "@playwright/test": "^1.31.2",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^14.0.0",
+    "@types/uuid": "^9.0.4",
     "@typescript-eslint/eslint-plugin": "^5.56.0",
     "@typescript-eslint/parser": "^5.56.0",
     "astro-eslint-parser": "^0.13.1",

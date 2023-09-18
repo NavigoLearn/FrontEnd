@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { dispatchAnalyticsEvent } from '@store/misc/analytics';
 
 const PageViewCollection = ({ page }: { page: string }) => {

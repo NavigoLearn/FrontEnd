@@ -4,12 +4,16 @@ const SizingButton = ({
   onClick,
   isSelected,
 }: {
-  onClick: () => void;
+  onClick: (arg: string) => void;
   isSelected: boolean;
 }) => {
   return (
     <div>
-      <button type='button' onClick={onClick}>
+      <button
+        type='button'
+        onClick={() => onClick('sizing')}
+        aria-label='Sizing'
+      >
         <svg
           width='60'
           height='60'
@@ -40,16 +44,20 @@ const SizingButton = ({
   );
 };
 
-const ColoursButton = ({
+const ColorsButton = ({
   onClick,
   isSelected,
 }: {
-  onClick: () => void;
+  onClick: (arg: string) => void;
   isSelected: boolean;
 }) => {
   return (
     <div>
-      <button type='button' onClick={onClick}>
+      <button
+        type='button'
+        onClick={() => onClick('colors')}
+        aria-label='Colors'
+      >
         <svg
           width='60'
           height='60'
@@ -85,8 +93,8 @@ const ColoursButton = ({
         </svg>
       </button>
 
-      <h2 className='text-secondary font-semibold text-lg font-roboto-text bg-opacity-50'>
-        Colours
+      <h2 className='text-secondary font-semibold text-lg font-roboto-text '>
+        Colors
       </h2>
     </div>
   );
@@ -96,12 +104,16 @@ const InteriorButton = ({
   onClick,
   isSelected,
 }: {
-  onClick: () => void;
+  onClick: (arg: string) => void;
   isSelected: boolean;
 }) => {
   return (
     <div>
-      <button type='button' onClick={onClick}>
+      <button
+        type='button'
+        onClick={() => onClick('interior')}
+        aria-label='Interior'
+      >
         <svg
           width='60'
           height='60'
@@ -148,4 +160,4 @@ const InteriorButton = ({
   );
 };
 
-export { SizingButton, ColoursButton, InteriorButton };
+export { SizingButton, ColorsButton, InteriorButton };

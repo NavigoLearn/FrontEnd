@@ -2,8 +2,6 @@
 import Navbar from '@components/navbar/Navbar';
 import Footer from '@layouts/Footer.astro';
 import RequestManager from '../components/misc/RequestManager';
-import DataCollectionManager from '../components/misc/DataCollectionManager';
-import { NotificationProvider } from '@src/components/roadmap/to-be-organized/notifications/NotificationLogic';
 
 import '@fontsource/kanit';
 import '@fontsource/oxygen';
@@ -16,9 +14,14 @@ export interface Props {
 }
 
 const { metadata, excludeFooter } = Astro.props;
+
+if (metadata !== undefined)
+  metadata.title =
+    metadata?.title !== undefined
+      ? `${metadata.title} | NavigoLearn`
+      : 'NavigoLearn';
 ---
 
-<NotificationProvider>
 <html lang='en' class='overflow-x-hidden'>
   <head>
     <meta charset='UTF-8' />
@@ -26,7 +29,7 @@ const { metadata, excludeFooter } = Astro.props;
     <link rel='preconnect' href='https://fonts.googleapis.com' />
     <link rel='preconnect' href='https://fonts.gstatic.com' crossorigin />
     <meta name='generator' content={Astro.generator} />
-    <title>{metadata?.title || 'Unknown Page'} | NavigoLearn</title>
+    <title>{metadata.title}</title>
     <meta
       name='description'
       content={metadata?.description ||
@@ -74,4 +77,3 @@ const { metadata, excludeFooter } = Astro.props;
     }
   </body>
 </html>
-</NotificationProvider>
