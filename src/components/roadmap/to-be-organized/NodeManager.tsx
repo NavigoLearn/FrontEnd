@@ -5,6 +5,12 @@ import { setTriggerRender } from '@store/roadmap-refactor/render/rerender-trigge
 import { getNodeByIdRoadmapSelector } from '@src/typescript/roadmap_ref/roadmap-data/services/get';
 import { handleDeleteRootNotification } from '@src/to-be-organized/nodeview/notification-handler';
 import AsyncLoaderHOC from '@components/roadmap/rendering-engines/async-loading/AsyncLoaderHOC';
+import { getIsDraggableNotification } from '@src/to-be-organized/nodeview/notification-store';
+import { getElementIsDraggable } from '@src/store/roadmap-refactor/elements-editing/draggable-elements';
+import {
+  getNotificationMessage,
+  setNotification,
+} from './notifications/notifciations-refr/notification-store-refr';
 
 export type NodeManagerProps = {
   nodeId: string;

@@ -10,7 +10,7 @@ const CustmoNotification = ({
   text,
   onClose,
 }: {
-  type: string;
+  type: 'tip' | 'popup' | 'error';
   text: string;
   onClose: () => void;
 }) => {

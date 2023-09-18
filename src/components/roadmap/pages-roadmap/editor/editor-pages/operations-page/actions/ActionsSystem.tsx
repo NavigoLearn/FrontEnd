@@ -13,6 +13,8 @@ import editorSelectedData from '@store/roadmap-refactor/elements-editing/editor-
 import {
   getNodeByIdRoadmapSelector,
   getRoadmapTemplatesArray,
+  getIsRootNode,
+  getRootGlobalId,
 } from '@src/typescript/roadmap_ref/roadmap-data/services/get';
 import DeleteButton from '@components/roadmap/pages-roadmap/editor/editor-pages/operations-page/actions/DeleteButton';
 import {
@@ -28,6 +30,7 @@ import { TemplateNode } from '@src/typescript/roadmap_ref/node/templates-system/
 import { getDeleteRootNodeNotification } from '@src/to-be-organized/nodeview/notification-store';
 import { highlightNodeEffects } from '@store/roadmap-refactor/elements-editing/element-effects';
 import { afterEventLoop } from '@src/typescript/utils/misc';
+import { setNotification } from '@src/components/roadmap/to-be-organized/notifications/notifciations-refr/notification-store-refr';
 import DropdownPlusSelection from '../../../reusable-components/DropdownPlusSelection';
 
 type IOption = {
@@ -90,7 +93,7 @@ const ActionsSystem = () => {
   const { selectedNodeId } = useStore(editorSelectedData);
   const node = getNodeByIdRoadmapSelector(selectedNodeId);
   const { dropdown } = useStore(operationsStore);
-  const isRoot = getDeleteRootNodeNotification();
+  const isRoot = getRootGlobalId() === node.id;
 
   const rawTemplates = getRoadmapTemplatesArray();
   const templatesJSONAddChild = formatTemplatesAddChild(rawTemplates, node.id);
@@ -130,23 +133,21 @@ const ActionsSystem = () => {
             }}
           />
         </div>
-        <div
-          className={
-            isRoot ? 'pointer-events-none opacity-50' : ' pointer-events-auto'
-          }
-        >
-          <DeleteButton
-            callback={() => {
-              deleteProtocolNodeFromRoadmap(node);
-              closeEditorProtocol();
-            }}
-            text='Delete Node'
-            space
-          />
-        </div>
-
-        <hr className='absolute w-full bottom-0' />
+        <DeleteButton
+          callback={() => {
+            if (isRoot) {
+              setNotification('error', 'You cannot delete the root node');
+              return;
+            }
+            deleteProtocolNodeFromRoadmap(node);
+            closeEditorProtocol();
+          }}
+          text='Delete Node'
+          space
+        />
       </div>
+
+      <hr className='absolute w-full bottom-0' />
 
       <div className='flex gap-6 w-full'>
         <div
