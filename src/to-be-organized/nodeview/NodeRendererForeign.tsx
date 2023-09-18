@@ -201,7 +201,7 @@ const NodeRendererForeign: React.FC<NodeViewProps> = ({
     const borderStyle =
       // eslint-disable-next-line no-nested-ternary
       bgOpacity === 0
-        ? 'none'
+        ? '2px solid transparent'
         : borderColor === '#none'
         ? `2px solid ${color}`
         : `2px solid ${borderColor}`;

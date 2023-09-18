@@ -216,7 +216,7 @@ const Properties = () => {
             sensitivity={1}
           />
           <DraggableInput
-            name='fill-Opacity'
+            name='Fill Opacity'
             value={data.backgroundOpacity}
             onChange={(value) => {
               let newValue = parseInt(value, 10);
