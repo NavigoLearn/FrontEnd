@@ -1,3 +1,4 @@
+/* eslint-disable react/no-array-index-key */
 import React, { MouseEvent, useEffect, useRef, useState } from 'react';
 import { motion } from 'framer-motion';
 import {
@@ -5,10 +6,13 @@ import {
   lerp,
   screenCenter,
 } from '@components/home/typescript/helpers';
-import { v4 as uuidv4 } from 'uuid';
 import MiddleSection from './MiddleSection';
 import BottomSection from './BottomSection';
 import ScrollingElement from './ScrollingElement';
+
+const sinTable = new Array(720)
+  .fill(0)
+  .map((_, i) => Math.sin((i * Math.PI) / 180));
 
 const Home = () => {
   const divRef = useRef(null);
@@ -17,6 +21,7 @@ const Home = () => {
   const viewCoords = useRef({ x: 0, y: 0 });
 
   useEffect(() => {
+    const floatingEffect = 25;
     let animationFrameId = null;
     let TIME = 0;
 
@@ -31,19 +36,18 @@ const Home = () => {
     const animate = () => {
       setParallaxNodes(
         parallaxNodes.map((node) => {
-          const floatingEffect = 25;
-
-          const targetY =
-            node.targetY + Math.sin(node.sinOffset + TIME) * floatingEffect;
+          const sinIndex = Math.floor(node.sinOffset + TIME) % 720;
+          const targetY = node.targetY + sinTable[sinIndex] * floatingEffect;
 
           return {
             ...node,
             targetY,
+            sinOffset: sinIndex,
           };
         })
       );
 
-      TIME += 0.02;
+      TIME += 1;
       animationFrameId = requestAnimationFrame(animate);
     };
 
@@ -66,8 +70,8 @@ const Home = () => {
       const DISTANCE_Y = ((y - SCREEN_CENTER_Y) / SCREEN_CENTER_Y) * 1080;
 
       viewCoords.current = {
-        x: lerp(viewCoords.current.x, DISTANCE_X / 10, 0.2),
-        y: lerp(viewCoords.current.y, DISTANCE_Y / 10, 0.2),
+        x: lerp(viewCoords.current.x, DISTANCE_X / 12, 0.2),
+        y: lerp(viewCoords.current.y, DISTANCE_Y / 12, 0.2),
       };
 
       animationFrameId = requestAnimationFrame(animate);
@@ -87,8 +91,6 @@ const Home = () => {
       y: e.clientY,
     };
   };
-
-  console;
 
   return (
     <div
@@ -180,10 +182,10 @@ const Home = () => {
           width='100%'
           height='100%'
         >
-          {parallaxNodes.map((nodes) => {
+          {parallaxNodes.map((nodes, i) => {
             return (
               <rect
-                key={uuidv4()}
+                key={i}
                 x={nodes.targetX}
                 y={nodes.targetY}
                 rx='4'

@@ -9,7 +9,7 @@ const SizingButton = ({
 }) => {
   return (
     <div>
-      <button type='button' onClick={onClick}>
+      <button type='button' onClick={onClick} aria-label='Sizing'>
         <svg
           width='60'
           height='60'
@@ -49,7 +49,7 @@ const ColoursButton = ({
 }) => {
   return (
     <div>
-      <button type='button' onClick={onClick}>
+      <button type='button' onClick={onClick} aria-label='Colours'>
         <svg
           width='60'
           height='60'
@@ -101,7 +101,7 @@ const InteriorButton = ({
 }) => {
   return (
     <div>
-      <button type='button' onClick={onClick}>
+      <button type='button' onClick={onClick} aria-label='Interior'>
         <svg
           width='60'
           height='60'
