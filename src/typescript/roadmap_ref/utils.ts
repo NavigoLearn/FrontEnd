@@ -17,3 +17,11 @@ export function donsole(...args) {
 export function clipValue(str: string, length: number) {
   return str.slice(0, length);
 }
+
+// ? Color utils
+export function hexAddAlpha(hex: string, alpha: number) {
+  alpha = Math.round(alpha * 255);
+  const hexWithoutHash = hex.slice(1);
+  const hexWithAlpha = hexWithoutHash + alpha.toString(16);
+  return `#${hexWithAlpha}`;
+}

@@ -56,6 +56,7 @@ import scaleSafariStore from '@store/roadmap-refactor/misc/scale-safari-store';
 import { useStateWithSideEffects } from '@hooks/useStateWithSideEffects';
 import { getRoadmapNodeProgress } from '@store/roadmap-refactor/roadmap-data/misc-data/roadmap-progress';
 import { getResize } from '@src/to-be-organized/resize-dragging/stores-resize-shared-data';
+import { hexAddAlpha } from '@src/typescript/roadmap_ref/utils';
 import { handleNotification } from './notification-handler';
 
 interface NodeViewProps {
@@ -190,12 +191,9 @@ const NodeRendererForeign: React.FC<NodeViewProps> = ({
       bgOpacity === 0 ? 'shadow-none' : isSubNode ? 'shadow-md' : 'shadow-lg';
 
     const borderStyle =
-      // eslint-disable-next-line no-nested-ternary
-      bgOpacity === 0
-        ? '2px solid transparent'
-        : borderColor === '#none'
-        ? `2px solid ${color}`
-        : `2px solid ${borderColor}`;
+      borderColor === '#none'
+        ? `2px solid ${hexAddAlpha(color, bgOpacity)}`
+        : `2px solid ${hexAddAlpha(borderColor, bgOpacity)}`;
 
     const style = {
       // color: textColor,
