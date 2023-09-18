@@ -119,6 +119,7 @@ const Properties = () => {
           <DraggableInput
             name='X'
             value={data.coords.x}
+            defaultValue={0}
             onChange={(value) => {
               const newValue = parseInt(value, 10);
               mutateNodeCoordX(node, newValue);
@@ -130,6 +131,7 @@ const Properties = () => {
           <DraggableInput
             name='Y'
             value={data.coords.y}
+            defaultValue={0}
             onChange={(value) => {
               const newValue = parseInt(value, 10);
               if (checkInvalidInput(value)) return;
@@ -143,6 +145,7 @@ const Properties = () => {
           <DraggableInput
             name='W'
             value={data.width}
+            defaultValue={200}
             onChange={(value) => {
               let newValue = parseInt(value, 10);
               if (checkInvalidInput(value)) return;
@@ -165,6 +168,7 @@ const Properties = () => {
           <DraggableInput
             name='H'
             value={data.height}
+            defaultValue={50}
             onChange={(value) => {
               let newValue = parseInt(value, 10);
               if (checkInvalidInput(value)) return;
@@ -200,6 +204,7 @@ const Properties = () => {
           <DraggableInput
             name='Opacity'
             value={data.opacity}
+            defaultValue={100}
             onChange={(value) => {
               let newValue = parseInt(value, 10);
               if (checkInvalidInput(value)) return;
@@ -218,6 +223,7 @@ const Properties = () => {
           <DraggableInput
             name='Fill Opacity'
             value={data.backgroundOpacity}
+            defaultValue={100}
             onChange={(value) => {
               let newValue = parseInt(value, 10);
               if (checkInvalidInput(value)) return;

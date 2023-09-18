@@ -81,7 +81,21 @@ const NodeRendererForeign: React.FC<NodeViewProps> = ({
   const renderNode = (nodeId: string, isSubNode: boolean) => {
     const loaded = useIsLoaded();
     const node = getNodeByIdRoadmapSelector(nodeId);
-    const { width, height, opacity, colorType, backgroundOpacity } = node.data;
+    const {
+      width: widthData,
+      height: heightData,
+      opacity: opacityData,
+      colorType: colorTypeData,
+      backgroundOpacity: backgroundOpacityData,
+    } = node.data;
+
+    // ensure node has all data it needs
+    const width = widthData ?? 200;
+    const height = heightData ?? 50;
+    const opacity = opacityData ?? 100;
+    const colorType = colorTypeData ?? 'primary';
+    const backgroundOpacity = backgroundOpacityData ?? 100;
+
     node.data.center.x = width / 2;
     const { subNodeIds } = node;
     // Function to render each subnode
