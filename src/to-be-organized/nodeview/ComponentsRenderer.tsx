@@ -9,14 +9,11 @@ import {
   transformOpacity,
 } from '@src/typescript/roadmap_ref/node/core/factories/data-mutation/services';
 import { getColorThemeFromRoadmap } from '@components/roadmap/pages-roadmap/setup-screen/theme-controler';
-import DraggingResizeElement from '@src/to-be-organized/DraggingResizeElement';
+import DraggingResizeElement from '@src/to-be-organized/resize-dragging/DraggingResizeElement';
 import {
   mutateComponentTextHeight,
   mutateComponentTextWidth,
 } from '@src/typescript/roadmap_ref/node/components/text/mutate';
-import { triggerNodeRerender } from '@store/roadmap-refactor/render/rerender-triggers-nodes';
-import { tailwindTransitionClass } from '@src/UI-library/tailwind-utils';
-import { getNodeByIdRoadmapSelector } from '@src/typescript/roadmap_ref/roadmap-data/services/get';
 import {
   getIsEditable,
   getIsEditing,
@@ -25,6 +22,7 @@ import editorSelectedData, {
   getSelectedNodeId,
 } from '@store/roadmap-refactor/elements-editing/editor-selected-data';
 import displayManagerStore from '@store/roadmap-refactor/display/display-manager';
+import { hexAddAlpha } from '@src/typescript/roadmap_ref/utils';
 
 type IComponentElementProps = {
   component: IComponentObject;
@@ -35,7 +33,23 @@ const ComponentRendererForeign = ({
   component,
   parentNode,
 }: IComponentElementProps) => {
-  const { id, type, textSize, textWeight, text, opacity } = component;
+  const {
+    id: idData,
+    type: typeData,
+    textSize: textSizeData,
+    textWeight: textWeightData,
+    text: textData,
+    opacity: opacityData,
+  } = component;
+
+  // ensure everything is not null
+  const id = idData ?? '';
+  const type = typeData ?? 'Text';
+  const textSize = textSizeData ?? 'normal';
+  const textWeight = textWeightData ?? 'normal';
+  const text = textData ?? '';
+  const opacity = opacityData ?? 100;
+
   const { colorType } = parentNode.data;
   const divRef = useRef<HTMLDivElement>(null);
   // text color is based on the node color
@@ -52,14 +66,19 @@ const ComponentRendererForeign = ({
 
   const opacityFiltered = transformOpacity(opacity);
 
-  const { position, height, width } = calculateComponentsPositions(
-    component,
-    parentNode,
-    {
-      type: 'foreign-object',
-      divRef,
-    }
-  );
+  const {
+    position: positionData,
+    height: heightData,
+    width: widthData,
+  } = calculateComponentsPositions(component, parentNode, {
+    type: 'foreign-object',
+    divRef,
+  });
+
+  // ensure values are not null
+  const position = positionData ?? { x: 0, y: 0 };
+  const width = widthData ?? 150;
+  const height = heightData ?? 50;
 
   mutateComponentTextHeight(component, height);
 
@@ -68,11 +87,11 @@ const ComponentRendererForeign = ({
       ref={divRef}
       key={component.id}
       id={`div${id}`}
-      className={`absolute flex justify-center items-center select-none pointer-events-auto ${
-        parentSelected && 'border-opacity-100'
-      } transition-allNoTransform`}
+      className={`absolute flex justify-center items-center select-none ${
+        parentSelected ? 'pointer-events-auto' : 'pointer-events-none'
+      } ${parentSelected && 'border-opacity-100'} transition-allNoTransform`}
       style={{
-        color: `${textColor.slice(0, -1)},${opacityFiltered})`,
+        color: `${hexAddAlpha(textColor, opacityFiltered)}`,
         fontSize: fontSizeSelect,
         fontWeight: textWeightSelect,
         textAlign: 'center',
@@ -88,28 +107,9 @@ const ComponentRendererForeign = ({
             width,
             height,
           }}
-          widthCallback={(newWidth) => {
-            const parentWidth = getNodeByIdRoadmapSelector(parentNode.id).data
-              .width;
-            if (newWidth > parentWidth) {
-              newWidth = parentWidth;
-            }
-            mutateComponentTextWidth(component, newWidth);
-            triggerNodeRerender(parentNode.id);
-          }}
-          heightCallback={(newHeight: number) => {
-            const parentHeight = getNodeByIdRoadmapSelector(parentNode.id).data
-              .height;
-            if (newHeight > parentHeight) {
-              newHeight = parentHeight;
-            }
-            mutateComponentTextHeight(component, newHeight);
-            triggerNodeRerender(parentNode.id);
-          }}
           onlyXaxis
-          snappingCallback={(newWidth: number, newHeight: number) => {
-            return { width: newWidth, height: newHeight };
-          }}
+          element={component}
+          setResizeCallback={() => {}}
         />
       )}
       {type === 'Text' && <h1 className='text-center select-none'>{text}</h1>}

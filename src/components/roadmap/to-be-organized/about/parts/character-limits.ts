@@ -1,2 +1,0 @@
-export const DEFAULT_ROADMAP_TITLE_MAX_LENGTH = 40;
-export const PROFILE_NAME_MAX_LENGTH = 30;

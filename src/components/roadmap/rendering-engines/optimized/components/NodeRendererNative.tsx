@@ -32,7 +32,7 @@ import {
 } from '@src/typescript/roadmap_ref/node/core/factories/data-mutation/services';
 import { getColorThemeFromRoadmap } from '@components/roadmap/pages-roadmap/setup-screen/theme-controler';
 import { AnimatePresence, motion } from 'framer-motion';
-import DraggingResizeElement from '@src/to-be-organized/DraggingResizeElement';
+import DraggingResizeElement from '@src/to-be-organized/resize-dragging/DraggingResizeElement';
 import {
   mutateNodeHeightWhileKeepingCenter,
   mutateNodeWidthWhileKeepingCenter,
@@ -49,6 +49,7 @@ import {
 import { NodeClass } from '@src/typescript/roadmap_ref/node/core/core';
 import { ICoords } from '@src/typescript/roadmap_ref/dragging/core';
 import { getIsEditable } from '@store/roadmap-refactor/roadmap-data/misc-data/roadmap_state';
+import { setNotification } from '@src/components/roadmap/to-be-organized/notifications/notifciations-refr/notification-store-refr';
 
 const handleCoordCalculation = (node: NodeClass, centerOffset: ICoords) => {
   const { width, height } = node.data;
@@ -102,14 +103,22 @@ const useHandleNodeInitialization = (node: NodeClass) => {
 };
 
 function handleGetNodeProperties(node: NodeClass) {
-  const { width, height, opacity, colorType } = node.data;
+  const { width, height, opacity, colorType, backgroundOpacity } = node.data;
   const colorTheme = useMemo(() => {
     return getColorThemeFromRoadmap();
   }, []);
   const borderColor = selectNodeColorTextBorder(colorTheme, colorType);
   const nodeColor = selectNodeColorFromScheme(colorTheme, colorType);
 
-  return { width, height, opacity, colorType, borderColor, nodeColor };
+  return {
+    width,
+    height,
+    opacity,
+    colorType,
+    borderColor,
+    nodeColor,
+    backgroundOpacity,
+  };
 }
 
 function handleMouseOverAndDragging(nodeId: string) {
@@ -154,7 +163,7 @@ const NodeRendererNative: React.FC<NodeViewProps> = ({
   const { x, y } = handleCoordCalculation(node, centerOffset);
   const { nodeGRef, nodeRectRef } = useHandleNodeInitialization(node);
 
-  const { width, height, opacity, borderColor, nodeColor } =
+  const { width, height, opacity, borderColor, nodeColor, backgroundOpacity } =
     handleGetNodeProperties(node);
 
   const applyStyle = () => {
@@ -163,7 +172,10 @@ const NodeRendererNative: React.FC<NodeViewProps> = ({
 
     nodeRectRef.current.setAttribute('fill', nodeColor);
     nodeRectRef.current.setAttribute('stroke', borderColor);
-
+    nodeRectRef.current.setAttribute(
+      'fill-opacity',
+      `${backgroundOpacity / 100}`
+    );
     nodeGRef.current.setAttribute('opacity', `${opacity}`);
   };
 
@@ -221,6 +233,7 @@ const NodeRendererNative: React.FC<NodeViewProps> = ({
           height={height}
           ref={nodeRectRef}
           fill={`${nodeColor}`}
+          fillOpacity={`${backgroundOpacity / 100}`}
           opacity='1'
           stroke={`${borderColor}`}
           strokeWidth='2px'
@@ -246,41 +259,7 @@ const NodeRendererNative: React.FC<NodeViewProps> = ({
                 !isCurrentlyDragged &&
                 (mouseOver || resizing) && (
                   <motion.div className='pointer-events-none w-full h-full absolute top-[5px] left-[5px]'>
-                    <DraggingResizeElement
-                      style={{
-                        width: adjustedWidth,
-                        height: adjustedHeight,
-                      }}
-                      heightCallback={(height) => {
-                        mutateNodeHeightWhileKeepingCenter(node, height);
-                        triggerNodeRerender(nodeId);
-                        triggerAllConnectionsRerender();
-                      }}
-                      widthCallback={(width) => {
-                        mutateNodeWidthWhileKeepingCenter(node, width);
-                        triggerNodeRerender(nodeId);
-                        triggerAllConnectionsRerender();
-                      }}
-                      snappingCallback={(width, height) => {
-                        setResizing(true);
-                        const rootNode = node.flags.renderedOnRoadmapFlag;
-                        const nodesToSnapTo = rootNode
-                          ? getRootNodesIds()
-                          : getNodeAdjacentNodesIds(nodeId);
-                        // snapping node corners ( ͡° ͜ʖ ͡°) so width and height will also snap I hope
-                        const { width: newWidth, height: newHeight } =
-                          snapNodeWidthHeight(
-                            node.id,
-                            nodesToSnapTo,
-                            width,
-                            height
-                          );
-                        return {
-                          width: newWidth,
-                          height: newHeight,
-                        };
-                      }}
-                    />
+                    {/* {dragging} */}
                   </motion.div>
                 )}
             </motion.foreignObject>

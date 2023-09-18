@@ -14,11 +14,7 @@ import {
   setTriggerRender,
   triggerNodeRerender,
 } from '@store/roadmap-refactor/render/rerender-triggers-nodes';
-import {
-  getNodeAdjacentNodesIds,
-  getNodeByIdRoadmapSelector,
-  getRootNodesIds,
-} from '@src/typescript/roadmap_ref/roadmap-data/services/get';
+import { getNodeByIdRoadmapSelector } from '@src/typescript/roadmap_ref/roadmap-data/services/get';
 import {
   getOnClickAction,
   getOnMouseOutAction,
@@ -40,12 +36,7 @@ import {
   getHideProgress,
   getIsEditing,
 } from '@store/roadmap-refactor/roadmap-data/misc-data/roadmap_state';
-import DraggingResizeElement from '@src/to-be-organized/DraggingResizeElement';
-import {
-  mutateNodeHeightWhileKeepingCenter,
-  mutateNodeWidthWhileKeepingCenter,
-} from '@src/typescript/roadmap_ref/node/core/data-mutation/mutate';
-import { snapNodeWidthHeight } from '@src/typescript/roadmap_ref/snapping/old/core';
+import DraggingResizeElement from '@src/to-be-organized/resize-dragging/DraggingResizeElement';
 import {
   selectNodeColorFromScheme,
   selectNodeColorTextBorder,
@@ -64,6 +55,8 @@ import DragSvg from '@src/UI-library/svg-components/DragSvg';
 import scaleSafariStore from '@store/roadmap-refactor/misc/scale-safari-store';
 import { useStateWithSideEffects } from '@hooks/useStateWithSideEffects';
 import { getRoadmapNodeProgress } from '@store/roadmap-refactor/roadmap-data/misc-data/roadmap-progress';
+import { getResize } from '@src/to-be-organized/resize-dragging/stores-resize-shared-data';
+import { hexAddAlpha } from '@src/typescript/roadmap_ref/utils';
 import { handleNotification } from './notification-handler';
 
 interface NodeViewProps {
@@ -89,13 +82,26 @@ const NodeRendererForeign: React.FC<NodeViewProps> = ({
   const renderNode = (nodeId: string, isSubNode: boolean) => {
     const loaded = useIsLoaded();
     const node = getNodeByIdRoadmapSelector(nodeId);
-    const { width, height, opacity, colorType } = node.data;
+    const {
+      width: widthData,
+      height: heightData,
+      opacity: opacityData,
+      colorType: colorTypeData,
+      backgroundOpacity: backgroundOpacityData,
+    } = node.data;
+
+    // ensure node has all data it needs
+    const width = widthData ?? 200;
+    const height = heightData ?? 50;
+    const opacity = opacityData ?? 100;
+    const colorType = colorTypeData ?? 'primary';
+    const backgroundOpacity = backgroundOpacityData ?? 100;
+
     node.data.center.x = width / 2;
     const { subNodeIds } = node;
     // Function to render each subnode
 
-    const { flags } = node;
-    const { subNodeFlag } = flags;
+    const { subNodeFlag } = node.flags;
 
     const editing = getIsEditing();
     // the offset for the nodes-page rendered directly on the roadmap is calculated directly
@@ -182,7 +188,7 @@ const NodeRendererForeign: React.FC<NodeViewProps> = ({
       return statusCircleBgColor[status];
     }
 
-    const bgOpacity = opacity / 100;
+    const bgOpacity = backgroundOpacity / 100;
 
     const color = selectNodeColorFromScheme(
       getColorThemeFromRoadmap(),
@@ -194,17 +200,18 @@ const NodeRendererForeign: React.FC<NodeViewProps> = ({
       colorType
     );
 
+    const shadowClass =
+      // eslint-disable-next-line no-nested-ternary
+      bgOpacity === 0 ? 'shadow-none' : isSubNode ? 'shadow-md' : 'shadow-lg';
+
     const borderStyle =
       borderColor === '#none'
-        ? `2px solid ${color}`
-        : `2px solid ${borderColor}`;
+        ? `2px solid transparent`
+        : `2px solid ${hexAddAlpha(borderColor, bgOpacity)}`;
 
     const style = {
       // color: textColor,
-      backgroundColor: `rgba(${parseInt(color.slice(1, 3), 16)}, ${parseInt(
-        color.slice(3, 5),
-        16
-      )}, ${parseInt(color.slice(5, 7), 16)}, ${bgOpacity})`, // assuming color is in #RRGGBB format
+      backgroundColor: hexAddAlpha(color, bgOpacity),
       width,
       height,
       top: calculatedOffsetCoords.y + coords.y,
@@ -235,11 +242,11 @@ const NodeRendererForeign: React.FC<NodeViewProps> = ({
       'dragging-recursive'
     );
 
-    const { addNotification } = useNotification();
+    // const { addNotification } = useNotification();
 
     const cursor = isCurrentlyDragged ? 'cursor-grab' : 'cursor-pointer';
 
-    isCurrentlyDragged && handleNotification(addNotification);
+    // isCurrentlyDragged && handleNotification(addNotification);
 
     return (
       <div
@@ -257,13 +264,15 @@ const NodeRendererForeign: React.FC<NodeViewProps> = ({
         )}
 
         <div
-          className={`rounded-md  ${
-            !isSubNode ? 'shadow-lg' : 'shadow-sm'
-          } transition-allNoTransform duration-200 absolute ${cursor}`}
+          className={`rounded-md ${shadowClass} transition-allNoTransform duration-200 absolute ${cursor}`}
           id={`div${nodeId}`}
           ref={nodeDivRef}
           onClick={(event) => {
             event.stopPropagation();
+            if (resizing || isCurrentlyDragged || getResize()) {
+              return;
+            }
+
             getOnClickAction(nodeId)();
             // if (nodeId === '0') {
             //   setDeleteRootNodeNotificationTrue();
@@ -301,34 +310,9 @@ const NodeRendererForeign: React.FC<NodeViewProps> = ({
                     width,
                     height,
                   }}
-                  heightCallback={(height) => {
-                    mutateNodeHeightWhileKeepingCenter(node, height);
-                    triggerNodeRerender(nodeId);
-                    triggerAllConnectionsRerender();
-                  }}
-                  widthCallback={(width) => {
-                    mutateNodeWidthWhileKeepingCenter(node, width);
-                    triggerNodeRerender(nodeId);
-                    triggerAllConnectionsRerender();
-                  }}
-                  snappingCallback={(width, height) => {
+                  element={node}
+                  setResizeCallback={() => {
                     setResizing(true);
-                    const rootNode = node.flags.renderedOnRoadmapFlag;
-                    const nodesToSnapTo = rootNode
-                      ? getRootNodesIds()
-                      : getNodeAdjacentNodesIds(nodeId);
-                    // snapping node corners ( ͡° ͜ʖ ͡°) so width and height will also snap I hope
-                    const { width: newWidth, height: newHeight } =
-                      snapNodeWidthHeight(
-                        node.id,
-                        nodesToSnapTo,
-                        width,
-                        height
-                      );
-                    return {
-                      width: newWidth,
-                      height: newHeight,
-                    };
                   }}
                 />
               </motion.div>

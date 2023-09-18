@@ -90,6 +90,7 @@ const TextComponent = ({ node, id, name }: TitleComponentProps) => {
             <DraggableInput
               name='Opacity'
               value={titleComponent.opacity}
+              defaultValue={100}
               onChange={(value) => {
                 let displayedValue = parseInt(value, 10);
                 if (checkInvalidInput(value)) return;

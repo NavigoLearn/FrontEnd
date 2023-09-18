@@ -1,7 +1,7 @@
 import React from 'react';
 import Roadmap from '@components/roadmap/Roadmap';
 import { IRoadmapApi } from '@src/types/explore_old/card';
-import { NotificationProvider } from './to-be-organized/notifications/NotificationLogic';
+import NotificationRenderer from './to-be-organized/notifications/notifciations-refr/NotificationRenderer';
 
 const RoadmapWithNotifications = ({
   pageId,
@@ -11,9 +11,12 @@ const RoadmapWithNotifications = ({
   roadmap: IRoadmapApi;
 }) => {
   return (
-    <NotificationProvider>
+    <>
+      <div className='fixed bottom-3 left-1/2 transform -translate-x-1/2'>
+        <NotificationRenderer />
+      </div>
       <Roadmap pageId={pageId} roadmap={roadmap} />
-    </NotificationProvider>
+    </>
   );
 };
 

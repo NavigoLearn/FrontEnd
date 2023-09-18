@@ -1,6 +1,8 @@
 import React from 'react';
 import { useStore } from '@nanostores/react';
-import storeRoadmapAbout from '@store/roadmap-refactor/roadmap-data/misc-data/roadmap-about';
+import storeRoadmapAbout, {
+  getIsCreate,
+} from '@store/roadmap-refactor/roadmap-data/misc-data/roadmap-about';
 import { setDisplayPageTypeFullScreen } from '@store/roadmap-refactor/display/display-manager-full-screen';
 import TextareaStandardInput from '@components/roadmap/pages-roadmap/editor/editor-pages/properties-page/TextareaStandardInput';
 import TextInputStandard from '@components/roadmap/pages-roadmap/editor/editor-pages/properties-page/TextInputStandard';
@@ -63,7 +65,7 @@ const AboutView = ({ callback }: IAboutViewProps) => {
           />
         </div>
       </div>
-      {loggedUserId === ownerId ? (
+      {loggedUserId === ownerId || getIsCreate() ? (
         <div className='relative mt-12 flex justify-center w-full '>
           <div className='flex flex-row w-[90%] justify-end'>
             <button

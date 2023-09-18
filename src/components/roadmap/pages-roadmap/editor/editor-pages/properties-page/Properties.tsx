@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import {
+  mutateNodeBackgroundOpacity,
   mutateNodeCoordX,
   mutateNodeCoordY,
   mutateNodeHeight,
@@ -118,6 +119,7 @@ const Properties = () => {
           <DraggableInput
             name='X'
             value={data.coords.x}
+            defaultValue={0}
             onChange={(value) => {
               const newValue = parseInt(value, 10);
               mutateNodeCoordX(node, newValue);
@@ -129,6 +131,7 @@ const Properties = () => {
           <DraggableInput
             name='Y'
             value={data.coords.y}
+            defaultValue={0}
             onChange={(value) => {
               const newValue = parseInt(value, 10);
               if (checkInvalidInput(value)) return;
@@ -142,6 +145,7 @@ const Properties = () => {
           <DraggableInput
             name='W'
             value={data.width}
+            defaultValue={200}
             onChange={(value) => {
               let newValue = parseInt(value, 10);
               if (checkInvalidInput(value)) return;
@@ -164,6 +168,7 @@ const Properties = () => {
           <DraggableInput
             name='H'
             value={data.height}
+            defaultValue={50}
             onChange={(value) => {
               let newValue = parseInt(value, 10);
               if (checkInvalidInput(value)) return;
@@ -195,10 +200,11 @@ const Properties = () => {
           selectedTheme={getColorThemeFromRoadmap()}
           node={node}
         />
-        <div className='flex flex-row gap-2 mt-2'>
+        <div className='flex flex-row justify-between mr-6'>
           <DraggableInput
             name='Opacity'
             value={data.opacity}
+            defaultValue={100}
             onChange={(value) => {
               let newValue = parseInt(value, 10);
               if (checkInvalidInput(value)) return;
@@ -209,6 +215,25 @@ const Properties = () => {
                 newValue = 100;
               }
               mutateNodeOpacity(node, newValue);
+              triggerRerenderEditor();
+              triggerNodeRerender(node.id);
+            }}
+            sensitivity={1}
+          />
+          <DraggableInput
+            name='Fill Opacity'
+            value={data.backgroundOpacity}
+            defaultValue={100}
+            onChange={(value) => {
+              let newValue = parseInt(value, 10);
+              if (checkInvalidInput(value)) return;
+              if (newValue < 0) {
+                newValue = 0;
+              }
+              if (newValue > 100) {
+                newValue = 100;
+              }
+              mutateNodeBackgroundOpacity(node, newValue);
               triggerRerenderEditor();
               triggerNodeRerender(node.id);
             }}
