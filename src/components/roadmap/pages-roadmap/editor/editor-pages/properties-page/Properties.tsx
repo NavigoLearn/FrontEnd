@@ -23,7 +23,6 @@ import DraggableInput from '@src/UI-library/DraggableInput';
 import DropdownWhiteSelect from '@components/roadmap/pages-roadmap/editor/reusable-components/DropdownWhiteSelect';
 import { mutateActionLink } from '@src/typescript/roadmap_ref/node/core/actions/mutate';
 import { getColorThemeFromRoadmap } from '@components/roadmap/pages-roadmap/setup-screen/theme-controler';
-import { IActionTypes } from '@src/typescript/roadmap_ref/node/core/actions/core';
 import {
   MINIMUM_NODE_HEIGHT,
   MINIMUM_NODE_WIDTH,
@@ -200,26 +199,26 @@ const Properties = () => {
           selectedTheme={getColorThemeFromRoadmap()}
           node={node}
         />
-        <div className='flex flex-row justify-between mr-6'>
-          <DraggableInput
-            name='Opacity'
-            value={data.opacity}
-            defaultValue={100}
-            onChange={(value) => {
-              let newValue = parseInt(value, 10);
-              if (checkInvalidInput(value)) return;
-              if (newValue < 0) {
-                newValue = 0;
-              }
-              if (newValue > 100) {
-                newValue = 100;
-              }
-              mutateNodeOpacity(node, newValue);
-              triggerRerenderEditor();
-              triggerNodeRerender(node.id);
-            }}
-            sensitivity={1}
-          />
+        <div className='flex flex-row justify-start mt-2 mr-6'>
+          {/* <DraggableInput */}
+          {/*  name='Opacity' */}
+          {/*  value={data.opacity} */}
+          {/*  defaultValue={100} */}
+          {/*  onChange={(value) => { */}
+          {/*    let newValue = parseInt(value, 10); */}
+          {/*    if (checkInvalidInput(value)) return; */}
+          {/*    if (newValue < 0) { */}
+          {/*      newValue = 0; */}
+          {/*    } */}
+          {/*    if (newValue > 100) { */}
+          {/*      newValue = 100; */}
+          {/*    } */}
+          {/*    mutateNodeOpacity(node, newValue); */}
+          {/*    triggerRerenderEditor(); */}
+          {/*    triggerNodeRerender(node.id); */}
+          {/*  }} */}
+          {/*  sensitivity={1} */}
+          {/* /> */}
           <DraggableInput
             name='Fill Opacity'
             value={data.backgroundOpacity}

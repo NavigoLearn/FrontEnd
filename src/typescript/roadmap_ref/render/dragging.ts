@@ -2,8 +2,8 @@ import * as d3 from 'd3';
 import {
   deleteDraggingRecursiveEffect,
   appendDraggingRecursiveEffect,
-  elementEffects,
-} from '@store/roadmap-refactor/elements-editing/element-effects';
+  storeNodeEffects,
+} from '@store/roadmap-refactor/elements-editing/store-node-effects';
 import { deleteAllSnappings } from '@store/roadmap-refactor/render/snapping-lines';
 import { DraggingBehavior } from '@src/typescript/roadmap_ref/dragging/core';
 import {

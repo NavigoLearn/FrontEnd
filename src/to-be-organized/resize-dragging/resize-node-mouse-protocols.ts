@@ -35,6 +35,8 @@ import {
 import { triggerNodeConnectionsRerender } from '@src/typescript/roadmap_ref/render/dragging';
 import { snapResizingNodeProtocol } from '@src/typescript/roadmap_ref/snapping/snap-protocols/snap-nodes-resize';
 import { afterEventLoop } from '@src/typescript/utils/misc';
+import { recalculateNodeChunks } from '@src/typescript/roadmap_ref/node/core/calculations/general';
+import { recalculateNodeChunksWithRoadmapSideEffects } from '@src/typescript/roadmap_ref/node/core/data-mutation/protocol';
 
 type IDeltaCalc = (eventY, startY) => number;
 
@@ -142,8 +144,13 @@ const handleResizeNodeMouseUp = (e) => {
   // @ts-ignore
   document.removeEventListener('mousemove', moveHandler);
   document.removeEventListener('mouseup', handleResizeNodeMouseUp);
+
   getRoadmapEnableInteractions()();
+  const node = getResizeNodeRef();
+  recalculateNodeChunksWithRoadmapSideEffects(node);
+
   resetResizeAllStoresToDefault();
+
   window.getSelection().removeAllRanges(); // Deselect any selected text
 
   afterEventLoop(() => {

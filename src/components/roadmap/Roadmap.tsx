@@ -31,7 +31,7 @@ import {
 } from '@src/typescript/roadmap_ref/dragging/misc';
 import { useEffectAfterLoad } from '@hooks/useEffectAfterLoad';
 import renderConnectionsStore from '@store/roadmap-refactor/render/rendered-connections';
-import { closeEditorProtocol } from '@src/to-be-organized/nodeview/actions-manager';
+import { closeEditorProtocol } from '@src/to-be-organized/node-rendering-stuff/actions-manager';
 import { addKeyListeners } from '@src/typescript/roadmap_ref/key-shortcuts';
 import { IRoadmapApi } from '@type/explore_old/card';
 import {
@@ -52,6 +52,7 @@ import {
   DEFAULT_DESCRIPTION,
   setRoadmapAboutOwnerId,
   setRoadmapId,
+  setRoadmapVersion,
 } from '@store/roadmap-refactor/roadmap-data/misc-data/roadmap-about';
 import {
   saveSession,
@@ -159,12 +160,13 @@ function initializeRoadmapAboutData(roadmap?: IRoadmapApi) {
   if (type === 'draft' || type === 'public') {
     if (!roadmap)
       throw new Error('Roadmap is undefined despite being draft mode?');
-    const { name, description, userId, id } = roadmap;
+    const { name, description, userId, id, version } = roadmap;
 
     setRoadmapAboutName(name);
     setRoadmapAboutDescription(description);
     setRoadmapAboutOwnerId(userId);
     setRoadmapId(id);
+    setRoadmapVersion(version);
   }
 }
 

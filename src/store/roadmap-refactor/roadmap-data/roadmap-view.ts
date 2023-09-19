@@ -3,7 +3,7 @@ import { IRoadmap } from '@type/roadmap/stores/IRoadmap';
 import { setRoadmapSelector } from '@store/roadmap-refactor/roadmap-data/roadmap-selector';
 import { IRoadmapApi } from '@type/explore_old/card';
 import { isRoadmapType } from '@type/roadmap/old/typecheckers';
-import { emptyRoadmap } from '@store/roadmap-refactor/roadmap-data/params/base-roadmap';
+import { emptyRoadmap } from '@store/roadmap-refactor/roadmap-data/params/params-base-roadmap';
 import { deepCopy } from '@src/typescript/roadmap_ref/utils';
 import { roadmapAdapterDecorator } from './adapter-decorator-roadmap';
 
