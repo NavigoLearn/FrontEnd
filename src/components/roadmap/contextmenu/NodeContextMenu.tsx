@@ -35,7 +35,7 @@ const NodeContextMenu = ({
 
   return (
     <div
-      className={` w-60 rounded-lg h-10  outline-none mt-2 border-2 ${tailwindTransitionClass} absolute`}
+      className={`pointer-events-auto w-60 rounded-lg h-10  outline-none mt-2 border-2 ${tailwindTransitionClass} absolute`}
       style={{
         left: x,
         top: y,
@@ -55,7 +55,8 @@ const NodeContextMenu = ({
             return (
               <button
                 type='button'
-                onClick={() => {
+                onClick={(event) => {
+                  event.stopPropagation();
                   setRoadmapNodeProgressAndFetchUpdate(nodeId, actionName);
 
                   if (actionName === 'Completed' || actionName === 'Skip') {

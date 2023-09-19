@@ -102,6 +102,7 @@ const NodeRendererForeign: React.FC<NodeViewProps> = ({
     }));
   };
   const handleContextMenu = (event: MouseEvent) => {
+    event.stopPropagation();
     // set odl menu invisible
     if (currentSetNodeContextMenuStatus) {
       currentSetNodeContextMenuStatus((prev) => ({
