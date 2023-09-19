@@ -5,7 +5,7 @@ import {
   startEventRecording,
 } from '@src/to-be-organized/undo-redo/store-undo-functionality';
 
-export function startRecordDraggingNormal(nodeId) {
+export function startRecordResizeOrDrag(nodeId) {
   const node = getNodeByIdRoadmapSelector(nodeId);
   const initialData: INodeData = {
     x: node.data.coords.x,
@@ -14,11 +14,10 @@ export function startRecordDraggingNormal(nodeId) {
     height: node.data.height,
   };
 
-  console.log('startRecordData', initialData);
   startEventRecording(nodeId, initialData, 'node-resize');
 }
 
-export function endRecordDraggingNormal(nodeId) {
+export function endRecordResizeOrDrag(nodeId) {
   const node = getNodeByIdRoadmapSelector(nodeId);
   const finalData: INodeData = {
     x: node.data.coords.x,
@@ -26,6 +25,6 @@ export function endRecordDraggingNormal(nodeId) {
     width: node.data.width,
     height: node.data.height,
   };
-  console.log('endRecordDraggingNormal', finalData);
+
   endEventRecording(nodeId, finalData, 'node-resize');
 }

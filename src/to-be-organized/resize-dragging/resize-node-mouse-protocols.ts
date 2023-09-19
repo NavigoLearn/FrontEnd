@@ -37,6 +37,10 @@ import { snapResizingNodeProtocol } from '@src/typescript/roadmap_ref/snapping/s
 import { afterEventLoop } from '@src/typescript/utils/misc';
 import { recalculateNodeChunks } from '@src/typescript/roadmap_ref/node/core/calculations/general';
 import { recalculateNodeChunksWithRoadmapSideEffects } from '@src/typescript/roadmap_ref/node/core/data-mutation/protocol';
+import {
+  endRecordResizeOrDrag,
+  startRecordResizeOrDrag,
+} from '@src/to-be-organized/undo-redo/recorders';
 
 type IDeltaCalc = (eventY, startY) => number;
 
@@ -148,8 +152,8 @@ const handleResizeNodeMouseUp = (e) => {
   getRoadmapEnableInteractions()();
   const node = getResizeNodeRef();
   recalculateNodeChunksWithRoadmapSideEffects(node);
-
   resetResizeAllStoresToDefault();
+  endRecordResizeOrDrag(node.id);
 
   window.getSelection().removeAllRanges(); // Deselect any selected text
 
@@ -184,6 +188,7 @@ export const handleResizeNodeMouseDown = (
 
   setResizeTrue();
   setResizeMouseAnchor(direction);
+  startRecordResizeOrDrag(elementRef.id);
 
   const mouseMoveHandler = (mouseMoveEvent?) => {
     if (mouseMoveEvent) {

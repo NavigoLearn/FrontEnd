@@ -25,8 +25,8 @@ import { triggerNodeRerender } from '@store/roadmap-refactor/render/rerender-tri
 import { throttle } from '@src/typescript/roadmap_ref/render/chunks';
 import { getRenderingEngineDraggingElementIdentifier } from '@components/roadmap/rendering-engines/store-rendering-engine';
 import {
-  endRecordDraggingNormal,
-  startRecordDraggingNormal,
+  endRecordResizeOrDrag,
+  startRecordResizeOrDrag,
 } from '@src/to-be-organized/undo-redo/recorders';
 import { triggerAllConnectionsRerender } from '@src/to-be-organized/triggering-stuff-alert/trigger-connections';
 
@@ -80,7 +80,7 @@ export const addDragabilityProtocol = (draggingBehavior: DraggingBehavior) => {
     const currentCoords = currentCoordsStrategy();
     // also account for the difference between rendering relative to center and relative to top left corner
     const { x, y } = coordinatesAdapterStrategy(originalX, originalY);
-    startRecordDraggingNormal(id);
+    startRecordResizeOrDrag(id);
 
     const offsetX = x - currentCoords.x;
     const offsetY = y - currentCoords.y;
@@ -170,7 +170,7 @@ export const addDragabilityProtocol = (draggingBehavior: DraggingBehavior) => {
     // chunk recalculations are integrated in the coordinates setter strategy
     draggingEndStrategy(newPos.x, newPos.y);
     deleteAllSnappings();
-    endRecordDraggingNormal(id);
+    endRecordResizeOrDrag(id);
 
     if (isRecursive) {
       draggingEndChildrenTraceback(draggingBehavior);
