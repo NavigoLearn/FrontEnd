@@ -1,6 +1,7 @@
 import React from 'react';
 import viewportCoord from '@store/roadmap-refactor/misc/viewport-coords-store';
 import { useStore } from '@nanostores/react';
+import RecenterButton from '@components/roadmap/elements-display/static/parts/RecenterButton';
 import { triggerRecenterRoadmap } from '@store/roadmap-refactor/misc/misc-params-store';
 import {
   setRenderingEngineOptimized,
@@ -22,16 +23,8 @@ const LeftSideSettings = () => {
           scale: {scale}
         </p>
       </div>
-      <div className=''>
-        <button
-          type='button'
-          className='mt-6 font-roboto-text text-md text-secondary pointer-events-auto hover:text-primary'
-          onClick={() => {
-            triggerRecenterRoadmap();
-          }}
-        >
-          Recenter
-        </button>
+      <div className='hidden md:block'>
+        <RecenterButton />
       </div>
 
       <div className=''>
