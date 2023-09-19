@@ -28,7 +28,7 @@ export function setPostRoadmapPayloadFromExistingStores() {
     isDraft: false,
     createdAt: new Date().toISOString(),
     updatedAt: new Date().toISOString(),
-    version: '1.0.0',
+    version: storeRoadmapAbout.get().version,
     data: encodeBase64(JSON.stringify(getRoadmapSelector())),
     miscData: encodeBase64(JSON.stringify(getRoadmapSelector().data)),
   };

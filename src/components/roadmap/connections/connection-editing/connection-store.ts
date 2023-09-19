@@ -7,7 +7,7 @@ import {
   clearAllDefocusEffects,
   setConnectionSelectedEffect,
   setConnectionUnselectedEffect,
-} from '@store/roadmap-refactor/elements-editing/element-effects';
+} from '@store/roadmap-refactor/elements-editing/store-node-effects';
 import { setDefaultDraggabilitySettings } from '@store/roadmap-refactor/elements-editing/draggable-elements';
 import { getIsEditing } from '@store/roadmap-refactor/roadmap-data/misc-data/roadmap_state';
 import {
@@ -15,24 +15,24 @@ import {
   getIdCurrentConnection,
 } from './services';
 
-export const selectedNodeIdChild = atom<string | null>(null);
-export const selectedNodeIdParent = atom<string | null>(null);
-export const selectedConnectionId = atom<ConnectionClass | null>(null);
+export const storeConnectionSelectedChild = atom<string | null>(null);
+export const storeConnectionSelectedParent = atom<string | null>(null);
+export const storeConnectionSelected = atom<ConnectionClass | null>(null);
 
 export const setConnectionSelected = (nodeId: string) => {
-  selectedNodeIdChild.set(nodeId);
-  selectedConnectionId.set(getIdCurrentConnection(nodeId));
+  storeConnectionSelectedChild.set(nodeId);
+  storeConnectionSelected.set(getIdCurrentConnection(nodeId));
   const parentNodeId = getParentNodeIdBasedOnConnection(nodeId);
-  selectedNodeIdParent.set(parentNodeId);
+  storeConnectionSelectedParent.set(parentNodeId);
   triggerNodeRerender(nodeId);
 };
 
 export const clearSelectedConnection = () => {
-  const parentNodeId = selectedNodeIdParent.get();
-  const childNodeId = selectedNodeIdChild.get();
-  selectedNodeIdParent.set(null);
-  selectedConnectionId.set(null);
-  selectedNodeIdChild.set(null);
+  const parentNodeId = storeConnectionSelectedParent.get();
+  const childNodeId = storeConnectionSelectedChild.get();
+  storeConnectionSelectedParent.set(null);
+  storeConnectionSelected.set(null);
+  storeConnectionSelectedChild.set(null);
   if (!parentNodeId || !childNodeId) return;
   setConnectionUnselectedEffect();
   setDefaultDraggabilitySettings();
@@ -41,10 +41,10 @@ export const clearSelectedConnection = () => {
 };
 
 export const setSelectedConnectionFromChildProtocol = (childId: string) => {
-  selectedNodeIdChild.set(childId);
-  selectedConnectionId.set(getIdCurrentConnection(childId));
+  storeConnectionSelectedChild.set(childId);
+  storeConnectionSelected.set(getIdCurrentConnection(childId));
   const parentNodeId = getParentNodeIdBasedOnConnection(childId);
-  selectedNodeIdParent.set(parentNodeId);
+  storeConnectionSelectedParent.set(parentNodeId);
 
   setConnectionSelectedEffect(parentNodeId, childId);
   triggerNodeRerender(childId);

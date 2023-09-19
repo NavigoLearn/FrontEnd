@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react';
-import { calculateComponentsPositions } from '@src/to-be-organized/nodeview/logic';
+import { calculateComponentsPositions } from '@src/to-be-organized/node-rendering-stuff/logic';
 import { NodeClass } from '@src/typescript/roadmap_ref/node/core/core';
 import { IComponentObject } from '@type/roadmap/node/components-types';
 import {
@@ -96,7 +96,7 @@ const ComponentRendererForeign = ({
         fontWeight: textWeightSelect,
         textAlign: 'center',
         width: `${width}px`,
-        height: `${height}px`,
+        // height: `${height}px`, the height is inferred from the inside divs that scale with the text
         top: `${position.y}px`,
         left: `${position.x}px`,
       }}

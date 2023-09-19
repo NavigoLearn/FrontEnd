@@ -6,7 +6,7 @@ import {
   getOnClickAction,
   getOnMouseOutAction,
   getOnMouseOverAction,
-} from '@src/to-be-organized/nodeview/actions-manager';
+} from '@src/to-be-organized/node-rendering-stuff/actions-manager';
 import { afterEventLoop } from '@src/typescript/utils/misc';
 import { useTriggerRerender } from '@hooks/useTriggerRerender';
 import {
@@ -20,9 +20,9 @@ import {
 } from '@src/typescript/roadmap_ref/roadmap-data/services/get';
 import {
   getElementHasEffect,
-  setElementEffectsInitialEmpty,
+  setNodeEffectsInitialEmpty,
   applyElementEffects,
-} from '@store/roadmap-refactor/elements-editing/element-effects';
+} from '@store/roadmap-refactor/elements-editing/store-node-effects';
 import { useIsLoaded } from '@hooks/useIsLoaded';
 import { getEditingState } from '@store/roadmap-refactor/editing/editing-state';
 import ComponentRendererNative from '@components/roadmap/rendering-engines/optimized/components/ComponentRendererNative';
@@ -90,7 +90,7 @@ const useHandleNodeInitialization = (node: NodeClass) => {
   const rerender = useTriggerRerender();
 
   useEffect(() => {
-    setElementEffectsInitialEmpty(nodeId);
+    setNodeEffectsInitialEmpty(nodeId);
     setElementG(nodeId, nodeGRef.current);
     setElementRect(nodeId, nodeRectRef.current);
   }, []);
@@ -153,7 +153,7 @@ interface NodeViewProps {
   centerOffset: { x: number; y: number };
 }
 
-const NodeRendererNative: React.FC<NodeViewProps> = ({
+const NodeRendererExperimental: React.FC<NodeViewProps> = ({
   nodeId,
   centerOffset,
 }) => {
@@ -280,7 +280,7 @@ const NodeRendererNative: React.FC<NodeViewProps> = ({
           node.subNodeIds.map((subNodeId) => {
             // the div is used to position the subNode in the center of the current node
             return (
-              <NodeRendererNative
+              <NodeRendererExperimental
                 key={subNodeId}
                 nodeId={subNodeId}
                 centerOffset={{
@@ -294,4 +294,4 @@ const NodeRendererNative: React.FC<NodeViewProps> = ({
     </g>
   );
 };
-export default NodeRendererNative;
+export default NodeRendererExperimental;

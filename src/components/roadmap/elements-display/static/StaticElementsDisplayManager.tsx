@@ -1,10 +1,6 @@
 import React from 'react';
 import CoordsRoadmapElement from '@components/roadmap/elements-display/static/parts/CoordsRoadmapElement';
-import EditingSelector from '@components/roadmap/elements-display/static/parts/EditingSelector';
-import roadmapStateStore, {
-  getIsEditable,
-} from '@store/roadmap-refactor/roadmap-data/misc-data/roadmap_state';
-import { useStore } from '@nanostores/react';
+import { getIsEditable } from '@store/roadmap-refactor/roadmap-data/misc-data/roadmap_state';
 
 const StaticElementsDisplayManager = () => {
   const editable = getIsEditable();

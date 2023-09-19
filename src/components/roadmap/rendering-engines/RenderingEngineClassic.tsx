@@ -1,8 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import NodeManager from '@components/roadmap/to-be-organized/NodeManager';
+import NodeManager from '@components/roadmap/to-be-organized/NodeHOCForeignObject';
 import ConnectionsRenderer from '@components/roadmap/connections/ConnectionsRenderer';
 import SnappingLinesRenderer from '@components/roadmap/to-be-organized/SnappingLinesRenderer';
+import NodeRendererClassic from '@src/to-be-organized/node-rendering-stuff/NodeRendererClassic';
 import NodeContextMenu from '@components/roadmap/contextmenu/NodeContextMenu';
 
 type IRenderingEngineClassicProps = {
@@ -22,7 +23,7 @@ const RenderingEngineClassic = ({
       <g id='rootGroupNodes'>
         {nodesIds.map((id) => {
           // gets the roadmap-roadmap-data
-          return <NodeManager key={id} nodeId={id} />;
+          return <NodeRendererClassic nodeId={id} />;
         })}
         {ReactDOM.createPortal(
           <NodeContextMenu />,

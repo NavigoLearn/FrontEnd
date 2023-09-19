@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { tailwindTransitionClass } from '@src/UI-library/tailwind-utils';
 import TrashIconCustomizable from '@src/UI-library/svg-components/trash/TrashIconCustomizable';
-import { getDeleteRootNodeNotification } from '@src/to-be-organized/nodeview/notification-store';
+import { getDeleteRootNodeNotification } from '@src/to-be-organized/node-rendering-stuff/notification-store';
 
 type IDeleteButtonProps = {
   callback: () => void;

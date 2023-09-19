@@ -28,10 +28,10 @@ import {
   setEditorOpenEffect,
   deleteElementEffect,
   deleteElementEffectNoStoreParam,
-} from '@store/roadmap-refactor/elements-editing/element-effects';
+} from '@store/roadmap-refactor/elements-editing/store-node-effects';
 import { triggerAllNodesRerender } from '@store/roadmap-refactor/render/rerender-triggers-nodes';
 import { getElementG } from '@store/roadmap-refactor/elements-editing/elements-gs';
-import { effectBorderTransparent } from '@src/to-be-organized/nodeview/effects';
+import { effectBorderTransparent } from '@src/to-be-organized/node-rendering-stuff/effects';
 import { triggerMoveRoadmapTo } from '@store/roadmap-refactor/misc/misc-params-store';
 import { HashMapWithKeys } from '@type/roadmap/misc';
 import { IActionTypes } from '@src/typescript/roadmap_ref/node/core/actions/core';

@@ -5,8 +5,8 @@ import {
 } from '@components/roadmap/rendering-engines/async-loading/store-async-loading';
 import useStateAndRef from '@hooks/useStateAndRef';
 
-export default (WrappedComponent: React.FC<any>) => {
-  return (props) => {
+export default function <T>(WrappedComponent: React.FC<T>) {
+  return (props: T) => {
     const [load, setLoad, ref] = useStateAndRef(false);
     useEffect(() => {
       const setLoadFn = () => {
@@ -25,4 +25,4 @@ export default (WrappedComponent: React.FC<any>) => {
     }, []);
     return load && <WrappedComponent {...props} />;
   };
-};
+}
