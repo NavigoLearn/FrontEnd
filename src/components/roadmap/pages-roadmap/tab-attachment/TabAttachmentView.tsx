@@ -6,7 +6,6 @@ import { selectedTabNode } from '@store/roadmap-refactor/display/tab-attachment/
 import { getNodeByIdRoadmapSelector } from '@src/typescript/roadmap_ref/roadmap-data/services/get';
 import { setDisplayPageType } from '@store/roadmap-refactor/display/display-manager';
 import { tailwindTransitionClass } from '@src/UI-library/tailwind-utils';
-import StatusDropdown from '@components/roadmap/pages-roadmap/tab-attachment/StatusDropdown';
 import {
   IAttachmentTabComponentProperties,
   typeGuardTabBulletListProperties,
@@ -75,9 +74,9 @@ const TabAttachmentView = () => {
           </button>
         </div>
       </div>
-      <div className='px-9'>
-        <StatusDropdown nodeId={nodeId} attachment={attachment} />
-      </div>
+      {/* <div className='px-9'> */}
+      {/*  <StatusDropdown nodeId={nodeId} attachment={attachment} /> */}
+      {/* </div> */}
       {components.slice(1).map((component) => {
         return componentMapper(component);
       })}
