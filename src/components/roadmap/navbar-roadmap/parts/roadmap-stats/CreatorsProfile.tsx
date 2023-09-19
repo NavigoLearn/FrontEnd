@@ -7,7 +7,7 @@ const CreatorsProfile = () => {
 
   return (
     <div className='flex gap-2 items-center'>
-      <h4 className='text-placeholder font-roboto-text text-sm font-medium'>
+      <h4 className='text-placeholder hidden md:block font-roboto-text text-sm font-medium'>
         Made by
       </h4>
       <button

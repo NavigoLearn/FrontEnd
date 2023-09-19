@@ -4,7 +4,6 @@ import roadmapStatistics, {
   getRoadmapLikes,
   getRoadmapViews,
   setRoadmapStatisticsDownvote,
-  setRoadmapStatisticsLikes,
   setRoadmapStatisticsRemoveLike,
   setRoadmapStatisticsUpvote,
   setRoadmapStatisticsVoteState,
@@ -33,7 +32,7 @@ const Stats = () => {
 
   return (
     <div className='flex gap-6 items-center'>
-      <section className='flex items-center gap-2'>
+      <section className='items-center gap-2 md:flex hidden'>
         <h3 className='font-roboto-text text-placeholder text-sm'>Views</h3>
         <h2 className='font-roboto-text text-placeholder font-medium text-sm'>
           {loaded ? views : '...'}

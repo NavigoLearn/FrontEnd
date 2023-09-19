@@ -4,7 +4,11 @@ import storeRoadmapAbout from '@store/roadmap-refactor/roadmap-data/misc-data/ro
 
 const Title = () => {
   const { name } = useStore(storeRoadmapAbout);
-  return <div className='text-lg font-semibold text-darkBlue '>{name}</div>;
+  return (
+    <div className='text-base md:text-lg font-semibold text-darkBlue truncate text-ellipsis'>
+      {name}
+    </div>
+  );
 };
 
 export default Title;
