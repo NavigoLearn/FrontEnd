@@ -80,7 +80,6 @@ const ComponentRendererForeign = ({
   const width = widthData ?? 150;
   const height = heightData ?? 50;
 
-  console.log('position', position, width, height);
   mutateComponentTextHeight(component, height);
 
   return (
