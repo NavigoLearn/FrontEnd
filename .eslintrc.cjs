@@ -63,6 +63,7 @@ module.exports = {
           1,
           { extensions: ['.js', '.jsx', '.tsx'] },
         ],
+        'react/react-in-jsx-scope': 'off',
         'import/no-extraneous-dependencies': 'off',
         'import/prefer-default-export': 'off',
         'max-classes-per-file': 'off',
