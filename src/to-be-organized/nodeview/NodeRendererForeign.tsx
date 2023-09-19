@@ -54,10 +54,14 @@ import { handleDragabilityRecalculationOnChunking } from '@src/typescript/roadma
 import DragSvg from '@src/UI-library/svg-components/DragSvg';
 import scaleSafariStore from '@store/roadmap-refactor/misc/scale-safari-store';
 import { useStateWithSideEffects } from '@hooks/useStateWithSideEffects';
-import { getRoadmapNodeProgress } from '@store/roadmap-refactor/roadmap-data/misc-data/roadmap-progress';
+import {
+  getRoadmapNodeProgress,
+  setRoadmapNodeProgressAndFetchUpdate,
+} from '@store/roadmap-refactor/roadmap-data/misc-data/roadmap-progress';
 import { getResize } from '@src/to-be-organized/resize-dragging/stores-resize-shared-data';
 import { hexAddAlpha } from '@src/typescript/roadmap_ref/utils';
 import { showContextMenu } from '@components/roadmap/contextmenu/store/ContextMenu';
+import { setNotification } from '@components/roadmap/to-be-organized/notifications/notifciations-refr/notification-store-refr';
 import { handleNotification } from './notification-handler';
 
 interface NodeViewProps {
@@ -90,6 +94,23 @@ const NodeRendererForeign: React.FC<NodeViewProps> = ({
       nodeId,
       `${event.clientX - 16}px`,
       `${event.clientY - 16}px`
+    );
+  };
+
+  const checkFirstOnClick = () => {
+    // check local storage if it's the first time the user clicks on a node
+    const firstClick = localStorage.getItem('firstClick');
+    if (firstClick !== null) return;
+    localStorage.setItem('firstClick', 'true');
+
+    // set in progress
+    setRoadmapNodeProgressAndFetchUpdate(nodeId, 'In Progress');
+    triggerNodeRerender(nodeId);
+
+    // show notification
+    setNotification(
+      'tip',
+      'To modify progress status, right-click on the node.'
     );
   };
 
@@ -287,6 +308,7 @@ const NodeRendererForeign: React.FC<NodeViewProps> = ({
               return;
             }
 
+            checkFirstOnClick();
             getOnClickAction(nodeId)();
             // if (nodeId === '0') {
             //   setDeleteRootNodeNotificationTrue();
