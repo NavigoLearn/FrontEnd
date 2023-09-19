@@ -80,6 +80,7 @@ const ComponentRendererForeign = ({
   const width = widthData ?? 150;
   const height = heightData ?? 50;
 
+  console.log('position', position, width, height);
   mutateComponentTextHeight(component, height);
 
   return (
@@ -96,7 +97,7 @@ const ComponentRendererForeign = ({
         fontWeight: textWeightSelect,
         textAlign: 'center',
         width: `${width}px`,
-        height: `${height}px`,
+        // height: `${height}px`, the height is inferred from the inside divs that scale with the text
         top: `${position.y}px`,
         left: `${position.x}px`,
       }}
