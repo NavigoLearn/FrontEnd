@@ -82,6 +82,7 @@ const NodeRendererForeign: React.FC<NodeViewProps> = ({
   divSizeCallback,
   isSubNode = false,
 }) => {
+  const node = getNodeByIdRoadmapSelector(nodeId);
   const nodeDivRef = useRef<HTMLDivElement>(null);
   const rerender = useTriggerRerender();
   const childNodeId = useStore(selectedNodeIdChild);
@@ -120,7 +121,6 @@ const NodeRendererForeign: React.FC<NodeViewProps> = ({
 
   const renderNode = (nodeId: string, isSubNode: boolean) => {
     const loaded = useIsLoaded();
-    const node = getNodeByIdRoadmapSelector(nodeId);
     const {
       width: widthData,
       height: heightData,
@@ -376,17 +376,19 @@ const NodeRendererForeign: React.FC<NodeViewProps> = ({
           )}
 
           {getEditingState() === 'nodes' && <>{componentsRenderer(node)}</>}
-          {!editing && !getHideProgress() && (
-            <div
-              className={`h-[10px] left-[-2px] top-[-2px] rounded-t-md absolute select-none ${getStatusBarColor(
-                node
-              )}`}
-              style={{
-                opacity: 1,
-                width: `${width}px`,
-              }}
-            />
-          )}
+          {!editing &&
+            !getHideProgress() &&
+            node.actions.onClick !== 'Do nothing' && (
+              <div
+                className={`h-[10px] left-[-2px] top-[-2px] rounded-t-md absolute select-none ${getStatusBarColor(
+                  node
+                )}`}
+                style={{
+                  opacity: 1,
+                  width: `${width}px`,
+                }}
+              />
+            )}
           {subNodeIds &&
             subNodeIds.map((subNodeId) => {
               // the div is used to position the subNode in the center of the current node
@@ -404,6 +406,7 @@ const NodeRendererForeign: React.FC<NodeViewProps> = ({
             })}
         </div>
         {NodeContextMenuStatus.visible &&
+          node.actions.onClick !== 'Do nothing' &&
           ReactDOM.createPortal(
             <NodeContextMenu
               nodeId={nodeId}
