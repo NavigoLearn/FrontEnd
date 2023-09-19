@@ -1,7 +1,8 @@
 import React from 'react';
-import NodeManager from '@components/roadmap/to-be-organized/NodeManager';
+import NodeManager from '@components/roadmap/to-be-organized/NodeHOCForeignObject';
 import ConnectionsRenderer from '@components/roadmap/connections/ConnectionsRenderer';
 import SnappingLinesRenderer from '@components/roadmap/to-be-organized/SnappingLinesRenderer';
+import NodeRendererClassic from '@src/to-be-organized/node-rendering-stuff/NodeRendererClassic';
 
 type IRenderingEngineClassicProps = {
   nodesIds: string[];
@@ -20,7 +21,7 @@ const RenderingEngineClassic = ({
       <g id='rootGroupNodes'>
         {nodesIds.map((id) => {
           // gets the roadmap-roadmap-data
-          return <NodeManager key={id} nodeId={id} />;
+          return <NodeRendererClassic nodeId={id} />;
         })}
       </g>
       <g id='rootGroupSnappingLines'>

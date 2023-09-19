@@ -63,6 +63,8 @@ import {
   getNodeOpacity,
   getNodeStatusBarColor,
 } from '@src/to-be-organized/node-rendering-stuff/node-render-logic';
+import NodeHOCForeignObject from '@components/roadmap/to-be-organized/NodeHOCForeignObject';
+import AsyncLoaderHOC from '@components/roadmap/rendering-engines/async-loading/AsyncLoaderHOC';
 
 interface NodeViewProps {
   nodeId: string;
@@ -234,4 +236,4 @@ const NodeRendererClassic: React.FC<NodeViewProps> = ({
   );
 };
 
-export default NodeRendererClassic;
+export default AsyncLoaderHOC(NodeHOCForeignObject(NodeRendererClassic));
