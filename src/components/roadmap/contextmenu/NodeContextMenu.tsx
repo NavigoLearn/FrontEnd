@@ -57,7 +57,7 @@ const NodeContextMenu = () => {
   return (
     <div
       ref={root}
-      contextMenu={(e) => e.preventDefault()}
+      onContextMenu={(e) => e.preventDefault()}
       className={`${
         state.visible ? 'pointer-events-auto' : 'pointer-events-none'
       } rounded-lg w-60 outline-none absolute`}
