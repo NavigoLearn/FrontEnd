@@ -3,14 +3,7 @@ import { useTriggerRerender } from '@hooks/useTriggerRerender';
 import NodeRendererClassic from '@src/to-be-organized/nodeview/NodeRendererClassic';
 import { setTriggerRender } from '@store/roadmap-refactor/render/rerender-triggers-nodes';
 import { getNodeByIdRoadmapSelector } from '@src/typescript/roadmap_ref/roadmap-data/services/get';
-import { handleDeleteRootNotification } from '@src/to-be-organized/nodeview/notification-handler';
 import AsyncLoaderHOC from '@components/roadmap/rendering-engines/async-loading/AsyncLoaderHOC';
-import { getIsDraggableNotification } from '@src/to-be-organized/nodeview/notification-store';
-import { getElementIsDraggable } from '@src/store/roadmap-refactor/elements-editing/draggable-elements';
-import {
-  getNotificationMessage,
-  setNotification,
-} from './notifications/notifciations-refr/notification-store-refr';
 
 export type NodeManagerProps = {
   nodeId: string;
@@ -22,13 +15,11 @@ const NodeManager = ({ nodeId }: NodeManagerProps) => {
 
   const node = getNodeByIdRoadmapSelector(nodeId);
   const { data } = node;
+  const { id } = node;
 
-  function setForeignObjectSize(rootDivRef) {
-    if (!rootDivRef) return;
-    if (!rootDivRef.current) return;
-    // updates the size of the foreignObject to match the size of the div for draggability and movement purposes
-    const width = `${rootDivRef.current.offsetWidth}`;
-    const height = `${rootDivRef.current.offsetHeight}`;
+  function setForeignObjectSize() {
+    const width = `${node.data.width}`;
+    const height = `${node.data.height}`;
     objRef.current.setAttribute('width', width);
     objRef.current.setAttribute('height', height);
   }
@@ -37,21 +28,9 @@ const NodeManager = ({ nodeId }: NodeManagerProps) => {
     setTriggerRender(node.id, rerender);
   }, []);
 
-  const renderNode = () => {
-    const { id } = node;
-    return (
-      <NodeRendererClassic
-        nodeId={id}
-        centerOffset={{
-          x: 0,
-          y: 0,
-        }}
-        divSizeCallback={(divRef) => setForeignObjectSize(divRef)}
-      />
-    );
-
-    throw new Error('Something went wrong in node rendering in NodeManager');
-  };
+  useEffect(() => {
+    setForeignObjectSize();
+  });
 
   return (
     <g
@@ -62,7 +41,13 @@ const NodeManager = ({ nodeId }: NodeManagerProps) => {
         ref={objRef}
         className='bg-transparent overflow-visible pointer-events-auto '
       >
-        {renderNode()}
+        <NodeRendererClassic
+          nodeId={id}
+          centerOffset={{
+            x: node.data.width / 2,
+            y: node.data.height / 2,
+          }}
+        />
       </foreignObject>
     </g>
   );

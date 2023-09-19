@@ -5,9 +5,11 @@ import { deleteNodeFromChunks } from '@src/typescript/roadmap_ref/roadmap-data/s
 import { mutateNodeCoords } from '@src/typescript/roadmap_ref/node/core/data-mutation/mutate';
 import { recalculateNodeChunks } from '@src/typescript/roadmap_ref/node/core/calculations/general';
 import { triggerNodeRerender } from '@store/roadmap-refactor/render/rerender-triggers-nodes';
-import { DraggingBehavior } from '@src/typescript/roadmap_ref/dragging/core';
+import {
+  DraggingBehavior,
+  IDraggingElementIdentifiers,
+} from '@src/typescript/roadmap_ref/dragging/core';
 import * as d3 from 'd3';
-import { afterEventLoop } from '@src/typescript/utils/misc';
 import { getComponentById } from '@src/typescript/roadmap_ref/node/core/data-get/components';
 import { mutateComponentCoords } from '@src/typescript/roadmap_ref/node/components/mutate';
 import {
@@ -17,7 +19,7 @@ import {
 import { getTransformXY } from '@src/typescript/roadmap_ref/render/coord-calc';
 import { getRenderingEngineDraggingElementIdentifier } from '@components/roadmap/rendering-engines/store-rendering-engine';
 
-export const draggingEndNode = (
+export const draggingEndRootNode = (
   draggingBehavior: DraggingBehavior,
   x: number,
   y: number
@@ -26,12 +28,11 @@ export const draggingEndNode = (
   const node = getNodeByIdRoadmapSelector(nodeId);
   mutateNodeCoords(node, x, y);
   // resets the element transforms because mutating coords already rerenders and updates the location
-  const elementType = getRenderingEngineDraggingElementIdentifier();
-  const sel = document.getElementById(`${elementType}${node.id}`);
-  const obj = d3.select(sel);
-  obj.style('transform', `translate(${0}px, ${0}px)`);
-  // for some weird reason, setting the transform to 0,0 in root nodes works fine, but in subnodes it does not
-  // needs to be inspected and done consistently for both
+  // const elementType = getRenderingEngineDraggingElementIdentifier();
+  // const sel = document.getElementById(`${elementType}${node.id}`);
+  // const obj = d3.select(sel);
+
+  // resetting transform is done directly in the node renderer
   deleteNodeFromChunks(node);
   recalculateNodeChunks(node);
   appendNodeToChunks(node);
@@ -47,9 +48,9 @@ export const draggingEndSubNode = (
   const node = getNodeByIdRoadmapSelector(nodeId);
   mutateNodeCoords(node, x, y);
 
-  const elementType = getRenderingEngineDraggingElementIdentifier();
-  const sel = document.getElementById(`${elementType}${node.id}`);
-  const obj = d3.select(sel);
+  // const elementType = getRenderingEngineDraggingElementIdentifier();
+  // const sel = document.getElementById(`${elementType}${node.id}`);
+  // const obj = d3.select(sel);
   triggerNodeRerender(node.id);
   // the reset for transform in done in the node renderer
 };
@@ -77,25 +78,29 @@ export const draggingEndNodeTransformBased = (
 ) => {
   const nodeId = draggingBehavior.draggingElementId;
   const node = getNodeByIdRoadmapSelector(nodeId);
-  const elementIdentifier = getRenderingEngineDraggingElementIdentifier();
-  let transform;
-  if (elementIdentifier === 'div') {
-    transform = getElementDiv(nodeId).style.transform;
-  }
-  if (elementIdentifier === 'g') {
-    transform = getElementG(nodeId).style.transform;
-  }
 
+  const elementIdentifier = getRenderingEngineDraggingElementIdentifier();
+
+  const mapping: Record<IDraggingElementIdentifiers, () => string> = {
+    div: () => {
+      return getElementDiv(nodeId).style.transform;
+    },
+    g: () => {
+      return getElementG(nodeId).style.transform;
+    },
+  };
+
+  const transform = mapping[elementIdentifier]();
   const { x: offsetX, y: offsetY } = getTransformXY(transform);
   mutateNodeCoords(
     node,
     node.data.coords.x + offsetX,
     node.data.coords.y + offsetY
   );
-  const elementType = getRenderingEngineDraggingElementIdentifier();
-  const sel = document.getElementById(`${elementType}${node.id}`);
-  const obj = d3.select(sel);
-  obj.style('transform', `translate(${0}px, ${0}px)`);
+  // const elementType = getRenderingEngineDraggingElementIdentifier();
+  // const sel = document.getElementById(`${elementType}${node.id}`);
+  // const obj = d3.select(sel);
+  // obj.style('transform', `translate(${0}px, ${0}px)`);
   deleteNodeFromChunks(node);
   recalculateNodeChunks(node);
   appendNodeToChunks(node);
@@ -108,7 +113,8 @@ export const getDraggingEndFactory = (
   draggingBehavior: DraggingBehavior
 ): DraggingEnd => {
   if (draggingBehavior.draggingElementType === 'node') {
-    return (x: number, y: number) => draggingEndNode(draggingBehavior, x, y);
+    return (x: number, y: number) =>
+      draggingEndRootNode(draggingBehavior, x, y);
   }
   if (draggingBehavior.draggingElementType === 'subNode') {
     return (x: number, y: number) => draggingEndSubNode(draggingBehavior, x, y);
@@ -128,6 +134,7 @@ export const draggingEndChildrenTraceback = (
   const nodeId = draggingBehavior.draggingElementId;
   const childrenNodes = getChildrenRenderedTraceback(nodeId);
   childrenNodes.forEach((childId) => {
+    if (childId === nodeId) return;
     const childNode = getNodeByIdRoadmapSelector(childId);
     draggingEndNodeTransformBased(childNode.draggingBehavior);
   });
