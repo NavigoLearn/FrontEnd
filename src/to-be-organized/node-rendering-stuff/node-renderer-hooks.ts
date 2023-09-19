@@ -254,20 +254,18 @@ export function useNodeApplyStatusAndEffects(
   } = nodeDataProcessed;
 
   function appendNodeMarkAsDone(currentNode: NodeClass) {
-    if (currentNode.properties.markAsDone !== undefined) {
-      const status = getRoadmapNodeProgress(nodeId);
-      if (status === 'Completed') {
-        appendStatusEffect(nodeId, 'mark-as-completed');
-      }
-      if (status === 'In Progress') {
-        appendStatusEffect(nodeId, 'mark-as-progress');
-      }
-      if (status === 'Skip') {
-        appendStatusEffect(nodeId, 'mark-as-skipped');
-      }
-      if (status === 'Status') {
-        appendStatusEffect(nodeId, 'mark-as-status');
-      }
+    const status = getRoadmapNodeProgress(nodeId);
+    if (status === 'Completed') {
+      appendStatusEffect(nodeId, 'mark-as-completed');
+    }
+    if (status === 'In Progress') {
+      appendStatusEffect(nodeId, 'mark-as-progress');
+    }
+    if (status === 'Skip') {
+      appendStatusEffect(nodeId, 'mark-as-skipped');
+    }
+    if (status === 'Status') {
+      appendStatusEffect(nodeId, 'mark-as-status');
     }
   }
   const style = {
@@ -282,7 +280,6 @@ export function useNodeApplyStatusAndEffects(
   };
 
   const applyStyle = () => {
-    if (!nodeDivRef.current) return;
     const element = nodeDivRef.current;
     Object.assign(element.style, style);
   };
@@ -292,10 +289,10 @@ export function useNodeApplyStatusAndEffects(
     loaded && !editing && appendNodeMarkAsDone(node);
   }
   afterEventLoop(() => {
+    if (!nodeDivRef.current || !nodeDivRef) return;
     applyStyle(); // applies base style which is then layered with the other styles/effects in the app
     // similar to photoshop or premiere or any layering app
     handleProgressStatusEffects();
-    if (!nodeDivRef.current || !nodeDivRef) return;
     loaded && applyElementEffects(nodeId);
   });
 

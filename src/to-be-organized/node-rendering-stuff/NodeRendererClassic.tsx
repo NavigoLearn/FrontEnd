@@ -137,7 +137,7 @@ const NodeRendererClassic: React.FC<NodeViewProps> = ({
       <div
         onFocus={() => {}}
         onBlur={() => {}}
-        className={`rounded-md ${shadowClass} transition-allNoTransform duration-200 absolute ${cursor}`}
+        className={`rounded-md ${shadowClass} transition-allNoTransform duration-200 absolute  ${cursor}`}
         id={`div${nodeId}`}
         ref={nodeDivRef}
         onClick={(event) => {
