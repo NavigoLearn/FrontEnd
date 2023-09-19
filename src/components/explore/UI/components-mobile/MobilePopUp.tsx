@@ -4,7 +4,7 @@ type Props = {
   toggleFilter: () => void;
 };
 
-const MobileFilterTab = ({ toggleFilter }: Props) => {
+const MobilePopUp = ({ toggleFilter }: Props) => {
   useEffect(() => {
     // Function to handle the scroll event and prevent default behavior
 
@@ -20,9 +20,9 @@ const MobileFilterTab = ({ toggleFilter }: Props) => {
 
   return (
     <div className='bg-[#1A1B504D] top-0 left-0 z-50 flex justify-center items-center w-screen h-screen fixed'>
-      dog
+      <div className='h-80 mx-6 bg-white w-full mb-32 rounded-md'>dog</div>
     </div>
   );
 };
 
-export default MobileFilterTab;
+export default MobilePopUp;

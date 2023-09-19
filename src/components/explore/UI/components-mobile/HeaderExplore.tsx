@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { NAVBAR_SEARCH_RESULT_MAX_LENGTH } from '@src/typescript/roadmap_ref/node/components/text/text-params';
-import MobileFilterTab from './MobileFilterTab';
+import MobilePopUp from './MobilePopUp';
 
 type Props = {
   results: number;
@@ -41,7 +41,7 @@ const HeaderExplore = ({ results, query }: Props) => {
       >
         Filters
       </button>
-      {openFilter && <MobileFilterTab toggleFilter={toggleFilter} />}
+      {openFilter && <MobilePopUp toggleFilter={toggleFilter} />}
     </div>
   );
 };
