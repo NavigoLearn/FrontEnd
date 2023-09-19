@@ -22,10 +22,10 @@ export function mutateNodeOpacity(node: NodeClass, opacity: number) {
 }
 
 export function mutateNodeBackgroundOpacity(
-    node: NodeClass,
-    backgroundOpacity: number
+  node: NodeClass,
+  backgroundOpacity: number
 ) {
-    node.data.backgroundOpacity = backgroundOpacity;
+  node.data.backgroundOpacity = backgroundOpacity;
 }
 export function mutateNodeColorAndRerender(
   node: NodeClass,
