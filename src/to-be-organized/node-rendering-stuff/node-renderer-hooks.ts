@@ -18,7 +18,7 @@ import {
 } from '@store/roadmap-refactor/elements-editing/store-node-effects';
 import { setElementDiv } from '@store/roadmap-refactor/elements-editing/elements-gs';
 import { handleDragabilityRecalculationOnChunking } from '@src/typescript/roadmap_ref/dragging/misc';
-import { triggerAllConnectionsRerender } from '@src/typescript/roadmap_ref/render/dragging';
+import { triggerAllConnectionsRerender } from '@src/to-be-organized/triggering-stuff-alert/trigger-connections';
 import { setTriggerRender } from '@store/roadmap-refactor/render/rerender-triggers-nodes';
 import { useStateWithSideEffects } from '@hooks/useStateWithSideEffects';
 import { useStateTimed } from '@hooks/useStateTimed';

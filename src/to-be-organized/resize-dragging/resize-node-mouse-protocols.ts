@@ -32,7 +32,7 @@ import {
   subscribeToAlt,
   unSubscribeToAlt,
 } from '@store/roadmap-refactor/misc/key-press-store';
-import { triggerNodeConnectionsRerender } from '@src/typescript/roadmap_ref/render/dragging';
+import { triggerNodeConnectionsRerender } from '@src/to-be-organized/triggering-stuff-alert/trigger-connections';
 import { snapResizingNodeProtocol } from '@src/typescript/roadmap_ref/snapping/snap-protocols/snap-nodes-resize';
 import { afterEventLoop } from '@src/typescript/utils/misc';
 import { recalculateNodeChunks } from '@src/typescript/roadmap_ref/node/core/calculations/general';

@@ -30,8 +30,6 @@ import {
   subscribeToAlt,
   unSubscribeToAlt,
 } from '@store/roadmap-refactor/misc/key-press-store';
-import { triggerNodeConnectionsRerender } from '@src/typescript/roadmap_ref/render/dragging';
-import { snapResizingNodeProtocol } from '@src/typescript/roadmap_ref/snapping/snap-protocols/snap-nodes-resize';
 import { afterEventLoop } from '@src/typescript/utils/misc';
 import {
   calculateDeltaX,

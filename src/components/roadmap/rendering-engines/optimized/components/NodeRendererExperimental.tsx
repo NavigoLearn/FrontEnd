@@ -37,7 +37,7 @@ import {
   mutateNodeHeightWhileKeepingCenter,
   mutateNodeWidthWhileKeepingCenter,
 } from '@src/typescript/roadmap_ref/node/core/data-mutation/mutate';
-import { triggerAllConnectionsRerender } from '@src/typescript/roadmap_ref/render/dragging';
+import { triggerAllConnectionsRerender } from '@src/to-be-organized/triggering-stuff-alert/trigger-connections';
 import { snapNodeWidthHeight } from '@src/typescript/roadmap_ref/snapping/old/core';
 import { getElementIsDraggable } from '@store/roadmap-refactor/elements-editing/draggable-elements';
 import { useStateTimed } from '@hooks/useStateTimed';

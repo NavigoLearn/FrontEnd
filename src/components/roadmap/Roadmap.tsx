@@ -309,18 +309,6 @@ const Roadmap = ({
 
   useEffectAfterLoad(() => {
     if (firstRenderDone && nodesIds.length > 0) {
-      // because when a node gets out of chunk it is unloaded from the screen and then loaded again
-      // when it is loaded again, the previous draggability is lost and needs to be reapplied
-      //
-      //
-      // moved this into the node itself because it becomes a blocking task for big roadmaps
-      //
-      // applyRoadmapElementsRechunkedDraggability();
-    }
-  }, [nodesIds]);
-
-  useEffectAfterLoad(() => {
-    if (firstRenderDone && nodesIds.length > 0) {
       // because when you switch between edit and view dragability needs to be changed
       inferRoadmapElementsDraggability();
     }

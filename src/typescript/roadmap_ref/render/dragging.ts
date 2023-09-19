@@ -20,27 +20,15 @@ import {
   getDraggingEndFactory,
 } from '@src/typescript/roadmap_ref/dragging/strategies/dragging-end';
 import { getChildrenRenderedTraceback } from '@src/typescript/roadmap_ref/roadmap-data/protocols/get';
-import renderedConnections from '@store/roadmap-refactor/render/rendered-connections';
 import { getShift } from '@store/roadmap-refactor/misc/key-press-store';
 import { triggerNodeRerender } from '@store/roadmap-refactor/render/rerender-triggers-nodes';
 import { throttle } from '@src/typescript/roadmap_ref/render/chunks';
 import { getRenderingEngineDraggingElementIdentifier } from '@components/roadmap/rendering-engines/store-rendering-engine';
-
-export const triggerNodeConnectionsRerender = (nodeId: string) => {
-  const node = getNodeByIdRoadmapSelector(nodeId);
-  node.connections.forEach((connectionId) => {
-    triggerConnectionRerender(connectionId);
-  });
-};
-
-const firstDrag = true;
-
-export const triggerAllConnectionsRerender = () => {
-  const { connections } = renderedConnections.get();
-  connections.forEach((connId) => {
-    triggerConnectionRerender(connId);
-  });
-};
+import {
+  endRecordDraggingNormal,
+  startRecordDraggingNormal,
+} from '@src/to-be-organized/undo-redo/recorders';
+import { triggerAllConnectionsRerender } from '@src/to-be-organized/triggering-stuff-alert/trigger-connections';
 
 export const propagateDraggingToChildrenNodes = (
   draggingBehavior: DraggingBehavior,
@@ -92,6 +80,7 @@ export const addDragabilityProtocol = (draggingBehavior: DraggingBehavior) => {
     const currentCoords = currentCoordsStrategy();
     // also account for the difference between rendering relative to center and relative to top left corner
     const { x, y } = coordinatesAdapterStrategy(originalX, originalY);
+    startRecordDraggingNormal(id);
 
     const offsetX = x - currentCoords.x;
     const offsetY = y - currentCoords.y;
@@ -181,6 +170,7 @@ export const addDragabilityProtocol = (draggingBehavior: DraggingBehavior) => {
     // chunk recalculations are integrated in the coordinates setter strategy
     draggingEndStrategy(newPos.x, newPos.y);
     deleteAllSnappings();
+    endRecordDraggingNormal(id);
 
     if (isRecursive) {
       draggingEndChildrenTraceback(draggingBehavior);
