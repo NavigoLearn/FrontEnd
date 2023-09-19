@@ -12,9 +12,7 @@ interface INodeProps {
   centerOffset: { x: number; y: number };
 }
 
-export const NodeHOCForeignObject = (
-  WrappedComponent: React.FC<INodeProps>
-) => {
+const NodeHOCForeignObject = (WrappedComponent: React.FC<INodeProps>) => {
   const NodeHOCForeignObjectClosure = ({ nodeId }: INodeManagerProps) => {
     const objRef = useRef<SVGForeignObjectElement>(null);
     const rerender = useTriggerRerender();
