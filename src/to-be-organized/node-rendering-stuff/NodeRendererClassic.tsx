@@ -67,6 +67,8 @@ import NodeHOCForeignObject from '@components/roadmap/to-be-organized/NodeHOCFor
 import AsyncLoaderHOC from '@components/roadmap/rendering-engines/async-loading/AsyncLoaderHOC';
 import { showContextMenu } from '@components/roadmap/contextmenu/store/ContextMenu';
 import { setNotification } from '@components/roadmap/to-be-organized/notifications/notifciations-refr/notification-store-refr';
+import { checkIsMobile, useIsMobile } from '@hooks/useIsMobile';
+import useContextMenuOrLongPress from '@hooks/useContextMenuOrLongPress';
 
 interface NodeViewProps {
   nodeId: string;
@@ -80,7 +82,7 @@ const NodeRendererClassic: React.FC<NodeViewProps> = ({
   const node = getNodeByIdRoadmapSelector(nodeId);
   const { editing, scale, isSafari } = useNodeExternalData();
 
-  const handleContextMenu = (event) => {
+  const handleContextMenuOrLongPress = (event) => {
     event.stopPropagation();
     event.preventDefault();
     if (node.actions.onClick === 'Do nothing') return;
@@ -105,7 +107,9 @@ const NodeRendererClassic: React.FC<NodeViewProps> = ({
     // show notification
     setNotification(
       'tip',
-      'To modify progress status, right-click on the node.'
+      `To modify progress status, ${
+        checkIsMobile() ? 'long-tap' : 'right-click'
+      } on the node.`
     );
   };
 
@@ -158,7 +162,7 @@ const NodeRendererClassic: React.FC<NodeViewProps> = ({
       style={{
         transform: `scale(${isSafari && !isSubNode ? scale : 1})`,
       }}
-      onContextMenu={handleContextMenu}
+      {...useContextMenuOrLongPress(handleContextMenuOrLongPress)}
     >
       {getElementHasEffect(nodeId, 'highlight-node') && (
         <div className='z-10  left-1/2 -translate-x-1/2 w-20 h-20 absolute select-none -top-16'>
