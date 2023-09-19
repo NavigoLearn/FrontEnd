@@ -1,4 +1,8 @@
 import { atom } from 'nanostores';
+import {
+  IVersions,
+  ROADMAP_CURRENT_VERSION,
+} from '@store/roadmap-refactor/roadmap-data/params/params-base-roadmap';
 
 export type IRoadmapType = 'create' | 'public' | 'draft';
 
@@ -8,6 +12,7 @@ export type IRoadmapAbout = {
   name: string;
   ownerId: string;
   description: string;
+  version: IVersions;
 };
 
 const BOILERPLATE_ROADMAP_ABOUT: IRoadmapAbout = {
@@ -16,6 +21,7 @@ const BOILERPLATE_ROADMAP_ABOUT: IRoadmapAbout = {
   roadmapId: '',
   ownerId: '',
   description: '',
+  version: ROADMAP_CURRENT_VERSION,
 };
 
 export const DEFAULT_NAME = 'Untitled Roadmap';
@@ -86,4 +92,14 @@ export function fetchRoadmapAboutPost() {
 export function getRoadmapId() {
   const store = storeRoadmapAbout.get();
   return store.roadmapId;
+}
+
+export function setRoadmapVersion(version: IVersions) {
+  const store = storeRoadmapAbout.get();
+  storeRoadmapAbout.set({ ...store, version });
+}
+
+export function getRoadmapVersion() {
+  const store = storeRoadmapAbout.get();
+  return store.version;
 }

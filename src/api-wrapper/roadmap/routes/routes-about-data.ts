@@ -3,9 +3,7 @@ import {
   getRoadmapAbout,
   getRoadmapId,
 } from '@store/roadmap-refactor/roadmap-data/misc-data/roadmap-about';
-import {
-  ITopicOptions,
-} from '@components/explore/stores/explore-query-store';
+import { ITopicOptions } from '@components/explore/stores/explore-query-store';
 import { encodeBase64 } from '@src/typescript/utils/misc';
 
 export const fetchUpdateRoadmapAboutMiscData = async (miscData: string) => {
@@ -45,7 +43,6 @@ export const fetchUpdateRoadmapAboutFields = async (
     },
   }).then((res) => res);
   const responseJson = await response.json();
-  console.log('responseJson', responseJson);
   return responseJson;
 };
 

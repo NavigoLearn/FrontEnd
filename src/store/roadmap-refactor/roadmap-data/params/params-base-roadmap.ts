@@ -12,8 +12,10 @@ export const emptyRoadmap: IRoadmap = {
   templates: {},
 };
 
+export type IVersions = '1.0.0' | '1.0.1';
+
 type IBacklog = {
-  version: string;
+  version: IVersions;
   changes: string;
   date: string;
   status: string;
@@ -28,4 +30,4 @@ const ROADMAP_VERSIONS_BACKLOG: IBacklog[] = [
   },
 ];
 
-const ROADMAP_CURRENT_VERSION = '1.0.1';
+export const ROADMAP_CURRENT_VERSION: IVersions = '1.0.1';

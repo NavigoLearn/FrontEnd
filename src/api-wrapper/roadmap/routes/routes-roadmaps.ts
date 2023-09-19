@@ -30,11 +30,10 @@ export const fetchUpdateRoadmapData = async (roadmap: IRoadmap) => {
     },
   }).then((res) => res);
   const responseData = await response.json();
-  console.log('fetchUpdateRoadmapData', responseData);
   return responseData;
 };
 
-export const postRoadmapData = errorHandlerDecorator(async () => {
+export const fetchPostRoadmapData = errorHandlerDecorator(async () => {
   const newRoadmap = storeRoadmapPostPayload.get();
 
   const response = await fetch('/api/roadmaps/create', {
