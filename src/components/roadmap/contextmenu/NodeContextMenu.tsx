@@ -2,16 +2,12 @@ import { attachmentTabStatusArray } from '@src/typescript/roadmap_ref/node/attac
 import inProgress from '@assets/progress-status.svg';
 import complete from '@assets/completed-status.svg';
 import skip from '@assets/skip-status.svg';
-import { AnimatePresence, motion } from 'framer-motion';
-import {
-  getRoadmapNodeProgress,
-  setRoadmapNodeProgressAndFetchUpdate,
-} from '@store/roadmap-refactor/roadmap-data/misc-data/roadmap-progress';
-import { tailwindTransitionClass } from '@src/UI-library/tailwind-utils';
+import { motion } from 'framer-motion';
+import { setRoadmapNodeProgressAndFetchUpdate } from '@store/roadmap-refactor/roadmap-data/misc-data/roadmap-progress';
 import { injectMarkAsDone } from '@src/typescript/roadmap_ref/node/core/data-mutation/inject';
 import { getNodeByIdRoadmapSelector } from '@src/typescript/roadmap_ref/roadmap-data/services/get';
 import { triggerNodeRerender } from '@store/roadmap-refactor/render/rerender-triggers-nodes';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 
 type IStatusContextMenuProps = {
   nodeId: string;
@@ -48,13 +44,9 @@ const NodeContextMenu = ({
     };
 
     const handleMouseDown = (event) => {
-      console.log('mousedown');
       if (root.current && !root.current.contains(event.target)) {
-        console.log('clicked outside');
         closeMenu();
       }
-
-      console.log('clicked inside');
     };
 
     document.addEventListener('click', closeMenu);
@@ -87,47 +79,52 @@ const NodeContextMenu = ({
         initial='hidden'
         animate={visible ? 'visible' : 'hidden'}
         exit='hidden'
-        transition={{ duration: 0.25 }}
+        transition={{ duration: 0.1 }}
         variants={variants}
         className={`${
           visible ? 'pointer-events-auto' : 'pointer-events-none'
         } origin-top-left w-full rounded-lg bg-white border-2 border-gray-100 drop-shadow-2xl `}
       >
-        {attachmentTabStatusArray
-          .filter((actionName) => actionName !== progress)
-          .map((actionName) => {
-            const actionIcon = iconMap[actionName];
+        {attachmentTabStatusArray.map((actionName) => {
+          const actionIcon = iconMap[actionName];
 
-            return (
-              <button
-                type='button'
-                onClick={(event) => {
-                  event.stopPropagation();
-                  setRoadmapNodeProgressAndFetchUpdate(nodeId, actionName);
+          const textName =
+            (actionName as string) === 'Status' ? 'Clear Status' : actionName;
 
-                  if (actionName === 'Completed' || actionName === 'Skip') {
-                    injectMarkAsDone(getNodeByIdRoadmapSelector(nodeId), true);
-                  } else {
-                    injectMarkAsDone(getNodeByIdRoadmapSelector(nodeId), false);
-                  }
+          return (
+            <button
+              type='button'
+              onClick={(event) => {
+                event.stopPropagation();
+                setRoadmapNodeProgressAndFetchUpdate(nodeId, actionName);
 
-                  triggerNodeRerender(nodeId);
-                  setVisibility(false);
-                }}
-                key={actionName}
-                className='h-10 py-1 text-opacity-60 hover:text-opacity-100 text-darkBlue w-full text-lg flex items-center pl-4'
-              >
-                {actionIcon && (
-                  <img
-                    src={actionIcon}
-                    alt={`${actionName} Icon`}
-                    className='w-5 h-5 mr-2'
-                  />
-                )}
-                {actionName}
-              </button>
-            );
-          })}
+                if (actionName === 'Completed' || actionName === 'Skip') {
+                  injectMarkAsDone(getNodeByIdRoadmapSelector(nodeId), true);
+                } else {
+                  injectMarkAsDone(getNodeByIdRoadmapSelector(nodeId), false);
+                }
+
+                triggerNodeRerender(nodeId);
+                setVisibility(false);
+              }}
+              key={actionName}
+              className={`${
+                actionName === progress && actionName !== 'Status'
+                  ? 'bg-backgroundRoadmap'
+                  : 'bg-white'
+              } h-10 py-1 text-opacity-60 hover:text-opacity-100 text-darkBlue w-full text-lg flex items-center pl-4`}
+            >
+              {actionIcon && (
+                <img
+                  src={actionIcon}
+                  alt={`${actionName} Icon`}
+                  className='w-5 h-5 mr-2'
+                />
+              )}
+              {textName}
+            </button>
+          );
+        })}
       </motion.div>
     </div>
   );
