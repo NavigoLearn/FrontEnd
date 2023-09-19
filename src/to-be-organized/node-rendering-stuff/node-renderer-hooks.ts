@@ -14,6 +14,7 @@ import {
   getElementHasEffect,
   removeHighlightNodeEffects,
   setNodeEffectsInitialEmpty,
+  storeNodeEffects,
 } from '@store/roadmap-refactor/elements-editing/store-node-effects';
 import { setElementDiv } from '@store/roadmap-refactor/elements-editing/elements-gs';
 import { handleDragabilityRecalculationOnChunking } from '@src/typescript/roadmap_ref/dragging/misc';
@@ -24,7 +25,10 @@ import { useStateTimed } from '@hooks/useStateTimed';
 import { deleteAllSnappings } from '@store/roadmap-refactor/render/snapping-lines';
 import { useTriggerRerender } from '@hooks/useTriggerRerender';
 import { useIsLoaded } from '@hooks/useIsLoaded';
-import { getIsEditing } from '@store/roadmap-refactor/roadmap-data/misc-data/roadmap_state';
+import {
+  getHideProgress,
+  getIsEditing,
+} from '@store/roadmap-refactor/roadmap-data/misc-data/roadmap_state';
 import scaleSafariStore from '@store/roadmap-refactor/misc/scale-safari-store';
 import {
   selectNodeColorFromScheme,
@@ -301,7 +305,8 @@ export function useNodeApplyStatusAndEffects(
 
   function handleProgressStatusEffects() {
     editing && deleteStatusEffectAll(nodeId);
-    loaded && !editing && appendNodeMarkAsDone(node);
+    loaded && !editing && !getHideProgress() && appendNodeMarkAsDone(node);
+    getHideProgress() && deleteStatusEffectAll(nodeId);
   }
   afterEventLoop(() => {
     if (!nodeDivRef.current || !nodeDivRef) return;

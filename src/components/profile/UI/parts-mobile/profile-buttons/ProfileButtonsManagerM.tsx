@@ -15,7 +15,7 @@ const ProfileButtonsManagerM = () => {
   }
 
   return (
-    <div className='flex justify-center items-center gap-5 mt-3'>
+    <div className='flex justify-center items-center gap-3 mt-3'>
       {profilePagesArray.map((page) => {
         const selected = page === getProfilePage();
         return (

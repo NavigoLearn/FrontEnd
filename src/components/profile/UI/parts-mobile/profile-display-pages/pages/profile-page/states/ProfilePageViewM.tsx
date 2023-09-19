@@ -14,7 +14,7 @@ const ProfilePageViewM = () => {
   return (
     <div>
       <DisplayProfileAvatarM />
-      <div className='flex flex-col gap-4 ml-12 mt-5 pb-10'>
+      <div className='flex flex-col gap-4 w-full mt-10 pb-10'>
         <DisplayProfilePropertyM
           name='Name'
           value={getProfileInfoName()}

@@ -60,13 +60,11 @@ import {
   useSelectedConnectionData,
 } from '@src/to-be-organized/node-rendering-stuff/node-renderer-hooks';
 import {
-  getNodeOpacity,
   getNodeStatusBarColor,
+  handleContextMenu,
 } from '@src/to-be-organized/node-rendering-stuff/node-render-logic';
 import NodeHOCForeignObject from '@components/roadmap/to-be-organized/NodeHOCForeignObject';
 import AsyncLoaderHOC from '@components/roadmap/rendering-engines/async-loading/AsyncLoaderHOC';
-import { showContextMenu } from '@components/roadmap/contextmenu/store/ContextMenu';
-import { setNotification } from '@components/roadmap/to-be-organized/notifications/notifciations-refr/notification-store-refr';
 
 interface NodeViewProps {
   nodeId: string;
@@ -79,35 +77,6 @@ const NodeRendererClassic: React.FC<NodeViewProps> = ({
 }) => {
   const node = getNodeByIdRoadmapSelector(nodeId);
   const { editing, scale, isSafari } = useNodeExternalData();
-
-  const handleContextMenu = (event) => {
-    event.stopPropagation();
-    event.preventDefault();
-    if (node.actions.onClick === 'Do nothing') return;
-
-    showContextMenu(
-      nodeId,
-      `${event.clientX - 16}px`,
-      `${event.clientY - 16}px`
-    );
-  };
-
-  const checkFirstOnClick = () => {
-    // check local storage if it's the first time the user clicks on a node
-    const firstClick = localStorage.getItem('firstClick');
-    if (firstClick !== null) return;
-    localStorage.setItem('firstClick', 'true');
-
-    // set in progress
-    setRoadmapNodeProgressAndFetchUpdate(nodeId, 'In Progress');
-    triggerNodeRerender(nodeId);
-
-    // show notification
-    setNotification(
-      'tip',
-      'To modify progress status, right-click on the node.'
-    );
-  };
 
   const {
     loaded,
@@ -158,7 +127,9 @@ const NodeRendererClassic: React.FC<NodeViewProps> = ({
       style={{
         transform: `scale(${isSafari && !isSubNode ? scale : 1})`,
       }}
-      onContextMenu={handleContextMenu}
+      onContextMenu={(e) => {
+        handleContextMenu(node, e);
+      }}
     >
       {getElementHasEffect(nodeId, 'highlight-node') && (
         <div className='z-10  left-1/2 -translate-x-1/2 w-20 h-20 absolute select-none -top-16'>
@@ -179,8 +150,6 @@ const NodeRendererClassic: React.FC<NodeViewProps> = ({
           if (isResizing || isCurrentlyDragged || getResize()) {
             return;
           }
-
-          checkFirstOnClick();
           getOnClickAction(nodeId)();
         }}
         onMouseOver={(event) => {
