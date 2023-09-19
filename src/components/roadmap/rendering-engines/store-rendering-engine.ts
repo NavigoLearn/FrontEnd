@@ -9,12 +9,16 @@ export const IRenderingEnginesArray: IRenderingEngines[] = [
 
 export const storeRenderingEngine = atom({
   renderingEngineType: 'foreign-object',
+  optimized: false,
 } as {
   renderingEngineType: IRenderingEngines;
+  optimized: boolean;
 });
 
 export const setRenderingEngineType = (type: IRenderingEngines) => {
-  storeRenderingEngine.set({ renderingEngineType: type });
+  const currentStore = storeRenderingEngine.get();
+  currentStore.renderingEngineType = type;
+  storeRenderingEngine.set({ ...currentStore });
 };
 
 export const getRenderingEngineType = () => {
@@ -27,4 +31,14 @@ export const getRenderingEngineDraggingElementIdentifier = () => {
     'native-elements': 'g',
   };
   return mapper[getRenderingEngineType()];
+};
+
+export const setRenderingEngineOptimized = (optimized: boolean) => {
+  const currentStore = storeRenderingEngine.get();
+  currentStore.optimized = optimized;
+  storeRenderingEngine.set({ ...currentStore });
+};
+
+export const getRenderingEngineOptimized = () => {
+  return storeRenderingEngine.get().optimized;
 };

@@ -1,6 +1,6 @@
 import { atom } from 'nanostores';
 
-export const storeRenderingEngine = atom({
+export const storeAsyncLoading = atom({
   asyncDelay: 15,
   showNode: new Map<() => void, () => void>(),
 } as {
@@ -9,7 +9,7 @@ export const storeRenderingEngine = atom({
 });
 
 function setAsyncLoadTimeout() {
-  const { asyncDelay, showNode } = storeRenderingEngine.get();
+  const { asyncDelay, showNode } = storeAsyncLoading.get();
   setTimeout(setAsyncLoadTimeout, asyncDelay);
   if (showNode.size !== 0) {
     const firstKey = showNode.keys().next().value;
@@ -19,7 +19,7 @@ function setAsyncLoadTimeout() {
       showNode.delete(firstKey);
     }
 
-    storeRenderingEngine.set({
+    storeAsyncLoading.set({
       asyncDelay,
       showNode
     });
@@ -29,7 +29,7 @@ function setAsyncLoadTimeout() {
 let started = false;
 
 export function insertNodeToRender(setLoaded: () => void) {
-  const store = storeRenderingEngine.get();
+  const store = storeAsyncLoading.get();
 
   if (!started) {
     started = true;
@@ -38,13 +38,13 @@ export function insertNodeToRender(setLoaded: () => void) {
 
   const showNode = store.showNode.set(setLoaded, setLoaded);
 
-  storeRenderingEngine.set({...store, showNode});
+  storeAsyncLoading.set({...store, showNode});
 }
 
 export function removeNodeToRender(setLoaded: () => void) {
-  const store = storeRenderingEngine.get();
+  const store = storeAsyncLoading.get();
   const showNode = store.showNode;
   showNode.delete(setLoaded);
 
-  storeRenderingEngine.set({...store, showNode});
+  storeAsyncLoading.set({...store, showNode});
 }

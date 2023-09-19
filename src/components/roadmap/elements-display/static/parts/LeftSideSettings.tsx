@@ -2,10 +2,14 @@ import React from 'react';
 import viewportCoord from '@store/roadmap-refactor/misc/viewport-coords-store';
 import { useStore } from '@nanostores/react';
 import { triggerRecenterRoadmap } from '@store/roadmap-refactor/misc/misc-params-store';
-import { setRenderingEngineType } from '@components/roadmap/rendering-engines/store-rendering-engine';
+import {
+  setRenderingEngineOptimized,
+  storeRenderingEngine,
+} from '@components/roadmap/rendering-engines/store-rendering-engine';
 
-const CoordsRoadmapElement = () => {
+const LeftSideSettings = () => {
   const { startX, startY, scale } = useStore(viewportCoord);
+  const { optimized } = useStore(storeRenderingEngine);
 
   return (
     <div className=''>
@@ -18,7 +22,7 @@ const CoordsRoadmapElement = () => {
           scale: {scale}
         </p>
       </div>
-      <div className='flex flex-col gap-2'>
+      <div className=''>
         <button
           type='button'
           className='mt-6 font-roboto-text text-md text-secondary pointer-events-auto hover:text-primary'
@@ -29,8 +33,22 @@ const CoordsRoadmapElement = () => {
           Recenter
         </button>
       </div>
+
+      <div className=''>
+        <button
+          type='button'
+          className={`mt-6 font-roboto-text text-md text-secondary pointer-events-auto hover:text-primary ${
+            optimized ? 'text-green-700' : ''
+          }`}
+          onClick={() => {
+            setRenderingEngineOptimized(!optimized);
+          }}
+        >
+          optimize {optimized ? 'on' : 'off'}
+        </button>
+      </div>
     </div>
   );
 };
 
-export default CoordsRoadmapElement;
+export default LeftSideSettings;

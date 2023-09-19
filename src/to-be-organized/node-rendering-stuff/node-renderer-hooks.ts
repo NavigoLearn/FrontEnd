@@ -45,6 +45,8 @@ import {
   setNodeEventsInitialEmpty,
 } from '@src/to-be-organized/node-rendering-stuff/store-node-events';
 import { getNodeByIdRoadmapSelector } from '@src/typescript/roadmap_ref/roadmap-data/services/get';
+import renderNodesStore from '@store/roadmap-refactor/render/rendered-nodes';
+import { storeRenderingEngine } from '@components/roadmap/rendering-engines/store-rendering-engine';
 
 type INodeDataProcessed = {
   isSubNode: boolean;
@@ -218,10 +220,12 @@ export function useNodeSideEffects(node: NodeClass) {
 export function useNodeExternalData() {
   const editing = getIsEditing();
   const { scale, isSafari } = useStore(scaleSafariStore);
+  const { renderingEngineType, optimized } = useStore(storeRenderingEngine);
   return {
     editing,
     scale,
     isSafari,
+    optimized,
   };
 }
 

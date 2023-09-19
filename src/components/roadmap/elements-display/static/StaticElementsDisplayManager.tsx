@@ -1,5 +1,5 @@
 import React from 'react';
-import CoordsRoadmapElement from '@components/roadmap/elements-display/static/parts/CoordsRoadmapElement';
+import LeftSideSettings from '@components/roadmap/elements-display/static/parts/LeftSideSettings';
 import { getIsEditable } from '@store/roadmap-refactor/roadmap-data/misc-data/roadmap_state';
 
 const StaticElementsDisplayManager = () => {
@@ -8,7 +8,7 @@ const StaticElementsDisplayManager = () => {
   return (
     <div className='absolute w-full h-full'>
       <div className='absolute top-4 left-4 '>
-        <CoordsRoadmapElement />
+        <LeftSideSettings />
       </div>
     </div>
   );
