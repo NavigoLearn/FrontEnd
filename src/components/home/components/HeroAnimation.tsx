@@ -109,7 +109,7 @@ const HeroAnimation = ({ parallaxNodes, viewCoords }: HeroAnimationProps) => {
               ry='4'
               width='6rem'
               height='2rem'
-              className='fill-white drop-shadow-md stroke-slate-200 border-[1px] flex rounded-lg justify-center items-center'
+              className='fill-white border-gray-500 stroke-slate-400 border-[2px] flex rounded-lg justify-center items-center'
             />
           );
         })}
