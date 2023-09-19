@@ -31,7 +31,7 @@ import {
 } from '@src/typescript/roadmap_ref/dragging/misc';
 import { useEffectAfterLoad } from '@hooks/useEffectAfterLoad';
 import renderConnectionsStore from '@store/roadmap-refactor/render/rendered-connections';
-import { closeEditorProtocol } from '@src/to-be-organized/nodeview/actions-manager';
+import { closeEditorProtocol } from '@src/to-be-organized/node-rendering-stuff/actions-manager';
 import { addKeyListeners } from '@src/typescript/roadmap_ref/key-shortcuts';
 import { IRoadmapApi } from '@type/explore_old/card';
 import {

@@ -16,7 +16,7 @@ import {
   effectBorderBlueForeignDiv,
   effectOpacity100ForeignDiv,
   effectOpacity30ForeignDiv,
-} from '@src/to-be-organized/nodeview/effects';
+} from '@src/to-be-organized/node-rendering-stuff/effects';
 import { getHideProgress } from '@store/roadmap-refactor/roadmap-data/misc-data/roadmap_state';
 import {
   getElementG,
@@ -166,7 +166,6 @@ export const dynamicEffectsMapperForeignObjectElements: HashMapWithKeys<
     effectName: 'mark-as-completed',
     effectApply: (divRef) => {
       if (!divRef) return;
-
       effectOpacity30ForeignDiv(divRef);
     },
     effectLayer: 10,
@@ -197,29 +196,29 @@ export const dynamicEffectsMapperForeignObjectElements: HashMapWithKeys<
   },
 };
 
-export const elementEffects = atom({} as HashMap<IEffectsPossible[]>);
+export const storeNodeEffects = atom({} as HashMap<IEffectsPossible[]>);
 
 export function setElementEffects(id: string, effects: IEffectsPossible[]) {
-  const originalEffects = elementEffects.get();
-  elementEffects.set({
+  const originalEffects = storeNodeEffects.get();
+  storeNodeEffects.set({
     ...originalEffects,
     [id]: effects,
   });
 }
 
-export function setElementEffectsInitialEmpty(id: string) {
-  const originalEffects = elementEffects.get();
+export function setNodeEffectsInitialEmpty(id: string) {
+  const originalEffects = storeNodeEffects.get();
   if (originalEffects[id]) {
     return;
   }
   originalEffects[id] = [];
-  elementEffects.set({
+  storeNodeEffects.set({
     ...originalEffects,
   });
 }
 
 function applyElementEffectsForeignObject(id: string) {
-  const originalEffects = elementEffects.get();
+  const originalEffects = storeNodeEffects.get();
   const effectsArr = originalEffects[id].map(
     (effectElement) => dynamicEffectsMapperForeignObjectElements[effectElement]
   );
@@ -234,7 +233,7 @@ function applyElementEffectsForeignObject(id: string) {
 }
 
 function applyElementEffectsNativeSvg(id: string) {
-  const originalEffects = elementEffects.get();
+  const originalEffects = storeNodeEffects.get();
   const effectsArr = originalEffects[id].map(
     (effectElement) => dynamicEffectsMapperNativeSvgElements[effectElement]
   );
@@ -270,16 +269,16 @@ export function deleteElementEffect(
   originalEffects[id] = originalEffects[id].filter(
     (effectName) => effectName !== effect
   );
-  elementEffects.set({
+  storeNodeEffects.set({
     ...originalEffects,
   });
 }
 
 export function appendElementEffect(id, effect: IEffectsPossible) {
-  const originalEffects = elementEffects.get();
+  const originalEffects = storeNodeEffects.get();
   if (!originalEffects[id]) originalEffects[id] = [];
   if (!originalEffects[id].includes(effect)) originalEffects[id].push(effect);
-  elementEffects.set({
+  storeNodeEffects.set({
     ...originalEffects,
   });
 }
@@ -288,17 +287,17 @@ export function deleteElementEffectNoStoreParam(
   id: string,
   effect: IEffectsPossible
 ) {
-  const originalEffects = elementEffects.get();
+  const originalEffects = storeNodeEffects.get();
   if (!originalEffects[id]) return;
   originalEffects[id] = originalEffects[id].filter(
     (effectName) => effectName !== effect
   );
-  elementEffects.set({
+  storeNodeEffects.set({
     ...originalEffects,
   });
 }
 export function deleteStatusEffectAll(id: string) {
-  const originalEffects = elementEffects.get();
+  const originalEffects = storeNodeEffects.get();
   const statusEffects: IEffectsStatuses[] = [
     'mark-as-progress',
     'mark-as-completed',
@@ -308,13 +307,13 @@ export function deleteStatusEffectAll(id: string) {
   statusEffects.forEach((effect) => {
     deleteElementEffect(originalEffects, id, effect);
   });
-  elementEffects.set({
+  storeNodeEffects.set({
     ...originalEffects,
   });
 }
 
 export function appendStatusEffect(id: string, status: IEffectsStatuses) {
-  const originalEffects = elementEffects.get();
+  const originalEffects = storeNodeEffects.get();
   const statusEffects: IEffectsStatuses[] = [
     'mark-as-progress',
     'mark-as-completed',
@@ -325,13 +324,13 @@ export function appendStatusEffect(id: string, status: IEffectsStatuses) {
     deleteElementEffect(originalEffects, id, effect);
   });
   appendElementEffect(id, status);
-  elementEffects.set({
+  storeNodeEffects.set({
     ...originalEffects,
   });
 }
 
 export function defocusAllNodesExceptBlacklist(blackListed: string[]) {
-  const originalEffects = elementEffects.get();
+  const originalEffects = storeNodeEffects.get();
   const nodes = Object.keys(getRoadmapSelector().nodes);
   nodes.forEach((id) => {
     if (blackListed.includes(id)) {
@@ -347,7 +346,7 @@ export function defocusAllNodesExceptBlacklist(blackListed: string[]) {
 }
 
 export function defocusAllRootNodesExceptBlacklist(blackListed: string[]) {
-  const originalEffects = elementEffects.get();
+  const originalEffects = storeNodeEffects.get();
   const nodes = getRoadmapSelector().rootNodesIds;
 
   nodes.forEach((id) => {
@@ -365,7 +364,7 @@ export function defocusAllRootNodesExceptBlacklist(blackListed: string[]) {
 
 export function setEditorOpenEffect(nodeId: string) {
   // applies opacity 60 to all nodes-page except the one with the id
-  const originalEffects = elementEffects.get();
+  const originalEffects = storeNodeEffects.get();
   const nodes = Object.keys(originalEffects);
   // getting the line of parent nodes-page from the node to the root
   const blackListed = getTracebackNodeToRoot(nodeId);
@@ -378,24 +377,24 @@ export function setEditorOpenEffect(nodeId: string) {
 
   defocusAllNodesExceptBlacklist(blackListed);
 
-  elementEffects.set({
+  storeNodeEffects.set({
     ...originalEffects,
   });
 }
 
 export function setConnectionSelectedEffect(parentId: string, childId: string) {
-  const originalEffects = elementEffects.get();
+  const originalEffects = storeNodeEffects.get();
   const blackListed = [parentId, childId];
 
   defocusAllNodesExceptBlacklist(blackListed);
 
-  elementEffects.set({
+  storeNodeEffects.set({
     ...originalEffects,
   });
 }
 
 export function clearAllDefocusEffects() {
-  const originalEffects = elementEffects.get();
+  const originalEffects = storeNodeEffects.get();
   const nodes = Object.keys(originalEffects);
   nodes.forEach((id) => {
     deleteElementEffect(originalEffects, id, 'defocus-node');
@@ -403,56 +402,56 @@ export function clearAllDefocusEffects() {
 }
 
 export function setConnectionUnselectedEffect() {
-  const originalEffects = elementEffects.get();
+  const originalEffects = storeNodeEffects.get();
   clearAllDefocusEffects();
-  elementEffects.set({
+  storeNodeEffects.set({
     ...originalEffects,
   });
 }
 
 export function setEditorClosedEffect() {
-  const originalEffects = elementEffects.get();
+  const originalEffects = storeNodeEffects.get();
   clearAllDefocusEffects();
-  elementEffects.set({
+  storeNodeEffects.set({
     ...originalEffects,
   });
 }
 
 export function removeAllEffects() {
-  const originalEffects = elementEffects.get();
+  const originalEffects = storeNodeEffects.get();
   const nodes = Object.keys(originalEffects);
   nodes.forEach((id) => {
     originalEffects[id] = [];
   });
-  elementEffects.set({
+  storeNodeEffects.set({
     ...originalEffects,
   });
 }
 
 export function appendDraggingRecursiveEffect(nodeId: string) {
-  const originalEffects = elementEffects.get();
+  const originalEffects = storeNodeEffects.get();
   appendElementEffect(nodeId, 'dragging-recursive');
-  elementEffects.set({
+  storeNodeEffects.set({
     ...originalEffects,
   });
 }
 
 export function deleteDraggingRecursiveEffect(nodeId: string) {
-  const originalEffects = elementEffects.get();
+  const originalEffects = storeNodeEffects.get();
   deleteElementEffect(originalEffects, nodeId, 'dragging-recursive');
-  elementEffects.set({
+  storeNodeEffects.set({
     ...originalEffects,
   });
 }
 
 export function getElementHasEffect(id: string, effect: IEffectsPossible) {
-  const originalEffects = elementEffects.get();
+  const originalEffects = storeNodeEffects.get();
   if (!originalEffects[id]) return false;
   return originalEffects[id].includes(effect);
 }
 
 export function getElementEffects(id: string) {
-  const originalEffects = elementEffects.get();
+  const originalEffects = storeNodeEffects.get();
   return originalEffects[id];
 }
 

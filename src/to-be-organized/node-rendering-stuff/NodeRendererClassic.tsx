@@ -1,9 +1,7 @@
-/* eslint-disable no-shadow */
-/* eslint-disable react/prop-types */
 import React, { useEffect, useLayoutEffect, useRef } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { afterEventLoop } from '@src/typescript/utils/misc';
-import { componentsRenderer } from '@src/to-be-organized/nodeview/ComponentsRenderer';
+import { componentsRenderer } from '@src/to-be-organized/node-rendering-stuff/ComponentsRenderer';
 import { useTriggerRerender } from '@hooks/useTriggerRerender';
 import {
   setTriggerRender,
@@ -15,15 +13,15 @@ import {
   getOnMouseOutAction,
   getOnMouseOutActionEdit,
   getOnMouseOverAction,
-} from '@src/to-be-organized/nodeview/actions-manager';
+} from '@src/to-be-organized/node-rendering-stuff/actions-manager';
 import {
   appendStatusEffect,
   applyElementEffects,
-  setElementEffectsInitialEmpty,
+  setNodeEffectsInitialEmpty,
   deleteStatusEffectAll,
   getElementHasEffect,
   removeHighlightNodeEffects,
-} from '@store/roadmap-refactor/elements-editing/element-effects';
+} from '@store/roadmap-refactor/elements-editing/store-node-effects';
 import { useIsLoaded } from '@hooks/useIsLoaded';
 import { setElementDiv } from '@store/roadmap-refactor/elements-editing/elements-gs';
 import { NodeClass } from '@src/typescript/roadmap_ref/node/core/core';
@@ -52,10 +50,19 @@ import { getRoadmapNodeProgress } from '@store/roadmap-refactor/roadmap-data/mis
 import { getResize } from '@src/to-be-organized/resize-dragging/stores-resize-shared-data';
 import { hexAddAlpha } from '@src/typescript/roadmap_ref/utils';
 import {
-  useCalculateNodeCoords,
+  useNodeApplyStatusAndEffects,
+  useNodeCalculateCoords,
   useNodeData,
+  useNodeExternalData,
+  useNodeHandleEvents,
+  useNodeRuntimeProperties,
+  useNodeSideEffects,
   useSelectedConnectionData,
-} from '@src/to-be-organized/nodeview/node-renderer-hooks';
+} from '@src/to-be-organized/node-rendering-stuff/node-renderer-hooks';
+import {
+  getNodeOpacity,
+  getNodeStatusBarColor,
+} from '@src/to-be-organized/node-rendering-stuff/node-render-logic';
 
 interface NodeViewProps {
   nodeId: string;
@@ -67,14 +74,16 @@ const NodeRendererClassic: React.FC<NodeViewProps> = ({
   centerOffset,
 }) => {
   const node = getNodeByIdRoadmapSelector(nodeId);
+  const { editing, scale, isSafari } = useNodeExternalData();
 
-  const nodeDivRef = useRef<HTMLDivElement>(null);
-
-  const rerender = useTriggerRerender();
-
-  const loaded = useIsLoaded();
-  const editing = getIsEditing();
-  const { scale, isSafari } = useStore(scaleSafariStore);
+  const {
+    loaded,
+    isResizing,
+    setIsResizing,
+    mouseOver,
+    setMouseOver,
+    nodeDivRef,
+  } = useNodeSideEffects(node);
 
   const {
     connectionSelectedChildId,
@@ -82,137 +91,33 @@ const NodeRendererClassic: React.FC<NodeViewProps> = ({
     currentConnection,
   } = useSelectedConnectionData();
 
+  const nodeDataProcessed = useNodeData(node);
   const {
     width,
     height,
     bgOpacity,
-    colorType,
+    color,
+    borderStyle,
+    shadowClass,
     subNodeIds,
     isSubNode,
     opacity,
     isRootNode,
-  } = useNodeData(node);
+  } = nodeDataProcessed;
 
-  const centeredCoords = useCalculateNodeCoords(node, centerOffset);
+  const centeredCoords = useNodeCalculateCoords(node, centerOffset);
+  const { isCurrentlyDragged, cursor, isDraggable } =
+    useNodeRuntimeProperties(nodeId);
 
-  useEffect(() => {
-    // node can change when you apply a template
-    setElementEffectsInitialEmpty(nodeId);
-    setElementDiv(nodeId, nodeDivRef.current);
-    handleDragabilityRecalculationOnChunking(node);
-
-    if (loaded) {
-      triggerAllConnectionsRerender();
-    }
-  }, [node]);
-
-  useEffect(() => {
-    if (node.flags.renderedOnRoadmapFlag) return;
-    setTriggerRender(node.id, rerender);
-  }, []);
-
-  const [mouseOver, setMouseOver] = useStateWithSideEffects(false, () => {
-    if (getElementHasEffect(nodeId, 'highlight-node')) {
-      removeHighlightNodeEffects(nodeId);
-    }
-  });
-  const [resizing, setResizing] = useStateTimed(false, 500, () => {
-    deleteAllSnappings();
-  });
-
-  function getNodeOpacity(node: NodeClass) {
-    return node.data.opacity / 100;
-  }
-
-  function appendNodeMarkAsDone(node: NodeClass) {
-    if (editing) return;
-    if (node.properties.markAsDone !== undefined) {
-      const status = getRoadmapNodeProgress(nodeId);
-      if (status === 'Completed') {
-        appendStatusEffect(nodeId, 'mark-as-completed');
-      }
-      if (status === 'In Progress') {
-        appendStatusEffect(nodeId, 'mark-as-progress');
-      }
-      if (status === 'Skip') {
-        appendStatusEffect(nodeId, 'mark-as-skipped');
-      }
-      if (status === 'Status') {
-        appendStatusEffect(nodeId, 'mark-as-status');
-      }
-    }
-  }
-
-  function getStatusBarColor(node: NodeClass) {
-    const statusCircleBgColor = {
-      Status: 'bg-transparent',
-      'In Progress': 'bg-yellow-400',
-      Completed: 'bg-green-400',
-      Skip: 'bg-gray-400',
-    };
-    const attachment = node.attachments[0];
-    const status = getRoadmapNodeProgress(nodeId);
-    return statusCircleBgColor[status];
-  }
-
-  const color = selectNodeColorFromScheme(
-    getColorThemeFromRoadmap(),
-    colorType
+  const { style } = useNodeApplyStatusAndEffects(
+    node,
+    nodeDivRef,
+    nodeDataProcessed,
+    centeredCoords,
+    loaded
   );
 
-  const borderColor = selectNodeColorTextBorder(
-    getColorThemeFromRoadmap(),
-    colorType
-  );
-
-  const shadowClass =
-    // eslint-disable-next-line no-nested-ternary
-    bgOpacity === 0 ? 'shadow-none' : isSubNode ? 'shadow-md' : 'shadow-lg';
-
-  const borderStyle =
-    borderColor === '#none'
-      ? `2px solid transparent`
-      : `2px solid ${hexAddAlpha(borderColor, bgOpacity)}`;
-
-  const style = {
-    // color: textColor,
-    backgroundColor: hexAddAlpha(color, bgOpacity),
-    width,
-    height,
-    top: centeredCoords.y,
-    left: centeredCoords.x,
-    opacity: `${getNodeOpacity(node)}`,
-    border: borderStyle,
-  };
-
-  const isCurrentlyDragged = getElementHasEffect(nodeId, 'dragging-recursive');
-  const applyStyle = () => {
-    if (!nodeDivRef.current) return;
-    const element = nodeDivRef.current;
-    Object.assign(element.style, style);
-  };
-
-  useLayoutEffect(() => {
-    if (!isCurrentlyDragged && nodeDivRef && nodeDivRef.current) {
-      nodeDivRef.current.style.transform = `translate(0px,0px)`;
-    }
-  });
-
-  afterEventLoop(() => {
-    // runs all the effects after the node is rendered
-    applyStyle();
-    getIsEditing() && deleteStatusEffectAll(nodeId);
-    loaded && !getIsEditing() && appendNodeMarkAsDone(node);
-    if (!nodeDivRef.current) return;
-    loaded && applyElementEffects(nodeId);
-  });
-
-  const isDraggable = getElementIsDraggable(nodeId);
-  // const isRoot = node.flags.renderedOnRoadmapFlag;
-
-  // const { addNotification } = useNotification();
-
-  const cursor = isCurrentlyDragged ? 'cursor-grab' : 'cursor-pointer';
+  useNodeHandleEvents(nodeDivRef, nodeId, loaded);
 
   return (
     <div
@@ -230,12 +135,14 @@ const NodeRendererClassic: React.FC<NodeViewProps> = ({
       )}
 
       <div
+        onFocus={() => {}}
+        onBlur={() => {}}
         className={`rounded-md ${shadowClass} transition-allNoTransform duration-200 absolute ${cursor}`}
         id={`div${nodeId}`}
         ref={nodeDivRef}
         onClick={(event) => {
           event.stopPropagation();
-          if (resizing || isCurrentlyDragged || getResize()) {
+          if (isResizing || isCurrentlyDragged || getResize()) {
             return;
           }
           getOnClickAction(nodeId)();
@@ -258,7 +165,7 @@ const NodeRendererClassic: React.FC<NodeViewProps> = ({
         style={style}
       >
         <AnimatePresence>
-          {isDraggable && !isCurrentlyDragged && (mouseOver || resizing) && (
+          {isDraggable && !isCurrentlyDragged && (mouseOver || isResizing) && (
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
@@ -272,7 +179,7 @@ const NodeRendererClassic: React.FC<NodeViewProps> = ({
                 }}
                 element={node}
                 setResizeCallback={() => {
-                  setResizing(true);
+                  setIsResizing(true);
                 }}
               />
             </motion.div>
@@ -299,7 +206,7 @@ const NodeRendererClassic: React.FC<NodeViewProps> = ({
 
         {!editing && !getHideProgress() && (
           <div
-            className={`h-[10px] left-[-2px] top-[-2px] rounded-t-lg absolute select-none ${getStatusBarColor(
+            className={`h-[10px] left-[-2px] top-[-2px] rounded-t-lg absolute select-none ${getNodeStatusBarColor(
               node
             )}`}
             style={{

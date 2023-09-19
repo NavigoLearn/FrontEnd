@@ -4,7 +4,7 @@ import editorDisplayManager, {
 import React, { useEffect, useState, useRef } from 'react';
 import onChangeStore from '@src/HOC-library/store-based-hoc/OnChangeStore';
 import { useStore } from '@nanostores/react';
-import { closeEditorProtocol } from '@src/to-be-organized/nodeview/actions-manager';
+import { closeEditorProtocol } from '@src/to-be-organized/node-rendering-stuff/actions-manager';
 import editorSelectedData, {
   triggerRerenderEditor,
 } from '@store/roadmap-refactor/elements-editing/editor-selected-data';

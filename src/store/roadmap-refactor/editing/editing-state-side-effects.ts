@@ -1,4 +1,4 @@
-import { closeEditorProtocol } from '@src/to-be-organized/nodeview/actions-manager';
+import { closeEditorProtocol } from '@src/to-be-organized/node-rendering-stuff/actions-manager';
 import { clearSelectedConnection } from '@components/roadmap/connections/connection-editing/connection-store';
 import { IEditingState } from '@store/roadmap-refactor/editing/editing-state';
 

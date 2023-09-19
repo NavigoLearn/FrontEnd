@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import { useTriggerRerender } from '@hooks/useTriggerRerender';
-import NodeRendererClassic from '@src/to-be-organized/nodeview/NodeRendererClassic';
+import NodeRendererClassic from '@src/to-be-organized/node-rendering-stuff/NodeRendererClassic';
 import { setTriggerRender } from '@store/roadmap-refactor/render/rerender-triggers-nodes';
 import { getNodeByIdRoadmapSelector } from '@src/typescript/roadmap_ref/roadmap-data/services/get';
 import AsyncLoaderHOC from '@components/roadmap/rendering-engines/async-loading/AsyncLoaderHOC';

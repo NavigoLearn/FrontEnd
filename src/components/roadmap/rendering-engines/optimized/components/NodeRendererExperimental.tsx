@@ -6,7 +6,7 @@ import {
   getOnClickAction,
   getOnMouseOutAction,
   getOnMouseOverAction,
-} from '@src/to-be-organized/nodeview/actions-manager';
+} from '@src/to-be-organized/node-rendering-stuff/actions-manager';
 import { afterEventLoop } from '@src/typescript/utils/misc';
 import { useTriggerRerender } from '@hooks/useTriggerRerender';
 import {
@@ -20,9 +20,9 @@ import {
 } from '@src/typescript/roadmap_ref/roadmap-data/services/get';
 import {
   getElementHasEffect,
-  setElementEffectsInitialEmpty,
+  setNodeEffectsInitialEmpty,
   applyElementEffects,
-} from '@store/roadmap-refactor/elements-editing/element-effects';
+} from '@store/roadmap-refactor/elements-editing/store-node-effects';
 import { useIsLoaded } from '@hooks/useIsLoaded';
 import { getEditingState } from '@store/roadmap-refactor/editing/editing-state';
 import ComponentRendererNative from '@components/roadmap/rendering-engines/optimized/components/ComponentRendererNative';
@@ -90,7 +90,7 @@ const useHandleNodeInitialization = (node: NodeClass) => {
   const rerender = useTriggerRerender();
 
   useEffect(() => {
-    setElementEffectsInitialEmpty(nodeId);
+    setNodeEffectsInitialEmpty(nodeId);
     setElementG(nodeId, nodeGRef.current);
     setElementRect(nodeId, nodeRectRef.current);
   }, []);
