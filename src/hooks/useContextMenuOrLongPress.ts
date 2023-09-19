@@ -1,42 +1,36 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
-// Custom hook to listen to long press event and context menu
-const useContextMenuOrLongPress = (callback = (event) => {}, ms = 300) => {
-  const [startLongPress, setStartLongPress] = useState(false);
+
+const useContextMenuOrLongPress = (
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  callback = (event?: MouseEvent) => {},
+  ms = 300
+) => {
+  const [timerId, setTimerId] = useState(null);
   const savedCallback = useRef(callback);
 
   useEffect(() => {
     savedCallback.current = callback;
   }, [callback]);
 
-  const start = useCallback((event) => {
-    event.preventDefault();
-    setStartLongPress(true);
-  }, []);
+  const start = useCallback(
+    (event: MouseEvent) => {
+      event.preventDefault();
+      setTimerId(setTimeout(() => savedCallback.current(event), ms));
+    },
+    [ms]
+  );
 
   const stop = useCallback(() => {
-    setStartLongPress(false);
-  }, []);
+    if (timerId) {
+      clearTimeout(timerId);
+      setTimerId(null);
+    }
+  }, [timerId]);
 
-  const handleContextMenu = useCallback((event) => {
+  const handleContextMenu = useCallback((event: MouseEvent) => {
     event.preventDefault();
     savedCallback.current(event);
   }, []);
-
-  useEffect(() => {
-    let timerId;
-    if (startLongPress) {
-      timerId = setTimeout(() => {
-        // Default event object, can use any sensible default your application requires.
-        savedCallback.current({ clientX: 0, clientY: 0 });
-      }, ms);
-    } else {
-      clearTimeout(timerId);
-    }
-
-    return () => {
-      clearTimeout(timerId);
-    };
-  }, [ms, startLongPress]);
 
   return {
     onMouseDown: start,
