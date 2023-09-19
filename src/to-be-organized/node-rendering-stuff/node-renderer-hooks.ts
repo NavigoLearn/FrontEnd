@@ -40,6 +40,7 @@ import {
   getSortedBeforeRenderEvents,
   setNodeEventsInitialEmpty,
 } from '@src/to-be-organized/node-rendering-stuff/store-node-events';
+import { getNodeByIdRoadmapSelector } from '@src/typescript/roadmap_ref/roadmap-data/services/get';
 
 type INodeDataProcessed = {
   isSubNode: boolean;
@@ -221,9 +222,23 @@ export function useNodeExternalData() {
 }
 
 export function useNodeRuntimeProperties(nodeId: string) {
+  const node = getNodeByIdRoadmapSelector(nodeId);
   const isCurrentlyDragged = getElementHasEffect(nodeId, 'dragging-recursive');
   const isDraggable = getElementIsDraggable(nodeId);
-  const cursor = isCurrentlyDragged ? 'cursor-grab' : 'cursor-pointer';
+  let cursor = '';
+
+  if (getIsEditing()) {
+    cursor = isCurrentlyDragged ? 'cursor-grab' : 'cursor-pointer';
+  } else {
+    const { onClick } = node.actions;
+    if (onClick === 'Do nothing') {
+      cursor = 'cursor-default';
+    } else if (onClick === 'Open attachment') {
+      cursor = 'cursor-pointer';
+    } else if (onClick === 'Open link') {
+      cursor = 'cursor-custom-link';
+    }
+  }
 
   return {
     isCurrentlyDragged,
