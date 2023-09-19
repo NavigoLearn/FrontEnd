@@ -81,9 +81,7 @@ import {
   getRoadmapNodeProgress,
   setRoadmapProgress,
 } from '@store/roadmap-refactor/roadmap-data/misc-data/roadmap-progress';
-import { getAllRenderedNodes } from '@src/typescript/roadmap_ref/roadmap-data/protocols/get';
-import { IAttachmentTabStatus } from '@src/typescript/roadmap_ref/node/attachments/tab/core';
-import NotificationRenderer from './to-be-organized/notifications/notifciations-refr/NotificationRenderer';
+import NotificationProviderHOC from '@components/roadmap/NotificationProviderHOC';
 
 export function initialRoadmapProtocolAfterLoad() {
   setRoadmapIsLoaded();
@@ -370,4 +368,4 @@ const Roadmap = ({
   );
 };
 
-export default Roadmap;
+export default NotificationProviderHOC(Roadmap);
