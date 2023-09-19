@@ -19,6 +19,7 @@ import {
 import { getTransformXY } from '@src/typescript/roadmap_ref/render/coord-calc';
 import { getRenderingEngineDraggingElementIdentifier } from '@components/roadmap/rendering-engines/store-rendering-engine';
 import { addNodeEvent } from '@src/to-be-organized/node-rendering-stuff/store-node-events';
+import { recalculateNodeChunksWithRoadmapSideEffects } from '@src/typescript/roadmap_ref/node/core/data-mutation/protocol';
 
 export const draggingEndRootNode = (
   draggingBehavior: DraggingBehavior,
@@ -29,9 +30,7 @@ export const draggingEndRootNode = (
   const node = getNodeByIdRoadmapSelector(nodeId);
   mutateNodeCoords(node, x, y);
   addNodeEvent(nodeId, 'reset-transform');
-  deleteNodeFromChunks(node);
-  recalculateNodeChunks(node);
-  appendNodeToChunks(node);
+  recalculateNodeChunksWithRoadmapSideEffects(node);
   triggerNodeRerender(node.id);
 };
 
@@ -89,9 +88,7 @@ export const draggingEndNodeChild = (draggingBehavior: DraggingBehavior) => {
     node.data.coords.y + offsetY
   );
   addNodeEvent(nodeId, 'reset-transform');
-  deleteNodeFromChunks(node);
-  recalculateNodeChunks(node);
-  appendNodeToChunks(node);
+  recalculateNodeChunksWithRoadmapSideEffects(node);
   triggerNodeRerender(node.id);
 };
 
