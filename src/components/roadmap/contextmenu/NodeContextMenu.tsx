@@ -8,15 +8,11 @@ import { injectMarkAsDone } from '@src/typescript/roadmap_ref/node/core/data-mut
 import { getNodeByIdRoadmapSelector } from '@src/typescript/roadmap_ref/roadmap-data/services/get';
 import { triggerNodeRerender } from '@store/roadmap-refactor/render/rerender-triggers-nodes';
 import { useEffect, useRef } from 'react';
-
-type IStatusContextMenuProps = {
-  nodeId: string;
-  visible: boolean;
-  x: string;
-  y: string;
-  progress: string;
-  setVisibility: (visible: boolean) => void;
-};
+import { useStore } from '@nanostores/react';
+import {
+  contextMenuStore,
+  hideContextMenu,
+} from '@components/roadmap/contextmenu/store/ContextMenu';
 
 const iconMap = {
   'In Progress': inProgress,
@@ -24,14 +20,8 @@ const iconMap = {
   Skip: skip,
 };
 
-const NodeContextMenu = ({
-  nodeId,
-  visible,
-  x,
-  y,
-  progress,
-  setVisibility,
-}: IStatusContextMenuProps) => {
+const NodeContextMenu = () => {
+  const state = useStore(contextMenuStore);
   const root = useRef<HTMLDivElement>();
   const variants = {
     hidden: { opacity: 0, y: '25%', scale: 0 },
@@ -40,7 +30,7 @@ const NodeContextMenu = ({
 
   useEffect(() => {
     const closeMenu = () => {
-      setVisibility(false);
+      hideContextMenu();
     };
 
     const handleMouseDown = (event) => {
@@ -67,22 +57,23 @@ const NodeContextMenu = ({
   return (
     <div
       ref={root}
+      contextMenu={(e) => e.preventDefault()}
       className={`${
-        visible ? 'pointer-events-auto' : 'pointer-events-none'
+        state.visible ? 'pointer-events-auto' : 'pointer-events-none'
       } rounded-lg w-60 outline-none absolute`}
       style={{
-        left: x,
-        top: y,
+        left: state.x,
+        top: state.y,
       }}
     >
       <motion.div
         initial='hidden'
-        animate={visible ? 'visible' : 'hidden'}
+        animate={state.visible ? 'visible' : 'hidden'}
         exit='hidden'
         transition={{ duration: 0.1 }}
         variants={variants}
         className={`${
-          visible ? 'pointer-events-auto' : 'pointer-events-none'
+          state.visible ? 'pointer-events-auto' : 'pointer-events-none'
         } origin-top-left w-full rounded-lg bg-white border-2 border-gray-100 drop-shadow-2xl `}
       >
         {attachmentTabStatusArray.map((actionName) => {
@@ -96,20 +87,26 @@ const NodeContextMenu = ({
               type='button'
               onClick={(event) => {
                 event.stopPropagation();
-                setRoadmapNodeProgressAndFetchUpdate(nodeId, actionName);
+                setRoadmapNodeProgressAndFetchUpdate(state.nodeId, actionName);
 
                 if (actionName === 'Completed' || actionName === 'Skip') {
-                  injectMarkAsDone(getNodeByIdRoadmapSelector(nodeId), true);
+                  injectMarkAsDone(
+                    getNodeByIdRoadmapSelector(state.nodeId),
+                    true
+                  );
                 } else {
-                  injectMarkAsDone(getNodeByIdRoadmapSelector(nodeId), false);
+                  injectMarkAsDone(
+                    getNodeByIdRoadmapSelector(state.nodeId),
+                    false
+                  );
                 }
 
-                triggerNodeRerender(nodeId);
-                setVisibility(false);
+                triggerNodeRerender(state.nodeId);
+                hideContextMenu();
               }}
               key={actionName}
               className={`${
-                actionName === progress && actionName !== 'Status'
+                actionName === state.progress && actionName !== 'Status'
                   ? 'bg-backgroundRoadmap'
                   : 'bg-white'
               } h-10 py-1 text-opacity-60 hover:text-opacity-100 text-darkBlue w-full text-lg flex items-center pl-4`}

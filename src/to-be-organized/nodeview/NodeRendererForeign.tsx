@@ -1,7 +1,6 @@
 /* eslint-disable no-shadow */
 /* eslint-disable react/prop-types */
-import React, { useEffect, useRef, useState } from 'react';
-import ReactDOM from 'react-dom';
+import React, { useEffect, useRef } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { afterEventLoop } from '@src/typescript/utils/misc';
 import { componentsRenderer } from '@src/to-be-organized/nodeview/ComponentsRenderer';
@@ -58,7 +57,7 @@ import { useStateWithSideEffects } from '@hooks/useStateWithSideEffects';
 import { getRoadmapNodeProgress } from '@store/roadmap-refactor/roadmap-data/misc-data/roadmap-progress';
 import { getResize } from '@src/to-be-organized/resize-dragging/stores-resize-shared-data';
 import { hexAddAlpha } from '@src/typescript/roadmap_ref/utils';
-import NodeContextMenu from '@components/roadmap/contextmenu/NodeContextMenu';
+import { showContextMenu } from '@components/roadmap/contextmenu/store/ContextMenu';
 import { handleNotification } from './notification-handler';
 
 interface NodeViewProps {
@@ -67,14 +66,6 @@ interface NodeViewProps {
   divSizeCallback?: (divRef: React.MutableRefObject<HTMLDivElement>) => void; //
   isSubNode?: boolean;
 }
-
-let currentSetNodeContextMenuStatus: React.dispatch<
-  React.SetStateAction<{
-    visible: boolean;
-    x: string;
-    y: string;
-  }>
-> | null = null;
 
 const NodeRendererForeign: React.FC<NodeViewProps> = ({
   nodeId,
@@ -89,35 +80,17 @@ const NodeRendererForeign: React.FC<NodeViewProps> = ({
   const parentNodeId = useStore(selectedNodeIdParent);
   const currentConnection = useStore(selectedConnectionId);
   const { scale, isSafari } = useStore(scaleSafariStore);
-  const [NodeContextMenuStatus, setNodeContextMenuStatus] = useState({
-    visible: false,
-    x: '0px',
-    y: '0px',
-  });
 
-  const setMenuVisible = (visible: boolean) => {
-    setNodeContextMenuStatus((prev) => ({
-      ...prev,
-      visible,
-    }));
-  };
-  const handleContextMenu = (event: MouseEvent) => {
+  const handleContextMenu = (event) => {
     event.stopPropagation();
-    // set odl menu invisible
-    if (currentSetNodeContextMenuStatus) {
-      currentSetNodeContextMenuStatus((prev) => ({
-        ...prev,
-        visible: false,
-      }));
-    }
-
-    currentSetNodeContextMenuStatus = setNodeContextMenuStatus;
     event.preventDefault();
-    setNodeContextMenuStatus({
-      visible: true,
-      x: `${event.clientX - 16}px`,
-      y: `${event.clientY - 16}px`,
-    });
+    if (node.actions.onClick === 'Do nothing') return;
+
+    showContextMenu(
+      nodeId,
+      `${event.clientX - 16}px`,
+      `${event.clientY - 16}px`
+    );
   };
 
   const renderNode = (nodeId: string, isSubNode: boolean) => {
@@ -406,17 +379,6 @@ const NodeRendererForeign: React.FC<NodeViewProps> = ({
               );
             })}
         </div>
-        {node.actions.onClick !== 'Do nothing' &&
-          ReactDOM.createPortal(
-            <NodeContextMenu
-              nodeId={nodeId}
-              {...NodeContextMenuStatus}
-              progress={getRoadmapNodeProgress(nodeId)}
-              setVisibility={setMenuVisible}
-            />,
-            document.getElementById('menu-portal') ??
-              document.createElement('div')
-          )}
       </div>
     );
   };
