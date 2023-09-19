@@ -115,8 +115,8 @@ const NodeRendererForeign: React.FC<NodeViewProps> = ({
     event.preventDefault();
     setNodeContextMenuStatus({
       visible: true,
-      x: `${event.clientX}px`,
-      y: `${event.clientY}px`,
+      x: `${event.clientX - 16}px`,
+      y: `${event.clientY - 16}px`,
     });
   };
 
@@ -406,12 +406,12 @@ const NodeRendererForeign: React.FC<NodeViewProps> = ({
               );
             })}
         </div>
-        {NodeContextMenuStatus.visible &&
-          node.actions.onClick !== 'Do nothing' &&
+        {node.actions.onClick !== 'Do nothing' &&
           ReactDOM.createPortal(
             <NodeContextMenu
               nodeId={nodeId}
               {...NodeContextMenuStatus}
+              progress={getRoadmapNodeProgress(nodeId)}
               setVisibility={setMenuVisible}
             />,
             document.getElementById('menu-portal') ??

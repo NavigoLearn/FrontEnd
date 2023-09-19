@@ -11,11 +11,14 @@ import { tailwindTransitionClass } from '@src/UI-library/tailwind-utils';
 import { injectMarkAsDone } from '@src/typescript/roadmap_ref/node/core/data-mutation/inject';
 import { getNodeByIdRoadmapSelector } from '@src/typescript/roadmap_ref/roadmap-data/services/get';
 import { triggerNodeRerender } from '@store/roadmap-refactor/render/rerender-triggers-nodes';
+import { useEffect, useRef, useState } from 'react';
 
 type IStatusContextMenuProps = {
   nodeId: string;
+  visible: boolean;
   x: string;
   y: string;
+  progress: string;
   setVisibility: (visible: boolean) => void;
 };
 
@@ -27,29 +30,72 @@ const iconMap = {
 
 const NodeContextMenu = ({
   nodeId,
+  visible,
   x,
   y,
+  progress,
   setVisibility,
 }: IStatusContextMenuProps) => {
-  // const status = getRoadmapNodeProgress(nodeId);
+  const root = useRef<HTMLDivElement>();
+  const variants = {
+    hidden: { opacity: 0, y: '25%', scale: 0 },
+    visible: { opacity: 1, y: 0, scale: 1 },
+  };
+
+  useEffect(() => {
+    const closeMenu = () => {
+      setVisibility(false);
+    };
+
+    const handleMouseDown = (event) => {
+      console.log('mousedown');
+      if (root.current && !root.current.contains(event.target)) {
+        console.log('clicked outside');
+        closeMenu();
+      }
+
+      console.log('clicked inside');
+    };
+
+    document.addEventListener('click', closeMenu);
+    document.addEventListener('contextmenu', closeMenu);
+    document.addEventListener('mousedown', handleMouseDown);
+    document.addEventListener('pointerdown', handleMouseDown);
+    document.addEventListener('touchstart', handleMouseDown);
+
+    return () => {
+      document.removeEventListener('click', closeMenu);
+      document.removeEventListener('contextmenu', closeMenu);
+      document.removeEventListener('mousedown', handleMouseDown);
+      document.removeEventListener('pointerdown', handleMouseDown);
+      document.removeEventListener('touchstart', handleMouseDown);
+    };
+  }, []);
 
   return (
     <div
-      className={`pointer-events-auto w-60 rounded-lg h-10  outline-none mt-2 border-2 ${tailwindTransitionClass} absolute`}
+      ref={root}
+      className={`${
+        visible ? 'pointer-events-auto' : 'pointer-events-none'
+      } rounded-lg w-60 outline-none absolute`}
       style={{
         left: x,
         top: y,
       }}
     >
-      <AnimatePresence>
-        <motion.div
-          initial={{ opacity: 0, y: '-25%' }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: '-25%' }}
-          transition={{ duration: 0.25 }}
-          className={`pointer-events-none transform opacity-0 w-full rounded-lg bg-white border-2 border-gray-100 drop-shadow-2xl `}
-        >
-          {attachmentTabStatusArray.map((actionName) => {
+      <motion.div
+        initial='hidden'
+        animate={visible ? 'visible' : 'hidden'}
+        exit='hidden'
+        transition={{ duration: 0.25 }}
+        variants={variants}
+        className={`${
+          visible ? 'pointer-events-auto' : 'pointer-events-none'
+        } origin-top-left w-full rounded-lg bg-white border-2 border-gray-100 drop-shadow-2xl `}
+      >
+        {attachmentTabStatusArray
+          .filter((actionName) => actionName !== progress)
+          .map((actionName) => {
             const actionIcon = iconMap[actionName];
 
             return (
@@ -69,7 +115,7 @@ const NodeContextMenu = ({
                   setVisibility(false);
                 }}
                 key={actionName}
-                className={`pointer-events-auto h-10 my-1 text-opacity-60 hover:text-opacity-100 text-darkBlue w-full text-lg flex items-center ml-4 ${tailwindTransitionClass}`}
+                className='h-10 py-1 text-opacity-60 hover:text-opacity-100 text-darkBlue w-full text-lg flex items-center pl-4'
               >
                 {actionIcon && (
                   <img
@@ -82,8 +128,7 @@ const NodeContextMenu = ({
               </button>
             );
           })}
-        </motion.div>
-      </AnimatePresence>
+      </motion.div>
     </div>
   );
 };
