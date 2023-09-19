@@ -57,7 +57,6 @@ import { useStateWithSideEffects } from '@hooks/useStateWithSideEffects';
 import { getRoadmapNodeProgress } from '@store/roadmap-refactor/roadmap-data/misc-data/roadmap-progress';
 import { getResize } from '@src/to-be-organized/resize-dragging/stores-resize-shared-data';
 import { hexAddAlpha } from '@src/typescript/roadmap_ref/utils';
-import { handleNotification } from './notification-handler';
 
 interface NodeViewProps {
   nodeId: string;
@@ -66,7 +65,7 @@ interface NodeViewProps {
   isSubNode?: boolean;
 }
 
-const NodeRendererForeign: React.FC<NodeViewProps> = ({
+const NodeRendererClassic: React.FC<NodeViewProps> = ({
   nodeId,
   centerOffset,
   divSizeCallback,
@@ -220,10 +219,17 @@ const NodeRendererForeign: React.FC<NodeViewProps> = ({
       border: borderStyle,
     };
 
+    const isCurrentlyDragged = getElementHasEffect(
+      nodeId,
+      'dragging-recursive'
+    );
     const applyStyle = () => {
       if (!nodeDivRef.current) return;
       const element = nodeDivRef.current;
       Object.assign(element.style, style);
+      if (!isCurrentlyDragged) {
+        element.style.transform = `translate(0px,0px)`;
+      }
     };
 
     afterEventLoop(() => {
@@ -237,16 +243,10 @@ const NodeRendererForeign: React.FC<NodeViewProps> = ({
 
     const isDraggable = getElementIsDraggable(nodeId);
     // const isRoot = node.flags.renderedOnRoadmapFlag;
-    const isCurrentlyDragged = getElementHasEffect(
-      nodeId,
-      'dragging-recursive'
-    );
 
     // const { addNotification } = useNotification();
 
     const cursor = isCurrentlyDragged ? 'cursor-grab' : 'cursor-pointer';
-
-    // isCurrentlyDragged && handleNotification(addNotification);
 
     return (
       <div
@@ -272,13 +272,7 @@ const NodeRendererForeign: React.FC<NodeViewProps> = ({
             if (resizing || isCurrentlyDragged || getResize()) {
               return;
             }
-
             getOnClickAction(nodeId)();
-            // if (nodeId === '0') {
-            //   setDeleteRootNodeNotificationTrue();
-            // } else {
-            //   setDeleteRootNodeNotificationFalse();
-            // }
           }}
           onMouseOver={(event) => {
             event.stopPropagation();
@@ -352,7 +346,7 @@ const NodeRendererForeign: React.FC<NodeViewProps> = ({
             subNodeIds.map((subNodeId) => {
               // the div is used to position the subNode in the center of the current node
               return (
-                <NodeRendererForeign
+                <NodeRendererClassic
                   key={subNodeId}
                   nodeId={subNodeId}
                   centerOffset={{
@@ -371,4 +365,4 @@ const NodeRendererForeign: React.FC<NodeViewProps> = ({
   // @ts-ignore
   return renderNode(nodeId, isSubNode);
 };
-export default NodeRendererForeign;
+export default NodeRendererClassic;

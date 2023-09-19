@@ -153,7 +153,7 @@ interface NodeViewProps {
   centerOffset: { x: number; y: number };
 }
 
-const NodeRendererNative: React.FC<NodeViewProps> = ({
+const NodeRendererExperimental: React.FC<NodeViewProps> = ({
   nodeId,
   centerOffset,
 }) => {
@@ -280,7 +280,7 @@ const NodeRendererNative: React.FC<NodeViewProps> = ({
           node.subNodeIds.map((subNodeId) => {
             // the div is used to position the subNode in the center of the current node
             return (
-              <NodeRendererNative
+              <NodeRendererExperimental
                 key={subNodeId}
                 nodeId={subNodeId}
                 centerOffset={{
@@ -294,4 +294,4 @@ const NodeRendererNative: React.FC<NodeViewProps> = ({
     </g>
   );
 };
-export default NodeRendererNative;
+export default NodeRendererExperimental;

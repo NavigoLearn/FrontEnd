@@ -30,6 +30,8 @@ export const draggingEndNode = (
   const sel = document.getElementById(`${elementType}${node.id}`);
   const obj = d3.select(sel);
   obj.style('transform', `translate(${0}px, ${0}px)`);
+  // for some weird reason, setting the transform to 0,0 in root nodes works fine, but in subnodes it does not
+  // needs to be inspected and done consistently for both
   deleteNodeFromChunks(node);
   recalculateNodeChunks(node);
   appendNodeToChunks(node);
@@ -49,9 +51,7 @@ export const draggingEndSubNode = (
   const sel = document.getElementById(`${elementType}${node.id}`);
   const obj = d3.select(sel);
   triggerNodeRerender(node.id);
-  afterEventLoop(() => {
-    obj.style('transform', `translate(${0}px, ${0}px)`);
-  });
+  // the reset for transform in done in the node renderer
 };
 
 export const draggingEndComponent = (
