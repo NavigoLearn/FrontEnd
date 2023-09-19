@@ -7,11 +7,14 @@ type Props = {
 const MobileFilterTab = ({ toggleFilter }: Props) => {
   useEffect(() => {
     // Function to handle the scroll event and prevent default behavior
-    document.body.classList.add('w-screen h-screen');
+
+    document.body.classList.add('h-screen');
+    document.body.classList.add('overflow-y-clip');
 
     // Remove the event listener when the component unmounts
     return () => {
-      document.body.classList.remove('w-screen h-screen');
+      document.body.classList.remove('h-screen');
+      document.body.classList.add('overflow-y-clip');
     };
   }, []);
 
