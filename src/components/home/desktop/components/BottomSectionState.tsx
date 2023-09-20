@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useAnimation } from 'framer-motion';
-import NodeConfigurations from '@components/home/constants/NodeConfigurations';
-import { useTimer } from '@components/home/hooks/useTimer';
+import NodeConfigurations from '@components/home/desktop/constants/node-configs';
+import { useTimer } from '@components/home/desktop/hooks/useTimer';
 
 type ButtonType = 'sizing' | 'colors' | 'interior';
 

@@ -1,7 +1,10 @@
+import { v4 as uuidv4 } from 'uuid';
+
 export interface ParallaxObject {
   targetX: number;
   targetY: number;
   sinOffset: number;
+  id?: string;
 }
 
 export const SPACING_X = 250;
@@ -28,7 +31,37 @@ export const lerp = (
 };
 
 let savedObjects: ParallaxObject[] = [];
-export const generateObjects = (): ParallaxObject[] => {
+
+type IGenerateParams = {
+  startX: number;
+  startY: number;
+  endX: number;
+  endY: number;
+  randomOffset: number;
+  spacingX: number;
+  spacingY: number;
+};
+export const generateObjectsMobile = (
+  params: IGenerateParams
+): ParallaxObject[] => {
+  const { startX, startY, endX, endY, randomOffset, spacingX, spacingY } =
+    params;
+
+  const objects: ParallaxObject[] = [];
+  for (let x = startX; x < endX; x += spacingX) {
+    for (let y = startY; y < endY; y += spacingY) {
+      const targetX = x + Math.random() * randomOffset * spacingX;
+      const targetY = y + Math.random() * randomOffset * spacingY;
+      const sinOffset = Math.floor(Math.random() * 360) % 360;
+      const id = uuidv4();
+      objects.push({ targetX, targetY, sinOffset, id });
+    }
+  }
+
+  return objects;
+};
+
+export const generateObjectsDesktop = (): ParallaxObject[] => {
   if (savedObjects.length > 0) return savedObjects;
 
   const objects = [];

@@ -1,7 +1,7 @@
 // homeLogic.ts
 import { MouseEvent, useEffect, useRef, useState } from 'react';
 import {
-  generateObjects,
+  generateObjectsDesktop,
   lerp,
   screenCenter,
 } from '@components/home/typescript/helpers';
@@ -12,7 +12,7 @@ const sinTable = new Array(720)
 
 const useHomeLogic = () => {
   const mousePosition = useRef({ x: 0, y: 0 });
-  const [parallaxNodes, setParallaxNodes] = useState(generateObjects());
+  const [parallaxNodes, setParallaxNodes] = useState(generateObjectsDesktop());
   const viewCoords = useRef({ x: 0, y: 0 });
 
   useEffect(() => {
