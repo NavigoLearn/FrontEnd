@@ -82,6 +82,7 @@ import {
   setRoadmapProgress,
 } from '@store/roadmap-refactor/roadmap-data/misc-data/roadmap-progress';
 import NotificationProviderHOC from '@components/roadmap/NotificationProviderHOC';
+import { setNotification } from '@components/roadmap/to-be-organized/notifications/notifciations-refr/notification-store-refr';
 
 export function initialRoadmapProtocolAfterLoad() {
   setRoadmapIsLoaded();
@@ -108,6 +109,15 @@ export function checkAndSetInitialRoadmapType(
   } else {
     setRoadmapType('public');
   }
+}
+
+function checkAndSetRoadmapBanned(roadmap: IRoadmapApi) {
+  const { isPublic } = roadmap;
+  if (isPublic) return;
+  setNotification(
+    'error',
+    'Your roadmap was flagged for inappropriate content and has been unlisted. Please edit it and feel free to publish it again. If you think this was a mistake, please contact us.'
+  );
 }
 
 export function initializeRoadmapTypeData() {
@@ -290,6 +300,7 @@ const Roadmap = ({
 
     // data initializations
     checkAndSetInitialRoadmapType(roadmap, pageId);
+    checkAndSetRoadmapBanned(roadmap);
     initializeRoadmapTypeData();
     initializeRoadmapAboutData(roadmap); // all the misc data about the roadmap like title, desc, id etc
     handleSetDifferentRoadmapStores(roadmap);
