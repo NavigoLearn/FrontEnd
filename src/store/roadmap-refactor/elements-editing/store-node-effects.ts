@@ -165,9 +165,7 @@ export const dynamicEffectsMapperForeignObjectElements: HashMapWithKeys<
   'mark-as-completed': {
     effectName: 'mark-as-completed',
     effectApply: (divRef) => {
-      console.log('mark-as-completed', divRef);
       if (!divRef) return;
-      console.log('mark-as-completed');
       effectOpacity30ForeignDiv(divRef);
     },
     effectLayer: 10,

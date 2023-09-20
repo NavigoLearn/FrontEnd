@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { setProfileMini } from '@store/user/logged-user';
+import { setProfileMini } from '@store/user/store-logged-user';
 import { setIsLogged, setLoaded, setVisitorId } from '@store/user/user-status';
 import { fetchGetMiniProfileData } from '../api-wrapper/user/routes-user';
 

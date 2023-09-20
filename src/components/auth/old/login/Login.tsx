@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { dispatchAnalyticsEvent } from '@src/to-be-organized/analytics-module/stores/analytics';
 import DesktopLogin from './Desktop';
 import MobileLogin from './Mobile';
 

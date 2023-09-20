@@ -9,6 +9,10 @@ import {
   dispatchEventRoadmapInteraction,
 } from '@src/to-be-organized/analytics-module/events/events-dispatch';
 import { AnalyticsBrowser } from '@segment/analytics-next';
+import { recalculateNodeCenter } from '@src/typescript/roadmap_ref/node/core/calculations/general';
+import { getUserStatus } from '@store/user/user-status';
+import { getProfileInfoName } from '@components/profile/stores/store-selected-profile-page';
+import { getProfileMini } from '@store/user/store-logged-user';
 
 export const EventMap: IEventMapper = {
   roadmapInteraction: dispatchEventRoadmapInteraction,
@@ -16,7 +20,28 @@ export const EventMap: IEventMapper = {
   pageView: dispatchEventPageView,
 };
 
-export function triggerEventDispatch(
-  analytics: AnalyticsBrowser,
-  event: IEventPayload<IEventTypes>
-) {}
+type TriggerFunction<T extends any[]> = (...args: T) => any;
+
+type IAnalyticsArgs = [AnalyticsBrowser, IEventPayload<IEventTypes>];
+export function analyticsIdentificationDecorator<T>(
+  func: TriggerFunction<IAnalyticsArgs>
+): TriggerFunction<IAnalyticsArgs> {
+  return (analytics: AnalyticsBrowser, event: IEventPayload<IEventTypes>) => {
+    const status = getUserStatus();
+    if (status.isLogged) {
+      const miniProfile = getProfileMini();
+      const { name } = miniProfile;
+      analytics.identify(status.userId, {
+        id: status.userId,
+        name,
+      });
+    }
+    func(analytics, event);
+  };
+}
+
+export const triggerEventDispatch = analyticsIdentificationDecorator(
+  (analytics: AnalyticsBrowser, event: IEventPayload<IEventTypes>) => {
+    analytics.track(event.type, event.data);
+  }
+);

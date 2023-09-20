@@ -2,10 +2,10 @@ import React from 'react';
 import Button from '@components/navbar/desktop/parts/buttons/Button';
 import ProfileDropdown from '@components/navbar/desktop/parts/profile/ProfileDropdown';
 import { useStore } from '@nanostores/react';
-import loggedUser from '@store/user/logged-user';
+import storeLoggedUser from '@store/user/store-logged-user';
 
 const LoggedButtons = () => {
-  const { profilePictureUrl } = useStore(loggedUser);
+  const { profilePictureUrl } = useStore(storeLoggedUser);
   return (
     <div className='flex gap-8 mr-3 items-center'>
       <Button

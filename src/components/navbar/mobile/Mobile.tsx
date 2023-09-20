@@ -3,7 +3,7 @@ import dropdown from '@assets/menu.svg';
 import dropclose from '@assets/cross.svg';
 import logoSrc from '@assets/logo.svg';
 import { useStore } from '@nanostores/react';
-import loggedUser from '@store/user/logged-user';
+import storeLoggedUser from '@store/user/store-logged-user';
 import userStatus from '@store/user/user-status';
 import { handleLogout } from '@components/auth/old/socialAuth';
 import logout from '@assets/logout.svg';

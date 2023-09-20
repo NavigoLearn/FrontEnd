@@ -2,8 +2,9 @@ import { AnalyticsBrowser } from '@segment/analytics-next';
 
 export type IEventTypes = 'pageView' | 'roadmapInteraction' | 'authInteraction';
 
+export type IVisitPages = 'roadmap' | 'profile' | 'home' | 'explore';
 type IVisitPagePayload = {
-  page: string;
+  page: IVisitPages;
 };
 
 type IRoadmapInteraction = {
