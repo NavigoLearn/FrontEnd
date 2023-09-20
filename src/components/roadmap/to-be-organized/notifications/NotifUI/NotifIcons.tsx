@@ -43,8 +43,7 @@ export const TipSvg = ({ className }: { className: string }) => {
     <svg
       width='40'
       height='40'
-      viewBox='1 1 19 19'
-      fill='none'
+      viewBox='2 2 20 20'
       xmlns='http://www.w3.org/2000/svg'
     >
       <path
@@ -61,15 +60,14 @@ export const ErrorSvg = ({ className }: { className: string }) => {
       width='40'
       height='40'
       viewBox='1 1 19 19'
-      fill='none'
       xmlns='http://www.w3.org/2000/svg'
     >
       <path
         d='M10.5 0.984375C5.25 0.984375 0.984375 5.25 0.984375 10.5C0.984375 15.75 5.25 20.0156 10.5 20.0156C15.75 20.0156 20.0156 15.75 20.0156 10.5C20.0156 5.25 15.75 0.984375 10.5 0.984375ZM10.5 1.96875C15.2086 1.96875 19.0312 5.79141 19.0312 10.5C19.0312 15.2086 15.2086 19.0312 10.5 19.0312C5.79141 19.0312 1.96875 15.2086 1.96875 10.5C1.96875 5.79141 5.79141 1.96875 10.5 1.96875Z'
         className={className}
       />
-      <path d='M 7,5 16,14 14,16 5,7 Z' className={className} />
-      <path d='M 7,16 16,7 14,5 5,14 Z' className={className} />
+      <path d='M 6.5,5.5 15.5,14.5 14.5,15.5 5.5,6.5 Z' className={className} />
+      <path d='M 6.5,15.5 15.5,6.5 14.5,5.5 5.5,14.5 Z' className={className} />
     </svg>
   );
 };
@@ -80,7 +78,6 @@ export const CrossSvg = ({ className }: { className: string }) => {
       width='24'
       height='24'
       viewBox='0 0 38 38'
-      fill='none'
       xmlns='http://www.w3.org/2000/svg'
     >
       <path
