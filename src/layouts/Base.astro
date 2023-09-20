@@ -30,7 +30,7 @@ if (metadata !== undefined)
     <link rel='preconnect' href='https://fonts.googleapis.com' />
     <link rel='preconnect' href='https://fonts.gstatic.com' crossorigin />
     <meta name='generator' content={Astro.generator} />
-    <title>{metadata.title}</title>
+    <title>{metadata?.title}</title>
     <meta
       name='description'
       content={metadata?.description ||
@@ -62,10 +62,11 @@ if (metadata !== undefined)
     />
   </head>
 
-  <body class='bg-background relative w-full min-h-screen '>
+  <body class='bg-background relative w-full min-h-screen font-kanit-text'>
     <RequestManager client:load />
     <Navbar client:load />
     <BasePopupManager client:load />
+
 
     <slot />
 

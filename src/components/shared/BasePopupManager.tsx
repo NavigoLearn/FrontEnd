@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useStore } from '@nanostores/react';
 import {
   IBasePopup,
@@ -38,6 +38,10 @@ const SelectedPopup = ({ page }: { page: IBasePopup }) => {
 const BasePopupManager = () => {
   const { basePopup } = useStore(storeBasePopups);
   if (basePopup === 'none') return null;
+  useEffect(() => {
+    //
+  });
+
   return (
     <div className='h-screen w-screen bg-coverColor absolute left-0 top-0 z-30 flex justify-center items-center'>
       <div className='flex justify-center items-center'>

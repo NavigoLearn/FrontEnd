@@ -54,6 +54,9 @@ module.exports = {
         'border': 'border-color',
         'allNoTransform': 'background-color, border-color, color, fill, stroke, opacity, box-shadow',
       },
+     cursor: {
+      'custom-link': "url('/linkmouse.svg'), auto",
+    },
     strokeWidth: {
       '3': '3',
       '4': '4',

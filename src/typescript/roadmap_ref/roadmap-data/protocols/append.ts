@@ -1,11 +1,8 @@
 import { factorySubNode } from '@src/typescript/roadmap_ref/node/core/factories/base-templates-factories/sub-node';
 import {
-  deleteNodeFromRootNodes,
   deleteNodeFromChunks,
-  deleteTemplate,
   deleteNodeFromRoadmapNodes,
 } from '@src/typescript/roadmap_ref/roadmap-data/services/delete';
-import { deleteNodeFromRoadmap } from '@src/typescript/roadmap_ref/roadmap-data/protocols/delete';
 import {
   appendChildNodeId,
   appendConnectionNode,
@@ -30,7 +27,7 @@ import {
   applyRoadmapElementsInitialDraggability,
 } from '@src/typescript/roadmap_ref/dragging/misc';
 import { setDisplayPageType } from '@store/roadmap-refactor/display/display-manager';
-import { removeAllEffects } from '@store/roadmap-refactor/elements-editing/element-effects';
+import { removeAllEffects } from '@store/roadmap-refactor/elements-editing/store-node-effects';
 import {
   appendNodeToChunks,
   appendRootNodeId,
@@ -53,17 +50,13 @@ import {
   recalculateNodeChunks,
 } from '@src/typescript/roadmap_ref/node/core/calculations/general';
 import { afterEventLoop, getRandomId } from '@src/typescript/utils/misc';
-import {
-  addDragabilityProtocol,
-  triggerAllConnectionsRerender,
-} from '@src/typescript/roadmap_ref/render/dragging';
 import { addDraggingBehaviorComponentProtocol } from '@src/typescript/roadmap_ref/node/components/text/factories';
 import { mutateConnectionsIds } from '@src/typescript/roadmap_ref/roadmap-data/services/mutate';
 import {
   mutateNodeColor,
   mutateNodeColorAndRerender,
 } from '@src/typescript/roadmap_ref/node/core/data-mutation/mutate';
-import { closeEditorProtocol } from '@src/to-be-organized/nodeview/actions-manager';
+import { closeEditorProtocol } from '@src/to-be-organized/node-rendering-stuff/actions-manager';
 
 export function appendSubNode(node: NodeClass) {
   const newNestedNode = factorySubNode(node.id, 120, 40, 0, 0); // creates node

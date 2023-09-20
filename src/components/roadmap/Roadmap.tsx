@@ -31,7 +31,7 @@ import {
 } from '@src/typescript/roadmap_ref/dragging/misc';
 import { useEffectAfterLoad } from '@hooks/useEffectAfterLoad';
 import renderConnectionsStore from '@store/roadmap-refactor/render/rendered-connections';
-import { closeEditorProtocol } from '@src/to-be-organized/nodeview/actions-manager';
+import { closeEditorProtocol } from '@src/to-be-organized/node-rendering-stuff/actions-manager';
 import { addKeyListeners } from '@src/typescript/roadmap_ref/key-shortcuts';
 import { IRoadmapApi } from '@type/explore_old/card';
 import {
@@ -52,6 +52,7 @@ import {
   DEFAULT_DESCRIPTION,
   setRoadmapAboutOwnerId,
   setRoadmapId,
+  setRoadmapVersion,
 } from '@store/roadmap-refactor/roadmap-data/misc-data/roadmap-about';
 import {
   saveSession,
@@ -80,9 +81,8 @@ import {
   getRoadmapNodeProgress,
   setRoadmapProgress,
 } from '@store/roadmap-refactor/roadmap-data/misc-data/roadmap-progress';
-import { getAllRenderedNodes } from '@src/typescript/roadmap_ref/roadmap-data/protocols/get';
-import { IAttachmentTabStatus } from '@src/typescript/roadmap_ref/node/attachments/tab/core';
-import NotificationRenderer from './to-be-organized/notifications/notifciations-refr/NotificationRenderer';
+import NotificationProviderHOC from '@components/roadmap/NotificationProviderHOC';
+import { setNotification } from '@components/roadmap/to-be-organized/notifications/notifciations-refr/notification-store-refr';
 
 export function initialRoadmapProtocolAfterLoad() {
   setRoadmapIsLoaded();
@@ -109,6 +109,15 @@ export function checkAndSetInitialRoadmapType(
   } else {
     setRoadmapType('public');
   }
+}
+
+function checkAndSetRoadmapBanned(roadmap: IRoadmapApi) {
+  const { isPublic } = roadmap;
+  if (isPublic) return;
+  setNotification(
+    'error',
+    'Your roadmap was flagged for inappropriate content and has been unlisted. Please edit it and feel free to publish it again. If you think this was a mistake, please contact us.'
+  );
 }
 
 export function initializeRoadmapTypeData() {
@@ -159,12 +168,13 @@ function initializeRoadmapAboutData(roadmap?: IRoadmapApi) {
   if (type === 'draft' || type === 'public') {
     if (!roadmap)
       throw new Error('Roadmap is undefined despite being draft mode?');
-    const { name, description, userId, id } = roadmap;
+    const { name, description, userId, id, version } = roadmap;
 
     setRoadmapAboutName(name);
     setRoadmapAboutDescription(description);
     setRoadmapAboutOwnerId(userId);
     setRoadmapId(id);
+    setRoadmapVersion(version);
   }
 }
 
@@ -290,6 +300,7 @@ const Roadmap = ({
 
     // data initializations
     checkAndSetInitialRoadmapType(roadmap, pageId);
+    checkAndSetRoadmapBanned(roadmap);
     initializeRoadmapTypeData();
     initializeRoadmapAboutData(roadmap); // all the misc data about the roadmap like title, desc, id etc
     handleSetDifferentRoadmapStores(roadmap);
@@ -306,18 +317,6 @@ const Roadmap = ({
     // adding event
     addKeyListeners();
   }, []);
-
-  useEffectAfterLoad(() => {
-    if (firstRenderDone && nodesIds.length > 0) {
-      // because when a node gets out of chunk it is unloaded from the screen and then loaded again
-      // when it is loaded again, the previous draggability is lost and needs to be reapplied
-      //
-      //
-      // moved this into the node itself because it becomes a blocking task for big roadmaps
-      //
-      // applyRoadmapElementsRechunkedDraggability();
-    }
-  }, [nodesIds]);
 
   useEffectAfterLoad(() => {
     if (firstRenderDone && nodesIds.length > 0) {
@@ -368,4 +367,4 @@ const Roadmap = ({
   );
 };
 
-export default Roadmap;
+export default NotificationProviderHOC(Roadmap);

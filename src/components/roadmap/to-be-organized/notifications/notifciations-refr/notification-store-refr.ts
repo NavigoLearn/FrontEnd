@@ -1,7 +1,7 @@
 import { atom } from 'nanostores';
 
 type notificationStoreType = {
-  type: 'tip' | 'popup' | 'error' | 'none';
+  type: 'info' | 'confirm' | 'error' | 'none';
   message: string;
 };
 
@@ -11,7 +11,7 @@ export const notificationStore = atom({
 } as notificationStoreType);
 
 export function setNotification(
-  type: 'tip' | 'popup' | 'error',
+  type: 'info' | 'confirm' | 'error',
   message: string
 ) {
   notificationStore.set({

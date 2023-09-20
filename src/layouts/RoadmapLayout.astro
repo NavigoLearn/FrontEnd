@@ -1,7 +1,6 @@
 ---
 import RequestManager from '../components/misc/RequestManager';
 import DataCollectionManager from '../components/misc/DataCollectionManager';
-import BasePopupManager from '../components/shared/BasePopupManager';
 
 import '@fontsource/kanit';
 import '@fontsource/oxygen';
@@ -14,6 +13,12 @@ export interface Props {
 }
 
 const { metadata, excludeFooter } = Astro.props;
+
+if (metadata !== undefined)
+  metadata.title =
+    metadata?.title !== undefined
+      ? `${metadata.title} | NavigoLearn`
+      : 'NavigoLearn';
 ---
 
 <html lang='en' class='overflow-x-hidden'>
@@ -23,7 +28,7 @@ const { metadata, excludeFooter } = Astro.props;
     <link rel='preconnect' href='https://fonts.googleapis.com' />
     <link rel='preconnect' href='https://fonts.gstatic.com' crossorigin />
     <meta name='generator' content={Astro.generator} />
-    <title>{metadata?.title || 'Unknown Page'} | NavigoLearn</title>
+    <title>{metadata.title}</title>
     <meta
       name='description'
       content={metadata?.description ||
@@ -55,11 +60,13 @@ const { metadata, excludeFooter } = Astro.props;
     />
   </head>
 
-  <body class='bg-background relative w-full min-h-screen'>
+  <body class='bg-background relative w-full min-h-screen font-kanit-text'>
     <DataCollectionManager client:load />
     <RequestManager client:load />
     <NavbarRoadmap client:load />
 
     <slot />
+
+    <div id="menu-portal" class="absolute top-0 left-0 w-screen h-screen z-100 pointer-events-none"></div>
   </body>
 </html>
