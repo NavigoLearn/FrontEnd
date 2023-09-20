@@ -1,13 +1,21 @@
 import React, { useState } from 'react';
 import { NAVBAR_SEARCH_RESULT_MAX_LENGTH } from '@src/typescript/roadmap_ref/node/components/text/text-params';
 import MobilePopUp from './MobilePopUp';
+import {
+  IPerPage,
+  ITopicParam,
+  ISortBy,
+} from '../../stores/explore-query-store';
 
 type Props = {
   results: number;
   query: string;
+  perPage: IPerPage;
+  sortBy: ISortBy;
+  topic: ITopicParam;
 };
 
-const HeaderExplore = ({ results, query }: Props) => {
+const HeaderExplore = ({ results, query, perPage, sortBy, topic }: Props) => {
   const [openFilter, setOpenFilter] = useState(false);
   const testQuery = 'JavaShit';
 
@@ -36,12 +44,19 @@ const HeaderExplore = ({ results, query }: Props) => {
       </div>
       <button
         type='button'
-        className='w-24 h-7 bg-[#2557D6] font-roboto-text drop-shadow-md text-sm text-white rounded-sm mt-2'
+        className='w-24 h-7 bg-[#2557D6] font-roboto-text drop-shadow-md text-sm text-white rounded-sm mt-2 focus:outline-none'
         onClick={() => toggleFilter()}
       >
         Filters
       </button>
-      {openFilter && <MobilePopUp toggleFilter={toggleFilter} />}
+      {openFilter && (
+        <MobilePopUp
+          toggleFilter={toggleFilter}
+          perPage={perPage}
+          sortBy={sortBy}
+          topic={topic}
+        />
+      )}
     </div>
   );
 };

@@ -9,7 +9,13 @@ const ExploreMobile = () => {
 
   return (
     <div className='mx-6'>
-      <HeaderExplore results={cardData.total} query={params.query} />
+      <HeaderExplore
+        results={cardData.total}
+        query={params.query}
+        perPage={perPage}
+        sortBy={sortBy}
+        topic={topic}
+      />
       <DisplayerCardsExplore cardData={cardData} params={params} />
     </div>
   );
