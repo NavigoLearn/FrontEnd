@@ -149,6 +149,7 @@ const NodeRendererClassic: React.FC<NodeViewProps> = ({
             ...style,
             fillOpacity: 100,
             backgroundColor: undefined,
+            borderStyle: undefined,
           }}
         />
       )}
