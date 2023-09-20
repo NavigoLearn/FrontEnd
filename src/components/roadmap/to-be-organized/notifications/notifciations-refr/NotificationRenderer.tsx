@@ -1,6 +1,6 @@
 import React from 'react';
 import { useStore } from '@nanostores/react';
-import CustmoNotification from '../CustomNotification';
+import CustomNotification from '../CustomNotification';
 import {
   getNotificationMessage,
   getNotificationType,
@@ -14,7 +14,7 @@ const NotificationRenderer = () => {
   const notificationMessage = getNotificationMessage();
   return (
     notificationType !== 'none' && (
-      <CustmoNotification
+      <CustomNotification
         type={notificationType}
         text={notificationMessage}
         onClose={() => {

@@ -1,63 +1,70 @@
-/* eslint-disable no-nested-ternary */
-import React, { useEffect } from 'react';
-import crosssvg from '@assets/cross.svg';
-import close from '@assets/close.svg';
+import React, { FC } from 'react';
 import { motion } from 'framer-motion';
-import { TipSvg, PopupSvg, CrossSvg } from './NotifUI/NotifIcons';
+import { TipSvg, PopupSvg, CrossSvg, ErrorSvg } from './NotifUI/NotifIcons';
 
-const CustmoNotification = ({
-  type,
-  text,
-  onClose,
-}: {
+interface CustomNotificationProps {
   type: 'tip' | 'popup' | 'error';
   text: string;
   onClose: () => void;
+}
+
+const CustomNotification: FC<CustomNotificationProps> = ({
+  type,
+  text,
+  onClose,
 }) => {
-  console.log('type', type);
+  let bgColor: string;
+  let borderValue: string;
+  let SvgIcon: JSX.Element;
+  let textColor: string;
+  let crossColor: string;
+
+  switch (type) {
+    case 'tip':
+      bgColor = 'bg-white';
+      SvgIcon = <TipSvg className='fill-primary' />;
+      textColor = 'text-darkBlue';
+      crossColor = 'fill-darkBlue';
+      break;
+
+    case 'error':
+      bgColor = 'bg-red-100';
+      borderValue = 'border-2 border-bg-red-300';
+      SvgIcon = <ErrorSvg className='fill-red-500' />;
+      textColor = 'text-red-900';
+      crossColor = 'fill-red-900';
+      break;
+
+    case 'popup':
+    default:
+      bgColor = 'bg-green-100';
+      borderValue = 'border-2 border-bg-red-300';
+      SvgIcon = <PopupSvg className='fill-green-500' />;
+      textColor = 'text-green-900';
+      crossColor = 'fill-green-900';
+      break;
+  }
+
   return (
     <motion.li
       initial={{ opacity: 0, y: 50, scale: 0.3 }}
       animate={{ opacity: 1, y: 0, scale: 1 }}
       exit={{ opacity: 0, scale: 0.5, transition: { duration: 0.2 } }}
-      className={`w-auto min-w-[420px] h-auto ${
-        type === 'tip'
-          ? 'bg-white'
-          : type === 'error'
-          ? 'bg-[#9C2C2C] bg-opacity-5 border-2 border-[#9C2C2C]'
-          : 'bg-[#51BD95] bg-opacity-5 border-2 border-[#51BD95]'
-      } rounded-md relative drop-shadow-lg justify-between flex items-center px-2 py-1 m-4`}
+      className={`w-full min-w-[420px] h-auto ${bgColor} ${borderValue} rounded-md relative drop-shadow-lg justify-between flex items-center px-2 py-1 m-4`}
     >
-      {type === 'tip' ? (
-        <TipSvg />
-      ) : type === 'popup' ? (
-        <PopupSvg />
-      ) : (
-        <img alt='close' className='h-6' src={close} />
-      )}
+      <div className='flex-shrink-0'>{SvgIcon}</div>
 
-      <p
-        className={`font-roboto-text text-lg font-medium mx-2 ${
-          type === 'tip'
-            ? 'text-darkBlue'
-            : type === 'error'
-            ? 'text-[#9C2C2C]'
-            : 'text-[#51BD95]'
-        }`}
-      >
+      <p className={`font-roboto-text text-lg font-medium mx-2 ${textColor}`}>
         {text}
       </p>
-      <button type='button' onClick={onClose}>
-        {type === 'tip' ? (
-          <CrossSvg fillColor='#1A1B50' />
-        ) : type === 'popup' ? (
-          <CrossSvg fillColor='#51BD95' />
-        ) : (
-          <CrossSvg fillColor='#9C2C2C' />
-        )}
-      </button>
+
+      <div className='flex-shrink-0'>
+        <button type='button' onClick={onClose}>
+          <CrossSvg className={crossColor} />
+        </button>
+      </div>
     </motion.li>
   );
 };
 
-export default CustmoNotification;
+export default CustomNotification;
