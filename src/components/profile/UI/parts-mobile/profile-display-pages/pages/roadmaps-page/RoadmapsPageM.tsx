@@ -39,10 +39,10 @@ const RoadmapsPageM = () => {
       <div className='mt-4 flex flex-col gap-4  items-center pb-4 mx-2'>
         {profileRoadmaps.map((card: ICardRoadmapTypeApi) => {
           if (card.isDraft && isDraft === true && getIsOwnerOfProfile()) {
-            return <Card data={card} key={card.id} />;
+            return <Card data={card} key={card.id} h='12rem' w='20rem' />;
           }
           if (!card.isDraft && isDraft === false) {
-            return <Card data={card} key={card.id} />;
+            return <Card data={card} key={card.id} h='12rem' w='20rem' />;
           }
           return null;
         })}

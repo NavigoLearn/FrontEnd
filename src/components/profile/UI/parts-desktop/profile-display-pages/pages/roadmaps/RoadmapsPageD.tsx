@@ -52,10 +52,10 @@ const RoadmapsPageD = () => {
       <div className='grid-cols-2 grid gap-5 w-[660px] mt-7'>
         {profileRoadmaps.map((card: ICardRoadmapTypeApi) => {
           if (card.isDraft && drafts === true && getIsOwnerOfProfile()) {
-            return <Card data={card} key={card.id} />;
+            return <Card data={card} key={card.id} h='12rem' w='20rem' />;
           }
           if (!card.isDraft && drafts === false) {
-            return <Card data={card} key={card.id} />;
+            return <Card data={card} key={card.id} h='12rem' w='20rem' />;
           }
           return null;
         })}
