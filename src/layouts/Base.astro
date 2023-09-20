@@ -9,6 +9,7 @@ import BasePopupManager from '../components/shared/BasePopupManager';
 
 const SEGMENT_DEV_KEY = import.meta.env.SEGMENT_DEV_KEY;
 const SEGMENT_PROD_KEY = import.meta.env.SEGMENT_PROD_KEY;
+
 const isDev = import.meta.env.DEV;
 const isProd = import.meta.env.PROD;
 
@@ -20,7 +21,7 @@ export interface Props {
 
 const { metadata, excludeFooter } = Astro.props;
 
-const SEGMENT_KEY = isDev ? SEGMENT_DEV_KEY : SEGMENT_PROD_KEY;
+const SEGMENT_KEY = SEGMENT_PROD_KEY;
 
 if (metadata !== undefined)
   metadata.title =

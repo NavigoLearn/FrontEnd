@@ -1,7 +1,6 @@
 ---
 import Base from '@layouts/Base.astro';
 import Login from '../../components/auth/old/login/Login';
-import PageViewCollection from '../../to-be-organized/analytics-module/PageViewCollection';
 import NormalLayout from "../../layouts/NormalLayout.astro";
 ---
 
@@ -14,7 +13,6 @@ import NormalLayout from "../../layouts/NormalLayout.astro";
 >
     <NormalLayout>
 
-        <PageViewCollection page='Login' client:load />
         <div class='h-min-full flex justify-center items-center bg-background mb-20'>
             <Login client:load />
         </div>
