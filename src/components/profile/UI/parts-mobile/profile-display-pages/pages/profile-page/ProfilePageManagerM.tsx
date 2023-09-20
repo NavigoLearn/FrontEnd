@@ -19,7 +19,7 @@ const ProfilePageManagerM = () => {
     return <div className='text-darkBlue font-roboto-text'>Loading...</div>;
 
   return (
-    <div>
+    <div className='mx-4'>
       {editing ? <ProfilePageEditM /> : <ProfilePageViewM />}
       {owner && (
         <button

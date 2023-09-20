@@ -21,7 +21,7 @@ const ProfilePageEditM = () => {
   return (
     <div>
       <DisplayProfileAvatarM />
-      <div className='mx-4 mt-5 pb-10'>
+      <div className='w-full mt-10 pb-10'>
         <section className='flex flex-col gap-4 '>
           <InputComponent
             label='Name'

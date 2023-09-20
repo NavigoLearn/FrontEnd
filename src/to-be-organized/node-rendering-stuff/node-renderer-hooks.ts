@@ -14,17 +14,21 @@ import {
   getElementHasEffect,
   removeHighlightNodeEffects,
   setNodeEffectsInitialEmpty,
+  storeNodeEffects,
 } from '@store/roadmap-refactor/elements-editing/store-node-effects';
 import { setElementDiv } from '@store/roadmap-refactor/elements-editing/elements-gs';
 import { handleDragabilityRecalculationOnChunking } from '@src/typescript/roadmap_ref/dragging/misc';
-import { triggerAllConnectionsRerender } from '@src/typescript/roadmap_ref/render/dragging';
+import { triggerAllConnectionsRerender } from '@src/to-be-organized/triggering-stuff-alert/trigger-connections';
 import { setTriggerRender } from '@store/roadmap-refactor/render/rerender-triggers-nodes';
 import { useStateWithSideEffects } from '@hooks/useStateWithSideEffects';
 import { useStateTimed } from '@hooks/useStateTimed';
 import { deleteAllSnappings } from '@store/roadmap-refactor/render/snapping-lines';
 import { useTriggerRerender } from '@hooks/useTriggerRerender';
 import { useIsLoaded } from '@hooks/useIsLoaded';
-import { getIsEditing } from '@store/roadmap-refactor/roadmap-data/misc-data/roadmap_state';
+import {
+  getHideProgress,
+  getIsEditing,
+} from '@store/roadmap-refactor/roadmap-data/misc-data/roadmap_state';
 import scaleSafariStore from '@store/roadmap-refactor/misc/scale-safari-store';
 import {
   selectNodeColorFromScheme,
@@ -41,6 +45,8 @@ import {
   setNodeEventsInitialEmpty,
 } from '@src/to-be-organized/node-rendering-stuff/store-node-events';
 import { getNodeByIdRoadmapSelector } from '@src/typescript/roadmap_ref/roadmap-data/services/get';
+import renderNodesStore from '@store/roadmap-refactor/render/rendered-nodes';
+import { storeRenderingEngine } from '@components/roadmap/rendering-engines/store-rendering-engine';
 
 type INodeDataProcessed = {
   isSubNode: boolean;
@@ -214,10 +220,12 @@ export function useNodeSideEffects(node: NodeClass) {
 export function useNodeExternalData() {
   const editing = getIsEditing();
   const { scale, isSafari } = useStore(scaleSafariStore);
+  const { renderingEngineType, optimized } = useStore(storeRenderingEngine);
   return {
     editing,
     scale,
     isSafari,
+    optimized,
   };
 }
 
@@ -301,7 +309,8 @@ export function useNodeApplyStatusAndEffects(
 
   function handleProgressStatusEffects() {
     editing && deleteStatusEffectAll(nodeId);
-    loaded && !editing && appendNodeMarkAsDone(node);
+    loaded && !editing && !getHideProgress() && appendNodeMarkAsDone(node);
+    getHideProgress() && deleteStatusEffectAll(nodeId);
   }
   afterEventLoop(() => {
     if (!nodeDivRef.current || !nodeDivRef) return;

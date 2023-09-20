@@ -25,6 +25,7 @@ import {
 } from '@store/roadmap-refactor/elements-editing/elements-gs';
 import { getRenderingEngineType } from '@components/roadmap/rendering-engines/store-rendering-engine';
 import { triggerAllNodesRerender } from '@store/roadmap-refactor/render/rerender-triggers-nodes';
+import { deepCopy } from '@src/typescript/roadmap_ref/utils';
 
 export type IEffectsStatuses =
   | 'mark-as-progress'
@@ -165,9 +166,7 @@ export const dynamicEffectsMapperForeignObjectElements: HashMapWithKeys<
   'mark-as-completed': {
     effectName: 'mark-as-completed',
     effectApply: (divRef) => {
-      console.log('mark-as-completed', divRef);
       if (!divRef) return;
-      console.log('mark-as-completed');
       effectOpacity30ForeignDiv(divRef);
     },
     effectLayer: 10,

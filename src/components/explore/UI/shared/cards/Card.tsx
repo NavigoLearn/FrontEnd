@@ -11,7 +11,7 @@ type ICardProps = {
 const Card = ({ data }: ICardProps) => {
   return (
     <div
-      className={`w-80 h-48 border-2 border-black hover:border-primary hover:border-opacity-30 border-opacity-10 rounded-md relative${tailwindTransitionClass}`}
+      className={`w-full max-w-[320px] sm:w-80 h-48 border-2 border-black hover:border-primary hover:border-opacity-30 border-opacity-10 rounded-md relative${tailwindTransitionClass}`}
       style={{
         boxShadow: '0 4px 6px 0 rgba(0, 0, 255, 0.1)',
       }}
@@ -21,7 +21,6 @@ const Card = ({ data }: ICardProps) => {
         <button
           type='button'
           onClick={() => {
-            console.log('clicked and went to profile');
             location.href = `/profile/${data.userId}`;
           }}
           className=' flex gap-2 items-center'
