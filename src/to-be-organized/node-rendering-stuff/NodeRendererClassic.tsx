@@ -75,7 +75,7 @@ const NodeRendererClassic: React.FC<NodeViewProps> = ({
 
     // show notification
     setNotification(
-      'tip',
+      'info',
       `To modify progress status, ${
         checkIsMobile() ? 'long-tap' : 'right-click'
       } on the node.`

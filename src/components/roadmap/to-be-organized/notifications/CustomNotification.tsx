@@ -1,9 +1,9 @@
 import React, { FC } from 'react';
 import { motion } from 'framer-motion';
-import { TipSvg, PopupSvg, CrossSvg, ErrorSvg } from './NotifUI/NotifIcons';
+import { Info, ConfirmSvg, CrossSvg, ErrorSvg } from './NotifUI/NotifIcons';
 
 interface CustomNotificationProps {
-  type: 'tip' | 'popup' | 'error';
+  type: 'info' | 'confirm' | 'error';
   text: string;
   onClose: () => void;
 }
@@ -20,9 +20,9 @@ const CustomNotification: FC<CustomNotificationProps> = ({
   let crossColor: string;
 
   switch (type) {
-    case 'tip':
+    case 'info':
       bgColor = 'bg-white';
-      SvgIcon = <TipSvg className='fill-primary' />;
+      SvgIcon = <Info className='fill-primary' />;
       textColor = 'text-darkBlue';
       crossColor = 'fill-darkBlue';
       break;
@@ -35,11 +35,11 @@ const CustomNotification: FC<CustomNotificationProps> = ({
       crossColor = 'fill-red-900';
       break;
 
-    case 'popup':
+    case 'confirm':
     default:
       bgColor = 'bg-green-100';
       borderValue = 'border-2 border-bg-red-300';
-      SvgIcon = <PopupSvg className='fill-green-500' />;
+      SvgIcon = <ConfirmSvg className='fill-green-500 stroke-green-500' />;
       textColor = 'text-green-900';
       crossColor = 'fill-green-900';
       break;

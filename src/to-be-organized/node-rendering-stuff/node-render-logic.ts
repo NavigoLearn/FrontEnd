@@ -34,7 +34,10 @@ export const checkFirstOnClick = (nodeId) => {
   triggerNodeRerender(nodeId);
 
   // show notification
-  setNotification('tip', 'To modify progress status, right-click on the node.');
+  setNotification(
+    'info',
+    'To modify progress status, right-click on the node.'
+  );
 };
 
 export const handleContextMenu = (node: NodeClass, event) => {

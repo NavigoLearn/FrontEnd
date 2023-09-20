@@ -1,44 +1,33 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 
-export const PopupSvg = ({ className }: { className: string }) => {
+export const ConfirmSvg = ({ className }: { className: string }) => {
   return (
     <svg
       width='40'
       height='40'
       viewBox='0 0 60 60'
-      fill='#51BD95'
       xmlns='http://www.w3.org/2000/svg'
     >
-      {/* Circle */}
-      <motion.circle
-        cx='30'
-        cy='30'
-        r='25'
-        stroke='none'
-        strokeWidth='6'
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 0.3 }}
-        className={className}
-      />
-
-      {/* Check mark */}
-      <motion.path
-        d='M13.5 30L24.75 41.25L45 18.75'
-        stroke='#fff'
-        strokeWidth='6'
-        strokeLinecap='round'
-        fill='none'
-        initial={{ pathLength: 0, opacity: 0 }}
-        animate={{ pathLength: 1, opacity: 1, scale: 0.8 }}
-        transition={{ duration: 0.35 }}
-      />
+      <g transform='scale(2.95)'>
+        <path
+          d='M10.5 0.984375C5.25 0.984375 0.984375 5.25 0.984375 10.5C0.984375 15.75 5.25 20.0156 10.5 20.0156C15.75 20.0156 20.0156 15.75 20.0156 10.5C20.0156 5.25 15.75 0.984375 10.5 0.984375ZM10.5 1.96875C15.2086 1.96875 19.0312 5.79141 19.0312 10.5C19.0312 15.2086 15.2086 19.0312 10.5 19.0312C5.79141 19.0312 1.96875 15.2086 1.96875 10.5C1.96875 5.79141 5.79141 1.96875 10.5 1.96875Z'
+          className={className}
+        />
+      </g>
+      <g transform='scale(0.9) translate(5,5)'>
+        <path
+          d='M13.5,30 Q15,32 24.75,41.25 Q26.25,39.75 45,18.75 Q43.5,17.25 24.75,38.75 Q23.25,40.25 13.5,30'
+          strokeWidth='6'
+          strokeLinecap='round'
+          className={className}
+        />
+      </g>
     </svg>
   );
 };
 
-export const TipSvg = ({ className }: { className: string }) => {
+export const Info = ({ className }: { className: string }) => {
   return (
     <svg
       width='40'
