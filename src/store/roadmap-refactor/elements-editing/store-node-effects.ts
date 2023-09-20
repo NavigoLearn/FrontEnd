@@ -25,6 +25,7 @@ import {
 } from '@store/roadmap-refactor/elements-editing/elements-gs';
 import { getRenderingEngineType } from '@components/roadmap/rendering-engines/store-rendering-engine';
 import { triggerAllNodesRerender } from '@store/roadmap-refactor/render/rerender-triggers-nodes';
+import { deepCopy } from '@src/typescript/roadmap_ref/utils';
 
 export type IEffectsStatuses =
   | 'mark-as-progress'

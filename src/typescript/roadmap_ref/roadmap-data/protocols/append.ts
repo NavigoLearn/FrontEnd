@@ -1,11 +1,8 @@
 import { factorySubNode } from '@src/typescript/roadmap_ref/node/core/factories/base-templates-factories/sub-node';
 import {
-  deleteNodeFromRootNodes,
   deleteNodeFromChunks,
-  deleteTemplate,
   deleteNodeFromRoadmapNodes,
 } from '@src/typescript/roadmap_ref/roadmap-data/services/delete';
-import { deleteNodeFromRoadmap } from '@src/typescript/roadmap_ref/roadmap-data/protocols/delete';
 import {
   appendChildNodeId,
   appendConnectionNode,
@@ -53,10 +50,6 @@ import {
   recalculateNodeChunks,
 } from '@src/typescript/roadmap_ref/node/core/calculations/general';
 import { afterEventLoop, getRandomId } from '@src/typescript/utils/misc';
-import {
-  addDragabilityProtocol,
-  triggerAllConnectionsRerender,
-} from '@src/typescript/roadmap_ref/render/dragging';
 import { addDraggingBehaviorComponentProtocol } from '@src/typescript/roadmap_ref/node/components/text/factories';
 import { mutateConnectionsIds } from '@src/typescript/roadmap_ref/roadmap-data/services/mutate';
 import {

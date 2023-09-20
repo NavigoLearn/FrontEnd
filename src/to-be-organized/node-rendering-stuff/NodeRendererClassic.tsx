@@ -27,13 +27,18 @@ import {
   useNodeSideEffects,
   useSelectedConnectionData,
 } from '@src/to-be-organized/node-rendering-stuff/node-renderer-hooks';
-import { getNodeStatusBarColor } from '@src/to-be-organized/node-rendering-stuff/node-render-logic';
+import {
+  getNodeStatusBarColor,
+  handleContextMenu,
+} from '@src/to-be-organized/node-rendering-stuff/node-render-logic';
 import NodeHOCForeignObject from '@components/roadmap/to-be-organized/NodeHOCForeignObject';
 import AsyncLoaderHOC from '@components/roadmap/rendering-engines/async-loading/AsyncLoaderHOC';
+import { getRenderingEngineOptimized } from '@components/roadmap/rendering-engines/store-rendering-engine';
 import { showContextMenu } from '@components/roadmap/contextmenu/store/ContextMenu';
 import { setNotification } from '@components/roadmap/to-be-organized/notifications/notifciations-refr/notification-store-refr';
 import { checkIsMobile } from '@hooks/useIsMobile';
 import useContextMenuOrLongPress from '@hooks/useContextMenuOrLongPress';
+import { setRoadmapNodeProgressAndFetchUpdate } from '@store/roadmap-refactor/roadmap-data/misc-data/roadmap-progress';
 
 interface NodeViewProps {
   nodeId: string;
@@ -45,7 +50,7 @@ const NodeRendererClassic: React.FC<NodeViewProps> = ({
   centerOffset,
 }) => {
   const node = getNodeByIdRoadmapSelector(nodeId);
-  const { editing, scale, isSafari } = useNodeExternalData();
+  const { editing, scale, isSafari, optimized } = useNodeExternalData();
 
   const handleContextMenuOrLongPress = (event) => {
     event.stopPropagation();
@@ -71,7 +76,7 @@ const NodeRendererClassic: React.FC<NodeViewProps> = ({
 
     // show notification
     setNotification(
-      'tip',
+      'info',
       `To modify progress status, ${
         checkIsMobile() ? 'long-tap' : 'right-click'
       } on the node.`
@@ -140,7 +145,9 @@ const NodeRendererClassic: React.FC<NodeViewProps> = ({
       <div
         onFocus={() => {}}
         onBlur={() => {}}
-        className={`rounded-md ${shadowClass} transition-allNoTransform duration-200 absolute  ${cursor}`}
+        className={`rounded-md ${
+          !optimized && shadowClass
+        } transition-allNoTransform duration-200 absolute  ${cursor}`}
         id={`div${nodeId}`}
         ref={nodeDivRef}
         onClick={(event) => {
@@ -213,7 +220,7 @@ const NodeRendererClassic: React.FC<NodeViewProps> = ({
           !getHideProgress() &&
           node.actions.onClick !== 'Do nothing' && (
             <div
-              className={`h-[10px] left-[-2px] top-[-2px] rounded-t-lg absolute select-none ${getNodeStatusBarColor(
+              className={`h-[10px] left-[-2px] top-[-2px] rounded-t-md absolute select-none ${getNodeStatusBarColor(
                 node
               )}`}
               style={{

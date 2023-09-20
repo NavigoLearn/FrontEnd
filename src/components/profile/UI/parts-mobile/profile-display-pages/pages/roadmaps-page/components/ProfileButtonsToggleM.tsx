@@ -13,7 +13,7 @@ const ProfileButtonsToggleM = ({
   const selectedStyle = 'text-darkBlue font-medium';
   const unselectedStyle = 'text-secondaryDarkBlue hover:text-darkBlue';
   return (
-    <div className='flex ml-6'>
+    <div className='flex '>
       <button
         type='button'
         onClick={() => {

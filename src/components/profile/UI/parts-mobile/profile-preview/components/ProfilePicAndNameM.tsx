@@ -17,7 +17,7 @@ const ProfilePicAndNameM = () => {
             alt='avatar'
           />
         </div>
-        <span className='font-medium font-kanit-text text-sm absolute -bottom-8 w-32 text-center '>
+        <span className='font-medium font-kanit-text text-sm absolute top-12 w-32 text-center px-1'>
           {name}
         </span>
       </div>

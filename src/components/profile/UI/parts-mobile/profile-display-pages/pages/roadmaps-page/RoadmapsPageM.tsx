@@ -21,24 +21,28 @@ const RoadmapsPageM = () => {
 
   return (
     <div className='mt-5'>
-      {getIsOwnerOfProfile() && (
-        <ProfileButtonsToggleM
-          selection={isDraft ? 'draft' : 'published'}
-          setIsPublished={() => {
-            setIsDraft(false);
-          }}
-          setIsDraftCb={() => {
-            setIsDraft(true);
-          }}
-        />
-      )}
-      <div className='mt-4 flex flex-col gap-4  items-center pb-4'>
+      <div className='flex justify-center w-full'>
+        <section className='flex justify-start w-72'>
+          {getIsOwnerOfProfile() && (
+            <ProfileButtonsToggleM
+              selection={isDraft ? 'draft' : 'published'}
+              setIsPublished={() => {
+                setIsDraft(false);
+              }}
+              setIsDraftCb={() => {
+                setIsDraft(true);
+              }}
+            />
+          )}
+        </section>
+      </div>
+      <div className='mt-4 flex flex-col gap-4  items-center pb-4 mx-2'>
         {profileRoadmaps.map((card: ICardRoadmapTypeApi) => {
           if (card.isDraft && isDraft === true && getIsOwnerOfProfile()) {
-            return <Card data={card} key={card.id} />;
+            return <Card data={card} key={card.id} h='12rem' w='20rem' />;
           }
           if (!card.isDraft && isDraft === false) {
-            return <Card data={card} key={card.id} />;
+            return <Card data={card} key={card.id} h='12rem' w='20rem' />;
           }
           return null;
         })}

@@ -5,15 +5,19 @@ import { ICardRoadmapTypeApi } from '@type/explore/card';
 
 type ICardProps = {
   data: ICardRoadmapTypeApi;
+  w: string;
+  h: string;
 };
 
 // Usage
-const Card = ({ data }: ICardProps) => {
+const Card = ({ data, w, h }: ICardProps) => {
   return (
     <div
-      className={`w-80 h-48 border-2 border-black hover:border-primary hover:border-opacity-30 border-opacity-10 rounded-md relative${tailwindTransitionClass}`}
+      className={`border-2 border-black hover:border-primary hover:border-opacity-30 border-opacity-10 rounded-md relative${tailwindTransitionClass}`}
       style={{
         boxShadow: '0 4px 6px 0 rgba(0, 0, 255, 0.1)',
+        height: h,
+        width: w,
       }}
     >
       <section className='flex mt-3 items-center justify-between px-4'>
@@ -21,7 +25,6 @@ const Card = ({ data }: ICardProps) => {
         <button
           type='button'
           onClick={() => {
-            console.log('clicked and went to profile');
             location.href = `/profile/${data.userId}`;
           }}
           className=' flex gap-2 items-center'

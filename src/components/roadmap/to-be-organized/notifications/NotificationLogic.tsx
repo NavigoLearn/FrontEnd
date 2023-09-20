@@ -10,7 +10,7 @@ import React, {
 import { AnimatePresence } from 'framer-motion';
 import CustomNotification from './CustomNotification';
 
-export type NotificationType = 'error' | 'tip' | 'popup';
+export type NotificationType = 'error' | 'info' | 'confirm';
 
 type Notification = {
   id: string;
