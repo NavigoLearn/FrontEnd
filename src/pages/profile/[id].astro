@@ -2,6 +2,7 @@
 import Base from '@layouts/Base.astro';
 import Profile from '../../components/profile/Profile';
 import { parse } from 'path';
+import NormalLayout from "../../layouts/NormalLayout.astro";
 
 const { id } = Astro.params;
 ---
@@ -11,7 +12,9 @@ const { id } = Astro.params;
     title: 'Profile',
   }}
 >
-  <div>
-    <Profile id={id} client:load />
-  </div>
+    <NormalLayout>
+        <div>
+            <Profile id={id} client:load />
+        </div>
+    </NormalLayout>
 </Base>

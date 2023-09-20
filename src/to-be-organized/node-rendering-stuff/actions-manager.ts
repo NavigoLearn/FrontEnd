@@ -39,6 +39,8 @@ import { getScaleSafari } from '@store/roadmap-refactor/misc/scale-safari-store'
 import { getViewport } from '@store/roadmap-refactor/misc/viewport-coords-store';
 import { setEditingState } from '@store/roadmap-refactor/editing/editing-state';
 import { clearSelectedConnection } from '@components/roadmap/connections/connection-editing/connection-store';
+import { dispatchEventRoadmapInteraction } from '@src/to-be-organized/analytics-module/events/events-dispatch';
+import { dispatchAnalyticsEvent } from '@src/to-be-organized/analytics-module/stores/analytics';
 import { checkFirstOnClick } from '@src/to-be-organized/node-rendering-stuff/node-render-logic';
 
 export function getOnMouseOutActionEdit(nodeId): () => void {
@@ -115,6 +117,9 @@ export function getOnClickActionView(nodeId): () => void {
   };
   return () => {
     actionMap[action](nodeId);
+    dispatchAnalyticsEvent('roadmapInteraction', {
+      actionType: 'clicked-node',
+    });
     checkFirstOnClick(nodeId);
   };
 }

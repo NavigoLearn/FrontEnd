@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useStore } from '@nanostores/react';
-import loggedUser from '@store/user/logged-user';
+import storeLoggedUser from '@store/user/store-logged-user';
 import userStatus from '@store/user/user-status';
 import SearchRoadmap from '@components/navbar/desktop/parts/search/SearchRoadmap';
 import ButtonsManager from '@components/navbar/desktop/parts/buttons/ButtonsManager';

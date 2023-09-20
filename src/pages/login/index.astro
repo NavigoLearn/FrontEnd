@@ -1,7 +1,7 @@
 ---
 import Base from '@layouts/Base.astro';
 import Login from '../../components/auth/old/login/Login';
-import PageViewCollection from '../../components/misc/PageViewCollection';
+import NormalLayout from "../../layouts/NormalLayout.astro";
 ---
 
 <Base
@@ -11,8 +11,10 @@ import PageViewCollection from '../../components/misc/PageViewCollection';
     url: 'https://navigolearn.com/login',
   }}
 >
-  <PageViewCollection page='Login' client:load />
-  <div class='h-min-full flex justify-center items-center bg-background mb-20'>
-    <Login client:load />
-  </div>
+    <NormalLayout>
+
+        <div class='h-min-full flex justify-center items-center bg-background mb-20'>
+            <Login client:load />
+        </div>
+    </NormalLayout>
 </Base>

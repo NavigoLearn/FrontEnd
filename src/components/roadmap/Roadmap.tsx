@@ -112,6 +112,7 @@ export function checkAndSetInitialRoadmapType(
 }
 
 function checkAndSetRoadmapBanned(roadmap: IRoadmapApi) {
+  if (!roadmap) return;
   const { isPublic } = roadmap;
   if (isPublic) return;
   setNotification(

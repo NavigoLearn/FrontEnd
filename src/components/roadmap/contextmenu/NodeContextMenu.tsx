@@ -4,8 +4,6 @@ import complete from '@assets/completed-status.svg';
 import skip from '@assets/skip-status.svg';
 import { motion } from 'framer-motion';
 import { setRoadmapNodeProgressAndFetchUpdate } from '@store/roadmap-refactor/roadmap-data/misc-data/roadmap-progress';
-import { injectMarkAsDone } from '@src/typescript/roadmap_ref/node/core/data-mutation/inject';
-import { getNodeByIdRoadmapSelector } from '@src/typescript/roadmap_ref/roadmap-data/services/get';
 import { triggerNodeRerender } from '@store/roadmap-refactor/render/rerender-triggers-nodes';
 import { useEffect, useRef } from 'react';
 import { useStore } from '@nanostores/react';
@@ -88,19 +86,6 @@ const NodeContextMenu = () => {
               onClick={(event) => {
                 event.stopPropagation();
                 setRoadmapNodeProgressAndFetchUpdate(state.nodeId, actionName);
-
-                if (actionName === 'Completed' || actionName === 'Skip') {
-                  injectMarkAsDone(
-                    getNodeByIdRoadmapSelector(state.nodeId),
-                    true
-                  );
-                } else {
-                  injectMarkAsDone(
-                    getNodeByIdRoadmapSelector(state.nodeId),
-                    false
-                  );
-                }
-
                 triggerNodeRerender(state.nodeId);
                 hideContextMenu();
               }}

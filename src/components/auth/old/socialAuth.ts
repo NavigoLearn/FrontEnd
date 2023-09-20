@@ -1,4 +1,4 @@
-import { dispatchAnalyticsEvent } from '@store/misc/analytics';
+import { dispatchAnalyticsEvent } from '@src/to-be-organized/analytics-module/stores/analytics';
 
 function handleSocialLogin(link: string, features: string) {
   // open /api/auth/google-login in a new window and store the window reference
@@ -19,7 +19,6 @@ function handleSocialLogin(link: string, features: string) {
       window.location.reload();
     } catch (e) {
       // do nothing
-      console.log(e);
     }
   }, 100);
 
@@ -35,9 +34,6 @@ function handleSocialLogin(link: string, features: string) {
 }
 
 export function handleGoogleLogin() {
-  dispatchAnalyticsEvent('authInteraction', {
-    actionType: 'Google Auth',
-  });
   // get the current monitor size
   const { width, height } = window.screen;
 
@@ -48,12 +44,12 @@ export function handleGoogleLogin() {
 
   // open /api-wrapper/auth/google-login in a new window and store the window reference
   handleSocialLogin('/api/auth/google-login', features);
+  dispatchAnalyticsEvent('authInteraction', {
+    actionType: 'google-auth',
+  });
 }
 
 export function handleGitHubLogin() {
-  dispatchAnalyticsEvent('authInteraction', {
-    actionType: 'Github Auth',
-  });
   // get the current monitor size
   const { width, height } = window.screen;
 
@@ -63,13 +59,12 @@ export function handleGitHubLogin() {
   const features = `popup=1,width=500,height=700,left=${left},top=${top}`;
 
   handleSocialLogin('/api/auth/github-login', features);
+  dispatchAnalyticsEvent('authInteraction', {
+    actionType: 'github-auth',
+  });
 }
 
 export async function handleLogout() {
-  dispatchAnalyticsEvent('authInteraction', {
-    actionType: 'Logout',
-  });
-
   // makes call to api for logout
   await fetch('/api/auth/logout', {
     method: 'DELETE',
@@ -79,6 +74,9 @@ export async function handleLogout() {
   });
 
   // reload page
+  dispatchAnalyticsEvent('authInteraction', {
+    actionType: 'logout',
+  });
   setTimeout(() => {
     window.location.reload();
   }, 0);

@@ -1,4 +1,4 @@
-import React, { useEffect, useLayoutEffect, useRef } from 'react';
+import React from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { componentsRenderer } from '@src/to-be-organized/node-rendering-stuff/ComponentsRenderer';
 import { triggerNodeRerender } from '@store/roadmap-refactor/render/rerender-triggers-nodes';
@@ -15,6 +15,7 @@ import DraggingResizeElement from '@src/to-be-organized/resize-dragging/Dragging
 import ConnectionAnchorsRenderer from '@components/roadmap/connections/connection-editing/ConnectionAnchorsRenderer';
 import { getEditingState } from '@store/roadmap-refactor/editing/editing-state';
 import DragSvg from '@src/UI-library/svg-components/DragSvg';
+import { setRoadmapNodeProgressAndFetchUpdate } from '@store/roadmap-refactor/roadmap-data/misc-data/roadmap-progress';
 import { getResize } from '@src/to-be-organized/resize-dragging/stores-resize-shared-data';
 import {
   useNodeApplyStatusAndEffects,
@@ -35,7 +36,7 @@ import AsyncLoaderHOC from '@components/roadmap/rendering-engines/async-loading/
 import { getRenderingEngineOptimized } from '@components/roadmap/rendering-engines/store-rendering-engine';
 import { showContextMenu } from '@components/roadmap/contextmenu/store/ContextMenu';
 import { setNotification } from '@components/roadmap/to-be-organized/notifications/notifciations-refr/notification-store-refr';
-import { checkIsMobile, useIsMobile } from '@hooks/useIsMobile';
+import { checkIsMobile } from '@hooks/useIsMobile';
 import useContextMenuOrLongPress from '@hooks/useContextMenuOrLongPress';
 import { setRoadmapNodeProgressAndFetchUpdate } from '@store/roadmap-refactor/roadmap-data/misc-data/roadmap-progress';
 
@@ -154,6 +155,7 @@ const NodeRendererClassic: React.FC<NodeViewProps> = ({
           if (isResizing || isCurrentlyDragged || getResize()) {
             return;
           }
+
           checkFirstOnClick();
           getOnClickAction(nodeId)();
         }}

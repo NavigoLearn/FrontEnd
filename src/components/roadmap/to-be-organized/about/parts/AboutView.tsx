@@ -18,7 +18,7 @@ import StandardTextDisplay from '@components/roadmap/to-be-organized/about/compo
 import title from '@components/roadmap/navbar-roadmap/parts/Title';
 import { getColorThemeFromRoadmap } from '@components/roadmap/pages-roadmap/setup-screen/theme-controler';
 import { getRoadmapOwnerData } from '@src/store/roadmap-refactor/roadmap-data/misc-data/roadmap-owner-data';
-import { getLoggedUserId } from '@src/store/user/logged-user';
+import { getLoggedUserId } from '@store/user/store-logged-user';
 import exit from '../../../../../../public/editor/close.svg';
 
 type IAboutViewProps = {

@@ -38,7 +38,3 @@ export function injectFlags(node: NodeClass, flags) {
 export function injectMarkAsDoneBehaviorFlag(node: NodeClass) {
   node.flags.markAsDoneBehaviorFlag = true;
 }
-
-export function injectMarkAsDone(node: NodeClass, markAsDone: boolean) {
-  node.properties.markAsDone = markAsDone;
-}
