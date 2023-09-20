@@ -38,7 +38,6 @@ import { showContextMenu } from '@components/roadmap/contextmenu/store/ContextMe
 import { setNotification } from '@components/roadmap/to-be-organized/notifications/notifciations-refr/notification-store-refr';
 import { checkIsMobile } from '@hooks/useIsMobile';
 import useContextMenuOrLongPress from '@hooks/useContextMenuOrLongPress';
-import { setRoadmapNodeProgressAndFetchUpdate } from '@store/roadmap-refactor/roadmap-data/misc-data/roadmap-progress';
 
 interface NodeViewProps {
   nodeId: string;
@@ -142,12 +141,23 @@ const NodeRendererClassic: React.FC<NodeViewProps> = ({
         </div>
       )}
 
+      {!isSubNode && bgOpacity !== 0 && (
+        <div
+          className='rounded-md bg-backgroundRoadmap absolute'
+          id={`background${nodeId}`}
+          style={{
+            ...style,
+            fillOpacity: 100,
+            backgroundColor: undefined,
+          }}
+        />
+      )}
       <div
         onFocus={() => {}}
         onBlur={() => {}}
         className={`rounded-md ${
           !optimized && shadowClass
-        } transition-allNoTransform duration-200 absolute  ${cursor}`}
+        } transition-allNoTransform duration-200 absolute ${cursor}`}
         id={`div${nodeId}`}
         ref={nodeDivRef}
         onClick={(event) => {
