@@ -141,7 +141,7 @@ const NodeRendererClassic: React.FC<NodeViewProps> = ({
         </div>
       )}
 
-      {!isSubNode && bgOpacity !== 0 && (
+      {!isSubNode && !isCurrentlyDragged && bgOpacity !== 0 && (
         <div
           className='rounded-md bg-backgroundRoadmap absolute'
           id={`background${nodeId}`}
