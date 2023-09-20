@@ -1,5 +1,6 @@
 ---
 import Base from '@layouts/Base.astro';
+import NormalLayout from '@layouts/NormalLayout.astro';
 import Explore from '@components/explore/Explore';
 ---
 
@@ -11,7 +12,9 @@ import Explore from '@components/explore/Explore';
     url: 'https://navigolearn.com/explore',
   }}
 >
-  <div>
-    <Explore client:idle />
-  </div>
+    <NormalLayout>
+        <div>
+            <Explore client:idle />
+        </div>
+    </NormalLayout>
 </Base>

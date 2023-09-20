@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { dispatchAnalyticsEvent } from '@store/misc/analytics';
+import { dispatchAnalyticsEvent } from '@src/to-be-organized/analytics-module/stores/analytics';
 
 const PageViewCollection = ({ page }: { page: string }) => {
   useEffect(() => {

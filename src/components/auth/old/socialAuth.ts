@@ -1,4 +1,4 @@
-import { dispatchAnalyticsEvent } from '@store/misc/analytics';
+import { dispatchAnalyticsEvent } from '@src/to-be-organized/analytics-module/stores/analytics';
 
 function handleSocialLogin(link: string, features: string) {
   // open /api/auth/google-login in a new window and store the window reference

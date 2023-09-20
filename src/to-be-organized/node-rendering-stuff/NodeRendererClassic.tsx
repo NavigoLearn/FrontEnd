@@ -1,12 +1,7 @@
-import React, { useEffect, useLayoutEffect, useRef } from 'react';
+import React from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
-import { afterEventLoop } from '@src/typescript/utils/misc';
 import { componentsRenderer } from '@src/to-be-organized/node-rendering-stuff/ComponentsRenderer';
-import { useTriggerRerender } from '@hooks/useTriggerRerender';
-import {
-  setTriggerRender,
-  triggerNodeRerender,
-} from '@store/roadmap-refactor/render/rerender-triggers-nodes';
+import { triggerNodeRerender } from '@store/roadmap-refactor/render/rerender-triggers-nodes';
 import { getNodeByIdRoadmapSelector } from '@src/typescript/roadmap_ref/roadmap-data/services/get';
 import {
   getOnClickAction,
@@ -14,41 +9,14 @@ import {
   getOnMouseOutActionEdit,
   getOnMouseOverAction,
 } from '@src/to-be-organized/node-rendering-stuff/actions-manager';
-import {
-  appendStatusEffect,
-  applyElementEffects,
-  setNodeEffectsInitialEmpty,
-  deleteStatusEffectAll,
-  getElementHasEffect,
-  removeHighlightNodeEffects,
-} from '@store/roadmap-refactor/elements-editing/store-node-effects';
-import { useIsLoaded } from '@hooks/useIsLoaded';
-import { setElementDiv } from '@store/roadmap-refactor/elements-editing/elements-gs';
-import { NodeClass } from '@src/typescript/roadmap_ref/node/core/core';
-import {
-  getHideProgress,
-  getIsEditing,
-} from '@store/roadmap-refactor/roadmap-data/misc-data/roadmap_state';
+import { getElementHasEffect } from '@store/roadmap-refactor/elements-editing/store-node-effects';
+import { getHideProgress } from '@store/roadmap-refactor/roadmap-data/misc-data/roadmap_state';
 import DraggingResizeElement from '@src/to-be-organized/resize-dragging/DraggingResizeElement';
-import {
-  selectNodeColorFromScheme,
-  selectNodeColorTextBorder,
-} from '@src/typescript/roadmap_ref/node/core/factories/data-mutation/services';
-import { getColorThemeFromRoadmap } from '@components/roadmap/pages-roadmap/setup-screen/theme-controler';
 import ConnectionAnchorsRenderer from '@components/roadmap/connections/connection-editing/ConnectionAnchorsRenderer';
-import { useStore } from '@nanostores/react';
-import { getElementIsDraggable } from '@store/roadmap-refactor/elements-editing/draggable-elements';
 import { getEditingState } from '@store/roadmap-refactor/editing/editing-state';
-import { triggerAllConnectionsRerender } from '@src/typescript/roadmap_ref/render/dragging';
-import { useStateTimed } from '@hooks/useStateTimed';
-import { deleteAllSnappings } from '@store/roadmap-refactor/render/snapping-lines';
-import { handleDragabilityRecalculationOnChunking } from '@src/typescript/roadmap_ref/dragging/misc';
 import DragSvg from '@src/UI-library/svg-components/DragSvg';
-import scaleSafariStore from '@store/roadmap-refactor/misc/scale-safari-store';
-import { useStateWithSideEffects } from '@hooks/useStateWithSideEffects';
 import { setRoadmapNodeProgressAndFetchUpdate } from '@store/roadmap-refactor/roadmap-data/misc-data/roadmap-progress';
 import { getResize } from '@src/to-be-organized/resize-dragging/stores-resize-shared-data';
-import { hexAddAlpha } from '@src/typescript/roadmap_ref/utils';
 import {
   useNodeApplyStatusAndEffects,
   useNodeCalculateCoords,
@@ -59,15 +27,12 @@ import {
   useNodeSideEffects,
   useSelectedConnectionData,
 } from '@src/to-be-organized/node-rendering-stuff/node-renderer-hooks';
-import {
-  getNodeOpacity,
-  getNodeStatusBarColor,
-} from '@src/to-be-organized/node-rendering-stuff/node-render-logic';
+import { getNodeStatusBarColor } from '@src/to-be-organized/node-rendering-stuff/node-render-logic';
 import NodeHOCForeignObject from '@components/roadmap/to-be-organized/NodeHOCForeignObject';
 import AsyncLoaderHOC from '@components/roadmap/rendering-engines/async-loading/AsyncLoaderHOC';
 import { showContextMenu } from '@components/roadmap/contextmenu/store/ContextMenu';
 import { setNotification } from '@components/roadmap/to-be-organized/notifications/notifciations-refr/notification-store-refr';
-import { checkIsMobile, useIsMobile } from '@hooks/useIsMobile';
+import { checkIsMobile } from '@hooks/useIsMobile';
 import useContextMenuOrLongPress from '@hooks/useContextMenuOrLongPress';
 
 interface NodeViewProps {

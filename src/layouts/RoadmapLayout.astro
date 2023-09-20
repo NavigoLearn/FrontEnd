@@ -1,6 +1,6 @@
 ---
-import RequestManager from '../components/misc/RequestManager';
-import DataCollectionManager from '../components/misc/DataCollectionManager';
+import RequestManager from '../to-be-organized/RequestManager';
+import AnalyticsManager from '../to-be-organized/analytics-module/AnalyticsManager';
 
 import '@fontsource/kanit';
 import '@fontsource/oxygen';
@@ -61,12 +61,8 @@ if (metadata !== undefined)
   </head>
 
   <body class='bg-background relative w-full min-h-screen font-kanit-text'>
-    <DataCollectionManager client:load />
-    <RequestManager client:load />
     <NavbarRoadmap client:load />
-
     <slot />
-
     <div id="menu-portal" class="absolute top-0 left-0 w-screen h-screen z-100 pointer-events-none"></div>
   </body>
 </html>

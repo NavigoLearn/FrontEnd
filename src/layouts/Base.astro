@@ -1,12 +1,17 @@
 ---
-import Navbar from '@components/navbar/Navbar';
-import Footer from '@layouts/Footer.astro';
-import RequestManager from '../components/misc/RequestManager';
+import RequestManager from '../to-be-organized/RequestManager';
+import AnalyticsManager from "../to-be-organized/analytics-module/AnalyticsManager";
 
 import '@fontsource/kanit';
 import '@fontsource/oxygen';
 import { PageMeta } from '../types/misc/PageMeta';
 import BasePopupManager from '../components/shared/BasePopupManager';
+
+const SEGMENT_DEV_KEY = import.meta.env.SEGMENT_DEV_KEY;
+const SEGMENT_PROD_KEY = import.meta.env.SEGMENT_PROD_KEY;
+const isDev = import.meta.env.DEV;
+const isProd = import.meta.env.PROD;
+
 
 export interface Props {
   metadata?: PageMeta;
@@ -14,6 +19,8 @@ export interface Props {
 }
 
 const { metadata, excludeFooter } = Astro.props;
+
+const SEGMENT_KEY = isDev ? SEGMENT_DEV_KEY : SEGMENT_PROD_KEY;
 
 if (metadata !== undefined)
   metadata.title =
@@ -63,18 +70,9 @@ if (metadata !== undefined)
 
   <body class='bg-background relative w-full min-h-screen font-kanit-text'>
     <RequestManager client:load />
-    <Navbar client:load />
+    <AnalyticsManager segmentKey={SEGMENT_KEY} client:load  />
     <BasePopupManager client:load />
-
-
     <slot />
 
-    {
-      !excludeFooter && false && (
-        <div class='h-32'>
-          <Footer />
-        </div>
-      )
-    }
   </body>
 </html>

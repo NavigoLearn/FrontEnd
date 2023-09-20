@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { dispatchAnalyticsEvent } from '@store/misc/analytics';
+import { dispatchAnalyticsEvent } from '@src/to-be-organized/analytics-module/stores/analytics';
 import DesktopSignUp from './Desktop';
 import MobileSignUp from './Mobile';
 

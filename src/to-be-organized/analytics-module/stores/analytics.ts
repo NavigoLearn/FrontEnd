@@ -1,23 +1,27 @@
 import { atom } from 'nanostores';
-import { DataPayloads, Event, EventType } from '@type/misc/analytics';
+import {
+  IDataPayloads,
+  IEventPayload,
+  IEventTypes,
+} from '@src/to-be-organized/analytics-module/analytics-types';
 
 const analyticsStore = atom({
-  dispatchedEvents: [] as Event<EventType>[],
+  dispatchedEvents: [] as IEventPayload<IEventTypes>[],
 });
 
-const eventBuilder = <T extends EventType>(
+const eventBuilder = <T extends IEventTypes>(
   type: T,
-  data: DataPayloads[T]
-): Event<T> => {
+  data: IDataPayloads[T]
+): IEventPayload<T> => {
   return {
     type,
     data,
   };
 };
 
-export const dispatchAnalyticsEvent = <T extends EventType>(
+export const dispatchAnalyticsEvent = <T extends IEventTypes>(
   type: T,
-  data: DataPayloads[T]
+  data: IDataPayloads[T]
 ) => {
   // used for sending events for analytics
   // If you think this kind of tracking might be invasive in any way, please

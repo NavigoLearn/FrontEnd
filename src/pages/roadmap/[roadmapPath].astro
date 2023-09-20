@@ -4,8 +4,9 @@ import RoadmapLayout from '@layouts/RoadmapLayout.astro';
 import RoadmapWithNotifications from '@src/components/roadmap/RoadmapWithNotifications';
 import PagesDisplayManager from '@components/roadmap/pages-roadmap/PagesDisplayManager';
 import { IRoadmapApi } from '@src/types/explore_old/card';
-import RequestManager from '@src/components/misc/RequestManager';
+import RequestManager from '../../to-be-organized/RequestManager';
 import FullScreenPopupManager from '@src/components/roadmap/pages-roadmap/FullScreenPopupManager';
+import Base from "../../layouts/Base.astro";
 
 // metadata stuff
 let roadmap: IRoadmapApi;
@@ -61,30 +62,30 @@ try {
   return Astro.redirect('/explore', 302);
 }
 ---
+<Base>
+    <RoadmapLayout
+            metadata={{
+                title,
+                description,
+                url,
+                type,
+            }}
+            excludeFooter={true}
+    >
+        <FullScreenPopupManager client:load isCreate={isCreate} />
 
-<RoadmapLayout
-  metadata={{
-    title,
-    description,
-    url,
-    type,
-  }}
-  excludeFooter={true}
->
-  <RequestManager client:load />
-  <FullScreenPopupManager client:load isCreate={isCreate} />
-
-  <div class='h-[calc(100vh-64px)] md:mt-0 relative w-full'>
-    <!-- offset from nav reduced from total screen size -->
-    <div class='h-full relative'>
-      <RoadmapWithNotifications
-        pageId={roadmapPath}
-        roadmap={roadmap}
-        client:load
-      />
-    </div>
-    <div class='w-full h-full'>
-      <PagesDisplayManager client:idle />
-    </div>
-  </div>
-</RoadmapLayout>
+        <div class='h-[calc(100vh-64px)] md:mt-0 relative w-full'>
+            <!-- offset from nav reduced from total screen size -->
+            <div class='h-full relative'>
+                <RoadmapWithNotifications
+                        pageId={roadmapPath}
+                        roadmap={roadmap}
+                        client:load
+                />
+            </div>
+            <div class='w-full h-full'>
+                <PagesDisplayManager client:idle />
+            </div>
+        </div>
+    </RoadmapLayout>
+</Base>
