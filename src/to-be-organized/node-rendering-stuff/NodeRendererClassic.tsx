@@ -15,7 +15,6 @@ import DraggingResizeElement from '@src/to-be-organized/resize-dragging/Dragging
 import ConnectionAnchorsRenderer from '@components/roadmap/connections/connection-editing/ConnectionAnchorsRenderer';
 import { getEditingState } from '@store/roadmap-refactor/editing/editing-state';
 import DragSvg from '@src/UI-library/svg-components/DragSvg';
-import { setRoadmapNodeProgressAndFetchUpdate } from '@store/roadmap-refactor/roadmap-data/misc-data/roadmap-progress';
 import { getResize } from '@src/to-be-organized/resize-dragging/stores-resize-shared-data';
 import {
   useNodeApplyStatusAndEffects,

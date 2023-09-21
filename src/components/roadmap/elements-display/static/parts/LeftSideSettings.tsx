@@ -30,8 +30,8 @@ const LeftSideSettings = () => {
       <div className=''>
         <button
           type='button'
-          className={`mt-6 font-roboto-text text-md text-secondary pointer-events-auto hover:text-primary ${
-            optimized ? 'text-green-700' : ''
+          className={`mt-6 font-roboto-text text-md pointer-events-auto hover:text-primary ${
+            optimized ? 'text-green-700' : 'text-secondary'
           }`}
           onClick={() => {
             setRenderingEngineOptimized(!optimized);
