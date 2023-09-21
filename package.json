@@ -7,7 +7,7 @@
   "author": "Navigo",
   "license": "BSD 3-Clause",
   "scripts": {
-    "dev": "astro dev",
+    "dev": "astro dev --host",
     "start": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
