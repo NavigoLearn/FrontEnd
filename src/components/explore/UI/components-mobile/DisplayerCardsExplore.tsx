@@ -24,9 +24,17 @@ const DisplayerCardsExplore = ({ cardData, params }: Props) => {
               No results found
             </div>
           ) : (
-            cardData.cards.map((card: ICardRoadmapTypeApi, i) => {
+            cardData.cards.map((card: ICardRoadmapTypeApi) => {
               // eslint-disable-next-line react/no-array-index-key
-              return <Card data={card} key={i} w='100%' h='12rem' />;
+              return (
+                <Card
+                  data={card}
+                  key={card.id}
+                  w='100%'
+                  h='12rem'
+                  className='max-w-sm'
+                />
+              );
             })
           )
         ) : (

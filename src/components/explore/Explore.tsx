@@ -6,12 +6,7 @@ import { useIsMobile } from '@hooks/useIsMobile';
 const Explore = () => {
   const mobile = useIsMobile();
   return (
-    <div
-      className='relative pointer-events-auto z-10'
-      onScroll={() => {
-        console.log('scrolling');
-      }}
-    >
+    <div className='relative pointer-events-auto z-10'>
       {mobile !== null && (
         <div>{mobile ? <ExploreMobile /> : <ExploreDesktop />}</div>
       )}
