@@ -27,8 +27,7 @@ type TitleComponentProps = {
 
 function checkInvalidInput(value: string) {
   const newValue = parseInt(value, 10);
-  if (typeof newValue !== 'number' || Number.isNaN(newValue)) return true;
-  return false;
+  return typeof newValue !== 'number' || Number.isNaN(newValue);
 }
 
 const TextComponent = ({ node, id, name }: TitleComponentProps) => {

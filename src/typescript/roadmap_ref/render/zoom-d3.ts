@@ -7,7 +7,6 @@ import {
   getScaleSafari,
   setScaleSafariNoSideEffects,
 } from '@store/roadmap-refactor/misc/scale-safari-store';
-import { throttle } from '@src/typescript/roadmap_ref/render/chunks';
 import {
   getNodeByIdRoadmapSelector,
   getRootGlobalId,
@@ -40,6 +39,8 @@ export const enableRoadmapZoomDragAndRecenter = (
     rerender();
     this.zoomTransform = d3.zoomIdentity;
     const zoomTransform: d3.ZoomTransform = d3.zoomTransform(this);
+
+    // @ts-ignore
     rootGroup.attr('transform', zoomTransform);
 
     setScaleSafariNoSideEffects(zoomTransform.k);
@@ -59,6 +60,7 @@ export const enableRoadmapZoomDragAndRecenter = (
     const customTransform = d3.zoomIdentity
       .translate(-initialTransform.x, -initialTransform.y)
       .scale(initialTransform.k);
+    // @ts-ignore
     svg.transition().duration(750).call(zoom.transform, customTransform);
   }
 
@@ -67,6 +69,7 @@ export const enableRoadmapZoomDragAndRecenter = (
     const customTransform = d3.zoomIdentity
       .translate(-x, -y)
       .scale(currentScale);
+    // @ts-ignore
     svg.transition().duration(750).call(zoom.transform, customTransform);
   }
 
@@ -74,12 +77,14 @@ export const enableRoadmapZoomDragAndRecenter = (
   setMoveRoadmapTo(moveRoadmapTo);
 
   d3.select('#recenter-button').on('click', () => resetZoom());
-  d3.select('#zoomin-button').on('click', () => {
-    svg.transition().duration(250).call(zoom.scaleBy, 1.3);
-  });
-  d3.select('#zoomout-button').on('click', () => {
-    svg.transition().duration(250).call(zoom.scaleBy, 0.7);
-  });
+
+  // ! No longer used
+  // d3.select('#zoomin-button').on('click', () => {
+  //   svg.transition().duration(250).call(zoom.scaleBy, 1.3);
+  // });
+  // d3.select('#zoomout-button').on('click', () => {
+  //   svg.transition().duration(250).call(zoom.scaleBy, 0.7);
+  // });
 };
 
 export const disableRoadmapDragZoomAnd = (rootSvgId = 'rootSvg') => {
