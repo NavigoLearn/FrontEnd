@@ -5,6 +5,7 @@ import { tailwindTransitionClass } from '@src/UI-library/tailwind-utils';
 const BackArrow = () => {
   return (
     <button
+      type='button'
       onClick={() => {
         window.onbeforeunload = null;
 
@@ -14,7 +15,7 @@ const BackArrow = () => {
           window.location.href = '/explore';
         }, 100);
       }}
-      className={`justify-start cursor-pointer flex ml-4 w-8 h-8 p-1 bg-white hover:bg-gray-200${tailwindTransitionClass}`}
+      className={`justify-start cursor-pointer flex ml-4 w-8 h-8 p-1 bg-white hover:bg-gray-200 ${tailwindTransitionClass}`}
     >
       <img
         draggable='false'

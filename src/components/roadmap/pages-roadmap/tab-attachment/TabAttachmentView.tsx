@@ -17,6 +17,7 @@ import TitleComponentTab from '@components/roadmap/pages-roadmap/tab-attachment/
 import DescriptionComponentTab from '@components/roadmap/pages-roadmap/tab-attachment/components/DescriptionComponentTab';
 import LinkComponentTab from '@components/roadmap/pages-roadmap/tab-attachment/components/LinkComponentTab';
 import { usePressEsc } from '@hooks/usePressEsc';
+import closeSvg from '@assets/cross.svg';
 
 const TabAttachmentView = () => {
   const { nodeId } = useStore(selectedTabNode);
@@ -67,7 +68,7 @@ const TabAttachmentView = () => {
             className={`hover:bg-gray-200 ${tailwindTransitionClass}`}
           >
             <img
-              src='/src/frontend/src/assets/editor/close.svg'
+              src={closeSvg.src}
               className='w-8 h-8'
               alt='Close button for editor'
             />
