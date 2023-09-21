@@ -5,8 +5,8 @@ import {
   DEFAULT_TEXT_OPACITY,
 } from '@src/typescript/roadmap_ref/node/components/text/text-params';
 import {
-  ITextSizeModes,
-  ITextWidthModes,
+  type ITextSizeModes,
+  type ITextWidthModes,
 } from '@src/types/roadmap/node/components-types';
 import { getLastOpacity } from '@src/to-be-organized/components-store';
 

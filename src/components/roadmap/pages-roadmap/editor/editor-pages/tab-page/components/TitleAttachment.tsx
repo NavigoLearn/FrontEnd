@@ -1,7 +1,6 @@
 import React from 'react';
 import { triggerRerenderEditor } from '@store/roadmap-refactor/elements-editing/store-editor-selected-data';
-import { tailwindTransitionClass } from '@src/UI-library/tailwind-utils';
-import { IAttachmentTabTitleProperties } from '@type/roadmap/node/tab-types';
+import { type IAttachmentTabTitleProperties } from '@type/roadmap/node/tab-types';
 import { useStore } from '@nanostores/react';
 import attachmentPageStatus from '@store/roadmap-refactor/display/editor/attachment-page-status';
 import { MAX_NAME_LENGTH } from '@src/typescript/roadmap_ref/node/components/text/text-params';

@@ -2,9 +2,6 @@ import React from 'react';
 import { setDisplayPageTypeFullScreen } from '@store/roadmap-refactor/display/display-manager-full-screen';
 import { CLOSE_SVG_SRC } from '@src/to-be-organized/svg-params';
 import { tailwindTransitionClass } from '@src/UI-library/tailwind-utils';
-import { resetRoadmapCreate } from '@store/roadmap-refactor/roadmap-data/roadmap-create';
-import { createAndSetRoadmapClassic } from '@src/typescript/roadmap_ref/roadmap-templates/classic';
-import { initialRoadmapProtocolAfterLoad } from '@components/roadmap/Roadmap';
 
 type IButtonColor = 'green' | 'red' | 'darkblue';
 type IAuthPopupProps = {
@@ -13,7 +10,7 @@ type IAuthPopupProps = {
   name: string;
   heroText: string;
   smallText: string;
-  previewContent?: HTMLElement | string;
+  previewContent?: JSX.Element | string;
 };
 
 const GeneralPopup = ({
@@ -64,7 +61,7 @@ const GeneralPopup = ({
             setDisplayPageTypeFullScreen('closed');
           }}
         >
-          <img src={CLOSE_SVG_SRC} className='w-full h-full' />
+          <img src={CLOSE_SVG_SRC.src} className='w-full h-full' />
         </button>
       </section>
       <section className='flex justify-center mt-10'>

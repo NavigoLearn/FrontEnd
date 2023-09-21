@@ -27,6 +27,7 @@ import {
   MINIMUM_NODE_HEIGHT,
   MINIMUM_NODE_WIDTH,
 } from '@src/typescript/roadmap_ref/node/core/factories/params/default-params';
+import addCircle from '@assets/editor/addCircle.svg';
 import TextInputStandard from './TextInputStandard';
 
 type IActionsDropdown = {
@@ -55,7 +56,7 @@ const ActionsDropdown = ({
         <span>{action}</span>
         <div className='h-6 w-6'>
           <img
-            src='/editor/addCircle.svg'
+            src={addCircle.src}
             className='w-full h-full'
             alt='Dropdown for selecting actions'
           />

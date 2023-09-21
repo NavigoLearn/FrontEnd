@@ -5,7 +5,7 @@ import {
   getIsOwnerOfProfile,
 } from '@components/profile/stores/store-profile-data';
 import Card from '@components/explore/UI/shared/cards/Card';
-import { ICardRoadmapTypeApi } from '@type/explore/card';
+import { type ICardRoadmapTypeApi } from '@type/explore/card';
 import ProfileButtonsToggleM from '@components/profile/UI/parts-mobile/profile-display-pages/pages/roadmaps-page/components/ProfileButtonsToggleM';
 
 const RoadmapsPageM = () => {

@@ -1,6 +1,6 @@
 import { errorHandlerDecorator } from '@src/typescript/error-handler';
-import { RoadmapTypeApiExplore } from '@type/explore/card';
-import { ISearchParams } from '@components/explore/stores/explore-query-store';
+import { type RoadmapTypeApiExplore } from '@type/explore/card';
+import { type ISearchParams } from '@components/explore/stores/explore-query-store';
 
 function parameterBuilder(params: ISearchParams) {
   let result = '?';
@@ -50,10 +50,10 @@ export type FeelingLuckyApi = {
 };
 
 export async function fetchFeelingLucky() {
-    const fetchRouteExplore = `/api/search/feeling-lucky`;
-    const responseExplore = await fetch(fetchRouteExplore, {
-        method: 'GET',
-        credentials: 'include',
-    }).then((res) => res.json());
-    return responseExplore as FeelingLuckyApi;
+  const fetchRouteExplore = `/api/search/feeling-lucky`;
+  const responseExplore = await fetch(fetchRouteExplore, {
+    method: 'GET',
+    credentials: 'include',
+  }).then((res) => res.json());
+  return responseExplore as FeelingLuckyApi;
 }

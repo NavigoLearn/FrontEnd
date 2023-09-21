@@ -1,14 +1,9 @@
-import {
-  getResizeNodeInitialSize,
-  getResizeNodeRef,
-  IMouseDragDirection,
-} from '@src/to-be-organized/resize-dragging/stores-resize-node';
+import { type IMouseDragDirection } from '@src/to-be-organized/resize-dragging/stores-resize-node';
 import {
   getResizeComponentInitialSize,
   getResizeComponentRef,
 } from '@src/to-be-organized/resize-dragging/stores-resize-components';
 import { mutateComponentWidth } from '@src/typescript/roadmap_ref/node/components/mutate';
-import { mutateComponentTextHeight } from '@src/typescript/roadmap_ref/node/components/text/mutate';
 
 type IMutateFunction = (deltaXMouse: number, deltaYMouse: number) => void;
 

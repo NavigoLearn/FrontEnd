@@ -1,21 +1,12 @@
 import { DraggingBehavior } from '@src/typescript/roadmap_ref/dragging/core';
-import {
-  getComponentMovedAnchorsPositions,
-  getSubNodeMovedAnchorsPositions,
-} from '@src/typescript/roadmap_ref/snapping/anchors-generators/generate-element-anchors';
-import {
-  getComponentsExternalAnchorsPositions,
-  getSubNodeExternalAnchorsPositions,
-} from '@src/typescript/roadmap_ref/snapping/anchors-generators/generate-external-anchors';
-import { ISnapPolynomialObject } from '@src/typescript/roadmap_ref/snapping/snapping-types';
+import { getComponentMovedAnchorsPositions } from '@src/typescript/roadmap_ref/snapping/anchors-generators/generate-element-anchors';
+import { getComponentsExternalAnchorsPositions } from '@src/typescript/roadmap_ref/snapping/anchors-generators/generate-external-anchors';
+import { type ISnapPolynomialObject } from '@src/typescript/roadmap_ref/snapping/snapping-types';
 import { generateSnapPolynomials } from '@src/typescript/roadmap_ref/snapping/polynomial-generators/generate-polynomials';
 import { calculateAnchorsDeltasToPolynomials } from '@src/typescript/roadmap_ref/snapping/snapping-processing/process-x-snappings';
 import { getSmallestOutOfAllDeltas } from '@src/typescript/roadmap_ref/snapping/evaluators/evaluate-deltas';
 import { setSnappings } from '@store/roadmap-refactor/render/snapping-lines';
-import {
-  getNodeAbsoluteCoordsCenter,
-  getNodeByIdRoadmapSelector,
-} from '@src/typescript/roadmap_ref/roadmap-data/services/get';
+import { getNodeByIdRoadmapSelector } from '@src/typescript/roadmap_ref/roadmap-data/services/get';
 import { transformSnapCoordsInAbsolute } from '@src/typescript/roadmap_ref/snapping/data-transform/transform-coords-snap';
 import { getComponentById } from '@src/typescript/roadmap_ref/node/core/data-get/components';
 

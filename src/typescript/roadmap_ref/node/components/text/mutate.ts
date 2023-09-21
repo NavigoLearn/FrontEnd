@@ -1,11 +1,10 @@
 import { ComponentText } from '@src/typescript/roadmap_ref/node/components/text/core';
 import { decoratorTriggerRerenderEditor } from '@src/typescript/roadmap_ref/node/decorators/rerenders';
 import {
-  ITextSizeModes,
-  ITextWidthModes,
+  type ITextSizeModes,
+  type ITextWidthModes,
 } from '@src/types/roadmap/node/components-types';
-import { getLastOpacity, setLastOpacity } from '@src/to-be-organized/components-store';
-import { get } from 'http';
+import { setLastOpacity } from '@src/to-be-organized/components-store';
 
 export function mutateComponentTextWidth(
   component: ComponentText,

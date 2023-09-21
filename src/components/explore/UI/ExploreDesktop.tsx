@@ -1,20 +1,19 @@
 import React from 'react';
 import OptionSelect from '@components/explore/UI/components-desktop/filters/OptionSelect';
 import {
-  IPerPage,
-  ISortBy,
-  ITopicParam,
+  type IPerPage,
+  type ISortBy,
+  type ITopicParam,
   setExploreQueryPerPage,
   setExploreQuerySortBy,
   setExploreQueryTopic,
   sortByOptions,
   perPageOptions,
   topicOptions,
-  setExploreQuery,
 } from '@components/explore/stores/explore-query-store';
 import Card from '@components/explore/UI/shared/cards/Card';
 import Pagination from '@components/explore/UI/components-desktop/paginations/Pagination';
-import { ICardRoadmapTypeApi } from '@type/explore/card';
+import { type ICardRoadmapTypeApi } from '@type/explore/card';
 import LoadingCard from '@components/explore/UI/shared/cards/LoadingCard';
 import { useExploreCardData } from '@components/explore/logic/hooks/useExploreCardData';
 import { fetchFeelingLucky } from '@src/api-wrapper/explore/roadmap-card-data';

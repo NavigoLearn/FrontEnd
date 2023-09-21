@@ -3,18 +3,15 @@ import {
   getSubNodeExternalAnchorsPositions,
 } from '@src/typescript/roadmap_ref/snapping/anchors-generators/generate-external-anchors';
 import {
-  ISnapDelta,
-  ISnapPolynomialObject,
+  type ISnapDelta,
+  type ISnapPolynomialObject,
 } from '@src/typescript/roadmap_ref/snapping/snapping-types';
 import { generateSnapPolynomials } from '@src/typescript/roadmap_ref/snapping/polynomial-generators/generate-polynomials';
 import { calculateAnchorsDeltasToPolynomials } from '@src/typescript/roadmap_ref/snapping/snapping-processing/process-x-snappings';
 import { getSmallestOutOfAllDeltas } from '@src/typescript/roadmap_ref/snapping/evaluators/evaluate-deltas';
 import { setSnappings } from '@store/roadmap-refactor/render/snapping-lines';
 import { NodeClass } from '@src/typescript/roadmap_ref/node/core/core';
-import {
-  IMouseDirectionBase,
-  IMouseDragDirection,
-} from '@src/to-be-organized/resize-dragging/stores-resize-node';
+import { type IMouseDragDirection } from '@src/to-be-organized/resize-dragging/stores-resize-node';
 import {
   getResizedNodeAnchorsPositions,
   getResizedSubNodeAnchorsPositions,
@@ -22,320 +19,185 @@ import {
 import { getAlt } from '@store/roadmap-refactor/misc/key-press-store';
 import {
   mutateNodeHeightBottomDy,
-  mutateNodeHeightTop,
   mutateNodeHeightTopDy,
   mutateNodeHeightYAxisDy,
   mutateNodeWidthLeftDx,
   mutateNodeWidthRightDx,
-  mutateNodeWidthXAxis,
   mutateNodeWidthXAxisDx,
 } from '@src/typescript/roadmap_ref/node/core/data-mutation/mutate-resize-protocols';
 import { getNodeCenterAbsoluteCoords } from '@src/typescript/roadmap_ref/roadmap-data/services/get';
-import { deepCopy } from '@src/typescript/roadmap_ref/utils';
-import { getSubNodeAnchorsPositions } from '@src/typescript/roadmap_ref/snapping/anchors-generators/generate-element-anchors';
 import { transformSnapCoordsInAbsolute } from '@src/typescript/roadmap_ref/snapping/data-transform/transform-coords-snap';
+import { type ICoords } from '@src/typescript/roadmap_ref/dragging/core';
+
+const ALT_DIRECTIONS = {
+  top: 'bottom',
+  bottom: 'top',
+  left: 'right',
+  right: 'left',
+};
+const DIRECTIONS = [
+  'top',
+  'bottom',
+  'left',
+  'right',
+  'top-left',
+  'top-right',
+  'bottom-left',
+  'bottom-right',
+];
 
 const getAnchorsDirections = (direction: IMouseDragDirection) => {
-  const directions: IMouseDirectionBase[] = [];
-  if (direction === 'top') {
-    directions.push('top');
-    if (getAlt()) {
-      directions.push('bottom');
-    }
-  }
-  if (direction === 'bottom') {
-    directions.push('bottom');
-    if (getAlt()) {
-      directions.push('top');
-    }
-  }
-
-  if (direction === 'left') {
-    directions.push('left');
-    if (getAlt()) {
-      directions.push('right');
-    }
-  }
-
-  if (direction === 'right') {
-    directions.push('right');
-    if (getAlt()) {
-      directions.push('left');
-    }
-  }
-
-  if (direction === 'top-left') {
-    directions.push('top');
-    directions.push('left');
-    if (getAlt()) {
-      directions.push('bottom');
-      directions.push('right');
-    }
-  }
-
-  if (direction === 'top-right') {
-    directions.push('top');
-    directions.push('right');
-    if (getAlt()) {
-      directions.push('bottom');
-      directions.push('left');
-    }
-  }
-
-  if (direction === 'bottom-left') {
-    directions.push('bottom');
-    directions.push('left');
-    if (getAlt()) {
-      directions.push('top');
-      directions.push('right');
-    }
-  }
-
-  if (direction === 'bottom-right') {
-    directions.push('bottom');
-    directions.push('right');
-    if (getAlt()) {
-      directions.push('top');
-      directions.push('left');
-    }
-  }
-
-  return directions;
+  const hasAlt = getAlt();
+  return DIRECTIONS.filter((d) => direction.includes(d))
+    .map((d) => [d, hasAlt ? ALT_DIRECTIONS[d] : null])
+    .flat()
+    .filter(Boolean);
 };
 
-function snappingIsLeftOfCenter(node: NodeClass, smallestDeltaY: ISnapDelta) {
-  const { snappedElementAnchor } = smallestDeltaY;
-  const isSubNode = !node.flags.renderedOnRoadmapFlag;
-  let nodeCoords;
-  if (!isSubNode) {
-    nodeCoords = getNodeCenterAbsoluteCoords(node.id);
-  } else {
-    nodeCoords = {
-      x: node.data.coords.x,
-      y: node.data.coords.y,
-    };
-  }
+const getSubNodeCoords = (node: NodeClass) =>
+  !node.flags.renderedOnRoadmapFlag
+    ? getNodeCenterAbsoluteCoords(node.id)
+    : { x: node.data.coords.x, y: node.data.coords.y };
 
-  if (nodeCoords.x < snappedElementAnchor.x) {
-    return true;
-  }
-  return false;
-}
-
-function snappingIsAboveCenter(node: NodeClass, smallestDeltaY: ISnapDelta) {
-  const { snappedElementAnchor } = smallestDeltaY;
-  const isSubNode = !node.flags.renderedOnRoadmapFlag;
-  let nodeCoords;
-  if (!isSubNode) {
-    nodeCoords = getNodeCenterAbsoluteCoords(node.id);
-  } else {
-    nodeCoords = {
-      x: node.data.coords.x,
-      y: node.data.coords.y,
-    };
-  }
-  if (nodeCoords.y < snappedElementAnchor.y) {
-    return true;
-  }
-  return false;
-}
-
-function handleTopDirectionSnapping(
+const handleDirectionSnapping = (
   node: NodeClass,
-  smallestDeltaY: ISnapDelta
-) {
-  if (smallestDeltaY) {
+  delta: ISnapDelta,
+  isNodeAboveOrLeftOfCenter: (n: NodeClass, d: ISnapDelta) => boolean,
+  mutateNodeAxisFunction: (n: NodeClass, d: number) => void,
+  mutateNodePositionFunction: (n: NodeClass, d: number) => void,
+  directionInvert = false
+) => {
+  if (delta) {
+    let { delta: deltaValue } = delta;
+
+    if (directionInvert) {
+      deltaValue = -deltaValue;
+    }
+
     if (getAlt()) {
-      let { delta } = smallestDeltaY; // coords system are made for dragging, not for resizing, so we need to adjust the delta
-      // because it gives the wrong up direction for bottom ( which is actually down in the dragging coordinate system)
-      if (snappingIsAboveCenter(node, smallestDeltaY)) delta = -delta;
-      mutateNodeHeightYAxisDy(node, delta);
+      if (isNodeAboveOrLeftOfCenter(node, delta)) deltaValue = -deltaValue;
+      mutateNodeAxisFunction(node, deltaValue);
     } else {
-      mutateNodeHeightTopDy(node, smallestDeltaY.delta);
+      mutateNodePositionFunction(node, deltaValue);
     }
   }
-}
+};
 
-function handleBottomDirectionSnapping(
+const snappingIsLeftOfCenter = (node: NodeClass, smallestDelta: ISnapDelta) =>
+  getSubNodeCoords(node).x < smallestDelta.snappedElementAnchor.x;
+
+const snappingIsAboveCenter = (node: NodeClass, smallestDelta: ISnapDelta) =>
+  getSubNodeCoords(node).y < smallestDelta.snappedElementAnchor.y;
+
+const handleTopDirectionSnapping = (
   node: NodeClass,
   smallestDeltaY: ISnapDelta
-) {
-  if (smallestDeltaY) {
-    if (getAlt()) {
-      let { delta } = smallestDeltaY; // coords system are made for dragging, not for resizing, so we need to adjust the delta
-      // because it gives the wrong up direction for bottom ( which is actually down in the dragging coordinate system)
-      if (snappingIsAboveCenter(node, smallestDeltaY)) delta = -delta;
-      mutateNodeHeightYAxisDy(node, delta);
-    } else {
-      mutateNodeHeightBottomDy(node, -smallestDeltaY.delta);
-    }
-  }
-}
+) =>
+  handleDirectionSnapping(
+    node,
+    smallestDeltaY,
+    snappingIsAboveCenter,
+    mutateNodeHeightYAxisDy,
+    mutateNodeHeightTopDy
+  );
 
-function handleLeftDirectionSnapping(
+const handleBottomDirectionSnapping = (
+  node: NodeClass,
+  smallestDeltaY: ISnapDelta
+) =>
+  handleDirectionSnapping(
+    node,
+    smallestDeltaY,
+    snappingIsAboveCenter,
+    mutateNodeHeightYAxisDy,
+    mutateNodeHeightBottomDy,
+    true
+  );
+
+const handleLeftDirectionSnapping = (
   node: NodeClass,
   smallestDeltaX: ISnapDelta
-) {
-  if (smallestDeltaX) {
-    if (getAlt()) {
-      let { delta } = smallestDeltaX;
-      if (snappingIsLeftOfCenter(node, smallestDeltaX)) delta = -delta;
-      mutateNodeWidthXAxisDx(node, delta);
-    } else {
-      mutateNodeWidthLeftDx(node, smallestDeltaX.delta);
-    }
-  }
-}
+) =>
+  handleDirectionSnapping(
+    node,
+    smallestDeltaX,
+    snappingIsLeftOfCenter,
+    mutateNodeWidthXAxisDx,
+    mutateNodeWidthLeftDx
+  );
 
-function handleRightDirectionSnapping(
+const handleRightDirectionSnapping = (
   node: NodeClass,
   smallestDeltaX: ISnapDelta
-) {
-  if (smallestDeltaX) {
-    if (getAlt()) {
-      let { delta } = smallestDeltaX;
-      if (snappingIsLeftOfCenter(node, smallestDeltaX)) delta = -delta;
-      mutateNodeWidthXAxisDx(node, delta);
-    } else {
-      mutateNodeWidthRightDx(node, -smallestDeltaX.delta);
-    }
-  }
-}
+) =>
+  handleDirectionSnapping(
+    node,
+    smallestDeltaX,
+    snappingIsLeftOfCenter,
+    mutateNodeWidthXAxisDx,
+    mutateNodeWidthRightDx,
+    true
+  );
 
-function handleTopLeftDirectionSnapping(
+const handleTopLeftDirectionSnapping = (
   node: NodeClass,
   smallestDeltaX: ISnapDelta,
   smallestDeltaY: ISnapDelta
-) {
-  if (smallestDeltaY) {
-    if (getAlt()) {
-      let { delta } = smallestDeltaY;
-      if (snappingIsAboveCenter(node, smallestDeltaY)) delta = -delta;
-      mutateNodeHeightYAxisDy(node, delta);
-    } else {
-      mutateNodeHeightTopDy(node, smallestDeltaY.delta);
-    }
-  }
-  if (smallestDeltaX) {
-    if (getAlt()) {
-      let { delta } = smallestDeltaX;
-      if (snappingIsLeftOfCenter(node, smallestDeltaX)) delta = -delta;
-      mutateNodeWidthXAxisDx(node, delta);
-    } else {
-      mutateNodeWidthLeftDx(node, smallestDeltaX.delta);
-    }
-  }
-}
+) => {
+  handleTopDirectionSnapping(node, smallestDeltaY);
+  handleLeftDirectionSnapping(node, smallestDeltaX);
+};
 
-function handleTopRightDirectionSnapping(
+const handleTopRightDirectionSnapping = (
   node: NodeClass,
   smallestDeltaX: ISnapDelta,
   smallestDeltaY: ISnapDelta
-) {
-  if (smallestDeltaY) {
-    if (getAlt()) {
-      let { delta } = smallestDeltaY;
-      if (snappingIsAboveCenter(node, smallestDeltaY)) delta = -delta;
-      mutateNodeHeightYAxisDy(node, delta);
-    } else {
-      mutateNodeHeightTopDy(node, smallestDeltaY.delta);
-    }
-  }
-  if (smallestDeltaX) {
-    if (getAlt()) {
-      let { delta } = smallestDeltaX;
-      if (snappingIsLeftOfCenter(node, smallestDeltaX)) delta = -delta;
-      mutateNodeWidthXAxisDx(node, delta);
-    } else {
-      mutateNodeWidthRightDx(node, -smallestDeltaX.delta);
-    }
-  }
-}
+) => {
+  handleTopDirectionSnapping(node, smallestDeltaY);
+  handleRightDirectionSnapping(node, smallestDeltaX);
+};
 
-function handleBottomLeftDirectionSnapping(
+const handleBottomLeftDirectionSnapping = (
   node: NodeClass,
   smallestDeltaX: ISnapDelta,
   smallestDeltaY: ISnapDelta
-) {
-  if (smallestDeltaY) {
-    if (getAlt()) {
-      let { delta } = smallestDeltaY;
-      if (snappingIsAboveCenter(node, smallestDeltaY)) delta = -delta;
-      mutateNodeHeightYAxisDy(node, delta);
-    } else {
-      mutateNodeHeightBottomDy(node, -smallestDeltaY.delta);
-    }
-  }
-  if (smallestDeltaX) {
-    if (getAlt()) {
-      let { delta } = smallestDeltaX;
-      if (snappingIsLeftOfCenter(node, smallestDeltaX)) delta = -delta;
-      mutateNodeWidthXAxisDx(node, delta);
-    } else {
-      mutateNodeWidthLeftDx(node, smallestDeltaX.delta);
-    }
-  }
-}
+) => {
+  handleBottomDirectionSnapping(node, smallestDeltaY);
+  handleLeftDirectionSnapping(node, smallestDeltaX);
+};
 
-function handleBottomRightDirectionSnapping(
+const handleBottomRightDirectionSnapping = (
   node: NodeClass,
   smallestDeltaX: ISnapDelta,
   smallestDeltaY: ISnapDelta
-) {
-  if (smallestDeltaY) {
-    if (getAlt()) {
-      let { delta } = smallestDeltaY;
-      if (snappingIsAboveCenter(node, smallestDeltaY)) delta = -delta;
-      mutateNodeHeightYAxisDy(node, delta);
-    } else {
-      mutateNodeHeightBottomDy(node, -smallestDeltaY.delta);
-    }
-  }
-  if (smallestDeltaX) {
-    if (getAlt()) {
-      let { delta } = smallestDeltaX;
-      if (snappingIsLeftOfCenter(node, smallestDeltaX)) delta = -delta;
-      mutateNodeWidthXAxisDx(node, delta);
-    } else {
-      mutateNodeWidthRightDx(node, -smallestDeltaX.delta);
-    }
-  }
-}
+) => {
+  handleBottomDirectionSnapping(node, smallestDeltaY);
+  handleRightDirectionSnapping(node, smallestDeltaX);
+};
 
-export function handleNodeResizingProtocol(
+export const handleNodeResizingProtocol = (
   node: NodeClass,
   direction: IMouseDragDirection,
   smallestDeltaX: ISnapDelta,
   smallestDeltaY: ISnapDelta
-) {
-  // return null;
-  if (direction === 'top') {
-    handleTopDirectionSnapping(node, smallestDeltaY);
-  }
-  if (direction === 'bottom') {
-    handleBottomDirectionSnapping(node, smallestDeltaY);
-  }
-  if (direction === 'left') {
-    handleLeftDirectionSnapping(node, smallestDeltaX);
-  }
+) => {
+  const snappingFuncs: { [key in IMouseDragDirection]: () => void } = {
+    top: () => handleTopDirectionSnapping(node, smallestDeltaY),
+    bottom: () => handleBottomDirectionSnapping(node, smallestDeltaY),
+    left: () => handleLeftDirectionSnapping(node, smallestDeltaX),
+    right: () => handleRightDirectionSnapping(node, smallestDeltaX),
+    'top-left': () =>
+      handleTopLeftDirectionSnapping(node, smallestDeltaX, smallestDeltaY),
+    'top-right': () =>
+      handleTopRightDirectionSnapping(node, smallestDeltaX, smallestDeltaY),
+    'bottom-left': () =>
+      handleBottomLeftDirectionSnapping(node, smallestDeltaX, smallestDeltaY),
+    'bottom-right': () =>
+      handleBottomRightDirectionSnapping(node, smallestDeltaX, smallestDeltaY),
+  };
 
-  if (direction === 'right') {
-    handleRightDirectionSnapping(node, smallestDeltaX);
-  }
-
-  if (direction === 'top-left') {
-    handleTopLeftDirectionSnapping(node, smallestDeltaX, smallestDeltaY);
-  }
-  if (direction === 'top-right') {
-    handleTopRightDirectionSnapping(node, smallestDeltaX, smallestDeltaY);
-  }
-  if (direction === 'bottom-left') {
-    handleBottomLeftDirectionSnapping(node, smallestDeltaX, smallestDeltaY);
-  }
-  if (direction === 'bottom-right') {
-    handleBottomRightDirectionSnapping(node, smallestDeltaX, smallestDeltaY);
-  }
-}
+  (snappingFuncs[direction] || function none() {})();
+};
 
 export function snapResizingNodeProtocol(
   node: NodeClass,
@@ -344,7 +206,7 @@ export function snapResizingNodeProtocol(
   const isSubNode = !node.flags.renderedOnRoadmapFlag;
   const resizedNodeId = node.id;
 
-  let elementAnchors = [];
+  let elementAnchors: ICoords[];
 
   if (isSubNode) {
     elementAnchors = getResizedSubNodeAnchorsPositions(
@@ -358,7 +220,7 @@ export function snapResizingNodeProtocol(
     );
   }
 
-  let externalAnchors = [];
+  let externalAnchors: ICoords[];
   if (!isSubNode) {
     externalAnchors = getRenderedRootNodesExternalAnchorsPositions([
       resizedNodeId,
@@ -427,9 +289,8 @@ export function snapResizingNodeProtocol(
   ];
 
   if (isSubNode) {
-    let adjustedSnappingLinesCoords = [];
     const parentId = node.properties.nestedWithin;
-    adjustedSnappingLinesCoords = transformSnapCoordsInAbsolute(
+    const adjustedSnappingLinesCoords = transformSnapCoordsInAbsolute(
       parentId,
       snappingLinesCoords
     );

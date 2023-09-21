@@ -122,6 +122,7 @@ const NodeRendererClassic: React.FC<NodeViewProps> = ({
   useNodeHandleEvents(nodeDivRef, nodeId, loaded);
 
   return (
+    // @ts-ignore
     <div
       className={isSafari && !isSubNode ? 'fixed origin-center' : ''}
       style={{

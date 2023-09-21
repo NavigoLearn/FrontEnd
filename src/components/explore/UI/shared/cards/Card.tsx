@@ -1,7 +1,7 @@
 import React from 'react';
 import UpvoteDownvote from '@components/explore/UI/shared/cards/components/UpvoteDownvote';
 import { tailwindTransitionClass } from '@src/UI-library/tailwind-utils';
-import { ICardRoadmapTypeApi } from '@type/explore/card';
+import { type ICardRoadmapTypeApi } from '@type/explore/card';
 
 type ICardProps = {
   data: ICardRoadmapTypeApi;

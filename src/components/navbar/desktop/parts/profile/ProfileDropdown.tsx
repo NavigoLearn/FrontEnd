@@ -1,6 +1,6 @@
 import React, { useRef } from 'react';
 import { handleLogout } from '@components/auth/old/socialAuth';
-import { motion, Variants } from 'framer-motion';
+import { motion, type Variants } from 'framer-motion';
 import { useClickOutside } from '@hooks/useClickOutside';
 import useStateAndRef from '@hooks/useStateAndRef';
 import ButtonProfileDropdown from './ButtonProfileDropdown';

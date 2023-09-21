@@ -1,9 +1,9 @@
-import { IRoadmap } from '@type/roadmap/stores/IRoadmap';
+import { type IRoadmap } from '@type/roadmap/stores/IRoadmap';
 import { errorHandlerDecorator } from '@src/typescript/error-handler';
 import { storeRoadmapPostPayload } from '@src/api-wrapper/roadmap/stores/roadmap-payload';
 import { getRoadmapId } from '@store/roadmap-refactor/roadmap-data/misc-data/roadmap-about';
 import { decodeBase64, encodeBase64 } from '@src/typescript/utils/misc';
-import { IAttachmentTabStatus } from '@src/typescript/roadmap_ref/node/attachments/tab/core';
+import { type IAttachmentTabStatus } from '@src/typescript/roadmap_ref/node/attachments/tab/core';
 
 export const fetchRoadmap = async (id: string) => {
   // fetches roadmapData from api

@@ -21,7 +21,7 @@ function setAsyncLoadTimeout() {
 
     storeAsyncLoading.set({
       asyncDelay,
-      showNode
+      showNode,
     });
   }
 }
@@ -38,13 +38,13 @@ export function insertNodeToRender(setLoaded: () => void) {
 
   const showNode = store.showNode.set(setLoaded, setLoaded);
 
-  storeAsyncLoading.set({...store, showNode});
+  storeAsyncLoading.set({ ...store, showNode });
 }
 
 export function removeNodeToRender(setLoaded: () => void) {
   const store = storeAsyncLoading.get();
-  const showNode = store.showNode;
+  const { showNode } = store;
   showNode.delete(setLoaded);
 
-  storeAsyncLoading.set({...store, showNode});
+  storeAsyncLoading.set({ ...store, showNode });
 }

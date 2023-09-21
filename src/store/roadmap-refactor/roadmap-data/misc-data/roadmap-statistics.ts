@@ -1,5 +1,5 @@
 import { atom } from 'nanostores';
-import { IRoadmapApi } from '@type/explore_old/card';
+import { type IRoadmapApi } from '@type/explore_old/card';
 
 export type IRoadmapStatistics = {
   loaded: boolean;

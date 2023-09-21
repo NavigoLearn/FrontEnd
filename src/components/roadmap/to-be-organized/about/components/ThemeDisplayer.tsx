@@ -5,7 +5,7 @@ import theme3 from '@assets/theme3.svg';
 import theme4 from '@assets/theme4.svg';
 import { AnimatePresence, motion } from 'framer-motion';
 import { setStoreAboutTempTheme } from '@components/roadmap/to-be-organized/about/stores/store-about-temp';
-import { IColorThemesOptions } from '@type/roadmap/node/colors-types';
+import { type IColorThemesOptions } from '@type/roadmap/node/colors-types';
 
 type IThemeDisplayerProps = {
   isSelectible: boolean;

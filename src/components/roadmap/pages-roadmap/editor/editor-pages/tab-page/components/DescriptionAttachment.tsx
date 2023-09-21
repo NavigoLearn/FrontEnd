@@ -1,11 +1,9 @@
 import React from 'react';
 import attachmentPageStatus from '@store/roadmap-refactor/display/editor/attachment-page-status';
 import { triggerRerenderEditor } from '@store/roadmap-refactor/elements-editing/store-editor-selected-data';
-import { tailwindTransitionClass } from '@src/UI-library/tailwind-utils';
-import { IAttachmentTabDescriptionProperties } from '@type/roadmap/node/tab-types';
+import { type IAttachmentTabDescriptionProperties } from '@type/roadmap/node/tab-types';
 import { useStore } from '@nanostores/react';
 import TextareaStandardInput from '../../properties-page/TextareaStandardInput';
-import TextInputStandard from '../../properties-page/TextInputStandard';
 
 type IDescriptionComponentProps = {
   value: string;

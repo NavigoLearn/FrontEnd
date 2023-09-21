@@ -1,8 +1,5 @@
-import { ICoords } from '@src/typescript/roadmap_ref/dragging/core';
-import {
-  getNodeByIdRoadmapSelector,
-  getRootNodesIds,
-} from '@src/typescript/roadmap_ref/roadmap-data/services/get';
+import { type ICoords } from '@src/typescript/roadmap_ref/dragging/core';
+import { getNodeByIdRoadmapSelector } from '@src/typescript/roadmap_ref/roadmap-data/services/get';
 import {
   getNodeCornerPositions,
   getNodeCornerPositionsWithWH,
@@ -224,7 +221,6 @@ export const snapNodeWidthHeight = (
   const minWidthSnapDelta = widthsSnapDeltas[minIndexWidth];
   const minHeightSnapDelta = heightsSnapDeltas[minIndexHeight];
 
-  const node = getNodeByIdRoadmapSelector(nodeId);
   return {
     width: width - 2 * minWidthSnapDelta,
     height: height - 2 * minHeightSnapDelta,

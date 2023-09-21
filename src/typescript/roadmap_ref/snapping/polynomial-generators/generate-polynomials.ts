@@ -1,17 +1,14 @@
-import { ICoords } from '@src/typescript/roadmap_ref/dragging/core';
+import { type ICoords } from '@src/typescript/roadmap_ref/dragging/core';
 import {
-  IPolynomialFunction,
-  ISnapPolynomialObject,
+  type IPolynomialFunction,
+  type ISnapPolynomialObject,
 } from '@src/typescript/roadmap_ref/snapping/snapping-types';
-import {
-  ICoordsCustom,
-  typeAssertICoordsCustom,
-} from '@src/typescript/roadmap_ref/snapping/anchors-generators/generate-resizing-anchors';
+import { type ICoordsCustom } from '@src/typescript/roadmap_ref/snapping/anchors-generators/generate-resizing-anchors';
 
 function generateHorizontalSnapPolynomialFunction(
   anchor: ICoords
 ): IPolynomialFunction {
-  return (x: number, y: number) => {
+  return (_: number, y: number) => {
     return y - anchor.y;
   };
 }
@@ -19,7 +16,7 @@ function generateHorizontalSnapPolynomialFunction(
 function generateVerticalSnapPolynomialFunction(
   anchor: ICoords
 ): IPolynomialFunction {
-  return (x: number, y: number) => {
+  return (x: number, _: number) => {
     return x - anchor.x;
   };
 }

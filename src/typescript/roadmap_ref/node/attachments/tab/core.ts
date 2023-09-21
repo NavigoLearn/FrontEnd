@@ -1,5 +1,5 @@
-import { IAttachmentTabComponentProperties } from '@type/roadmap/node/tab-types';
-import { IAttachmentOptions } from '@type/roadmap/node/options-types';
+import { type IAttachmentTabComponentProperties } from '@type/roadmap/node/tab-types';
+import { type IAttachmentOptions } from '@type/roadmap/node/options-types';
 import { generateId } from '@src/typescript/roadmap_ref/node/core/misc';
 
 export class Attachment {

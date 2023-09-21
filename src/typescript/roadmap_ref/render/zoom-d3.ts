@@ -5,7 +5,6 @@ import {
 } from '@store/roadmap-refactor/misc/misc-params-store';
 import {
   getScaleSafari,
-  setScaleSafari,
   setScaleSafariNoSideEffects,
 } from '@store/roadmap-refactor/misc/scale-safari-store';
 import { throttle } from '@src/typescript/roadmap_ref/render/chunks';
@@ -40,7 +39,7 @@ export const enableRoadmapZoomDragAndRecenter = (
   function zoomed() {
     rerender();
     this.zoomTransform = d3.zoomIdentity;
-    const zoomTransform = d3.zoomTransform(this);
+    const zoomTransform: d3.ZoomTransform = d3.zoomTransform(this);
     rootGroup.attr('transform', zoomTransform);
 
     setScaleSafariNoSideEffects(zoomTransform.k);

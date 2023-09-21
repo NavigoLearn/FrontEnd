@@ -1,9 +1,9 @@
-import { ICoords } from '@src/typescript/roadmap_ref/dragging/core';
+import { type ICoords } from '@src/typescript/roadmap_ref/dragging/core';
 import {
   getNodeByIdRoadmapSelector,
   getNodeCenterAbsoluteCoords,
 } from '@src/typescript/roadmap_ref/roadmap-data/services/get';
-import { IComponentObject } from '@type/roadmap/node/components-types';
+import { type IComponentObject } from '@type/roadmap/node/components-types';
 
 export function getSubNodeAnchorsPositions(nodeId: string): ICoords[] {
   const corners: ICoords[] = [];

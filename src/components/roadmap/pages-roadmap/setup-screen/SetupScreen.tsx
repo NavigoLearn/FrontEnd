@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { setDisplayPageTypeFullScreen } from '@store/roadmap-refactor/display/display-manager-full-screen';
-import exit from '../../../../../public/editor/close.svg';
+import exit from '@assets/editor/close.svg';
 import ThemeSelector from './pages/ThemeSelector';
 import TitleSelector from './pages/TitleSelector';
 import { initialRoadmapProtocolAfterLoad } from '../../Roadmap';
@@ -51,7 +51,7 @@ const SetupScreen = () => {
               initialRoadmapProtocolAfterLoad();
             }}
           >
-            <img src={exit} alt='exitButton' className='w-7 h-7' />
+            <img src={exit.src} alt='exitButton' className='w-7 h-7' />
           </button>
         </div>
         {renderActiveTab()}

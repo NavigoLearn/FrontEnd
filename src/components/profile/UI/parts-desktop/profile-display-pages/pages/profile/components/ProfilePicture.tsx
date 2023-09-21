@@ -27,7 +27,7 @@ const ProfilePicture = ({ src }: IProfilePictureProps) => {
           <img
             alt='edit profile picture button'
             className='w-7/12 h-7/12 '
-            src={EDIT_SRC}
+            src={EDIT_SRC.src}
           />
         </button>
       </div>

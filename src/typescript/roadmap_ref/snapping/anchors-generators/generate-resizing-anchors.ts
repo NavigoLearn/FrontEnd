@@ -2,8 +2,8 @@ import {
   getNodeCenterAbsoluteCoords,
   getNodeByIdRoadmapSelector,
 } from '@src/typescript/roadmap_ref/roadmap-data/services/get';
-import { ICoords } from '@src/typescript/roadmap_ref/dragging/core';
-import { IMouseDirectionBase } from '@src/to-be-organized/resize-dragging/stores-resize-node';
+import { type ICoords } from '@src/typescript/roadmap_ref/dragging/core';
+import { type IMouseDirectionBase } from '@src/to-be-organized/resize-dragging/stores-resize-node';
 
 export type ICoordsCustom = ICoords & {
   snapOnX: boolean;

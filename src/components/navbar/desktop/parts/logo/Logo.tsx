@@ -10,7 +10,7 @@ const Logo = () => {
       <img
         draggable='false'
         className='w-20 ml-8 select-none '
-        src={logoSrc}
+        src={logoSrc.src}
         alt='navbar-logo'
       />
     </a>

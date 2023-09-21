@@ -35,20 +35,23 @@ const Links = () => {
         {' '}
         Home
       </a>
-      { hydrated &&  isLogged ?
-        (<a
+      {hydrated && isLogged ? (
+        <a
           href='/profile'
           className='font-roboto-text text-normal text-white text-md text-center hover:underline hover:underline-offset-4 select-none'
         >
-            {' '}
-            Profile
-        </a>) : (<a
+          {' '}
+          Profile
+        </a>
+      ) : (
+        <a
           href='/login'
           className='font-roboto-text text-normal text-white text-md text-center hover:underline hover:underline-offset-4 select-none'
         >
           {' '}
           Login
-        </a>)}
+        </a>
+      )}
     </div>
   );
 };

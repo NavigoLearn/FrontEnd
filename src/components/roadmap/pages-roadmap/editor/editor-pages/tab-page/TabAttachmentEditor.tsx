@@ -6,8 +6,8 @@ import storeEditorSelectedData, {
   triggerRerenderEditor,
 } from '@store/roadmap-refactor/elements-editing/store-editor-selected-data';
 import { getAttachmentByIndex } from '@src/typescript/roadmap_ref/node/core/data-get/attachments';
-import { IAttachmentTabComponentTypes } from '@type/roadmap/node/tab-types';
-import { IAttachmentPageStatus } from '@store/roadmap-refactor/display/editor/attachment-page-status';
+import { type IAttachmentTabComponentTypes } from '@type/roadmap/node/tab-types';
+import { type IAttachmentPageStatus } from '@store/roadmap-refactor/display/editor/attachment-page-status';
 import { getNodeByIdRoadmapSelector } from '@src/typescript/roadmap_ref/roadmap-data/services/get';
 import { AnimatePresence, motion } from 'framer-motion';
 

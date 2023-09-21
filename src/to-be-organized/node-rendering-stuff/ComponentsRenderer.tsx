@@ -1,7 +1,7 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useRef } from 'react';
 import { calculateComponentsPositions } from '@src/to-be-organized/node-rendering-stuff/logic';
 import { NodeClass } from '@src/typescript/roadmap_ref/node/core/core';
-import { IComponentObject } from '@type/roadmap/node/components-types';
+import { type IComponentObject } from '@type/roadmap/node/components-types';
 import {
   selectNodeColorText,
   selectTextFontWeight,
@@ -10,17 +10,9 @@ import {
 } from '@src/typescript/roadmap_ref/node/core/factories/data-mutation/services';
 import { getColorThemeFromRoadmap } from '@components/roadmap/pages-roadmap/setup-screen/theme-controler';
 import DraggingResizeElement from '@src/to-be-organized/resize-dragging/DraggingResizeElement';
-import {
-  mutateComponentTextHeight,
-  mutateComponentTextWidth,
-} from '@src/typescript/roadmap_ref/node/components/text/mutate';
-import {
-  getIsEditable,
-  getIsEditing,
-} from '@store/roadmap-refactor/roadmap-data/misc-data/roadmap_state';
-import storeEditorSelectedData, {
-  getSelectedNodeId,
-} from '@store/roadmap-refactor/elements-editing/store-editor-selected-data';
+import { mutateComponentTextHeight } from '@src/typescript/roadmap_ref/node/components/text/mutate';
+import { getIsEditable } from '@store/roadmap-refactor/roadmap-data/misc-data/roadmap_state';
+import { getSelectedNodeId } from '@store/roadmap-refactor/elements-editing/store-editor-selected-data';
 import storeDisplayManager from '@store/roadmap-refactor/display/display-manager';
 import { hexAddAlpha } from '@src/typescript/roadmap_ref/utils';
 

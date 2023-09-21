@@ -4,12 +4,12 @@ import { useStore } from '@nanostores/react';
 import storeEditorSelectedData, {
   triggerRerenderEditor,
 } from '@store/roadmap-refactor/elements-editing/store-editor-selected-data';
-import { IComponentOptions } from '@type/roadmap/node/options-types';
+import { type IComponentOptions } from '@type/roadmap/node/options-types';
 import { factoryComponentEmpty } from '@src/typescript/roadmap_ref/node/components/text/factories';
 import TextComponent from '@components/roadmap/pages-roadmap/editor/editor-pages/components-page/components/TextComponent';
 import { appendComponent } from '@src/typescript/roadmap_ref/node/core/data-mutation/append';
 import { getNodeByIdRoadmapSelector } from '@src/typescript/roadmap_ref/roadmap-data/services/get';
-import { IComponentObject } from '@type/roadmap/node/components-types';
+import { type IComponentObject } from '@type/roadmap/node/components-types';
 import { setElementDraggable } from '@store/roadmap-refactor/elements-editing/draggable-elements';
 import { addDragabilityProtocol } from '@src/typescript/roadmap_ref/render/dragging';
 import { afterEventLoop } from '@src/typescript/utils/misc';
