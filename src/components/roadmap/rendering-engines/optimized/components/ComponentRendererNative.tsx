@@ -1,7 +1,7 @@
-import React, { MutableRefObject, useEffect, useRef } from 'react';
+import React, { type MutableRefObject, useEffect, useRef } from 'react';
 import { calculateComponentsPositions } from '@src/to-be-organized/node-rendering-stuff/logic';
 import { NodeClass } from '@src/typescript/roadmap_ref/node/core/core';
-import { IComponentObject } from '@type/roadmap/node/components-types';
+import { type IComponentObject } from '@type/roadmap/node/components-types';
 import {
   selectNodeColorText,
   selectTextFontWeight,

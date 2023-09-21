@@ -7,7 +7,7 @@ import { getNodeByIdRoadmapSelector } from '@src/typescript/roadmap_ref/roadmap-
 import { setDisplayPageType } from '@store/roadmap-refactor/display/display-manager';
 import { tailwindTransitionClass } from '@src/UI-library/tailwind-utils';
 import {
-  IAttachmentTabComponentProperties,
+  type IAttachmentTabComponentProperties,
   typeGuardTabBulletListProperties,
   typeGuardTabDescriptionProperties,
   typeGuardTabLinkProperties,
@@ -67,7 +67,7 @@ const TabAttachmentView = () => {
             className={`hover:bg-gray-200 ${tailwindTransitionClass}`}
           >
             <img
-              src='/editor/close.svg'
+              src='/src/frontend/src/assets/editor/close.svg'
               className='w-8 h-8'
               alt='Close button for editor'
             />

@@ -1,4 +1,4 @@
-import { IAttachmentObject } from '@type/roadmap/node/attachments-types';
+import { type IAttachmentObject } from '@type/roadmap/node/attachments-types';
 import { NodeClass } from '@src/typescript/roadmap_ref/node/core/core';
 
 export function getAttachmentById(

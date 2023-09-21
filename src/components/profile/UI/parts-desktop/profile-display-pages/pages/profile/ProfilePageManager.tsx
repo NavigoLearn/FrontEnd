@@ -1,15 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { useStore } from '@nanostores/react';
 import {
   storeSelectedProfilePage,
   setProfilePageEditing,
 } from '@components/profile/stores/store-selected-profile-page';
-import {
-  getIsOwnerOfProfile,
-  getProfileDataLoading,
-  storeProfileData,
-} from '@src/components/profile/stores/store-profile-data';
-import { get } from 'http';
+import { storeProfileData } from '@src/components/profile/stores/store-profile-data';
 import ProfilePageView from './ProfilePageView';
 import ProfilePageEdit from './ProfilePageEdit';
 

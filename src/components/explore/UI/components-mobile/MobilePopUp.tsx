@@ -1,15 +1,15 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
+import exit from '@assets/editor/close.svg';
 import useScreenLock from './useScreenLock';
-import exit from '../../../../../public/editor/close.svg';
 import OptionSelectMobile from '../components-desktop/filters/OptionSelectMobile';
 import {
   perPageOptions,
   topicOptions,
   sortByOptions,
-  IPerPage,
+  type IPerPage,
+  type ISortBy,
+  type ITopicParam,
   setExploreQueryPerPage,
-  ISortBy,
-  ITopicParam,
   setExploreQueryTopic,
   setExploreQuerySortBy,
 } from '../../stores/explore-query-store';
@@ -48,7 +48,7 @@ const MobilePopUp = ({ toggleFilter, perPage, sortBy, topic }: Props) => {
           className='w-5 h-5 absolute top-5 right-3'
           onClick={() => toggleFilter()}
         >
-          <img src={exit} alt='exitButton' />
+          <img src={exit.src} alt='exitButton' />
         </button>
         <div className='p-4'>
           <div>

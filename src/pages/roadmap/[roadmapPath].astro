@@ -18,7 +18,7 @@ let type = 'article';
 // working variables
 const { roadmapPath } = Astro.params;
 const isCreate = roadmapPath === 'create';
-let roadmapId = roadmapPath.match(/[0-9]+$/)?.[0] || "";
+let roadmapId = roadmapPath.match(/[0-9]+$/)?.[0];
 
 // if id is not a number, redirect to explore
 if (roadmapId === undefined && !isCreate)

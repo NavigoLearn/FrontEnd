@@ -1,11 +1,14 @@
 import anime from 'animejs/lib/anime';
 import {
-  BaseParams,
-  HeroRotateProps,
-  PopulatedParams,
+  type BaseParams,
+  type HeroRotateProps,
+  type PopulatedParams,
 } from '@type/home/hero-rotate';
 
-export function transferTransforms(element1, element2) {
+export function transferTransforms(
+  element1: HTMLElement,
+  element2: HTMLElement
+) {
   // get the left and top style properties-page from each element
   const element1Position = {
     top: element1.style.top,

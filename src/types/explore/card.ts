@@ -1,4 +1,4 @@
-import { ISortBy } from '@components/explore/stores/explore-query-store';
+import { type ISortBy } from '@components/explore/stores/explore-query-store';
 
 export type ICardRoadmapTypeApi = {
   readonly id: number;

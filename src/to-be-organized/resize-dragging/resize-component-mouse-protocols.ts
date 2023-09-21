@@ -1,12 +1,8 @@
-import {
-  getResizeNodeRef,
-  IMouseDragDirection,
-} from '@src/to-be-organized/resize-dragging/stores-resize-node';
+import { type IMouseDragDirection } from '@src/to-be-organized/resize-dragging/stores-resize-node';
 import {
   getResizeMouseAnchor,
   setResizeInitialMouseCoords,
   setResizeMouseAnchor,
-  getResizeElementType,
   setResizeMouseMoveHandler,
   getResizeMouseMoveHandler,
   getResizeIsResizingCallback,
@@ -15,7 +11,7 @@ import {
   getMouseCoords,
   setResizeFalse,
   setResizeTrue,
-  IElementType,
+  type IElementType,
 } from '@src/to-be-organized/resize-dragging/stores-resize-shared-data';
 import { getResizeCallback } from '@src/to-be-organized/resize-dragging/resize-logic';
 import {
@@ -24,7 +20,6 @@ import {
 } from '@store/roadmap-refactor/roadmap-data/roadmap-functions-utils';
 import { throttle } from '@src/typescript/roadmap_ref/render/chunks';
 import { getScaleSafari } from '@store/roadmap-refactor/misc/scale-safari-store';
-import { HashMapWithKeys } from '@type/roadmap/misc';
 import { triggerNodeRerender } from '@store/roadmap-refactor/render/rerender-triggers-nodes';
 import {
   subscribeToAlt,

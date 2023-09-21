@@ -2,9 +2,9 @@ import React, { useState } from 'react';
 import { NAVBAR_SEARCH_RESULT_MAX_LENGTH } from '@src/typescript/roadmap_ref/node/components/text/text-params';
 import MobilePopUp from './MobilePopUp';
 import {
-  IPerPage,
-  ITopicParam,
-  ISortBy,
+  type IPerPage,
+  type ITopicParam,
+  type ISortBy,
 } from '../../stores/explore-query-store';
 
 type Props = {
@@ -17,7 +17,6 @@ type Props = {
 
 const HeaderExplore = ({ results, query, perPage, sortBy, topic }: Props) => {
   const [openFilter, setOpenFilter] = useState(false);
-  const testQuery = 'JavaShit';
 
   const toggleFilter = () => {
     setOpenFilter(!openFilter);
@@ -28,15 +27,15 @@ const HeaderExplore = ({ results, query, perPage, sortBy, topic }: Props) => {
       <div className='font-kanit-text w-40 break-words'>
         <div className='text-placeholderBlack text-xs'>
           {' '}
-          {results} results {testQuery !== '' && 'for'}
+          {results} results {query !== '' && 'for'}
         </div>
         <div className='text-sm text-secondary'>
-          {testQuery !== '' && (
+          {query !== '' && (
             <span>
               &apos;
-              {testQuery.length > NAVBAR_SEARCH_RESULT_MAX_LENGTH
-                ? `${testQuery.slice(0, NAVBAR_SEARCH_RESULT_MAX_LENGTH)}...`
-                : testQuery}
+              {query.length > NAVBAR_SEARCH_RESULT_MAX_LENGTH
+                ? `${query.slice(0, NAVBAR_SEARCH_RESULT_MAX_LENGTH)}...`
+                : query}
               &apos;
             </span>
           )}

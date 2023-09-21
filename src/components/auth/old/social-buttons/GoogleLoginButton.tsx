@@ -13,7 +13,7 @@ const GoogleLoginButton = ({ onClick }: { onClick: () => void }) => {
           <img
             draggable='false'
             alt='google logo'
-            src={googleLogo}
+            src={googleLogo.src}
             className='w-full h-full select-none'
           />
         </div>

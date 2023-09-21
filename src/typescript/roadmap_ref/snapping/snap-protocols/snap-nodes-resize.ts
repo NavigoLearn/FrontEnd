@@ -3,8 +3,8 @@ import {
   getSubNodeExternalAnchorsPositions,
 } from '@src/typescript/roadmap_ref/snapping/anchors-generators/generate-external-anchors';
 import {
-  ISnapDelta,
-  ISnapPolynomialObject,
+  type ISnapDelta,
+  type ISnapPolynomialObject,
 } from '@src/typescript/roadmap_ref/snapping/snapping-types';
 import { generateSnapPolynomials } from '@src/typescript/roadmap_ref/snapping/polynomial-generators/generate-polynomials';
 import { calculateAnchorsDeltasToPolynomials } from '@src/typescript/roadmap_ref/snapping/snapping-processing/process-x-snappings';
@@ -12,8 +12,8 @@ import { getSmallestOutOfAllDeltas } from '@src/typescript/roadmap_ref/snapping/
 import { setSnappings } from '@store/roadmap-refactor/render/snapping-lines';
 import { NodeClass } from '@src/typescript/roadmap_ref/node/core/core';
 import {
-  IMouseDirectionBase,
-  IMouseDragDirection,
+  type IMouseDirectionBase,
+  type IMouseDragDirection,
 } from '@src/to-be-organized/resize-dragging/stores-resize-node';
 import {
   getResizedNodeAnchorsPositions,
@@ -22,18 +22,15 @@ import {
 import { getAlt } from '@store/roadmap-refactor/misc/key-press-store';
 import {
   mutateNodeHeightBottomDy,
-  mutateNodeHeightTop,
   mutateNodeHeightTopDy,
   mutateNodeHeightYAxisDy,
   mutateNodeWidthLeftDx,
   mutateNodeWidthRightDx,
-  mutateNodeWidthXAxis,
   mutateNodeWidthXAxisDx,
 } from '@src/typescript/roadmap_ref/node/core/data-mutation/mutate-resize-protocols';
 import { getNodeCenterAbsoluteCoords } from '@src/typescript/roadmap_ref/roadmap-data/services/get';
-import { deepCopy } from '@src/typescript/roadmap_ref/utils';
-import { getSubNodeAnchorsPositions } from '@src/typescript/roadmap_ref/snapping/anchors-generators/generate-element-anchors';
 import { transformSnapCoordsInAbsolute } from '@src/typescript/roadmap_ref/snapping/data-transform/transform-coords-snap';
+import { type ICoords } from '@src/typescript/roadmap_ref/dragging/core';
 
 const getAnchorsDirections = (direction: IMouseDragDirection) => {
   const directions: IMouseDirectionBase[] = [];
@@ -116,10 +113,7 @@ function snappingIsLeftOfCenter(node: NodeClass, smallestDeltaY: ISnapDelta) {
     };
   }
 
-  if (nodeCoords.x < snappedElementAnchor.x) {
-    return true;
-  }
-  return false;
+  return nodeCoords.x < snappedElementAnchor.x;
 }
 
 function snappingIsAboveCenter(node: NodeClass, smallestDeltaY: ISnapDelta) {
@@ -134,10 +128,7 @@ function snappingIsAboveCenter(node: NodeClass, smallestDeltaY: ISnapDelta) {
       y: node.data.coords.y,
     };
   }
-  if (nodeCoords.y < snappedElementAnchor.y) {
-    return true;
-  }
-  return false;
+  return nodeCoords.y < snappedElementAnchor.y;
 }
 
 function handleTopDirectionSnapping(
@@ -177,12 +168,12 @@ function handleLeftDirectionSnapping(
   smallestDeltaX: ISnapDelta
 ) {
   if (smallestDeltaX) {
+    let { delta } = smallestDeltaX;
     if (getAlt()) {
-      let { delta } = smallestDeltaX;
       if (snappingIsLeftOfCenter(node, smallestDeltaX)) delta = -delta;
       mutateNodeWidthXAxisDx(node, delta);
     } else {
-      mutateNodeWidthLeftDx(node, smallestDeltaX.delta);
+      mutateNodeWidthLeftDx(node, delta);
     }
   }
 }
@@ -344,7 +335,7 @@ export function snapResizingNodeProtocol(
   const isSubNode = !node.flags.renderedOnRoadmapFlag;
   const resizedNodeId = node.id;
 
-  let elementAnchors = [];
+  let elementAnchors: ICoords[];
 
   if (isSubNode) {
     elementAnchors = getResizedSubNodeAnchorsPositions(
@@ -358,7 +349,7 @@ export function snapResizingNodeProtocol(
     );
   }
 
-  let externalAnchors = [];
+  let externalAnchors: ICoords[];
   if (!isSubNode) {
     externalAnchors = getRenderedRootNodesExternalAnchorsPositions([
       resizedNodeId,
@@ -427,9 +418,8 @@ export function snapResizingNodeProtocol(
   ];
 
   if (isSubNode) {
-    let adjustedSnappingLinesCoords = [];
     const parentId = node.properties.nestedWithin;
-    adjustedSnappingLinesCoords = transformSnapCoordsInAbsolute(
+    const adjustedSnappingLinesCoords = transformSnapCoordsInAbsolute(
       parentId,
       snappingLinesCoords
     );

@@ -1,9 +1,9 @@
-import React, { ReactDOM, useRef } from 'react';
+import React, { useRef } from 'react';
 import attachmentPageStatus from '@store/roadmap-refactor/display/editor/attachment-page-status';
 import { useStore } from '@nanostores/react';
 import { rightWrapper } from '@components/roadmap/pages-roadmap/Wrappers';
 import editorDisplayManager, {
-  IEditorDisplayPageType,
+  type IEditorDisplayPageType,
 } from '@store/roadmap-refactor/display/editor/editor-display-manager';
 import EditorNavbarPagination from '@components/roadmap/pages-roadmap/editor/EditorNavbar';
 import TabAttachment from '@components/roadmap/pages-roadmap/editor/editor-pages/tab-page/TabAttachmentEditor';
@@ -12,7 +12,6 @@ import Operations from '@components/roadmap/pages-roadmap/editor/editor-pages/op
 import Properties from '@components/roadmap/pages-roadmap/editor/editor-pages/properties-page/Properties';
 import SubNodesPage from '@components/roadmap/pages-roadmap/editor/editor-pages/nodes-page/SubNodesPage';
 import { AnimatePresence, motion } from 'framer-motion';
-import { NotificationProvider } from '../../to-be-organized/notifications/NotificationLogic';
 
 const pagesMapperJSON: Record<IEditorDisplayPageType, React.ReactNode> = {
   attachment: (

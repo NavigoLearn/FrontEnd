@@ -1,5 +1,5 @@
 import { atom } from 'nanostores';
-import { ICardRoadmapTypeApi } from '@type/explore/card';
+import { type ICardRoadmapTypeApi } from '@type/explore/card';
 import { fetchRoadmapCardsExplore } from '@src/api-wrapper/explore/roadmap-card-data';
 import { exploreQueryStore } from '@components/explore/stores/explore-query-store';
 

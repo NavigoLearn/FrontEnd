@@ -1,8 +1,8 @@
 import { atom } from 'nanostores';
-import { IRoadmap } from '@type/roadmap/stores/IRoadmap';
+import { type IRoadmap } from '@type/roadmap/stores/IRoadmap';
 import { roadmapSelector } from '@store/roadmap-refactor/roadmap-data/roadmap-selector';
 import { emptyRoadmap } from '@store/roadmap-refactor/roadmap-data/params/params-base-roadmap';
-import { IRoadmapApi } from '@type/explore_old/card';
+import { type IRoadmapApi } from '@type/explore_old/card';
 import { isRoadmapType } from '@type/roadmap/old/typecheckers';
 import { deepCopy } from '@src/typescript/roadmap_ref/utils';
 

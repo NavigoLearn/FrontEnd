@@ -1,21 +1,10 @@
 import { NodeClass } from '@src/typescript/roadmap_ref/node/core/core';
-import { IColorThemesColors } from '@type/roadmap/node/colors-types';
+import { type IColorThemesColors } from '@type/roadmap/node/colors-types';
 import { triggerCenterRecalculationDecorator } from '@src/typescript/roadmap_ref/node/core/data-mutation/mutate-decorators';
 import { triggerHubListeners } from '@store/roadmap-refactor/subscribers/function-subscribers';
-import { IActionTypes } from '@src/typescript/roadmap_ref/node/core/actions/core';
-import {
-  selectNodeColorFromScheme,
-  selectNodeColorText,
-} from '@src/typescript/roadmap_ref/node/core/factories/data-mutation/services';
+import { type IActionTypes } from '@src/typescript/roadmap_ref/node/core/actions/core';
 import { triggerNodeRerender } from '@src/store/roadmap-refactor/render/rerender-triggers-nodes';
-import {
-  getIsRootNode,
-  getNodeByIdRoadmapSelector,
-} from '@src/typescript/roadmap_ref/roadmap-data/services/get';
-import {
-  MINIMUM_NODE_HEIGHT,
-  MINIMUM_NODE_WIDTH,
-} from '@src/typescript/roadmap_ref/node/core/factories/params/default-params';
+import { getIsRootNode } from '@src/typescript/roadmap_ref/roadmap-data/services/get';
 
 export function mutateNodeOpacity(node: NodeClass, opacity: number) {
   node.data.opacity = opacity;

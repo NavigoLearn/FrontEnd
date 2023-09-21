@@ -1,6 +1,5 @@
-import { ICoords } from '@src/typescript/roadmap_ref/dragging/core';
-import { ISnapDelta } from '@src/typescript/roadmap_ref/snapping/snapping-types';
-import { ISnapDrawCoordintes } from '@store/roadmap-refactor/render/snapping-lines';
+import { type ISnapDelta } from '@src/typescript/roadmap_ref/snapping/snapping-types';
+import { type ISnapDrawCoordintes } from '@store/roadmap-refactor/render/snapping-lines';
 
 export function getSmallestOutOfAllDeltas(deltas: ISnapDelta[]): {
   smallestDelta: ISnapDelta;

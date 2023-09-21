@@ -2,10 +2,10 @@ import React, { useEffect, useRef } from 'react';
 import { handleResizeNodeMouseDown } from '@src/to-be-organized/resize-dragging/resize-node-mouse-protocols';
 import { NodeClass } from '@src/typescript/roadmap_ref/node/core/core';
 import {
-  IMouseDragDirection,
+  type IMouseDragDirection,
   setResizeNodeRef,
 } from '@src/to-be-organized/resize-dragging/stores-resize-node';
-import { IComponentClasses } from '@src/typescript/roadmap_ref/node/components/text/factories';
+import { type IComponentClasses } from '@src/typescript/roadmap_ref/node/components/text/factories';
 import { setResizeComponentRef } from '@src/to-be-organized/resize-dragging/stores-resize-components';
 import { setResizeIsResizing } from '@src/to-be-organized/resize-dragging/stores-resize-shared-data';
 import { handleResizeComponentMouseDown } from '@src/to-be-organized/resize-dragging/resize-component-mouse-protocols';

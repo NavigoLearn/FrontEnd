@@ -1,6 +1,6 @@
 import { ComponentText } from '@src/typescript/roadmap_ref/node/components/text/core';
-import { IComponentOptions } from '@type/roadmap/node/options-types';
-import { IComponentObject } from '@type/roadmap/node/components-types';
+import { type IComponentOptions } from '@type/roadmap/node/options-types';
+import { type IComponentObject } from '@type/roadmap/node/components-types';
 import {
   injectComponentDraggingBehavior,
   injectComponentParentNodeId,
