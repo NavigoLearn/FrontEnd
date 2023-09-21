@@ -47,6 +47,12 @@ import {
 import { getNodeByIdRoadmapSelector } from '@src/typescript/roadmap_ref/roadmap-data/services/get';
 import renderNodesStore from '@store/roadmap-refactor/render/rendered-nodes';
 import { storeRenderingEngine } from '@components/roadmap/rendering-engines/store-rendering-engine';
+import storeEditorSelectedData, {
+  getSelectedNodeId,
+} from '@store/roadmap-refactor/elements-editing/store-editor-selected-data';
+import storeDisplayManager, {
+  getDisplayPageType,
+} from '@store/roadmap-refactor/display/display-manager';
 
 type INodeDataProcessed = {
   isSubNode: boolean;
@@ -233,6 +239,11 @@ export function useNodeRuntimeProperties(nodeId: string) {
   const node = getNodeByIdRoadmapSelector(nodeId);
   const isCurrentlyDragged = getElementHasEffect(nodeId, 'dragging-recursive');
   const isDraggable = getElementIsDraggable(nodeId);
+  const selectedEditorData = useStore(storeEditorSelectedData);
+  const isSelected =
+    selectedEditorData.selectedNodeId === nodeId &&
+    getDisplayPageType() !== 'closed';
+
   let cursor = '';
 
   if (getIsEditing()) {
@@ -252,6 +263,7 @@ export function useNodeRuntimeProperties(nodeId: string) {
     isCurrentlyDragged,
     isDraggable,
     cursor,
+    isSelected,
   };
 }
 export function useNodeApplyStatusAndEffects(
@@ -296,8 +308,8 @@ export function useNodeApplyStatusAndEffects(
     backgroundColor: hexAddAlpha(color, bgOpacity),
     width,
     height,
-    top: centeredCoords.y,
-    left: centeredCoords.x,
+    // top: centeredCoords.y,
+    // left: centeredCoords.x,
     opacity: `${getNodeOpacity(node)}`,
     border: borderStyle,
   };
