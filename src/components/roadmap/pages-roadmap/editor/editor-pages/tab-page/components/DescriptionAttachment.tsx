@@ -1,6 +1,6 @@
 import React from 'react';
 import attachmentPageStatus from '@store/roadmap-refactor/display/editor/attachment-page-status';
-import { triggerRerenderEditor } from '@store/roadmap-refactor/elements-editing/editor-selected-data';
+import { triggerRerenderEditor } from '@store/roadmap-refactor/elements-editing/store-editor-selected-data';
 import { type IAttachmentTabDescriptionProperties } from '@type/roadmap/node/tab-types';
 import { useStore } from '@nanostores/react';
 import TextareaStandardInput from '../../properties-page/TextareaStandardInput';

@@ -14,15 +14,15 @@ export type IEvent = {
   eventType: IEventsApplyType;
 };
 
-type IEventsFunction = (divElementRef: HTMLDivElement) => void;
+type IEventsFunction = (divElementRef: HTMLElement) => void;
 export const applyResetTransform: IEventsFunction = (
-  divElementRef: HTMLDivElement
+  divElementRef: HTMLElement
 ) => {
   divElementRef.style.transform = 'translate(0px, 0px)';
 };
 
 const eventsFunctionalitiesMapper: Record<IEventsNames, IEventsFunction> = {
-  'reset-transform': (divElementRef: HTMLDivElement) => {
+  'reset-transform': (divElementRef: HTMLElement) => {
     applyResetTransform(divElementRef);
   },
 };
@@ -76,7 +76,7 @@ export function getSortedBeforeRenderEvents(nodeId: string) {
     return a.eventLayer - b.eventLayer;
   });
 
-  const divElementRef = getElementDiv(nodeId);
+  const divElementRef = document.getElementById(`div${nodeId}`);
 
   return () => {
     sortedEventsArr.forEach((event) => {

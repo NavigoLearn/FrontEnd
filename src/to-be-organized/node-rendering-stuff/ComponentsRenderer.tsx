@@ -12,8 +12,8 @@ import { getColorThemeFromRoadmap } from '@components/roadmap/pages-roadmap/setu
 import DraggingResizeElement from '@src/to-be-organized/resize-dragging/DraggingResizeElement';
 import { mutateComponentTextHeight } from '@src/typescript/roadmap_ref/node/components/text/mutate';
 import { getIsEditable } from '@store/roadmap-refactor/roadmap-data/misc-data/roadmap_state';
-import { getSelectedNodeId } from '@store/roadmap-refactor/elements-editing/editor-selected-data';
-import displayManagerStore from '@store/roadmap-refactor/display/display-manager';
+import { getSelectedNodeId } from '@store/roadmap-refactor/elements-editing/store-editor-selected-data';
+import storeDisplayManager from '@store/roadmap-refactor/display/display-manager';
 import { hexAddAlpha } from '@src/typescript/roadmap_ref/utils';
 
 type IComponentElementProps = {
@@ -49,7 +49,7 @@ const ComponentRendererForeign = ({
   const parentSelected =
     getSelectedNodeId() === parentNode.id &&
     getIsEditable() &&
-    displayManagerStore.get().type !== 'closed';
+    storeDisplayManager.get().type !== 'closed';
   const textColor = selectNodeColorText(theme, colorType);
 
   const textWeightSelect = selectTextFontWeight(textWeight);

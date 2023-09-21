@@ -8,7 +8,7 @@ import attachmentPageStatus from '@store/roadmap-refactor/display/editor/attachm
 import { useStore } from '@nanostores/react';
 import addCircle from '@assets/add-circle.svg';
 import { appendAttachmentBulletListNewItem } from '@src/typescript/roadmap_ref/node/attachments/tab/append';
-import { triggerRerenderEditor } from '@store/roadmap-refactor/elements-editing/editor-selected-data';
+import { triggerRerenderEditor } from '@store/roadmap-refactor/elements-editing/store-editor-selected-data';
 import {
   mutateAttachmentTabBulletListItemLinkURL,
   mutateAttachmentTabBulletListItemText,
