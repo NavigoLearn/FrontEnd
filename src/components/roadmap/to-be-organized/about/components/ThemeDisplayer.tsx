@@ -86,7 +86,7 @@ const ThemeDisplayer = ({
                     }}
                   >
                     <img
-                      src={theme.name}
+                      src={theme.name.src}
                       alt={`theme${theme.id + 1}`}
                       className='ml-5'
                     />

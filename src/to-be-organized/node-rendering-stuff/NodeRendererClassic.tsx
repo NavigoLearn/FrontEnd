@@ -33,6 +33,7 @@ import { showContextMenu } from '@components/roadmap/contextmenu/store/ContextMe
 import { setNotification } from '@components/roadmap/to-be-organized/notifications/notifciations-refr/notification-store-refr';
 import { checkIsMobile } from '@hooks/useIsMobile';
 import useContextMenuOrLongPress from '@hooks/useContextMenuOrLongPress';
+import { setRoadmapNodeProgressAndFetchUpdate } from '@store/roadmap-refactor/roadmap-data/misc-data/roadmap-progress';
 
 interface NodeViewProps {
   nodeId: string;
@@ -138,6 +139,8 @@ const NodeRendererClassic: React.FC<NodeViewProps> = ({
           top: `${centeredCoords.y}px`,
           left: `${centeredCoords.x}px`,
         }}
+        onBlur={() => {}}
+        onFocus={() => {}}
         onMouseOver={(event) => {
           event.stopPropagation();
           getOnMouseOverAction(nodeId)();
