@@ -1,9 +1,9 @@
 import React from 'react';
 import { triggerNodeRerender } from '@store/roadmap-refactor/render/rerender-triggers-nodes';
 import { useStore } from '@nanostores/react';
-import editorSelectedData, {
+import storeEditorSelectedData, {
   triggerRerenderEditor,
-} from '@store/roadmap-refactor/elements-editing/editor-selected-data';
+} from '@store/roadmap-refactor/elements-editing/store-editor-selected-data';
 import { IComponentOptions } from '@type/roadmap/node/options-types';
 import { factoryComponentEmpty } from '@src/typescript/roadmap_ref/node/components/text/factories';
 import TextComponent from '@components/roadmap/pages-roadmap/editor/editor-pages/components-page/components/TextComponent';
@@ -18,7 +18,7 @@ import DropdownPlusSelection from '@src/components/roadmap/pages-roadmap/editor/
 import DeleteButton from '../operations-page/actions/DeleteButton';
 
 const Components = () => {
-  const { selectedNodeId } = useStore(editorSelectedData);
+  const { selectedNodeId } = useStore(storeEditorSelectedData);
   const node = getNodeByIdRoadmapSelector(selectedNodeId);
 
   const selectComponentToRender = (

@@ -18,10 +18,10 @@ import {
   getIsEditable,
   getIsEditing,
 } from '@store/roadmap-refactor/roadmap-data/misc-data/roadmap_state';
-import editorSelectedData, {
+import storeEditorSelectedData, {
   getSelectedNodeId,
-} from '@store/roadmap-refactor/elements-editing/editor-selected-data';
-import displayManagerStore from '@store/roadmap-refactor/display/display-manager';
+} from '@store/roadmap-refactor/elements-editing/store-editor-selected-data';
+import storeDisplayManager from '@store/roadmap-refactor/display/display-manager';
 import { hexAddAlpha } from '@src/typescript/roadmap_ref/utils';
 
 type IComponentElementProps = {
@@ -57,7 +57,7 @@ const ComponentRendererForeign = ({
   const parentSelected =
     getSelectedNodeId() === parentNode.id &&
     getIsEditable() &&
-    displayManagerStore.get().type !== 'closed';
+    storeDisplayManager.get().type !== 'closed';
   const textColor = selectNodeColorText(theme, colorType);
 
   const textWeightSelect = selectTextFontWeight(textWeight);

@@ -12,7 +12,7 @@ import {
   getDisplayPageType,
   setDisplayPageType,
 } from '@store/roadmap-refactor/display/display-manager';
-import { setSelectedNodeId } from '@store/roadmap-refactor/elements-editing/editor-selected-data';
+import { setSelectedNodeId } from '@store/roadmap-refactor/elements-editing/store-editor-selected-data';
 import roadmapStateStore, {
   getIsEditable,
   getIsEditing,

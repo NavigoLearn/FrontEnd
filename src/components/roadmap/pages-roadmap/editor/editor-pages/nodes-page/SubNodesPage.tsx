@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { useStore } from '@nanostores/react';
-import editorSelectedData, {
+import storeEditorSelectedData, {
   triggerRerenderEditor,
-} from '@store/roadmap-refactor/elements-editing/editor-selected-data';
+} from '@store/roadmap-refactor/elements-editing/store-editor-selected-data';
 import NodeComponent from '@components/roadmap/pages-roadmap/editor/editor-pages/nodes-page/NodeComponent';
 import { getNodeByIdRoadmapSelector } from '@src/typescript/roadmap_ref/roadmap-data/services/get';
 import DropdownPlus from '@src/UI-library/svg-components/dropdownplus/DropdownPlus';
@@ -14,7 +14,7 @@ import { triggerNodeRerender } from '@src/store/roadmap-refactor/render/rerender
 import DropdownPlusSelection from '../../reusable-components/DropdownPlusSelection';
 
 const SubNodesPage = () => {
-  const { selectedNodeId } = useStore(editorSelectedData);
+  const { selectedNodeId } = useStore(storeEditorSelectedData);
   const node = getNodeByIdRoadmapSelector(selectedNodeId);
 
   return (

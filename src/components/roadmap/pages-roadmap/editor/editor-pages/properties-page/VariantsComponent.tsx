@@ -6,7 +6,7 @@ import {
 import { colorThemes } from '@src/typescript/roadmap_ref/node/core/color-themes';
 import { NodeClass } from '@src/typescript/roadmap_ref/node/core/core';
 import { mutateNodeColorAndRerender } from '@src/typescript/roadmap_ref/node/core/data-mutation/mutate';
-import { triggerRerenderEditor } from '@src/store/roadmap-refactor/elements-editing/editor-selected-data';
+import { triggerRerenderEditor } from '@store/roadmap-refactor/elements-editing/store-editor-selected-data';
 import {
   selectNodeColorText,
   selectNodeColorTextBorder,

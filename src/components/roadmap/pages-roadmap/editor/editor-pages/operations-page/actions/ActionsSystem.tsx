@@ -9,7 +9,7 @@ import {
   applyTemplateToNode,
 } from '@src/typescript/roadmap_ref/roadmap-data/protocols/append';
 import { useStore } from '@nanostores/react';
-import editorSelectedData from '@store/roadmap-refactor/elements-editing/editor-selected-data';
+import storeEditorSelectedData from '@store/roadmap-refactor/elements-editing/store-editor-selected-data';
 import {
   getNodeByIdRoadmapSelector,
   getRoadmapTemplatesArray,
@@ -90,7 +90,7 @@ function formatTemplatesApply(
 }
 
 const ActionsSystem = () => {
-  const { selectedNodeId } = useStore(editorSelectedData);
+  const { selectedNodeId } = useStore(storeEditorSelectedData);
   const node = getNodeByIdRoadmapSelector(selectedNodeId);
   const { dropdown } = useStore(operationsStore);
   const isRoot = getRootGlobalId() === node.id;

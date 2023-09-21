@@ -1,5 +1,5 @@
 import React from 'react';
-import { triggerRerenderEditor } from '@store/roadmap-refactor/elements-editing/editor-selected-data';
+import { triggerRerenderEditor } from '@store/roadmap-refactor/elements-editing/store-editor-selected-data';
 import { tailwindTransitionClass } from '@src/UI-library/tailwind-utils';
 import { IAttachmentTabTitleProperties } from '@type/roadmap/node/tab-types';
 import { useStore } from '@nanostores/react';

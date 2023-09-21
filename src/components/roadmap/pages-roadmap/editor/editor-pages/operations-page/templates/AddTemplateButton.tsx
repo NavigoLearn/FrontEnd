@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { addTemplateFromNode } from '@src/typescript/roadmap_ref/node/templates-system/template-protocols';
-import { getSelectedNodeId } from '@store/roadmap-refactor/elements-editing/editor-selected-data';
+import { getSelectedNodeId } from '@store/roadmap-refactor/elements-editing/store-editor-selected-data';
 import { getNodeByIdRoadmapSelector } from '@src/typescript/roadmap_ref/roadmap-data/services/get';
 import { triggerRerenderOperations } from '@components/roadmap/pages-roadmap/editor/editor-pages/operations-page/stores/operations-store';
 

@@ -20,7 +20,7 @@ import { nodeNameSyncer } from '@src/typescript/roadmap_ref/node/misc';
 import {
   getSelectedNodeId,
   triggerRerenderEditor,
-} from '@store/roadmap-refactor/elements-editing/editor-selected-data';
+} from '@store/roadmap-refactor/elements-editing/store-editor-selected-data';
 import ResourceAttachment from './components/ResourceAttachment';
 
 export const descriptionBuilder = (
