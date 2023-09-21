@@ -2,9 +2,10 @@ import React from 'react';
 import versatileImage from '@assets/versatile.svg';
 import infiniteImage from '@assets/infinite.svg';
 import intuitiveImage from '@assets/intuitive.svg';
-import { motion, HTMLMotionProps } from 'framer-motion';
+import { motion, type HTMLMotionProps } from 'framer-motion';
+import type { ImageMetadata } from 'astro';
 
-const imageMap: Record<string, string> = {
+const imageMap: Record<string, ImageMetadata> = {
   versatile: versatileImage,
   infinite: infiniteImage,
   intuitive: intuitiveImage,
@@ -35,7 +36,7 @@ const CardsM = ({
     >
       <div className='bg-white border border-primary rounded-full justify-center mx-auto -translate-y-1/2 items-center flex w-16 h-16'>
         <img
-          src={imagePath}
+          src={imagePath.src}
           alt={image}
           className='w-10 h-10 justify-center items-center'
         />

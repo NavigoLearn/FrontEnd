@@ -9,7 +9,7 @@ const EditorTextSectionM = () => {
         <div className='w-8 h-8 rounded-full border border-placeholderBlack items-center justify-center flex'>
           <div className='w-7 h-7 rounded-full border border-placeholderBlack items-center justify-center flex'>
             <img
-              src={homeedit}
+              src={homeedit.src}
               alt='edit icon build roadmaps'
               className='w-4 h-4 2xl:w-7 2xl:h-7'
             />
