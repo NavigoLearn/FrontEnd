@@ -1,5 +1,5 @@
 import React from 'react';
-import { IDisplayStyles } from '@store/roadmap-refactor/display/display-manager';
+import { type IDisplayStyles } from '@store/roadmap-refactor/display/display-manager';
 import { motion } from 'framer-motion';
 
 function getWrapperStyle(style: IDisplayStyles) {
@@ -23,7 +23,8 @@ export function rightWrapper(Component) {
     duration: 0.5,
     ease: [0.43, 0.13, 0.23, 0.96], // Custom easing curve
   };
-  const WrappedComponent = () => (
+
+  return () => (
     <motion.div
       initial={{ opacity: 0, x: '100%', y: 0 }}
       animate={{ opacity: 1, x: 0, y: 0 }}
@@ -36,8 +37,6 @@ export function rightWrapper(Component) {
       </div>
     </motion.div>
   );
-
-  return WrappedComponent;
 }
 
 export function animationWrapperEditorPages(Component) {
@@ -45,7 +44,7 @@ export function animationWrapperEditorPages(Component) {
     duration: 0.5,
     ease: [0.43, 0.13, 0.23, 0.96], // Custom easing curve
   };
-  const WrappedComponent = (props) => (
+  return (props) => (
     <motion.div
       initial={{ opacity: 0, x: '-25%', y: 0 }}
       animate={{ opacity: 1, x: 0, y: 0 }}
@@ -58,6 +57,4 @@ export function animationWrapperEditorPages(Component) {
       </div>
     </motion.div>
   );
-
-  return WrappedComponent;
 }

@@ -4,13 +4,10 @@ import theme2 from '@assets/theme2.svg';
 import theme3 from '@assets/theme3.svg';
 import theme4 from '@assets/theme4.svg';
 import { AnimatePresence, motion } from 'framer-motion';
-import {
-  getColorThemeFromRoadmap,
-  setRoadmapColorTheme,
-} from '../theme-controler';
+import { setRoadmapColorTheme } from '../theme-controler';
 import {
   saveRoadmapChanges,
-  ISetupScreenControlers,
+  type ISetupScreenControlers,
 } from '../roadmap-funtions';
 
 const ThemeSelector = ({ onNext }: ISetupScreenControlers) => {
@@ -76,7 +73,7 @@ const ThemeSelector = ({ onNext }: ISetupScreenControlers) => {
                   }}
                 >
                   <img
-                    src={theme.name}
+                    src={theme.name.src}
                     alt={`theme${theme.id + 1}`}
                     className='ml-5'
                   />

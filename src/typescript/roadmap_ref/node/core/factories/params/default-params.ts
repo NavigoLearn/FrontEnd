@@ -1,4 +1,4 @@
-import { IColorThemesOptions } from '@type/roadmap/node/colors-types';
+import { type IColorThemesOptions } from '@type/roadmap/node/colors-types';
 
 export const DEFAULT_NODE_WIDTH = 300;
 export const DEFAULT_NODE_HEIGHT = 80;

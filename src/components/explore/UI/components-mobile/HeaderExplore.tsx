@@ -2,9 +2,9 @@ import React, { useState } from 'react';
 import { NAVBAR_SEARCH_RESULT_MAX_LENGTH } from '@src/typescript/roadmap_ref/node/components/text/text-params';
 import MobilePopUp from './MobilePopUp';
 import {
-  IPerPage,
-  ITopicParam,
-  ISortBy,
+  type IPerPage,
+  type ITopicParam,
+  type ISortBy,
 } from '../../stores/explore-query-store';
 
 type Props = {
@@ -17,7 +17,6 @@ type Props = {
 
 const HeaderExplore = ({ results, query, perPage, sortBy, topic }: Props) => {
   const [openFilter, setOpenFilter] = useState(false);
-  // const testQuery = 'JavaShit';
 
   const toggleFilter = () => {
     setOpenFilter(!openFilter);

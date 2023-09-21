@@ -4,22 +4,14 @@ import storeRoadmapAbout, {
   getIsCreate,
 } from '@store/roadmap-refactor/roadmap-data/misc-data/roadmap-about';
 import { setDisplayPageTypeFullScreen } from '@store/roadmap-refactor/display/display-manager-full-screen';
-import TextareaStandardInput from '@components/roadmap/pages-roadmap/editor/editor-pages/properties-page/TextareaStandardInput';
-import TextInputStandard from '@components/roadmap/pages-roadmap/editor/editor-pages/properties-page/TextInputStandard';
 
-import {
-  setStoreAboutTempDescription,
-  setStoreAboutTempName,
-  pushStoreAboutTempChangesToApp,
-  pullStoreAboutTempFromApp,
-} from '@components/roadmap/to-be-organized/about/stores/store-about-temp';
+import { pullStoreAboutTempFromApp } from '@components/roadmap/to-be-organized/about/stores/store-about-temp';
 import ThemeDisplayer from '@components/roadmap/to-be-organized/about/components/ThemeDisplayer';
 import StandardTextDisplay from '@components/roadmap/to-be-organized/about/components/StandardTextDisplay';
-import title from '@components/roadmap/navbar-roadmap/parts/Title';
 import { getColorThemeFromRoadmap } from '@components/roadmap/pages-roadmap/setup-screen/theme-controler';
 import { getRoadmapOwnerData } from '@src/store/roadmap-refactor/roadmap-data/misc-data/roadmap-owner-data';
-import { getLoggedUserId } from '@src/store/user/logged-user';
-import exit from '../../../../../../public/editor/close.svg';
+import { getLoggedUserId } from '@store/user/store-logged-user';
+import exit from '@assets/editor/close.svg';
 
 type IAboutViewProps = {
   callback: () => void;
@@ -38,7 +30,7 @@ const AboutView = ({ callback }: IAboutViewProps) => {
           type='button'
           onClick={() => setDisplayPageTypeFullScreen('closed')}
         >
-          <img src={exit} alt='exitButton' className='w-7 h-7' />
+          <img src={exit.src} alt='exitButton' className='w-7 h-7' />
         </button>
       </div>
       <div className='flex justify-center w-full flex-col items-center  mt-10'>

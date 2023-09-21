@@ -58,14 +58,14 @@ const Template = ({ name, onNameChange, onTemplateDelete }: ITemplateProps) => {
             <img
               className='w-full h-full'
               alt='edit template button'
-              src={EDIT_SRC}
+              src={EDIT_SRC.src}
             />
           )}
           {edit && (
             <img
               className='w-full h-full'
               alt='edit template button'
-              src={TICK_SRC_BLACK}
+              src={TICK_SRC_BLACK.src}
             />
           )}
         </button>

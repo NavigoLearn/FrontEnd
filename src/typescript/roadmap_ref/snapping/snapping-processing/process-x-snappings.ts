@@ -1,12 +1,12 @@
 import {
-  ISnapDelta,
-  ISnapPolynomialObject,
+  type ISnapDelta,
+  type ISnapPolynomialObject,
 } from '@src/typescript/roadmap_ref/snapping/snapping-types';
-import { ICoords } from '@src/typescript/roadmap_ref/dragging/core';
+import { type ICoords } from '@src/typescript/roadmap_ref/dragging/core';
 import { evaluatePolynomialXDelta } from '@src/typescript/roadmap_ref/snapping/evaluators/evaluate-polynomials';
 import { BASE_SNAPPING_DISTANCE } from '@src/typescript/roadmap_ref/snapping/snapping-params';
 import {
-  ICoordsCustom,
+  type ICoordsCustom,
   typeAssertICoordsCustom,
 } from '@src/typescript/roadmap_ref/snapping/anchors-generators/generate-resizing-anchors';
 
@@ -36,8 +36,7 @@ export function getSmallestDelta(deltas: ISnapDelta[]) {
     return null;
   }
   deltas.sort((a, b) => Math.abs(a.delta) - Math.abs(b.delta));
-  const smallestDelta = deltas[0];
-  return smallestDelta;
+  return deltas[0];
 }
 
 export function calculateAnchorsDeltasToPolynomials(

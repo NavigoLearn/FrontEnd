@@ -1,5 +1,5 @@
-import { IVersions } from '@store/roadmap-refactor/roadmap-data/params/params-base-roadmap';
-import { IRoadmap } from '../roadmap/stores/IRoadmap';
+import { type IVersions } from '@store/roadmap-refactor/roadmap-data/params/params-base-roadmap';
+import { type IRoadmap } from '../roadmap/stores/IRoadmap';
 
 export type CardType = {
   name: string;

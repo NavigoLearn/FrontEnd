@@ -1,4 +1,4 @@
-import { IComponentObject } from '@type/roadmap/node/components-types';
+import { type IComponentObject } from '@type/roadmap/node/components-types';
 import { DraggingBehavior } from '@src/typescript/roadmap_ref/dragging/core';
 
 export function injectComponentParentNodeId(

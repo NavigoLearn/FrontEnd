@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { WritableAtom } from 'nanostores';
-import { HashMap } from '@type/roadmap/misc';
+import { type WritableAtom } from 'nanostores';
+import { type HashMap } from '@type/roadmap/misc';
 import { useTriggerRerender } from '@hooks/useTriggerRerender';
 
 interface HOCConfigProps<T> {

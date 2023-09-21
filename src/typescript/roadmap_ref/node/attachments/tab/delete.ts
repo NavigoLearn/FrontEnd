@@ -1,4 +1,4 @@
-import { IAttachmentTabBulletListProperties } from '@type/roadmap/node/tab-types';
+import { type IAttachmentTabBulletListProperties } from '@type/roadmap/node/tab-types';
 
 export function deleteAttachmentBulletListNewItem(
   bulletListComponent: IAttachmentTabBulletListProperties,

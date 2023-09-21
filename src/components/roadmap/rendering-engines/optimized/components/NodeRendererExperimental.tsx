@@ -47,9 +47,8 @@ import {
   setElementRect,
 } from '@store/roadmap-refactor/elements-editing/elements-gs';
 import { NodeClass } from '@src/typescript/roadmap_ref/node/core/core';
-import { ICoords } from '@src/typescript/roadmap_ref/dragging/core';
+import { type ICoords } from '@src/typescript/roadmap_ref/dragging/core';
 import { getIsEditable } from '@store/roadmap-refactor/roadmap-data/misc-data/roadmap_state';
-import { setNotification } from '@src/components/roadmap/to-be-organized/notifications/notifciations-refr/notification-store-refr';
 
 const handleCoordCalculation = (node: NodeClass, centerOffset: ICoords) => {
   const { width, height } = node.data;

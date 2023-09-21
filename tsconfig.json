@@ -5,8 +5,8 @@
     "jsx": "react-jsx",
     "jsxImportSource": "react",
     "lib": [
-      "dom",
-      "dom.iterable",
+      "DOM",
+      "DOM.iterable",
       "es6"
     ],
     "baseUrl": ".",

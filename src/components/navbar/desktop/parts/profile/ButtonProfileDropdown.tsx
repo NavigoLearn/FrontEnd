@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { motion, Variants } from 'framer-motion';
+import { motion, type Variants } from 'framer-motion';
 import { ProfileIcons } from '@src/UI-library/svg-components/profiledropdown/ProfileIcons';
 import { LogOutIcon } from '@src/UI-library/svg-components/profiledropdown/LogOutIcon';
 import { tailwindTransitionClass } from '@src/UI-library/tailwind-utils';

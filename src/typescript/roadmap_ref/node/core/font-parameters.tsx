@@ -1,6 +1,6 @@
 import {
-  ITextSizeModes,
-  ITextWidthModes,
+  type ITextSizeModes,
+  type ITextWidthModes,
 } from '@src/types/roadmap/node/components-types';
 
 export const textWidthModes: ITextWidthModes = {

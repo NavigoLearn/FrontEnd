@@ -3,7 +3,6 @@ import {
   closeEditorProtocol,
 } from '@src/to-be-organized/node-rendering-stuff/actions-manager';
 import React from 'react';
-import DropdownWhiteAddCleaner from '@components/roadmap/pages-roadmap/editor/reusable-components/DropdownWhiteAddCleaner';
 import {
   addChildTemplateToRoadmap,
   applyTemplateToNode,
@@ -13,7 +12,6 @@ import editorSelectedData from '@store/roadmap-refactor/elements-editing/editor-
 import {
   getNodeByIdRoadmapSelector,
   getRoadmapTemplatesArray,
-  getIsRootNode,
   getRootGlobalId,
 } from '@src/typescript/roadmap_ref/roadmap-data/services/get';
 import DeleteButton from '@components/roadmap/pages-roadmap/editor/editor-pages/operations-page/actions/DeleteButton';
@@ -27,10 +25,9 @@ import {
   setOperationsDropdown,
 } from '@components/roadmap/pages-roadmap/editor/editor-pages/operations-page/stores/operations-store';
 import { TemplateNode } from '@src/typescript/roadmap_ref/node/templates-system/template-core';
-import { getDeleteRootNodeNotification } from '@src/to-be-organized/node-rendering-stuff/notification-store';
 import { highlightNodeEffects } from '@store/roadmap-refactor/elements-editing/store-node-effects';
-import { afterEventLoop } from '@src/typescript/utils/misc';
 import { setNotification } from '@src/components/roadmap/to-be-organized/notifications/notifciations-refr/notification-store-refr';
+import nodeTree from '@assets/editor/tree.svg';
 import DropdownPlusSelection from '../../../reusable-components/DropdownPlusSelection';
 
 type IOption = {
@@ -173,7 +170,7 @@ const ActionsSystem = () => {
             closeEditorProtocol();
           }}
           text='Delete Subtree'
-          src='/editor/tree.svg'
+          src={nodeTree.src}
         />
       </div>
       <div className='w-full relative'>

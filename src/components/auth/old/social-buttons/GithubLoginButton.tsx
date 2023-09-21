@@ -1,6 +1,5 @@
 import React from 'react';
-import githublogo from '@assets/githublogo.png';
-import { tailwindTransitionClass } from '@src/UI-library/tailwind-utils';
+import githubLogo from '@assets/githublogo.png';
 
 const GithubLoginButton = ({ onClick }: { onClick: () => void }) => {
   return (
@@ -14,7 +13,7 @@ const GithubLoginButton = ({ onClick }: { onClick: () => void }) => {
           <img
             draggable='false'
             alt='github octocat image'
-            src={githublogo}
+            src={githubLogo.src}
             className='w-full h-full select-none'
           />
         </div>

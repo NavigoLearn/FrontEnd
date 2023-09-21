@@ -1,6 +1,6 @@
 import { atom } from 'nanostores';
 import {
-  IVersions,
+  type IVersions,
   ROADMAP_CURRENT_VERSION,
 } from '@store/roadmap-refactor/roadmap-data/params/params-base-roadmap';
 

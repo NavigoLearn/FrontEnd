@@ -1,6 +1,7 @@
 ---
 import Base from '@layouts/Base.astro';
 import Home from '@src/components/home/Home';
+import NormalLayout from "../../layouts/NormalLayout.astro";
 ---
 
 <Base
@@ -8,7 +9,9 @@ import Home from '@src/components/home/Home';
     title: 'Home',
   }}
 >
-    <div>
-       <Home client:only="react" />
-    </div>
+    <NormalLayout>
+        <div>
+            <Home client:only='react' />
+        </div>
+    </NormalLayout>
 </Base>

@@ -6,7 +6,7 @@ import {
   SizingButton,
 } from '@components/home/components/ButtonsNodes';
 import React from 'react';
-import { BottomSectionStateProps } from '@components/home/components/BottomSectionState';
+import { type BottomSectionStateProps } from '@components/home/components/BottomSectionState';
 
 const Editor = ({
   controls,

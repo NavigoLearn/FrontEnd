@@ -1,10 +1,10 @@
 import { atom } from 'nanostores';
 import {
-  INodeResizeEvent,
-  IRoadmapEvents,
-  INodeData,
+  type INodeResizeEvent,
+  type IRoadmapEvents,
+  type INodeData,
   defaultNodeRecordingData,
-  IEventTypes,
+  type IEventTypes,
 } from '@src/to-be-organized/undo-redo/undo-types';
 
 const MAXIMUM_UNDO_STACK_LENGTH = 100;

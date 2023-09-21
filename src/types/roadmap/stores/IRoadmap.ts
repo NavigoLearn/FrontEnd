@@ -1,8 +1,8 @@
 import { NodeClass } from '@src/typescript/roadmap_ref/node/core/core';
-import { IColorThemesOptions } from '@type/roadmap/node/colors-types';
+import { type IColorThemesOptions } from '@type/roadmap/node/colors-types';
 import { ConnectionClass } from '@src/typescript/roadmap_ref/node/connections/core';
 import { TemplateNode } from '@src/typescript/roadmap_ref/node/templates-system/template-core';
-import { HashMap } from '@type/roadmap/misc';
+import { type HashMap } from '@type/roadmap/misc';
 
 export type IRoadmapData = {
   colorTheme: IColorThemesOptions;

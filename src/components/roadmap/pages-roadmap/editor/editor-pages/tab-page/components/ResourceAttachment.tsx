@@ -1,8 +1,8 @@
-import React, { useRef, useState } from 'react';
+import React, { useState } from 'react';
 import { deleteAttachmentBulletListNewItem } from '@src/typescript/roadmap_ref/node/attachments/tab/delete';
 import {
-  IAttachmentTabBulletListItem,
-  IAttachmentTabBulletListProperties,
+  type IAttachmentTabBulletListItem,
+  type IAttachmentTabBulletListProperties,
 } from '@type/roadmap/node/tab-types';
 import attachmentPageStatus from '@store/roadmap-refactor/display/editor/attachment-page-status';
 import { useStore } from '@nanostores/react';
@@ -14,11 +14,11 @@ import {
   mutateAttachmentTabBulletListItemText,
 } from '@src/typescript/roadmap_ref/node/attachments/tab/mutate';
 import { AnimatePresence, motion } from 'framer-motion';
-import { useClickOutside } from '@hooks/useClickOutside';
 import linkpop from '@assets/linkpop.svg';
 import TrashIcon from '@src/UI-library/svg-components/trash/TrashIcon';
 import { openRoadmapLink } from '@src/typescript/utils/urlUtils';
-import exit from '../../../../../../../../public/editor/close.svg';
+import exit from '@assets/editor/close.svg';
+import edit from '@assets/editor/edit.svg';
 
 type IResourceAttachmentProps = {
   component: IAttachmentTabBulletListProperties;
@@ -62,7 +62,7 @@ export const ResourceAttachmentView = ({
                 {item.text}
               </div>
               <img
-                src={linkpop}
+                src={linkpop.src}
                 alt='pressLinkButton'
                 className='w-6 h-6 mt-1'
               />
@@ -91,7 +91,7 @@ const ResourceBulletListItemDropdown = ({
         type='button'
         onClick={() => toggleDropdown()}
       >
-        <img src={exit} alt='exitBUtton' />
+        <img src={exit.src} alt='exitBUtton' />
       </button>
       <input
         className='border p-1 border-placeholderBlack outline-none rounded-md mt-2 mr-2'
@@ -168,11 +168,7 @@ const ResourceBulletListItem = ({
           }}
           type='button'
         >
-          <img
-            src='/editor/edit.svg'
-            className='w-7 h-7'
-            alt='Edit button for link'
-          />
+          <img src={edit.src} className='w-7 h-7' alt='Edit button for link' />
         </button>
         <button
           onClick={() => {
@@ -217,10 +213,10 @@ const ResourceAttachmentEdit = ({ component }: IResourceAttachmentProps) => {
           }}
           type='button'
         >
-          <img src={addCircle} alt='addingResources' className='h-7 w-7' />
+          <img src={addCircle.src} alt='addingResources' className='h-7 w-7' />
         </button>
       </div>
-      {component.bulletListItems.map((item, index) => {
+      {component.bulletListItems.map((item) => {
         return (
           <ResourceBulletListItem
             key={item.id}

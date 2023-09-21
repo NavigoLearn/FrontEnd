@@ -1,4 +1,4 @@
-import { IRoadmap } from '@type/roadmap/stores/IRoadmap';
+import { type IRoadmap } from '@type/roadmap/stores/IRoadmap';
 import { getRoadmapSelector } from '@store/roadmap-refactor/roadmap-data/roadmap-selector';
 import { setRoadmapCreate } from '@store/roadmap-refactor/roadmap-data/roadmap-create';
 import { getRoadmapId } from '@store/roadmap-refactor/roadmap-data/misc-data/roadmap-about';

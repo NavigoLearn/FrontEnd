@@ -1,12 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { CLOSE_SVG_SRC } from '@src/to-be-organized/svg-params';
 import { tailwindTransitionClass } from '@src/UI-library/tailwind-utils';
 import { resetRoadmapCreate } from '@store/roadmap-refactor/roadmap-data/roadmap-create';
 import { createAndSetRoadmapClassicRefactored } from '@src/typescript/roadmap_ref/roadmap-templates/classic';
 import { initialRoadmapProtocolAfterLoad } from '@components/roadmap/Roadmap';
 import { clearSession } from '@src/typescript/roadmap_ref/caching/restoreSession';
-import { getRoadmapSelector } from '@src/typescript/roadmap_ref/roadmap-data/services/get';
-import { deepCopy } from '@src/typescript/roadmap_ref/utils';
 import { deleteAllRenderedNodes } from '@store/roadmap-refactor/render/rendered-nodes';
 import { deleteAllRenderedConnections } from '@store/roadmap-refactor/render/rendered-connections';
 
@@ -33,7 +31,7 @@ const ResetRoadmapPopup = ({ closeCallback }: IAuthPopupProps) => {
             closeCallback();
           }}
         >
-          <img src={CLOSE_SVG_SRC} className='w-full h-full' />
+          <img src={CLOSE_SVG_SRC.src} className='w-full h-full' />
         </button>
       </section>
       <section className='flex justify-center mt-10'>

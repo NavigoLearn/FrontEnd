@@ -3,9 +3,10 @@ import { decodeBase64 } from '@src/typescript/utils/misc';
 import RoadmapLayout from '@layouts/RoadmapLayout.astro';
 import PagesDisplayManager from '@components/roadmap/pages-roadmap/PagesDisplayManager';
 import { IRoadmapApi } from '@src/types/explore_old/card';
-import RequestManager from '@src/components/misc/RequestManager';
+import RequestManager from '../../to-be-organized/RequestManager';
 import FullScreenPopupManager from '@src/components/roadmap/pages-roadmap/FullScreenPopupManager';
 import Roadmap from "../../components/roadmap/Roadmap";
+import Base from "../../layouts/Base.astro";
 
 // metadata stuff
 let roadmap: IRoadmapApi;
@@ -17,7 +18,7 @@ let type = 'article';
 // working variables
 const { roadmapPath } = Astro.params;
 const isCreate = roadmapPath === 'create';
-const roadmapId = roadmapPath.match(/[0-9]+$/)?.[0];
+let roadmapId = roadmapPath.match(/[0-9]+$/)?.[0];
 
 // if id is not a number, redirect to explore
 if (roadmapId === undefined && !isCreate)
@@ -61,19 +62,17 @@ try {
   return Astro.redirect('/explore', 302);
 }
 ---
-
-<RoadmapLayout
-  metadata={{
-    title,
-    description,
-    url,
-    type,
-  }}
-  excludeFooter={true}
->
-  <RequestManager client:load />
-  <FullScreenPopupManager client:load isCreate={isCreate} />
-
+<Base>
+    <RoadmapLayout
+            metadata={{
+                title,
+                description,
+                url,
+                type,
+            }}
+            excludeFooter={true}
+    >
+        <FullScreenPopupManager client:load isCreate={isCreate} />
   <div class='h-[calc(100vh-64px)] md:mt-0 relative w-full'>
     <!-- offset from nav reduced from total screen size -->
     <div class='h-full relative'>
@@ -87,4 +86,5 @@ try {
       <PagesDisplayManager client:idle />
     </div>
   </div>
-</RoadmapLayout>
+    </RoadmapLayout>
+</Base>

@@ -1,5 +1,5 @@
 import { NodeClass } from '@src/typescript/roadmap_ref/node/core/core';
-import { IComponentObject } from '@type/roadmap/node/components-types';
+import { type IComponentObject } from '@type/roadmap/node/components-types';
 import { ComponentText } from '@src/typescript/roadmap_ref/node/components/text/core';
 
 export function getComponentById(

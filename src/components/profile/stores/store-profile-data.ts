@@ -1,9 +1,6 @@
 import { atom } from 'nanostores';
-import {
-  ICardRoadmapTypeApi,
-  RoadmapTypeApiExplore,
-} from '@src/types/explore/card';
-import { getLoggedUserId } from '@src/store/user/logged-user';
+import { type ICardRoadmapTypeApi } from '@src/types/explore/card';
+import { getLoggedUserId } from '@store/user/store-logged-user';
 import { DEFAULT_OWNER_AVATAR } from '@store/roadmap-refactor/roadmap-data/misc-data/roadmap-owner-data';
 import {
   setProfileInfoBio,
@@ -17,7 +14,10 @@ import {
   fetchProfileData,
   fetchRoadmapCardsProfile,
 } from '../profile/profile-fetch';
-import { ProfileDataReponse, UserData } from '../profile/profile-data';
+import {
+  type ProfileDataReponse,
+  type UserData,
+} from '../profile/profile-data';
 import { DefaultProfileAdapter } from '../profile/adapter';
 
 export const storeProfileData = atom({

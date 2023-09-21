@@ -1,11 +1,9 @@
-import { ICoords } from '@src/typescript/roadmap_ref/dragging/core';
-import { ISnapPolynomialObject } from '@src/typescript/roadmap_ref/snapping/snapping-types';
+import { type ICoords } from '@src/typescript/roadmap_ref/dragging/core';
+import { type ISnapPolynomialObject } from '@src/typescript/roadmap_ref/snapping/snapping-types';
 
 export function evaluatePolynomialXDelta(
-  polynomial: ISnapPolynomialObject,
-  anchor: ICoords
+  { polynomial }: ISnapPolynomialObject,
+  { x, y }: ICoords
 ) {
-  const { polynomial: polynomialFunction } = polynomial;
-  const delta = polynomialFunction(anchor.x, anchor.y);
-  return delta;
+  return polynomial(x, y);
 }

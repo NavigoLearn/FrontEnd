@@ -5,7 +5,7 @@ import {
   storeConnectionSelectedChild,
 } from '@components/roadmap/connections/connection-editing/connection-store';
 import { NodeClass } from '@src/typescript/roadmap_ref/node/core/core';
-import { ICoords } from '@src/typescript/roadmap_ref/dragging/core';
+import { type ICoords } from '@src/typescript/roadmap_ref/dragging/core';
 import { useEffect, useLayoutEffect, useRef } from 'react';
 import {
   appendStatusEffect,

@@ -1,10 +1,5 @@
-import { IRoadmapApi } from '@src/types/explore_old/card';
-import { isRoadmapType } from '@src/types/roadmap/old/typecheckers';
-import { IRoadmap, IRoadmapData } from '@src/types/roadmap/stores/IRoadmap';
-import { NodeClass } from '@src/typescript/roadmap_ref/node/core/core';
-import { ConnectionClass } from '@src/typescript/roadmap_ref/node/connections/core';
-import { TemplateNode } from '@src/typescript/roadmap_ref/node/templates-system/template-core';
-import { HashMap } from '@src/types/roadmap/misc';
+import { type IRoadmapApi } from '@src/types/explore_old/card';
+import { type IRoadmap } from '@src/types/roadmap/stores/IRoadmap';
 
 type AdapterFunction<T> = (rawData: any) => T;
 

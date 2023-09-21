@@ -1,6 +1,6 @@
 import { NodeClass } from '@src/typescript/roadmap_ref/node/core/core';
-import { IAttachmentObject } from '@type/roadmap/node/attachments-types';
-import { IComponentObject } from '@type/roadmap/node/components-types';
+import { type IAttachmentObject } from '@type/roadmap/node/attachments-types';
+import { type IComponentObject } from '@type/roadmap/node/components-types';
 import { appendAction } from '@src/typescript/roadmap_ref/node/core/actions/append';
 
 export function appendAttachment(

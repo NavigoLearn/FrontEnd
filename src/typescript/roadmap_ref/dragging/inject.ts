@@ -1,7 +1,7 @@
 import {
   DraggingBehavior,
-  IDraggingElementType,
-  IDraggingStrategies,
+  type IDraggingElementType,
+  type IDraggingStrategies,
 } from '@src/typescript/roadmap_ref/dragging/core';
 
 export function injectDraggingElementId(

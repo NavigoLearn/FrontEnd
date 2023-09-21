@@ -1,5 +1,5 @@
 import { atom } from 'nanostores';
-import { User, UserResponse } from '@type/user/types';
+import { type User, type UserResponse } from '@type/user/types';
 import { checkIsTypeUser } from '@type/user/typecheckers';
 
 const generateUserBoilerplate = (): User => ({
@@ -16,7 +16,7 @@ const generateUserBoilerplate = (): User => ({
   isFollowing: false,
 });
 
-const loggedUser = atom(generateUserBoilerplate() as User);
+const storeLoggedUser = atom(generateUserBoilerplate() as User);
 
 const parseResponse = (response: UserResponse): User => {
   if (!checkIsTypeUser(response)) {
@@ -31,12 +31,12 @@ const parseResponse = (response: UserResponse): User => {
 };
 
 export const setProfilePictureUrl = (profilePictureUrl: string) => {
-  const originalUser = loggedUser.get();
+  const originalUser = storeLoggedUser.get();
   const newProfilePictureUrl =
     profilePictureUrl !== ''
       ? profilePictureUrl
       : originalUser.profilePictureUrl;
-  loggedUser.set({ ...originalUser, profilePictureUrl });
+  storeLoggedUser.set({ ...originalUser, profilePictureUrl });
 };
 
 export const setProfileMini = (
@@ -44,12 +44,12 @@ export const setProfileMini = (
   userId: string,
   name: string
 ) => {
-  const originalUser = loggedUser.get();
+  const originalUser = storeLoggedUser.get();
   const newProfilePictureUrl =
     profilePictureUrl !== '' && profilePictureUrl
       ? profilePictureUrl
       : originalUser.profilePictureUrl;
-  loggedUser.set({
+  storeLoggedUser.set({
     ...originalUser,
     profilePictureUrl: newProfilePictureUrl,
     userId,
@@ -58,7 +58,11 @@ export const setProfileMini = (
 };
 
 export function getLoggedUserId(): string {
-  return loggedUser.get().userId;
+  return storeLoggedUser.get().userId;
 }
 
-export default loggedUser;
+export function getProfileMini(): User {
+  return storeLoggedUser.get();
+}
+
+export default storeLoggedUser;
