@@ -82,7 +82,7 @@ const WhyRoadmapsSectionM = () => {
         <CardsM
           title='Infinite'
           description='Our roadmaps can be infinite! Yeah, that is right, we implemented minecraft-like chunking directly into the roadmaps, allowing for the creation and visualization of infinite amounts of data.'
-          image='versatile'
+          image='infinite'
           animate={fadeInUp}
           variants={fadeInUpAnim}
         />
@@ -103,7 +103,7 @@ const WhyRoadmapsSectionM = () => {
         <CardsM
           title='Intuitive'
           description='Roadmaps are interactive, allowing you to add comments, links, images, videos, and more. You can also share your roadmaps with others and collaborate on them in real-time.'
-          image='versatile'
+          image='intuitive'
           animate={fadeInUp}
           variants={fadeInUpAnim}
         />
