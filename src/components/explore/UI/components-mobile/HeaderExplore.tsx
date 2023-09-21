@@ -17,7 +17,7 @@ type Props = {
 
 const HeaderExplore = ({ results, query, perPage, sortBy, topic }: Props) => {
   const [openFilter, setOpenFilter] = useState(false);
-  const testQuery = 'JavaShit';
+  // const testQuery = 'JavaShit';
 
   const toggleFilter = () => {
     setOpenFilter(!openFilter);
@@ -28,15 +28,15 @@ const HeaderExplore = ({ results, query, perPage, sortBy, topic }: Props) => {
       <div className='font-kanit-text w-40 break-words'>
         <div className='text-placeholderBlack text-xs'>
           {' '}
-          {results} results {testQuery !== '' && 'for'}
+          {results} results {query !== '' && 'for'}
         </div>
         <div className='text-sm text-secondary'>
-          {testQuery !== '' && (
+          {query !== '' && (
             <span>
               &apos;
-              {testQuery.length > NAVBAR_SEARCH_RESULT_MAX_LENGTH
-                ? `${testQuery.slice(0, NAVBAR_SEARCH_RESULT_MAX_LENGTH)}...`
-                : testQuery}
+              {query.length > NAVBAR_SEARCH_RESULT_MAX_LENGTH
+                ? `${query.slice(0, NAVBAR_SEARCH_RESULT_MAX_LENGTH)}...`
+                : query}
               &apos;
             </span>
           )}

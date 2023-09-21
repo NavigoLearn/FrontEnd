@@ -15,11 +15,8 @@ type Props = {
 
 const DisplayerCardsExplore = ({ cardData, params }: Props) => {
   return (
-    <div className='my-4' onScroll={() => console.log('scrolled')}>
-      <div
-        className='w-full gap-y-4 flex flex-col'
-        onScroll={() => console.log('scrolled')}
-      >
+    <div className='my-4'>
+      <div className='w-full gap-y-4 flex flex-col items-center'>
         {/* eslint-disable-next-line no-nested-ternary */}
         {cardData && !cardData.loading ? (
           cardData.cards.length === 0 ? (
