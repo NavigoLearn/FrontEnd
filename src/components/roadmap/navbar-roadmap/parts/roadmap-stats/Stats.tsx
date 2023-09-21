@@ -28,7 +28,7 @@ const Stats = () => {
   const intId = parseInt(id, 10);
 
   return (
-    <div className='flex gap-6 items-center'>
+    <div className='flex gap-4 items-center'>
       <section className='items-center gap-2 md:flex hidden'>
         <h3 className='font-roboto-text text-placeholder text-sm'>Views</h3>
         <h2 className='font-roboto-text text-placeholder font-medium text-sm'>
