@@ -1,6 +1,4 @@
-import roadmapStateStore, {
-  getIsEditing,
-} from '@store/roadmap-refactor/roadmap-data/misc-data/roadmap_state';
+import roadmapStateStore from '@store/roadmap-refactor/roadmap-data/misc-data/roadmap_state';
 import {
   getRenderedRootNodesIds,
   setNodes,
@@ -10,14 +8,13 @@ import chunksStore, {
 } from '@store/roadmap-refactor/render/rendered-chunks';
 import * as d3 from 'd3';
 import { setConnections } from '@store/roadmap-refactor/render/rendered-connections';
-import { IRoadmap } from '@type/roadmap/stores/IRoadmap';
+import { type IRoadmap } from '@type/roadmap/stores/IRoadmap';
 import { setViewport } from '@store/roadmap-refactor/misc/viewport-coords-store';
-import { Viewport } from '@type/roadmap/old/misc';
+import { type Viewport } from '@type/roadmap/old/misc';
 import miscParams from '@store/roadmap-refactor/misc/misc-params-store';
 import { roadmapSelector } from '@store/roadmap-refactor/roadmap-data/roadmap-selector';
 import { getRoadmapSelector } from '@src/typescript/roadmap_ref/roadmap-data/services/get';
 import { ConnectionClass } from '@src/typescript/roadmap_ref/node/connections/core';
-import { deepCopy } from '@src/typescript/roadmap_ref/utils';
 
 export function setConnectionsToRender() {
   const { loaded } = roadmapStateStore.get();
@@ -83,6 +80,8 @@ export function setNodesToRender() {
 export function calculateViewportCoordinates(transform: any) {
   // Get the SVG element and its dimensions
   const svg = d3.select('#rootSvg');
+
+  // @ts-ignore
   const svgBoundingClientRect = svg.node().getBoundingClientRect();
   const { width, height } = svgBoundingClientRect;
 

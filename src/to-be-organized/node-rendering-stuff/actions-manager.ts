@@ -2,7 +2,7 @@ import {
   actionStrategyDoNothing,
   actionStrategyOpenLink,
   actionStrategyOpenTab,
-  IActionStrategy,
+  type IActionStrategy,
 } from '@src/typescript/roadmap_ref/node/core/actions/strategies';
 import {
   setDraggableElementForNodeWithId,
@@ -13,7 +13,7 @@ import {
   setDisplayPageType,
 } from '@store/roadmap-refactor/display/display-manager';
 import { setSelectedNodeId } from '@store/roadmap-refactor/elements-editing/editor-selected-data';
-import roadmapStateStore, {
+import {
   getIsEditable,
   getIsEditing,
 } from '@store/roadmap-refactor/roadmap-data/misc-data/roadmap_state';
@@ -22,24 +22,19 @@ import {
   getNodeByIdRoadmapSelector,
 } from '@src/typescript/roadmap_ref/roadmap-data/services/get';
 import {
-  appendElementEffect,
-  getElementHasEffect,
   setEditorClosedEffect,
   setEditorOpenEffect,
-  deleteElementEffect,
   deleteElementEffectNoStoreParam,
 } from '@store/roadmap-refactor/elements-editing/store-node-effects';
 import { triggerAllNodesRerender } from '@store/roadmap-refactor/render/rerender-triggers-nodes';
 import { getElementG } from '@store/roadmap-refactor/elements-editing/elements-gs';
-import { effectBorderTransparent } from '@src/to-be-organized/node-rendering-stuff/effects';
 import { triggerMoveRoadmapTo } from '@store/roadmap-refactor/misc/misc-params-store';
-import { HashMapWithKeys } from '@type/roadmap/misc';
-import { IActionTypes } from '@src/typescript/roadmap_ref/node/core/actions/core';
+import { type HashMapWithKeys } from '@type/roadmap/misc';
+import { type IActionTypes } from '@src/typescript/roadmap_ref/node/core/actions/core';
 import { getScaleSafari } from '@store/roadmap-refactor/misc/scale-safari-store';
 import { getViewport } from '@store/roadmap-refactor/misc/viewport-coords-store';
 import { setEditingState } from '@store/roadmap-refactor/editing/editing-state';
 import { clearSelectedConnection } from '@components/roadmap/connections/connection-editing/connection-store';
-import { dispatchEventRoadmapInteraction } from '@src/to-be-organized/analytics-module/events/events-dispatch';
 import { dispatchAnalyticsEvent } from '@src/to-be-organized/analytics-module/stores/analytics';
 import { checkFirstOnClick } from '@src/to-be-organized/node-rendering-stuff/node-render-logic';
 

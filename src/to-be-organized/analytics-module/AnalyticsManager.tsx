@@ -6,7 +6,7 @@ import analyticsStore, {
   emptyDispatchedEvents,
 } from '@src/to-be-organized/analytics-module/stores/analytics';
 import { triggerEventDispatch } from '@src/to-be-organized/analytics-module/events/events-mapper';
-import { IVisitPages } from '@src/to-be-organized/analytics-module/analytics-types';
+import { type IVisitPages } from '@src/to-be-organized/analytics-module/analytics-types';
 
 type IAnalyticsManagerProps = {
   segmentKey: string;

@@ -1,4 +1,4 @@
-import { INodeResizeEvent } from '@src/to-be-organized/undo-redo/undo-types';
+import { type INodeResizeEvent } from '@src/to-be-organized/undo-redo/undo-types';
 import { getNodeByIdRoadmapSelector } from '@src/typescript/roadmap_ref/roadmap-data/services/get';
 import {
   mutateNodeCoordX,

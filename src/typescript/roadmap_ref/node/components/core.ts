@@ -1,4 +1,4 @@
-import { IComponentOptions } from '@type/roadmap/node/options-types';
+import { type IComponentOptions } from '@type/roadmap/node/options-types';
 import { DraggingBehavior } from '@src/typescript/roadmap_ref/dragging/core';
 import { getRandomId } from '@src/typescript/utils/misc';
 

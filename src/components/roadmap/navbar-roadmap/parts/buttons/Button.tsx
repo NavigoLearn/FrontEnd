@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { INavbarRoadmapButton } from '@components/roadmap/navbar-roadmap/parts/buttons/buttons-selector';
+import { type INavbarRoadmapButton } from '@components/roadmap/navbar-roadmap/parts/buttons/buttons-selector';
 
 type IButtonProps = {
   button: INavbarRoadmapButton;

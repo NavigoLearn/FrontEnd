@@ -1,13 +1,10 @@
-import { appendNodeToChunks } from '@src/typescript/roadmap_ref/roadmap-data/services/append';
 import { getChildrenRenderedTraceback } from '@src/typescript/roadmap_ref/roadmap-data/protocols/get';
 import { getNodeByIdRoadmapSelector } from '@src/typescript/roadmap_ref/roadmap-data/services/get';
-import { deleteNodeFromChunks } from '@src/typescript/roadmap_ref/roadmap-data/services/delete';
 import { mutateNodeCoords } from '@src/typescript/roadmap_ref/node/core/data-mutation/mutate';
-import { recalculateNodeChunks } from '@src/typescript/roadmap_ref/node/core/calculations/general';
 import { triggerNodeRerender } from '@store/roadmap-refactor/render/rerender-triggers-nodes';
 import {
   DraggingBehavior,
-  IDraggingElementIdentifiers,
+  type IDraggingElementIdentifiers,
 } from '@src/typescript/roadmap_ref/dragging/core';
 import * as d3 from 'd3';
 import { getComponentById } from '@src/typescript/roadmap_ref/node/core/data-get/components';

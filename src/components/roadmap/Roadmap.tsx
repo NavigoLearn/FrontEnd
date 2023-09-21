@@ -1,8 +1,5 @@
 import React from 'react';
-import {
-  createAndSetRoadmapClassicRefactored,
-  createGrid,
-} from '@src/typescript/roadmap_ref/roadmap-templates/classic';
+import { createAndSetRoadmapClassicRefactored } from '@src/typescript/roadmap_ref/roadmap-templates/classic';
 import renderNodesStore from '@store/roadmap-refactor/render/rendered-nodes';
 import {
   getChunkRerenderTrigger,
@@ -16,7 +13,6 @@ import roadmapStateStore, {
   setRoadmapState,
   setHasStarterTab,
   getIsEditing,
-  getIsEditable,
 } from '@store/roadmap-refactor/roadmap-data/misc-data/roadmap_state';
 import {
   disableRoadmapDragZoomAnd,
@@ -33,7 +29,7 @@ import { useEffectAfterLoad } from '@hooks/useEffectAfterLoad';
 import renderConnectionsStore from '@store/roadmap-refactor/render/rendered-connections';
 import { closeEditorProtocol } from '@src/to-be-organized/node-rendering-stuff/actions-manager';
 import { addKeyListeners } from '@src/typescript/roadmap_ref/key-shortcuts';
-import { IRoadmapApi } from '@type/explore_old/card';
+import { type IRoadmapApi } from '@type/explore_old/card';
 import {
   enableRoadmapInteractions,
   setRoadmapDisableDragAndZoom,

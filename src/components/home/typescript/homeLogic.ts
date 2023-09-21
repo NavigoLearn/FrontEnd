@@ -1,5 +1,4 @@
-// homeLogic.ts
-import { MouseEvent, useEffect, useRef, useState } from 'react';
+import { type MouseEvent, useEffect, useRef, useState } from 'react';
 import {
   generateObjects,
   lerp,

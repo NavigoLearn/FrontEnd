@@ -1,5 +1,5 @@
 import { atom } from 'nanostores';
-import { ICoords } from '@src/typescript/roadmap_ref/dragging/core';
+import { type ICoords } from '@src/typescript/roadmap_ref/dragging/core';
 import { NodeClass } from '@src/typescript/roadmap_ref/node/core/core';
 
 export type IMouseDragDirection =

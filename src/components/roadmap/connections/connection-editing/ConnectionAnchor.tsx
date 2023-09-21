@@ -1,6 +1,6 @@
 import {
   ConnectionClass,
-  IConnectionPositions,
+  type IConnectionPositions,
 } from '@src/typescript/roadmap_ref/node/connections/core';
 import { connectionSetter } from '@src/typescript/roadmap_ref/node/connections/services';
 import { triggerConnectionRerender } from '@store/roadmap-refactor/render/rerender-trigger-connections';

@@ -19,7 +19,7 @@ const BackArrow = () => {
       <img
         draggable='false'
         className='select-none w-full h-full'
-        src={BACK_ARROW_SRC}
+        src={BACK_ARROW_SRC.src}
         alt='navbar back arrow to explore'
       />
     </button>

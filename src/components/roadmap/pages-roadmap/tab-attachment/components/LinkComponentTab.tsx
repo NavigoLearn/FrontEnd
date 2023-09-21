@@ -1,5 +1,5 @@
 import React from 'react';
-import { IAttachmentTabLinkProperties } from '@type/roadmap/node/tab-types';
+import { type IAttachmentTabLinkProperties } from '@type/roadmap/node/tab-types';
 
 type ILinkComponentProps = {
   component: IAttachmentTabLinkProperties;

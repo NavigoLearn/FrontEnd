@@ -1,7 +1,7 @@
 import React from 'react';
 import {
-  IColorThemesColors,
-  IColorThemesOptions,
+  type IColorThemesColors,
+  type IColorThemesOptions,
 } from '@type/roadmap/node/colors-types';
 import { colorThemes } from '@src/typescript/roadmap_ref/node/core/color-themes';
 import { NodeClass } from '@src/typescript/roadmap_ref/node/core/core';
@@ -12,13 +12,7 @@ import {
   selectNodeColorTextBorder,
   selectNodeDefaultOpacity,
 } from '@src/typescript/roadmap_ref/node/core/factories/data-mutation/services';
-import { deepCopy } from '@src/typescript/roadmap_ref/utils';
-import {
-  mutateComponentTextOpacity,
-  mutateAllComponentsTextOpacity,
-} from '@src/typescript/roadmap_ref/node/components/text/mutate';
-import { getComponentTextById } from '@src/typescript/roadmap_ref/node/core/data-get/components';
-import { getCurrentRoadmap } from '../../../setup-screen/roadmap-funtions';
+import { mutateAllComponentsTextOpacity } from '@src/typescript/roadmap_ref/node/components/text/mutate';
 
 type IVariantsComponentProps = {
   selectedColor: IColorThemesColors;

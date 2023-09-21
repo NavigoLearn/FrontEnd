@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { type FC } from 'react';
 import { motion } from 'framer-motion';
 import { Info, ConfirmSvg, CrossSvg, ErrorSvg } from './NotifUI/NotifIcons';
 

@@ -1,8 +1,8 @@
 import { atom } from 'nanostores';
-import { IAttachmentTabStatus } from '@src/typescript/roadmap_ref/node/attachments/tab/core';
+import { type IAttachmentTabStatus } from '@src/typescript/roadmap_ref/node/attachments/tab/core';
 import {
   fetchUpdateRoadmapProgress,
-  IRoadmapProgress,
+  type IRoadmapProgress,
 } from '@src/api-wrapper/roadmap/routes/routes-roadmaps';
 import { deepCopy } from '@src/typescript/roadmap_ref/utils';
 import { dispatchAnalyticsEvent } from '@src/to-be-organized/analytics-module/stores/analytics';

@@ -1,6 +1,6 @@
-import { IMouseDragDirection } from '@src/to-be-organized/resize-dragging/stores-resize-node';
+import { type IMouseDragDirection } from '@src/to-be-organized/resize-dragging/stores-resize-node';
 import { getResizeNodeCallbacks } from '@src/typescript/roadmap_ref/node/core/data-mutation/mutate-resize-protocols';
-import { IElementType } from '@src/to-be-organized/resize-dragging/stores-resize-shared-data';
+import { type IElementType } from '@src/to-be-organized/resize-dragging/stores-resize-shared-data';
 import { getResizeComponentCallbacks } from '@src/typescript/roadmap_ref/node/components/mutate-resize-protocols';
 
 export function getResizeCallback(

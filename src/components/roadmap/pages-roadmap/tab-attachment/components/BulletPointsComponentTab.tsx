@@ -1,5 +1,5 @@
 import React from 'react';
-import { IAttachmentTabBulletListProperties } from '@type/roadmap/node/tab-types';
+import { type IAttachmentTabBulletListProperties } from '@type/roadmap/node/tab-types';
 import { ResourceAttachmentView } from '@components/roadmap/pages-roadmap/editor/editor-pages/tab-page/components/ResourceAttachment';
 
 type IResourceAttachmentProps = {

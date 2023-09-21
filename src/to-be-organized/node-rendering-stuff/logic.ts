@@ -1,6 +1,6 @@
 import React from 'react';
 import { NodeClass } from '@src/typescript/roadmap_ref/node/core/core';
-import { ICoords } from '@src/typescript/roadmap_ref/dragging/core';
+import { type ICoords } from '@src/typescript/roadmap_ref/dragging/core';
 import { ComponentText } from '@src/typescript/roadmap_ref/node/components/text/core';
 import { IRenderingEnginesArray } from '@components/roadmap/rendering-engines/store-rendering-engine';
 

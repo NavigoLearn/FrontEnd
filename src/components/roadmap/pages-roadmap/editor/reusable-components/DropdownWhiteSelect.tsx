@@ -1,10 +1,10 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { tailwindTransitionClass } from '@src/UI-library/tailwind-utils';
 import { useClickOutside } from '@hooks/useClickOutside';
 import { useInvisibleSearch } from '@hooks/useInvisibleSearch';
-import { useOnEnter } from '@hooks/useOnEnter';
 import { useOnEsc } from '@hooks/useOnEsc';
+import arrowDropdown from '@assets/roadmap/arrow-dropdown.svg';
 
 type IOption = {
   id: string;
@@ -107,7 +107,7 @@ const DropdownWhiteSelect = ({
         </span>
         <img
           alt='arrow dropdown'
-          src='/roadmap/arrow-dropdown.svg'
+          src={arrowDropdown.src}
           className={` w-8 h-8 ${
             dropdown && 'rotate-180'
           }${tailwindTransitionClass} absolute right-2`}

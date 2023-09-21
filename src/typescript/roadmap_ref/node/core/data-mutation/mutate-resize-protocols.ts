@@ -1,5 +1,5 @@
 import {
-  IMouseDragDirection,
+  type IMouseDragDirection,
   getResizeNodeInitialSize,
   getResizeInitialElementCoords,
   getResizeNodeRef,

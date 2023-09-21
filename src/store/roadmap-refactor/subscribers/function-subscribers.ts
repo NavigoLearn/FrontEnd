@@ -1,5 +1,5 @@
 import { atom } from 'nanostores';
-import { HashMapWithKeys } from '@type/roadmap/misc';
+import { type HashMapWithKeys } from '@type/roadmap/misc';
 
 export type IHubs =
   | 'mutateNodeWidth'

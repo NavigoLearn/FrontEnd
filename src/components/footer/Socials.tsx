@@ -16,7 +16,7 @@ const Socials = () => {
           className='text-placeholder font-kanit-text select-none'
           rel='noreferrer'
         >
-          <img src={discord} alt='discord' className='w-6 h-6 ' />
+          <img src={discord.src} alt='discord' className='w-6 h-6 ' />
         </a>
         <a
           href='https://github.com/NavigoLearn'
@@ -24,13 +24,17 @@ const Socials = () => {
           rel='noreferrer'
           className='text-placeholder font-kanit-text select-none'
         >
-          <img src={github} alt='github' className='w-6 h-6 translate-y-2' />
+          <img
+            src={github.src}
+            alt='github'
+            className='w-6 h-6 translate-y-2'
+          />
         </a>
         <a
           href='mailto:navigolearn@gmail.com'
           className='text-placeholder font-kanit-text select-none'
         >
-          <img src={gmail} alt='gmail' className='w-6 h-6 ' />
+          <img src={gmail.src} alt='gmail' className='w-6 h-6 ' />
         </a>
       </div>
     </div>

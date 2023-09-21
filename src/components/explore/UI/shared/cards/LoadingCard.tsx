@@ -4,7 +4,7 @@ import React from 'react';
 const LoadingCard = () => {
   return (
     <motion.div
-      key="motion1"
+      key='motion1'
       initial={{ opacity: 0, scale: 0.8 }}
       animate={{
         opacity: 1,
@@ -15,7 +15,7 @@ const LoadingCard = () => {
     >
       <AnimatePresence>
         <motion.div
-          key="motion2"
+          key='motion2'
           initial={{ width: '0%' }}
           animate={{
             width: '100%',
@@ -29,7 +29,7 @@ const LoadingCard = () => {
           className='h-5 bg-gradient-to-r from-gray-100 via-gray-200 to-gray-300 rounded mt-4'
         />
         <motion.h2
-          key="motion3"
+          key='motion3'
           initial={{ x: -30, opacity: 0 }}
           animate={{
             x: 0,
@@ -44,7 +44,7 @@ const LoadingCard = () => {
           className='h-7 bg-gradient-to-r from-gray-300 via-gray-200 to-gray-100 rounded mt-5'
         />
         <motion.button
-          key="motion4"
+          key='motion4'
           initial={{ scale: 0 }}
           animate={{
             scale: 1,
@@ -58,7 +58,7 @@ const LoadingCard = () => {
           className='w-1/2 h-8 bg-gradient-to-r from-gray-200 to-gray-300 rounded mt-2'
         />
         <motion.div
-          key="motion5"
+          key='motion5'
           initial={{ width: '0%' }}
           animate={{
             width: '100%',
@@ -73,7 +73,7 @@ const LoadingCard = () => {
         />
       </AnimatePresence>
     </motion.div>
-  )
-}
+  );
+};
 
 export default LoadingCard;

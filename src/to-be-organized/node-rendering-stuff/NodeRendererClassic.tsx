@@ -27,18 +27,13 @@ import {
   useNodeSideEffects,
   useSelectedConnectionData,
 } from '@src/to-be-organized/node-rendering-stuff/node-renderer-hooks';
-import {
-  getNodeStatusBarColor,
-  handleContextMenu,
-} from '@src/to-be-organized/node-rendering-stuff/node-render-logic';
+import { getNodeStatusBarColor } from '@src/to-be-organized/node-rendering-stuff/node-render-logic';
 import NodeHOCForeignObject from '@components/roadmap/to-be-organized/NodeHOCForeignObject';
 import AsyncLoaderHOC from '@components/roadmap/rendering-engines/async-loading/AsyncLoaderHOC';
-import { getRenderingEngineOptimized } from '@components/roadmap/rendering-engines/store-rendering-engine';
 import { showContextMenu } from '@components/roadmap/contextmenu/store/ContextMenu';
 import { setNotification } from '@components/roadmap/to-be-organized/notifications/notifciations-refr/notification-store-refr';
 import { checkIsMobile } from '@hooks/useIsMobile';
 import useContextMenuOrLongPress from '@hooks/useContextMenuOrLongPress';
-import { setRoadmapNodeProgressAndFetchUpdate } from '@store/roadmap-refactor/roadmap-data/misc-data/roadmap-progress';
 
 interface NodeViewProps {
   nodeId: string;
@@ -127,6 +122,7 @@ const NodeRendererClassic: React.FC<NodeViewProps> = ({
   useNodeHandleEvents(nodeDivRef, nodeId, loaded);
 
   return (
+    // @ts-ignore
     <div
       className={isSafari && !isSubNode ? 'fixed origin-center' : ''}
       style={{

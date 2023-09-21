@@ -22,7 +22,7 @@ const Socials = () => {
           discord
           <img
             draggable='false'
-            src={discord}
+            src={discord.src}
             alt='discord'
             className='w-full h-full mt-6 select-none'
           />
@@ -36,7 +36,7 @@ const Socials = () => {
           github organization
           <img
             draggable='false'
-            src={github}
+            src={github.src}
             alt='github'
             className='mt-6 w-full h-full select-none'
           />
@@ -48,7 +48,7 @@ const Socials = () => {
           email
           <img
             draggable='false'
-            src={gmail}
+            src={gmail.src}
             alt='gmail'
             className='flex md:mt-6 w-full h-full select-none'
           />

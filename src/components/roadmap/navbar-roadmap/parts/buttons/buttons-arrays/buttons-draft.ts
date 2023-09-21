@@ -1,5 +1,5 @@
 import {
-  IButtonsRoadmapNavbarOptions,
+  type IButtonsRoadmapNavbarOptions,
   requestButton,
 } from '@components/roadmap/navbar-roadmap/parts/buttons/buttons-arrays/buttons-requester';
 

@@ -1,11 +1,11 @@
 import {
-  IColorThemesColors,
-  IColorThemesOptions,
+  type IColorThemesColors,
+  type IColorThemesOptions,
 } from '@type/roadmap/node/colors-types';
 import { colorThemes } from '@src/typescript/roadmap_ref/node/core/color-themes';
 import {
-  ITextWidthModes,
-  ITextSizeModes,
+  type ITextWidthModes,
+  type ITextSizeModes,
 } from '@src/types/roadmap/node/components-types';
 import { textWidthModes, textSizeModes } from '../../font-parameters';
 
