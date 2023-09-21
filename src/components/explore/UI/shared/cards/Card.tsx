@@ -18,6 +18,7 @@ const Card = ({ data, w, h }: ICardProps) => {
         boxShadow: '0 4px 6px 0 rgba(0, 0, 255, 0.1)',
         height: h,
         width: w,
+        maxWidth: '350px',
       }}
     >
       <section className='flex mt-3 items-center justify-between px-4'>
