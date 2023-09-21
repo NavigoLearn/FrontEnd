@@ -42,7 +42,7 @@ import {
   getTemplateById,
 } from '@src/typescript/roadmap_ref/roadmap-data/services/get';
 import { deepCopy } from '@src/typescript/roadmap_ref/utils';
-import { HashMap } from '@type/roadmap/misc';
+import { type HashMap } from '@type/roadmap/misc';
 import { roadmapSelector } from '@store/roadmap-refactor/roadmap-data/roadmap-selector';
 import { applyTemplateToNewNode } from '@src/typescript/roadmap_ref/node/core/data-mutation/protocol';
 import {

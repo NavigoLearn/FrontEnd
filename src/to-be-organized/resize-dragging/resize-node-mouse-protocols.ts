@@ -1,7 +1,7 @@
 import {
   getResizeNodeRef,
   setResizeInitialElementCoords,
-  IMouseDragDirection,
+  type IMouseDragDirection,
   setResizeNodeInitialSize,
 } from '@src/to-be-organized/resize-dragging/stores-resize-node';
 import {
@@ -9,7 +9,6 @@ import {
   getResizeInitialMouseCoords,
   setResizeInitialMouseCoords,
   setResizeMouseAnchor,
-  getResizeElementType,
   setResizeMouseMoveHandler,
   getResizeMouseMoveHandler,
   getResizeIsResizingCallback,
@@ -26,7 +25,7 @@ import {
 } from '@store/roadmap-refactor/roadmap-data/roadmap-functions-utils';
 import { throttle } from '@src/typescript/roadmap_ref/render/chunks';
 import { getScaleSafari } from '@store/roadmap-refactor/misc/scale-safari-store';
-import { HashMapWithKeys } from '@type/roadmap/misc';
+import { type HashMapWithKeys } from '@type/roadmap/misc';
 import { triggerNodeRerender } from '@store/roadmap-refactor/render/rerender-triggers-nodes';
 import {
   subscribeToAlt,
@@ -35,14 +34,13 @@ import {
 import { triggerNodeConnectionsRerender } from '@src/to-be-organized/triggering-stuff-alert/trigger-connections';
 import { snapResizingNodeProtocol } from '@src/typescript/roadmap_ref/snapping/snap-protocols/snap-nodes-resize';
 import { afterEventLoop } from '@src/typescript/utils/misc';
-import { recalculateNodeChunks } from '@src/typescript/roadmap_ref/node/core/calculations/general';
 import { recalculateNodeChunksWithRoadmapSideEffects } from '@src/typescript/roadmap_ref/node/core/data-mutation/protocol';
 import {
   endRecordResizeOrDrag,
   startRecordResizeOrDrag,
 } from '@src/to-be-organized/undo-redo/recorders';
 
-type IDeltaCalc = (eventY, startY) => number;
+type IDeltaCalc = (eventY: number, startY: number) => number;
 
 export function calculateDeltaY(e, direction: IMouseDragDirection): number {
   const { y } = getResizeInitialMouseCoords();
@@ -68,12 +66,11 @@ export function calculateDeltaY(e, direction: IMouseDragDirection): number {
   > = {
     top: (eventY, startY) => startY - eventY,
     bottom: (eventY, startY) => eventY - startY,
-    null: (eventY, startY) => 0,
+    null: (_, __) => 0,
   };
 
   // gets the mouse position Y without the event
-  const deltaY = deltasFunctions[actualDirection](e.pageY, y);
-  return deltaY;
+  return deltasFunctions[actualDirection](e.pageY, y);
 }
 
 export function calculateDeltaX(e, direction: IMouseDragDirection): number {
@@ -100,11 +97,10 @@ export function calculateDeltaX(e, direction: IMouseDragDirection): number {
   > = {
     left: (eventX, startX) => startX - eventX,
     right: (eventX, startX) => eventX - startX,
-    null: (eventX, startX) => 0,
+    null: (_, __) => 0,
   };
 
-  const deltaX = deltasFunctions[actualDirection](e.pageX, x);
-  return deltaX;
+  return deltasFunctions[actualDirection](e.pageX, x);
 }
 
 const handleDeltasFromOriginalPointCalculations = (

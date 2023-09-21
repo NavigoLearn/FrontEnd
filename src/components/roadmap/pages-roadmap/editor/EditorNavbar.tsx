@@ -1,18 +1,18 @@
-import editorDisplayManager, {
-  IEditorDisplayPageType,
-} from '@store/roadmap-refactor/display/editor/editor-display-manager';
+import { type IEditorDisplayPageType } from '@store/roadmap-refactor/display/editor/editor-display-manager';
 import React, { useEffect, useState, useRef } from 'react';
 import onChangeStore from '@src/HOC-library/store-based-hoc/OnChangeStore';
 import { useStore } from '@nanostores/react';
 import { closeEditorProtocol } from '@src/to-be-organized/node-rendering-stuff/actions-manager';
-import editorSelectedData, {
+import storeEditorSelectedData, {
   triggerRerenderEditor,
-} from '@store/roadmap-refactor/elements-editing/editor-selected-data';
+} from '@store/roadmap-refactor/elements-editing/store-editor-selected-data';
 import { getNodeByIdRoadmapSelector } from '@src/typescript/roadmap_ref/roadmap-data/services/get';
 import { mutateNodeName } from '@src/typescript/roadmap_ref/node/core/data-mutation/mutate';
 import { motion, AnimatePresence } from 'framer-motion';
 import { clearSelectedConnection } from '@components/roadmap/connections/connection-editing/connection-store';
 import { nodeNameSyncer } from '@src/typescript/roadmap_ref/node/misc';
+import editSvg from '@assets/editor/edit.svg';
+import closeSvg from '@assets/editor/close.svg';
 
 const getButtonWidth = (buttonRef: React.RefObject<HTMLButtonElement>) => {
   if (buttonRef.current) {
@@ -58,7 +58,7 @@ const EditorPageButton = ({
 };
 
 const TitleAndExit = () => {
-  const { selectedNodeId } = useStore(editorSelectedData);
+  const { selectedNodeId } = useStore(storeEditorSelectedData);
   const node = getNodeByIdRoadmapSelector(selectedNodeId);
   const { name } = node;
   const [edit, setEdit] = useState(false);
@@ -105,7 +105,7 @@ const TitleAndExit = () => {
           <img
             className='w-full h-full'
             alt='edit button for node name'
-            src='/editor/edit.svg'
+            src={editSvg.src}
           />
         </button>
       )}
@@ -118,7 +118,7 @@ const TitleAndExit = () => {
         className='absolute top-0 right-8'
       >
         <img
-          src='/editor/close.svg'
+          src={closeSvg.src}
           className='w-8 h-8'
           alt='Close button for editor'
         />

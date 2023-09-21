@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
-import homeedit from '@assets/homeedit.svg';
+import homeEdit from '@assets/homeedit.svg';
 import { motion } from 'framer-motion';
-import { BottomSectionStateProps } from '@components/home/desktop/components/BottomSectionState';
+import { type BottomSectionStateProps } from '@components/home/desktop/components/BottomSectionState';
 import EditorSectionD from '@components/home/desktop/components/EditorSectionD';
 
 const EditorSection = (stateProps: BottomSectionStateProps) => {
@@ -51,7 +51,7 @@ const EditorSection = (stateProps: BottomSectionStateProps) => {
           <div className='w-8 h-8 2xl:w-12 2xl:h-12 rounded-full border border-placeholderBlack items-center justify-center flex'>
             <div className='w-7 h-7 2xl:w-11 2xl:h-11 rounded-full border border-placeholderBlack items-center justify-center flex'>
               <img
-                src={homeedit}
+                src={homeEdit.src}
                 alt='homeedit'
                 className='w-4 h-4 2xl:w-7 2xl:h-7'
               />

@@ -3,11 +3,9 @@ import { useStore } from '@nanostores/react';
 import {
   storeProfileData,
   getIsOwnerOfProfile,
-  setProfileDataLoading,
 } from '@src/components/profile/stores/store-profile-data';
-import { ICardRoadmapTypeApi } from '@src/types/explore/card';
+import { type ICardRoadmapTypeApi } from '@src/types/explore/card';
 import Card from '@src/components/explore/UI/shared/cards/Card';
-import { get } from 'http';
 
 const RoadmapsPageD = () => {
   const [drafts, setDrafts] = useState(false);

@@ -1,4 +1,4 @@
-import { triggerRerenderEditor } from '@store/roadmap-refactor/elements-editing/editor-selected-data';
+import { triggerRerenderEditor } from '@store/roadmap-refactor/elements-editing/store-editor-selected-data';
 
 type TriggerFunctionGeneral<T extends any[]> = (...args: T) => any;
 

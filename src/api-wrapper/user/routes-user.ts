@@ -1,4 +1,4 @@
-import { UserResponse } from '@type/user/types';
+import { type UserResponse } from '@type/user/types';
 import { errorHandlerDecorator } from '@src/typescript/error-handler';
 
 export const fetchUserData = errorHandlerDecorator(

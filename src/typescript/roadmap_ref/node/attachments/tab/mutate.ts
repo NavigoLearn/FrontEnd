@@ -1,12 +1,9 @@
 import {
-  IAttachmentTabBulletListProperties,
-  IAttachmentTabDescriptionProperties,
-  IAttachmentTabTitleProperties,
+  type IAttachmentTabBulletListProperties,
+  type IAttachmentTabDescriptionProperties,
+  type IAttachmentTabTitleProperties,
 } from '@type/roadmap/node/tab-types';
-import {
-  AttachmentTab,
-  IAttachmentTabStatus,
-} from '@src/typescript/roadmap_ref/node/attachments/tab/core';
+import { AttachmentTab } from '@src/typescript/roadmap_ref/node/attachments/tab/core';
 
 export function mutateAttachmentTabComponentDescription<
   T extends keyof IAttachmentTabDescriptionProperties

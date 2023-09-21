@@ -1,7 +1,7 @@
 import {
-  IEventMapper,
-  IEventPayload,
-  IEventTypes,
+  type IEventMapper,
+  type IEventPayload,
+  type IEventTypes,
 } from '@src/to-be-organized/analytics-module/analytics-types';
 import {
   dispatchEventAuthInteraction,
@@ -9,9 +9,7 @@ import {
   dispatchEventRoadmapInteraction,
 } from '@src/to-be-organized/analytics-module/events/events-dispatch';
 import { AnalyticsBrowser } from '@segment/analytics-next';
-import { recalculateNodeCenter } from '@src/typescript/roadmap_ref/node/core/calculations/general';
 import { getUserStatus } from '@store/user/user-status';
-import { getProfileInfoName } from '@components/profile/stores/store-selected-profile-page';
 import { getProfileMini } from '@store/user/store-logged-user';
 
 export const EventMap: IEventMapper = {
@@ -23,7 +21,7 @@ export const EventMap: IEventMapper = {
 type TriggerFunction<T extends any[]> = (...args: T) => any;
 
 type IAnalyticsArgs = [AnalyticsBrowser, IEventPayload<IEventTypes>];
-export function analyticsIdentificationDecorator<T>(
+export function analyticsIdentificationDecorator(
   func: TriggerFunction<IAnalyticsArgs>
 ): TriggerFunction<IAnalyticsArgs> {
   return (analytics: AnalyticsBrowser, event: IEventPayload<IEventTypes>) => {

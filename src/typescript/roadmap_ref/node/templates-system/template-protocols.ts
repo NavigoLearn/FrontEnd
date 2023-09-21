@@ -1,7 +1,7 @@
 import { NodeClass } from '@src/typescript/roadmap_ref/node/core/core';
 import {
   TemplateNode,
-  IRoadmapImage,
+  type IRoadmapImage,
 } from '@src/typescript/roadmap_ref/node/templates-system/template-core';
 import { appendTemplate } from '@src/typescript/roadmap_ref/roadmap-data/services/append';
 import { getRoadmapSelector } from '@src/typescript/roadmap_ref/roadmap-data/services/get';

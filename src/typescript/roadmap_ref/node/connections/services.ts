@@ -1,9 +1,9 @@
 import { NodeClass } from '@src/typescript/roadmap_ref/node/core/core';
 import {
   ConnectionClass,
-  IConnectionPositions,
+  type IConnectionPositions,
 } from '@src/typescript/roadmap_ref/node/connections/core';
-import { HashMapWithKeys } from '@type/roadmap/misc';
+import { type HashMapWithKeys } from '@type/roadmap/misc';
 import { getTransformXY } from '@src/typescript/roadmap_ref/render/coord-calc';
 import { getRenderingEngineDraggingElementIdentifier } from '@components/roadmap/rendering-engines/store-rendering-engine';
 

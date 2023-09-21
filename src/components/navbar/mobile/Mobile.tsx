@@ -3,7 +3,6 @@ import dropdown from '@assets/menu.svg';
 import dropclose from '@assets/cross.svg';
 import logoSrc from '@assets/logo.svg';
 import { useStore } from '@nanostores/react';
-import storeLoggedUser from '@store/user/store-logged-user';
 import userStatus from '@store/user/user-status';
 import { handleLogout } from '@components/auth/old/socialAuth';
 import logout from '@assets/logout.svg';
@@ -20,7 +19,7 @@ const MobileLogoutButton = () => {
     >
       <img
         draggable='false'
-        src={logout}
+        src={logout.src}
         alt='icon'
         className='w-8 h-6 flex justify-center'
       />
@@ -108,7 +107,7 @@ const MobileNavbar = () => {
           className={`relative z-[100] ${
             click ? 'h-12' : 'h-12 w-7 object-contain'
           }`}
-          src={click ? dropclose : dropdown}
+          src={click ? dropclose.src : dropdown.src}
           alt='dropdown'
         />
       </div>
@@ -132,7 +131,7 @@ const MobileNavbar = () => {
             <img
               draggable='false'
               className='w-full h-20 object-contain items-center'
-              src={logoSrc}
+              src={logoSrc.src}
               alt='navbar-logo'
             />
           </a>
@@ -148,7 +147,11 @@ const MobileNavbar = () => {
                         {link.cIcon && (
                           <img
                             draggable='false'
-                            src={link.cIcon}
+                            src={
+                              typeof link.cIcon !== 'string'
+                                ? link.cIcon.src
+                                : link.cIcon
+                            }
                             alt='icon'
                             className='w-8 flex justify-center'
                           />
@@ -174,7 +177,7 @@ const MobileNavbar = () => {
                           {link.cIcon && (
                             <img
                               draggable='false'
-                              src={link.cIcon}
+                              src={link.cIcon.src}
                               alt='icon'
                               className='w-8 flex -translate-x-2'
                             />

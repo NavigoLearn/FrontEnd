@@ -1,6 +1,6 @@
 import { atom } from 'nanostores';
-import { IComponentClasses } from '@src/typescript/roadmap_ref/node/components/text/factories';
-import { ICoords } from '@src/typescript/roadmap_ref/dragging/core';
+import { type IComponentClasses } from '@src/typescript/roadmap_ref/node/components/text/factories';
+import { type ICoords } from '@src/typescript/roadmap_ref/dragging/core';
 
 type ISize = { width: number; height: number };
 export const storeResizeComponentData = atom({

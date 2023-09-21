@@ -1,6 +1,6 @@
 import { atom } from 'nanostores';
 
-const editorSelectedData = atom({
+const storeEditorSelectedData = atom({
   triggerRender: false,
   selectedNodeId: '0',
 } as {
@@ -9,21 +9,21 @@ const editorSelectedData = atom({
 });
 
 export const setSelectedNodeId = (id: string) => {
-  editorSelectedData.set({
-    ...editorSelectedData.get(),
+  storeEditorSelectedData.set({
+    ...storeEditorSelectedData.get(),
     selectedNodeId: id,
   });
 };
 
 export const getSelectedNodeId = () => {
-  return editorSelectedData.get().selectedNodeId;
+  return storeEditorSelectedData.get().selectedNodeId;
 };
 
 export const triggerRerenderEditor = () => {
-  const originalStore = editorSelectedData.get();
-  editorSelectedData.set({
+  const originalStore = storeEditorSelectedData.get();
+  storeEditorSelectedData.set({
     ...originalStore,
     triggerRender: !originalStore.triggerRender,
   });
 };
-export default editorSelectedData;
+export default storeEditorSelectedData;

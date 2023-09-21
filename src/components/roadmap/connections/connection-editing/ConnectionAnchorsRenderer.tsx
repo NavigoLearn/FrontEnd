@@ -1,7 +1,7 @@
 import React from 'react';
 import { getAnchorPositionRelativeToNode } from '@src/typescript/roadmap_ref/node/connections/services';
 import {
-  IConnectionPositions,
+  type IConnectionPositions,
   ConnectionClass,
 } from '@src/typescript/roadmap_ref/node/connections/core';
 import { getNodeByIdRoadmapSelector } from '@src/typescript/roadmap_ref/roadmap-data/services/get';

@@ -1,5 +1,5 @@
 import { atom } from 'nanostores';
-import { IDraggingElementIdentifiers } from '@src/typescript/roadmap_ref/dragging/core';
+import { type IDraggingElementIdentifiers } from '@src/typescript/roadmap_ref/dragging/core';
 
 export type IRenderingEngines = 'foreign-object' | 'native-elements';
 export const IRenderingEnginesArray: IRenderingEngines[] = [

@@ -6,7 +6,7 @@ import {
   SizingButton,
 } from '@components/home/desktop/components/ButtonsNodes';
 import React from 'react';
-import { BottomSectionStateProps } from '@components/home/desktop/components/BottomSectionState';
+import { type BottomSectionStateProps } from '@components/home/desktop/components/BottomSectionState';
 
 const EditorSectionD = ({
   controls,

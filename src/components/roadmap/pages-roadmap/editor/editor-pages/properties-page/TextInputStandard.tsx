@@ -1,6 +1,6 @@
 import { ActionsClass } from '@src/typescript/roadmap_ref/node/core/actions/core';
 import React, { useState } from 'react';
-import { triggerRerenderEditor } from '@src/store/roadmap-refactor/elements-editing/editor-selected-data';
+import { triggerRerenderEditor } from '@store/roadmap-refactor/elements-editing/store-editor-selected-data';
 
 type ITextInputStandard = {
   label: string;

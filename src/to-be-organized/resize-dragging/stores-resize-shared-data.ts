@@ -1,6 +1,6 @@
 import { atom } from 'nanostores';
-import { ICoords } from '@src/typescript/roadmap_ref/dragging/core';
-import { IMouseDragDirection } from '@src/to-be-organized/resize-dragging/stores-resize-node';
+import { type ICoords } from '@src/typescript/roadmap_ref/dragging/core';
+import { type IMouseDragDirection } from '@src/to-be-organized/resize-dragging/stores-resize-node';
 
 export type IElementType = 'node' | 'component';
 

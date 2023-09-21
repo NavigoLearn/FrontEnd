@@ -1,8 +1,8 @@
 import { atom } from 'nanostores';
 import {
-  IDataPayloads,
-  IEventPayload,
-  IEventTypes,
+  type IDataPayloads,
+  type IEventPayload,
+  type IEventTypes,
 } from '@src/to-be-organized/analytics-module/analytics-types';
 
 const analyticsStore = atom({

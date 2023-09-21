@@ -1,6 +1,6 @@
 import React from 'react';
-import { ICardRoadmapTypeApi } from '@src/types/explore/card';
-import { ISearchParams } from '../../stores/explore-query-store';
+import { type ICardRoadmapTypeApi } from '@src/types/explore/card';
+import { type ISearchParams } from '../../stores/explore-query-store';
 import Card from '../shared/cards/Card';
 import LoadingCard from '../shared/cards/LoadingCard';
 
