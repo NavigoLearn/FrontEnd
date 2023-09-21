@@ -6,10 +6,13 @@ import {
   fetchRemoveLike,
 } from '@src/api-wrapper/explore/roadmap-likes';
 import { getUserStatus } from '@store/user/user-status';
+import { setBasePopup } from '@components/shared/stores/store-base-popups.ts';
+
+export type VoteState = 'upvote' | 'downvote' | 'none';
 
 type IUpvoteDownvoteProps = {
   upvotes: number;
-  voteState: 'upvote' | 'downvote' | 'none';
+  voteState: VoteState;
   roadmapId: number;
 };
 const UpvoteDownvote = ({
@@ -44,7 +47,11 @@ const UpvoteDownvote = ({
   }, []);
 
   function handleVote() {
-    if (getUserStatus().isLogged === false) return (location.href = '/login');
+    if (getUserStatus().isLogged === false) {
+      setBasePopup('get-started');
+      setFromVoteState();
+      return;
+    }
 
     if (!upvote && !downvote) {
       setVotes(upvotes);
