@@ -147,7 +147,11 @@ const MobileNavbar = () => {
                         {link.cIcon && (
                           <img
                             draggable='false'
-                            src={link.cIcon}
+                            src={
+                              typeof link.cIcon !== 'string'
+                                ? link.cIcon.src
+                                : link.cIcon
+                            }
                             alt='icon'
                             className='w-8 flex justify-center'
                           />
