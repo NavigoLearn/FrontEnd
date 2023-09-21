@@ -5,9 +5,12 @@ import HomeDesktop from '@components/home/desktop/HomeDesktop';
 
 const Home = () => {
   const mobile = useIsMobile();
+  console.log('mobile home', mobile, !!mobile);
   return (
     <div>
-      {!!mobile && <div>{mobile ? <HomeMobile /> : <HomeDesktop />}</div>}
+      {mobile !== null && mobile !== undefined && (
+        <div>{mobile ? <HomeMobile /> : <HomeDesktop />}</div>
+      )}
     </div>
   );
 };

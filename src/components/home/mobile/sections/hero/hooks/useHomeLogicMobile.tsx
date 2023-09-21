@@ -12,10 +12,10 @@ const useHomeLogicMobile = () => {
         startX: 0,
         startY: 0,
         endX: 500,
-        endY: 300,
-        randomOffset: 0.5,
+        endY: 200,
+        randomOffset: 1,
         spacingX: 150,
-        spacingY: 150,
+        spacingY: 100,
       }),
     []
   );

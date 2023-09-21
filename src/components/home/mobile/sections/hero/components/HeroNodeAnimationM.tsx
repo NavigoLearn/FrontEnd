@@ -1,7 +1,7 @@
 import React, { useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import useHomeLogic from '@components/home/typescript/useHomeLogic';
-import useHomeLogicMobile from '@components/home/mobile/sections/hero/useHomeLogicMobile';
+import useHomeLogicMobile from '@components/home/mobile/sections/hero/hooks/useHomeLogicMobile';
 
 type HeroAnimationProps = {
   parallaxNodes?: Array<{
@@ -28,7 +28,7 @@ const HeroNodeAnimationM = () => {
   return (
     <motion.svg
       viewBox='0 0 600 400'
-      className='bgred-500  absolute top-0 left-0 w-screen h-[300px] border-2 border-black '
+      className='bgred-500  absolute top-0 left-0 w-screen h-[300px] '
       initial={{ opacity: 0 }}
       animate={{ opacity: 1, transition: { duration: 0.5 } }}
       ref={divRef}
