@@ -29,7 +29,7 @@ const CardsM = ({
   const imagePath = imageMap[image];
   return (
     <motion.div
-      className='border-primary border-t-4 w-full h-60 px-6 bg-white drop-shadow-md items-center'
+      className='border-primary border-t-4 w-full max-w-sm h-60 px-6 bg-white drop-shadow-md items-center'
       // initial='hidden'
       // animate={animate}
       // variants={variants}
