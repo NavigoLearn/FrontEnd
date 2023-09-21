@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import homeedit from '@assets/homeedit.svg';
 import { motion } from 'framer-motion';
 import { BottomSectionStateProps } from '@components/home/desktop/components/BottomSectionState';
-import Editor from '@components/home/desktop/components/Editor';
+import EditorSectionD from '@components/home/desktop/components/EditorSectionD';
 
 const EditorSection = (stateProps: BottomSectionStateProps) => {
   const [displaySection, setDisplaySection] = useState<string>('hidden');
@@ -84,7 +84,7 @@ const EditorSection = (stateProps: BottomSectionStateProps) => {
           Try tool
         </motion.a>
       </motion.div>
-      <Editor {...stateProps} />
+      <EditorSectionD {...stateProps} />
     </motion.div>
   );
 };

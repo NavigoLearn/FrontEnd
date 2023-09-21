@@ -19,21 +19,8 @@ const HeroTextM = () => {
       <div className='mt-2 flex flex-col'>
         <motion.a
           type='button'
-          href='/roadmaps/create'
-          className='mx-auto mt-8 px-4 py-1.5 text-darkBlue bg-background rounded-md shadow-md text-sm font-roboto-text font-semibold border-2 border-darkBlue'
-          whileHover={{
-            backgroundColor: '#1A1B50',
-            color: '#fff',
-            scale: 1.05,
-            transition: { duration: 0.2 },
-          }}
-        >
-          Create a roadmap
-        </motion.a>
-        <motion.a
-          type='button'
           href='/explore'
-          className='mx-auto mt-8 px-4 py-1.5 text-white bg-primary rounded-lg shadow-md text-sm font-roboto-text font-medium border-2 border-primary'
+          className='mx-auto mt-8 px-4 py-1.5 text-white bg-primary rounded-md shadow-md text-sm font-roboto-text font-medium border-2 border-primary'
           whileHover={{
             backgroundColor: '#1A1B50',
             color: '#fff',

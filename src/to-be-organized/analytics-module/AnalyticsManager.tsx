@@ -30,6 +30,7 @@ const processPageLocation = (pageLocation: string): IVisitPages | 'error' => {
 
 const AnalyticsManager = ({ segmentKey }: IAnalyticsManagerProps) => {
   const { dispatchedEvents } = useStore(analyticsStore);
+
   const analytics = useMemo(() => {
     const analyticsObject = AnalyticsBrowser.load({
       writeKey: segmentKey,

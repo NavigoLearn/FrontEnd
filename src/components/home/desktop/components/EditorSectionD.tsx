@@ -8,7 +8,7 @@ import {
 import React from 'react';
 import { BottomSectionStateProps } from '@components/home/desktop/components/BottomSectionState';
 
-const Editor = ({
+const EditorSectionD = ({
   controls,
   handleButtonPress,
   selectedButton,
@@ -118,4 +118,4 @@ const Editor = ({
   );
 };
 
-export default Editor;
+export default EditorSectionD;
