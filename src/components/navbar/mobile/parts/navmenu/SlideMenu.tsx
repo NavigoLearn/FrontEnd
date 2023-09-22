@@ -1,9 +1,11 @@
 import React from 'react';
 import { motion } from 'framer-motion';
+import userStatus from '@store/user/user-status';
+import { useStore } from '@nanostores/react';
 import ButtonsManagerM from '../buttons/ButtonsManagerM';
 
 const SlideMenu = ({ isOpen }: { isOpen: boolean }) => {
-  const isLogged = false;
+  const { isLogged } = useStore(userStatus);
 
   return (
     <motion.div

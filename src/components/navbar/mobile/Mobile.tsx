@@ -4,10 +4,8 @@ import dropdown from '@assets/dropdown.svg';
 import dropclose from '@assets/cross.svg';
 import { useClickOutside } from '@src/hooks/useClickOutside';
 import useStateAndRef from '@src/hooks/useStateAndRef';
-import { setBasePopup } from '@src/components/shared/stores/store-base-popups';
 import SearchRoadmapM from './parts/searchM/SearchRoadmapM';
 import SlideMenu from './parts/navmenu/SlideMenu';
-import Button from '../desktop/parts/buttons/Button';
 import AuthPopupM from './parts/authPopupM/AuthPopupM';
 
 const MobileNavbar = () => {
