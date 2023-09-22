@@ -125,11 +125,11 @@ const MobileNavbar = () => {
         </div>
       )}
       <div className='flex ml-6 items-center'>
-        {!searchClick && !isLogged && (
+        {!searchClick && !isLogged && !menuOpen && (
           <button
             type='button'
             onClick={handleAuthClick}
-            className='flex font-roboto-text text-darkBlue text-sm font-medium'
+            className='flex font-roboto-text text-darkBlue text-lg font-medium'
           >
             Get Started
           </button>
@@ -148,7 +148,7 @@ const MobileNavbar = () => {
               <img
                 src={menuOpen ? dropclose : dropdown}
                 alt='dropdown'
-                className='w-6 h-6'
+                className='w-8 h-8'
               />
             </div>
             <SlideMenu isOpen={menuOpen} />

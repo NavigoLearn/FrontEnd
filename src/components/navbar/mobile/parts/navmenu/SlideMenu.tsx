@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 import ButtonsManagerM from '../buttons/ButtonsManagerM';
 
 const SlideMenu = ({ isOpen }: { isOpen: boolean }) => {
-  const isLogged = true;
+  const isLogged = false;
 
   return (
     <motion.div

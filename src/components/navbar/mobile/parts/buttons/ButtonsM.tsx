@@ -1,11 +1,26 @@
-import React from 'react';
+import React, { useState } from 'react';
 import loupeWhite from '@assets/loupe-white.svg';
 import homeWhite from '@assets/home-white.svg';
-import ProfilePicAndNamePlaceholderM from '../temptesting/ProfilePicAndNamePlaceholderM';
+import AuthPopupM from '../authPopupM/AuthPopupM';
 
 const LoggedButtonsM = () => {
+  const [authPopup, setAuthPopup] = useState(false);
+
+  const handleAuthClick = () => {
+    setAuthPopup((prev) => !prev);
+  };
   return (
     <div className='flex flex-col gap-4 mt-12'>
+      <div className='flex flex-row'>
+        <button
+          type='button'
+          onClick={handleAuthClick}
+          className='text-white flex gap-2 items-center text-center text-md font-roboto-text font-normal'
+        >
+          Get Started
+        </button>
+        {authPopup && <AuthPopupM toggleAuth={handleAuthClick} />}
+      </div>
       <div className='flex flex-row'>
         <a
           href='/login'
