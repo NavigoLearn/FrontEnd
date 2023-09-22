@@ -44,6 +44,10 @@ const SlideMenu = ({
 }) => {
   const { isLogged } = getUserStatus();
 
+  const handleInnerDivClick = (e) => {
+    e.stopPropagation();
+  };
+
   return (
     <motion.div
       onClick={() => setMenuOpen(false)}
@@ -53,6 +57,7 @@ const SlideMenu = ({
       animate={isOpen ? 'open' : 'closed'}
     >
       <motion.div
+        onClick={handleInnerDivClick} // Add an onClick handler to the inner div
         className='fixed top-0 right-0 h-full w-7/12 bg-navbarBlue'
         initial={false}
         variants={slideMenuVariants}
