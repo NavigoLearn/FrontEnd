@@ -9,7 +9,7 @@ const SlideMenu = ({ isOpen }: { isOpen: boolean }) => {
 
   return (
     <motion.div
-      className='fixed top-0 right-0 h-full w-48 bg-[#182852] z-[200]'
+      className='fixed top-0 right-0 h-full w-5/12 bg-navbarBlue z-[200]'
       initial={false}
       animate={isOpen ? 'open' : 'closed'}
       variants={{

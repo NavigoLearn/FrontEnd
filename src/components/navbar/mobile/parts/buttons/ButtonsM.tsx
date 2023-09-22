@@ -1,48 +1,49 @@
-import React, { useState } from 'react';
+import React from 'react';
 import loupeWhite from '@assets/loupe-white.svg';
 import homeWhite from '@assets/home-white.svg';
-import AuthPopupM from '../authPopupM/AuthPopupM';
 
-const LoggedButtonsM = ({ isLogged }: { isLogged: boolean }) => {
-  const [authPopup, setAuthPopup] = useState(false);
+type ILinkM = {
+  text: string;
+  href: string;
+  imgsrc: string;
+};
 
-  const handleAuthClick = () => {
-    setAuthPopup((prev) => !prev);
-  };
+// Define a mapping of image keys to image sources
+const imageMapping: Record<string, string> = {
+  home: homeWhite.src,
+  explore: loupeWhite.src,
+  // Add more mappings for other image keys as needed
+};
+
+const LinkM = ({ text, href, imgsrc }: ILinkM) => {
+  // Get the image source based on the imgsrc prop
+  const imageSource = imageMapping[imgsrc] || '';
+
   return (
-    <div className='flex flex-col gap-4 mt-12'>
-      {!isLogged && (
-        <div className='flex flex-row'>
-          <button
-            type='button'
-            onClick={handleAuthClick}
-            className='text-white flex gap-2 items-center text-center text-md font-roboto-text font-normal'
-          >
-            Get Started
-          </button>
-          {authPopup && <AuthPopupM toggleAuth={handleAuthClick} isInNav />}
-        </div>
-      )}
-      <div className='flex flex-row'>
-        <a
-          href='/login'
-          className='text-white flex gap-2 items-center text-center text-md font-roboto-text font-normal'
-        >
-          <img src={loupeWhite.src} alt='exploreicon' className='w-4 h-4' />
-          Explore
-        </a>
-      </div>
-      <div>
-        <a
-          href='/'
-          className='text-white flex gap-2 items-center text-center text-md font-roboto-text font-normal'
-        >
-          <img src={homeWhite.src} alt='exploreicon' className='w-4 h-4' />
-          Home
-        </a>
-      </div>
+    <div className='flex flex-row'>
+      <a
+        href={href}
+        className='text-white flex gap-2 items-center text-center text-md font-roboto-text font-normal'
+      >
+        <img src={imageSource} alt={`${imgsrc}icon`} className='w-4 h-4' />
+        {text}
+      </a>
     </div>
   );
 };
 
-export default LoggedButtonsM;
+const ButtonM = ({ text, onClick }: { text: string; onClick: () => void }) => {
+  return (
+    <div className='flex flex-row'>
+      <button
+        type='button'
+        onClick={onClick}
+        className='text-white flex gap-2 items-center text-center text-md font-roboto-text font-normal'
+      >
+        {text}
+      </button>
+    </div>
+  );
+};
+
+export { ButtonM, LinkM };
