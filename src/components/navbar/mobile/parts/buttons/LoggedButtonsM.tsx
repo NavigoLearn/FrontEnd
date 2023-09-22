@@ -4,7 +4,7 @@ import ProfilePicAndNameNavM from '../profileDataM/ProfilePicAndNameNavM';
 
 const LoggedButtonsM = () => {
   return (
-    <div className='flex flex-col gap-4 mt-12'>
+    <div className='flex flex-col gap-4 mt-6'>
       <ProfilePicAndNameNavM />
       <LinkM text='Explore' href='/roadmap/explore' imgsrc='explore' />
       <LinkM text='Home' href='/' imgsrc='home' />

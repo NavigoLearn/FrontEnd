@@ -7,16 +7,16 @@ const ProfilePicAndNameNavM = () => {
   const { profilePictureUrl, name } = useStore(storeLoggedUser);
 
   return (
-    <div className='relative flex flex-col'>
-      <div className='flex flex-row items-center gap-3 overflow-x-clip'>
-        <div className='flex w-10 h-10 justify-center overflow-x-clip'>
+    <div className='relative flex flex-col mb-12'>
+      <div className='flex flex-row items-center gap-3'>
+        <div className='flex w-10 h-10 justify-center'>
           <img
             src={profilePictureUrl}
             className='w-full h-full rounded-full'
             alt='avatar'
           />
         </div>
-        <span className='flex font-medium font-roboto-text text-xl top-12 w-32 text-center px-1 text-white overflow-x-clip'>
+        <span className='flex font-medium font-roboto-text text-xl top-12 w-32 text-center px-1 text-white truncate'>
           {name}
         </span>
       </div>

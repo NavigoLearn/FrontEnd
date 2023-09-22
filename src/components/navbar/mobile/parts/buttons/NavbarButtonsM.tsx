@@ -1,59 +1,32 @@
-import React, { useEffect, useState } from 'react';
-import { useStore } from '@nanostores/react';
+import React from 'react';
 import BackArrow from '@src/components/roadmap/navbar-roadmap/parts/BackArrow';
 import { setBasePopup } from '@src/components/shared/stores/store-base-popups';
-import { useClickOutside } from '@src/hooks/useClickOutside';
-import useStateAndRef from '@src/hooks/useStateAndRef';
-import userStatus from '@src/store/user/user-status';
 import dropdown from '@assets/dropdown.svg';
 import dropclose from '@assets/cross.svg';
-import SearchRoadmapM from '../searchM/SearchRoadmapM';
+import { useClickOutside } from '@src/hooks/useClickOutside';
 import SlideMenu from '../navmenu/SlideMenu';
+import SearchRoadmapM from '../searchM/SearchRoadmapM';
+import { useNavbarMenu, handleAuthClick } from './menu-logic';
 
 const NavbarButtonsM = ({ navmenu }: { navmenu }) => {
-  const [searchClick, setSearchClick] = useState(false);
-  const [menuOpen, setMenuOpen, menuOpenRef] = useStateAndRef(false);
-  const [currentPath, setCurrentPath] = useState('');
-
-  const { isLogged } = useStore(userStatus);
-
-  const handleSearchClick = () => {
-    setSearchClick((prev) => !prev);
-  };
-
-  // useScreenLock didn't work with the animation
-  useEffect(() => {
-    setCurrentPath(window.location.pathname);
-    if (menuOpen) {
-      // Function to handle the scroll event and prevent default behavior
-
-      document.body.classList.add('h-screen');
-      document.body.classList.add('overflow-y-clip');
-
-      // Remove the event listener when the component unmounts
-      return () => {
-        document.body.classList.remove('h-screen');
-        document.body.classList.add('overflow-y-clip');
-      };
-    }
-    return () => {};
-  }, [menuOpen]);
-
-  const handleMenuClick = () => {
-    setMenuOpen(!menuOpen);
-  };
+  const {
+    searchClick,
+    handleSearchClick,
+    menuOpen,
+    handleMenuClick,
+    setMenuOpen,
+    menuOpenRef,
+    currentPath,
+    isLogged,
+  } = useNavbarMenu();
 
   useClickOutside(navmenu, () => {
     if (menuOpenRef.current === false) {
       return;
     }
-
     setMenuOpen(false);
   });
 
-  const handleAuthClick = () => {
-    setBasePopup('get-started');
-  };
   return (
     <div className='w-full flex justify-between select-none'>
       {currentPath !== '/' && !searchClick && (
@@ -87,7 +60,7 @@ const NavbarButtonsM = ({ navmenu }: { navmenu }) => {
                 className='w-8 h-8'
               />
             </div>
-            <SlideMenu isOpen={menuOpen} />
+            <SlideMenu isOpen={menuOpen} setMenuOpen={setMenuOpen} />
           </div>
         )}
       </div>

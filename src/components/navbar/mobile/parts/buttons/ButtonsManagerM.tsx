@@ -4,7 +4,7 @@ import AnonymusButtonsM from './AnonymousButtonsM';
 
 const ButtonsManagerM = ({ isLogged }: { isLogged: boolean }) => {
   return (
-    <div className='flex flex-col ml-6 gap-4 mt-12'>
+    <div className='flex flex-col ml-6 gap-4'>
       {isLogged ? <LoggedButtonsM /> : <AnonymusButtonsM />}
     </div>
   );
