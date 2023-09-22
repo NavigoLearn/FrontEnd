@@ -23,6 +23,12 @@ export const topicOptions: ITopicParam[] = [
   'biology',
 ];
 
+export const redirectToExploreWithQuery = (query = '') => {
+  query = encodeURI(query);
+
+  window.location.href = `/explore#${query}`;
+};
+
 export const exploreQueryStore = atom({
   params: {
     query: '',
@@ -62,7 +68,17 @@ export function triggerExploreFetch() {
 }
 
 export function setExploreQuery({ query }: Partial<ISearchParams>) {
-  setExploreQueryFieldsWithoutSideEffects({ query });
+  exploreQueryStore.set({
+    params: {
+      ...exploreQueryStore.get().params,
+      query,
+    },
+  });
+
+  if (window.location.hash === `#${encodeURI(query)}` && query !== '') {
+    // clear and delete from history the query
+    window.history.replaceState(null, document.title, window.location.pathname);
+  }
 }
 
 export function setExploreQueryPage(page: number) {
@@ -101,4 +117,13 @@ export function setExploreQueryTopic(topic: ITopicParam) {
       topic,
     },
   });
+}
+
+// if query is in the url, set it
+if (
+  typeof window !== 'undefined' &&
+  window.location.href.includes('/explore#')
+) {
+  const initialQuery = decodeURI(window.location.hash?.slice(1) || '');
+  setExploreQuery({ query: initialQuery });
 }
