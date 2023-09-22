@@ -50,11 +50,3 @@ const AnimLoupe = ({
 AnimLoupe.defaultProps = defaultProps;
 
 export default AnimLoupe;
-
-/* <motion.img
-src='loupe.png' // Replace with your loupe image source
-alt='Loupe'
-className={`loupe ${clicked && inputExpanded ? 'translate-x-8' : ''}`}
-onClick={handleLoupeClick}
-whileTap={{ scale: 0.9 }}
-/> */

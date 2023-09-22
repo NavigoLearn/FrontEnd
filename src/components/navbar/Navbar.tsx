@@ -2,13 +2,8 @@ import React, { useState } from 'react';
 import DesktopNavbar from './desktop/Desktop';
 import MobileNavbar from './mobile/Mobile';
 
-type Props = {
-  id: string;
-};
-
-const Navbar = ({ id }: Props) => {
+const Navbar = () => {
   const [isRoadmap, setIsRoadmap] = useState(false);
-  console.log('id in navbar', id);
 
   React.useEffect(() => {
     // check if current location starts with /roadmap
@@ -25,7 +20,7 @@ const Navbar = ({ id }: Props) => {
           isRoadmap ? `relative` : `sticky top-0  `
         } z-[20]`}
       >
-        <MobileNavbar id={id} />
+        <MobileNavbar />
       </div>
     </>
   );

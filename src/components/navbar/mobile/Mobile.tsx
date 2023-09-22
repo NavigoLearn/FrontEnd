@@ -1,14 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
-import useProfileData from '@src/components/profile/hooks/useProfileData';
 import NavbarButtonsM from './parts/buttons/NavbarButtonsM';
 
-type Props = {
-  id: string;
-};
-
-const MobileNavbar = ({ id }: Props) => {
-  useProfileData(id);
-  console.log(id);
+const MobileNavbar = () => {
   const [hydrated, setHydrated] = useState(false);
   const prevScrollY = useRef(0);
   const navmenu = useRef(null);

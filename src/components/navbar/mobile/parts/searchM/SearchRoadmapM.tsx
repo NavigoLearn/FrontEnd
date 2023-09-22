@@ -21,6 +21,7 @@ const SearchRoadmapM = ({
   const { query } = params;
 
   const handleLoupeClick = (e) => {
+    const LOUPE_WIDTH = 80;
     handleSearchClick();
     e.stopPropagation();
     setInputExpanded((prev) => !prev);
@@ -31,15 +32,19 @@ const SearchRoadmapM = ({
         paddingRight: '0px',
         paddingTop: '0px',
         paddingBottom: '0px',
-      }); // Collapse the input
+      });
     } else {
+      // Expand the input to fill the remaining screen width minus loupe width
+      const SCREEN_WIDTH = window.innerWidth;
+      const NEW_WIDTH = `${SCREEN_WIDTH - LOUPE_WIDTH}px`;
+
       controls.start({
-        width: '250px',
+        width: NEW_WIDTH,
         paddingLeft: '8px',
         paddingRight: '28px', // Adjust for the 'x' button
         paddingTop: '2px',
         paddingBottom: '2px',
-      }); // Expand the input
+      });
     }
   };
 
@@ -78,7 +83,7 @@ const SearchRoadmapM = ({
 
   return (
     <div className='search-container'>
-      <div className='relative flex flex-row gap-2 items-center'>
+      <div className='relative flex flex-row gap-2 items-center mr-2'>
         <motion.input
           type='text'
           value={query}
@@ -104,7 +109,7 @@ const SearchRoadmapM = ({
           query && ( // Show 'x' button only when input is expanded and there's a search query
             <button
               type='button'
-              className='absolute right-15 text-slate-600 font-normal font-roboto-text text-md text-center'
+              className='absolute right-12 text-slate-600 font-normal font-roboto-text text-md text-center'
               onClick={handleClearSearch}
             >
               <img src={dropclose.src} alt='close' className='w-3 h-3' />

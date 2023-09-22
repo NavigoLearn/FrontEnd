@@ -1,15 +1,15 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import userStatus from '@store/user/user-status';
 import { useStore } from '@nanostores/react';
+import { getUserStatus } from '@src/store/user/user-status';
 import ButtonsManagerM from '../buttons/ButtonsManagerM';
 
 const SlideMenu = ({ isOpen }: { isOpen: boolean }) => {
-  const { isLogged } = useStore(userStatus);
+  const { isLogged } = getUserStatus();
 
   return (
     <motion.div
-      className='fixed top-0 right-0 h-full w-5/12 bg-navbarBlue z-[200]'
+      className='fixed top-0 right-0 h-full w-7/12 bg-navbarBlue z-[200]'
       initial={false}
       animate={isOpen ? 'open' : 'closed'}
       variants={{

@@ -1,23 +1,22 @@
 import React from 'react';
 import { useStore } from '@nanostores/react';
 import { storeProfileData } from '@src/components/profile/stores/store-profile-data';
+import storeLoggedUser from '@src/store/user/store-logged-user';
 
 const ProfilePicAndNameNavM = () => {
-  const { data, loading } = useStore(storeProfileData);
-  const { profileInfo } = data;
-  const { name, avatar } = profileInfo;
+  const { profilePictureUrl, name } = useStore(storeLoggedUser);
 
   return (
     <div className='relative flex flex-col'>
-      <div className='flex flex-row items-center gap-3'>
-        <div className='flex w-10 h-10 justify-center'>
+      <div className='flex flex-row items-center gap-3 overflow-x-clip'>
+        <div className='flex w-10 h-10 justify-center overflow-x-clip'>
           <img
-            src={avatar}
+            src={profilePictureUrl}
             className='w-full h-full rounded-full'
             alt='avatar'
           />
         </div>
-        <span className='flex font-medium font-roboto-text text-xl top-12 w-32 text-center px-1 text-white'>
+        <span className='flex font-medium font-roboto-text text-xl top-12 w-32 text-center px-1 text-white overflow-x-clip'>
           {name}
         </span>
       </div>
