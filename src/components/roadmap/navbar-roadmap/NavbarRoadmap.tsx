@@ -14,25 +14,26 @@ const NavbarRoadmap = () => {
   return (
     <>
       <div className='hidden md:block sticky top-0 z-[20]'>
-        <nav className='bg-white border-b-2 border-b-gray-200 relative flex w-full h-16 z-10 items-center transition-all duration-300 select-none'>
+        <nav
+          className='bg-white border-b-2 border-b-gray-200 relative grid grid-rows-1 grid-cols-3 w-full h-16 z-10 items-center transition-all duration-300 select-none'
+          style={{
+            gridTemplateColumns: '1fr minmax(0, auto) 1fr',
+          }}
+        >
           {loaded && (
             <>
-              <div className='flex-shrink-0 h-full flex items-center'>
+              <div className='h-full flex items-center'>
                 <BackArrow />
                 <hr className='h-1/2 bg-gray-200 w-[1.5px] ml-3' />
                 <div className='ml-5'>
                   <ButtonsManager />
                 </div>
               </div>
-              <div className='min-w-fit mx-4 flex-grow flex pointer-events-none justify-center'>
-                <div className='truncate text-ellipsis align-middle justify-self-start'>
-                  <Title />
-                </div>
+              <div className='mx-4 truncate text-ellipsis pointer-events-none'>
+                <Title />
               </div>
-              <div className='h-full flex justify-self-end pointer-events-none items-center'>
-                <div className='pointer-events-auto h-full'>
-                  {roadmapType === 'public' && <RoadmapStats />}
-                </div>
+              <div className='pointer-events-auto h-full'>
+                {roadmapType === 'public' && <RoadmapStats />}
               </div>
             </>
           )}
