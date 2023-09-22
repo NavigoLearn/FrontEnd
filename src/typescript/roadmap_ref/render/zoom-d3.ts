@@ -28,9 +28,9 @@ export const calculateRootNodeTransform = () => {
 };
 
 export const enableRoadmapZoomDragAndRecenter = (
-  rootSvgId,
-  rootGroupId,
-  rerender
+  rootSvgId: string,
+  rootGroupId: string,
+  rerender: () => void
 ) => {
   const svg = d3.select(`#${rootSvgId}`);
   const rootGroup = d3.select(`#${rootGroupId}`);
