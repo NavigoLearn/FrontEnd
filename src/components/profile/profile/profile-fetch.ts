@@ -1,9 +1,10 @@
 import { errorHandlerDecorator } from '@src/typescript/error-handler';
 
 export const fetchRoadmapCardsProfile = errorHandlerDecorator(
-  async (id: string): Promise<any> => {
+  async (id = ''): Promise<unknown> => {
+    if (id !== '') id += '/';
     // fetches from the api the cards
-    const fetchRoute = `/api/users/${id}/roadmaps`;
+    const fetchRoute = `/api/users/${id}roadmaps`;
     const response = await fetch(fetchRoute, {
       method: 'GET',
       credentials: 'include',
@@ -14,14 +15,14 @@ export const fetchRoadmapCardsProfile = errorHandlerDecorator(
 );
 
 export const fetchProfileData = errorHandlerDecorator(
-  async (id: string): Promise<any> => {
+  async (id = ''): Promise<any> => {
     // fetches from the api the user's profile data
     const fetchRoute = `/api/users/${id}`;
     const response = await fetch(fetchRoute, {
       method: 'GET',
       credentials: 'include',
     });
-    return await response.json();
+    return response.json();
   }
 );
 
@@ -47,7 +48,6 @@ export const fetchPostProfileData = errorHandlerDecorator(
         'Content-Type': 'application/json',
       },
     });
-    const dataJson: any = await response.json();
-    return dataJson;
+    return response.json();
   }
 );
