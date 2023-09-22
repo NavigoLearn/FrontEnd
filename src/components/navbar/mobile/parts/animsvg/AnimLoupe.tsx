@@ -1,12 +1,21 @@
 import React from 'react';
+import { motion } from 'framer-motion';
 
 const defaultProps = {
   clicked: false,
 };
 
-const AnimLoupe = ({ clicked }: { clicked?: boolean }) => {
+const AnimLoupe = ({
+  clicked,
+  handleLoupeClick,
+}: {
+  clicked?: boolean;
+  handleLoupeClick: (e) => void;
+}) => {
   return (
-    <svg
+    <motion.svg
+      whileTap={{ scale: 0.9 }}
+      onClick={handleLoupeClick}
       width='24'
       height='24'
       viewBox='0 0 19 19'
@@ -34,10 +43,18 @@ const AnimLoupe = ({ clicked }: { clicked?: boolean }) => {
           <rect width='24' height='24' fill='white' />
         </clipPath>
       </defs>
-    </svg>
+    </motion.svg>
   );
 };
 
 AnimLoupe.defaultProps = defaultProps;
 
 export default AnimLoupe;
+
+/* <motion.img
+src='loupe.png' // Replace with your loupe image source
+alt='Loupe'
+className={`loupe ${clicked && inputExpanded ? 'translate-x-8' : ''}`}
+onClick={handleLoupeClick}
+whileTap={{ scale: 0.9 }}
+/> */

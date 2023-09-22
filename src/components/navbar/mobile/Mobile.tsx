@@ -1,28 +1,52 @@
 import React, { useEffect, useRef, useState } from 'react';
-import logoSrc from '@assets/logo.svg';
-import { useStore } from '@nanostores/react';
-import storeLoggedUser from '@store/user/store-logged-user';
-import userStatus from '@store/user/user-status';
-import { handleLogout } from '@components/auth/old/socialAuth';
 import BackArrow from '@src/components/roadmap/navbar-roadmap/parts/BackArrow';
-import { mobileLogged, mobileGuest } from '../link';
+import dropdown from '@assets/dropdown.svg';
+import dropclose from '@assets/cross.svg';
+import { useClickOutside } from '@src/hooks/useClickOutside';
+import useStateAndRef from '@src/hooks/useStateAndRef';
+import { setBasePopup } from '@src/components/shared/stores/store-base-popups';
 import SearchRoadmapM from './parts/searchM/SearchRoadmapM';
-import NavMenu from './parts/navmenu/NavMenu';
+import SlideMenu from './parts/navmenu/SlideMenu';
+import Button from '../desktop/parts/buttons/Button';
+import AuthPopupM from './parts/authPopupM/AuthPopupM';
 
 const MobileNavbar = () => {
   const [searchClick, setSearchClick] = useState(false);
-  const [menuClick, setMenuClick] = useState(false);
+  const [menuOpen, setMenuOpen, menuOpenRef] = useStateAndRef(false); // Track menu open state
   const [hydrated, setHydrated] = useState(false);
-  const { loaded, isLogged } = useStore(userStatus);
+  const [authPopup, setAuthPopup] = useState(false);
   const [currentPath, setCurrentPath] = useState('');
   const [defaultBodyOverflow, setDefaultBodyOverflow] = useState('auto');
-  const navbar = useRef<HTMLDivElement>(null);
   const [locked, setLocked] = useState(false);
-  const [scrollY, setScrollY] = useState(0);
+  const navmenu = useRef(null);
+  const isLogged = false;
+  const prevScrollY = useRef(0);
 
   function preventDefault(e: Event) {
     if (locked) e.preventDefault();
   }
+
+  const handleScroll = () => {
+    requestAnimationFrame(() => {
+      const threshold = 30;
+      const currentScrollY = window.scrollY;
+
+      if (currentScrollY > prevScrollY.current + threshold) {
+        if (!menuOpenRef.current) {
+          navmenu.current.classList.add('hidden');
+          navmenu.current.classList.remove('sticky-navbar');
+        }
+      } else if (
+        currentScrollY < prevScrollY.current - threshold ||
+        currentScrollY === 0
+      ) {
+        navmenu.current.classList.remove('hidden');
+        navmenu.current.classList.add('sticky-navbar');
+      }
+
+      prevScrollY.current = currentScrollY;
+    });
+  };
 
   useEffect(() => {
     setHydrated(true);
@@ -35,18 +59,11 @@ const MobileNavbar = () => {
       html.style.setProperty('--height', `${window.innerHeight}px`);
     });
 
-    // add event listener for scroll
-    window.addEventListener('scroll', () => {
-      if (navbar) {
-        if (window.scrollY > 0) {
-          navbar.current?.classList.add('bg-white');
-          navbar.current?.classList.add('shadow-standard');
-        } else {
-          navbar.current?.classList.remove('bg-white');
-          navbar.current?.classList.remove('shadow-standard');
-        }
-      }
-    });
+    window.addEventListener('scroll', handleScroll);
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
   }, []);
 
   const handleSearchClick = () => {
@@ -57,31 +74,84 @@ const MobileNavbar = () => {
       setDefaultBodyOverflow(html.style.overflow);
       html.style.overflow = 'hidden'; // hide scroll clip
       html.style.height = 'calc(var(--height) - 1px)';
-      setScrollY(window.scrollY);
+      prevScrollY.current = window.scrollY; // Reset the previous scroll position
       setLocked(true);
     }
   };
 
+  // useScreenLock didn't work with the animation
+  useEffect(() => {
+    if (menuOpen) {
+      // Function to handle the scroll event and prevent default behavior
+
+      document.body.classList.add('h-screen');
+      document.body.classList.add('overflow-y-clip');
+
+      // Remove the event listener when the component unmounts
+      return () => {
+        document.body.classList.remove('h-screen');
+        document.body.classList.add('overflow-y-clip');
+      };
+    }
+    return () => {};
+  }, [menuOpen]);
+
   const handleMenuClick = () => {
-    setMenuClick((prev) => !prev);
+    setMenuOpen(!menuOpen);
+  };
+
+  useClickOutside(navmenu, () => {
+    if (menuOpenRef.current === false) {
+      return;
+    }
+
+    setMenuOpen(false);
+  });
+
+  const handleAuthClick = () => {
+    setAuthPopup((prev) => !prev);
   };
 
   return (
-    <nav className='bg-red-500 relative overflow-x-hidden w-full justify-between select-none flex h-12 z-[20]'>
-      <div className='flex my-auto'>
-        {hydrated && currentPath !== '/' && !searchClick && <BackArrow />}
+    <nav
+      ref={navmenu}
+      className='bg-white relative w-full justify-between select-none flex h-12 z-[100] 
+    transition-transform duration-300 ease-in-out
+  '
+    >
+      {hydrated && currentPath !== '/' && !searchClick && (
+        <div className='flex my-auto'>
+          <BackArrow />
+        </div>
+      )}
+      <div className='flex ml-6 items-center'>
+        {!searchClick && !isLogged && (
+          <button
+            type='button'
+            onClick={handleAuthClick}
+            className='flex font-roboto-text text-darkBlue text-sm font-medium'
+          >
+            Get Started
+          </button>
+        )}
+        {authPopup && <AuthPopupM toggleAuth={handleAuthClick} />}
       </div>
       <div
         className={`flex flex-row items-center gap-2 ${
           searchClick ? 'mr-14' : ''
         }`}
       >
-        <div onClick={handleSearchClick}>
-          <SearchRoadmapM clicked={searchClick} />
-        </div>
+        <SearchRoadmapM handleSearchClick={handleSearchClick} />
         {!searchClick && (
-          <div onClick={handleMenuClick}>
-            <NavMenu click={menuClick} />
+          <div>
+            <div className='flex mr-6 w-fit h-fit' onClick={handleMenuClick}>
+              <img
+                src={menuOpen ? dropclose : dropdown}
+                alt='dropdown'
+                className='w-6 h-6'
+              />
+            </div>
+            <SlideMenu isOpen={menuOpen} />
           </div>
         )}
       </div>

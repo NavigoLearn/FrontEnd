@@ -15,7 +15,11 @@ const Navbar = () => {
       <div className='hidden md:block sticky top-0 z-[20]'>
         <DesktopNavbar />
       </div>
-      <div className={`md:hidden ${isRoadmap ? `relative` : `sticky top-0  `}`}>
+      <div
+        className={`md:hidden ${
+          isRoadmap ? `relative` : `sticky top-0  `
+        } z-[20]`}
+      >
         <MobileNavbar />
       </div>
     </>
