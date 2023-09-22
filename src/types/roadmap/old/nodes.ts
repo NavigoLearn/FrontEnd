@@ -1,5 +1,5 @@
-import { ResourceSubNodeProps } from '@type/roadmap/old/resources';
-import { LevelTypes } from '@type/roadmap/old/level-types';
+import { type ResourceSubNodeProps } from '@type/roadmap/old/resources';
+import { type LevelTypes } from '@type/roadmap/old/level-types';
 
 export type NodeIdentifierTypes = 'Info' | 'Resource';
 export const nodeIdentifierTypesArray = ['Info', 'Resource'];

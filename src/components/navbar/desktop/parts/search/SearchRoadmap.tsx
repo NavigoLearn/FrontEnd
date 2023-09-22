@@ -93,7 +93,7 @@ const SearchRoadmap = () => {
         <motion.div className='w-5 h-5'>
           <motion.img
             className='w-full h-full '
-            src={LOUPE_SRC}
+            src={LOUPE_SRC.src}
             alt='search loupe'
           />
         </motion.div>

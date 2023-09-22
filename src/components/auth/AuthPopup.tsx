@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import GithubLoginButton from '@components/auth/old/social-buttons/GithubLoginButton';
 import {
   handleGitHubLogin,
@@ -6,7 +6,6 @@ import {
 } from '@components/auth/old/socialAuth';
 import GoogleLoginButton from '@components/auth/old/social-buttons/GoogleLoginButton';
 import { CLOSE_SVG_SRC } from '@src/to-be-organized/svg-params';
-import { setBasePopup } from '@components/shared/stores/store-base-popups';
 
 type IAuthPopupProps = {
   closeCallback: () => void;
@@ -31,7 +30,7 @@ const AuthPopup = ({ closeCallback }: IAuthPopupProps) => {
             closeCallback();
           }}
         >
-          <img src={CLOSE_SVG_SRC} className='w-full h-full' />
+          <img src={CLOSE_SVG_SRC.src} className='w-full h-full' />
         </button>
       </section>
 

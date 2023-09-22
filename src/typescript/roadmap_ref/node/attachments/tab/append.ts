@@ -1,8 +1,8 @@
 import {
-  IAttachmentTabBulletListProperties,
-  IAttachmentTabComponentProperties,
+  type IAttachmentTabBulletListProperties,
+  type IAttachmentTabComponentProperties,
 } from '@type/roadmap/node/tab-types';
-import { IAttachmentObject } from '@type/roadmap/node/attachments-types';
+import { type IAttachmentObject } from '@type/roadmap/node/attachments-types';
 import { factoryAttachmentTabBulletListElementEmpty } from '@src/typescript/roadmap_ref/node/attachments/tab/factory';
 
 export function appendAttachmentTabComponent(

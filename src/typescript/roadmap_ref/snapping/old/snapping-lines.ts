@@ -1,5 +1,5 @@
-import { ISnapDrawCoordintes } from '@store/roadmap-refactor/render/snapping-lines';
-import { ICoords } from '@src/typescript/roadmap_ref/dragging/core';
+import { type ISnapDrawCoordintes } from '@store/roadmap-refactor/render/snapping-lines';
+import { type ICoords } from '@src/typescript/roadmap_ref/dragging/core';
 
 export const snappingLinesForCoords = (
   coords: ICoords,

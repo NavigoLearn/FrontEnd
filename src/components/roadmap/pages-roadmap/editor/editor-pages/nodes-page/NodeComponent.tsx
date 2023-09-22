@@ -8,7 +8,7 @@ import {
   mutateNodeWidth,
 } from '@src/typescript/roadmap_ref/node/core/data-mutation/mutate';
 import { useStore } from '@nanostores/react';
-import { triggerRerenderEditor } from '@store/roadmap-refactor/elements-editing/editor-selected-data';
+import { triggerRerenderEditor } from '@store/roadmap-refactor/elements-editing/store-editor-selected-data';
 import { NodeClass } from '@src/typescript/roadmap_ref/node/core/core';
 import { roadmapSelector } from '@store/roadmap-refactor/roadmap-data/roadmap-selector';
 import { triggerNodeRerender } from '@store/roadmap-refactor/render/rerender-triggers-nodes';

@@ -1,4 +1,4 @@
-import { IColorThemes } from '@type/roadmap/node/colors-types';
+import { type IColorThemes } from '@type/roadmap/node/colors-types';
 
 export const colorThemes: IColorThemes = {
   winterTheme: {

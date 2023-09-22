@@ -1,4 +1,4 @@
-import { IRoadmap } from '@type/roadmap/stores/IRoadmap';
+import { type IRoadmap } from '@type/roadmap/stores/IRoadmap';
 
 export const emptyRoadmap: IRoadmap = {
   nodes: {},

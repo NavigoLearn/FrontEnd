@@ -98,7 +98,7 @@ const NodeContextMenu = () => {
             >
               {actionIcon && (
                 <img
-                  src={actionIcon}
+                  src={actionIcon.src}
                   alt={`${actionName} Icon`}
                   className='w-5 h-5 mr-2'
                 />

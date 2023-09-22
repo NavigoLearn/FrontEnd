@@ -4,7 +4,7 @@ import {
   roadmapSelector,
 } from '@store/roadmap-refactor/roadmap-data/roadmap-selector';
 import { getTracebackNodeToRoot } from '@src/typescript/roadmap_ref/roadmap-data/services/get';
-import { HashMapWithKeys, HashMap } from '@type/roadmap/misc';
+import { type HashMapWithKeys, type HashMap } from '@type/roadmap/misc';
 import {
   effectBorderRedNative,
   effectBorderBlueNative,

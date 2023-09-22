@@ -6,7 +6,7 @@ import analyticsStore, {
   emptyDispatchedEvents,
 } from '@src/to-be-organized/analytics-module/stores/analytics';
 import { triggerEventDispatch } from '@src/to-be-organized/analytics-module/events/events-mapper';
-import { IVisitPages } from '@src/to-be-organized/analytics-module/analytics-types';
+import { type IVisitPages } from '@src/to-be-organized/analytics-module/analytics-types';
 
 type IAnalyticsManagerProps = {
   segmentKey: string;
@@ -30,6 +30,7 @@ const processPageLocation = (pageLocation: string): IVisitPages | 'error' => {
 
 const AnalyticsManager = ({ segmentKey }: IAnalyticsManagerProps) => {
   const { dispatchedEvents } = useStore(analyticsStore);
+
   const analytics = useMemo(() => {
     const analyticsObject = AnalyticsBrowser.load({
       writeKey: segmentKey,

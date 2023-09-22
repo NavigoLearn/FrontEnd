@@ -1,5 +1,5 @@
 import { atom } from 'nanostores';
-import { IAttachmentTabStatus } from '@src/typescript/roadmap_ref/node/attachments/tab/core';
+import { type IAttachmentTabStatus } from '@src/typescript/roadmap_ref/node/attachments/tab/core';
 import { getRoadmapNodeProgress } from '@store/roadmap-refactor/roadmap-data/misc-data/roadmap-progress';
 
 export interface ContextMenu {

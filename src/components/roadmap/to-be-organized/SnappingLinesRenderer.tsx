@@ -1,7 +1,7 @@
 import React from 'react';
 import { useStore } from '@nanostores/react';
 import {
-  ISnapDrawCoordintes,
+  type ISnapDrawCoordintes,
   snappingCoordinates,
 } from '@store/roadmap-refactor/render/snapping-lines';
 

@@ -2,7 +2,7 @@ import { getNodeByIdRoadmapSelector } from '@src/typescript/roadmap_ref/roadmap-
 import { getComponentById } from '@src/typescript/roadmap_ref/node/core/data-get/components';
 import {
   DraggingBehavior,
-  ICoords,
+  type ICoords,
 } from '@src/typescript/roadmap_ref/dragging/core';
 
 type IGetCurrentCoordsStrategy = () => {

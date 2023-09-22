@@ -1,5 +1,5 @@
 import { atom } from 'nanostores';
-import { HashMap } from '@type/roadmap/misc';
+import { type HashMap } from '@type/roadmap/misc';
 
 export const elementsGs = atom({} as HashMap<SVGGElement>);
 export const elementsRects = atom({} as HashMap<SVGRectElement>);

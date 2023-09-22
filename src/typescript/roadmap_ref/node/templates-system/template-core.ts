@@ -1,4 +1,4 @@
-import { HashMap } from '@type/roadmap/misc';
+import { type HashMap } from '@type/roadmap/misc';
 import { NodeClass } from '@src/typescript/roadmap_ref/node/core/core';
 
 export type IRoadmapImage = {

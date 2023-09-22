@@ -1,5 +1,5 @@
-import { ICardRoadmapTypeApi } from '@src/types/explore/card';
-import { ProfileDataReponse, UserData } from './profile-data';
+import { type ICardRoadmapTypeApi } from '@src/types/explore/card';
+import { type ProfileDataReponse } from './profile-data';
 
 interface IProfileDataAdapter {
   adapt(data: any): ProfileDataReponse;

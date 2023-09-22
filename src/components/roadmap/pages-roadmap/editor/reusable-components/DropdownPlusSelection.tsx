@@ -1,7 +1,7 @@
 import React, { useState, useRef } from 'react';
 import { tailwindTransitionClass } from '@src/UI-library/tailwind-utils';
 import { triggerNodeRerender } from '@store/roadmap-refactor/render/rerender-triggers-nodes';
-import editorSelectedData from '@store/roadmap-refactor/elements-editing/editor-selected-data';
+import storeEditorSelectedData from '@store/roadmap-refactor/elements-editing/store-editor-selected-data';
 import { motion, AnimatePresence } from 'framer-motion';
 import DropdownPlus from '@src/UI-library/svg-components/dropdownplus/DropdownPlus';
 import { useClickOutside } from '@src/hooks/useClickOutside';

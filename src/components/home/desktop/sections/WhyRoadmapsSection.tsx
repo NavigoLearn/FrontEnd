@@ -1,10 +1,10 @@
 import React, { useEffect, useRef } from 'react';
-import { Play } from '@components/home/icons/HomeIcons';
-import NodesAnimation from '@components/home/components/NodesAnimation';
-import Cards from '@components/home/components/Cards';
+import { Play } from '@components/home/desktop/icons/HomeIcons';
+import NodesAnimation from '@components/home/desktop/components/NodesAnimation';
+import Cards from '@components/home/desktop/components/Cards';
 import { motion } from 'framer-motion';
 
-const MiddleSection = () => {
+const WhyRoadmapsSection = () => {
   const fadeInUpAnim = {
     hidden: { opacity: 0, y: 20 },
     visible: { opacity: 1, y: 0 },
@@ -138,4 +138,4 @@ const MiddleSection = () => {
   );
 };
 
-export default MiddleSection;
+export default WhyRoadmapsSection;

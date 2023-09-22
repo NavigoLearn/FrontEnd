@@ -1,7 +1,7 @@
 import { AnalyticsBrowser } from '@segment/analytics-next';
 import {
-  IEventPayload,
-  IEventTypes,
+  type IEventPayload,
+  type IEventTypes,
   checkIsEventAuthInteraction,
   checkIsEventRoadmapInteraction,
   checkIsEventPageView,

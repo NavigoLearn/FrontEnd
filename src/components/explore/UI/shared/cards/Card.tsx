@@ -1,23 +1,36 @@
 import React from 'react';
-import UpvoteDownvote from '@components/explore/UI/shared/cards/components/UpvoteDownvote';
+import UpvoteDownvote, {
+  type VoteState,
+} from '@components/explore/UI/shared/cards/components/UpvoteDownvote';
 import { tailwindTransitionClass } from '@src/UI-library/tailwind-utils';
-import { ICardRoadmapTypeApi } from '@type/explore/card';
+import { type ICardRoadmapTypeApi } from '@type/explore/card';
 
 type ICardProps = {
   data: ICardRoadmapTypeApi;
   w: string;
   h: string;
+  className?: string;
 };
 
-// Usage
-const Card = ({ data, w, h }: ICardProps) => {
+const getVoteState = (isLiked: number): VoteState => {
+  if (isLiked === -1) {
+    return 'downvote';
+  }
+  if (isLiked === 1) {
+    return 'upvote';
+  }
+  return 'none';
+};
+
+const Card = ({ data, w, h, className }: ICardProps) => {
   return (
     <div
-      className={`border-2 border-black hover:border-primary hover:border-opacity-30 border-opacity-10 rounded-md relative${tailwindTransitionClass}`}
+      className={`border-2 border-black hover:border-primary hover:border-opacity-30 border-opacity-10 rounded-md relative ${className} ${tailwindTransitionClass}`}
       style={{
         boxShadow: '0 4px 6px 0 rgba(0, 0, 255, 0.1)',
         height: h,
         width: w,
+        maxWidth: '350px',
       }}
     >
       <section className='flex mt-3 items-center justify-between px-4'>
@@ -25,7 +38,7 @@ const Card = ({ data, w, h }: ICardProps) => {
         <button
           type='button'
           onClick={() => {
-            location.href = `/profile/${data.userId}`;
+            window.location.href = `/profile/${data.userId}`;
           }}
           className=' flex gap-2 items-center'
         >
@@ -46,13 +59,7 @@ const Card = ({ data, w, h }: ICardProps) => {
       <div className='absolute bottom-2 flex justify-between px-4 w-full pr-3'>
         <UpvoteDownvote
           upvotes={data.likeCount - data.isLiked}
-          voteState={
-            data.isLiked == -1
-              ? 'downvote'
-              : data.isLiked == 1
-              ? 'upvote'
-              : 'none'
-          }
+          voteState={getVoteState(data.isLiked)}
           roadmapId={data.id}
         />
         <button
@@ -69,24 +76,15 @@ const Card = ({ data, w, h }: ICardProps) => {
                 .toLowerCase()
                 .slice(0, 32)}-${data.id}`;
 
-              console.log(
-                'Middle mouse clicked and opened in a new tab: ',
-                link
-              );
-
               // Open the link in a new tab/window
               window.open(link, '_blank');
             } else {
               // Handle the left click behavior here
-              const link = `/roadmap/${data.name
+              // Redirect to the link
+              window.location.href = `/roadmap/${data.name
                 .replace(/\s+/g, '-')
                 .toLowerCase()
                 .slice(0, 32)}-${data.id}`;
-
-              console.log('Left mouse clicked and went to roadmap ', link);
-
-              // Redirect to the link
-              location.href = link;
             }
           }}
           className={`font-roboto-text text-primary px-3 py-1 rounded-sm text-sm font-medium bg-transparent hover:bg-primary hover:text-white ${tailwindTransitionClass}`}
@@ -96,6 +94,10 @@ const Card = ({ data, w, h }: ICardProps) => {
       </div>
     </div>
   );
+};
+
+Card.defaultProps = {
+  className: '',
 };
 
 export default Card;

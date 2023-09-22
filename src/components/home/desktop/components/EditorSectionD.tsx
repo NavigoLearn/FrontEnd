@@ -1,14 +1,14 @@
 import { motion } from 'framer-motion';
-import NodesAnimationSmall from '@components/home/components/NodesAnimationSmall';
+import NodesAnimationSmall from '@components/home/desktop/components/NodesAnimationSmall';
 import {
   ColorsButton,
   InteriorButton,
   SizingButton,
-} from '@components/home/components/ButtonsNodes';
+} from '@components/home/desktop/components/ButtonsNodes';
 import React from 'react';
-import { BottomSectionStateProps } from '@components/home/components/BottomSectionState';
+import { type BottomSectionStateProps } from '@components/home/desktop/components/BottomSectionState';
 
-const Editor = ({
+const EditorSectionD = ({
   controls,
   handleButtonPress,
   selectedButton,
@@ -118,4 +118,4 @@ const Editor = ({
   );
 };
 
-export default Editor;
+export default EditorSectionD;

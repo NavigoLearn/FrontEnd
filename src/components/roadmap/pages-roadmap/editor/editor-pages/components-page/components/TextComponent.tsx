@@ -1,13 +1,11 @@
 import React, { useState } from 'react';
 import { deleteComponentWithId } from '@src/typescript/roadmap_ref/node/core/data-mutation/delete';
-import { tailwindTransitionClass } from '@src/UI-library/tailwind-utils';
 import {
   getComponentTextById,
   getComponentTextText,
 } from '@src/typescript/roadmap_ref/node/core/data-get/components';
 import {
   mutateComponentTextText,
-  mutateComponentTextWidth,
   mutateComponentTextOpacity,
 } from '@src/typescript/roadmap_ref/node/components/text/mutate';
 import { useTriggerRerender } from '@hooks/useTriggerRerender';
@@ -15,7 +13,8 @@ import { NodeClass } from '@src/typescript/roadmap_ref/node/core/core';
 import { triggerNodeRerender } from '@store/roadmap-refactor/render/rerender-triggers-nodes';
 import TrashIcon from '@src/UI-library/svg-components/trash/TrashIcon';
 import DraggableInput from '@src/UI-library/DraggableInput';
-import { triggerRerenderEditor } from '@src/store/roadmap-refactor/elements-editing/editor-selected-data';
+import { triggerRerenderEditor } from '@store/roadmap-refactor/elements-editing/store-editor-selected-data';
+import arrowDropdown from '@assets/roadmap/arrow-dropdown.svg';
 import TextSizeComponent from '../text-controler/TextSizeComponent';
 import TextWeightComponent from '../text-controler/TextWeightComponent';
 import TextInputStandard from '../../properties-page/TextInputStandard';
@@ -28,8 +27,7 @@ type TitleComponentProps = {
 
 function checkInvalidInput(value: string) {
   const newValue = parseInt(value, 10);
-  if (typeof newValue !== 'number' || Number.isNaN(newValue)) return true;
-  return false;
+  return typeof newValue !== 'number' || Number.isNaN(newValue);
 }
 
 const TextComponent = ({ node, id, name }: TitleComponentProps) => {
@@ -76,7 +74,7 @@ const TextComponent = ({ node, id, name }: TitleComponentProps) => {
         </span>
         <img
           alt='arrow dropdown'
-          src='/roadmap/arrow-dropdown.svg'
+          src={arrowDropdown.src}
           className={`w-7 h-7 transition-all duration-200 ${
             showElement ? 'rotate-180' : ''
           }`}

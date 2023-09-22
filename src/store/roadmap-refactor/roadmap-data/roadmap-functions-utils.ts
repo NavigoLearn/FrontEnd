@@ -1,5 +1,4 @@
 import { atom } from 'nanostores';
-import { IRoadmap } from '@type/roadmap/stores/IRoadmap';
 
 type IRoadmapFunctionsUtils = {
   disableRoadmapDrag: () => void;
