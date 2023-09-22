@@ -14,7 +14,7 @@ const ButtonsManager = () => {
   const buttons = getNavbarRoadmapButtons();
 
   return (
-    <div className='flex gap-6 '>
+    <div className='flex gap-4 whitespace-nowrap'>
       {buttons.map((button) => {
         return (
           <Button

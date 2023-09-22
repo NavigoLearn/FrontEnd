@@ -4,7 +4,7 @@ import CreatorsProfile from '@components/roadmap/navbar-roadmap/parts/roadmap-st
 
 const RoadmapStats = () => {
   return (
-    <div className=' h-full flex justify-end pr-4 items-center gap-4 md:gap-10 '>
+    <div className=' h-full flex justify-end pr-4 items-center gap-4 '>
       <Stats />
       <CreatorsProfile />
     </div>
