@@ -107,7 +107,7 @@ const SearchRoadmapM = ({
               className='absolute right-15 text-slate-600 font-normal font-roboto-text text-md text-center'
               onClick={handleClearSearch}
             >
-              <img src={dropclose} alt='close' className='w-3 h-3' />
+              <img src={dropclose.src} alt='close' className='w-3 h-3' />
             </button>
           )}
         <AnimLoupe

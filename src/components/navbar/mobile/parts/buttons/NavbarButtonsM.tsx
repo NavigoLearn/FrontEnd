@@ -4,7 +4,7 @@ import { setBasePopup } from '@src/components/shared/stores/store-base-popups';
 import { useClickOutside } from '@src/hooks/useClickOutside';
 import useStateAndRef from '@src/hooks/useStateAndRef';
 import userStatus from '@src/store/user/user-status';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import dropdown from '@assets/dropdown.svg';
 import dropclose from '@assets/cross.svg';
 import SearchRoadmapM from '../searchM/SearchRoadmapM';
