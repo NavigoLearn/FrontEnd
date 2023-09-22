@@ -20,7 +20,7 @@ const LoggedButtonsM = ({ isLogged }: { isLogged: boolean }) => {
           >
             Get Started
           </button>
-          {authPopup && <AuthPopupM toggleAuth={handleAuthClick} />}
+          {authPopup && <AuthPopupM toggleAuth={handleAuthClick} isInNav />}
         </div>
       )}
       <div className='flex flex-row'>

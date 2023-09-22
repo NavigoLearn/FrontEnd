@@ -7,9 +7,25 @@ import {
 import dropclose from '@assets/cross.svg';
 import React from 'react';
 
-const AuthPopupM = ({ toggleAuth }: { toggleAuth: () => void }) => {
+const defaultProp = {
+  isInNav: false,
+};
+
+const AuthPopupM = ({
+  toggleAuth,
+  isInNav,
+}: {
+  toggleAuth: () => void;
+  isInNav?: boolean;
+}) => {
   return (
-    <div className='bg-[#1A1B504D] top-0 left-0 z-50 flex justify-center items-center w-screen h-screen fixed'>
+    <div
+      className={`bg-[#1A1B504D] top-${isInNav ? '50' : '0'} left-${
+        isInNav ? '100' : '0'
+      } z-50 flex justify-center ${
+        isInNav ? '-translate-x-[57%] -translate-y-[11.5%]' : ''
+      } items-center w-screen h-screen absolute`}
+    >
       <div className='h-80 mx-6 bg-white w-full mb-32 border-t-primary border-t-8 rounded-md relative'>
         <h2 className='text-2xl font-medium font-roboto-text w-full flex justify-center mt-6 '>
           Get started now
@@ -39,5 +55,7 @@ const AuthPopupM = ({ toggleAuth }: { toggleAuth: () => void }) => {
     </div>
   );
 };
+
+AuthPopupM.defaultProps = defaultProp;
 
 export default AuthPopupM;
