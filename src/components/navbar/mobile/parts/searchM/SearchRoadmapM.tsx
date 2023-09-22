@@ -4,7 +4,7 @@ import { useStore } from '@nanostores/react';
 import { useTriggerRerender } from '@src/hooks/useTriggerRerender';
 import dropclose from '@assets/cross.svg';
 import AnimLoupe from '../animsvg/AnimLoupe';
-import { useSearchLogic } from './search-logic';
+import { useSearchLogic } from './searchHooks/search-logic';
 
 const SearchRoadmapM = ({
   handleSearchClick,
