@@ -27,7 +27,7 @@ import {
 } from '@src/typescript/roadmap_ref/node/core/data-mutation/mutate-resize-protocols';
 import { getNodeCenterAbsoluteCoords } from '@src/typescript/roadmap_ref/roadmap-data/services/get';
 import { transformSnapCoordsInAbsolute } from '@src/typescript/roadmap_ref/snapping/data-transform/transform-coords-snap';
-import { type ICoords } from '@src/typescript/roadmap_ref/dragging/core';
+import type { ICoords } from '@src/typescript/roadmap_ref/dragging/core';
 
 const ALT_DIRECTIONS = {
   top: 'bottom',
@@ -75,6 +75,7 @@ const handleDirectionSnapping = (
     }
 
     if (getAlt()) {
+      if (directionInvert) deltaValue = -deltaValue;
       if (isNodeAboveOrLeftOfCenter(node, delta)) deltaValue = -deltaValue;
       mutateNodeAxisFunction(node, deltaValue);
     } else {
