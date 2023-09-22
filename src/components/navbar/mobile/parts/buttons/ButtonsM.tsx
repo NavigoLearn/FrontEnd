@@ -28,7 +28,7 @@ const LoggedButtonsM = ({ isLogged }: { isLogged: boolean }) => {
           href='/login'
           className='text-white flex gap-2 items-center text-center text-md font-roboto-text font-normal'
         >
-          <img src={loupeWhite} alt='exploreicon' className='w-4 h-4' />
+          <img src={loupeWhite.src} alt='exploreicon' className='w-4 h-4' />
           Explore
         </a>
       </div>
@@ -37,7 +37,7 @@ const LoggedButtonsM = ({ isLogged }: { isLogged: boolean }) => {
           href='/'
           className='text-white flex gap-2 items-center text-center text-md font-roboto-text font-normal'
         >
-          <img src={homeWhite} alt='exploreicon' className='w-4 h-4' />
+          <img src={homeWhite.src} alt='exploreicon' className='w-4 h-4' />
           Home
         </a>
       </div>
