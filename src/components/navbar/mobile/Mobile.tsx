@@ -144,7 +144,7 @@ const MobileNavbar = () => {
           <div>
             <div className='flex mr-6 w-fit h-fit' onClick={handleMenuClick}>
               <img
-                src={menuOpen ? dropclose : dropdown}
+                src={menuOpen ? dropclose.src : dropdown.src}
                 alt='dropdown'
                 className='w-8 h-8'
               />
