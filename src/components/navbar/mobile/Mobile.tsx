@@ -1,7 +1,15 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
+import useProfileData from '@src/components/profile/hooks/useProfileData';
 import NavbarButtonsM from './parts/buttons/NavbarButtonsM';
 
-const MobileNavbar = () => {
+type Props = {
+  id: string;
+};
+
+const MobileNavbar = ({ id }: Props) => {
+  useProfileData(id);
+  console.log(id);
+  const [hydrated, setHydrated] = useState(false);
   const prevScrollY = useRef(0);
   const navmenu = useRef(null);
 
@@ -26,6 +34,7 @@ const MobileNavbar = () => {
   };
 
   useEffect(() => {
+    setHydrated(true);
     window.addEventListener('scroll', handleScroll);
 
     return () => {
@@ -39,7 +48,7 @@ const MobileNavbar = () => {
     transition-transform duration-300 ease-in-out
   '
     >
-      <NavbarButtonsM navmenu={navmenu} />
+      {hydrated && <NavbarButtonsM navmenu={navmenu} />}
     </nav>
   );
 };

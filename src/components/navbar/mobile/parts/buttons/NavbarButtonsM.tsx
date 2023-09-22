@@ -1,10 +1,10 @@
+import React, { useEffect, useState } from 'react';
 import { useStore } from '@nanostores/react';
 import BackArrow from '@src/components/roadmap/navbar-roadmap/parts/BackArrow';
 import { setBasePopup } from '@src/components/shared/stores/store-base-popups';
 import { useClickOutside } from '@src/hooks/useClickOutside';
 import useStateAndRef from '@src/hooks/useStateAndRef';
 import userStatus from '@src/store/user/user-status';
-import React, { useEffect, useState } from 'react';
 import dropdown from '@assets/dropdown.svg';
 import dropclose from '@assets/cross.svg';
 import SearchRoadmapM from '../searchM/SearchRoadmapM';
@@ -13,7 +13,6 @@ import SlideMenu from '../navmenu/SlideMenu';
 const NavbarButtonsM = ({ navmenu }: { navmenu }) => {
   const [searchClick, setSearchClick] = useState(false);
   const [menuOpen, setMenuOpen, menuOpenRef] = useStateAndRef(false);
-  const [hydrated, setHydrated] = useState(false);
   const [currentPath, setCurrentPath] = useState('');
 
   const { isLogged } = useStore(userStatus);
@@ -24,7 +23,6 @@ const NavbarButtonsM = ({ navmenu }: { navmenu }) => {
 
   // useScreenLock didn't work with the animation
   useEffect(() => {
-    setHydrated(true);
     setCurrentPath(window.location.pathname);
     if (menuOpen) {
       // Function to handle the scroll event and prevent default behavior
@@ -58,7 +56,7 @@ const NavbarButtonsM = ({ navmenu }: { navmenu }) => {
   };
   return (
     <div className='w-full flex justify-between select-none'>
-      {hydrated && currentPath !== '/' && !searchClick && (
+      {currentPath !== '/' && !searchClick && (
         <div className='flex my-auto'>
           <BackArrow />
         </div>

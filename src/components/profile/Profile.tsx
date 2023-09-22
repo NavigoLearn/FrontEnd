@@ -8,6 +8,7 @@ type Props = {
 };
 
 const Profile = ({ id }: Props) => {
+  console.log('id in profile', id);
   const mobile = useIsMobile();
   if (mobile === undefined || mobile === null) return null;
   return (
