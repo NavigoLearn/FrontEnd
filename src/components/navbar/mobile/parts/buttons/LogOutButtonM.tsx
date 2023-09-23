@@ -8,9 +8,9 @@ const LogOutButtonM = () => {
       <button
         type='button'
         onClick={handleLogout}
-        className='text-white flex gap-2 items-center text-center text-[5vw] font-roboto-text font-normal'
+        className='text-white flex gap-2 items-center text-center text-[4vw] font-roboto-text font-normal'
       >
-        <img src={navlogoutsvg.src} alt='logout' className='w-[5vw] h-[5vw]' />
+        <img src={navlogoutsvg.src} alt='logout' className='w-[4vw] h-[4vw]' />
         Log Out
       </button>
     </div>

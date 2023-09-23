@@ -21,7 +21,7 @@ const LinkM = ({ text, href, imgsrc }: ILinkM) => {
     <div className='flex flex-row'>
       <a
         href={href}
-        className='text-white flex gap-2 items-center text-center text-[5vw] font-roboto-text font-normal'
+        className='text-white flex gap-2 items-center text-center text-[4vw] font-roboto-text font-normal'
       >
         <img
           src={imageSource}
@@ -40,7 +40,7 @@ const ButtonM = ({ text, onClick }: { text: string; onClick: () => void }) => {
       <button
         type='button'
         onClick={onClick}
-        className='text-white flex gap-2 mb-6 items-center text-center text-[5vw] font-roboto-text font-normal'
+        className='text-white flex gap-2 mb-6 items-center text-center text-[4vw] font-roboto-text font-normal'
       >
         {text}
       </button>
