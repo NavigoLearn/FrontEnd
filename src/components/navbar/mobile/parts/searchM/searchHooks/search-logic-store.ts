@@ -1,5 +1,9 @@
 import { atom } from 'nanostores';
 import type { AnimationControls } from 'framer-motion';
+import {
+  redirectToExploreWithQuery,
+  setExploreQuery,
+} from '@components/explore/stores/explore-query-store';
 
 export type ISearchLogicStore = {
   focus: boolean;
@@ -102,11 +106,13 @@ export const actions = {
       isExplorePage,
     });
     if (!isExplorePage) {
-      // eslint-disable-next-line no-restricted-globals
-      location.href = `/explore#${encodeURI(query)}`;
+      redirectToExploreWithQuery(query);
     } else {
-      // eslint-disable-next-line no-restricted-globals
-      location.href = `/#${encodeURI(query)}`;
+      setExploreQuery({ query });
     }
   },
 };
+
+if (typeof window !== 'undefined') {
+  actions.setIsExplorePage(window.location.pathname === '/explore');
+}
