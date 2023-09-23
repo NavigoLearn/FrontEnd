@@ -21,6 +21,7 @@ module.exports = {
         darkBlue: '#1A1B50',
         secondaryBlack: 'rgb(0,0,0,0.6)',
         placeholderBlack: 'rgb(0,0,0,0.3)',
+        navbarBlue: '#182852'
       },
       borderColor: {
         light: 'rgb(0,0,0,0.3)',

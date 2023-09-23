@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
+import { useIsMobile } from '@src/hooks/useIsMobile';
 import DesktopNavbar from './desktop/Desktop';
 import MobileNavbar from './mobile/Mobile';
 
 const Navbar = () => {
+  const mobile = useIsMobile();
   const [isRoadmap, setIsRoadmap] = useState(false);
 
   React.useEffect(() => {
@@ -13,10 +15,14 @@ const Navbar = () => {
   return (
     <>
       <div className='hidden md:block sticky top-0 z-[20]'>
-        <DesktopNavbar />
+        {!mobile && <DesktopNavbar />}
       </div>
-      <div className={`md:hidden ${isRoadmap ? `relative` : `sticky top-0  `}`}>
-        <MobileNavbar />
+      <div
+        className={`md:hidden ${
+          isRoadmap ? `relative` : `sticky top-0  `
+        } z-[20]`}
+      >
+        {mobile && <MobileNavbar />}
       </div>
     </>
   );
