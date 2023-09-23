@@ -4,7 +4,9 @@ import { tailwindTransitionClass } from '@src/UI-library/tailwind-utils';
 import { motion } from 'framer-motion';
 import {
   exploreQueryStore,
+  redirectToExploreWithQuery,
   setExploreQuery,
+  setExploreQueryFieldsWithoutSideEffects,
   triggerExploreFetch,
 } from '@components/explore/stores/explore-query-store';
 import { useOnEnter } from '@hooks/useOnEnter';
@@ -32,23 +34,24 @@ const SearchRoadmap = () => {
     setIsExplorePage(isExplore);
 
     if (!isExplore) return;
-    try {
-      // @ts-ignore
-      // eslint-disable-next-line no-restricted-globals
-      setExploreQuery(decodeURI(location.hash?.slice(1) || ''));
-      setExploreQuery({ query });
-      rerender();
-    } catch (e) {
-      console.error(e);
-    }
+
+    rerender();
   }, []);
 
   const handleSubmit = () => {
     // if not on explore page, then redirect to explore page
     if (!isExplorePage) {
-      // eslint-disable-next-line no-restricted-globals
-      location.href = `/explore#${encodeURI(query)}`;
+      redirectToExploreWithQuery(query);
+    } else {
+      setExploreQueryFieldsWithoutSideEffects({ query });
     }
+  };
+
+  const handleValueChange = (e) => {
+    setExploreQuery({
+      query: e.target.value,
+    });
+    rerender();
   };
 
   const handleBlur = () => {
@@ -71,12 +74,7 @@ const SearchRoadmap = () => {
         }  ${borderSrc}  ${focus ? 'border-darkBlue ' : 'border-gray-200'}`}
         placeholder='Search for a roadmap'
         value={query}
-        onChange={(e) => {
-          setExploreQuery({
-            query: e.target.value,
-          });
-          rerender();
-        }}
+        onChange={handleValueChange}
         onKeyUp={(e) => {
           if (e.key === 'Enter') {
             handleSubmit();

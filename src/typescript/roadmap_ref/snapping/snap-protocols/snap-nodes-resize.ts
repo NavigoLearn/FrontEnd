@@ -27,7 +27,7 @@ import {
 } from '@src/typescript/roadmap_ref/node/core/data-mutation/mutate-resize-protocols';
 import { getNodeCenterAbsoluteCoords } from '@src/typescript/roadmap_ref/roadmap-data/services/get';
 import { transformSnapCoordsInAbsolute } from '@src/typescript/roadmap_ref/snapping/data-transform/transform-coords-snap';
-import { type ICoords } from '@src/typescript/roadmap_ref/dragging/core';
+import type { ICoords } from '@src/typescript/roadmap_ref/dragging/core';
 
 const ALT_DIRECTIONS = {
   top: 'bottom',
@@ -75,6 +75,7 @@ const handleDirectionSnapping = (
     }
 
     if (getAlt()) {
+      if (directionInvert) deltaValue = -deltaValue;
       if (isNodeAboveOrLeftOfCenter(node, delta)) deltaValue = -deltaValue;
       mutateNodeAxisFunction(node, deltaValue);
     } else {
@@ -204,6 +205,7 @@ export function snapResizingNodeProtocol(
   direction: IMouseDragDirection
 ) {
   const isSubNode = !node.flags.renderedOnRoadmapFlag;
+  const nodeCoords = isSubNode ? getSubNodeCoords(node) : node.data.coords;
   const resizedNodeId = node.id;
 
   let elementAnchors: ICoords[];
@@ -261,13 +263,25 @@ export function snapResizingNodeProtocol(
   const { smallestDelta: smallestDeltaY, snapCoordinates: snapCoordinatesY } =
     getSmallestOutOfAllDeltas(deltasY);
 
+  // adjusts the snap coordinates to the smallest delta
+  const alt = getAlt();
   const snapCoordinatesXAdjusted = snapCoordinatesX.map((snapCoordinate) => {
-    snapCoordinate.startX -= smallestDeltaX.delta;
+    const isRight = nodeCoords.x < snapCoordinate.startX;
+    let sign = isRight ? 1 : -1;
+
+    sign *= alt && isRight ? sign : -sign;
+
+    snapCoordinate.startX += sign * smallestDeltaX.delta;
     return snapCoordinate;
   });
 
   const snapCoordinatesYAdjusted = snapCoordinatesY.map((snapCoordinate) => {
-    snapCoordinate.startY -= smallestDeltaY.delta;
+    const isBottom = nodeCoords.y < snapCoordinate.startY;
+    let sign = isBottom ? 1 : -1;
+
+    sign *= alt && isBottom ? sign : -sign;
+
+    snapCoordinate.startY += sign * smallestDeltaY.delta;
     return snapCoordinate;
   });
 

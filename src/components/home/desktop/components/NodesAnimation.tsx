@@ -72,7 +72,7 @@ const NodesAnimation = ({
         >
           <stop offset='0%' stopColor='#3361D8' stopOpacity={1} />
           <stop
-            offset={isStraight ? '-%' : '60%'}
+            offset={isStraight ? '0%' : '60%'}
             stopColor='#3361D8'
             stopOpacity={isStraight ? 0 : 1}
           />
