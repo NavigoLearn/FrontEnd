@@ -63,18 +63,15 @@ function checkProfileForDefaults(adaptedData: ProfileDataReponse) {
     adaptedData.data.profileInfo.avatar = DEFAULT_OWNER_AVATAR;
   }
 }
-export async function fetchAndSetProfileData(id) {
+export async function fetchAndSetProfileData(id?: string) {
   setProfileDataLoading();
-  let urlId = id === null ? '' : id;
   const loggedUserId = getLoggedUserId();
+  const urlId = Number.isNaN(parseInt(id ?? loggedUserId, 10))
+    ? loggedUserId
+    : parseInt(id ?? loggedUserId, 10);
 
-  if (urlId === loggedUserId.toString()) {
+  if (urlId === loggedUserId) {
     setOwnProfile(true);
-  }
-
-  if (urlId === '') {
-    setOwnProfile(true);
-    urlId = loggedUserId.toString();
   }
 
   const rawData = await fetchProfileData(urlId);

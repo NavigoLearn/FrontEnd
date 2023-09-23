@@ -11,7 +11,6 @@ import ProfilePageEdit from './ProfilePageEdit';
 const ProfilePageManager = () => {
   const { isEditing } = useStore(storeSelectedProfilePage);
   const { ownProfile } = useStore(storeProfileData);
-  //   console.log(getOwnProfile());
 
   return (
     <div className='ml-14 mt-6'>
