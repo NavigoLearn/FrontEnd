@@ -2,16 +2,15 @@ import React from 'react';
 import BackArrow from '@src/components/roadmap/navbar-roadmap/parts/BackArrow';
 import { setBasePopup } from '@src/components/shared/stores/store-base-popups';
 import dropdown from '@assets/dropdown.svg';
-import dropclose from '@assets/cross.svg';
 import { useClickOutside } from '@src/hooks/useClickOutside';
+import { useStore } from '@nanostores/react';
 import SlideMenu from '../navmenu/SlideMenu';
 import SearchRoadmapM from '../searchM/SearchRoadmapM';
 import { useNavbarMenu, handleAuthClick } from './menu-logic';
+import { searchLogicStore } from '../searchM/searchHooks/search-logic-store';
 
 const NavbarButtonsM = ({ navmenu }: { navmenu }) => {
   const {
-    searchClick,
-    handleSearchClick,
     menuOpen,
     handleMenuClick,
     setMenuOpen,
@@ -19,6 +18,7 @@ const NavbarButtonsM = ({ navmenu }: { navmenu }) => {
     currentPath,
     isLogged,
   } = useNavbarMenu();
+  const { inputExpanded } = useStore(searchLogicStore);
 
   useClickOutside(navmenu, () => {
     if (menuOpenRef.current === false) {
@@ -29,13 +29,13 @@ const NavbarButtonsM = ({ navmenu }: { navmenu }) => {
 
   return (
     <div className='w-full flex justify-between select-none'>
-      {currentPath !== '/' && !searchClick && (
+      {currentPath !== '/' && !inputExpanded && (
         <div className='flex my-auto'>
           <BackArrow />
         </div>
       )}
       <div className='flex ml-6 items-center'>
-        {!searchClick && !isLogged && !menuOpen && (
+        {!inputExpanded && !isLogged && !menuOpen && (
           <button
             type='button'
             onClick={handleAuthClick}
@@ -47,18 +47,14 @@ const NavbarButtonsM = ({ navmenu }: { navmenu }) => {
       </div>
       <div
         className={`flex flex-row items-center gap-2 ${
-          searchClick ? 'mr-14' : ''
+          inputExpanded ? 'mr-14' : ''
         }`}
       >
-        <SearchRoadmapM handleSearchClick={handleSearchClick} />
-        {!searchClick && (
+        <SearchRoadmapM />
+        {!inputExpanded && (
           <div>
             <div className='flex mr-6 w-fit h-fit' onClick={handleMenuClick}>
-              <img
-                src={menuOpen ? dropclose.src : dropdown.src}
-                alt='dropdown'
-                className='w-8 h-8'
-              />
+              <img src={dropdown.src} alt='dropdown' className='w-8 h-8' />
             </div>
             <SlideMenu isOpen={menuOpen} setMenuOpen={setMenuOpen} />
           </div>

@@ -5,15 +5,10 @@ import userStatus from '@src/store/user/user-status';
 import { setBasePopup } from '@src/components/shared/stores/store-base-popups';
 
 export function useNavbarMenu() {
-  const [searchClick, setSearchClick] = useState(false);
   const [menuOpen, setMenuOpen, menuOpenRef] = useStateAndRef(false);
   const [currentPath, setCurrentPath] = useState('');
 
   const { isLogged } = useStore(userStatus);
-
-  const handleSearchClick = () => {
-    setSearchClick((prev) => !prev);
-  };
 
   useEffect(() => {
     setCurrentPath(window.location.pathname);
@@ -34,8 +29,6 @@ export function useNavbarMenu() {
   };
 
   return {
-    searchClick,
-    handleSearchClick,
     menuOpen,
     handleMenuClick,
     currentPath,

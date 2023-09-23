@@ -1,35 +1,37 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { motion, useAnimation } from 'framer-motion';
 import { useStore } from '@nanostores/react';
-import { useTriggerRerender } from '@src/hooks/useTriggerRerender';
 import dropclose from '@assets/cross.svg';
+import { searchLogicStore, actions } from './searchHooks/search-logic-store';
 import AnimLoupe from '../animsvg/AnimLoupe';
-import { useSearchLogic } from './searchHooks/search-logic';
 
-const SearchRoadmapM = ({
-  handleSearchClick,
-}: {
-  handleSearchClick: () => void;
-}) => {
-  const {
-    inputExpanded,
-    controls,
-    focus,
-    query,
-    handleLoupeClick,
-    rerender,
-    handleClearSearch,
-    handleSubmit,
-    handleBlur,
-    setFocus,
-    setExploreQuery,
-  } = useSearchLogic(handleSearchClick);
+const SearchRoadmapM = () => {
+  const { focus, query, inputExpanded, isExplorePage } =
+    useStore(searchLogicStore);
+
+  const controls = useAnimation();
+
+  useEffect(() => {
+    actions.setControls(controls);
+  }, [controls, actions.setControls]);
+
+  const handleBlur = () => {
+    actions.setFocus(false);
+  };
+
+  const handleClearSearch = () => {
+    actions.setQuery('');
+  };
+
+  const handleSubmit = () => {
+    actions.handleSubmit(isExplorePage, query);
+  };
 
   return (
     <div className='search-container'>
       <div className='relative flex flex-row gap-2 items-center mr-2'>
         <motion.input
-          onFocus={() => setFocus(true)}
+          onFocus={() => actions.setFocus(true)}
           onBlur={handleBlur}
           type='text'
           value={query}
@@ -44,10 +46,7 @@ const SearchRoadmapM = ({
           animate={controls}
           onSubmit={handleSubmit}
           onChange={(e) => {
-            setExploreQuery({
-              query: e.target.value,
-            });
-            rerender();
+            actions.setQuery(e.target.value);
           }}
           onKeyUp={(e) => {
             if (e.key === 'Enter') {
@@ -55,20 +54,16 @@ const SearchRoadmapM = ({
             }
           }}
         />
-        {inputExpanded &&
-          query && ( // Show 'x' button only when input is expanded and there's a search query
-            <button
-              type='button'
-              className='absolute right-10 text-slate-600 font-normal font-roboto-text text-md text-center'
-              onClick={handleClearSearch}
-            >
-              <img src={dropclose.src} alt='close' className='w-3 h-3' />
-            </button>
-          )}
-        <AnimLoupe
-          clicked={inputExpanded}
-          handleLoupeClick={handleLoupeClick}
-        />
+        {inputExpanded && query && (
+          <button
+            type='button'
+            className='absolute right-10 text-slate-600 font-normal font-roboto-text text-md text-center'
+            onClick={handleClearSearch}
+          >
+            <img src={dropclose.src} alt='close' className='w-3 h-3' />
+          </button>
+        )}
+        <AnimLoupe handleLoupeClick={() => actions.handleLoupeClick()} />
       </div>
     </div>
   );
