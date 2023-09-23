@@ -82,7 +82,7 @@ export const actions = {
           paddingBottom: '2px',
           border: '0px',
           transition: {
-            duration: 0.3,
+            duration: 0.1,
           },
         });
       }
@@ -91,7 +91,7 @@ export const actions = {
           ...searchLogicStore.get(),
           inputExpanded: !searchLogicStore.get().inputExpanded,
         });
-      }, 200);
+      }, 150);
     }
   },
   handleSubmit: (isExplorePage: boolean, query: string) => {

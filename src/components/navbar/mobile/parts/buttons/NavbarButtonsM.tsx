@@ -34,7 +34,7 @@ const NavbarButtonsM = ({ navmenu }: { navmenu }) => {
           <BackArrow />
         </div>
       )}
-      <div className='flex ml-6 items-center'>
+      <div className='flex ml-3 items-center'>
         {!inputExpanded && !isLogged && !menuOpen && (
           <button
             type='button'
@@ -47,13 +47,13 @@ const NavbarButtonsM = ({ navmenu }: { navmenu }) => {
       </div>
       <div
         className={`flex flex-row items-center gap-2 ${
-          inputExpanded ? 'mr-14' : ''
+          inputExpanded ? 'mr-[3rem]' : ''
         }`}
       >
         <SearchRoadmapM />
         {!inputExpanded && (
           <div>
-            <div className='flex mr-6 w-fit h-fit' onClick={handleMenuClick}>
+            <div className='flex mr-2 w-fit h-fit' onClick={handleMenuClick}>
               <img src={dropdown.src} alt='dropdown' className='w-8 h-8' />
             </div>
             <SlideMenu isOpen={menuOpen} setMenuOpen={setMenuOpen} />
