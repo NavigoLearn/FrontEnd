@@ -6,8 +6,7 @@ import { searchLogicStore, actions } from './searchHooks/search-logic-store';
 import AnimLoupe from '../animsvg/AnimLoupe';
 
 const SearchRoadmapM = () => {
-  const { focus, query, inputExpanded, isExplorePage } =
-    useStore(searchLogicStore);
+  const { focus, query, inputExpanded } = useStore(searchLogicStore);
 
   const controls = useAnimation();
 
@@ -24,7 +23,11 @@ const SearchRoadmapM = () => {
   };
 
   const handleSubmit = () => {
-    actions.handleSubmit(isExplorePage, query);
+    if (typeof window !== 'undefined') {
+      const isExplorePage = window.location.href.includes('/explore');
+      console.log(isExplorePage);
+      actions.handleSubmit(isExplorePage, query);
+    }
   };
 
   return (

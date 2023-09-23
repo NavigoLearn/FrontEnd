@@ -28,12 +28,6 @@ export const actions = {
       focus,
     });
   },
-  setIsExplorePage: (isExplorePage: boolean) => {
-    searchLogicStore.set({
-      ...searchLogicStore.get(),
-      isExplorePage,
-    });
-  },
   setQuery: (query: string) => {
     searchLogicStore.set({
       ...searchLogicStore.get(),
@@ -112,7 +106,3 @@ export const actions = {
     }
   },
 };
-
-if (typeof window !== 'undefined') {
-  actions.setIsExplorePage(window.location.pathname === '/explore');
-}
