@@ -9,19 +9,19 @@ const ProfilePicAndNameNavM = () => {
   return (
     <div className='relative flex flex-col mb-12'>
       <div className='flex flex-row items-center gap-3'>
-        <div className='flex w-7 h-7 justify-center'>
+        <div className='flex w-[10vw] h-[10vw] justify-center'>
           <img
             src={profilePictureUrl}
             className='w-full h-full rounded-full'
             alt='avatar'
           />
         </div>
-        <span className='flex font-medium font-roboto-text text-sm top-12 w-32 text-center px-1 text-white truncate'>
+        <span className='flex font-medium font-roboto-text text-[5vw] top-12 w-[30vw] text-center px-1 text-white truncate'>
           {name}
         </span>
       </div>
       <a
-        className='flex -translate-y-2 ml-14 font-light font-roboto-text text-xs text-[#FFFFFF99] text-center'
+        className='flex -translate-y-2 ml-14 font-light font-roboto-text text-[4vw] text-[#FFFFFF99] text-center'
         href='/profile'
       >
         View profile

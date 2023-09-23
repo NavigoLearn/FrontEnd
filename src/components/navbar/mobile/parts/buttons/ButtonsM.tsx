@@ -8,11 +8,9 @@ type ILinkM = {
   imgsrc: string;
 };
 
-// Define a mapping of image keys to image sources
 const imageMapping: Record<string, string> = {
   home: homeWhite.src,
   explore: loupeWhite.src,
-  // Add more mappings for other image keys as needed
 };
 
 const LinkM = ({ text, href, imgsrc }: ILinkM) => {
@@ -23,9 +21,13 @@ const LinkM = ({ text, href, imgsrc }: ILinkM) => {
     <div className='flex flex-row'>
       <a
         href={href}
-        className='text-white flex gap-2 items-center text-center text-md font-roboto-text font-normal'
+        className='text-white flex gap-2 items-center text-center text-[5vw] font-roboto-text font-normal'
       >
-        <img src={imageSource} alt={`${imgsrc}icon`} className='w-4 h-4' />
+        <img
+          src={imageSource}
+          alt={`${imgsrc}icon`}
+          className='w-[4vw] h-[4vw]'
+        />
         {text}
       </a>
     </div>
@@ -38,7 +40,7 @@ const ButtonM = ({ text, onClick }: { text: string; onClick: () => void }) => {
       <button
         type='button'
         onClick={onClick}
-        className='text-white flex gap-2 items-center text-center text-md font-roboto-text font-normal'
+        className='text-white flex gap-2 mb-6 items-center text-center text-[5vw] font-roboto-text font-normal'
       >
         {text}
       </button>

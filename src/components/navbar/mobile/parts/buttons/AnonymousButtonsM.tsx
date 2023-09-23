@@ -7,10 +7,12 @@ const AnonymusButtonsM = () => {
     setBasePopup('get-started');
   };
   return (
-    <div className='flex flex-col gap-4'>
-      <ButtonM text='Get Started' onClick={handleAuthClick} />
-      <LinkM text='Explore' href='/roadmap/explore' imgsrc='explore' />
-      <LinkM text='Home' href='/' imgsrc='home' />
+    <div className='mt-12'>
+      <div className='flex flex-col gap-4'>
+        <ButtonM text='Get Started' onClick={handleAuthClick} />
+        <LinkM text='Explore' href='/roadmap/explore' imgsrc='explore' />
+        <LinkM text='Home' href='/' imgsrc='home' />
+      </div>
     </div>
   );
 };
