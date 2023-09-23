@@ -5,13 +5,13 @@ import { getNodeByIdRoadmapSelector } from '@src/typescript/roadmap_ref/roadmap-
 export function deleteNodeFromChunk(nodeId: string, chunkId: string) {
   const roadmap = roadmapSelector.get();
   const chunk = roadmap.chunks[chunkId];
-  const newChunk = chunk.filter((id) => id !== nodeId);
-  roadmap.chunks[chunkId] = newChunk;
+  roadmap.chunks[chunkId] = chunk.filter((id) => id !== nodeId);
   roadmapSelector.set({ ...roadmap });
 }
 
 export function deleteNodeFromChunks(node: NodeClass) {
   const { chunksIds } = node.properties;
+  if (typeof chunksIds === 'undefined') return;
   chunksIds.forEach((chunkId) => {
     deleteNodeFromChunk(node.id, chunkId);
   });
@@ -22,10 +22,9 @@ export function deleteNodeClassicFromParentAndChildren(node: NodeClass) {
   // deleting node from parent
   const { parentId } = node.properties;
   const parent = roadmap.nodes[parentId];
-  const newChildren = parent.properties.childrenIds.filter(
+  parent.properties.childrenIds = parent.properties.childrenIds.filter(
     (id) => id !== node.id
   );
-  parent.properties.childrenIds = newChildren;
   // redirecting children to parent
   const children = node.properties.childrenIds;
   children.forEach((id) => {
@@ -42,10 +41,9 @@ export function deleteNodeClassicFromParentAndChildren(node: NodeClass) {
       // deletes connection with parent ( divorce )
       delete roadmap.connections[id];
       // filter connection from parent connections
-      const newParentConnections = parent.connections.filter(
+      parent.connections = parent.connections.filter(
         (connectionId) => connectionId !== id
       );
-      parent.connections = newParentConnections;
       return;
     }
     // migrates children connections to its parent ( so the children grandparent )
@@ -68,8 +66,7 @@ export function deleteNodeClassicFromRoadmapAndChunks(node: NodeClass) {
   deleteNodeFromChunks(node);
   delete roadmap.nodes[node.id];
   // deletes from rootNodesIds
-  const newRootNodesIds = roadmap.rootNodesIds.filter((id) => id !== node.id);
-  roadmap.rootNodesIds = newRootNodesIds;
+  roadmap.rootNodesIds = roadmap.rootNodesIds.filter((id) => id !== node.id);
   roadmapSelector.set({ ...roadmap });
 }
 
@@ -78,8 +75,7 @@ export const deleteNodeSubNode = (node: NodeClass) => {
   // deletes subnode from parent
   const { nestedWithin } = node.properties;
   const parent = roadmap.nodes[nestedWithin];
-  const newSubNodes = parent.subNodeIds.filter((id) => id !== node.id);
-  parent.subNodeIds = newSubNodes;
+  parent.subNodeIds = parent.subNodeIds.filter((id) => id !== node.id);
   roadmapSelector.set({ ...roadmap });
 };
 
@@ -91,8 +87,7 @@ export const deleteTemplate = (templateId: string) => {
 
 export const deleteNodeFromRootNodes = (node: NodeClass) => {
   const roadmap = roadmapSelector.get();
-  const newRootNodes = roadmap.rootNodesIds.filter((id) => id !== node.id);
-  roadmap.rootNodesIds = newRootNodes;
+  roadmap.rootNodesIds = roadmap.rootNodesIds.filter((id) => id !== node.id);
   roadmapSelector.set({ ...roadmap });
 };
 
