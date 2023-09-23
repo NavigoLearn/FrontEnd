@@ -1,5 +1,5 @@
 import { atom } from 'nanostores';
-import { User, UserResponse } from '@type/user/types';
+import { type User, type UserResponse } from '@type/user/types';
 import { checkIsTypeUser } from '@type/user/typecheckers';
 import { processUserUrlPic } from '@src/typescript/user/misc';
 import { fetchUserData } from '../../api-wrapper/user/routes-user';

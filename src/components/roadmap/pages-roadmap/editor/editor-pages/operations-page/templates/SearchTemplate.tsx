@@ -31,7 +31,11 @@ const SearchTemplate = () => {
         }`}
       >
         <div className='w-5 h-5'>
-          <img className='w-full h-full ' src={LOUPE_SRC} alt='search loupe' />
+          <img
+            className='w-full h-full '
+            src={LOUPE_SRC.src}
+            alt='search loupe'
+          />
         </div>
       </div>
     </div>

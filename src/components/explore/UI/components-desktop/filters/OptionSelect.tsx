@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { tailwindTransitionClass } from '@src/UI-library/tailwind-utils';
 import { ARROW_DROPDROWN_SRC } from '@src/to-be-organized/svg-params';
 import { AnimatePresence, motion } from 'framer-motion';
@@ -32,7 +32,7 @@ const OptionSelect = <T extends string | number>({
         </span>
         <img
           alt='arrow dropdown'
-          src={ARROW_DROPDROWN_SRC}
+          src={ARROW_DROPDROWN_SRC.src}
           className={` w-8 h-8 ${
             dropdown && 'rotate-180'
           }${tailwindTransitionClass} absolute -right-8 -top-1`}

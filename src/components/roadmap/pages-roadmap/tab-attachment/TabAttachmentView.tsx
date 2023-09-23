@@ -6,9 +6,8 @@ import { selectedTabNode } from '@store/roadmap-refactor/display/tab-attachment/
 import { getNodeByIdRoadmapSelector } from '@src/typescript/roadmap_ref/roadmap-data/services/get';
 import { setDisplayPageType } from '@store/roadmap-refactor/display/display-manager';
 import { tailwindTransitionClass } from '@src/UI-library/tailwind-utils';
-import StatusDropdown from '@components/roadmap/pages-roadmap/tab-attachment/StatusDropdown';
 import {
-  IAttachmentTabComponentProperties,
+  type IAttachmentTabComponentProperties,
   typeGuardTabBulletListProperties,
   typeGuardTabDescriptionProperties,
   typeGuardTabLinkProperties,
@@ -18,6 +17,7 @@ import TitleComponentTab from '@components/roadmap/pages-roadmap/tab-attachment/
 import DescriptionComponentTab from '@components/roadmap/pages-roadmap/tab-attachment/components/DescriptionComponentTab';
 import LinkComponentTab from '@components/roadmap/pages-roadmap/tab-attachment/components/LinkComponentTab';
 import { usePressEsc } from '@hooks/usePressEsc';
+import closeSvg from '@assets/cross.svg';
 
 const TabAttachmentView = () => {
   const { nodeId } = useStore(selectedTabNode);
@@ -68,16 +68,16 @@ const TabAttachmentView = () => {
             className={`hover:bg-gray-200 ${tailwindTransitionClass}`}
           >
             <img
-              src='/editor/close.svg'
+              src={closeSvg.src}
               className='w-8 h-8'
               alt='Close button for editor'
             />
           </button>
         </div>
       </div>
-      <div className='px-9'>
-        <StatusDropdown nodeId={nodeId} attachment={attachment} />
-      </div>
+      {/* <div className='px-9'> */}
+      {/*  <StatusDropdown nodeId={nodeId} attachment={attachment} /> */}
+      {/* </div> */}
       {components.slice(1).map((component) => {
         return componentMapper(component);
       })}

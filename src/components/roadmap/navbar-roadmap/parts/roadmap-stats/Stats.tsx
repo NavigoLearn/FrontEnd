@@ -3,37 +3,33 @@ import { useStore } from '@nanostores/react';
 import roadmapStatistics, {
   getRoadmapLikes,
   getRoadmapViews,
-  setRoadmapStatisticsDownvote,
-  setRoadmapStatisticsLikes,
-  setRoadmapStatisticsRemoveLike,
-  setRoadmapStatisticsUpvote,
-  setRoadmapStatisticsVoteState,
 } from '@store/roadmap-refactor/roadmap-data/misc-data/roadmap-statistics';
 import { getRoadmapId } from '@store/roadmap-refactor/roadmap-data/misc-data/roadmap-about';
-import UpvoteDownvoteUI from '@components/roadmap/navbar-roadmap/parts/roadmap-stats/UpvoteDownvoteUI';
-import {
-  fetchDislikeCard,
-  fetchLikeCard,
-  fetchRemoveLike,
-} from '@src/api-wrapper/explore/roadmap-likes';
+import UpvoteDownvote, {
+  type VoteState,
+} from '@components/explore/UI/shared/cards/components/UpvoteDownvote';
+
+const VoteToVoteType = (vote: number) => {
+  if (vote === 1) {
+    return 'upvote';
+  }
+  if (vote === -1) {
+    return 'downvote';
+  }
+  return 'none';
+};
 
 const Stats = () => {
   const { loaded, isLiked } = useStore(roadmapStatistics);
   const id = getRoadmapId();
   const views = getRoadmapViews();
 
-  type voteState = 'upvote' | 'downvote' | 'none';
-  const matcher: Record<-1 | 0 | 1, voteState> = {
-    '-1': 'downvote',
-    '0': 'none',
-    '1': 'upvote',
-  };
-  const voteState = matcher[isLiked];
+  const voteState: VoteState = VoteToVoteType(isLiked);
   const intId = parseInt(id, 10);
 
   return (
-    <div className='flex gap-6 items-center'>
-      <section className='flex items-center gap-2'>
+    <div className='flex gap-4 items-center'>
+      <section className='items-center gap-2 md:flex hidden'>
         <h3 className='font-roboto-text text-placeholder text-sm'>Views</h3>
         <h2 className='font-roboto-text text-placeholder font-medium text-sm'>
           {loaded ? views : '...'}
@@ -41,26 +37,10 @@ const Stats = () => {
       </section>
       <section className='flex items-center gap-2'>
         {loaded ? (
-          <UpvoteDownvoteUI
-            upvotes={getRoadmapLikes()}
-            downvoteCallback={() => {
-              fetchDislikeCard(intId);
-              setRoadmapStatisticsDownvote();
-              setRoadmapStatisticsVoteState(-1);
-            }}
-            upvoteCallback={() => {
-              // upvote post
-              fetchLikeCard(intId);
-              setRoadmapStatisticsUpvote();
-              setRoadmapStatisticsVoteState(1);
-            }}
-            removeVoteCallback={() => {
-              // remove vote
-              fetchRemoveLike(intId);
-              setRoadmapStatisticsRemoveLike();
-              setRoadmapStatisticsVoteState(0);
-            }}
+          <UpvoteDownvote
+            upvotes={getRoadmapLikes() - isLiked}
             voteState={voteState}
+            roadmapId={intId}
           />
         ) : (
           '...'

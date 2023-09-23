@@ -1,14 +1,18 @@
+import {
+  moveRoadmapToNode,
+  closeEditorProtocol,
+} from '@src/to-be-organized/node-rendering-stuff/actions-manager';
 import React from 'react';
-import DropdownWhiteAddCleaner from '@components/roadmap/pages-roadmap/editor/reusable-components/DropdownWhiteAddCleaner';
 import {
   addChildTemplateToRoadmap,
   applyTemplateToNode,
 } from '@src/typescript/roadmap_ref/roadmap-data/protocols/append';
 import { useStore } from '@nanostores/react';
-import editorSelectedData from '@store/roadmap-refactor/elements-editing/editor-selected-data';
+import storeEditorSelectedData from '@store/roadmap-refactor/elements-editing/store-editor-selected-data';
 import {
   getNodeByIdRoadmapSelector,
   getRoadmapTemplatesArray,
+  getRootGlobalId,
 } from '@src/typescript/roadmap_ref/roadmap-data/services/get';
 import DeleteButton from '@components/roadmap/pages-roadmap/editor/editor-pages/operations-page/actions/DeleteButton';
 import {
@@ -16,19 +20,14 @@ import {
   deleteProtocolNodeFromRoadmapRecursive,
 } from '@src/typescript/roadmap_ref/roadmap-data/protocols/delete';
 import DropdownWhiteSelect from '@components/roadmap/pages-roadmap/editor/reusable-components/DropdownWhiteSelect';
-import { closeEditorProtocol } from '@src/to-be-organized/nodeview/actions-manager';
 import {
   operationsStore,
   setOperationsDropdown,
 } from '@components/roadmap/pages-roadmap/editor/editor-pages/operations-page/stores/operations-store';
 import { TemplateNode } from '@src/typescript/roadmap_ref/node/templates-system/template-core';
-import {
-  getDeleteRootNodeNotification,
-  setDeleteRootNodeNotificationFalse,
-  setDeleteRootNodeNotificationTrue,
-} from '@src/to-be-organized/nodeview/notification-store';
-import { handleDeleteRootNotification } from '@src/to-be-organized/nodeview/notification-handler';
-import { useNotification } from '@src/components/roadmap/to-be-organized/notifications/NotificationLogic';
+import { highlightNodeEffects } from '@store/roadmap-refactor/elements-editing/store-node-effects';
+import { setNotification } from '@src/components/roadmap/to-be-organized/notifications/notifciations-refr/notification-store-refr';
+import nodeTree from '@assets/editor/tree.svg';
 import DropdownPlusSelection from '../../../reusable-components/DropdownPlusSelection';
 
 type IOption = {
@@ -49,7 +48,9 @@ function formatTemplatesAddChild(
       id: template.id,
       name: template.name,
       callback: () => {
-        addChildTemplateToRoadmap(parentId, template.id);
+        const id = addChildTemplateToRoadmap(parentId, template.id);
+        highlightNodeEffects(id);
+        moveRoadmapToNode(id, true);
       },
       tooltip: `This template has ${
         Object.keys(template.roadmapImage.nodes).length
@@ -86,10 +87,10 @@ function formatTemplatesApply(
 }
 
 const ActionsSystem = () => {
-  const { selectedNodeId } = useStore(editorSelectedData);
+  const { selectedNodeId } = useStore(storeEditorSelectedData);
   const node = getNodeByIdRoadmapSelector(selectedNodeId);
   const { dropdown } = useStore(operationsStore);
-  const isRoot = getDeleteRootNodeNotification();
+  const isRoot = getRootGlobalId() === node.id;
 
   const rawTemplates = getRoadmapTemplatesArray();
   const templatesJSONAddChild = formatTemplatesAddChild(rawTemplates, node.id);
@@ -129,23 +130,21 @@ const ActionsSystem = () => {
             }}
           />
         </div>
-        <div
-          className={
-            isRoot ? 'pointer-events-none opacity-50' : ' pointer-events-auto'
-          }
-        >
-          <DeleteButton
-            callback={() => {
-              deleteProtocolNodeFromRoadmap(node);
-              closeEditorProtocol();
-            }}
-            text='Delete Node'
-            space
-          />
-        </div>
-
-        <hr className='absolute w-full bottom-0' />
+        <DeleteButton
+          callback={() => {
+            if (isRoot) {
+              setNotification('error', 'You cannot delete the root node');
+              return;
+            }
+            deleteProtocolNodeFromRoadmap(node);
+            closeEditorProtocol();
+          }}
+          text='Delete Node'
+          space
+        />
       </div>
+
+      <hr className='absolute w-full bottom-0' />
 
       <div className='flex gap-6 w-full'>
         <div
@@ -153,17 +152,17 @@ const ActionsSystem = () => {
             dropdown === 'apply-template' ? 'z-20' : 'z-0'
           }`}
         >
-          {/* <DropdownWhiteSelect */}
-          {/*  dropdownName='Apply template' */}
-          {/*  options={[...templatesJSONApplyTemplate]} */}
-          {/*  dropdownCallback={(hasOpened) => { */}
-          {/*    if (hasOpened) { */}
-          {/*      setOperationsDropdown('apply-template'); */}
-          {/*    } else { */}
-          {/*      setOperationsDropdown('none'); */}
-          {/*    } */}
-          {/*  }} */}
-          {/* /> */}
+          <DropdownWhiteSelect
+            dropdownName='Apply template'
+            options={[...templatesJSONApplyTemplate]}
+            dropdownCallback={(hasOpened) => {
+              if (hasOpened) {
+                setOperationsDropdown('apply-template');
+              } else {
+                setOperationsDropdown('none');
+              }
+            }}
+          />
         </div>
         <DeleteButton
           callback={() => {
@@ -171,7 +170,7 @@ const ActionsSystem = () => {
             closeEditorProtocol();
           }}
           text='Delete Subtree'
-          src='/editor/tree.svg'
+          src={nodeTree.src}
         />
       </div>
       <div className='w-full relative'>

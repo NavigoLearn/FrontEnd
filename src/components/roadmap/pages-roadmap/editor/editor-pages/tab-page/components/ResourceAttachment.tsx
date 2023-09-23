@@ -1,22 +1,24 @@
-import React, { useRef, useState } from 'react';
+import React, { useState } from 'react';
 import { deleteAttachmentBulletListNewItem } from '@src/typescript/roadmap_ref/node/attachments/tab/delete';
 import {
-  IAttachmentTabBulletListItem,
-  IAttachmentTabBulletListProperties,
+  type IAttachmentTabBulletListItem,
+  type IAttachmentTabBulletListProperties,
 } from '@type/roadmap/node/tab-types';
 import attachmentPageStatus from '@store/roadmap-refactor/display/editor/attachment-page-status';
 import { useStore } from '@nanostores/react';
 import addCircle from '@assets/add-circle.svg';
 import { appendAttachmentBulletListNewItem } from '@src/typescript/roadmap_ref/node/attachments/tab/append';
-import { triggerRerenderEditor } from '@store/roadmap-refactor/elements-editing/editor-selected-data';
+import { triggerRerenderEditor } from '@store/roadmap-refactor/elements-editing/store-editor-selected-data';
 import {
   mutateAttachmentTabBulletListItemLinkURL,
   mutateAttachmentTabBulletListItemText,
 } from '@src/typescript/roadmap_ref/node/attachments/tab/mutate';
 import { AnimatePresence, motion } from 'framer-motion';
-import { useClickOutside } from '@hooks/useClickOutside';
 import linkpop from '@assets/linkpop.svg';
 import TrashIcon from '@src/UI-library/svg-components/trash/TrashIcon';
+import { openRoadmapLink } from '@src/typescript/utils/urlUtils';
+import exit from '@assets/editor/close.svg';
+import edit from '@assets/editor/edit.svg';
 
 type IResourceAttachmentProps = {
   component: IAttachmentTabBulletListProperties;
@@ -51,16 +53,20 @@ export const ResourceAttachmentView = ({
               isLastItem ? '' : 'border-t border-gray-300'
             }`}
           >
-            <a href={item.linkURL} className='px-9 my-2 flex flex-row gap-2'>
-              <div className='text-darkBlue text-lg font-semibold'>
+            <button
+              type='button'
+              onClick={() => openRoadmapLink(item.linkURL)}
+              className='px-9 my-2 flex flex-row items-center gap-12'
+            >
+              <div className='text-darkBlue text-lg font-semibold w-96 text-start break-words'>
                 {item.text}
               </div>
               <img
-                src={linkpop}
+                src={linkpop.src}
                 alt='pressLinkButton'
-                className='w-5 h-5 mt-1'
+                className='w-6 h-6 mt-1'
               />
-            </a>
+            </button>
           </div>
         );
       })}
@@ -71,15 +77,24 @@ export const ResourceAttachmentView = ({
 type IResourceBulletListItemDropdownProps = {
   component: IAttachmentTabBulletListProperties;
   listItem: IAttachmentTabBulletListItem;
+  toggleDropdown: () => void;
 };
 const ResourceBulletListItemDropdown = ({
   component,
   listItem,
+  toggleDropdown,
 }: IResourceBulletListItemDropdownProps) => {
   return (
     <div className='w-full h-full p-4 flex flex-col gap-1 font-roboto-text text-darkBlue'>
+      <button
+        className='w-5 h-5 absolute top-1 right-1'
+        type='button'
+        onClick={() => toggleDropdown()}
+      >
+        <img src={exit.src} alt='exitBUtton' />
+      </button>
       <input
-        className='border p-1 border-placeholderBlack outline-none rounded-md'
+        className='border p-1 border-placeholderBlack outline-none rounded-md mt-2 mr-2'
         value={listItem.text}
         onChange={(e) => {
           const newValue = e.target.value;
@@ -92,7 +107,7 @@ const ResourceBulletListItemDropdown = ({
         }}
       />
       <input
-        className='border p-1 border-placeholderBlack outline-none rounded-md'
+        className='border p-1 border-placeholderBlack outline-none rounded-md mr-2'
         value={listItem.linkURL}
         onChange={(e) => {
           const newValue = e.target.value;
@@ -117,16 +132,13 @@ const ResourceBulletListItem = ({
   item,
 }: IResourceBulletListItemProps) => {
   const [dropdown, setDropdown] = useState(false);
-
-  const myDiv = useRef(null);
-  useClickOutside(myDiv, () => {
-    setDropdown(false);
-  });
+  const toggleDropdown = () => {
+    setDropdown((prev) => !prev);
+  };
 
   return (
     <div
       key={item.id}
-      ref={myDiv}
       className='w-full flex relative justify-between items-center px-3 mt-1'
     >
       <section>
@@ -156,11 +168,7 @@ const ResourceBulletListItem = ({
           }}
           type='button'
         >
-          <img
-            src='/editor/edit.svg'
-            className='w-7 h-7'
-            alt='Edit button for link'
-          />
+          <img src={edit.src} className='w-7 h-7' alt='Edit button for link' />
         </button>
         <button
           onClick={() => {
@@ -184,6 +192,7 @@ const ResourceBulletListItem = ({
             <ResourceBulletListItemDropdown
               component={component}
               listItem={item}
+              toggleDropdown={toggleDropdown}
             />
           </motion.div>
         )}
@@ -204,10 +213,10 @@ const ResourceAttachmentEdit = ({ component }: IResourceAttachmentProps) => {
           }}
           type='button'
         >
-          <img src={addCircle} alt='addingResources' className='h-7 w-7' />
+          <img src={addCircle.src} alt='addingResources' className='h-7 w-7' />
         </button>
       </div>
-      {component.bulletListItems.map((item, index) => {
+      {component.bulletListItems.map((item) => {
         return (
           <ResourceBulletListItem
             key={item.id}

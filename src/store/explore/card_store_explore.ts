@@ -1,5 +1,5 @@
 import { atom } from 'nanostores';
-import { CardType } from '@type/explore_old/card';
+import { type CardType } from '@type/explore_old/card';
 
 const cardsFromApi = atom({
   cards: {},

@@ -1,6 +1,5 @@
 import { atom } from 'nanostores';
-import { UserData } from '@components/profile/profile/profile-data';
-import { UserResponse } from '@type/user/types';
+import { type UserResponse } from '@type/user/types';
 
 type IRoadmapOwnerData = {
   loaded: boolean;
@@ -20,7 +19,7 @@ export const storeRoadmapOwnerData = atom({
 
 export function setRoadmapOwnerData(adaptedOwnerData: IRoadmapOwnerData) {
   const original = storeRoadmapOwnerData.get();
-  const { ownerId, ownerAvatar, ownerName, loaded } = adaptedOwnerData;
+  const { ownerId, ownerAvatar, ownerName } = adaptedOwnerData;
   const adjustedOwnerAvatar = ownerAvatar || DEFAULT_OWNER_AVATAR;
   storeRoadmapOwnerData.set({
     ...original,

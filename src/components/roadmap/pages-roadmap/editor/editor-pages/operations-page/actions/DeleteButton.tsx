@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { tailwindTransitionClass } from '@src/UI-library/tailwind-utils';
 import TrashIconCustomizable from '@src/UI-library/svg-components/trash/TrashIconCustomizable';
-import { getDeleteRootNodeNotification } from '@src/to-be-organized/nodeview/notification-store';
+import rectangleSmall from '@assets/editor/rectangleSmall.svg';
 
 type IDeleteButtonProps = {
   callback: () => void;
@@ -51,7 +51,7 @@ const DeleteButton = ({ callback, text, src, space }: IDeleteButtonProps) => {
 };
 
 DeleteButton.defaultProps = {
-  src: '/editor/rectangleSmall.svg',
+  src: rectangleSmall.src,
   space: false,
 };
 

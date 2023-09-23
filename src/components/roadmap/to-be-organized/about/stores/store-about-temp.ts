@@ -1,9 +1,8 @@
 import { atom } from 'nanostores';
 import roadmapAbout, {
-  IRoadmapAbout,
+  type IRoadmapAbout,
 } from '@store/roadmap-refactor/roadmap-data/misc-data/roadmap-about';
-import { IColorThemesOptions } from '@type/roadmap/node/colors-types';
-import { getRoadmapSelector } from '@src/typescript/roadmap_ref/roadmap-data/services/get';
+import { type IColorThemesOptions } from '@type/roadmap/node/colors-types';
 import {
   getColorThemeFromRoadmap,
   setRoadmapColorTheme,

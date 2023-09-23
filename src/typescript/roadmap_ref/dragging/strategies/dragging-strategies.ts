@@ -1,28 +1,28 @@
 import {
   DraggingBehavior,
-  ICoords,
-  IDraggingElementType,
+  type ICoords,
+  type IDraggingElementType,
 } from '@src/typescript/roadmap_ref/dragging/core';
 import { NodeClass } from '@src/typescript/roadmap_ref/node/core/core';
 import {
   getNodeByIdRoadmapSelector,
   getNodeCenterAbsoluteCoords,
-  getRootNodesIds,
 } from '@src/typescript/roadmap_ref/roadmap-data/services/get';
-import renderNodesStore from '@store/roadmap-refactor/render/rendered-nodes';
 import { getComponentById } from '@src/typescript/roadmap_ref/node/core/data-get/components';
 import { setSnappings } from '@store/roadmap-refactor/render/snapping-lines';
 import { snapCoordsToPositions } from '@src/typescript/roadmap_ref/snapping/old/core';
-import { getNodeCornerPositions } from '@src/typescript/roadmap_ref/snapping/old/generate-positions';
-import { throttle } from '@src/typescript/roadmap_ref/render/chunks';
-import { snapRootNodeProtocol } from '@src/typescript/roadmap_ref/snapping/snap-protocols/root-nodes';
-import { snapSubNodeProtocol } from '@src/typescript/roadmap_ref/snapping/snap-protocols/sub-nodes';
-import { snapComponentProtocol } from '@src/typescript/roadmap_ref/snapping/snap-protocols/components';
+import { snapRootNodeProtocol } from '@src/typescript/roadmap_ref/snapping/snap-protocols/snap-root-nodes-drag';
+import { snapSubNodeProtocol } from '@src/typescript/roadmap_ref/snapping/snap-protocols/snap-sub-nodes-drag';
+import { snapComponentProtocol } from '@src/typescript/roadmap_ref/snapping/snap-protocols/snap-components-drag';
 
-export const draggingStrategyFree = (draggingBehavior, newX, newY) => {
+export const draggingStrategyFree = (
+  _: DraggingBehavior,
+  x: number,
+  y: number
+) => {
   return {
-    x: newX,
-    y: newY,
+    x,
+    y,
   };
 };
 

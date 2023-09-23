@@ -1,17 +1,16 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { setDisplayPageTypeFullScreen } from '@src/store/roadmap-refactor/display/display-manager-full-screen';
 import { useStore } from '@nanostores/react';
 import storeAboutTemporary, {
   getStoreAboutTemp,
-  pushStoreAboutTempChangesToApp,
   setStoreAboutTempDescription,
   setStoreAboutTempName,
 } from '@components/roadmap/to-be-organized/about/stores/store-about-temp';
 import TextInputStandard from '@components/roadmap/pages-roadmap/editor/editor-pages/properties-page/TextInputStandard';
 import TextareaStandardInput from '@components/roadmap/pages-roadmap/editor/editor-pages/properties-page/TextareaStandardInput';
 import ThemeDisplayer from '@components/roadmap/to-be-organized/about/components/ThemeDisplayer';
-import { DEFAULT_ROADMAP_TITLE_MAX_LENGTH } from './character-limits';
-import exit from '../../../../../../public/editor/close.svg';
+import { DEFAULT_ROADMAP_TITLE_MAX_LENGTH } from '@src/typescript/roadmap_ref/node/components/text/text-params';
+import exit from '@assets/editor/close.svg';
 
 type IAboutEditProps = {
   callback: () => void;
@@ -27,7 +26,7 @@ const AboutEdit = ({ callback }: IAboutEditProps) => {
           type='button'
           onClick={() => setDisplayPageTypeFullScreen('closed')}
         >
-          <img src={exit} alt='exitButton' className='w-7 h-7' />
+          <img src={exit.src} alt='exitButton' className='w-7 h-7' />
         </button>
       </div>
       <div className='flex justify-center w-full flex-col items-center h-52 mt-2'>

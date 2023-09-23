@@ -1,3 +1,6 @@
+import { type IVersions } from '@store/roadmap-refactor/roadmap-data/params/params-base-roadmap';
+import { type IRoadmap } from '../roadmap/stores/IRoadmap';
+
 export type CardType = {
   name: string;
   author: string;
@@ -20,8 +23,9 @@ export type IRoadmapApi = {
   isPublic: boolean;
   isLiked: -1 | 0 | 1;
   isDraft: boolean;
-  data: string;
+  data: string | IRoadmap;
   miscData: string;
+  version: IVersions;
 };
 
 export type RoadmapTypeApiExplore = {

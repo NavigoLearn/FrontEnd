@@ -1,7 +1,7 @@
 import { NodeClass } from '@src/typescript/roadmap_ref/node/core/core';
 import {
   TemplateNode,
-  IRoadmapImage,
+  type IRoadmapImage,
 } from '@src/typescript/roadmap_ref/node/templates-system/template-core';
 import { appendTemplate } from '@src/typescript/roadmap_ref/roadmap-data/services/append';
 import { getRoadmapSelector } from '@src/typescript/roadmap_ref/roadmap-data/services/get';
@@ -15,8 +15,14 @@ export const factoryRoadmapImage = (node: NodeClass): IRoadmapImage => {
   const roadmap = getRoadmapSelector();
   // deep copies necessary elements from roadmap to image
   const nodesIds: string[] = [];
-  nodesIds.push(node.id);
-  nodesIds.push(...node.subNodeIds);
+  const queue: string[] = [node.id];
+  while (queue.length > 0) {
+    const nodeId = queue.shift();
+    nodesIds.push(nodeId);
+    const { subNodeIds } = roadmap.nodes[nodeId];
+    queue.push(...subNodeIds);
+  }
+
   nodesIds.forEach((nodeId) => {
     roadmapImage.nodes[nodeId] = deepCopy(roadmap.nodes[nodeId]);
   });
@@ -35,7 +41,6 @@ export const factoryTemplateFromNode = (node: NodeClass): TemplateNode => {
 };
 
 export const addTemplateFromNode = (node: NodeClass) => {
-  console.log('addTemplateFromNode');
   const template = factoryTemplateFromNode(node);
   appendTemplate(template);
 };

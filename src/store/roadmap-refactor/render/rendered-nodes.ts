@@ -34,4 +34,8 @@ export function getRenderedRootNodesIds() {
   return renderNodesStore.get().nodesIds;
 }
 
+export function deleteAllRenderedNodes() {
+  renderNodesStore.set({ nodesIds: [] });
+}
+
 export default renderNodesStore;

@@ -19,10 +19,10 @@ const { service } = Astro.props;
     <link rel='preconnect' href='https://fonts.gstatic.com' crossorigin />
     <title>Login callback</title>
 </head>
-<body class='bg-background relative w-screen max-w-full min-h-screen'>
-<div class="flex flex-col items-center justify-center h-screen">
-    <h1 id="status" class="text-2xl font-bold text-center">Logging you in...</h1>
-    <p id="service">Please turn on JavaScript to continue if you see this. ({service})</p>
+<body class='bg-background relative w-screen max-w-full min-h-screen font-kanit-text'>
+<div class='flex flex-col items-center justify-center h-screen'>
+    <h1 id='status' class='text-2xl font-bold text-center'>Logging you in...</h1>
+    <p id='service'>Please turn on JavaScript to continue if you see this. ({service})</p>
 </div>
 
 <script>
@@ -39,30 +39,33 @@ const { service } = Astro.props;
     const status = document.getElementById('status');
 
     // Get the URL parameters which will include the authorization code
-    let params = new URLSearchParams(window.location.search);
+    const params = new URLSearchParams(window.location.search);
 
     // Grab the authorization code
-    let code = params.get('code');
+    const code = params.get('code');
 
     // Make a fetch request to the /api/auth/github-callback endpoint
     fetch(`/api/auth/${service}-callback?code=${code}`)
-      .then(res => res.json())
-      .then(data => {
-          // If the request was successful, redirect to the dashboard
-          if (!data.error) {
-              status.innerText = 'Login successful!';
-              setTimeout(() => {
-                  // close window
-                  window.close();
-              }, 500);
-          } else {
-              // If the request failed, display an error message
-              status.innerText = `An error occurred while logging you in. Please try again.\n\nError: ${data.error?.replaceAll('external service', service)}`;
-          }
-      })
-      .catch(e => {
+      .then((res) => res.json())
+      .then((data) => {
+        // If the request was successful, redirect to the dashboard
+        if (!data.error) {
+          status.innerText = 'Login successful!';
+          setTimeout(() => {
+            // close window
+            window.close();
+          }, 500);
+        } else {
           // If the request failed, display an error message
-          status.innerText = `An error occurred while logging you in. Please try again.\n\nError: Internal Server Error\n${e.message}`;
+          status.innerText = `An error occurred while logging you in. Please try again.\n\nError: ${data.error?.replaceAll(
+            'external service',
+            service
+          )}`;
+        }
+      })
+      .catch((e) => {
+        // If the request failed, display an error message
+        status.innerText = `An error occurred while logging you in. Please try again.\n\nError: Internal Server Error\n${e.message}`;
       });
 </script>
 </body>

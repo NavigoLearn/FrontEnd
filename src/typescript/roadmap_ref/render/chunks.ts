@@ -1,6 +1,4 @@
-import roadmapStateStore, {
-  getIsEditing,
-} from '@store/roadmap-refactor/roadmap-data/misc-data/roadmap_state';
+import roadmapStateStore from '@store/roadmap-refactor/roadmap-data/misc-data/roadmap_state';
 import {
   getRenderedRootNodesIds,
   setNodes,
@@ -10,9 +8,9 @@ import chunksStore, {
 } from '@store/roadmap-refactor/render/rendered-chunks';
 import * as d3 from 'd3';
 import { setConnections } from '@store/roadmap-refactor/render/rendered-connections';
-import { IRoadmap } from '@type/roadmap/stores/IRoadmap';
+import { type IRoadmap } from '@type/roadmap/stores/IRoadmap';
 import { setViewport } from '@store/roadmap-refactor/misc/viewport-coords-store';
-import { Viewport } from '@type/roadmap/old/misc';
+import { type Viewport } from '@type/roadmap/old/misc';
 import miscParams from '@store/roadmap-refactor/misc/misc-params-store';
 import { roadmapSelector } from '@store/roadmap-refactor/roadmap-data/roadmap-selector';
 import { getRoadmapSelector } from '@src/typescript/roadmap_ref/roadmap-data/services/get';
@@ -82,6 +80,8 @@ export function setNodesToRender() {
 export function calculateViewportCoordinates(transform: any) {
   // Get the SVG element and its dimensions
   const svg = d3.select('#rootSvg');
+
+  // @ts-ignore
   const svgBoundingClientRect = svg.node().getBoundingClientRect();
   const { width, height } = svgBoundingClientRect;
 
@@ -113,10 +113,10 @@ export function calculateRenderedChunks(
   const viewport = calculateViewportCoordinates(transform);
   // expand the viewport to include the chunks that are partially visible
   const expandedViewport = {
-    startX: viewport.startX - chunkSize / 2,
-    startY: viewport.startY - chunkSize / 2,
-    endX: viewport.endX + chunkSize,
-    endY: viewport.endY + chunkSize,
+    startX: viewport.startX - chunkSize / 4,
+    startY: viewport.startY - chunkSize / 4,
+    endX: viewport.endX + chunkSize / 4,
+    endY: viewport.endY + chunkSize / 4,
   };
   // we calculate the chunks present on the passed viewport
   const firstChunkCoordX = Math.floor(expandedViewport.startX / chunkSize);

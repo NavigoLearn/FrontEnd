@@ -1,19 +1,22 @@
-import { IRoadmap } from '@type/roadmap/stores/IRoadmap';
+import { type IRoadmap } from '@type/roadmap/stores/IRoadmap';
 import {
-  ConnectionProps,
-  ConnectionStore,
+  type ConnectionProps,
+  type ConnectionStore,
 } from '@type/roadmap/old/connections';
-import { ResourceSubNodeProps } from '@type/roadmap/old/resources';
-import { LevelTypes, levelTypesArray } from '@type/roadmap/old/level-types';
+import { type ResourceSubNodeProps } from '@type/roadmap/old/resources';
 import {
-  NodeIdentifierTypes,
+  type LevelTypes,
+  levelTypesArray,
+} from '@type/roadmap/old/level-types';
+import {
+  type NodeIdentifierTypes,
   nodeIdentifierTypesArray,
-  NodeInfoProps,
-  NodeInfoStore,
-  NodeResourceProps,
-  NodeResourceStore,
-  NodeStore,
-  NodeTypesStore,
+  type NodeInfoProps,
+  type NodeInfoStore,
+  type NodeResourceProps,
+  type NodeResourceStore,
+  type NodeStore,
+  type NodeTypesStore,
 } from './nodes';
 
 export function isNodeInfoProps(props: any): props is NodeInfoProps {

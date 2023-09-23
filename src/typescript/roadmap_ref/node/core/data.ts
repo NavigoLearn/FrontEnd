@@ -1,24 +1,12 @@
-import {
-  IColorThemesColors,
-  IColorThemesOptions,
-} from '@type/roadmap/node/colors-types';
+import { type IColorThemesColors } from '@type/roadmap/node/colors-types';
 
 import {
-  selectNodeColorFromScheme,
-  selectNodeColorText,
-} from '@src/typescript/roadmap_ref/node/core/factories/data-mutation/services';
-import {
   DEFAULT_COLOR_THEME_OPTION,
+  DEFAULT_NODE_BACKGROUND_OPACITY,
   DEFAULT_NODE_HEIGHT,
   DEFAULT_NODE_OPACITY,
   DEFAULT_NODE_WIDTH,
 } from '@src/typescript/roadmap_ref/node/core/factories/params/default-params';
-import {
-  ITextSizeModes,
-  ITextWidthModes,
-} from '@type/roadmap/node/components-types';
-import { get } from 'http';
-import { deepCopy } from '../../utils';
 
 export class Data {
   /* Used to manage all the possible data of a node */
@@ -30,6 +18,8 @@ export class Data {
   height: number;
 
   opacity: number;
+
+  backgroundOpacity: number;
 
   center: {
     x: number;
@@ -48,6 +38,7 @@ export class Data {
     this.width = DEFAULT_NODE_WIDTH;
     this.height = DEFAULT_NODE_HEIGHT;
     this.opacity = DEFAULT_NODE_OPACITY;
+    this.backgroundOpacity = DEFAULT_NODE_BACKGROUND_OPACITY;
     this.center = {
       x: 0,
       y: 0,

@@ -1,5 +1,5 @@
 import React from 'react';
-import { PROFILE_NAME_MAX_LENGTH } from '@src/components/roadmap/to-be-organized/about/parts/character-limits';
+import { PROFILE_NAME_MAX_LENGTH } from '@src/typescript/roadmap_ref/node/components/text/text-params';
 
 type IInputComponentProps = {
   label: string;
@@ -29,7 +29,7 @@ const InputComponent = ({
   return (
     <div className='relative'>
       <input
-        className={`font-roboto-text text-md text-darkBlue w-80 monitor:w-96 h-10 monitor:h-12 rounded-md border-[1.5px] border-placeholderBlack px-3 py-5 ${
+        className={`font-roboto-text text-md text-darkBlue w-full lg:w-80 monitor:w-96 h-10 monitor:h-12 rounded-md border-[1.5px] border-placeholderBlack px-3 py-5 ${
           !editable
             ? 'pointer-events-none text-placeholder'
             : 'pointer-events-auto'

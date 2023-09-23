@@ -5,7 +5,7 @@ import {
   setPostRoadmapPostPayloadIsNotBanned,
   validateRoadmapPostPayload,
 } from '@src/api-wrapper/roadmap/stores/roadmap-payload';
-import { postRoadmapData } from '@src/api-wrapper/roadmap/routes/routes-roadmaps';
+import { fetchPostRoadmapData } from '@src/api-wrapper/roadmap/routes/routes-roadmaps';
 import { setRoadmapId } from '@store/roadmap-refactor/roadmap-data/misc-data/roadmap-about';
 
 export async function publishRoadmapProtocol(isDraft: boolean) {
@@ -17,7 +17,7 @@ export async function publishRoadmapProtocol(isDraft: boolean) {
   replaceRoadmapPostPayloadMissingWithDefaults();
   validateRoadmapPostPayload();
 
-  await postRoadmapData().then((roadmapId) => {
+  await fetchPostRoadmapData().then((roadmapId) => {
     setRoadmapId(roadmapId.id);
   });
   window.location.href = '/explore';

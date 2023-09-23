@@ -7,6 +7,7 @@ type IDisplayProperty = {
   value: number;
   onChange: (value: string) => void;
   sensitivity?: number;
+  defaultValue: number;
 };
 
 const DraggableInput = ({
@@ -14,7 +15,14 @@ const DraggableInput = ({
   value,
   onChange,
   sensitivity,
+  defaultValue,
 }: IDisplayProperty) => {
+  // if value is null, set it to defaultValue
+  if (value === null || value === undefined) {
+    value = defaultValue;
+    onChange(value.toString());
+  }
+
   const [isDragging, setIsDragging] = useState(false);
   const [mouseDownAt, setMouseDownAt] = useState(0);
   const [prevDeltaX, setPrevDeltaX] = useState(0);
@@ -25,30 +33,38 @@ const DraggableInput = ({
 
   useEffect(() => {
     const handleMouseMove = (e) => {
-      if (isDragging) {
-        const deltaX = e.clientX - mouseDownAt;
-        const step = sensitivity; // sensitivity
-        const newValue = initialValue + deltaX;
-        onChange(newValue.toString());
-        setPrevDeltaX(deltaX);
-      }
+      if (!isDragging) return;
+      const deltaX = e.clientX - mouseDownAt;
+      const step = sensitivity; // sensitivity
+      const newValue = initialValue + deltaX;
+      onChange(newValue.toString());
+      setPrevDeltaX(deltaX);
     };
 
     const throttledHandleMouseMove = throttle(handleMouseMove, 1000 / 60);
-    document.addEventListener('mousemove', throttledHandleMouseMove);
+
     const handleMouseUp = () => {
       setIsDragging(false);
       document.removeEventListener('mousemove', throttledHandleMouseMove);
       document.body.style.cursor = 'auto';
     };
 
-    document.addEventListener('mouseup', handleMouseUp);
-  }, [isDragging, mouseDownAt]);
+    if (isDragging) {
+      document.addEventListener('mousemove', throttledHandleMouseMove);
+      document.addEventListener('mouseup', handleMouseUp);
+    }
+
+    return () => {
+      document.removeEventListener('mouseup', handleMouseUp);
+      document.removeEventListener('mousemove', throttledHandleMouseMove);
+    };
+  }, [isDragging, mouseDownAt, initialValue, sensitivity, onChange]);
 
   const handleMouseDown = (e) => {
     setIsDragging(true);
     setMouseDownAt(e.clientX);
     setPrevDeltaX(0);
+    setInitialValue(value); // Update initialValue when dragging starts
     document.body.style.cursor = 'ew-resize';
   };
 
@@ -65,7 +81,6 @@ const DraggableInput = ({
     <div
       className={`flex items-center border border-transparent hover:border-gray-300 ${tailwindTransitionClass}`}
     >
-      {/* eslint-disable-next-line jsx-a11y/no-static-element-interactions */}
       <div
         ref={divRef}
         id='draggable-input'
@@ -94,4 +109,5 @@ const DraggableInput = ({
 DraggableInput.defaultProps = {
   sensitivity: 1,
 };
+
 export default DraggableInput;

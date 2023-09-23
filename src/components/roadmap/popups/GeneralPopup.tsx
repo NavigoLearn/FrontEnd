@@ -2,9 +2,6 @@ import React from 'react';
 import { setDisplayPageTypeFullScreen } from '@store/roadmap-refactor/display/display-manager-full-screen';
 import { CLOSE_SVG_SRC } from '@src/to-be-organized/svg-params';
 import { tailwindTransitionClass } from '@src/UI-library/tailwind-utils';
-import { resetRoadmapCreate } from '@store/roadmap-refactor/roadmap-data/roadmap-create';
-import { createAndSetRoadmapClassic } from '@src/typescript/roadmap_ref/roadmap-templates/classic';
-import { initialRoadmapProtocolAfterLoad } from '@components/roadmap/Roadmap';
 
 type IButtonColor = 'green' | 'red' | 'darkblue';
 type IAuthPopupProps = {
@@ -13,13 +10,16 @@ type IAuthPopupProps = {
   name: string;
   heroText: string;
   smallText: string;
+  previewContent?: JSX.Element | string;
 };
+
 const GeneralPopup = ({
   actionCallback,
   buttonType,
   name,
   heroText,
   smallText,
+  previewContent,
 }: IAuthPopupProps) => {
   const matchButtonColor = (buttonColorMatcher: IButtonColor) => {
     switch (buttonColorMatcher) {
@@ -40,8 +40,15 @@ const GeneralPopup = ({
       <h2 className='text-lg font-medium font-roboto-text  w-full flex justify-center mt-10 text-center px-2'>
         {heroText}
       </h2>
+      {previewContent && (
+        <div className='flex justify-center mt-2 w-full'>
+          <span className='p-2 text-sm font-roboto-text bg-backgroundRoadmap text-darkBlue text-center w-5/6 rounded-xl truncate text-ellipsis'>
+            {previewContent}
+          </span>
+        </div>
+      )}
       <div className='flex justify-center mt-2 w-full'>
-        <span className='text-sm font-roboto-text text-placeholder text-center w-3/4 '>
+        <span className='text-sm font-roboto-text text-placeholder text-center w-5/6 '>
           {smallText}
         </span>
       </div>
@@ -54,7 +61,7 @@ const GeneralPopup = ({
             setDisplayPageTypeFullScreen('closed');
           }}
         >
-          <img src={CLOSE_SVG_SRC} className='w-full h-full' />
+          <img src={CLOSE_SVG_SRC.src} className='w-full h-full' />
         </button>
       </section>
       <section className='flex justify-center mt-10'>
@@ -71,6 +78,10 @@ const GeneralPopup = ({
       </section>
     </div>
   );
+};
+
+GeneralPopup.defaultProps = {
+  previewContent: undefined,
 };
 
 export default GeneralPopup;

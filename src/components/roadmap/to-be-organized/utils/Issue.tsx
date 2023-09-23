@@ -5,7 +5,7 @@ const Issue = ({ title, author }: { title: string; author: string }) => {
   return (
     <div className='w-full flex my-6 relative'>
       <div className='w-10 h-10 '>
-        <img draggable="false" src={circledot} alt='issue icon' />
+        <img draggable='false' src={circledot.src} alt='issue icon' />
       </div>
       <div>
         <div className='font-semibold font-roboto-text text-main text-sm md:text-base w-full'>

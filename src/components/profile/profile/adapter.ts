@@ -1,9 +1,9 @@
-import { CardRoadmapTypeApi } from '@src/types/explore/card';
-import { ProfileDataReponse, UserData } from './profile-data';
+import { type ICardRoadmapTypeApi } from '@src/types/explore/card';
+import { type ProfileDataReponse } from './profile-data';
 
 interface IProfileDataAdapter {
   adapt(data: any): ProfileDataReponse;
-  adaptRoadmaps(data: any): CardRoadmapTypeApi[];
+  adaptRoadmaps(data: any): ICardRoadmapTypeApi[];
 }
 
 export class DefaultProfileAdapter implements IProfileDataAdapter {
@@ -38,7 +38,7 @@ export class DefaultProfileAdapter implements IProfileDataAdapter {
     };
   }
 
-  adaptRoadmaps(data: any): CardRoadmapTypeApi[] {
+  adaptRoadmaps(data: any): ICardRoadmapTypeApi[] {
     return data.map((roadmap: any) => {
       return {
         id: roadmap.id,

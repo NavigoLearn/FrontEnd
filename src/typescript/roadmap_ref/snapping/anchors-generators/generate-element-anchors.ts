@@ -1,18 +1,18 @@
-import { ICoords } from '@src/typescript/roadmap_ref/dragging/core';
+import { type ICoords } from '@src/typescript/roadmap_ref/dragging/core';
 import {
   getNodeByIdRoadmapSelector,
   getNodeCenterAbsoluteCoords,
 } from '@src/typescript/roadmap_ref/roadmap-data/services/get';
-import {ComponentClass} from "react";
-import {IComponentObject} from "@type/roadmap/node/components-types";
+import { type IComponentObject } from '@type/roadmap/node/components-types';
 
 export function getSubNodeAnchorsPositions(nodeId: string): ICoords[] {
   const corners: ICoords[] = [];
   const node = getNodeByIdRoadmapSelector(nodeId);
-  const center = { // because the node data is the center already
-    x: node.data.coords.x ,
-    y: node.data.coords.y ,
-  }
+  const center = {
+    // because the node data is the center already
+    x: node.data.coords.x,
+    y: node.data.coords.y,
+  };
 
   const { width, height } = node.data;
 
@@ -44,7 +44,6 @@ export function getSubNodeAnchorsPositions(nodeId: string): ICoords[] {
 
   return corners;
 }
-
 
 export function getNodeAnchorsPositions(nodeId: string): ICoords[] {
   const corners: ICoords[] = [];
@@ -83,17 +82,17 @@ export function getNodeAnchorsPositions(nodeId: string): ICoords[] {
 }
 
 export function getSubNodeMovedAnchorsPositions(
-    nodeId: string,
-    dragX: number,
-    dragY: number
+  nodeId: string,
+  dragX: number,
+  dragY: number
 ): ICoords[] {
   let corners: ICoords[] = [];
   const node = getNodeByIdRoadmapSelector(nodeId);
 
   const center = {
-    x:node.data.coords.x,
-    y:node.data.coords.y,
-  }
+    x: node.data.coords.x,
+    y: node.data.coords.y,
+  };
 
   const offset = {
     x: dragX - node.data.coords.x,
@@ -190,14 +189,15 @@ export function getNodeMovedAnchorsPositions(
   return corners;
 }
 
-
-export function getComponentAnchorsPositions(component: IComponentObject): ICoords[] {
+export function getComponentAnchorsPositions(
+  component: IComponentObject
+): ICoords[] {
   const corners: ICoords[] = [];
   const { width, height } = component;
   const center = {
-    x: component.x ,
-    y: component.y ,
-  }
+    x: component.x,
+    y: component.y,
+  };
 
   corners.push({
     x: center.x - width / 2,
@@ -227,18 +227,17 @@ export function getComponentAnchorsPositions(component: IComponentObject): ICoor
   return corners;
 }
 
-
 export function getComponentMovedAnchorsPositions(
-    component: IComponentObject,
-    dragX: number,
-    dragY: number
+  component: IComponentObject,
+  dragX: number,
+  dragY: number
 ): ICoords[] {
   let corners: ICoords[] = [];
 
   const center = {
-    x:component.x,
-    y:component.y,
-  }
+    x: component.x,
+    y: component.y,
+  };
 
   const offset = {
     x: dragX - component.x,

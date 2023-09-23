@@ -1,18 +1,18 @@
 import React from 'react';
 import {
-  IColorThemesColors,
-  IColorThemesOptions,
+  type IColorThemesColors,
+  type IColorThemesOptions,
 } from '@type/roadmap/node/colors-types';
 import { colorThemes } from '@src/typescript/roadmap_ref/node/core/color-themes';
 import { NodeClass } from '@src/typescript/roadmap_ref/node/core/core';
 import { mutateNodeColorAndRerender } from '@src/typescript/roadmap_ref/node/core/data-mutation/mutate';
-import { triggerRerenderEditor } from '@src/store/roadmap-refactor/elements-editing/editor-selected-data';
+import { triggerRerenderEditor } from '@store/roadmap-refactor/elements-editing/store-editor-selected-data';
 import {
   selectNodeColorText,
   selectNodeColorTextBorder,
+  selectNodeDefaultOpacity,
 } from '@src/typescript/roadmap_ref/node/core/factories/data-mutation/services';
-import { deepCopy } from '@src/typescript/roadmap_ref/utils';
-import { getCurrentRoadmap } from '../../../setup-screen/roadmap-funtions';
+import { mutateAllComponentsTextOpacity } from '@src/typescript/roadmap_ref/node/components/text/mutate';
 
 type IVariantsComponentProps = {
   selectedColor: IColorThemesColors;
@@ -31,6 +31,11 @@ const VariantsComponent = ({
     <div className='flex flex-row'>
       {Object.keys(themeDetails).map((colorKey: IColorThemesColors, index) => {
         const borderColor = selectNodeColorTextBorder(selectedTheme, colorKey);
+        const defaultOpacity = selectNodeDefaultOpacity(
+          selectedTheme,
+          colorKey
+        );
+        // console.log(defaultOpacity);
 
         const borderStyle =
           borderColor === 'none'
@@ -66,6 +71,8 @@ const VariantsComponent = ({
               border: borderStyle,
             }}
             onClick={() => {
+              // console.log(node.components, defaultOpacity);
+              mutateAllComponentsTextOpacity(node.components, defaultOpacity);
               mutateNodeColorAndRerender(node, colorKey);
               triggerRerenderEditor();
             }}

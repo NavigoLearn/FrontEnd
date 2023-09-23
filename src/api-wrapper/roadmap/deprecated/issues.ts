@@ -1,7 +1,7 @@
 import {
-  IssueApi,
-  IssueApiGet,
-  IssueCommentApiGet,
+  type IssueApi,
+  type IssueApiGet,
+  type IssueCommentApiGet,
 } from '@type/roadmap/old/Issues';
 import { errorHandlerDecorator } from '@src/typescript/error-handler';
 

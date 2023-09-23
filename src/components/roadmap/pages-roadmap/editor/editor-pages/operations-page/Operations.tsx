@@ -4,12 +4,12 @@ import ActionsSystem from '@components/roadmap/pages-roadmap/editor/editor-pages
 import TemplatesSystem from '@components/roadmap/pages-roadmap/editor/editor-pages/operations-page/templates/TemplatesSystem';
 import { operationsStore } from '@components/roadmap/pages-roadmap/editor/editor-pages/operations-page/stores/operations-store';
 import { getNodeByIdRoadmapSelector } from '@src/typescript/roadmap_ref/roadmap-data/services/get';
-import editorSelectedData from '@store/roadmap-refactor/elements-editing/editor-selected-data';
+import storeEditorSelectedData from '@store/roadmap-refactor/elements-editing/store-editor-selected-data';
 import ActionsSubNode from '@components/roadmap/pages-roadmap/editor/editor-pages/operations-page/actions/ActionsSubNode';
 
 const Operations = () => {
   const { dropdown } = useStore(operationsStore);
-  const { selectedNodeId } = useStore(editorSelectedData);
+  const { selectedNodeId } = useStore(storeEditorSelectedData);
   const node = getNodeByIdRoadmapSelector(selectedNodeId);
   const isRoot = node.flags.renderedOnRoadmapFlag;
 

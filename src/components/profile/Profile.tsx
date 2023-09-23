@@ -1,13 +1,18 @@
 import React from 'react';
 import { useIsMobile } from '@hooks/useIsMobile';
 import ProfileDesktop from '@components/profile/UI/ProfileDesktop';
+import ProfileMobile from '@components/profile/UI/ProfileMobile';
 
-const Profile = (id) => {
+type Props = {
+  id: string;
+};
+
+const Profile = ({ id }: Props) => {
   const mobile = useIsMobile();
-  if (mobile === null) return null;
+  if (mobile === undefined || mobile === null) return null;
   return (
     <div className=''>
-      {mobile ? <div>Mobile</div> : <ProfileDesktop id={id} />}
+      {mobile ? <ProfileMobile id={id} /> : <ProfileDesktop id={id} />}
     </div>
   );
 };

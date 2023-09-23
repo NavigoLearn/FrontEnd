@@ -10,25 +10,32 @@ export type IDisplayPageTypeFullScreen =
   | 'convert-to-draft'
   | 'delete-roadmap'
   | 'save-changes'
-  | 'cancel-changes';
+  | 'cancel-changes'
+  | 'unsafe-link';
 
 const displayManagerStoreFullScreen = atom({
   type: 'closed',
+  additionalData: '',
 } as {
   type: IDisplayPageTypeFullScreen;
+  additionalData: string;
 });
 
-export function setDisplayPageTypeFullScreen(type: IDisplayPageTypeFullScreen) {
+export function setDisplayPageTypeFullScreen(
+  type: IDisplayPageTypeFullScreen,
+  additionalData?: string
+) {
   const originalStore = displayManagerStoreFullScreen.get();
   displayManagerStoreFullScreen.set({
     ...originalStore,
     type,
+    additionalData: additionalData || '',
   });
 }
 
 export function getDisplayPageTypeFullScreen() {
   const originalStore = displayManagerStoreFullScreen.get();
-  return originalStore.type;
+  return originalStore;
 }
 
 export default displayManagerStoreFullScreen;

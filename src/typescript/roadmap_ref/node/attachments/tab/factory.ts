@@ -1,12 +1,8 @@
 import { AttachmentTab } from '@src/typescript/roadmap_ref/node/attachments/tab/core';
 import {
-  IAttachmentTabBulletListItem,
-  IAttachmentTabBulletListProperties,
-  IAttachmentTabComponentProperties,
-  IAttachmentTabComponentTypes,
-  IAttachmentTabDescriptionProperties,
-  IAttachmentTabLinkProperties,
-  IAttachmentTabTitleProperties,
+  type IAttachmentTabBulletListItem,
+  type IAttachmentTabComponentProperties,
+  type IAttachmentTabComponentTypes,
 } from '@type/roadmap/node/tab-types';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -26,34 +22,31 @@ export function factoryAttachmentComponent(
   type: IAttachmentTabComponentTypes
 ): IAttachmentTabComponentProperties {
   if (type === 'Title') {
-    const titleComponent: IAttachmentTabTitleProperties = {
+    return {
       type: 'Title',
       titleText: '',
       id: uuidv4(),
     };
-    return titleComponent;
   }
 
   if (type === 'Description') {
-    const descriptionComponent: IAttachmentTabDescriptionProperties = {
+    return {
       type: 'Description',
       descriptionText: '',
       id: uuidv4(),
     };
-    return descriptionComponent;
   }
 
   if (type === 'Link') {
-    const linkComponent: IAttachmentTabLinkProperties = {
+    return {
       type: 'Link',
       linkURL: 'https://www.google.com',
       id: uuidv4(),
     };
-    return linkComponent;
   }
 
   if (type === 'BulletList') {
-    const bulletListComponent: IAttachmentTabBulletListProperties = {
+    return {
       type: 'BulletList',
       bulletListItems: [
         factoryAttachmentTabBulletListElementEmpty(),
@@ -62,7 +55,6 @@ export function factoryAttachmentComponent(
       ],
       id: uuidv4(),
     };
-    return bulletListComponent;
   }
 
   throw new Error('Invalid component type');

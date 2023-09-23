@@ -21,6 +21,7 @@ module.exports = {
         darkBlue: '#1A1B50',
         secondaryBlack: 'rgb(0,0,0,0.6)',
         placeholderBlack: 'rgb(0,0,0,0.3)',
+        navbarBlue: '#182852'
       },
       borderColor: {
         light: 'rgb(0,0,0,0.3)',
@@ -32,7 +33,7 @@ module.exports = {
         placeholder: 'rgb(0,0,0,0.3)',
         darkBlue: '#1A1B50',
         secondaryDarkBlue: 'rgba(26,27,80,0.7)',
-        lightBlue: '#3361D8'
+        lightBlue: '#3361D8',
       },
       fontFamily: {
         'kanit-text': ['"Kanit"'],
@@ -54,6 +55,9 @@ module.exports = {
         'border': 'border-color',
         'allNoTransform': 'background-color, border-color, color, fill, stroke, opacity, box-shadow',
       },
+     cursor: {
+      'custom-link': "url('/linkmouse.svg'), auto",
+    },
     strokeWidth: {
       '3': '3',
       '4': '4',

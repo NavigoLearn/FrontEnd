@@ -1,8 +1,10 @@
 import { roadmapSelector } from '@store/roadmap-refactor/roadmap-data/roadmap-selector';
 import renderNodesStore from '@store/roadmap-refactor/render/rendered-nodes';
-import { ICoords } from '@src/typescript/roadmap_ref/dragging/core';
+import { type ICoords } from '@src/typescript/roadmap_ref/dragging/core';
+import { NodeClass } from '@src/typescript/roadmap_ref/node/core/core';
+import type { TemplateNode } from '@src/typescript/roadmap_ref/node/templates-system/template-core.ts';
 
-export const getNodeByIdRoadmapSelector = (id: string) => {
+export const getNodeByIdRoadmapSelector = (id: string): NodeClass => {
   return roadmapSelector.get().nodes[id];
 };
 
@@ -89,7 +91,7 @@ export const getRoadmapSelector = () => {
   return roadmapSelector.get();
 };
 
-export const getRoadmapTemplatesArray = () => {
+export const getRoadmapTemplatesArray = (): TemplateNode[] => {
   return Object.values(roadmapSelector.get().templates);
 };
 

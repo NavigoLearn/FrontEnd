@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import {
+  mutateNodeBackgroundOpacity,
   mutateNodeCoordX,
   mutateNodeCoordY,
   mutateNodeHeight,
@@ -8,9 +9,9 @@ import {
   mutateNodeWidth,
 } from '@src/typescript/roadmap_ref/node/core/data-mutation/mutate';
 import { useStore } from '@nanostores/react';
-import editorSelectedData, {
+import storeEditorSelectedData, {
   triggerRerenderEditor,
-} from '@store/roadmap-refactor/elements-editing/editor-selected-data';
+} from '@store/roadmap-refactor/elements-editing/store-editor-selected-data';
 import VariantsComponent from '@components/roadmap/pages-roadmap/editor/editor-pages/properties-page/VariantsComponent';
 import { triggerNodeRerender } from '@store/roadmap-refactor/render/rerender-triggers-nodes';
 import {
@@ -22,11 +23,11 @@ import DraggableInput from '@src/UI-library/DraggableInput';
 import DropdownWhiteSelect from '@components/roadmap/pages-roadmap/editor/reusable-components/DropdownWhiteSelect';
 import { mutateActionLink } from '@src/typescript/roadmap_ref/node/core/actions/mutate';
 import { getColorThemeFromRoadmap } from '@components/roadmap/pages-roadmap/setup-screen/theme-controler';
-import { IActionTypes } from '@src/typescript/roadmap_ref/node/core/actions/core';
 import {
   MINIMUM_NODE_HEIGHT,
   MINIMUM_NODE_WIDTH,
 } from '@src/typescript/roadmap_ref/node/core/factories/params/default-params';
+import addCircle from '@assets/editor/addCircle.svg';
 import TextInputStandard from './TextInputStandard';
 
 type IActionsDropdown = {
@@ -55,7 +56,7 @@ const ActionsDropdown = ({
         <span>{action}</span>
         <div className='h-6 w-6'>
           <img
-            src='/editor/addCircle.svg'
+            src={addCircle.src}
             className='w-full h-full'
             alt='Dropdown for selecting actions'
           />
@@ -89,7 +90,7 @@ const ActionsDropdown = ({
 };
 
 const Properties = () => {
-  const { selectedNodeId } = useStore(editorSelectedData);
+  const { selectedNodeId } = useStore(storeEditorSelectedData);
   const node = getNodeByIdRoadmapSelector(selectedNodeId);
   const { data } = node;
 
@@ -118,6 +119,7 @@ const Properties = () => {
           <DraggableInput
             name='X'
             value={data.coords.x}
+            defaultValue={0}
             onChange={(value) => {
               const newValue = parseInt(value, 10);
               mutateNodeCoordX(node, newValue);
@@ -129,6 +131,7 @@ const Properties = () => {
           <DraggableInput
             name='Y'
             value={data.coords.y}
+            defaultValue={0}
             onChange={(value) => {
               const newValue = parseInt(value, 10);
               if (checkInvalidInput(value)) return;
@@ -142,6 +145,7 @@ const Properties = () => {
           <DraggableInput
             name='W'
             value={data.width}
+            defaultValue={200}
             onChange={(value) => {
               let newValue = parseInt(value, 10);
               if (checkInvalidInput(value)) return;
@@ -164,6 +168,7 @@ const Properties = () => {
           <DraggableInput
             name='H'
             value={data.height}
+            defaultValue={50}
             onChange={(value) => {
               let newValue = parseInt(value, 10);
               if (checkInvalidInput(value)) return;
@@ -195,10 +200,30 @@ const Properties = () => {
           selectedTheme={getColorThemeFromRoadmap()}
           node={node}
         />
-        <div className='flex flex-row gap-2 mt-2'>
+        <div className='flex flex-row justify-start mt-2 mr-6'>
+          {/* <DraggableInput */}
+          {/*  name='Opacity' */}
+          {/*  value={data.opacity} */}
+          {/*  defaultValue={100} */}
+          {/*  onChange={(value) => { */}
+          {/*    let newValue = parseInt(value, 10); */}
+          {/*    if (checkInvalidInput(value)) return; */}
+          {/*    if (newValue < 0) { */}
+          {/*      newValue = 0; */}
+          {/*    } */}
+          {/*    if (newValue > 100) { */}
+          {/*      newValue = 100; */}
+          {/*    } */}
+          {/*    mutateNodeOpacity(node, newValue); */}
+          {/*    triggerRerenderEditor(); */}
+          {/*    triggerNodeRerender(node.id); */}
+          {/*  }} */}
+          {/*  sensitivity={1} */}
+          {/* /> */}
           <DraggableInput
-            name='Opacity'
-            value={data.opacity}
+            name='Fill Opacity'
+            value={data.backgroundOpacity}
+            defaultValue={100}
             onChange={(value) => {
               let newValue = parseInt(value, 10);
               if (checkInvalidInput(value)) return;
@@ -208,7 +233,7 @@ const Properties = () => {
               if (newValue > 100) {
                 newValue = 100;
               }
-              mutateNodeOpacity(node, newValue);
+              mutateNodeBackgroundOpacity(node, newValue);
               triggerRerenderEditor();
               triggerNodeRerender(node.id);
             }}

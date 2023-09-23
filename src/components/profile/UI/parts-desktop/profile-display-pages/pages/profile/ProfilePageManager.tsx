@@ -1,22 +1,16 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { useStore } from '@nanostores/react';
 import {
-  storeProfilePages,
+  storeSelectedProfilePage,
   setProfilePageEditing,
-} from '@src/components/profile/stores/store-profile-pages';
-import {
-  getOwnProfile,
-  getProfileDataLoading,
-  profileDataStore,
-} from '@src/components/profile/stores/store-profile-data';
-import { get } from 'http';
+} from '@components/profile/stores/store-selected-profile-page';
+import { storeProfileData } from '@src/components/profile/stores/store-profile-data';
 import ProfilePageView from './ProfilePageView';
 import ProfilePageEdit from './ProfilePageEdit';
 
 const ProfilePageManager = () => {
-  const { isEditing } = useStore(storeProfilePages);
-  const { ownProfile } = useStore(profileDataStore);
-  //   console.log(getOwnProfile());
+  const { isEditing } = useStore(storeSelectedProfilePage);
+  const { ownProfile } = useStore(storeProfileData);
 
   return (
     <div className='ml-14 mt-6'>

@@ -1,0 +1,31 @@
+---
+import Navbar from '@components/navbar/Navbar';
+import '@fontsource/kanit';
+import '@fontsource/oxygen';
+import {PageMeta} from '../types/misc/PageMeta';
+
+export interface Props {
+    metadata?: PageMeta;
+    excludeFooter?: boolean;
+}
+
+const {metadata, excludeFooter} = Astro.props;
+
+if (metadata !== undefined)
+    metadata.title =
+        metadata?.title !== undefined
+            ? `${metadata.title} | NavigoLearn`
+            : 'NavigoLearn';
+---
+
+
+<html lang='en' class='overflow-x-hidden'>
+
+<body class='bg-background relative w-full min-h-screen font-kanit-text'>
+<Navbar client:load />
+
+<slot/>
+
+</body>
+</html>
+

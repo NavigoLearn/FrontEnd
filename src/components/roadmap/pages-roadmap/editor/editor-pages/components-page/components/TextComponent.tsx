@@ -1,18 +1,20 @@
 import React, { useState } from 'react';
 import { deleteComponentWithId } from '@src/typescript/roadmap_ref/node/core/data-mutation/delete';
-import { tailwindTransitionClass } from '@src/UI-library/tailwind-utils';
 import {
   getComponentTextById,
   getComponentTextText,
 } from '@src/typescript/roadmap_ref/node/core/data-get/components';
 import {
   mutateComponentTextText,
-  mutateComponentTextWidth,
+  mutateComponentTextOpacity,
 } from '@src/typescript/roadmap_ref/node/components/text/mutate';
 import { useTriggerRerender } from '@hooks/useTriggerRerender';
 import { NodeClass } from '@src/typescript/roadmap_ref/node/core/core';
 import { triggerNodeRerender } from '@store/roadmap-refactor/render/rerender-triggers-nodes';
 import TrashIcon from '@src/UI-library/svg-components/trash/TrashIcon';
+import DraggableInput from '@src/UI-library/DraggableInput';
+import { triggerRerenderEditor } from '@store/roadmap-refactor/elements-editing/store-editor-selected-data';
+import arrowDropdown from '@assets/roadmap/arrow-dropdown.svg';
 import TextSizeComponent from '../text-controler/TextSizeComponent';
 import TextWeightComponent from '../text-controler/TextWeightComponent';
 import TextInputStandard from '../../properties-page/TextInputStandard';
@@ -25,8 +27,7 @@ type TitleComponentProps = {
 
 function checkInvalidInput(value: string) {
   const newValue = parseInt(value, 10);
-  if (typeof newValue !== 'number' || Number.isNaN(newValue)) return true;
-  return false;
+  return typeof newValue !== 'number' || Number.isNaN(newValue);
 }
 
 const TextComponent = ({ node, id, name }: TitleComponentProps) => {
@@ -73,7 +74,7 @@ const TextComponent = ({ node, id, name }: TitleComponentProps) => {
         </span>
         <img
           alt='arrow dropdown'
-          src='/roadmap/arrow-dropdown.svg'
+          src={arrowDropdown.src}
           className={`w-7 h-7 transition-all duration-200 ${
             showElement ? 'rotate-180' : ''
           }`}
@@ -83,6 +84,23 @@ const TextComponent = ({ node, id, name }: TitleComponentProps) => {
         <div className='flex flex-row ml-1.5'>
           <TextSizeComponent component={titleComponent} nodeId={node.id} />
           <TextWeightComponent component={titleComponent} nodeId={node.id} />
+          <div className='h-8 mt-4'>
+            <DraggableInput
+              name='Opacity'
+              value={titleComponent.opacity}
+              defaultValue={100}
+              onChange={(value) => {
+                let displayedValue = parseInt(value, 10);
+                if (checkInvalidInput(value)) return;
+                if (displayedValue < 0) displayedValue = 0;
+                if (displayedValue > 100) displayedValue = 100;
+
+                mutateComponentTextOpacity(titleComponent, displayedValue);
+                triggerRerenderEditor();
+                triggerNodeRerender(node.id);
+              }}
+            />
+          </div>
         </div>
       )}
     </div>

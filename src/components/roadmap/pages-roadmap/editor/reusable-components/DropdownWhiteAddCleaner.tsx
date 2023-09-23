@@ -3,7 +3,7 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { tailwindTransitionClass } from '@src/UI-library/tailwind-utils';
 import { useClickOutside } from '@hooks/useClickOutside';
 import { useInvisibleSearch } from '@hooks/useInvisibleSearch';
-import { defocusAll } from '@src/typescript/roadmap_ref/node/core/misc';
+import addCircle from '@assets/editor/addCircle.svg';
 
 type IOption = {
   id: string;
@@ -108,7 +108,7 @@ const DropdownWhiteAdd = ({
         </span>
         <img
           alt='arrow dropdown'
-          src='/editor/addCircle.svg'
+          src={addCircle.src}
           className={` w-7 h-7 ${tailwindTransitionClass} absolute right-2`}
         />
       </button>

@@ -1,7 +1,7 @@
 import React from 'react';
 import { useStore } from '@nanostores/react';
 import {
-  IBasePopup,
+  type IBasePopup,
   setBasePopup,
   storeBasePopups,
 } from '@components/shared/stores/store-base-popups';
@@ -38,6 +38,7 @@ const SelectedPopup = ({ page }: { page: IBasePopup }) => {
 const BasePopupManager = () => {
   const { basePopup } = useStore(storeBasePopups);
   if (basePopup === 'none') return null;
+
   return (
     <div className='h-screen w-screen bg-coverColor absolute left-0 top-0 z-30 flex justify-center items-center'>
       <div className='flex justify-center items-center'>

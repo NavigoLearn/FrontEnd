@@ -1,9 +1,10 @@
 import { ComponentText } from '@src/typescript/roadmap_ref/node/components/text/core';
 import { decoratorTriggerRerenderEditor } from '@src/typescript/roadmap_ref/node/decorators/rerenders';
 import {
-  ITextSizeModes,
-  ITextWidthModes,
+  type ITextSizeModes,
+  type ITextWidthModes,
 } from '@src/types/roadmap/node/components-types';
+import { setLastOpacity } from '@src/to-be-organized/components-store';
 
 export function mutateComponentTextWidth(
   component: ComponentText,
@@ -38,7 +39,6 @@ export function mutateComponentTextSize(
   textSize: keyof ITextSizeModes
 ) {
   component.textSize = textSize;
-  console.log(component.textSize);
 }
 
 export function mutateComponentTextWeight(
@@ -46,5 +46,21 @@ export function mutateComponentTextWeight(
   textWeight: keyof ITextWidthModes
 ) {
   component.textWeight = textWeight;
-  console.log(component.textWeight);
+}
+
+export function mutateComponentTextOpacity(
+  component: ComponentText,
+  opacity: number
+) {
+  component.opacity = opacity;
+  setLastOpacity(opacity);
+}
+
+export function mutateAllComponentsTextOpacity(
+  components: ComponentText[],
+  opacity: number
+) {
+  components.forEach((component) => {
+    mutateComponentTextOpacity(component, opacity);
+  });
 }

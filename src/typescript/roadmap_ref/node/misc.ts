@@ -2,7 +2,7 @@ import { getNodeByIdRoadmapSelector } from '@src/typescript/roadmap_ref/roadmap-
 import { NodeClass } from '@src/typescript/roadmap_ref/node/core/core';
 import { triggerNodeRerender } from '@store/roadmap-refactor/render/rerender-triggers-nodes';
 import { clipValue } from '@src/typescript/roadmap_ref/utils';
-import { MAX_NAME_LENGTH } from '@src/typescript/roadmap_ref/node/components/text/params';
+import { MAX_NAME_LENGTH } from '@src/typescript/roadmap_ref/node/components/text/text-params';
 
 export function nodeNameSyncer(nodeId: string, newValue: string) {
   const node: NodeClass = getNodeByIdRoadmapSelector(nodeId);

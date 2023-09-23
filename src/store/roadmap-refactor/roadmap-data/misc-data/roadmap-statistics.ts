@@ -1,5 +1,5 @@
 import { atom } from 'nanostores';
-import { IRoadmapApi } from '@type/explore_old/card';
+import { type IRoadmapApi } from '@type/explore_old/card';
 
 export type IRoadmapStatistics = {
   loaded: boolean;
@@ -59,7 +59,6 @@ export function adapterRoadmapToStatistics(
 ): IRoadmapStatistics {
   const { likeCount, viewCount, isLiked } = roadmap;
 
-  console.log('likeCount', likeCount, isLiked, roadmap);
   const loaded = true;
   return {
     likes: parseInt(likeCount, 10),

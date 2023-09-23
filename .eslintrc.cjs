@@ -63,6 +63,7 @@ module.exports = {
           1,
           { extensions: ['.js', '.jsx', '.tsx'] },
         ],
+        'react/react-in-jsx-scope': 'off',
         'import/no-extraneous-dependencies': 'off',
         'import/prefer-default-export': 'off',
         'max-classes-per-file': 'off',
@@ -84,16 +85,18 @@ module.exports = {
       },
     },
     {
-      extends: [
-        'plugin:astro/all',
-        'plugin:@typescript-eslint/recommended',
-        'plugin:jsx-a11y/recommended',
-      ],
       files: ['*.astro'],
+      plugins: ["astro"],
+      env: {
+        node: true,
+        "astro/astro": true,
+        es2020: true,
+      },
       parser: 'astro-eslint-parser',
       parserOptions: {
         parser: '@typescript-eslint/parser',
         extraFileExtensions: ['.astro'],
+        sourceType: "module",
       },
       rules: {
         'jsx-quotes': ['error', 'prefer-single'],

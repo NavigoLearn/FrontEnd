@@ -1,7 +1,7 @@
 import {
   DraggingBehavior,
-  ICoords,
-  IDraggingStrategies,
+  type ICoords,
+  type IDraggingStrategies,
 } from '@src/typescript/roadmap_ref/dragging/core';
 
 function freeDraggingStrategy(

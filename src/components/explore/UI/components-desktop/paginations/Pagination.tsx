@@ -6,6 +6,7 @@ type IPaginationProps = {
   currentPage: number;
   roadmapsPerPage: number;
   totalRoadmaps: number;
+  isMobile?: boolean;
 };
 
 export function calculatePages(
@@ -41,6 +42,7 @@ const Pagination = ({
   currentPage,
   roadmapsPerPage,
   totalRoadmaps,
+  isMobile,
 }: IPaginationProps) => {
   const totalPages = 8; // total number of displayed pages
 
@@ -84,18 +86,24 @@ const Pagination = ({
           );
         })}
       </div>
-      <div className='absolute -left-72 top-0 flex gap-2 items-center h-full'>
-        <span className='font-roboto-text font-medium text-secondary'>
-          {roadmapIndexStart} - {roadmapIndexEnd}
-        </span>
-        <span className='font-roboto-text text-placeholder'>of</span>
-        <span className='font-roboto-text font-medium text-secondary'>
-          {totalRoadmaps}
-        </span>
-        <span className='font-roboto-text text-placeholder'>roadmaps</span>
-      </div>
+      {!isMobile && (
+        <div className='absolute -left-72 top-0 flex gap-2 items-center h-full'>
+          <span className='font-roboto-text font-medium text-secondary'>
+            {roadmapIndexStart} - {roadmapIndexEnd}
+          </span>
+          <span className='font-roboto-text text-placeholder'>of</span>
+          <span className='font-roboto-text font-medium text-secondary'>
+            {totalRoadmaps}
+          </span>
+          <span className='font-roboto-text text-placeholder'>roadmaps</span>
+        </div>
+      )}
     </div>
   );
+};
+
+Pagination.defaultProps = {
+  isMobile: false,
 };
 
 export default Pagination;

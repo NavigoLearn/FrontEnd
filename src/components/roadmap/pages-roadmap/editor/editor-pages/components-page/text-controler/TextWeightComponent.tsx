@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ITextWeight } from '@src/types/roadmap/node/text-types';
+import { type ITextWeight } from '@src/types/roadmap/node/text-types';
 import { mutateComponentTextWeight } from '@src/typescript/roadmap_ref/node/components/text/mutate';
 import { ComponentText } from '@src/typescript/roadmap_ref/node/components/text/core';
 import { triggerNodeRerender } from '@src/store/roadmap-refactor/render/rerender-triggers-nodes';
@@ -74,6 +74,7 @@ const TextWeightComponent = ({
             </div>
           </label>
         ))}
+        <div className='border-l border-rgb(0,0,0,0.6) mx-2' />
       </div>
     </div>
   );

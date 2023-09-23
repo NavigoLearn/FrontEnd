@@ -1,12 +1,16 @@
 import {
-  ISnapDelta,
-  ISnapPolynomialObject,
+  type ISnapDelta,
+  type ISnapPolynomialObject,
 } from '@src/typescript/roadmap_ref/snapping/snapping-types';
-import { ICoords } from '@src/typescript/roadmap_ref/dragging/core';
+import { type ICoords } from '@src/typescript/roadmap_ref/dragging/core';
 import { evaluatePolynomialXDelta } from '@src/typescript/roadmap_ref/snapping/evaluators/evaluate-polynomials';
 import { BASE_SNAPPING_DISTANCE } from '@src/typescript/roadmap_ref/snapping/snapping-params';
+import {
+  type ICoordsCustom,
+  typeAssertICoordsCustom,
+} from '@src/typescript/roadmap_ref/snapping/anchors-generators/generate-resizing-anchors';
 
-export function calculateAnchorDeltasXToPolynomials(
+export function calculateAnchorDeltasToPolynomials(
   snapPolynomials: ISnapPolynomialObject[],
   anchor: ICoords
 ) {
@@ -32,18 +36,31 @@ export function getSmallestDelta(deltas: ISnapDelta[]) {
     return null;
   }
   deltas.sort((a, b) => Math.abs(a.delta) - Math.abs(b.delta));
-  const smallestDelta = deltas[0];
-  return smallestDelta;
+  return deltas[0];
 }
 
-export function calculateAnchorsDeltasXToPolynomials(
+export function calculateAnchorsDeltasToPolynomials(
   snapPolynomials: ISnapPolynomialObject[],
-  anchors: ICoords[]
+  anchors: (ICoords | ICoordsCustom)[],
+  snapType?: 'x' | 'y'
 ) {
   const deltas: ISnapDelta[] = [];
   for (let i = 0; i < anchors.length; i += 1) {
     const anchor = anchors[i];
-    const anchorDeltas = calculateAnchorDeltasXToPolynomials(
+
+    if (typeAssertICoordsCustom(anchor)) {
+      if (anchor.snapOnY === false && snapType === 'y') {
+        // eslint-disable-next-line no-continue
+        continue;
+      }
+
+      if (anchor.snapOnX === false && snapType === 'x') {
+        // eslint-disable-next-line no-continue
+        continue;
+      }
+    }
+
+    const anchorDeltas = calculateAnchorDeltasToPolynomials(
       snapPolynomials,
       anchor
     );

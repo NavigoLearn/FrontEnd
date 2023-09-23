@@ -1,6 +1,6 @@
 import {
   requestButton,
-  IButtonsRoadmapNavbarOptions,
+  type IButtonsRoadmapNavbarOptions,
 } from '@components/roadmap/navbar-roadmap/parts/buttons/buttons-arrays/buttons-requester';
 
 const buttonsPublicLoggedVisitorArray: IButtonsRoadmapNavbarOptions[] = [
@@ -20,9 +20,11 @@ const buttonsPublicOwnerArray: IButtonsRoadmapNavbarOptions[] = [
   'convert-to-draft',
   'delete',
 ];
-export const buttonsPublicOwnerView = buttonsPublicOwnerArray.map((buttonType) => {
-  return requestButton(buttonType);
-});
+export const buttonsPublicOwnerView = buttonsPublicOwnerArray.map(
+  (buttonType) => {
+    return requestButton(buttonType);
+  }
+);
 
 const buttonsPublicAnonymusArray: IButtonsRoadmapNavbarOptions[] = [
   'get-started',

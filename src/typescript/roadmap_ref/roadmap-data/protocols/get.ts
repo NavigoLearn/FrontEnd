@@ -4,6 +4,7 @@ import {
   getRoadmapSelector,
 } from '@src/typescript/roadmap_ref/roadmap-data/services/get';
 import { getRenderedRootNodesIds } from '@store/roadmap-refactor/render/rendered-nodes';
+import { NodeClass } from '@src/typescript/roadmap_ref/node/core/core';
 
 export const getChildrenRenderedTraceback = (nodeId: string) => {
   // only gets rendered children
@@ -43,6 +44,6 @@ export const getAllRenderedNodes = () => {
   nodesIds.forEach((nodeId) => {
     allNodesIds.push(...getAllSubNodes(nodeId));
   });
-  const nodes = allNodesIds.map((nodeId) => roadmap.nodes[nodeId]);
+  const nodes: NodeClass[] = allNodesIds.map((nodeId) => roadmap.nodes[nodeId]);
   return nodes;
 };

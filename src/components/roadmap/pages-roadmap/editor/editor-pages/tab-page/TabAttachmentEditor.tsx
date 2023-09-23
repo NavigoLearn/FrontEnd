@@ -2,12 +2,12 @@ import React, { useEffect, useRef, useState } from 'react';
 import HOCOnChange from '@src/HOC-library/store-based-hoc/OnChangeStore';
 import { componentMapper } from '@components/roadmap/pages-roadmap/editor/editor-pages/tab-page/logic';
 import { useStore } from '@nanostores/react';
-import editorSelectedData, {
+import storeEditorSelectedData, {
   triggerRerenderEditor,
-} from '@store/roadmap-refactor/elements-editing/editor-selected-data';
+} from '@store/roadmap-refactor/elements-editing/store-editor-selected-data';
 import { getAttachmentByIndex } from '@src/typescript/roadmap_ref/node/core/data-get/attachments';
-import { IAttachmentTabComponentTypes } from '@type/roadmap/node/tab-types';
-import { IAttachmentPageStatus } from '@store/roadmap-refactor/display/editor/attachment-page-status';
+import { type IAttachmentTabComponentTypes } from '@type/roadmap/node/tab-types';
+import { type IAttachmentPageStatus } from '@store/roadmap-refactor/display/editor/attachment-page-status';
 import { getNodeByIdRoadmapSelector } from '@src/typescript/roadmap_ref/roadmap-data/services/get';
 import { AnimatePresence, motion } from 'framer-motion';
 
@@ -57,7 +57,7 @@ const PreviewButton = ({ onChange }: IPreviewButtonProps) => {
 };
 
 const TabAttachmentEditor = ({ onChange, value }: ITabAttachmentProps) => {
-  const { selectedNodeId } = useStore(editorSelectedData);
+  const { selectedNodeId } = useStore(storeEditorSelectedData);
   const node = getNodeByIdRoadmapSelector(selectedNodeId);
   const attachment = getAttachmentByIndex(node, 0);
   const { isEditing } = value;

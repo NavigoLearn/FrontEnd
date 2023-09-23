@@ -1,5 +1,5 @@
 import React from 'react';
-import { IAttachmentTabDescriptionProperties } from '@type/roadmap/node/tab-types';
+import { type IAttachmentTabDescriptionProperties } from '@type/roadmap/node/tab-types';
 
 type IDescriptionComponentProps = {
   component: IAttachmentTabDescriptionProperties;

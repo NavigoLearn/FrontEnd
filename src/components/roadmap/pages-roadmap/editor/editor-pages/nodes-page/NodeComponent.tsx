@@ -8,7 +8,7 @@ import {
   mutateNodeWidth,
 } from '@src/typescript/roadmap_ref/node/core/data-mutation/mutate';
 import { useStore } from '@nanostores/react';
-import { triggerRerenderEditor } from '@store/roadmap-refactor/elements-editing/editor-selected-data';
+import { triggerRerenderEditor } from '@store/roadmap-refactor/elements-editing/store-editor-selected-data';
 import { NodeClass } from '@src/typescript/roadmap_ref/node/core/core';
 import { roadmapSelector } from '@store/roadmap-refactor/roadmap-data/roadmap-selector';
 import { triggerNodeRerender } from '@store/roadmap-refactor/render/rerender-triggers-nodes';
@@ -47,6 +47,7 @@ const NodeProperties = ({ node }: INodeProperties) => {
         <DraggableInput
           name='X'
           value={data.coords.x}
+          defaultValue={0}
           onChange={(value) => {
             const newValue = parseInt(value, 10);
             if (checkInvalidInput(value)) return;
@@ -59,6 +60,7 @@ const NodeProperties = ({ node }: INodeProperties) => {
         <DraggableInput
           name='Y'
           value={data.coords.y}
+          defaultValue={0}
           onChange={(value) => {
             const newValue = parseInt(value, 10);
             if (checkInvalidInput(value)) return;
@@ -72,6 +74,7 @@ const NodeProperties = ({ node }: INodeProperties) => {
         <DraggableInput
           name='W'
           value={data.width}
+          defaultValue={200}
           onChange={(value) => {
             const newValue = parseInt(value, 10);
             if (checkInvalidInput(value)) return;
@@ -84,6 +87,7 @@ const NodeProperties = ({ node }: INodeProperties) => {
         <DraggableInput
           name='H'
           value={data.height}
+          defaultValue={50}
           onChange={(value) => {
             const newValue = parseInt(value, 10);
             if (checkInvalidInput(value)) return;

@@ -12,7 +12,9 @@ const IssueButton = () => {
     <div className='flex relative'>
       <button
         type='button'
-        className={`${active ? classActive : classInactive} ${leftBorders} select-none`}
+        className={`${
+          active ? classActive : classInactive
+        } ${leftBorders} select-none`}
         onClick={() => {
           setActive(true);
         }}
@@ -21,7 +23,9 @@ const IssueButton = () => {
       </button>
       <button
         type='button'
-        className={`${active ? classInactive : classActive} ${rightBorders} select-none`}
+        className={`${
+          active ? classInactive : classActive
+        } ${rightBorders} select-none`}
         onClick={() => {
           setActive(false);
         }}

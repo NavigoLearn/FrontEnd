@@ -1,8 +1,8 @@
-import { User } from '@type/user/types';
+import { type User } from '@type/user/types';
 
 export const a = 1;
 export const checkIsTypeUser = (obj: any): obj is User => {
-  if (
+  return (
     'userId' in obj &&
     'profilePictureUrl' in obj &&
     'name' in obj &&
@@ -12,8 +12,5 @@ export const checkIsTypeUser = (obj: any): obj is User => {
     'websiteUrl' in obj &&
     'bio' in obj &&
     'roadmapsCount' in obj
-  ) {
-    return true;
-  }
-  return false;
+  );
 };

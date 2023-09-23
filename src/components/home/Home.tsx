@@ -1,34 +1,16 @@
-import React, { useCallback, useEffect, useRef } from 'react';
-import useStateAndRef from '@hooks/useStateAndRef';
+import React from 'react';
+import { useIsMobile } from '@hooks/useIsMobile';
+import HomeMobile from '@components/home/mobile/HomeMobile';
+import HomeDesktop from '@components/home/desktop/HomeDesktop';
 
 const Home = () => {
-  const [state, setState, stateRef] = useStateAndRef(0);
-  const divRef = useRef(null);
-
-  useEffect(() => {
-    window.location.href = '/explore';
-  }, []); 
-
-  function MyComponent() {
-
-  const func = useCallback(() => {
-    console.log('state', state);
-  }, []);
-
-  useEffect(() => {
-    document.addEventListener('click', func);
-  }, [state]);
-
+  const mobile = useIsMobile();
+  console.log('mobile home', mobile, !!mobile);
   return (
     <div>
-      <div
-        ref={divRef}
-        className='w-32 h-32 bg-red-400 '
-        onClick={() => {
-          setState((prev) => prev + 1);
-        }}
-      />
-      home page
+      {mobile !== null && mobile !== undefined && (
+        <div>{mobile ? <HomeMobile /> : <HomeDesktop />}</div>
+      )}
     </div>
   );
 };
