@@ -119,6 +119,7 @@ const ActionsSystem = () => {
   const isRoot = getRootGlobalId() === node.id;
 
   const rawTemplates = getRoadmapTemplatesArray();
+
   const templatesJSONAddChild = formatTemplatesAddChild(rawTemplates, node.id);
   const templatesJSONAddParent = formatTemplatesAddParent(
     rawTemplates,

@@ -190,6 +190,7 @@ export function appendNodeTemplateBase(
 
   applyRoadmapElementsRechunkedDraggability();
   closeEditorProtocol();
+  return newNode;
 }
 
 export function addChildTemplateToRoadmap(
@@ -236,29 +237,44 @@ export function addParentTemplateToRoadmap(
   const parentNode = getNodeByIdRoadmapSelector(parentId);
 
   appendSubNodesTemplateToRoadmap(newNodes, newBaseId);
-
   appendNodeTemplateBase(parentNode, deepCopy(newNodes[newBaseId]));
 
-  const newNode = newNodes[newBaseId];
+  // const newNode = newNodes[newBaseId];
+  const newNode = getNodeByIdRoadmapSelector(newBaseId);
+
   newNode.data.coords.x =
     (parentNode.data.coords.x + targetNode.data.coords.x) / 2;
   newNode.data.coords.y =
     (parentNode.data.coords.y + targetNode.data.coords.y) / 2;
 
+  targetNode.properties.parentId = newNode.id;
+  newNode.properties.childrenIds = [targetNode.id];
+
   // find connection between target and parent
   const parentTargetConnection = targetNode.connections.find((connection) => {
     const result = getConnectionByIdRoadmapSelector(connection);
-
     return result.from === parentNode.id || result.to === parentNode.id;
   });
 
   // set from to the new node
-  targetNode.properties.parentId = newNode.id;
   getConnectionByIdRoadmapSelector(parentTargetConnection).from = newNode.id;
 
-  // rerender parent and target node
-  triggerNodeRerender(targetNode.id);
-  triggerNodeRerender(parentNode.id);
+  // add parent target connection to new node
+  newNode.connections.push(parentTargetConnection);
+  console.log('new node', deepCopy(newNode));
+  // newNode.properties.childrenIds.push(targetNodeId);
+  if (newNode.properties.childrenIds.length > 1) {
+    console.warn('children in new node', newNode.properties.childrenIds);
+    throw new Error(
+      'more than one child in append between parent, data flow breaks somewhere'
+    );
+  }
+
+  console.log('new node', deepCopy(newNode));
+  console.log('target node', deepCopy(targetNode));
+  console.log('parent node', deepCopy(parentNode));
+
+  console.log(deepCopy(getRoadmapSelector()));
   // triggerAllConnectionsRerender();
   return newBaseId;
 }
