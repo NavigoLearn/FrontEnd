@@ -49,13 +49,9 @@ import {
   recalculateNodeCenter,
   recalculateNodeChunks,
 } from '@src/typescript/roadmap_ref/node/core/calculations/general';
-import { afterEventLoop, getRandomId } from '@src/typescript/utils/misc';
+import { getRandomId } from '@src/typescript/utils/misc';
 import { addDraggingBehaviorComponentProtocol } from '@src/typescript/roadmap_ref/node/components/text/factories';
-import { mutateConnectionsIds } from '@src/typescript/roadmap_ref/roadmap-data/services/mutate';
-import {
-  mutateNodeColor,
-  mutateNodeColorAndRerender,
-} from '@src/typescript/roadmap_ref/node/core/data-mutation/mutate';
+import { mutateNodeColor } from '@src/typescript/roadmap_ref/node/core/data-mutation/mutate';
 import { closeEditorProtocol } from '@src/to-be-organized/node-rendering-stuff/actions-manager';
 
 export function appendSubNode(node: NodeClass) {
@@ -209,6 +205,14 @@ export function addChildTemplateToRoadmap(
   const parentNode = getNodeByIdRoadmapSelector(parentNodeId);
   appendNodeTemplateBase(parentNode, deepCopy(newNodes[newBaseId]));
   return newBaseId;
+}
+
+export function addParentTemplateToRoadmap(
+  targetNodeId: string,
+  templateId: string
+): string {
+  console.error('not implemented');
+  return '';
 }
 
 export function appendNodeToRoadmapNodes(node: NodeClass) {
