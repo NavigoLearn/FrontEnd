@@ -53,6 +53,7 @@ import { getRandomId } from '@src/typescript/utils/misc';
 import { addDraggingBehaviorComponentProtocol } from '@src/typescript/roadmap_ref/node/components/text/factories';
 import { mutateNodeColor } from '@src/typescript/roadmap_ref/node/core/data-mutation/mutate';
 import { closeEditorProtocol } from '@src/to-be-organized/node-rendering-stuff/actions-manager';
+import { setNotification } from '@components/roadmap/to-be-organized/notifications/notifciations-refr/notification-store-refr';
 
 export function appendSubNode(node: NodeClass) {
   const newNestedNode = factorySubNode(node.id, 120, 40, 0, 0); // creates node
@@ -211,8 +212,30 @@ export function addParentTemplateToRoadmap(
   targetNodeId: string,
   templateId: string
 ): string {
-  console.error('not implemented');
-  return '';
+  const template = getTemplateById(templateId);
+  const { nodes } = template.roadmapImage;
+
+  const { nodes: newNodes, baseNodeId: newBaseId } = mutateNodesIds(
+    deepCopy(nodes),
+    template.baseNodeId
+  );
+
+  // get target node
+  const targetNode = getNodeByIdRoadmapSelector(targetNodeId);
+  const { parentId } = targetNode.properties;
+
+  // if node is root node
+  if (parentId === '') {
+    setNotification('error', 'Cannot add parent to root node');
+    return targetNodeId;
+  }
+
+  // get parent node
+  const parentNode = getNodeByIdRoadmapSelector(parentId);
+
+  console.error('Not implemented yet');
+
+  return targetNodeId;
 }
 
 export function appendNodeToRoadmapNodes(node: NodeClass) {

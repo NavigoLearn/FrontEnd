@@ -179,20 +179,9 @@ const ActionsSystem = () => {
       <div className='flex gap-6 w-full relative pb-4 '>
         <div
           className={`w-48 relative  ${
-            dropdown === 'add-child' ? 'z-20' : 'z-10'
+            dropdown === 'add-parent' ? 'z-20' : 'z-10'
           }`}
         >
-          {/* <DropdownWhiteAddCleaner
-            dropdownName='Add child'
-            options={[...templatesJSONAddChild]}
-            dropdownCallback={(hasOpened) => {
-              if (hasOpened) {
-                setOperationsDropdown('add-child');
-              } else {
-                setOperationsDropdown('none');
-              }
-            }}
-          /> */}
           <DropdownPlusSelection
             dropdownName='Add parent'
             options={[...templatesJSONAddParent]}
