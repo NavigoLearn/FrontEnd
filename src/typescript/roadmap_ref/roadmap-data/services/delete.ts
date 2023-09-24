@@ -11,7 +11,7 @@ export function deleteNodeFromChunk(nodeId: string, chunkId: string) {
 
 export function deleteNodeFromChunks(node: NodeClass) {
   const { chunksIds } = node.properties;
-  if (typeof chunksIds === 'undefined') return;
+  // if (typeof chunksIds === 'undefined') return;
   chunksIds.forEach((chunkId) => {
     deleteNodeFromChunk(node.id, chunkId);
   });
