@@ -16,7 +16,7 @@ const ProfilePicAndNameNavM = () => {
             alt='avatar'
           />
         </div>
-        <p className='inline-block font-medium font-roboto-text text-[5vw] top-12 w-[30vw] text-center px-1 text-white text-ellipsis whitespace-nowrap overflow-hidden h-[8vw]'>
+        <p className='inline-block font-medium font-roboto-text text-[5vw] top-12 w-[30vw] text-start px-1 text-white text-ellipsis whitespace-nowrap overflow-hidden h-[8vw]'>
           {name}
         </p>
       </div>
