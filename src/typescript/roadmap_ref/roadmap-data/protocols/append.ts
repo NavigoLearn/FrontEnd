@@ -256,6 +256,14 @@ export function addParentTemplateToRoadmap(
     return result.from === parentNode.id || result.to === parentNode.id;
   });
 
+  parentNode.connections = parentNode.connections.filter(
+    (connection) => connection !== parentTargetConnection
+  );
+
+  parentNode.properties.childrenIds = parentNode.properties.childrenIds.filter(
+    (id) => id !== targetNodeId
+  );
+
   // set from to the new node
   getConnectionByIdRoadmapSelector(parentTargetConnection).from = newNode.id;
 
@@ -275,7 +283,10 @@ export function addParentTemplateToRoadmap(
   console.log('parent node', deepCopy(parentNode));
 
   console.log(deepCopy(getRoadmapSelector()));
+
+  // needs first connection to be chunked and introduced in the rerender system first
   // triggerAllConnectionsRerender();
+
   return newBaseId;
 }
 

@@ -102,6 +102,7 @@ export const addDragabilityProtocol = (draggingBehavior: DraggingBehavior) => {
     if (isRecursive) {
       const children = getChildrenRenderedTraceback(id);
       // add dragging Effect
+      console.log('children', children);
       children.forEach((childId) => {
         const child = getNodeByIdRoadmapSelector(childId);
         const { id: idChild } = child;
