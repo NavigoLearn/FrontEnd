@@ -37,6 +37,7 @@ import {
   injectRoadmapNode,
 } from '@src/typescript/roadmap_ref/roadmap-data/services/inject';
 import {
+  getConnectionByIdRoadmapSelector,
   getNodeByIdRoadmapSelector,
   getRoadmapSelector,
   getTemplateById,
@@ -49,14 +50,12 @@ import {
   recalculateNodeCenter,
   recalculateNodeChunks,
 } from '@src/typescript/roadmap_ref/node/core/calculations/general';
-import { afterEventLoop, getRandomId } from '@src/typescript/utils/misc';
+import { getRandomId } from '@src/typescript/utils/misc';
 import { addDraggingBehaviorComponentProtocol } from '@src/typescript/roadmap_ref/node/components/text/factories';
-import { mutateConnectionsIds } from '@src/typescript/roadmap_ref/roadmap-data/services/mutate';
-import {
-  mutateNodeColor,
-  mutateNodeColorAndRerender,
-} from '@src/typescript/roadmap_ref/node/core/data-mutation/mutate';
+import { mutateNodeColor } from '@src/typescript/roadmap_ref/node/core/data-mutation/mutate';
 import { closeEditorProtocol } from '@src/to-be-organized/node-rendering-stuff/actions-manager';
+import { setNotification } from '@components/roadmap/to-be-organized/notifications/notifciations-refr/notification-store-refr';
+import { triggerAllConnectionsRerender } from '@src/to-be-organized/triggering-stuff-alert/trigger-connections';
 
 export function appendSubNode(node: NodeClass) {
   const newNestedNode = factorySubNode(node.id, 120, 40, 0, 0); // creates node
@@ -208,6 +207,59 @@ export function addChildTemplateToRoadmap(
   appendSubNodesTemplateToRoadmap(newNodes, newBaseId);
   const parentNode = getNodeByIdRoadmapSelector(parentNodeId);
   appendNodeTemplateBase(parentNode, deepCopy(newNodes[newBaseId]));
+  return newBaseId;
+}
+
+export function addParentTemplateToRoadmap(
+  targetNodeId: string,
+  templateId: string
+): string {
+  const template = getTemplateById(templateId);
+  const { nodes } = template.roadmapImage;
+
+  const { nodes: newNodes, baseNodeId: newBaseId } = mutateNodesIds(
+    deepCopy(nodes),
+    template.baseNodeId
+  );
+
+  // get target node
+  const targetNode = getNodeByIdRoadmapSelector(targetNodeId);
+  const { parentId } = targetNode.properties;
+
+  // if node is root node
+  if (parentId === '') {
+    setNotification('error', 'Cannot add parent to root node');
+    return targetNodeId;
+  }
+
+  // get parent node
+  const parentNode = getNodeByIdRoadmapSelector(parentId);
+
+  appendSubNodesTemplateToRoadmap(newNodes, newBaseId);
+
+  appendNodeTemplateBase(parentNode, deepCopy(newNodes[newBaseId]));
+
+  const newNode = newNodes[newBaseId];
+  newNode.data.coords.x =
+    (parentNode.data.coords.x + targetNode.data.coords.x) / 2;
+  newNode.data.coords.y =
+    (parentNode.data.coords.y + targetNode.data.coords.y) / 2;
+
+  // find connection between target and parent
+  const parentTargetConnection = targetNode.connections.find((connection) => {
+    const result = getConnectionByIdRoadmapSelector(connection);
+
+    return result.from === parentNode.id || result.to === parentNode.id;
+  });
+
+  // set from to the new node
+  targetNode.properties.parentId = newNode.id;
+  getConnectionByIdRoadmapSelector(parentTargetConnection).from = newNode.id;
+
+  // rerender parent and target node
+  triggerNodeRerender(targetNode.id);
+  triggerNodeRerender(parentNode.id);
+  // triggerAllConnectionsRerender();
   return newBaseId;
 }
 

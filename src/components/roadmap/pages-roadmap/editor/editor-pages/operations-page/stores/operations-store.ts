@@ -1,6 +1,6 @@
 import { atom } from 'nanostores';
 
-type IDropdowns = 'add-child' | 'apply-template' | 'none';
+type IDropdowns = 'add-child' | 'add-parent' | 'apply-template' | 'none';
 export const operationsStore = atom({
   dropdown: 'none' as IDropdowns,
   rerender: false,
