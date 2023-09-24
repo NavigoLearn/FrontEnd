@@ -5,6 +5,7 @@ import {
 import React from 'react';
 import {
   addChildTemplateToRoadmap,
+  addParentTemplateToRoadmap,
   applyTemplateToNode,
 } from '@src/typescript/roadmap_ref/roadmap-data/protocols/append';
 import { useStore } from '@nanostores/react';
@@ -54,7 +55,32 @@ function formatTemplatesAddChild(
       },
       tooltip: `This template has ${
         Object.keys(template.roadmapImage.nodes).length
-      } nodes`,
+      } node(s)`,
+    };
+    templatesArray.push(templateObject);
+  });
+
+  return templatesArray;
+}
+
+function formatTemplatesAddParent(
+  originalTemplates: TemplateNode[],
+  parentId: string
+) {
+  const templatesArray: IOption[] = [];
+
+  originalTemplates.forEach((template) => {
+    const templateObject: IOption = {
+      id: template.id,
+      name: template.name,
+      callback: () => {
+        const id = addParentTemplateToRoadmap(parentId, template.id);
+        highlightNodeEffects(id);
+        moveRoadmapToNode(id, true);
+      },
+      tooltip: `This template has ${
+        Object.keys(template.roadmapImage.nodes).length
+      } node(s)`,
     };
     templatesArray.push(templateObject);
   });
@@ -78,7 +104,7 @@ function formatTemplatesApply(
 
       tooltip: `This template has ${
         Object.keys(template.roadmapImage.nodes).length
-      } nodes`,
+      } node(s)`,
     };
     templatesArray.push(templateObject);
   });
@@ -94,6 +120,10 @@ const ActionsSystem = () => {
 
   const rawTemplates = getRoadmapTemplatesArray();
   const templatesJSONAddChild = formatTemplatesAddChild(rawTemplates, node.id);
+  const templatesJSONAddParent = formatTemplatesAddParent(
+    rawTemplates,
+    node.id
+  );
   const templatesJSONApplyTemplate = formatTemplatesApply(
     rawTemplates,
     node.id
@@ -142,6 +172,39 @@ const ActionsSystem = () => {
           text='Delete Node'
           space
         />
+      </div>
+
+      <hr className='absolute w-full bottom-0' />
+
+      <div className='flex gap-6 w-full relative pb-4 '>
+        <div
+          className={`w-48 relative  ${
+            dropdown === 'add-child' ? 'z-20' : 'z-10'
+          }`}
+        >
+          {/* <DropdownWhiteAddCleaner
+            dropdownName='Add child'
+            options={[...templatesJSONAddChild]}
+            dropdownCallback={(hasOpened) => {
+              if (hasOpened) {
+                setOperationsDropdown('add-child');
+              } else {
+                setOperationsDropdown('none');
+              }
+            }}
+          /> */}
+          <DropdownPlusSelection
+            dropdownName='Add parent'
+            options={[...templatesJSONAddParent]}
+            dropdownCallback={(hasOpened) => {
+              if (hasOpened) {
+                setOperationsDropdown('add-parent');
+              } else {
+                setOperationsDropdown('none');
+              }
+            }}
+          />
+        </div>
       </div>
 
       <hr className='absolute w-full bottom-0' />
