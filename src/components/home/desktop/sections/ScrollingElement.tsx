@@ -89,7 +89,7 @@ const ScrollingElement = () => {
           >
             <motion.a
               type='button'
-              href='/roadmaps/create'
+              href='/roadmap/create'
               className=' px-5 py-2 text-darkBlue bg-transparent rounded-md shadow-md text-md font-roboto-text font-semibold border-2 border-darkBlue'
               whileHover={{
                 backgroundColor: '#1A1B50',

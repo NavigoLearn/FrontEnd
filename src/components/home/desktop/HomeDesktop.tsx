@@ -33,7 +33,7 @@ const HomeDesktop = () => {
         <div className='mt-2 w-[500px] mx-auto gap-2 flex flex-row'>
           <motion.a
             type='button'
-            href='/roadmaps/create'
+            href='/roadmap/create'
             className='mx-auto mt-8 px-5 py-2 text-darkBlue bg-transparent rounded-lg shadow-md text-xl font-roboto-text font-semibold border-2 border-darkBlue'
             whileHover={{
               backgroundColor: '#1A1B50',
