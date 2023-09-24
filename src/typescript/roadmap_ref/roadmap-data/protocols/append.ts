@@ -37,6 +37,7 @@ import {
   injectRoadmapNode,
 } from '@src/typescript/roadmap_ref/roadmap-data/services/inject';
 import {
+  getConnectionByIdRoadmapSelector,
   getNodeByIdRoadmapSelector,
   getRoadmapSelector,
   getTemplateById,
@@ -54,6 +55,7 @@ import { addDraggingBehaviorComponentProtocol } from '@src/typescript/roadmap_re
 import { mutateNodeColor } from '@src/typescript/roadmap_ref/node/core/data-mutation/mutate';
 import { closeEditorProtocol } from '@src/to-be-organized/node-rendering-stuff/actions-manager';
 import { setNotification } from '@components/roadmap/to-be-organized/notifications/notifciations-refr/notification-store-refr';
+import { triggerAllConnectionsRerender } from '@src/to-be-organized/triggering-stuff-alert/trigger-connections';
 
 export function appendSubNode(node: NodeClass) {
   const newNestedNode = factorySubNode(node.id, 120, 40, 0, 0); // creates node
@@ -233,9 +235,33 @@ export function addParentTemplateToRoadmap(
   // get parent node
   const parentNode = getNodeByIdRoadmapSelector(parentId);
 
-  console.error('Not implemented yet');
+  appendSubNodesTemplateToRoadmap(newNodes, newBaseId);
 
-  return targetNodeId;
+  const newNode = newNodes[newBaseId];
+
+  appendNodeTemplateBase(parentNode, newNode);
+
+  newNode.data.coords.x =
+    (parentNode.data.coords.x + targetNode.data.coords.x) / 2;
+  newNode.data.coords.y =
+    (parentNode.data.coords.y + targetNode.data.coords.y) / 2;
+
+  // find connection between target and parent
+  const parentTargetConnection = targetNode.connections.find((connection) => {
+    const result = getConnectionByIdRoadmapSelector(connection);
+
+    return result.from === parentNode.id || result.to === parentNode.id;
+  });
+
+  // set from to the new node
+  getConnectionByIdRoadmapSelector(parentTargetConnection).from = newNode.id;
+  targetNode.properties.parentId = newNode.id;
+
+  // rerender parent and target node and all connections
+  triggerNodeRerender(targetNode.id);
+  triggerNodeRerender(parentNode.id);
+  triggerAllConnectionsRerender();
+  return newBaseId;
 }
 
 export function appendNodeToRoadmapNodes(node: NodeClass) {
