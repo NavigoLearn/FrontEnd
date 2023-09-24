@@ -237,10 +237,9 @@ export function addParentTemplateToRoadmap(
 
   appendSubNodesTemplateToRoadmap(newNodes, newBaseId);
 
+  appendNodeTemplateBase(parentNode, deepCopy(newNodes[newBaseId]));
+
   const newNode = newNodes[newBaseId];
-
-  appendNodeTemplateBase(parentNode, newNode);
-
   newNode.data.coords.x =
     (parentNode.data.coords.x + targetNode.data.coords.x) / 2;
   newNode.data.coords.y =
@@ -254,13 +253,13 @@ export function addParentTemplateToRoadmap(
   });
 
   // set from to the new node
-  getConnectionByIdRoadmapSelector(parentTargetConnection).from = newNode.id;
   targetNode.properties.parentId = newNode.id;
+  getConnectionByIdRoadmapSelector(parentTargetConnection).from = newNode.id;
 
-  // rerender parent and target node and all connections
+  // rerender parent and target node
   triggerNodeRerender(targetNode.id);
   triggerNodeRerender(parentNode.id);
-  triggerAllConnectionsRerender();
+  // triggerAllConnectionsRerender();
   return newBaseId;
 }
 
