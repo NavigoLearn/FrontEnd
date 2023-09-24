@@ -147,7 +147,11 @@ const handleResizeNodeMouseUp = (e) => {
 
   getRoadmapEnableInteractions()();
   const node = getResizeNodeRef();
-  recalculateNodeChunksWithRoadmapSideEffects(node);
+  const { flags } = node;
+  const isOnRoadmap = flags.renderedOnRoadmapFlag;
+  if (isOnRoadmap) {
+    recalculateNodeChunksWithRoadmapSideEffects(node);
+  }
   resetResizeAllStoresToDefault();
   endRecordResizeOrDrag(node.id);
 

@@ -68,14 +68,14 @@ const handleResizeComponentMouseMove = throttle(() => {
   triggerNodeRerender(parentId);
 }, 1000 / 60);
 
-const handleResizeNodeMouseUp = (e) => {
+const handleResizeComponentMouseUp = (e) => {
   const moveHandler = getResizeMouseMoveHandler();
   // no idea why that ts error is there
   // @ts-ignore
   unSubscribeToAlt(moveHandler);
   // @ts-ignore
   document.removeEventListener('mousemove', moveHandler);
-  document.removeEventListener('mouseup', handleResizeNodeMouseUp);
+  document.removeEventListener('mouseup', handleResizeComponentMouseUp);
   getRoadmapEnableInteractions()();
   resetResizeAllStoresToDefault();
   window.getSelection().removeAllRanges(); // Deselect any selected text
@@ -126,5 +126,5 @@ export const handleResizeComponentMouseDown = (
   setResizeMouseMoveHandler(mouseMoveHandler);
 
   document.addEventListener('mousemove', mouseMoveHandler);
-  document.addEventListener('mouseup', handleResizeNodeMouseUp);
+  document.addEventListener('mouseup', handleResizeComponentMouseUp);
 };
