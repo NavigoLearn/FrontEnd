@@ -17,6 +17,8 @@ import {
   getMouseCoords,
   setResizeFalse,
   setResizeTrue,
+  setIsResizingGlobalTrue,
+  setIsResizingGlobalFalseAfter100ms,
 } from '@src/to-be-organized/resize-dragging/stores-resize-shared-data';
 import { getResizeCallback } from '@src/to-be-organized/resize-dragging/resize-logic';
 import {
@@ -129,6 +131,7 @@ const handleResizeNodeMouseMove = throttle(() => {
   );
 
   getResizeIsResizingCallback()();
+  setIsResizingGlobalTrue();
   resizeCallback(deltaX, deltaY); // we resized the node
   snapResizingNodeProtocol(elementRef, direction);
 
@@ -154,6 +157,7 @@ const handleResizeNodeMouseUp = (e) => {
   }
   resetResizeAllStoresToDefault();
   endRecordResizeOrDrag(node.id);
+  setIsResizingGlobalFalseAfter100ms();
 
   window.getSelection().removeAllRanges(); // Deselect any selected text
 

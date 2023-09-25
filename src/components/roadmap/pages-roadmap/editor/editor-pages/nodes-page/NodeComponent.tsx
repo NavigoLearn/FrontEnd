@@ -18,6 +18,12 @@ import TrashIcon from '@src/UI-library/svg-components/trash/TrashIcon';
 import { deleteProtocolNodeFromRoadmap } from '@src/typescript/roadmap_ref/roadmap-data/protocols/delete';
 import DraggableInput from '@src/UI-library/DraggableInput';
 import TrashIconCustomizable from '@src/UI-library/svg-components/trash/TrashIconCustomizable';
+import {
+  MAXIMUM_NODE_HEIGHT,
+  MAXIMUM_NODE_WIDTH,
+  MINIMUM_NODE_HEIGHT,
+  MINIMUM_NODE_WIDTH,
+} from '@src/typescript/roadmap_ref/node/core/factories/params/default-params.ts';
 
 type INodeProperties = {
   node: NodeClass;
@@ -47,10 +53,9 @@ const NodeProperties = ({ node }: INodeProperties) => {
         <DraggableInput
           name='X'
           value={data.coords.x}
-          defaultValue={0}
+          bounds={undefined}
           onChange={(value) => {
             const newValue = parseInt(value, 10);
-            if (checkInvalidInput(value)) return;
             mutateNodeCoordX(node, newValue);
             triggerNodeRerender(node.id);
             triggerRerenderEditor();
@@ -60,7 +65,7 @@ const NodeProperties = ({ node }: INodeProperties) => {
         <DraggableInput
           name='Y'
           value={data.coords.y}
-          defaultValue={0}
+          bounds={undefined}
           onChange={(value) => {
             const newValue = parseInt(value, 10);
             if (checkInvalidInput(value)) return;
@@ -74,7 +79,10 @@ const NodeProperties = ({ node }: INodeProperties) => {
         <DraggableInput
           name='W'
           value={data.width}
-          defaultValue={200}
+          bounds={{
+            min: MINIMUM_NODE_WIDTH,
+            max: MAXIMUM_NODE_WIDTH,
+          }}
           onChange={(value) => {
             const newValue = parseInt(value, 10);
             if (checkInvalidInput(value)) return;
@@ -87,7 +95,10 @@ const NodeProperties = ({ node }: INodeProperties) => {
         <DraggableInput
           name='H'
           value={data.height}
-          defaultValue={50}
+          bounds={{
+            min: MINIMUM_NODE_HEIGHT,
+            max: MAXIMUM_NODE_HEIGHT,
+          }}
           onChange={(value) => {
             const newValue = parseInt(value, 10);
             if (checkInvalidInput(value)) return;

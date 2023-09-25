@@ -5,7 +5,6 @@ import {
   mutateNodeCoordY,
   mutateNodeHeight,
   mutateNodeOnClickAction,
-  mutateNodeOpacity,
   mutateNodeWidth,
 } from '@src/typescript/roadmap_ref/node/core/data-mutation/mutate';
 import { useStore } from '@nanostores/react';
@@ -24,10 +23,12 @@ import DropdownWhiteSelect from '@components/roadmap/pages-roadmap/editor/reusab
 import { mutateActionLink } from '@src/typescript/roadmap_ref/node/core/actions/mutate';
 import { getColorThemeFromRoadmap } from '@components/roadmap/pages-roadmap/setup-screen/theme-controler';
 import {
+  MAXIMUM_NODE_HEIGHT,
   MINIMUM_NODE_HEIGHT,
   MINIMUM_NODE_WIDTH,
 } from '@src/typescript/roadmap_ref/node/core/factories/params/default-params';
 import addCircle from '@assets/editor/addCircle.svg';
+import { triggerNodeConnectionsRerender } from '@src/to-be-organized/triggering-stuff-alert/trigger-connections';
 import TextInputStandard from './TextInputStandard';
 
 type IActionsDropdown = {
@@ -119,25 +120,27 @@ const Properties = () => {
           <DraggableInput
             name='X'
             value={data.coords.x}
-            defaultValue={0}
+            bounds={undefined}
             onChange={(value) => {
               const newValue = parseInt(value, 10);
               mutateNodeCoordX(node, newValue);
               triggerRerenderEditor();
               triggerNodeRerender(node.id);
+              triggerNodeConnectionsRerender(node.id);
             }}
             sensitivity={2}
           />
           <DraggableInput
             name='Y'
             value={data.coords.y}
-            defaultValue={0}
+            bounds={undefined}
             onChange={(value) => {
               const newValue = parseInt(value, 10);
               if (checkInvalidInput(value)) return;
               mutateNodeCoordY(node, newValue);
               triggerRerenderEditor();
               triggerNodeRerender(node.id);
+              triggerNodeConnectionsRerender(node.id);
             }}
             sensitivity={2}
           />
@@ -145,15 +148,15 @@ const Properties = () => {
           <DraggableInput
             name='W'
             value={data.width}
-            defaultValue={200}
+            bounds={{
+              min: MINIMUM_NODE_WIDTH,
+              max: MAXIMUM_NODE_HEIGHT,
+            }}
             onChange={(value) => {
-              let newValue = parseInt(value, 10);
-              if (checkInvalidInput(value)) return;
-              if (newValue < MINIMUM_NODE_WIDTH) {
-                newValue = MINIMUM_NODE_WIDTH;
-              }
+              const newValue = parseInt(value, 10);
               // adjust for old value to keep the same center in the same place even after resizing
               const oldWidth = data.width;
+
               getIsRootNode(node.id) &&
                 mutateNodeCoordX(
                   node,
@@ -168,7 +171,10 @@ const Properties = () => {
           <DraggableInput
             name='H'
             value={data.height}
-            defaultValue={50}
+            bounds={{
+              min: MINIMUM_NODE_HEIGHT,
+              max: MAXIMUM_NODE_HEIGHT,
+            }}
             onChange={(value) => {
               let newValue = parseInt(value, 10);
               if (checkInvalidInput(value)) return;
@@ -223,16 +229,12 @@ const Properties = () => {
           <DraggableInput
             name='Fill Opacity'
             value={data.backgroundOpacity}
-            defaultValue={100}
+            bounds={{
+              min: 0,
+              max: 100,
+            }}
             onChange={(value) => {
-              let newValue = parseInt(value, 10);
-              if (checkInvalidInput(value)) return;
-              if (newValue < 0) {
-                newValue = 0;
-              }
-              if (newValue > 100) {
-                newValue = 100;
-              }
+              const newValue = parseInt(value, 10);
               mutateNodeBackgroundOpacity(node, newValue);
               triggerRerenderEditor();
               triggerNodeRerender(node.id);
