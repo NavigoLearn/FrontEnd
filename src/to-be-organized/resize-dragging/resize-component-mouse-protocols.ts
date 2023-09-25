@@ -12,6 +12,8 @@ import {
   setResizeFalse,
   setResizeTrue,
   type IElementType,
+  setIsResizingGlobalTrue,
+  setIsResizingGlobalFalseAfter100ms,
 } from '@src/to-be-organized/resize-dragging/stores-resize-shared-data';
 import { getResizeCallback } from '@src/to-be-organized/resize-dragging/resize-logic';
 import {
@@ -61,7 +63,7 @@ const handleResizeComponentMouseMove = throttle(() => {
     direction
   );
 
-  getResizeIsResizingCallback()();
+  setIsResizingGlobalTrue();
   resizeCallback(deltaX, deltaY);
 
   const parentId = elementRef.parentNodeId;
@@ -78,6 +80,7 @@ const handleResizeComponentMouseUp = (e) => {
   document.removeEventListener('mouseup', handleResizeComponentMouseUp);
   getRoadmapEnableInteractions()();
   resetResizeAllStoresToDefault();
+  setIsResizingGlobalFalseAfter100ms();
   window.getSelection().removeAllRanges(); // Deselect any selected text
 
   afterEventLoop(() => {

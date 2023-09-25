@@ -15,7 +15,10 @@ import DraggingResizeElement from '@src/to-be-organized/resize-dragging/Dragging
 import ConnectionAnchorsRenderer from '@components/roadmap/connections/connection-editing/ConnectionAnchorsRenderer';
 import { getEditingState } from '@store/roadmap-refactor/editing/editing-state';
 import DragSvg from '@src/UI-library/svg-components/DragSvg';
-import { getResize } from '@src/to-be-organized/resize-dragging/stores-resize-shared-data';
+import {
+  getIsResizingGlobal,
+  getResize,
+} from '@src/to-be-organized/resize-dragging/stores-resize-shared-data';
 import {
   useNodeApplyStatusAndEffects,
   useNodeCalculateCoords,
@@ -186,7 +189,12 @@ const NodeRendererClassic: React.FC<NodeViewProps> = ({
           ref={nodeDivRef}
           onClick={(event) => {
             event.stopPropagation();
-            if (isResizing || isCurrentlyDragged || getResize()) {
+            if (
+              isResizing ||
+              isCurrentlyDragged ||
+              getResize() ||
+              getIsResizingGlobal()
+            ) {
               return;
             }
             checkFirstOnClick();
