@@ -9,7 +9,7 @@ export const IRenderingEnginesArray: IRenderingEngines[] = [
 
 export const storeRenderingEngine = atom({
   renderingEngineType: 'foreign-object',
-  optimized: false,
+  optimized: true,
 } as {
   renderingEngineType: IRenderingEngines;
   optimized: boolean;

@@ -17,7 +17,7 @@ const ProfilePicture = ({ src }: IProfilePictureProps) => {
           className='w-full h-full rounded-full'
           src={src}
         />
-        <button
+        {/* <button
           type='button'
           onClick={() => {
             console.log('clicked edit profile picture button');
@@ -29,7 +29,7 @@ const ProfilePicture = ({ src }: IProfilePictureProps) => {
             className='w-7/12 h-7/12 '
             src={EDIT_SRC.src}
           />
-        </button>
+        </button> */}
       </div>
     </section>
   );

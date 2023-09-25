@@ -37,6 +37,7 @@ import {
   injectRoadmapNode,
 } from '@src/typescript/roadmap_ref/roadmap-data/services/inject';
 import {
+  getConnectionByIdRoadmapSelector,
   getNodeByIdRoadmapSelector,
   getRoadmapSelector,
   getTemplateById,
@@ -49,14 +50,11 @@ import {
   recalculateNodeCenter,
   recalculateNodeChunks,
 } from '@src/typescript/roadmap_ref/node/core/calculations/general';
-import { afterEventLoop, getRandomId } from '@src/typescript/utils/misc';
+import { getRandomId } from '@src/typescript/utils/misc';
 import { addDraggingBehaviorComponentProtocol } from '@src/typescript/roadmap_ref/node/components/text/factories';
-import { mutateConnectionsIds } from '@src/typescript/roadmap_ref/roadmap-data/services/mutate';
-import {
-  mutateNodeColor,
-  mutateNodeColorAndRerender,
-} from '@src/typescript/roadmap_ref/node/core/data-mutation/mutate';
+import { mutateNodeColor } from '@src/typescript/roadmap_ref/node/core/data-mutation/mutate';
 import { closeEditorProtocol } from '@src/to-be-organized/node-rendering-stuff/actions-manager';
+import { setNotification } from '@components/roadmap/to-be-organized/notifications/notifciations-refr/notification-store-refr';
 
 export function appendSubNode(node: NodeClass) {
   const newNestedNode = factorySubNode(node.id, 120, 40, 0, 0); // creates node
@@ -191,6 +189,7 @@ export function appendNodeTemplateBase(
 
   applyRoadmapElementsRechunkedDraggability();
   closeEditorProtocol();
+  return newNode;
 }
 
 export function addChildTemplateToRoadmap(
@@ -208,6 +207,79 @@ export function addChildTemplateToRoadmap(
   appendSubNodesTemplateToRoadmap(newNodes, newBaseId);
   const parentNode = getNodeByIdRoadmapSelector(parentNodeId);
   appendNodeTemplateBase(parentNode, deepCopy(newNodes[newBaseId]));
+  return newBaseId;
+}
+
+export function addParentTemplateToRoadmap(
+  targetNodeId: string,
+  templateId: string
+): string {
+  const template = getTemplateById(templateId);
+  const { nodes } = template.roadmapImage;
+
+  const { nodes: newNodes, baseNodeId: newBaseId } = mutateNodesIds(
+    deepCopy(nodes),
+    template.baseNodeId
+  );
+
+  // get target node
+  const targetNode = getNodeByIdRoadmapSelector(targetNodeId);
+  const { parentId } = targetNode.properties;
+
+  // if node is root node
+  if (parentId === '') {
+    setNotification('error', 'Cannot add parent to root node');
+    return targetNodeId;
+  }
+
+  // get parent node
+  const parentNode = getNodeByIdRoadmapSelector(parentId);
+
+  appendSubNodesTemplateToRoadmap(newNodes, newBaseId);
+  appendNodeTemplateBase(parentNode, deepCopy(newNodes[newBaseId]));
+
+  // const newNode = newNodes[newBaseId];
+  const newNode = getNodeByIdRoadmapSelector(newBaseId);
+
+  newNode.data.coords.x =
+    (parentNode.data.coords.x + targetNode.data.coords.x) / 2;
+  newNode.data.coords.y =
+    (parentNode.data.coords.y + targetNode.data.coords.y) / 2;
+
+  targetNode.properties.parentId = newNode.id;
+  newNode.properties.childrenIds = [targetNode.id];
+
+  // find connection between target and parent
+  const parentTargetConnection = targetNode.connections.find((connection) => {
+    const result = getConnectionByIdRoadmapSelector(connection);
+    return result.from === parentNode.id || result.to === parentNode.id;
+  });
+
+  parentNode.connections = parentNode.connections.filter(
+    (connection) => connection !== parentTargetConnection
+  );
+
+  parentNode.properties.childrenIds = parentNode.properties.childrenIds.filter(
+    (id) => id !== targetNodeId
+  );
+
+  // set from to the new node
+  getConnectionByIdRoadmapSelector(parentTargetConnection).from = newNode.id;
+
+  // add parent target connection to new node
+  newNode.connections.push(parentTargetConnection);
+  if (newNode.properties.childrenIds.length > 1) {
+    console.warn('children in new node', newNode.properties.childrenIds);
+    throw new Error(
+      'more than one child in append between parent, data flow breaks somewhere'
+    );
+  }
+
+  // needs first connection to be chunked and introduced in the rerender system first
+  // this is done in a useEffect on the first render of the connection so
+  // we can't just trigger the rerender of the connections
+  // triggerAllConnectionsRerender();
+
   return newBaseId;
 }
 
