@@ -25,20 +25,40 @@ const DraggableInput = ({
 
   const [isDragging, setIsDragging] = useState(false);
   const [mouseDownAt, setMouseDownAt] = useState(0);
-  const [prevDeltaX, setPrevDeltaX] = useState(0);
+  const [inputValue, setInputValue] = useState(value.toString());
   const [initialValue, setInitialValue] = useState(value);
 
   const divRef = useRef(null);
   const inputRef = useRef(null);
 
+  const handleMouseDown = (e) => {
+    setIsDragging(true);
+    setMouseDownAt(e.clientX);
+    setInitialValue(value); // Update initialValue when dragging starts
+    document.body.style.cursor = 'ew-resize';
+  };
+
+  const handleInputMouseDown = (e) => {
+    e.stopPropagation();
+  };
+
+  const handleInputChange = (e) => {
+    setInputValue(e.target.value);
+  };
+
+  const handleInputValidation = () => {
+    setInputValue(value.toString());
+  };
+
   useEffect(() => {
     const handleMouseMove = (e) => {
       if (!isDragging) return;
       const deltaX = e.clientX - mouseDownAt;
-      const step = sensitivity; // sensitivity
+      // const step = sensitivity; // sensitivity
       const newValue = initialValue + deltaX;
+      setInputValue(newValue.toString());
+      handleInputValidation();
       onChange(newValue.toString());
-      setPrevDeltaX(deltaX);
     };
 
     const throttledHandleMouseMove = throttle(handleMouseMove, 1000 / 60);
@@ -60,22 +80,14 @@ const DraggableInput = ({
     };
   }, [isDragging, mouseDownAt, initialValue, sensitivity, onChange]);
 
-  const handleMouseDown = (e) => {
-    setIsDragging(true);
-    setMouseDownAt(e.clientX);
-    setPrevDeltaX(0);
-    setInitialValue(value); // Update initialValue when dragging starts
-    document.body.style.cursor = 'ew-resize';
-  };
-
-  const handleInputMouseDown = (e) => {
-    e.stopPropagation();
-  };
-
-  const handleInputChange = (e) => {
-    const newValue = parseInt(e.target.value, 10);
-    onChange(newValue.toString());
-  };
+  useEffect(() => {
+    const newValue = parseInt(inputValue, 10);
+    if (!Number.isNaN(newValue)) {
+      setInputValue(newValue.toString());
+      handleInputValidation();
+      onChange(newValue.toString());
+    }
+  }, [inputValue]);
 
   return (
     <div
@@ -98,9 +110,13 @@ const DraggableInput = ({
         type='number'
         step='1'
         className='text-darkBlue w-10 outline-none font-semibold [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none'
-        value={value}
+        value={inputValue}
         onChange={handleInputChange}
         onMouseDown={handleInputMouseDown}
+        onKeyUp={(e) => {
+          if (e.key === 'Enter') handleInputValidation();
+        }}
+        onBlur={handleInputValidation}
       />
     </div>
   );
