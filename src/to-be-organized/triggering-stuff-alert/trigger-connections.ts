@@ -11,6 +11,7 @@ export const triggerNodeConnectionsRerender = (nodeId: string) => {
 
 export const triggerAllConnectionsRerender = () => {
   const { connections } = renderedConnections.get();
+
   connections.forEach((connId) => {
     triggerConnectionRerender(connId);
   });

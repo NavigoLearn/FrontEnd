@@ -23,14 +23,13 @@ const LeftSideSettings = () => {
           scale: {scale}
         </p>
       </div>
-      <div className='hidden md:block'>
-        <RecenterButton />
-      </div>
-
-      <div className=''>
+      <div>
+        <div className='hidden md:block'>
+          <RecenterButton />
+        </div>
         <button
           type='button'
-          className={`mt-6 font-roboto-text text-md pointer-events-auto hover:text-primary ${
+          className={`w-24 mt-1 text-start font-roboto-text text-md pointer-events-auto hover:text-primary ${
             optimized ? 'text-green-700' : 'text-secondary'
           }`}
           onClick={() => {

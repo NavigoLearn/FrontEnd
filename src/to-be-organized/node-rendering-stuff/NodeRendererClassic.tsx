@@ -171,7 +171,7 @@ const NodeRendererClassic: React.FC<NodeViewProps> = ({
             id={`background${nodeId}`}
             style={{
               ...style,
-              fillOpacity: 100,
+              fillOpacity: 40,
               backgroundColor: undefined,
               borderStyle: undefined,
             }}
