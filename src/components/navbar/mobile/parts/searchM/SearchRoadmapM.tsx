@@ -39,7 +39,7 @@ const SearchRoadmapM = () => {
           type='text'
           value={query}
           placeholder='Search for a roadmap'
-          className={`bg-slate-200 rounded-sm font-roboto-text transition-all duration-200 ${
+          className={`bg-slate-200 rounded-sm font-roboto-text transition-all duration-200 outline-none ${
             inputExpanded ? 'w-44' : 'w-0'
           } ${focus ? 'border-darkBlue' : 'border-slate-200'} ${
             query

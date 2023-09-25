@@ -11,6 +11,7 @@ const AnimLoupe = ({ handleLoupeClick }: { handleLoupeClick: (e) => void }) => {
       viewBox='0 0 19 19'
       fill='none'
       xmlns='http://www.w3.org/2000/svg'
+      className='outline-none'
     >
       <g clipPath='url(#clip0_1899_4834)'>
         <path
