@@ -80,7 +80,10 @@ export const addDragabilityProtocol = (draggingBehavior: DraggingBehavior) => {
     const currentCoords = currentCoordsStrategy();
     // also account for the difference between rendering relative to center and relative to top left corner
     const { x, y } = coordinatesAdapterStrategy(originalX, originalY);
-    startRecordResizeOrDrag(id);
+    const type = draggingBehavior.draggingElementType;
+    if (type === 'node') {
+      startRecordResizeOrDrag(id);
+    }
 
     const offsetX = x - currentCoords.x;
     const offsetY = y - currentCoords.y;
@@ -94,7 +97,6 @@ export const addDragabilityProtocol = (draggingBehavior: DraggingBehavior) => {
     newPos.x = x - offset.x;
     newPos.y = y - offset.y; // offsets are used to sync the mouse position with the dragging position
 
-    const type = draggingBehavior.draggingElementType;
     isRecursive = getShift() && type === 'node';
 
     if (isRecursive) {
@@ -170,7 +172,11 @@ export const addDragabilityProtocol = (draggingBehavior: DraggingBehavior) => {
     // chunk recalculations are integrated in the coordinates setter strategy
     draggingEndStrategy(newPos.x, newPos.y);
     deleteAllSnappings();
-    endRecordResizeOrDrag(id);
+
+    const type = draggingBehavior.draggingElementType;
+    if (type === 'node') {
+      endRecordResizeOrDrag(id);
+    }
 
     if (isRecursive) {
       draggingEndChildrenTraceback(draggingBehavior);

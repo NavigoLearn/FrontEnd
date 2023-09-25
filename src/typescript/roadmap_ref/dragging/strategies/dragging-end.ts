@@ -70,7 +70,7 @@ export const draggingEndNodeChild = (draggingBehavior: DraggingBehavior) => {
 
   const mapping: Record<IDraggingElementIdentifiers, () => string> = {
     div: () => {
-      return getElementDiv(nodeId).style.transform;
+      return document.getElementById(`div${nodeId}`).style.transform;
     },
     g: () => {
       return getElementG(nodeId).style.transform;
@@ -79,6 +79,7 @@ export const draggingEndNodeChild = (draggingBehavior: DraggingBehavior) => {
 
   const transform = mapping[elementIdentifier]();
   const { x: offsetX, y: offsetY } = getTransformXY(transform);
+
   mutateNodeCoords(
     node,
     node.data.coords.x + offsetX,
