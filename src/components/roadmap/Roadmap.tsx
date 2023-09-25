@@ -1,6 +1,8 @@
 import React from 'react';
 import { createAndSetRoadmapClassicRefactored } from '@src/typescript/roadmap_ref/roadmap-templates/classic';
-import renderNodesStore from '@store/roadmap-refactor/render/rendered-nodes';
+import renderNodesStore, {
+  getRenderedRootNodesIds,
+} from '@store/roadmap-refactor/render/rendered-nodes';
 import {
   getChunkRerenderTrigger,
   setChunkRerenderTrigger,
@@ -80,6 +82,10 @@ import {
 import NotificationProviderHOC from '@components/roadmap/NotificationProviderHOC';
 import { setNotification } from '@components/roadmap/to-be-organized/notifications/notifciations-refr/notification-store-refr';
 import { getIsResizingGlobal } from '@src/to-be-organized/resize-dragging/stores-resize-shared-data.ts';
+import {
+  getNodeTriggerRender,
+  triggerNodeRerender,
+} from '@store/roadmap-refactor/render/rerender-triggers-nodes.ts';
 
 export function initialRoadmapProtocolAfterLoad() {
   setRoadmapIsLoaded();
@@ -266,6 +272,13 @@ function handleSetDifferentRoadmapStores(roadmap: IRoadmapApi) {
       return;
     }
     setRoadmapProgress(res.data);
+    const renderedNodes = getRenderedRootNodesIds();
+    renderedNodes.forEach((nodeId) => {
+      if (res.data[nodeId] === undefined) return;
+      if (getNodeTriggerRender(nodeId)) {
+        triggerNodeRerender(nodeId);
+      }
+    });
   });
   setRoadmapStatistics(adapterRoadmapToStatistics(roadmap));
 }
@@ -346,7 +359,6 @@ const Roadmap = ({
         closeEditorProtocol();
         clearSelectedConnection();
         setEditingState('nodes');
-        console.log('clicked in workaround');
       }}
     >
       <ElementsDisplayManager />
