@@ -79,6 +79,7 @@ export const draggingEndNodeChild = (draggingBehavior: DraggingBehavior) => {
 
   const transform = mapping[elementIdentifier]();
   const { x: offsetX, y: offsetY } = getTransformXY(transform);
+  console.log('offsetX', offsetX, 'offsetY', offsetY);
 
   mutateNodeCoords(
     node,
