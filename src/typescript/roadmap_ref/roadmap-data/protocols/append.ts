@@ -55,7 +55,6 @@ import { addDraggingBehaviorComponentProtocol } from '@src/typescript/roadmap_re
 import { mutateNodeColor } from '@src/typescript/roadmap_ref/node/core/data-mutation/mutate';
 import { closeEditorProtocol } from '@src/to-be-organized/node-rendering-stuff/actions-manager';
 import { setNotification } from '@components/roadmap/to-be-organized/notifications/notifciations-refr/notification-store-refr';
-import { triggerAllConnectionsRerender } from '@src/to-be-organized/triggering-stuff-alert/trigger-connections';
 
 export function appendSubNode(node: NodeClass) {
   const newNestedNode = factorySubNode(node.id, 120, 40, 0, 0); // creates node
@@ -269,8 +268,6 @@ export function addParentTemplateToRoadmap(
 
   // add parent target connection to new node
   newNode.connections.push(parentTargetConnection);
-  console.log('new node', deepCopy(newNode));
-  // newNode.properties.childrenIds.push(targetNodeId);
   if (newNode.properties.childrenIds.length > 1) {
     console.warn('children in new node', newNode.properties.childrenIds);
     throw new Error(
@@ -278,13 +275,9 @@ export function addParentTemplateToRoadmap(
     );
   }
 
-  console.log('new node', deepCopy(newNode));
-  console.log('target node', deepCopy(targetNode));
-  console.log('parent node', deepCopy(parentNode));
-
-  console.log(deepCopy(getRoadmapSelector()));
-
   // needs first connection to be chunked and introduced in the rerender system first
+  // this is done in a useEffect on the first render of the connection so
+  // we can't just trigger the rerender of the connections
   // triggerAllConnectionsRerender();
 
   return newBaseId;

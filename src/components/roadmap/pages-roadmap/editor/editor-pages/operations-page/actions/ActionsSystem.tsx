@@ -135,7 +135,7 @@ const ActionsSystem = () => {
       <div className='flex gap-6 w-full relative pb-4 '>
         <div
           className={`w-48 relative  ${
-            dropdown === 'add-child' ? 'z-20' : 'z-10'
+            dropdown === 'add-child' ? 'z-30' : 'z-20'
           }`}
         >
           {/* <DropdownWhiteAddCleaner
@@ -202,7 +202,7 @@ const ActionsSystem = () => {
       <div className='flex gap-6 w-full'>
         <div
           className={`w-48 relative ${
-            dropdown === 'apply-template' ? 'z-20' : 'z-0'
+            dropdown === 'apply-template' ? 'z-40' : 'z-0'
           }`}
         >
           <DropdownWhiteSelect
