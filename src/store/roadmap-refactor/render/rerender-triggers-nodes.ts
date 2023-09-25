@@ -61,7 +61,7 @@ export function setTriggerEnable(id: string, cb: any) {
   });
 }
 
-export function getTriggerRender(id: string) {
+export function getNodeTriggerRender(id: string) {
   const original = nodeTriggers.get();
   return original.triggers[id];
 }

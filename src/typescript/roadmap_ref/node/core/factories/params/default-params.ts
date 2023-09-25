@@ -6,5 +6,8 @@ export const DEFAULT_NODE_OPACITY = 100;
 export const DEFAULT_NODE_BACKGROUND_OPACITY = 100;
 export const DEFAULT_COLOR_THEME_OPTION: IColorThemesOptions = 'winterTheme';
 
-export const MINIMUM_NODE_WIDTH = 100;
-export const MINIMUM_NODE_HEIGHT = 30;
+export const MINIMUM_NODE_WIDTH = 50;
+export const MINIMUM_NODE_HEIGHT = 50;
+
+export const MAXIMUM_NODE_WIDTH = 3000;
+export const MAXIMUM_NODE_HEIGHT = 3000;
