@@ -53,8 +53,6 @@ const DraggableInput = ({
     useStateAndRef(init);
 
   useEffect(() => {
-    console.log('value changed', value, mouseDownAt, mouseDownAtRef.current);
-
     if (!mouseDownAt) {
       // the values were changes not from dragging
       setInitialValue(value.toString());
