@@ -81,11 +81,11 @@ import {
 } from '@store/roadmap-refactor/roadmap-data/misc-data/roadmap-progress';
 import NotificationProviderHOC from '@components/roadmap/NotificationProviderHOC';
 import { setNotification } from '@components/roadmap/to-be-organized/notifications/notifciations-refr/notification-store-refr';
-import { getIsResizingGlobal } from '@src/to-be-organized/resize-dragging/stores-resize-shared-data.ts';
+import { getIsResizingGlobal } from '@src/to-be-organized/resize-dragging/stores-resize-shared-data';
 import {
   getNodeTriggerRender,
   triggerNodeRerender,
-} from '@store/roadmap-refactor/render/rerender-triggers-nodes.ts';
+} from '@store/roadmap-refactor/render/rerender-triggers-nodes';
 
 export function initialRoadmapProtocolAfterLoad() {
   setRoadmapIsLoaded();
