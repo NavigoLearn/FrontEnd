@@ -46,11 +46,21 @@ const DraggableInput = ({
   // throttling function cannot be recreated at every rerender, therefore the function it calls have a old closure of
   // the state. To solve this we use useRef to get the actual value of the state in the closure
   // feel free to refactor if a cleaner solution is found
-  const [mouseDownAt, setMouseDownAt, mouseDownAtRef] = useStateAndRef(0);
+  const [mouseDownAt, setMouseDownAt, mouseDownAtRef] = useStateAndRef(null);
   const init = value.toString();
   const [initialValue, setInitialValue, initialValueRef] = useStateAndRef(init);
   const [temporaryValue, setTemporaryValue, temporaryValueRef] =
     useStateAndRef(init);
+
+  useEffect(() => {
+    console.log('value changed', value, mouseDownAt, mouseDownAtRef.current);
+
+    if (!mouseDownAt) {
+      // the values were changes not from dragging
+      setInitialValue(value.toString());
+      setTemporaryValue(value.toString());
+    }
+  }, [value]);
 
   const handleInputBounding = (nonBoundedValue: string) => {
     const newValue = parseInt(nonBoundedValue, 10);
@@ -110,6 +120,7 @@ const DraggableInput = ({
     // sets the new value to initial value
     if (!validationPipeline(temporaryValueRef.current)) return;
     setInitialValue(temporaryValueRef.current);
+    setMouseDownAt(null);
   };
 
   const handleMouseDown = (e) => {
