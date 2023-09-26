@@ -48,3 +48,7 @@ export function removeNodeToRender(setLoaded: () => void) {
 
   storeAsyncLoading.set({ ...store, showNode });
 }
+
+export function getAsyncLoadingCounter() {
+  return storeAsyncLoading.get().showNode.size;
+}
