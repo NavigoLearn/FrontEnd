@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   mutateNodeBackgroundOpacity,
   mutateNodeCoordX,
@@ -29,6 +29,9 @@ import {
 } from '@src/typescript/roadmap_ref/node/core/factories/params/default-params';
 import addCircle from '@assets/editor/addCircle.svg';
 import { triggerNodeConnectionsRerender } from '@src/to-be-organized/triggering-stuff-alert/trigger-connections';
+import { subscribeHovered } from '@store/roadmap/sidebar/clickSubject.ts';
+import { subscribeToHub } from '@store/roadmap-refactor/subscribers/function-subscribers.ts';
+import { useTriggerRerender } from '@hooks/useTriggerRerender.tsx';
 import TextInputStandard from './TextInputStandard';
 
 type IActionsDropdown = {
@@ -94,6 +97,7 @@ const Properties = () => {
   const { selectedNodeId } = useStore(storeEditorSelectedData);
   const node = getNodeByIdRoadmapSelector(selectedNodeId);
   const { data } = node;
+  const rerender = useTriggerRerender();
 
   function checkInvalidInput(value: string) {
     const newValue = parseInt(value, 10);
@@ -105,6 +109,13 @@ const Properties = () => {
       return true;
     return false;
   }
+
+  useEffect(() => {
+    subscribeToHub('mutateNodeCoordX', rerender);
+    subscribeToHub('mutateNodeCoordY', rerender);
+    subscribeToHub('mutateNodeWidth', rerender);
+    subscribeToHub('mutateNodeHeight', rerender);
+  }, []);
 
   const { actions } = node;
   const { possibleActions } = actions;
