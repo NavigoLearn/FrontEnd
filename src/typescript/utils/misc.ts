@@ -8,14 +8,26 @@ export function getRandomId() {
   return uuidv4();
 }
 
+// Thanks to https://stackoverflow.com/a/30106551z
+// Decoding base64 ⇢ UTF-8
 export function decodeBase64(str: string) {
-  if (typeof Buffer === 'undefined') return atob(str);
+  if (typeof Buffer !== 'undefined')
+    return Buffer.from(str, 'base64').toString();
 
-  return Buffer.from(str, 'base64').toString();
+  return btoa(
+    encodeURIComponent(str).replace(/%([0-9A-F]{2})/g, (match, p1) => {
+      return String.fromCharCode(parseInt(p1, 16));
+    })
+  );
 }
 
+// Encoding UTF-8 ⇢ base64
 export function encodeBase64(str: string) {
-  if (typeof Buffer === 'undefined') return btoa(str);
+  if (typeof Buffer !== 'undefined') return Buffer.from(str).toString('base64');
 
-  return Buffer.from(str).toString('base64');
+  return btoa(
+    encodeURIComponent(str).replace(/%([0-9A-F]{2})/g, (match, p1) => {
+      return String.fromCharCode(parseInt(p1, 16));
+    })
+  );
 }
