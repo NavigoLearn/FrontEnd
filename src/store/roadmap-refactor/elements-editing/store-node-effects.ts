@@ -333,6 +333,12 @@ export function appendStatusEffect(id: string, status: IEffectsStatuses) {
 export function defocusAllNodesExceptBlacklist(blackListed: string[]) {
   const originalEffects = storeNodeEffects.get();
   const nodes = Object.keys(getRoadmapSelector().nodes);
+
+  console.log('nodes', deepCopy(nodes));
+  console.log('blackListed', deepCopy(blackListed));
+  console.log('originalEffects', deepCopy(originalEffects));
+  console.log('originalEffects', deepCopy(getRoadmapSelector()));
+
   nodes.forEach((id) => {
     if (blackListed.includes(id)) {
       deleteElementEffect(originalEffects, id, 'defocus-node');
@@ -340,7 +346,12 @@ export function defocusAllNodesExceptBlacklist(blackListed: string[]) {
       try {
         originalEffects[id].push('defocus-node');
       } catch (e) {
-        throw new Error(`Error in defocusAllNodesExceptBlacklist: ${e}`);
+        console.warn(
+          'corrupted roadmap data, the id was not rendered in effects',
+          id,
+          e
+        );
+        // throw new Error(`Error in defocusAllNodesExceptBlacklist: ${e}`);
       }
     }
   });
