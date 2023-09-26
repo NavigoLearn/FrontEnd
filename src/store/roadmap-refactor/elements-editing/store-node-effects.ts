@@ -334,10 +334,10 @@ export function defocusAllNodesExceptBlacklist(blackListed: string[]) {
   const originalEffects = storeNodeEffects.get();
   const nodes = Object.keys(getRoadmapSelector().nodes);
 
-  console.log('nodes', deepCopy(nodes));
-  console.log('blackListed', deepCopy(blackListed));
-  console.log('originalEffects', deepCopy(originalEffects));
-  console.log('originalEffects', deepCopy(getRoadmapSelector()));
+  // console.log('nodes', deepCopy(nodes));
+  // console.log('blackListed', deepCopy(blackListed));
+  // console.log('originalEffects', deepCopy(originalEffects));
+  // console.log('originalEffects', deepCopy(getRoadmapSelector()));
 
   nodes.forEach((id) => {
     if (blackListed.includes(id)) {
