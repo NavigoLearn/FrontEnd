@@ -8,16 +8,18 @@ export function getRandomId() {
   return uuidv4();
 }
 
-// Thanks to https://stackoverflow.com/a/30106551z
+// Thanks to https://stackoverflow.com/a/30106551
 // Decoding base64 ⇢ UTF-8
 export function decodeBase64(str: string) {
   if (typeof Buffer !== 'undefined')
     return Buffer.from(str, 'base64').toString();
 
-  return btoa(
-    encodeURIComponent(str).replace(/%([0-9A-F]{2})/g, (match, p1) => {
-      return String.fromCharCode(parseInt(p1, 16));
-    })
+  return decodeURIComponent(
+    Array.prototype.map
+      .call(atob(str), (c) => {
+        return `%${`00${c.charCodeAt(0).toString(16)}`.slice(-2)}`;
+      })
+      .join('')
   );
 }
 
