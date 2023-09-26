@@ -43,6 +43,8 @@ interface NodeViewProps {
   centerOffset: { x: number; y: number };
 }
 
+const OFFSET_DRAGGING = 2;
+
 const NodeRendererClassic: React.FC<NodeViewProps> = ({
   nodeId,
   centerOffset,
@@ -215,8 +217,8 @@ const NodeRendererClassic: React.FC<NodeViewProps> = ({
               >
                 <DraggingResizeElement
                   style={{
-                    width,
-                    height,
+                    width: width + OFFSET_DRAGGING,
+                    height: height + OFFSET_DRAGGING,
                   }}
                   element={node}
                   setResizeCallback={() => {
