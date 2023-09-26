@@ -12,6 +12,7 @@ import {
 } from '@store/roadmap-refactor/roadmap-data/misc-data/roadmap_state';
 import { triggerAllNodesRerender } from '@store/roadmap-refactor/render/rerender-triggers-nodes';
 import { clearSession } from '@src/typescript/roadmap_ref/caching/restoreSession';
+import { getAsyncLoadingCounter } from '@components/roadmap/rendering-engines/async-loading/store-async-loading.ts';
 
 export type IButtonsRoadmapNavbarOptions =
   | 'get-started'
@@ -54,6 +55,7 @@ const buttonsMapper: Record<IButtonsRoadmapNavbarOptions, IButtonProperties> = {
   edit: {
     name: 'Edit',
     callback: () => {
+      if (getAsyncLoadingCounter() !== 0) return;
       enterEditingModeProtocol();
     },
   },

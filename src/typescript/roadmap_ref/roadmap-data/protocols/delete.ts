@@ -1,11 +1,12 @@
 import { NodeClass } from '@src/typescript/roadmap_ref/node/core/core';
-import { triggerChunkRerender } from '@store/roadmap-refactor/render/rendered-chunks';
 import {
+  deleteNodeFromRoadmapNodes,
   deleteNodeClassicFromParentAndChildren,
   deleteNodeClassicFromRoadmapAndChunks,
-  deleteNodeSubNode,
+  deleteNodeFromSubnodesIds,
   deleteNodeSubNodesRecursive,
 } from '@src/typescript/roadmap_ref/roadmap-data/services/delete';
+import { triggerChunkRerender } from '@store/roadmap-refactor/render/rendered-chunks';
 import { getNodeByIdRoadmapSelector } from '@src/typescript/roadmap_ref/roadmap-data/services/get';
 
 export function deleteNodeFromRoadmap(node: NodeClass) {
@@ -17,8 +18,11 @@ export function deleteNodeFromRoadmap(node: NodeClass) {
     // delete from roadmap and from chunks
     deleteNodeClassicFromRoadmapAndChunks(node);
   } else if (node.flags.subNodeFlag) {
+    const nodeId = node.id;
     deleteNodeSubNodesRecursive(node);
-    deleteNodeSubNode(node);
+    deleteNodeFromSubnodesIds(node);
+    // console.log('deleting node from roadmap nodes');
+    deleteNodeFromRoadmapNodes(nodeId);
   }
 }
 

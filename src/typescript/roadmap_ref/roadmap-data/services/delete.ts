@@ -70,7 +70,7 @@ export function deleteNodeClassicFromRoadmapAndChunks(node: NodeClass) {
   roadmapSelector.set({ ...roadmap });
 }
 
-export const deleteNodeSubNode = (node: NodeClass) => {
+export const deleteNodeFromSubnodesIds = (node: NodeClass) => {
   const roadmap = roadmapSelector.get();
   // deletes subnode from parent
   const { nestedWithin } = node.properties;
@@ -98,16 +98,26 @@ export const deleteNodeFromRoadmapNodes = (nodeId: string) => {
 };
 
 export function deleteNodeSubNodesRecursive(node: NodeClass) {
+  // deletes all subnodes from the node recursively excluding the node itself
   const queue = [];
+  const auxQueue = [];
+
   node.subNodeIds.forEach((id) => {
-    queue.push(id);
+    auxQueue.push(id);
   });
+
+  while (auxQueue.length > 0) {
+    const id = auxQueue.shift();
+    const childNode = getNodeByIdRoadmapSelector(id);
+    childNode.subNodeIds.forEach((subNodeId) => {
+      auxQueue.push(subNodeId);
+    });
+    queue.push(id);
+  }
+
   while (queue.length > 0) {
     const id = queue.shift();
     const childNode = getNodeByIdRoadmapSelector(id);
-    childNode.subNodeIds.forEach((subNodeId) => {
-      queue.push(subNodeId);
-    });
     deleteNodeFromRoadmapNodes(childNode.id);
   }
 }
