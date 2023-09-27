@@ -79,7 +79,7 @@ const ComponentRendererForeign = ({
       ref={divRef}
       key={component.id}
       id={`div${id}`}
-      className={`absolute flex justify-center items-center select-none ${
+      className={`absolute flex justify-center items-center select-none font-roboto-text ${
         parentSelected ? 'pointer-events-auto' : 'pointer-events-none'
       } ${parentSelected && 'border-opacity-100'} transition-allNoTransform`}
       style={{
