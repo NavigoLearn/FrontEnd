@@ -1,7 +1,7 @@
 import { atom } from 'nanostores';
 
 export const storeAsyncLoading = atom({
-  asyncDelay: 15,
+  asyncDelay: 0,
   showNode: new Map<() => void, () => void>(),
 } as {
   asyncDelay: number;
