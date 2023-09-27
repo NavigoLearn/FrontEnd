@@ -55,6 +55,7 @@ import { addDraggingBehaviorComponentProtocol } from '@src/typescript/roadmap_re
 import { mutateNodeColor } from '@src/typescript/roadmap_ref/node/core/data-mutation/mutate';
 import { closeEditorProtocol } from '@src/to-be-organized/node-rendering-stuff/actions-manager';
 import { setNotification } from '@components/roadmap/to-be-organized/notifications/notifciations-refr/notification-store-refr';
+import { injectComponentParentNodeId } from '@src/typescript/roadmap_ref/node/components/text/inject.ts';
 
 export function appendSubNode(node: NodeClass) {
   const newNestedNode = factorySubNode(node.id, 120, 40, 0, 0); // creates node
@@ -112,6 +113,7 @@ export function mutateNodesIds(nodes: HashMap<NodeClass>, baseNodeId: string) {
     node.components.forEach((component) => {
       component.id = getRandomId();
       addDraggingBehaviorComponentProtocol(component, node.id);
+      injectComponentParentNodeId(component, node.id);
     });
 
     if (node.flags.subNodeFlag) {
