@@ -26,7 +26,7 @@ import {
 import { getRenderingEngineType } from '@components/roadmap/rendering-engines/store-rendering-engine';
 import { triggerAllNodesRerender } from '@store/roadmap-refactor/render/rerender-triggers-nodes';
 import { deepCopy } from '@src/typescript/roadmap_ref/utils';
-import { removeRedundantSubnodes } from '@store/roadmap-refactor/roadmap-data/data-self-correction.ts';
+import { removeRedundantSubnodesWithoutParentPresent } from '@store/roadmap-refactor/roadmap-data/data-self-correction.ts';
 
 export type IEffectsStatuses =
   | 'mark-as-progress'
@@ -335,15 +335,9 @@ export function defocusAllNodesExceptBlacklist(blackListed: string[]) {
   const originalEffects = storeNodeEffects.get();
   const nodes = Object.keys(getRoadmapSelector().nodes);
 
-  // console.log('nodes', deepCopy(nodes));
-  // console.log('blackListed', deepCopy(blackListed));
-  // console.log('originalEffects', deepCopy(originalEffects));
   const roadmapSnapshot = deepCopy(getRoadmapSelector());
-  // console.log('roadmap snapshot', roadmapSnapshot);
   const roadmapNodes = Object.keys(roadmapSnapshot.nodes);
   const renderedNodes = Object.keys(originalEffects);
-  // console.log('length nodes', roadmapNodes.length);
-  // console.log('orign effectsl length', renderedNodes.length);
   const differenceIds = roadmapNodes.filter((x) => !renderedNodes.includes(x));
   // console.log('difference', differenceIds);
 
@@ -360,7 +354,8 @@ export function defocusAllNodesExceptBlacklist(blackListed: string[]) {
           e
         );
         console.warn('self correcting data');
-        removeRedundantSubnodes([id]);
+        removeRedundantSubnodesWithoutParentPresent([id]);
+        removeRedundantSubnodesWithoutParentPresent([id]);
         // throw new Error(`Error in defocusAllNodesExceptBlacklist: ${e}`);
       }
     }

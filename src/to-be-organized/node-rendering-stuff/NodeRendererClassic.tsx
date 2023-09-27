@@ -251,7 +251,7 @@ const NodeRendererClassic: React.FC<NodeViewProps> = ({
           !getHideProgress() &&
           node.actions.onClick !== 'Do nothing' && (
             <div
-              className={`h-[10px] left-0 top-0 rounded-t-md absolute select-none ${getNodeStatusBarColor(
+              className={`h-[10px] left-0 top-0 rounded-t-md absolute pointer-events-none select-none ${getNodeStatusBarColor(
                 node
               )}`}
               style={{

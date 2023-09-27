@@ -3,23 +3,60 @@ import { getRoadmapSelector } from '@store/roadmap-refactor/roadmap-data/roadmap
 import type { IRoadmap } from '@type/roadmap/stores/IRoadmap';
 import { deepCopy } from '@src/typescript/roadmap_ref/utils';
 
-export function removeRedundantSubnodes(redundantSubnodeIds: string[]) {
+export function removeRedundantSubnodesWithoutParentPresent(
+  redundantSubnodeIds: string[]
+) {
   const roadmap: IRoadmap = getRoadmapSelector();
   console.log(
-    'attempting self-correction: remove redundant nodes',
+    'attempting self-correction: remove redundant nodes without parent present',
     redundantSubnodeIds,
     deepCopy(roadmap)
   );
-  const { nodes } = roadmap;
-  for (let i = 0; i < redundantSubnodeIds.length; i += 1) {
-    const subnode = nodes[redundantSubnodeIds[i]];
-    const parentNode = nodes[subnode.properties.nestedWithin];
-    if (!parentNode.subNodeIds.includes(subnode.id)) {
+  console.log('redundant nodes data');
+  redundantSubnodeIds.forEach((id) => {
+    console.log(id, roadmap.nodes[id]);
+  });
+  try {
+    const { nodes } = roadmap;
+    for (let i = 0; i < redundantSubnodeIds.length; i += 1) {
+      const subnode = nodes[redundantSubnodeIds[i]];
       delete nodes[subnode.id];
     }
+    console.warn(
+      'succeded self-correction: removeRedundantSubnodes new nodes',
+      deepCopy(getRoadmapSelector())
+    );
+  } catch (e) {
+    console.warn('failed self-correction: removeRedundantSubnodes', e);
   }
-  console.warn(
-    'succeded self-correction: removeRedundantSubnodes new nodes',
-    deepCopy(getRoadmapSelector())
+}
+export function removeRedundantSubnodesWithParentPresent(
+  redundantSubnodeIds: string[]
+) {
+  const roadmap: IRoadmap = getRoadmapSelector();
+  console.log(
+    'attempting self-correction: remove redundant nodes with parent present',
+    redundantSubnodeIds,
+    deepCopy(roadmap)
   );
+  console.log('redundant nodes data');
+  redundantSubnodeIds.forEach((id) => {
+    console.log(id, roadmap.nodes[id]);
+  });
+  try {
+    const { nodes } = roadmap;
+    for (let i = 0; i < redundantSubnodeIds.length; i += 1) {
+      const subnode = nodes[redundantSubnodeIds[i]];
+      const parentNode = nodes[subnode.properties.nestedWithin];
+      if (!parentNode.subNodeIds.includes(subnode.id)) {
+        delete nodes[subnode.id];
+      }
+    }
+    console.warn(
+      'succeded self-correction: removeRedundantSubnodes new nodes',
+      deepCopy(getRoadmapSelector())
+    );
+  } catch (e) {
+    console.warn('failed self-correction: removeRedundantSubnodes', e);
+  }
 }
