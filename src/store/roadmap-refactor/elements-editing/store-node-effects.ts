@@ -333,15 +333,9 @@ export function appendStatusEffect(id: string, status: IEffectsStatuses) {
 
 export function defocusAllNodesExceptBlacklist(blackListed: string[]) {
   const originalEffects = storeNodeEffects.get();
-  const nodes = Object.keys(getRoadmapSelector().nodes);
+  const existingNodesWithEffects = Object.keys(originalEffects);
 
-  const roadmapSnapshot = deepCopy(getRoadmapSelector());
-  const roadmapNodes = Object.keys(roadmapSnapshot.nodes);
-  const renderedNodes = Object.keys(originalEffects);
-  const differenceIds = roadmapNodes.filter((x) => !renderedNodes.includes(x));
-  // console.log('difference', differenceIds);
-
-  nodes.forEach((id) => {
+  existingNodesWithEffects.forEach((id) => {
     if (blackListed.includes(id)) {
       deleteElementEffect(originalEffects, id, 'defocus-node');
     } else {

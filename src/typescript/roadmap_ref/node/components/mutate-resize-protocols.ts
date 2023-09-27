@@ -13,6 +13,7 @@ export function getResizeComponentCallbacks(
   const component = getResizeComponentRef();
   return (deltaXMouse, deltaYMouse) => {
     const { width, height } = getResizeComponentInitialSize();
+    console.log('deltaXMouse and original Width', deltaXMouse, width);
     mutateComponentWidth(component, width + deltaXMouse * 2);
   };
 }
