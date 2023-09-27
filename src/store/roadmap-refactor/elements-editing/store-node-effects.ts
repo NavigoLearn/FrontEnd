@@ -333,9 +333,10 @@ export function appendStatusEffect(id: string, status: IEffectsStatuses) {
 
 export function defocusAllNodesExceptBlacklist(blackListed: string[]) {
   const originalEffects = storeNodeEffects.get();
-  const existingNodesWithEffects = Object.keys(originalEffects);
+  const renderedNodes = Object.keys(originalEffects);
+  // nodes that have not had their first render will not have an effect array therefore giving an error
 
-  existingNodesWithEffects.forEach((id) => {
+  renderedNodes.forEach((id) => {
     if (blackListed.includes(id)) {
       deleteElementEffect(originalEffects, id, 'defocus-node');
     } else {

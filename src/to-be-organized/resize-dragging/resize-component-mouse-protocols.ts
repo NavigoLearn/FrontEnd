@@ -62,7 +62,6 @@ const handleResizeComponentMouseMove = throttle(() => {
     mouseMoveEvent,
     direction
   );
-  console.log('deltaX', deltaX);
 
   setIsResizingGlobalTrue();
   resizeCallback(deltaX, deltaY);

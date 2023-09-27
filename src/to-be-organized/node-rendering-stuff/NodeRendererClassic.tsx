@@ -126,6 +126,8 @@ const NodeRendererClassic: React.FC<NodeViewProps> = ({
 
   useNodeHandleEvents(nodeDivRef, nodeId, loaded);
 
+  // console.log('rerneder node', nodeId);
+
   return (
     // @ts-ignore
     <div
