@@ -8,12 +8,14 @@ import { PageMeta } from '../types/misc/PageMeta';
 import BasePopupManager from '../components/shared/BasePopupManager';
 import MobileFilterTab from '@src/components/explore/UI/components-mobile/MobilePopUp';
 
+console.log(import.meta.env);
+
 const SEGMENT_DEV_KEY = import.meta.env.SEGMENT_DEV_KEY;
 const SEGMENT_PROD_KEY = import.meta.env.SEGMENT_PROD_KEY;
 
+
 const isDev = import.meta.env.DEV;
 const isProd = import.meta.env.PROD;
-
 
 export interface Props {
   metadata?: PageMeta;
