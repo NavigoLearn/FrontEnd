@@ -4,7 +4,7 @@ import react from '@astrojs/react';
 import node from '@astrojs/node';
 import dotenv from 'dotenv';
 
-console.log(process.env.NODE_ENV);
+// console.log(process.env.NODE_ENV);
 dotenv.config({ path: 'segment-env/.env'});
 
 // https://astro.build/config
