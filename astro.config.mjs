@@ -5,7 +5,7 @@ import node from '@astrojs/node';
 import dotenv from 'dotenv';
 
 console.log(process.env.NODE_ENV);
-dotenv.config({ path: 'env/.env'});
+dotenv.config({ path: 'segment-env/.env'});
 
 // https://astro.build/config
 export default defineConfig({
