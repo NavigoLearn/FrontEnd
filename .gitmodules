@@ -1,0 +1,6 @@
+[submodule "src/frontend"]
+	path = src/frontend
+	url = https://github.com/NavigoLearn/segment-env.git
+[submodule "segment-env"]
+	path = segment-env
+	url = https://github.com/NavigoLearn/segment-env.git
