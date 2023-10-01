@@ -2,7 +2,10 @@
 /// <reference types="vite/client" />
 
 import { getViteConfig } from 'astro/config';
+import dotenv from 'dotenv';
 
+
+dotenv.config({ path: 'segment-env/.env.build' });
 
 export default getViteConfig({
   test: {
