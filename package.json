@@ -1,7 +1,7 @@
 {
   "name": "navigolearn-front",
   "type": "module",
-  "version": "2.1.4",
+  "version": "2.1.5",
   "description": "Navigo Front End",
   "repository": "https://github.com/NavigoLearn/Navigo-FrontEnd.git",
   "author": "Navigo",
@@ -9,7 +9,9 @@
   "scripts": {
     "dev": "astro dev --host",
     "start": "astro dev",
-    "build": "astro build",
+    "prebuild": "rm -rf ./dist && git submodule update --init --recursive && node copyEnv.js",
+    "build": "npm run prebuild && ISBUILD=true astro build",
+    "postbuild": "rm .env",
     "preview": "astro preview",
     "astro": "astro",
     "test": "vitest run",
