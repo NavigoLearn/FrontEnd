@@ -8,11 +8,11 @@ import { PageMeta } from '../types/misc/PageMeta';
 import BasePopupManager from '../components/shared/BasePopupManager';
 import MobileFilterTab from '@src/components/explore/UI/components-mobile/MobilePopUp';
 
-const SEGMENT_DEV_KEY = import.meta.env.SEGMENT_DEV_KEY;
-const SEGMENT_PROD_KEY = import.meta.env.SEGMENT_PROD_KEY;
-
 const isDev = import.meta.env.DEV;
 const isProd = import.meta.env.PROD;
+
+const SEGMENT_DEV_KEY = import.meta.env.SECRET_SEGMENT_DEV_KEY
+const SEGMENT_PROD_KEY = import.meta.env.SECRET_SEGMENT_PROD_KEY 
 
 
 export interface Props {
@@ -22,7 +22,7 @@ export interface Props {
 
 const { metadata, excludeFooter } = Astro.props;
 
-const SEGMENT_KEY = SEGMENT_PROD_KEY;
+const SEGMENT_KEY = isProd ? SEGMENT_PROD_KEY : SEGMENT_DEV_KEY;
 
 if (metadata !== undefined)
   metadata.title =
