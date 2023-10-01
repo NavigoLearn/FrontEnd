@@ -19,6 +19,7 @@ export const fetchRoadmap = async (id: string) => {
 export const fetchUpdateRoadmapData = async (roadmap: IRoadmap) => {
   const id = getRoadmapId();
   if (!id) return; // on create page
+
   const response = await fetch(`/api/roadmaps/${id}/data`, {
     method: 'POST',
     credentials: 'include',
