@@ -39,6 +39,7 @@ const AnalyticsManager = ({ segmentKey }: IAnalyticsManagerProps) => {
   }, []);
 
   useEffect(() => {
+    console.log('mounted');
     const pageLocation = window.location.pathname;
     const page = processPageLocation(pageLocation);
     if (page === 'error') return;

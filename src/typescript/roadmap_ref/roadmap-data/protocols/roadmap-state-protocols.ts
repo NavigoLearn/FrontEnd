@@ -21,11 +21,11 @@ import { setRoadmapState } from '@store/roadmap-refactor/roadmap-data/misc-data/
 import { getRoadmapViews } from '@store/roadmap-refactor/roadmap-data/misc-data/roadmap-statistics';
 
 export function enterEditingModeProtocol() {
-  const deepCopyRoadmap = deepCopy(roadmapSelector.get());
+  const deepCopyRoadmap = deepCopy(roadmapSelector.get()); // performance paint point
   setRoadmapEditStore(deepCopyRoadmap);
   setDisplayPageType('closed');
   setRoadmapState('edit');
-  setAllDraggableTrue();
+  setAllDraggableTrue(); // performance paint point
 }
 
 export function transferEditToRoadmap() {
