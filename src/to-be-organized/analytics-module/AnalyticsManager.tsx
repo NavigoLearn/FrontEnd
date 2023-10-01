@@ -39,7 +39,9 @@ const AnalyticsManager = ({ segmentKey }: IAnalyticsManagerProps) => {
   }, []);
 
   useEffect(() => {
-    console.log('mounted', segmentKey, analytics);
+    if (segmentKey === undefined) {
+      console.log('segment key is undefined');
+    }
     const pageLocation = window.location.pathname;
     const page = processPageLocation(pageLocation);
     if (page === 'error') return;
