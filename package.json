@@ -1,7 +1,7 @@
 {
   "name": "navigolearn-front",
   "type": "module",
-  "version": "2.1.3",
+  "version": "2.1.4",
   "description": "Navigo Front End",
   "repository": "https://github.com/NavigoLearn/Navigo-FrontEnd.git",
   "author": "Navigo",
@@ -31,6 +31,7 @@
     "animejs": "^3.2.1",
     "astro": "^3.1.1",
     "d3": "^7.8.2",
+    "dotenv": "^16.3.1",
     "framer-motion": "^10.15.1",
     "nanostores": "^0.7.4",
     "parse-domain": "^7.0.1",
