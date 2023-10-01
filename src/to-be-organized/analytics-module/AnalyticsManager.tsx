@@ -39,7 +39,6 @@ const AnalyticsManager = ({ segmentKey }: IAnalyticsManagerProps) => {
   }, []);
 
   useEffect(() => {
-    console.log('mounted');
     if (segmentKey === undefined) {
       console.log('segment key is undefined');
     }
