@@ -3,7 +3,7 @@ name: Sync Submodule
 on:
   push:
     branches:
-      - prod
+      - production
 
 jobs:
   sync:
