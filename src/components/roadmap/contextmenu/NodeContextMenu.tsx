@@ -11,6 +11,8 @@ import {
   contextMenuStore,
   hideContextMenu,
 } from '@components/roadmap/contextmenu/store/ContextMenu';
+import userStatus from '@store/user/user-status';
+import { setBasePopup } from '@components/shared/stores/store-base-popups';
 
 const iconMap = {
   'In Progress': inProgress,
@@ -85,6 +87,11 @@ const NodeContextMenu = () => {
               type='button'
               onClick={(event) => {
                 event.stopPropagation();
+                if (!userStatus.get().isLogged) {
+                  // show login modal
+                  setBasePopup('get-started');
+                  return;
+                }
                 setRoadmapNodeProgressAndFetchUpdate(state.nodeId, actionName);
                 triggerNodeRerender(state.nodeId);
                 hideContextMenu();
