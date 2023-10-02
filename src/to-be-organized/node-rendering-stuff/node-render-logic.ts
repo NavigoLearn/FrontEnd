@@ -40,7 +40,11 @@ export const checkFirstOnClick = (nodeId) => {
       'Login to unlock progress tracking'
     );
   } else {
+    const firstProgress = localStorage.getItem('firstProgress');
+    if (firstProgress === 'true') return true;
+    localStorage.setItem('firstProgress', 'true');
     // set in progress
+    setNotification('info', 'Right click to track your progress');
     setRoadmapNodeProgressAndFetchUpdate(nodeId, 'In Progress');
     triggerNodeRerender(nodeId);
   }
