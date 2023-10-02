@@ -182,8 +182,9 @@ const NodeRendererClassic: React.FC<NodeViewProps> = ({
             ) {
               return;
             }
-            checkFirstOnClick(nodeId);
-            getOnClickAction(nodeId)();
+            if (!checkFirstOnClick(nodeId)) {
+              getOnClickAction(nodeId)();
+            }
           }}
           style={style}
         />

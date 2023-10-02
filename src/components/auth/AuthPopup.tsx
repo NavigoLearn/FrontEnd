@@ -9,8 +9,9 @@ import { CLOSE_SVG_SRC } from '@src/to-be-organized/svg-params';
 
 type IAuthPopupProps = {
   closeCallback: () => void;
+  additionalData: string;
 };
-const AuthPopup = ({ closeCallback }: IAuthPopupProps) => {
+const AuthPopup = ({ closeCallback, additionalData }: IAuthPopupProps) => {
   return (
     <div className='relative bg-white w-72 pb-6 border-t-8 border-t-primary rounded-lg'>
       <h2 className='text-2xl font-medium font-roboto-text w-full flex justify-center mt-6 '>
@@ -18,7 +19,7 @@ const AuthPopup = ({ closeCallback }: IAuthPopupProps) => {
       </h2>
       <div className='flex justify-center mt-2 w-full'>
         <span className='text-sm font-roboto-text text-placeholder text-center w-3/4 '>
-          If you don't have an account we will create one for you !
+          {additionalData}
         </span>
       </div>
 

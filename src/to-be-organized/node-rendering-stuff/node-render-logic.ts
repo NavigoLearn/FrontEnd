@@ -30,17 +30,21 @@ export function getNodeStatusBarColor(node: NodeClass) {
 let firstClickOnPage = true;
 
 export const checkFirstOnClick = (nodeId) => {
-  if (!firstClickOnPage) return;
+  if (!firstClickOnPage) return false;
   firstClickOnPage = false;
   // clear local storage if user not logged in
   if (userStatus.get().isLogged === false) {
     // triggers popup to show up
-    setDisplayPageTypeFullScreen('get-started');
+    setDisplayPageTypeFullScreen(
+      'get-started',
+      'Login to unlock progress tracking'
+    );
   } else {
     // set in progress
     setRoadmapNodeProgressAndFetchUpdate(nodeId, 'In Progress');
     triggerNodeRerender(nodeId);
   }
+  return true;
 };
 
 export const handleContextMenu = (node: NodeClass, event) => {

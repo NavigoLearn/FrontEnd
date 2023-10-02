@@ -36,7 +36,10 @@ const buttonsMapper: Record<IButtonsRoadmapNavbarOptions, IButtonProperties> = {
   'get-started': {
     name: 'Get started',
     callback: () => {
-      setDisplayPageTypeFullScreen('get-started');
+      setDisplayPageTypeFullScreen(
+        'get-started',
+        'Login to unlock progress tracking'
+      );
     },
   },
   'reset-roadmap': {
