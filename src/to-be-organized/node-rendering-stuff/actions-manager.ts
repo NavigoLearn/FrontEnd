@@ -115,7 +115,6 @@ export function getOnClickActionView(nodeId): () => void {
     dispatchAnalyticsEvent('roadmapInteraction', {
       actionType: 'clicked-node',
     });
-    checkFirstOnClick(nodeId);
   };
 }
 export function getOnClickAction(nodeId: string): () => void {
