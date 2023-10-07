@@ -15,6 +15,7 @@ import roadmapStateStore, {
   setRoadmapState,
   setHasStarterTab,
   getIsEditing,
+  getRoadmapState,
 } from '@store/roadmap-refactor/roadmap-data/misc-data/roadmap_state';
 import {
   disableRoadmapDragZoomAnd,
@@ -81,11 +82,15 @@ import {
 } from '@store/roadmap-refactor/roadmap-data/misc-data/roadmap-progress';
 import NotificationProviderHOC from '@components/roadmap/NotificationProviderHOC';
 import { setNotification } from '@components/roadmap/to-be-organized/notifications/notifciations-refr/notification-store-refr';
-import { getIsResizingGlobal } from '@src/to-be-organized/resize-dragging/stores-resize-shared-data';
+import {
+  getIsResizingGlobal,
+  getMouseCoords,
+} from '@src/to-be-organized/resize-dragging/stores-resize-shared-data';
 import {
   getNodeTriggerRender,
   triggerNodeRerender,
 } from '@store/roadmap-refactor/render/rerender-triggers-nodes';
+import ToolTip from '@src/to-be-organized/node-rendering-stuff/Tooltip';
 
 export function initialRoadmapProtocolAfterLoad() {
   setRoadmapIsLoaded();
@@ -362,6 +367,7 @@ const Roadmap = ({
       }}
     >
       <ElementsDisplayManager />
+      <ToolTip />
       <svg
         id='rootSvg'
         width='100%'
