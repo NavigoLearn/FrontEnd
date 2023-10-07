@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { componentsRenderer } from '@src/to-be-organized/node-rendering-stuff/ComponentsRenderer';
 import { triggerNodeRerender } from '@store/roadmap-refactor/render/rerender-triggers-nodes';
@@ -37,6 +37,11 @@ import NodeHOCForeignObject from '@components/roadmap/to-be-organized/NodeHOCFor
 import AsyncLoaderHOC from '@components/roadmap/rendering-engines/async-loading/AsyncLoaderHOC';
 import { showContextMenu } from '@components/roadmap/contextmenu/store/ContextMenu';
 import useContextMenuOrLongPress from '@hooks/useContextMenuOrLongPress';
+import {
+  activateToolTip,
+  deactivateToolTip,
+  setNodeType,
+} from './store-tooltip';
 
 interface NodeViewProps {
   nodeId: string;
@@ -51,6 +56,7 @@ const NodeRendererClassic: React.FC<NodeViewProps> = ({
 }) => {
   const node = getNodeByIdRoadmapSelector(nodeId);
   const { editing, scale, isSafari, optimized } = useNodeExternalData();
+  const [maskBoolean, setMaskBoolean] = useState(false);
 
   const handleContextMenuOrLongPress = (event) => {
     event.stopPropagation();
@@ -107,6 +113,8 @@ const NodeRendererClassic: React.FC<NodeViewProps> = ({
 
   useNodeHandleEvents(nodeDivRef, nodeId, loaded);
 
+  // console.log(scale);
+
   // console.log('rerneder node', nodeId);
 
   return (
@@ -134,15 +142,20 @@ const NodeRendererClassic: React.FC<NodeViewProps> = ({
           getOnMouseOverAction(nodeId)();
           setMouseOver(true);
           triggerNodeRerender(nodeId);
+          setMaskBoolean(true);
+          activateToolTip();
+          setNodeType(node.actions.onClick);
         }}
         onMouseLeave={() => {
           getOnMouseOutActionEdit(nodeId)();
           setMouseOver(false);
+          deactivateToolTip();
         }}
         onMouseOut={(event) => {
           event.stopPropagation();
           getOnMouseOutAction(nodeId)();
           setMouseOver(false);
+          setMaskBoolean(false);
         }}
       >
         {getElementHasEffect(nodeId, 'highlight-node') && (
@@ -152,10 +165,9 @@ const NodeRendererClassic: React.FC<NodeViewProps> = ({
             </div>
           </div>
         )}
-
         {!isSubNode && bgOpacity !== 0 && (
           <div
-            className='rounded-md bg-backgroundRoadmap absolute '
+            className='bg-backgroundRoadmap absolute '
             id={`background${nodeId}`}
             style={{
               ...style,
@@ -168,7 +180,7 @@ const NodeRendererClassic: React.FC<NodeViewProps> = ({
         <div
           onFocus={() => {}}
           onBlur={() => {}}
-          className={`rounded-md ${
+          className={`${
             !optimized && shadowClass
           } top-0 left-0 transition-allNoTransform duration-200 absolute ${cursor}`}
           ref={nodeDivRef}
@@ -188,6 +200,17 @@ const NodeRendererClassic: React.FC<NodeViewProps> = ({
           }}
           style={style}
         />
+
+        {maskBoolean && !editing && node.actions.onClick !== 'Do nothing' && (
+          <div
+            className={`absolute w-full h-full border-2 ${
+              node.data.colorType === 'tertiary' ||
+              node.data.colorType === 'secondary'
+                ? 'border-blue-400'
+                : 'border-primary'
+            } pointer-events-none`}
+          />
+        )}
 
         <AnimatePresence>
           {isDraggable &&
@@ -235,7 +258,7 @@ const NodeRendererClassic: React.FC<NodeViewProps> = ({
           !getHideProgress() &&
           node.actions.onClick !== 'Do nothing' && (
             <div
-              className={`h-[10px] left-0 top-0 rounded-t-md absolute pointer-events-none select-none ${getNodeStatusBarColor(
+              className={`h-[10px] left-0 top-0 absolute pointer-events-none select-none ${getNodeStatusBarColor(
                 node
               )}`}
               style={{
