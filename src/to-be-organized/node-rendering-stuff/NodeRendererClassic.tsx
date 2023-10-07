@@ -203,7 +203,7 @@ const NodeRendererClassic: React.FC<NodeViewProps> = ({
 
         {maskBoolean && !editing && node.actions.onClick !== 'Do nothing' && (
           <div
-            className={`absolute w-full h-full border-2 ${
+            className={`absolute w-full h-full border-2 border-opacity-100 ${
               node.data.colorType === 'tertiary' ||
               node.data.colorType === 'secondary'
                 ? 'border-blue-400'
