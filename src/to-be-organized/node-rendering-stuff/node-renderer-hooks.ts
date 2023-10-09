@@ -255,7 +255,7 @@ export function useNodeRuntimeProperties(nodeId: string) {
     } else if (onClick === 'Open attachment') {
       cursor = 'cursor-pointer';
     } else if (onClick === 'Open link') {
-      cursor = 'cursor-custom-link';
+      cursor = 'cursor-pointer';
     }
   }
 
