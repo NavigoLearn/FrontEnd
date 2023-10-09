@@ -6,6 +6,10 @@ import {
 import { triggerNodeRerender } from '@store/roadmap-refactor/render/rerender-triggers-nodes';
 import { setNotification } from '@components/roadmap/to-be-organized/notifications/notifciations-refr/notification-store-refr';
 import { showContextMenu } from '@components/roadmap/contextmenu/store/ContextMenu';
+import userStatus from '@store/user/user-status';
+import { checkIsMobile } from '@hooks/useIsMobile.tsx';
+import { atom } from 'nanostores';
+import { setDisplayPageTypeFullScreen } from '@store/roadmap-refactor/display/display-manager-full-screen.ts';
 
 export function getNodeOpacity(node: NodeClass) {
   return node.data.opacity / 100;
@@ -18,26 +22,33 @@ export function getNodeStatusBarColor(node: NodeClass) {
     Completed: 'bg-green-400',
     Skip: 'bg-gray-400',
   };
-  const attachment = node.attachments[0];
+  // const attachment = node.attachments[0];
   const status = getRoadmapNodeProgress(node.id);
   return statusCircleBgColor[status];
 }
 
+let firstClickOnPage = true;
+
 export const checkFirstOnClick = (nodeId) => {
-  // check local storage if it's the first time the user clicks on a node
-  const firstClick = localStorage.getItem('firstClick');
-  if (firstClick !== null) return;
-  localStorage.setItem('firstClick', 'true');
-
-  // set in progress
-  setRoadmapNodeProgressAndFetchUpdate(nodeId, 'In Progress');
-  triggerNodeRerender(nodeId);
-
-  // show notification
-  setNotification(
-    'info',
-    'To modify progress status, right-click on the node.'
-  );
+  if (!firstClickOnPage) return false;
+  firstClickOnPage = false;
+  // clear local storage if user not logged in
+  if (userStatus.get().isLogged === false) {
+    // triggers popup to show up
+    setDisplayPageTypeFullScreen(
+      'get-started',
+      'Login to unlock progress tracking'
+    );
+  } else {
+    const firstProgress = localStorage.getItem('firstProgress');
+    if (firstProgress === 'true') return true;
+    localStorage.setItem('firstProgress', 'true');
+    // set in progress
+    setNotification('info', 'Right click to track your progress');
+    setRoadmapNodeProgressAndFetchUpdate(nodeId, 'In Progress');
+    triggerNodeRerender(nodeId);
+  }
+  return true;
 };
 
 export const handleContextMenu = (node: NodeClass, event) => {

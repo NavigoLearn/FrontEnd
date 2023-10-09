@@ -25,6 +25,7 @@ const FullScreenPopupManager = () => {
       {type === 'get-started' && (
         <div className='h-[100%] w-[100%] bg-[#1A1B504D] absolute top-0 z-30 flex justify-center items-center'>
           <AuthPopup
+            additionalData={additionalData}
             closeCallback={() => {
               setDisplayPageTypeFullScreen('closed');
             }}

@@ -7,9 +7,12 @@ import {
   setRenderingEngineOptimized,
   storeRenderingEngine,
 } from '@components/roadmap/rendering-engines/store-rendering-engine';
+import { useNodeExternalData } from '@src/to-be-organized/node-rendering-stuff/node-renderer-hooks';
+import TooltipToggle from './TooltipTogle';
 
 const LeftSideSettings = () => {
   const { startX, startY, scale } = useStore(viewportCoord);
+  const { editing } = useNodeExternalData();
   const { optimized } = useStore(storeRenderingEngine);
 
   return (
@@ -38,6 +41,7 @@ const LeftSideSettings = () => {
         >
           optimize {optimized ? 'on' : 'off'}
         </button>
+        <div>{!editing && <TooltipToggle />}</div>
       </div>
     </div>
   );

@@ -11,6 +11,7 @@ import {
   getNodeByIdRoadmapSelector,
   getRootGlobalId,
 } from '@src/typescript/roadmap_ref/roadmap-data/services/get';
+import { setZoomed } from '@src/to-be-organized/node-rendering-stuff/store-tooltip';
 
 export const calculateRootNodeTransform = () => {
   const rootNode = getNodeByIdRoadmapSelector(getRootGlobalId());
@@ -39,6 +40,8 @@ export const enableRoadmapZoomDragAndRecenter = (
     rerender();
     this.zoomTransform = d3.zoomIdentity;
     const zoomTransform: d3.ZoomTransform = d3.zoomTransform(this);
+    // deactivateToolTip();
+    setZoomed(true);
 
     // @ts-ignore
     rootGroup.attr('transform', zoomTransform);

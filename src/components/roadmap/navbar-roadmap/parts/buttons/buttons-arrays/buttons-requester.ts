@@ -12,7 +12,7 @@ import {
 } from '@store/roadmap-refactor/roadmap-data/misc-data/roadmap_state';
 import { triggerAllNodesRerender } from '@store/roadmap-refactor/render/rerender-triggers-nodes';
 import { clearSession } from '@src/typescript/roadmap_ref/caching/restoreSession';
-import { getAsyncLoadingCounter } from '@components/roadmap/rendering-engines/async-loading/store-async-loading.ts';
+import { getAsyncLoadingCounter } from '@components/roadmap/rendering-engines/async-loading/store-async-loading';
 
 export type IButtonsRoadmapNavbarOptions =
   | 'get-started'
@@ -34,9 +34,12 @@ type IButtonProperties = {
 };
 const buttonsMapper: Record<IButtonsRoadmapNavbarOptions, IButtonProperties> = {
   'get-started': {
-    name: 'Get started',
+    name: 'Login',
     callback: () => {
-      setDisplayPageTypeFullScreen('get-started');
+      setDisplayPageTypeFullScreen(
+        'get-started',
+        'Unlock progress tracking and voting now by logging in using:'
+      );
     },
   },
   'reset-roadmap': {
