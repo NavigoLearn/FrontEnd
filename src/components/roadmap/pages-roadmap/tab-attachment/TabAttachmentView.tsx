@@ -54,7 +54,7 @@ const TabAttachmentView = () => {
   });
 
   return (
-    <div className='w-full h-full flex-col'>
+    <div className='w-full h-full flex-col overflow-y-auto overflow-x-hidden'>
       <div className='flex justify-between mt-7'>
         <h2 className='text-3xl text-black font-medium font-kanit-text'>
           {componentMapper(components[0])}
