@@ -6,6 +6,7 @@ import Statistic from '@components/profile/UI/parts-desktop/profile-display-page
 import StatisticsRoadmapNavbar from '@components/roadmap/navbar-roadmap/viewmodes/viewer/components/StatisticsRoadmapNavbar.tsx';
 import LoginButton from '@components/roadmap/navbar-roadmap/viewmodes/viewer/components/LoginButton.tsx';
 import TitleAndStatsRoadmap from '@components/roadmap/navbar-roadmap/viewmodes/viewer/components/TitleAndStatsRoadmap.tsx';
+import CommunitySection from '@components/roadmap/navbar-roadmap/viewmodes/viewer/components/community-section/CommunitySection.tsx';
 
 const NavbarRoadmapViewer = () => {
   // stores are loaded with all the data when this is rendered
@@ -21,13 +22,15 @@ const NavbarRoadmapViewer = () => {
         {!!isLogged && <StatisticsRoadmapNavbar />}
         {!isLogged && <LoginButton />}
       </div>
-      <section className='absolute top-0 left-0 w-full h-full'>
+      <section className='absolute top-0 left-0 w-full h-full pointer-events-none'>
         <div className='w-full h-full flex justify-center items-center'>
           <TitleAndStatsRoadmap />
         </div>
       </section>
-      <section className='absolute top-0 left-0 w-full h-full'>
-        <div className='w-full h-full flex justify-end items-center'>dvedd</div>
+      <section className='absolute top-0 left-0 w-full h-full pointer-events-none'>
+        <div className='w-full h-full flex justify-end items-center'>
+          <CommunitySection />
+        </div>
       </section>
     </div>
   );
