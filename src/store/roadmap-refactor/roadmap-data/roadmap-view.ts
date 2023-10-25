@@ -16,7 +16,6 @@ export function setRoadmapViewStore(roadmap: IRoadmap) {
 
 export const setRoadmapViewFromAPI = roadmapAdapterDecorator(
   (roadmapData: IRoadmapApi) => {
-    console.log('setRoadmapViewFromAPI', roadmapData);
     if (isRoadmapType(roadmapData.data)) {
       // @ts-ignore
       const roadmap: IRoadmap = roadmapData.data;

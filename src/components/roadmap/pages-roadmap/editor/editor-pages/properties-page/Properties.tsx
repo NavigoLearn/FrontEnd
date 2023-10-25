@@ -29,7 +29,6 @@ import {
 } from '@src/typescript/roadmap_ref/node/core/factories/params/default-params';
 import addCircle from '@assets/editor/addCircle.svg';
 import { triggerNodeConnectionsRerender } from '@src/to-be-organized/triggering-stuff-alert/trigger-connections';
-import { subscribeHovered } from '@store/roadmap/sidebar/clickSubject.ts';
 import { subscribeToHub } from '@store/roadmap-refactor/subscribers/function-subscribers.ts';
 import { useTriggerRerender } from '@hooks/useTriggerRerender.tsx';
 import TextInputStandard from './TextInputStandard';

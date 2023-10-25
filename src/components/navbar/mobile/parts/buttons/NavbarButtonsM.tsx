@@ -1,5 +1,5 @@
 import React from 'react';
-import BackArrow from '@src/components/roadmap/navbar-roadmap/parts/BackArrow';
+import BackArrow from '@components/roadmap/navbar-roadmap/deprecated/parts/BackArrow';
 import { setBasePopup } from '@src/components/shared/stores/store-base-popups';
 import dropdown from '@assets/dropdown.svg';
 import { useClickOutside } from '@src/hooks/useClickOutside';
