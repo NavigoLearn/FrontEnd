@@ -7,7 +7,7 @@ const AnonymusButtons = () => {
     <div className='flex gap-8 mr-6 items-center'>
       <Button
         hasUnder
-        name='Get Started'
+        name='Login'
         buttonData={{
           type: 'button',
           callback: () => {
@@ -18,7 +18,7 @@ const AnonymusButtons = () => {
 
       <Button
         hasUnder
-        name='Try tool'
+        name='Create roadmap'
         buttonData={{
           type: 'link',
           href: '/roadmap/create',
