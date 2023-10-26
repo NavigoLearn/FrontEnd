@@ -44,7 +44,7 @@ const Done = () => {
   return (
     <div className='flex gap-2 items-center'>
       <span className='font-roboto-text text-secondary'>Done</span>
-      <div>{calculatedPercentage}%</div>
+      <div className='font-roboto-text'>{calculatedPercentage}%</div>
     </div>
   );
 };
