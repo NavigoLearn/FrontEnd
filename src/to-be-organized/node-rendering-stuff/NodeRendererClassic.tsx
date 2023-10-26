@@ -116,10 +116,13 @@ const NodeRendererClassic: React.FC<NodeViewProps> = ({
 
   useNodeHandleEvents(nodeDivRef, nodeId, loaded);
 
+  const shouldNotHaveEvents =
+      getRoadmapState() === 'view' && node.actions.onClick === 'Do nothing';
+
   return (
     // @ts-ignore
     <div
-      className={isSafari && !isSubNode ? 'fixed origin-center' : ''}
+      className={`${shouldNotHaveEvents ? 'pointer-events-none': 'pointer-events-auto'} ${isSafari && !isSubNode ? 'fixed origin-center' : ''}`}
       style={{
         transform: `scale(${isSafari && !isSubNode ? scale : 1})`,
       }}
@@ -193,9 +196,7 @@ const NodeRendererClassic: React.FC<NodeViewProps> = ({
             ) {
               return;
             }
-            // if (!checkFirstOnClick(nodeId)) {
             getOnClickAction(nodeId)();
-            // }
           }}
           style={style}
         />
