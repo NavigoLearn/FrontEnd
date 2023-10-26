@@ -2,16 +2,20 @@ import React from 'react';
 import BackToAllRoadmaps from '@components/roadmap/navbar-roadmap/commonUI/BackToAllRoadmaps.tsx';
 import { useStore } from '@nanostores/react';
 import storeVisitorStatus from '@store/user/user-status.ts';
-import StatisticsRoadmapNavbar from '@components/roadmap/navbar-roadmap/viewmodes/viewer/components/StatisticsRoadmapNavbar.tsx';
 import LoginButton from '@components/roadmap/navbar-roadmap/viewmodes/viewer/components/LoginButton.tsx';
 import TitleAndStatsRoadmap from '@components/roadmap/navbar-roadmap/viewmodes/viewer/components/TitleAndStatsRoadmap.tsx';
 import CommunitySection from '@components/roadmap/navbar-roadmap/viewmodes/viewer/components/community-section/CommunitySection.tsx';
 import StatisticsRoadmapUser from '@components/roadmap/navbar-roadmap/viewmodes/viewer/components/statistics-user/StatisticsRoadmapUser.tsx';
+import { useUnder2Xl } from '@hooks/useUnder2Xl.tsx';
+import { setUnder2Xl } from '@components/roadmap/navbar-roadmap/stores/store-roadmap-navbar-properties.ts';
 
 const NavbarRoadmapViewer = () => {
   // stores are loaded with all the data when this is rendered
   const { userId } = useStore(storeVisitorStatus);
   const isLogged = !!userId;
+
+  const [under2Xl] = useUnder2Xl();
+  setUnder2Xl(under2Xl);
 
   return (
     <div className='relative w-full h-full'>

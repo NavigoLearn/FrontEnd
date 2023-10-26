@@ -10,12 +10,12 @@ const MoreStatistics = () => {
   return (
     <div className='relative'>
       <div
-        className='flex items-center gap-1 py-1 px-2 hover:bg-gray-200'
+        className='flex items-center gap-1 p-1 hover:bg-gray-200'
         onClick={() => {
           setOpened((prev) => !prev);
         }}
       >
-        <span>More statistics</span>
+        <span className='font-roboto-text font-medium'>More statistics</span>
         <ChevronDown
           size={22}
           className={` ${

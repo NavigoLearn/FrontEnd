@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useStore } from '@nanostores/react';
 import storeRoadmapAbout, {
   getRoadmapId,
@@ -6,19 +6,22 @@ import storeRoadmapAbout, {
 import { InfoIcon } from 'lucide-react';
 import { requestButton } from '@components/roadmap/navbar-roadmap/buttons/buttons-arrays/buttons-requester.ts';
 import StatisticsRoadmapNavbar from '@components/roadmap/navbar-roadmap/viewmodes/viewer/components/StatisticsRoadmapNavbar.tsx';
+import { storeRoadmapNavbarProperties } from '@components/roadmap/navbar-roadmap/stores/store-roadmap-navbar-properties.ts';
 
 const TitleAndStatsRoadmap = () => {
+  const { under2Xl } = useStore(storeRoadmapNavbarProperties);
   const { name } = useStore(storeRoadmapAbout);
   const aboutButton = requestButton('about');
+
   return (
     <div className='relative pointer-events-auto'>
       <div className='flex items-center gap-2'>
-        <div className=' text-lg font-semibold text-darkBlue font-roboto-text'>
+        <div className='text-base 2xl:text-lg font-semibold text-darkBlue font-roboto-text'>
           {name} {name}
         </div>
         <div className='p-1 hover:bg-gray-200'>
           <InfoIcon
-            size={25}
+            size={under2Xl ? 20 : 24}
             onClick={() => {
               aboutButton.callback();
             }}

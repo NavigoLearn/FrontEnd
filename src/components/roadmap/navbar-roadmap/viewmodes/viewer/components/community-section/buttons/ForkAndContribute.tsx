@@ -1,8 +1,11 @@
 import React from 'react';
 import { GitPullRequest } from 'lucide-react';
 import { tailwindTransitionClass } from '@src/UI-library/tailwind-utils.ts';
+import { useStore } from '@nanostores/react';
+import { storeRoadmapNavbarProperties } from '@components/roadmap/navbar-roadmap/stores/store-roadmap-navbar-properties.ts';
 
 const ForkAndContribute = () => {
+  const { under2Xl } = useStore(storeRoadmapNavbarProperties);
   return (
     <div className='relative'>
       <div className={`flex gap-2 items-center p-2 ${tailwindTransitionClass}`}>
