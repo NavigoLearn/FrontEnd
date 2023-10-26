@@ -7,6 +7,7 @@ import {
 } from '@src/api-wrapper/explore/roadmap-likes';
 import { getUserStatus } from '@store/user/user-status';
 import { setBasePopup } from '@components/shared/stores/store-base-popups.ts';
+import { requestButton } from '@components/roadmap/navbar-roadmap/viewmodes/owner/components/buttons-arrays/buttons-requester.ts';
 
 export type VoteState = 'upvote' | 'downvote' | 'none';
 
@@ -14,16 +15,19 @@ type IUpvoteDownvoteProps = {
   upvotes: number;
   voteState: VoteState;
   roadmapId: number;
+  size?: number;
 };
 const UpvoteDownvote = ({
   upvotes,
   voteState,
   roadmapId,
+  size,
 }: IUpvoteDownvoteProps) => {
   const [loaded, setLoaded] = useState(false);
   const [upvote, setUpvote] = useState(false);
   const [downvote, setDownvote] = useState(false);
   const [votes, setVotes] = useState(upvotes);
+  const loginButtonCallback = requestButton('get-started').callback;
 
   function setFromVoteState() {
     if (voteState === 'upvote') {
@@ -48,7 +52,7 @@ const UpvoteDownvote = ({
 
   function handleVote() {
     if (getUserStatus().isLogged === false) {
-      setBasePopup('get-started');
+      loginButtonCallback();
       setFromVoteState();
       return;
     }
@@ -103,7 +107,7 @@ const UpvoteDownvote = ({
   return (
     <div className='flex items-center'>
       <UpvoteSvg
-        size={20}
+        size={size}
         voted={upvote}
         upvote
         callback={() => {
@@ -118,7 +122,7 @@ const UpvoteDownvote = ({
         }}
       />
       <UpvoteSvg
-        size={20}
+        size={size}
         voted={downvote}
         upvote={false}
         callback={() => {
@@ -132,11 +136,15 @@ const UpvoteDownvote = ({
         }}
       />
 
-      <span className='text-darkBlue text-sm font-roboto-text ml-2'>
+      <span className='text-darkBlue text-xs font-roboto-text ml-1'>
         {votes}
       </span>
     </div>
   );
+};
+
+UpvoteDownvote.defaultProps = {
+  size: 20,
 };
 
 export default UpvoteDownvote;
