@@ -22,7 +22,7 @@ export function setRoadmapNodeProgress(
 ) {
   const progress = getRoadmapProgress();
   progress[nodeId] = status;
-  storeRoadmapProgress.set(progress);
+  storeRoadmapProgress.set({ ...progress });
 }
 
 export function getRoadmapNodeProgress(nodeId: string) {
@@ -41,4 +41,14 @@ export function setRoadmapNodeProgressAndFetchUpdate(
       actionType: 'marked-node',
     });
   });
+}
+
+export function getRoadmapMarkedNodes() {
+  const progress = getRoadmapProgress();
+  const markedNodes = [];
+  const nodesIds = Object.keys(progress);
+  nodesIds.forEach((nodeId) => {
+    if (progress[nodeId] !== 'Status') markedNodes.push(nodeId);
+  });
+  return markedNodes;
 }

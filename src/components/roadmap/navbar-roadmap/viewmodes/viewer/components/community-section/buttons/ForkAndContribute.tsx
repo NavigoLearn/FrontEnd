@@ -5,9 +5,7 @@ import { tailwindTransitionClass } from '@src/UI-library/tailwind-utils.ts';
 const ForkAndContribute = () => {
   return (
     <div className='relative'>
-      <div
-        className={`flex gap-2 items-center p-2 hover:bg-gray-200${tailwindTransitionClass}`}
-      >
+      <div className={`flex gap-2 items-center p-2 ${tailwindTransitionClass}`}>
         <GitPullRequest size={22} className='opacity-30' />
         <div className='font-roboto-text font-medium text-base opacity-60 relative'>
           Fork and contribute
