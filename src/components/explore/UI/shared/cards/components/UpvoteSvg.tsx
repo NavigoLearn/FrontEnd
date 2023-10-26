@@ -26,9 +26,9 @@ const UpvoteSvg = ({ size, voted, upvote, callback }: IUpvoteProps) => {
       onMouseLeave={() => {
         setHovered(false);
       }}
-      className={`${!upvote && 'rotate-180'} ${tailwindTransitionClass} ${
-        hovered && 'bg-gray-200 '
-      }`}
+      className={`cursor-pointer ${
+        !upvote && 'rotate-180'
+      } ${tailwindTransitionClass} ${hovered && 'bg-gray-200 '}`}
     >
       <path
         d='M3.375 9.375L8.625 3H9.375L14.625 9.375L11.625 9.75L10.875 15.75H7.125L6.375 9.75L3.375 9.375Z'

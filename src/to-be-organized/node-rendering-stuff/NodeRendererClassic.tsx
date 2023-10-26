@@ -10,7 +10,10 @@ import {
   getOnMouseOverAction,
 } from '@src/to-be-organized/node-rendering-stuff/actions-manager';
 import { getElementHasEffect } from '@store/roadmap-refactor/elements-editing/store-node-effects';
-import { getHideProgress } from '@store/roadmap-refactor/roadmap-data/misc-data/roadmap_state';
+import {
+  getHideProgress,
+  getRoadmapState,
+} from '@store/roadmap-refactor/roadmap-data/misc-data/roadmap_state';
 import DraggingResizeElement from '@src/to-be-organized/resize-dragging/DraggingResizeElement';
 import ConnectionAnchorsRenderer from '@components/roadmap/connections/connection-editing/ConnectionAnchorsRenderer';
 import { getEditingState } from '@store/roadmap-refactor/editing/editing-state';
@@ -113,10 +116,6 @@ const NodeRendererClassic: React.FC<NodeViewProps> = ({
 
   useNodeHandleEvents(nodeDivRef, nodeId, loaded);
 
-  // console.log(scale);
-
-  // console.log('rerneder node', nodeId);
-
   return (
     // @ts-ignore
     <div
@@ -127,7 +126,7 @@ const NodeRendererClassic: React.FC<NodeViewProps> = ({
       {...useContextMenuOrLongPress(handleContextMenuOrLongPress)}
     >
       <div
-        className='absolute'
+        className='absolute '
         id={`div${nodeId}`} // used for dragging
         style={{
           height: `${height}px`,

@@ -91,6 +91,10 @@ import {
   triggerNodeRerender,
 } from '@store/roadmap-refactor/render/rerender-triggers-nodes';
 import ToolTip from '@src/to-be-organized/node-rendering-stuff/Tooltip';
+import {
+  getDisplayPageType,
+  setDisplayPageType,
+} from '@store/roadmap-refactor/display/display-manager.ts';
 
 export function initialRoadmapProtocolAfterLoad() {
   setRoadmapIsLoaded();
@@ -364,6 +368,9 @@ const Roadmap = ({
         closeEditorProtocol();
         clearSelectedConnection();
         setEditingState('nodes');
+        if (getRoadmapState() === 'view' && getDisplayPageType() === 'tab') {
+          setDisplayPageType('closed');
+        }
       }}
     >
       <ElementsDisplayManager />

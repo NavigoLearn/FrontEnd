@@ -2,6 +2,7 @@ import React, { useEffect, useRef } from 'react';
 import { useTriggerRerender } from '@hooks/useTriggerRerender';
 import { setTriggerRender } from '@store/roadmap-refactor/render/rerender-triggers-nodes';
 import { getNodeByIdRoadmapSelector } from '@src/typescript/roadmap_ref/roadmap-data/services/get';
+import { getRoadmapState } from '@store/roadmap-refactor/roadmap-data/misc-data/roadmap_state.ts';
 
 export type INodeManagerProps = {
   nodeId: string;
@@ -35,6 +36,11 @@ const NodeHOCForeignObject = (WrappedComponent: React.FC<INodeProps>) => {
       setForeignObjectSize();
     });
 
+    const shouldNotHaveEvents =
+      getRoadmapState() === 'view' && node.actions.onClick === 'Do nothing';
+
+    console.log('shouldNotHaveEvents', shouldNotHaveEvents, nodeId);
+
     return (
       <g
         id={`g${node.id}`}
@@ -42,7 +48,11 @@ const NodeHOCForeignObject = (WrappedComponent: React.FC<INodeProps>) => {
       >
         <foreignObject
           ref={objRef}
-          className='bg-transparent overflow-visible pointer-events-auto '
+          className={`bg-transparent overflow-visible ${
+            shouldNotHaveEvents
+              ? 'pointer-events-none'
+              : '  pointer-events-auto'
+          }`}
         >
           <WrappedComponent
             nodeId={nodeId}
