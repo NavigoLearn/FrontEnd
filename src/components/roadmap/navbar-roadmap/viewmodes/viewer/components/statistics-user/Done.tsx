@@ -19,7 +19,7 @@ const calculateDonePercentage = async (): Promise<number> => {
 
     nodesArray.forEach((node) => {
       const status = progress[node.id];
-      if (status !== 'Status') {
+      if (status !== 'Status' && status) {
         markedNodesCount += 1;
       }
       if (node.actions.onClick === 'Do nothing') {

@@ -1,10 +1,6 @@
 import { setDisplayPageTypeFullScreen } from '@store/roadmap-refactor/display/display-manager-full-screen.ts';
-import {
-  enterEditingModeProtocol,
-  cancelEditingProtocol,
-  saveEditingProtocol,
-} from '@src/typescript/roadmap_ref/roadmap-data/protocols/roadmap-state-protocols.ts';
-import { publishRoadmapProtocol } from '@components/roadmap/navbar-roadmap/buttons/buttons-arrays/protocols.ts';
+import { enterEditingModeProtocol } from '@src/typescript/roadmap_ref/roadmap-data/protocols/roadmap-state-protocols.ts';
+import { publishRoadmapProtocol } from '@components/roadmap/navbar-roadmap/viewmodes/owner/components/buttons-arrays/protocols.ts';
 import { fetchUpdateRoadmapIsDraft } from '@src/api-wrapper/roadmap/routes/routes-roadmaps.ts';
 import {
   setHideProgress,
@@ -13,6 +9,16 @@ import {
 import { triggerAllNodesRerender } from '@store/roadmap-refactor/render/rerender-triggers-nodes.ts';
 import { clearSession } from '@src/typescript/roadmap_ref/caching/restoreSession.ts';
 import { getAsyncLoadingCounter } from '@components/roadmap/rendering-engines/async-loading/store-async-loading.ts';
+import {
+  User2,
+  RotateCcw,
+  Pencil,
+  BookPlus,
+  BookDashed,
+  Trash2,
+  Save,
+  Ban,
+} from 'lucide-react';
 
 export type IButtonsRoadmapNavbarOptions =
   | 'get-started'
@@ -28,11 +34,16 @@ export type IButtonsRoadmapNavbarOptions =
   | 'save-changes'
   | 'cancel-changes';
 
-type IButtonProperties = {
+export type IButtonRoadmapNavbarProperties = {
   name: string;
   callback: () => void;
+  IconComponent: React.FC;
 };
-const buttonsMapper: Record<IButtonsRoadmapNavbarOptions, IButtonProperties> = {
+
+const buttonsMapper: Record<
+  IButtonsRoadmapNavbarOptions,
+  IButtonRoadmapNavbarProperties
+> = {
   'get-started': {
     name: 'Login',
     callback: () => {
@@ -41,6 +52,7 @@ const buttonsMapper: Record<IButtonsRoadmapNavbarOptions, IButtonProperties> = {
         'Unlock progress tracking and voting now by logging in using:'
       );
     },
+    IconComponent: User2,
   },
   'reset-roadmap': {
     name: 'Reset roadmap',
@@ -48,12 +60,14 @@ const buttonsMapper: Record<IButtonsRoadmapNavbarOptions, IButtonProperties> = {
       setDisplayPageTypeFullScreen('reset-roadmap');
       clearSession();
     },
+    IconComponent: RotateCcw,
   },
   about: {
     name: 'About',
     callback: () => {
       setDisplayPageTypeFullScreen('about');
     },
+    IconComponent: null,
   },
   edit: {
     name: 'Edit',
@@ -61,6 +75,7 @@ const buttonsMapper: Record<IButtonsRoadmapNavbarOptions, IButtonProperties> = {
       if (getAsyncLoadingCounter() !== 0) return;
       enterEditingModeProtocol();
     },
+    IconComponent: Pencil,
   },
   publish: {
     name: 'Publish',
@@ -68,6 +83,7 @@ const buttonsMapper: Record<IButtonsRoadmapNavbarOptions, IButtonProperties> = {
       publishRoadmapProtocol(false);
       clearSession();
     },
+    IconComponent: BookPlus,
   },
   'save-as-draft': {
     name: 'Save as draft',
@@ -75,6 +91,7 @@ const buttonsMapper: Record<IButtonsRoadmapNavbarOptions, IButtonProperties> = {
       publishRoadmapProtocol(true);
       clearSession();
     },
+    IconComponent: BookDashed,
   },
   'convert-to-draft': {
     name: 'Convert to draft',
@@ -83,12 +100,14 @@ const buttonsMapper: Record<IButtonsRoadmapNavbarOptions, IButtonProperties> = {
         location.reload();
       });
     },
+    IconComponent: BookDashed,
   },
   delete: {
     name: 'Delete',
     callback: () => {
       setDisplayPageTypeFullScreen('delete-roadmap');
     },
+    IconComponent: Trash2,
   },
   'hide-progress': {
     name: 'Show/Hide progress',
@@ -96,6 +115,7 @@ const buttonsMapper: Record<IButtonsRoadmapNavbarOptions, IButtonProperties> = {
       toggleProgressView();
       triggerAllNodesRerender();
     },
+    IconComponent: null,
   },
 
   'save-changes': {
@@ -104,6 +124,7 @@ const buttonsMapper: Record<IButtonsRoadmapNavbarOptions, IButtonProperties> = {
       // saveEditingProtocol();
       setDisplayPageTypeFullScreen('save-changes');
     },
+    IconComponent: Save,
   },
   'cancel-changes': {
     name: 'Cancel',
@@ -111,6 +132,7 @@ const buttonsMapper: Record<IButtonsRoadmapNavbarOptions, IButtonProperties> = {
       // cancelEditingProtocol();
       setDisplayPageTypeFullScreen('cancel-changes');
     },
+    IconComponent: Ban,
   },
   'convert-to-public': {
     name: 'Publish draft',
@@ -119,11 +141,12 @@ const buttonsMapper: Record<IButtonsRoadmapNavbarOptions, IButtonProperties> = {
         location.reload();
       });
     },
+    IconComponent: BookPlus,
   },
 };
 
 export function requestButton(
   buttonType: IButtonsRoadmapNavbarOptions
-): IButtonProperties {
+): IButtonRoadmapNavbarProperties {
   return buttonsMapper[buttonType];
 }

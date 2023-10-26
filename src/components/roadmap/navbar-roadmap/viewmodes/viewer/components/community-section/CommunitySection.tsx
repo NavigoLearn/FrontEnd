@@ -10,7 +10,7 @@ const CommunitySection = () => {
   return (
     <div
       className={`flex items-center ${
-        under2Xl ? 'gap-1.5' : 'gap-3'
+        under2Xl ? 'gap-0' : 'gap-3'
       } pointer-events-auto mr-2`}
     >
       <ForkAndContribute />

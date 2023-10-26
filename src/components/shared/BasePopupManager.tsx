@@ -11,6 +11,7 @@ import AuthPopup from '@components/auth/AuthPopup';
 const popupMapperJSON: Record<IBasePopup, React.ReactNode> = {
   'get-started': (
     <AuthPopup
+      additionalData="Login with GitHub or Google. Don't worry if you don't have an accout. We will create one for you"
       closeCallback={() => {
         setBasePopup('none');
       }}

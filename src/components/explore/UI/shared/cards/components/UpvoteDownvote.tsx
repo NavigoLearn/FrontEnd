@@ -7,7 +7,7 @@ import {
 } from '@src/api-wrapper/explore/roadmap-likes';
 import { getUserStatus } from '@store/user/user-status';
 import { setBasePopup } from '@components/shared/stores/store-base-popups.ts';
-import { requestButton } from '@components/roadmap/navbar-roadmap/buttons/buttons-arrays/buttons-requester.ts';
+import { requestButton } from '@components/roadmap/navbar-roadmap/viewmodes/owner/components/buttons-arrays/buttons-requester.ts';
 
 export type VoteState = 'upvote' | 'downvote' | 'none';
 

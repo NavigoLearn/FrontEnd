@@ -9,7 +9,8 @@ const MoreStatistics = () => {
 
   return (
     <div className='relative'>
-      <div
+      <button
+        type='button'
         className='flex items-center gap-1 p-1 hover:bg-gray-200'
         onClick={() => {
           setOpened((prev) => !prev);
@@ -22,7 +23,7 @@ const MoreStatistics = () => {
             !opened ? 'rotate-0' : 'rotate-180'
           } ${tailwindTransitionClass} translate-y-[1px]`}
         />
-      </div>
+      </button>
       <AnimatePresence>
         {opened && (
           <motion.div

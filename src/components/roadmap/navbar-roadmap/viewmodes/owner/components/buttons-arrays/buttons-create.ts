@@ -1,9 +1,9 @@
 import {
   type IButtonsRoadmapNavbarOptions,
   requestButton,
-} from '@components/roadmap/navbar-roadmap/buttons/buttons-arrays/buttons-requester.ts';
+} from '@components/roadmap/navbar-roadmap/viewmodes/owner/components/buttons-arrays/buttons-requester.ts';
 
-export const buttonsCreateAnonymusArray: IButtonsRoadmapNavbarOptions[] = [
+const buttonsCreateAnonymusArray: IButtonsRoadmapNavbarOptions[] = [
   'get-started',
   'reset-roadmap',
 ];
@@ -16,7 +16,6 @@ export const buttonsCreateAnonymus = buttonsCreateAnonymusArray.map(
 const buttonsCreateLoggedArray: IButtonsRoadmapNavbarOptions[] = [
   'publish',
   'save-as-draft',
-  'about',
   'reset-roadmap',
 ];
 export const buttonsCreateLogged = buttonsCreateLoggedArray.map(

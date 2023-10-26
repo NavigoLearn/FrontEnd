@@ -1,62 +1,47 @@
 import {
   buttonsCreateAnonymus,
   buttonsCreateLogged,
-} from '@components/roadmap/navbar-roadmap/buttons/buttons-arrays/buttons-create.ts';
-import {
-  buttonsDraft,
-  buttonsDraftOwnerView,
-} from '@components/roadmap/navbar-roadmap/buttons/buttons-arrays/buttons-draft.ts';
+} from '@components/roadmap/navbar-roadmap/viewmodes/owner/components/buttons-arrays/buttons-create.ts';
+import { buttonsDraftOwnerView } from '@components/roadmap/navbar-roadmap/viewmodes/owner/components/buttons-arrays/buttons-draft.ts';
 import {
   getIsEditing,
   getRoadmapState,
   getRoadmapStateStore,
 } from '@store/roadmap-refactor/roadmap-data/misc-data/roadmap_state.ts';
-import {
-  buttonsPublicAnonymus,
-  buttonsPublicOwnerView,
-  buttonsPublicLoggedVisitor,
-  buttonsPublicOwnerEdit,
-} from '@components/roadmap/navbar-roadmap/buttons/buttons-arrays/buttons-public.ts';
+import { buttonsPublicOwnerView } from '@components/roadmap/navbar-roadmap/viewmodes/owner/components/buttons-arrays/buttons-public.ts';
 import { getUserStatus } from '@store/user/user-status.ts';
 import {
   getRoadmapAbout,
   getRoadmapType,
 } from '@store/roadmap-refactor/roadmap-data/misc-data/roadmap-about.ts';
+import { buttonsEditingRoadmap } from '@components/roadmap/navbar-roadmap/viewmodes/owner/components/buttons-arrays/buttons-general.ts';
+import { type IButtonRoadmapNavbarProperties } from '@components/roadmap/navbar-roadmap/viewmodes/owner/components/buttons-arrays/buttons-requester.ts';
 
-export type INavbarRoadmapButton = {
-  name: string;
-  callback: () => void;
-};
-
-function getPublicButtons(isLogged, isOwner): INavbarRoadmapButton[] {
+function getPublicButtons(isLogged, isOwner): IButtonRoadmapNavbarProperties[] {
   const state = getRoadmapState();
-  const buttons: INavbarRoadmapButton[] = [];
+  const buttons: IButtonRoadmapNavbarProperties[] = [];
+  const editing = getIsEditing();
 
-  if (!isLogged) {
-    buttons.push(...buttonsPublicAnonymus);
-  } else if (isLogged && !isOwner) {
-    buttons.push(...buttonsPublicLoggedVisitor);
-  } else if (isLogged && isOwner) {
-    if (state === 'edit') {
-      buttons.push(...buttonsPublicOwnerEdit);
-    } else if (state === 'view') {
-      buttons.push(...buttonsPublicOwnerView);
-    }
+  if (!editing) {
+    buttons.push(...buttonsPublicOwnerView);
+  } else {
+    buttons.push(...buttonsEditingRoadmap);
   }
+
   return buttons;
 }
 
 function getDraftButtons(
   isLogged: boolean,
   isOwner: boolean
-): INavbarRoadmapButton[] {
+): IButtonRoadmapNavbarProperties[] {
   const editing = getIsEditing();
-  const buttons: INavbarRoadmapButton[] = [];
+  const buttons: IButtonRoadmapNavbarProperties[] = [];
 
-  if (editing) {
-    buttons.push(...buttonsDraft);
-  } else {
+  if (!editing) {
     buttons.push(...buttonsDraftOwnerView);
+  } else {
+    buttons.push(...buttonsEditingRoadmap);
   }
   return buttons;
 }
@@ -64,29 +49,13 @@ function getDraftButtons(
 function getCreateButtons(
   isLogged: boolean,
   isOwner: boolean
-): INavbarRoadmapButton[] {
-  const buttons: INavbarRoadmapButton[] = [];
+): IButtonRoadmapNavbarProperties[] {
+  const buttons: IButtonRoadmapNavbarProperties[] = [];
+
   if (isLogged) {
     buttons.push(...buttonsCreateLogged);
   } else if (!isLogged) {
     buttons.push(...buttonsCreateAnonymus);
-  }
-  return buttons;
-}
-
-function getViewButtons(
-  isLogged: boolean,
-  isOwner: boolean
-): INavbarRoadmapButton[] {
-  const buttons: INavbarRoadmapButton[] = [];
-  if (isLogged && isOwner) {
-    buttons.push(...buttonsPublicOwnerView);
-  } else if (isLogged && !isOwner) {
-    buttons.push(...buttonsPublicLoggedVisitor);
-  } else if (!isLogged) {
-    buttons.push(...buttonsCreateAnonymus);
-  } else {
-    throw new Error('Invalid user type or role');
   }
   return buttons;
 }
@@ -112,14 +81,15 @@ function getButtonsShouldLoad(): boolean {
   return false;
 }
 
-export function getNavbarRoadmapButtons(): INavbarRoadmapButton[] {
-  const buttons: INavbarRoadmapButton[] = [];
+export function getNavbarRoadmapButtonsOwner(): IButtonRoadmapNavbarProperties[] {
+  const buttons: IButtonRoadmapNavbarProperties[] = [];
   if (!getButtonsShouldLoad()) {
+    console.warn('Something went wrong with loading buttons');
     return buttons;
   }
+
   const { isLogged, userId } = getUserStatus();
   const { ownerId } = getRoadmapAbout();
-
   const isOwner = userId === ownerId;
   const roadmapType = getRoadmapType();
 

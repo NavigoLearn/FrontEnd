@@ -2,9 +2,9 @@ import React from 'react';
 import { getNavbarRoadmapButtonsOwner } from '@components/roadmap/navbar-roadmap/buttons/buttons-selector.ts';
 import { useStore } from '@nanostores/react';
 import roadmapStateStore from '@store/roadmap-refactor/roadmap-data/misc-data/roadmap_state.ts';
-import Button from '@components/navbar/desktop/parts/buttons/Button.tsx';
 import storeVisitorStatus from '@store/user/user-status.ts';
 import roadmapAbout from '@store/roadmap-refactor/roadmap-data/misc-data/roadmap-about.ts';
+import ButtonNavbarRoadmap from '@components/roadmap/navbar-roadmap/viewmodes/owner/components/ButtonNavbarRoadmap.tsx';
 
 const ButtonsManager = () => {
   useStore(roadmapStateStore);
@@ -14,17 +14,14 @@ const ButtonsManager = () => {
   const buttons = getNavbarRoadmapButtonsOwner();
 
   return (
-    <div className='flex gap-4 whitespace-nowrap'>
+    <div className='flex gap-5 whitespace-nowrap ml-4'>
       {buttons.map((button) => {
         return (
-          <Button
+          <ButtonNavbarRoadmap
             key={button.name}
             name={button.name}
-            hasUnder
-            buttonData={{
-              type: 'button',
-              callback: button.callback,
-            }}
+            callback={button.callback}
+            IconComponent={button.IconComponent}
           />
         );
       })}
