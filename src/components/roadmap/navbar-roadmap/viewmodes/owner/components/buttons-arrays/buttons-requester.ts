@@ -19,6 +19,7 @@ import {
   Save,
   Ban,
 } from 'lucide-react';
+import { closeEditorProtocol } from '@src/to-be-organized/node-rendering-stuff/actions-manager';
 
 export type IButtonsRoadmapNavbarOptions =
   | 'get-started'
