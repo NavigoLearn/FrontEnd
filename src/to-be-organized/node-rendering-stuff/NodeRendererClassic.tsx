@@ -210,6 +210,14 @@ const NodeRendererClassic: React.FC<NodeViewProps> = ({
             ) {
               return;
             }
+            if (
+              initialCountNumber >= 2 &&
+              !isLogged &&
+              node.actions.onClick === 'Open link'
+            ) {
+              loginButton.callback();
+              return;
+            }
             getOnClickAction(nodeId)();
             if (!editing && !isLogged) {
               localStorage.setItem('count', `${initialCountNumber + 1}`);
@@ -282,7 +290,6 @@ const NodeRendererClassic: React.FC<NodeViewProps> = ({
               }}
             />
           )}
-        x
         {subNodeIds &&
           subNodeIds.map((subNodeId) => {
             // the div is used to position the subNode in the center of the current node
