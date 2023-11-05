@@ -50,7 +50,7 @@ const buttonsMapper: Record<
     callback: () => {
       setDisplayPageTypeFullScreen(
         'get-started',
-        'Unlock progress tracking and voting now by logging in using:'
+        'Unlock progress tracking, upvotes, and more!'
       );
     },
     IconComponent: User2,
