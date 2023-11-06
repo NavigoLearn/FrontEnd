@@ -4,6 +4,7 @@ import { componentsRenderer } from '@src/to-be-organized/node-rendering-stuff/Co
 import { triggerNodeRerender } from '@store/roadmap-refactor/render/rerender-triggers-nodes';
 import { getNodeByIdRoadmapSelector } from '@src/typescript/roadmap_ref/roadmap-data/services/get';
 import {
+  closeEditorProtocol,
   getOnClickAction,
   getOnMouseOutAction,
   getOnMouseOutActionEdit,
@@ -40,6 +41,12 @@ import NodeHOCForeignObject from '@components/roadmap/to-be-organized/NodeHOCFor
 import AsyncLoaderHOC from '@components/roadmap/rendering-engines/async-loading/AsyncLoaderHOC';
 import { showContextMenu } from '@components/roadmap/contextmenu/store/ContextMenu';
 import useContextMenuOrLongPress from '@hooks/useContextMenuOrLongPress';
+import { requestButton } from '@src/components/roadmap/navbar-roadmap/viewmodes/owner/components/buttons-arrays/buttons-requester';
+import { triggerRerenderEditor } from '@src/store/roadmap-refactor/elements-editing/store-editor-selected-data';
+import { setDisplayPageType } from '@src/store/roadmap-refactor/display/display-manager';
+import storeVisitorStatus from '@src/store/user/user-status';
+import { useStore } from '@nanostores/react';
+import { setNotification } from '@src/components/roadmap/to-be-organized/notifications/notifciations-refr/notification-store-refr';
 import {
   activateToolTip,
   deactivateToolTip,
@@ -60,6 +67,11 @@ const NodeRendererClassic: React.FC<NodeViewProps> = ({
   const node = getNodeByIdRoadmapSelector(nodeId);
   const { editing, scale, isSafari, optimized } = useNodeExternalData();
   const [maskBoolean, setMaskBoolean] = useState(false);
+  const initialCountNumber = localStorage.getItem('count')
+    ? parseInt(localStorage.getItem('count'), 10)
+    : 0;
+  const loginButton = requestButton('get-started');
+  const { isLogged } = useStore(storeVisitorStatus);
 
   const handleContextMenuOrLongPress = (event) => {
     event.stopPropagation();
@@ -116,10 +128,15 @@ const NodeRendererClassic: React.FC<NodeViewProps> = ({
 
   useNodeHandleEvents(nodeDivRef, nodeId, loaded);
 
+  const shouldNotHaveEvents =
+    getRoadmapState() === 'view' && node.actions.onClick === 'Do nothing';
+
   return (
     // @ts-ignore
     <div
-      className={isSafari && !isSubNode ? 'fixed origin-center' : ''}
+      className={`${
+        shouldNotHaveEvents ? 'pointer-events-none' : 'pointer-events-auto'
+      } ${isSafari && !isSubNode ? 'fixed origin-center' : ''}`}
       style={{
         transform: `scale(${isSafari && !isSubNode ? scale : 1})`,
       }}
@@ -193,13 +210,25 @@ const NodeRendererClassic: React.FC<NodeViewProps> = ({
             ) {
               return;
             }
-            // if (!checkFirstOnClick(nodeId)) {
+            if (
+              initialCountNumber >= 2 &&
+              !isLogged &&
+              node.actions.onClick === 'Open link'
+            ) {
+              loginButton.callback();
+              return;
+            }
             getOnClickAction(nodeId)();
-            // }
+            if (!editing && !isLogged) {
+              localStorage.setItem('count', `${initialCountNumber + 1}`);
+            }
+            if (initialCountNumber >= 2 && !editing && !isLogged) {
+              loginButton.callback();
+              setDisplayPageType('closed');
+            }
           }}
           style={style}
         />
-
         {maskBoolean && !editing && node.actions.onClick !== 'Do nothing' && (
           <div
             className={`absolute w-full h-full border-2 border-opacity-100 ${
@@ -210,7 +239,6 @@ const NodeRendererClassic: React.FC<NodeViewProps> = ({
             } pointer-events-none`}
           />
         )}
-
         <AnimatePresence>
           {isDraggable &&
             !isCurrentlyDragged &&
@@ -234,7 +262,6 @@ const NodeRendererClassic: React.FC<NodeViewProps> = ({
               </motion.div>
             )}
         </AnimatePresence>
-
         {connectionSelectedChildId === nodeId && (
           <ConnectionAnchorsRenderer
             connection={currentConnection}
@@ -242,7 +269,6 @@ const NodeRendererClassic: React.FC<NodeViewProps> = ({
             type='child'
           />
         )}
-
         {connectionSelectedParentId === nodeId && (
           <ConnectionAnchorsRenderer
             connection={currentConnection}
@@ -250,9 +276,7 @@ const NodeRendererClassic: React.FC<NodeViewProps> = ({
             type='parent'
           />
         )}
-
         {getEditingState() === 'nodes' && <>{componentsRenderer(node)}</>}
-
         {!editing &&
           !getHideProgress() &&
           node.actions.onClick !== 'Do nothing' && (

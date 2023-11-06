@@ -15,7 +15,7 @@ const StarUsGithub = () => {
       <span
         className={`font-roboto-text text-secondary font-medium group-hover:text-black `}
       >
-        Help us grow
+        Star on github
       </span>
     </a>
   );
