@@ -39,8 +39,6 @@ const NodeHOCForeignObject = (WrappedComponent: React.FC<INodeProps>) => {
     const shouldNotHaveEvents =
       getRoadmapState() === 'view' && node.actions.onClick === 'Do nothing';
 
-    console.log('shouldNotHaveEvents', shouldNotHaveEvents, nodeId);
-
     return (
       <g
         id={`g${node.id}`}
