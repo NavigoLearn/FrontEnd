@@ -28,7 +28,7 @@ export function hideContextMenu() {
 
 export function showContextMenu(nodeId: string, x: string, y: string) {
   hideContextMenu();
-  localStorage.setItem('firstProgress', 'true');
+  // localStorage.setItem('firstProgress', 'true');
   setTimeout(() => {
     const original = contextMenuStore.get();
     contextMenuStore.set({

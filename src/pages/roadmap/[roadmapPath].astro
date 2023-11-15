@@ -1,5 +1,4 @@
 ---
-import { decodeBase64 } from '@src/typescript/utils/misc';
 import RoadmapLayout from '@layouts/RoadmapLayout.astro';
 import PagesDisplayManager from '@components/roadmap/pages-roadmap/PagesDisplayManager';
 import { IRoadmapApi } from '@src/types/explore_old/card';
@@ -32,10 +31,6 @@ try {
     roadmap = requestResponseJson.data;
     if (!roadmap)
       return Astro.redirect('/explore', 302);
-
-    // decodes the roadmap-roadmap-data field from base64 to json
-    roadmap.data = JSON.parse(decodeBase64(roadmap.data));
-    roadmap.miscData = JSON.parse(decodeBase64(roadmap.miscData));
 
     // if the name is not formatted correctly, redirect to the correct one
     const formattedName =

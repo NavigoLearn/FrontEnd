@@ -79,8 +79,6 @@ import { fetchGetRoadmapProgress } from '@src/api-wrapper/roadmap/routes/routes-
 import {
   getRoadmapNodeProgress,
   setRoadmapProgress,
-  getRoadmapProgress,
-  storeRoadmapProgress,
 } from '@store/roadmap-refactor/roadmap-data/misc-data/roadmap-progress';
 import NotificationProviderHOC from '@components/roadmap/NotificationProviderHOC';
 import { setNotification } from '@components/roadmap/to-be-organized/notifications/notifciations-refr/notification-store-refr';
@@ -347,14 +345,14 @@ const Roadmap = ({
     }
   }, [roadmapState, renderingEngineType]);
 
-  useEffectAfterLoad(() => {
-    const state = localStorage.getItem('firstProgress');
-    if (state !== 'true')
-      setNotification(
-        'info',
-        'You can start traking your progress by right clicking on a node.'
-      );
-  }, []);
+  // useEffectAfterLoad(() => {
+  //   const state = localStorage.getItem('firstProgress');
+  //   if (state !== 'true')
+  //     setNotification(
+  //       'info',
+  //       'You can start traking your progress by right clicking on a node.'
+  //     );
+  // }, []);
 
   useChangeRoadmapState(() => {
     const type = getRoadmapType();

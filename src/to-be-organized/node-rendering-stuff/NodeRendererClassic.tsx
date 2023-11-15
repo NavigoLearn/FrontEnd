@@ -67,11 +67,12 @@ const NodeRendererClassic: React.FC<NodeViewProps> = ({
   const node = getNodeByIdRoadmapSelector(nodeId);
   const { editing, scale, isSafari, optimized } = useNodeExternalData();
   const [maskBoolean, setMaskBoolean] = useState(false);
-  const initialCountNumber = localStorage.getItem('count')
-    ? parseInt(localStorage.getItem('count'), 10)
-    : 0;
-  const loginButton = requestButton('get-started');
-  const { isLogged } = useStore(storeVisitorStatus);
+  // for 3 nodes login
+  // const initialCountNumber = localStorage.getItem('count')
+  //   ? parseInt(localStorage.getItem('count'), 10)
+  //   : 0;
+  // const loginButton = requestButton('get-started');
+  // const { isLogged } = useStore(storeVisitorStatus);
 
   const handleContextMenuOrLongPress = (event) => {
     event.stopPropagation();
@@ -210,22 +211,22 @@ const NodeRendererClassic: React.FC<NodeViewProps> = ({
             ) {
               return;
             }
-            if (
-              initialCountNumber >= 2 &&
-              !isLogged &&
-              node.actions.onClick === 'Open link'
-            ) {
-              loginButton.callback();
-              return;
-            }
+            // if (
+            //   initialCountNumber >= 2 &&
+            //   !isLogged &&
+            //   node.actions.onClick === 'Open link'
+            // ) {
+            //   loginButton.callback();
+            //   return;
+            // }
             getOnClickAction(nodeId)();
-            if (!editing && !isLogged) {
-              localStorage.setItem('count', `${initialCountNumber + 1}`);
-            }
-            if (initialCountNumber >= 2 && !editing && !isLogged) {
-              loginButton.callback();
-              setDisplayPageType('closed');
-            }
+            // if (!editing && !isLogged) {
+            //   localStorage.setItem('count', `${initialCountNumber + 1}`);
+            // }
+            // if (initialCountNumber >= 2 && !editing && !isLogged) {
+            //   loginButton.callback();
+            //   setDisplayPageType('closed');
+            // }
           }}
           style={style}
         />
