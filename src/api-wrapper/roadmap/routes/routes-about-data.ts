@@ -103,12 +103,7 @@ export const fetchUpdateRoadmapAboutProtocol = async () => {
   if (roadmap === null) throw new Error('roadmap data is undefined');
   if (data === null) throw new Error('data is undefined');
 
-  await fetchUpdateRoadmapAboutFields(
-    title,
-    description,
-    data.miscData,
-    'programming'
-  );
+  await fetchUpdateRoadmapAboutFields(title, description, data, 'programming');
 
   return {
     message: 'success',
