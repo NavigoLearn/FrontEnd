@@ -4,7 +4,6 @@ import {
   getRoadmapId,
 } from '@store/roadmap-refactor/roadmap-data/misc-data/roadmap-about';
 import { type ITopicOptions } from '@components/explore/stores/explore-query-store';
-import { encodeBase64 } from '@src/typescript/utils/misc';
 
 export const fetchUpdateRoadmapAboutMiscData = async (miscData: string) => {
   const id = getRoadmapId();
@@ -12,7 +11,7 @@ export const fetchUpdateRoadmapAboutMiscData = async (miscData: string) => {
     method: 'POST',
     credentials: 'include',
     body: JSON.stringify({
-      miscData: encodeBase64(miscData),
+      miscData,
     }),
     headers: {
       'Content-Type': 'application/json',
@@ -42,8 +41,7 @@ export const fetchUpdateRoadmapAboutFields = async (
       'Content-Type': 'application/json',
     },
   }).then((res) => res);
-  const responseJson = await response.json();
-  return responseJson;
+  return response.json();
 };
 
 export const fetchUpdateRoadmapAboutDescription = async (
@@ -51,7 +49,6 @@ export const fetchUpdateRoadmapAboutDescription = async (
 ) => {
   const id = getRoadmapId();
 
-  console.log('newDescription', newDescription, id);
   const response = await fetch(`/api/roadmaps/${id}/description`, {
     method: 'POST',
     credentials: 'include',
@@ -99,7 +96,6 @@ export const fetchUpdateRoadmapAboutProtocol = async () => {
   const { name: title, description, roadmapId } = getRoadmapAbout();
   const roadmap = getRoadmapSelector();
   const { data } = roadmap;
-  const miscData = encodeBase64(JSON.stringify(data));
 
   if (roadmapId === null) throw new Error('roadmapId is undefined');
   if (title === null) throw new Error('title is undefined');
@@ -110,7 +106,7 @@ export const fetchUpdateRoadmapAboutProtocol = async () => {
   await fetchUpdateRoadmapAboutFields(
     title,
     description,
-    miscData,
+    data.miscData,
     'programming'
   );
 
