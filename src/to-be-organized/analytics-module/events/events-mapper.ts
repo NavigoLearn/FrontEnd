@@ -38,8 +38,23 @@ export function analyticsIdentificationDecorator(
   };
 }
 
-export const triggerEventDispatch = analyticsIdentificationDecorator(
-  (analytics: AnalyticsBrowser, event: IEventPayload<IEventTypes>) => {
+let analyticsObject = null;
+export function setAnalyticsObject(analytics: AnalyticsBrowser) {
+    analyticsObject = analytics;
+}
+export function identifyUser() {
+  const status = getUserStatus();
+  if (status.isLogged) {
+    const miniProfile = getProfileMini();
+    const { name } = miniProfile;
+    analyticsObject.identify(status.userId, {
+      id: status.userId,
+      name,
+    });
+  }
+}
+
+export const triggerEventDispatch = (analytics: AnalyticsBrowser, event: IEventPayload<IEventTypes>) => {
     analytics.track(event.type, event.data);
   }
-);
+;

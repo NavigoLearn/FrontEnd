@@ -1,4 +1,5 @@
 import { dispatchAnalyticsEvent } from '@src/to-be-organized/analytics-module/stores/analytics';
+import {identifyUser} from "@src/to-be-organized/analytics-module/events/events-mapper.ts";
 
 function handleSocialLogin(link: string, features: string) {
   // open /api/auth/google-login in a new window and store the window reference
@@ -47,6 +48,7 @@ export function handleGoogleLogin() {
   dispatchAnalyticsEvent('authInteraction', {
     actionType: 'google-auth',
   });
+  identifyUser();
 }
 
 export function handleGitHubLogin() {

@@ -5,7 +5,7 @@ import analyticsStore, {
   dispatchAnalyticsEvent,
   emptyDispatchedEvents,
 } from '@src/to-be-organized/analytics-module/stores/analytics';
-import { triggerEventDispatch } from '@src/to-be-organized/analytics-module/events/events-mapper';
+import {setAnalyticsObject, triggerEventDispatch} from '@src/to-be-organized/analytics-module/events/events-mapper';
 import { type IVisitPages } from '@src/to-be-organized/analytics-module/analytics-types';
 
 type IAnalyticsManagerProps = {
@@ -49,6 +49,11 @@ const AnalyticsManager = ({ segmentKey }: IAnalyticsManagerProps) => {
       page,
     });
   }, []);
+
+  useEffect(() => {
+    setAnalyticsObject(analytics);
+  }, []);
+
 
   useEffect(() => {
     if (dispatchedEvents.length === 0) return;
