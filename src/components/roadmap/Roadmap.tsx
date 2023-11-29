@@ -345,6 +345,15 @@ const Roadmap = ({
     }
   }, [roadmapState, renderingEngineType]);
 
+  // useEffectAfterLoad(() => {
+  //   const state = localStorage.getItem('firstProgress');
+  //   if (state !== 'true')
+  //     setNotification(
+  //       'info',
+  //       'You can start traking your progress by right clicking on a node.'
+  //     );
+  // }, []);
+
   useChangeRoadmapState(() => {
     const type = getRoadmapType();
     const exist = type === 'public' || type === 'draft';
