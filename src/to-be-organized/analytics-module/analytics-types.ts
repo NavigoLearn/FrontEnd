@@ -9,7 +9,6 @@ type IVisitPagePayload = {
 
 type IRoadmapInteraction = {
   actionType: 'marked-node' | 'clicked-node';
-  roadmapName: string;
 };
 
 type IAuthInteraction = {

@@ -6,7 +6,7 @@ import {
 } from '@src/api-wrapper/roadmap/routes/routes-roadmaps';
 import { deepCopy } from '@src/typescript/roadmap_ref/utils';
 import { dispatchAnalyticsEvent } from '@src/to-be-organized/analytics-module/stores/analytics';
-import {getRoadmapAbout} from "@store/roadmap-refactor/roadmap-data/misc-data/roadmap-about.ts";
+import { getRoadmapAbout } from '@store/roadmap-refactor/roadmap-data/misc-data/roadmap-about.ts';
 
 export const storeRoadmapProgress = atom({} as IRoadmapProgress);
 
@@ -40,7 +40,6 @@ export function setRoadmapNodeProgressAndFetchUpdate(
   fetchUpdateRoadmapProgress(storeRoadmapProgress.get()).then(() => {
     dispatchAnalyticsEvent('roadmapInteraction', {
       actionType: 'marked-node',
-      roadmapName: getRoadmapAbout().name,
     });
   });
 }

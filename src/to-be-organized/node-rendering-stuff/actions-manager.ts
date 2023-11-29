@@ -37,7 +37,7 @@ import { setEditingState } from '@store/roadmap-refactor/editing/editing-state';
 import { clearSelectedConnection } from '@components/roadmap/connections/connection-editing/connection-store';
 import { dispatchAnalyticsEvent } from '@src/to-be-organized/analytics-module/stores/analytics';
 import { checkFirstOnClick } from '@src/to-be-organized/node-rendering-stuff/node-render-logic';
-import {getRoadmapAbout} from "@store/roadmap-refactor/roadmap-data/misc-data/roadmap-about.ts";
+import { getRoadmapAbout } from '@store/roadmap-refactor/roadmap-data/misc-data/roadmap-about.ts';
 
 export function getOnMouseOutActionEdit(nodeId): () => void {
   const div = getElementG(nodeId);
@@ -115,7 +115,6 @@ export function getOnClickActionView(nodeId): () => void {
     actionMap[action](nodeId);
     dispatchAnalyticsEvent('roadmapInteraction', {
       actionType: 'clicked-node',
-      roadmapName: getRoadmapAbout().name,
     });
   };
 }
